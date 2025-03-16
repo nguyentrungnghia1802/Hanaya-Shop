@@ -1,0 +1,1 @@
+composer create-project --prefer-dist laravel/laravel web_developing
