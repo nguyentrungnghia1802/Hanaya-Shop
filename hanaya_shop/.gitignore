@@ -17,7 +17,6 @@ bootstrap/cache/
 *.swo
 
 # Composer & Node
-composer.lock
 package-lock.json
 yarn.lock
 npm-debug.log
