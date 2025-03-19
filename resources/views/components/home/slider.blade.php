@@ -19,13 +19,26 @@
 <style>
     .slider-image {
         width: 100%;
-        object-fit: cover; /* Giữ tỉ lệ, cắt ảnh nếu cần */
+        max-width: 700px;
+        object-fit: cover;
+        /* Giữ tỉ lệ, cắt ảnh nếu cần */
         border-radius: 10px;
+    }
+
+    .swiper-slide {
+        display: flex;
+        justify-content: center;
+        /* Căn ngang */
+        align-items: flex-end;
+        /* Đặt ảnh ở đáy */
+        height: 100%;
+        /* Đảm bảo slide chiếm toàn bộ chiều cao */
     }
 
     @media (max-width: 768px) {
         .slider-image {
-            height: 250px; /* Chiều cao nhỏ hơn trên điện thoại */
+            height: 250px;
+            /* Chiều cao nhỏ hơn trên điện thoại */
         }
     }
 </style>
