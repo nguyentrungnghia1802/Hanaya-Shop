@@ -1,0 +1,6 @@
+1, Tạo project:
+composer create-project --prefer-dist laravel/laravel hanaya_shop
+2, Chạy laravel: 
+php artisan serve
+3, Tạo file mới:
+php artisan make:view layouts.slider
