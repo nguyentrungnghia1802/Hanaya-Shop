@@ -5,8 +5,11 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
+                    <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="h-9 w-auto">
+
                     <a href="{{ route('dashboard') }}">
-                        <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="h-9 w-auto">
+                        <p style="margin-left: 10px"> HANAYA SHOP </p>
+
                     </a>
                 </div>
 
@@ -14,6 +17,15 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('soapFlower')" :active="request()->routeIs('soapFlower')">
+                        {{ __('Soap Flower') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('paperFlower')" :active="request()->routeIs('paperFlower')">
+                        {{ __('Paper Flower') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('souvenir')" :active="request()->routeIs('souvenir')">
+                        {{ __('Souvenir Gift') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -77,6 +89,15 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('soapFlower')" :active="request()->routeIs('soapFlower')">
+                {{ __('Soap Flower') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('paperFlower')" :active="request()->routeIs('paperFlower')">
+                {{ __('Paper Flower') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('souvenir')" :active="request()->routeIs('souvenir')">
+                {{ __('Souvenir Gift') }}
             </x-responsive-nav-link>
         </div>
 
