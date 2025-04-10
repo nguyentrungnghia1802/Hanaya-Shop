@@ -1,7 +1,7 @@
 <!-- Swiper Slider -->
 <div class="swiper mySwiper">
     <div class="swiper-wrapper">
-        @foreach (['hoa_1.jpg', 'hoa_2.jpg', 'hoa_3.jpg'] as $image)
+        @foreach ($images as $image)
             <div class="swiper-slide">
                 <img src="{{ asset('images/' . $image) }}" alt="Flower" class="slider-image">
             </div>
