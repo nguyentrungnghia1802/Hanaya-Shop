@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class Users extends Authenticatable
+class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -67,11 +67,11 @@ class Users extends Authenticatable
     //Foreign key
     public function order()
     {
-        return $this->hasMany(Orders::class);
+        return $this->hasMany(Order::class);
     }
 
     public function review()
     {
-        return $this->hasMany(Reviews::class);
+        return $this->hasMany(Review::class);
     }
 }

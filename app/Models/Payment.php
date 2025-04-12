@@ -5,15 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Reviews extends Model
+class Payment extends Model
 {
     use HasFactory;
 
-    protected $table = 'reviews';
+    protected $table = 'payments';
 
     protected $fillable = [
-        'rating',
-        'comment',
+        'payment_method',
+        'payment_status',
+        'transaction_id',
     ];
 
     protected $date = [
@@ -22,13 +23,8 @@ class Reviews extends Model
 
     public $timestamps = true;
 
-    public function product()
+    public function order()
     {
-        return $this->belongsTo(Products::class);
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(Users::class);
+        return $this->belongsTo(Order::class);
     }
 }
