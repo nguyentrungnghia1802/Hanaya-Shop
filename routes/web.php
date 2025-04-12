@@ -23,6 +23,10 @@ Route::get('/souvenir', function () {
     return view('pages.souvenir');
 })->name('souvenir');
 
+Route::get('/adminPage', function() {
+    return view('pages.adminPage');
+})->name('adminPage');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
