@@ -14,6 +14,7 @@ class CreatePaymentsTable extends Migration
             $table->enum('payment_status', ['pending', 'completed', 'failed'])->default('pending');
             $table->string('transaction_id')->unique()->nullable();
             $table->timestamp('created_at')->nullable();
+            
             $table->unsignedBigInteger('order_id');
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
         });

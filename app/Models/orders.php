@@ -28,7 +28,17 @@ class Orders extends Model
         return $this->belongsTo(Users::class);
     }
 
-    public function appliedCoupons(){
+    public function appliedCoupon(){
         return $this->hasMany(AppliedCoupons::class);
+    }
+
+    public function orderDetail()
+    {
+        return $this->hasMany(OrderDetails::class);
+    }
+
+    public function payment()
+    {
+        return $this->hasMany(Payments::class);
     }
 }
