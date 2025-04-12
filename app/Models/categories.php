@@ -3,8 +3,26 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class categories extends Model
+class Categories extends Model
 {
-    //
+    use HasFactory;
+    protected $table = 'categories';
+
+    protected $fillable = [
+        'name',
+        'description',
+    ];
+
+    protected $date = [
+        'created_at',
+        'updated_at',
+    ];
+    public $timestamps = true;
+
+    public function product()
+    {
+        return $this->hasMany(Products::class);
+    }
 }
