@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class AppliedCoupons extends Model
+class AppliedCoupon extends Model
 {
     use HasFactory;
 
@@ -17,7 +17,6 @@ class AppliedCoupons extends Model
 
     // Các trường cho phép gán hàng loạt
     protected $fillable = [
-        'applied_at',
         'order_id',
         'coupon_id',
     ];
@@ -32,7 +31,7 @@ class AppliedCoupons extends Model
      */
     public function order()
     {
-        return $this->belongsTo(Orders::class);
+        return $this->belongsTo(Order::class);
     }
 
     /**
@@ -40,6 +39,6 @@ class AppliedCoupons extends Model
      */
     public function coupon()
     {
-        return $this->belongsTo(Coupons::class);
+        return $this->belongsTo(Coupon::class);
     }
 }

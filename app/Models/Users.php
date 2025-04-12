@@ -64,8 +64,14 @@ class Users extends Authenticatable
         return $this->role === 'user';
     }
 
+    //Foreign key
     public function order()
     {
         return $this->hasMany(Orders::class);
+    }
+
+    public function review()
+    {
+        return $this->hasMany(Reviews::class);
     }
 }
