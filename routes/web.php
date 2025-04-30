@@ -9,26 +9,29 @@ Route::get('/', function () {
     return view('pages.dashboard');
 });
 
-Route::get('/dashboard', function () {
-    return view('pages.dashboard'); // Cập nhật đường dẫn mới
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth'])->group(function () {
+    // Route cho người dùng
+    Route::get('/dashboard', function () {
+        return view('pages.dashboard');
+    })->middleware(['verified'])->name('dashboard');
 
-Route::get('/soapFlower', function () {
-    return view('pages.soapFlower');
-})->name('soapFlower');
+    Route::get('/soapFlower', function () {
+        return view('pages.soapFlower');
+    })->name('soapFlower');
 
-Route::get('/paperFlower', function () {
-    return view('pages.paperFlower');
-})->name('paperFlower');
+    Route::get('/paperFlower', function () {
+        return view('pages.paperFlower');
+    })->name('paperFlower');
 
-Route::get('/souvenir', function () {
-    return view('pages.souvenir');
-})->name('souvenir');
+    Route::get('/souvenir', function () {
+        return view('pages.souvenir');
+    })->name('souvenir');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::middleware('auth')->group(function () {
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    });
 });
 
 use App\Http\Middleware\IsAdmin;
