@@ -18,6 +18,24 @@
                     <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                         {{ __('Admin Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('admin.product')" :active="request()->routeIs('admin.product')">
+                        {{ __('Products') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('admin.category')" :active="request()->routeIs('admin.category')">
+                        {{ __('Categories') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('admin.user')" :active="request()->routeIs('admin.user')">
+                        {{ __('Users') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('admin.order')" :active="request()->routeIs('admin.order')">
+                        {{ __('Orders') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('admin.review')" :active="request()->routeIs('admin.review')">
+                        {{ __('Reviews') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('admin.statistical')" :active="request()->routeIs('admin.statistical')">
+                        {{ __('Statistical') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -41,7 +59,7 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
+                        <x-dropdown-link :href="route('admin.profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
@@ -81,6 +99,24 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                 {{ __('Admin Dashboard') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.product')" :active="request()->routeIs('admin.product')">
+                {{ __('Products') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.category')" :active="request()->routeIs('admin.category')">
+                {{ __('Categories') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.user')" :active="request()->routeIs('admin.user')">
+                {{ __('Users') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.order')" :active="request()->routeIs('admin.order')">
+                {{ __('Orders') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.review')" :active="request()->routeIs('admin.review')">
+                {{ __('Reviews') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.statistical')" :active="request()->routeIs('admin.statistical')">
+                {{ __('Statistical') }}
             </x-responsive-nav-link>
         </div>
 
