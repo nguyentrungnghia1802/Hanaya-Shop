@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\ReviewsController;
 use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Admin\CategoriesController;
 
+
+
 Route::get('/', function () {
     return view('pages.dashboard');
 });
@@ -45,6 +47,8 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->gr
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/product', [ProductsController::class, 'index'])->name('product');
+    Route::get('/product/create', [ProductsController::class, 'create'])->name('product.create');
+    Route::post('/product', [ProductsController::class, 'store'])->name('product.store');
 
     Route::get('/category', [CategoriesController::class, 'index'])->name('category');
     Route::post('/category', [CategoriesController::class, 'store'])->name('category.create');
