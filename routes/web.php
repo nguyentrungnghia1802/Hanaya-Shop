@@ -49,7 +49,7 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->gr
     Route::get('/category', [CategoriesController::class, 'index'])->name('category');
     Route::post('/category', [CategoriesController::class, 'store'])->name('category.create');
     Route::delete('/category/{id}', [CategoriesController::class, 'destroy'])->name('category.destroy');
-    Route::post('/category/{id}', [CategoriesController::class, 'edit'])->name('category.edit');
+    Route::put('/category/{id}', [CategoriesController::class, 'update'])->name('category.update');
 
     Route::get('/user', [UsersController::class, 'index'])->name('user');
 

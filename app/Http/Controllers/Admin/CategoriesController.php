@@ -31,9 +31,25 @@ class CategoriesController extends Controller
         $category->save();
 
         return response()->json($category);
-
        
     }
+
+    public function update(Request $request, $id)
+    {
+        // Validate and update the category
+        $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name,' . $id,
+            'description' => 'nullable|string',
+        ]);
+
+        $category = Category::findOrFail($id);
+        $category->name = $request->input('name');
+        $category->description = $request->input('description');
+        $category->save();
+
+        return response()->json($category);
+    }
+    
     public function destroy($id)
     {
         // Find the category by ID and delete it
