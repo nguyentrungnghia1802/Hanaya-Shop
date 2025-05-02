@@ -50,6 +50,8 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->gr
     Route::post('/category', [CategoriesController::class, 'store'])->name('category.create');
     Route::delete('/category/{id}', [CategoriesController::class, 'destroy'])->name('category.destroy');
     Route::put('/category/{id}', [CategoriesController::class, 'update'])->name('category.update');
+    Route::get('/category/search', [CategoriesController::class, 'search'])->name('category.search');
+
 
     Route::get('/user', [UsersController::class, 'index'])->name('user');
 

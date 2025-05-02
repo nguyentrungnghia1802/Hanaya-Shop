@@ -21,6 +21,9 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
+                    <input type="text" id="searchInput" placeholder="Tìm kiếm danh mục..." 
+                        class="border px-3 py-2 rounded mb-4 w-full max-w-sm"> <br>
+
                     <!-- Nút "Add" -->
                     <button 
                         id="toggleFormBtn" 
@@ -33,7 +36,7 @@
                         id="categoryForm" 
                         data-url="{{ route('admin.category') }}" 
                         enctype="multipart/form-data"
-                        class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md space-y-4 hidden">
+                        class="mb-20 max-w-md mx-auto bg-white p-6 rounded-lg shadow-md space-y-4 hidden">
                         
                         @csrf <!-- CSRF token -->
                 
@@ -134,11 +137,13 @@
 <div id="overlay" class="fixed inset-0 bg-black bg-opacity-40 z-40 hidden"></div>
 
 
-
-    <script>
-        document.getElementById('toggleFormBtn').addEventListener('click', function () {
+<script>
+    document.getElementById('toggleFormBtn').addEventListener('click', function () {
             const form = document.getElementById('categoryForm');
             form.classList.toggle('hidden');
-        });
+            form.reset(); // Reset form khi mở
+    });
+
     </script>
+    
 @endsection
