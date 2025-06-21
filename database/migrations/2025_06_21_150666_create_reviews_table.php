@@ -12,9 +12,10 @@ class CreateReviewsTable extends Migration
             $table->id(); // ID tự tăng
             $table->tinyInteger('rating')->nullable(); // điểm đánh giá từ 1-5, có thể null
             $table->text('comment')->nullable();       // nội dung đánh giá
-            $table->timestamp('created_at')->nullable(); // thời gian đánh giá
+            $table->timestamps();
             $table->unsignedBigInteger('product_id'); // liên kết đến bảng products
             $table->unsignedBigInteger('user_id');    // liên kết đến bảng users
+
 
             // Khóa ngoại
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
