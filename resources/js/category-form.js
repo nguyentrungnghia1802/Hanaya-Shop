@@ -33,9 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
                                     <td class="px-4 py-2 border-b">${
                                         data.name
                                     }</td>
-                                    <td class="px-4 py-2 border-b">${
-                                        data.description || ""
-                                    }</td>
                                     <td class="px-4 py-2 border-b space-x-2">
                                         <a href="#"
                                             class="inline-block px-3 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition btn-edit"
@@ -53,6 +50,14 @@ document.addEventListener("DOMContentLoaded", () => {
                                                 data.id
                                             }">
                                             Delete
+                                        </button>
+                                         <button
+                                            class="inline-block px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition btn-view"
+                                            data-id="${data.id}"
+                                            data-url="/admin/category/${
+                                                data.id
+                                            }">
+                                            View
                                         </button>
                                     </td>`;
 
