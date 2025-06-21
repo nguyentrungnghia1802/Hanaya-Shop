@@ -9,29 +9,31 @@ use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\ReviewsController;
 use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Admin\CategoriesController;
+use App\Http\Controllers\User\soapFlowerController;
+
 
 
 
 Route::get('/', function () {
-    return view('pages.dashboard');
+    return view('user.dashboard');
 });
 
 Route::middleware(['auth'])->group(function () {
     // Route cho người dùng
     Route::get('/dashboard', function () {
-        return view('pages.dashboard');
+        return view('user.dashboard');
     })->middleware(['verified'])->name('dashboard');
 
-    Route::get('/soapFlower', function () {
-        return view('pages.soapFlower');
-    })->name('soapFlower');
+    Route::get('/soapFlower', [soapFlowerController::class, 'index'])->name('soapFlower');
+    Route::get('/soapFlower/{id}', [soapFlowerController::class, 'show'])->name('product.show');
+
 
     Route::get('/paperFlower', function () {
-        return view('pages.paperFlower');
+        return view('user.paperFlower');
     })->name('paperFlower');
 
     Route::get('/souvenir', function () {
-        return view('pages.souvenir');
+        return view('user.souvenir');
     })->name('souvenir');
 
     Route::middleware('auth')->group(function () {
