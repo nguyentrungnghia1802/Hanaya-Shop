@@ -14,6 +14,8 @@ class CreateOrderDetailsTable extends Migration
             $table->decimal('price', 10, 2)->default(0.00); // giá tại thời điểm mua
             $table->unsignedBigInteger('product_id'); // khóa ngoại đến bảng products
             $table->unsignedBigInteger('order_id');   // khóa ngoại đến bảng orders
+            $table->timestamps();
+
 
             // Khóa ngoại
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');

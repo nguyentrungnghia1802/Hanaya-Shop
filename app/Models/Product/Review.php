@@ -4,7 +4,7 @@ namespace App\Models\Product;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\User;
 class Review extends Model
 {
     use HasFactory;
