@@ -31,7 +31,7 @@ class CategoriesController extends Controller
         $category->save();
 
         return response()->json($category);
-       
+        
     }
 
     public function update(Request $request, $id)
