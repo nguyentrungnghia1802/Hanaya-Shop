@@ -13,6 +13,7 @@ class CreateAppliedCouponsTable extends Migration
             $table->timestamp('applied_at')->nullable(); // nullable timestamp
             $table->unsignedBigInteger('order_id'); // foreign key to orders
             $table->unsignedBigInteger('coupon_id'); // foreign key to coupons
+            $table->timestamps();
 
             // Nếu bạn đã có bảng orders và coupons, nên thêm khóa ngoại
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
@@ -24,5 +25,4 @@ class CreateAppliedCouponsTable extends Migration
     {
         Schema::dropIfExists('applied_coupons');
     }
-}
-;
+};
