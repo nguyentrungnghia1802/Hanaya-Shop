@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Product; // Assuming you have a Product model
-use App\Models\Category; // Assuming you have a Category model
+use App\Models\Product\Product; // Assuming you have a Product model
+use App\Models\Product\Category; // Assuming you have a Category model
 
 class ProductsController extends Controller
 {
