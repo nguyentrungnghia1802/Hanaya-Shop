@@ -8,34 +8,34 @@ RUN apt-get update && apt-get install -y \
 # Cài Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Thiết lập thư mục làm việc
+# Làm việc trong thư mục Laravel
 WORKDIR /var/www/html
 
-# Copy composer files trước để tận dụng cache
-COPY composer.json composer.lock ./
+# Copy composer file và các file cần cho artisan (nhưng chưa copy vendor/)
+COPY composer.json composer.lock artisan ./
 
 # Tạo user không phải root
 RUN useradd -ms /bin/bash laravel \
     && chown -R laravel:laravel /var/www/html
 
-# Dùng user laravel để cài gói Laravel
+# Dùng user laravel
 USER laravel
 
-# Cài các gói Laravel bằng Composer (không cần root)
+# Cài gói Laravel (artisan đã có sẵn)
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
-# Quay lại root để copy toàn bộ mã nguồn còn lại (tránh lỗi quyền)
+# Quay lại root để copy toàn bộ source code còn lại
 USER root
 
-# Copy toàn bộ source code còn lại (views, routes, app, ...)
+# Copy toàn bộ source (trừ vendor và .env nếu đã gitignore)
 COPY . .
 
-# Phân quyền lại toàn bộ cho Laravel
+# Phân quyền lại cho web server
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage
 
-# Mở cổng Laravel server (Render sẽ dùng cổng này để public)
+# Mở cổng Laravel
 EXPOSE 10000
 
-# Chạy Laravel server
+# Chạy Laravel
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=10000"]
