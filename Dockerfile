@@ -11,8 +11,12 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Laravel source
 WORKDIR /var/www/html
 
-# Cấp quyền cho Laravel
-RUN chown -R www-data:www-data /var/www/html \
+# Copy mã nguồn Laravel từ host vào container
+COPY . .
+
+# Tạo storage nếu thiếu và cấp quyền
+RUN mkdir -p /var/www/html/storage \
+    && chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage
 
 EXPOSE 8000
