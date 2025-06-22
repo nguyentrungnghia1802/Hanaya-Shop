@@ -16,7 +16,7 @@ class CreateProductsTable extends Migration
             $table->decimal('price', 10, 2)->default(0.00); // giá sản phẩm
             $table->integer('stock_quantity')->default(0); // số lượng tồn kho
             $table->string('image_url', 400)->nullable(); // đường dẫn ảnh
-            $table->timestamp('created_at')->nullable(); // thời gian tạo sản phẩm
+            $table->timestamps();
             $table->unsignedBigInteger('category_id'); // khóa ngoại đến bảng categories
 
             // Thiết lập khóa ngoại

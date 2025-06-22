@@ -13,6 +13,7 @@ class CreateCouponsTable extends Migration
             $table->string('code', 50)->unique(); // Mã giảm giá, unique, not null
             $table->double('discount')->default(0); // Tỉ lệ/giá trị giảm giá, có thể null, mặc định = 0
             $table->date('expiration_date')->nullable(); // Ngày hết hạn, cho phép null
+            $table->timestamps();
         });
     }
 
