@@ -25,7 +25,7 @@ Route::middleware(['auth'])->group(function () {
     })->middleware(['verified'])->name('dashboard');
 
     Route::get('/soapFlower', [soapFlowerController::class, 'index'])->name('soapFlower');
-    Route::get('/soapFlower/{id}', [soapFlowerController::class, 'show'])->name('product.show');
+    Route::get('/soapFlower/{id}', [soapFlowerController::class, 'show'])->name(name: 'product.show');
 
 
     Route::get('/paperFlower', function () {

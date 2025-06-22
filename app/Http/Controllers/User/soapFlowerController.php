@@ -19,13 +19,14 @@ class soapFlowerController extends Controller
 
     public function show($id)
     {
-        // Lấy sản phẩm cần xem chi tiết
         $product = Product::findOrFail($id);
 
-        // Lấy lại danh sách sản phẩm để hiển thị bên dưới
-        $products = Product::orderBy('created_at', 'desc')->paginate(12);
+        // Lấy các sản phẩm khác để gợi ý (trừ sản phẩm hiện tại)
+        $relatedProducts = Product::where('id', '!=', $id)
+            ->orderBy('created_at', 'desc')
+            ->limit(8)
+            ->get();
 
-        // Trả về cùng view nhưng có thêm biến $product
-        return view('page.soapFlower', compact('products', 'product'));
+        return view('page.productDetail', compact('product', 'relatedProducts'));
     }
 }
