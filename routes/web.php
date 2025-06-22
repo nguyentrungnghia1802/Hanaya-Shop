@@ -15,13 +15,13 @@ use App\Http\Controllers\User\soapFlowerController;
 
 
 Route::get('/', function () {
-    return view('user.dashboard');
+    return view('page.dashboard');
 });
 
 Route::middleware(['auth'])->group(function () {
     // Route cho người dùng
     Route::get('/dashboard', function () {
-        return view('user.dashboard');
+        return view('page.dashboard');
     })->middleware(['verified'])->name('dashboard');
 
     Route::get('/soapFlower', [soapFlowerController::class, 'index'])->name('soapFlower');
@@ -29,11 +29,11 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get('/paperFlower', function () {
-        return view('user.paperFlower');
+        return view('page.paperFlower');
     })->name('paperFlower');
 
     Route::get('/souvenir', function () {
-        return view('user.souvenir');
+        return view('page.souvenir');
     })->name('souvenir');
 
     Route::middleware('auth')->group(function () {
