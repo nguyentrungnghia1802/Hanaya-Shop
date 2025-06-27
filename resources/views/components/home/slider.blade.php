@@ -19,7 +19,7 @@
 <style>
     .slider-image {
         width: 100%;
-        max-width: 700px;
+        max-width: 400px;
         object-fit: cover;
         /* Giữ tỉ lệ, cắt ảnh nếu cần */
         border-radius: 10px;
@@ -35,20 +35,41 @@
         /* Đảm bảo slide chiếm toàn bộ chiều cao */
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 400px) {
         .slider-image {
-            height: 500px;
+            height: 300px;
             /* Chiều cao nhỏ hơn trên điện thoại */
         }
     }
 </style>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
         new Swiper(".mySwiper", {
             loop: true,
-            autoplay: { delay: 3000, disableOnInteraction: false },
-            navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev"
+            },
+            breakpoints: {
+                320: {
+                    slidesPerView: 1,
+                },
+                640: {
+                    slidesPerView: 2,
+                },
+                768: {
+                    slidesPerView: 3,
+                },
+                1024: {
+                    slidesPerView: 4,
+                },
+                1280: {
+                    slidesPerView: 5,
+                }
+            },
+            spaceBetween:50
         });
+
     });
 </script>
