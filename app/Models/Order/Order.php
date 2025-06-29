@@ -43,4 +43,10 @@ class Order extends Model
     {
         return $this->hasMany(Payment::class);
     }
+
+    public function review()
+    {
+        return $this->hasMany(Review::class);
+    }
+
 }
