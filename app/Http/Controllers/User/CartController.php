@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Cart\Cart;
 use App\Models\Product\Product;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -32,9 +33,9 @@ class CartController extends Controller
             // Nếu chưa có → tạo mới
             Cart::create([
                 'product_id' => $product->id,
+                'user_id' => Auth::id(), // nếu có đăng nhập
                 'quantity'   => $request->input('quantity', 1),
                 'session_id' => $sessionId,
-                // 'user_id' => auth()->id(), // nếu có đăng nhập
             ]);
         }
 
@@ -46,10 +47,10 @@ class CartController extends Controller
      */
     public function index()
     {
-        $sessionId = Session::getId();
+        $userId = Auth::id();
 
         $cartItems = Cart::with('product')
-            ->where('session_id', $sessionId)
+            ->where('user_id', $userId)
             ->get();
 
         $cart = [];
