@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\ReviewsController;
 use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\User\soapFlowerController;
+use App\Http\Controllers\User\CartController;
 
 
 
@@ -41,6 +42,10 @@ Route::middleware(['auth'])->group(function () {
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     });
+
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
+    Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 });
 
 use App\Http\Middleware\IsAdmin;
@@ -53,7 +58,13 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->gr
     Route::post('/product', [ProductsController::class, 'store'])->name('product.store');
 
     Route::get('/category', [CategoriesController::class, 'index'])->name('category');
-    Route::post('/category', [CategoriesController::class, 'store'])->name('category.create');
+    Route::get('/category/create', [CategoriesController::class, 'create'])->name('category.create');
+    Route::post('/category', [CategoriesController::class, 'store'])->name('category.store');
+
+    Route::get('/category/{id}/edit', [CategoriesController::class, 'edit'])->name('category.edit');
+    Route::put('/category/{id}', [CategoriesController::class, 'update'])->name('category.update');
+    
+    Route::get('/category/{id}', [CategoriesController::class, 'show'])->name('category.show');
     Route::delete('/category/{id}', [CategoriesController::class, 'destroy'])->name('category.destroy');
     Route::put('/category/{id}', [CategoriesController::class, 'update'])->name('category.update');
     Route::get('/category/search', [CategoriesController::class, 'search'])->name('category.search');
