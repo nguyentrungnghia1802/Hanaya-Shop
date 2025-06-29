@@ -14,6 +14,7 @@ use App\Http\Controllers\User\CartController;
 
 
 
+
 Route::get('/', function () {
     return view('page.dashboard');
 });
