@@ -1,5 +1,5 @@
 <!-- Swiper Slider -->
-<div class="swiper mySwiper">
+<div class="swiper mySwiper relative px-8">
     <div class="swiper-wrapper">
         @foreach ($images as $image)
             <div class="swiper-slide">
@@ -9,7 +9,7 @@
     </div>
     <!-- Nút điều hướng -->
     <div class="swiper-button-next"></div>
-    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-prev" ></div>
 </div>
 
 <!-- SwiperJS -->
@@ -19,26 +19,33 @@
 <style>
     .slider-image {
         width: 100%;
-        max-width: 400px;
+        max-width: 300px;
         object-fit: cover;
-        /* Giữ tỉ lệ, cắt ảnh nếu cần */
         border-radius: 10px;
     }
 
     .swiper-slide {
         display: flex;
         justify-content: center;
-        /* Căn ngang */
         align-items: flex-end;
-        /* Đặt ảnh ở đáy */
         height: 100%;
-        /* Đảm bảo slide chiếm toàn bộ chiều cao */
     }
+    /* .swiper-button-prev {
+        background-color: white;
+        background-blend-mode: normal;
+        outline: 5px white;
+        outline-offset: 15px;
+    }
+    .swiper-button-next {
+        background-color: white;
+        background-blend-mode: normal;
+        outline: 5px white;
+        outline-offset: 15px;
+    } */
 
-    @media (max-width: 400px) {
+    @media (max-width: 300px) {
         .slider-image {
-            height: 300px;
-            /* Chiều cao nhỏ hơn trên điện thoại */
+            height: 200px; /*mobile*/
         }
     }
 </style>
@@ -46,7 +53,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         new Swiper(".mySwiper", {
-            loop: true,
+            loop: false,
             navigation: {
                 nextEl: ".swiper-button-next",
                 prevEl: ".swiper-button-prev"
@@ -68,7 +75,7 @@
                     slidesPerView: 5,
                 }
             },
-            spaceBetween:50
+            spaceBetween: 50
         });
 
     });

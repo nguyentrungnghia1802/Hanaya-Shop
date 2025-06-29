@@ -13,9 +13,7 @@
         </div>
     </div>
 
-
     <div class="py-12">
-        <!-- Slider: sử dụng component slider đã tạo -->
         <section class="p-6 m-8">
             <x-home.slider :images="[
                 'hoa_1.jpg',
