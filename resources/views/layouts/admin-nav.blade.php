@@ -15,25 +15,25 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+                    <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard*')">
                         {{ __('Admin Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('admin.product')" :active="request()->routeIs('admin.product')">
+                    <x-nav-link :href="route('admin.product')" :active="request()->routeIs('admin.product*')">
                         {{ __('Products') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('admin.category')" :active="request()->routeIs('admin.category')">
+                    <x-nav-link :href="route('admin.category')" :active="request()->routeIs('admin.category*')">
                         {{ __('Categories') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('admin.user')" :active="request()->routeIs('admin.user')">
+                    <x-nav-link :href="route('admin.user')" :active="request()->routeIs('admin.user*')">
                         {{ __('Users') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('admin.order')" :active="request()->routeIs('admin.order')">
+                    <x-nav-link :href="route('admin.order')" :active="request()->routeIs('admin.order*')">
                         {{ __('Orders') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('admin.review')" :active="request()->routeIs('admin.review')">
+                    <x-nav-link :href="route('admin.review')" :active="request()->routeIs('admin.review*')">
                         {{ __('Reviews') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('admin.statistical')" :active="request()->routeIs('admin.statistical')">
+                    <x-nav-link :href="route('admin.statistical')" :active="request()->routeIs('admin.statistical*')">
                         {{ __('Statistical') }}
                     </x-nav-link>
                 </div>
@@ -97,25 +97,25 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+            <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard*')">
                 {{ __('Admin Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('admin.product')" :active="request()->routeIs('admin.product')">
+            <x-responsive-nav-link :href="route('admin.product')" :active="request()->routeIs('admin.product*')">
                 {{ __('Products') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('admin.category')" :active="request()->routeIs('admin.category')">
+            <x-responsive-nav-link :href="route('admin.category')" :active="request()->routeIs('admin.category*')">
                 {{ __('Categories') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('admin.user')" :active="request()->routeIs('admin.user')">
+            <x-responsive-nav-link :href="route('admin.user')" :active="request()->routeIs('admin.user*')">
                 {{ __('Users') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('admin.order')" :active="request()->routeIs('admin.order')">
+            <x-responsive-nav-link :href="route('admin.order')" :active="request()->routeIs('admin.order*')">
                 {{ __('Orders') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('admin.review')" :active="request()->routeIs('admin.review')">
+            <x-responsive-nav-link :href="route('admin.review')" :active="request()->routeIs('admin.review*')">
                 {{ __('Reviews') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('admin.statistical')" :active="request()->routeIs('admin.statistical')">
+            <x-responsive-nav-link :href="route('admin.statistical')" :active="request()->routeIs('admin.statistical*')">
                 {{ __('Statistical') }}
             </x-responsive-nav-link>
         </div>

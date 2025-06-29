@@ -58,7 +58,13 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->gr
     Route::post('/product', [ProductsController::class, 'store'])->name('product.store');
 
     Route::get('/category', [CategoriesController::class, 'index'])->name('category');
-    Route::post('/category', [CategoriesController::class, 'store'])->name('category.create');
+    Route::get('/category/create', [CategoriesController::class, 'create'])->name('category.create');
+    Route::post('/category', [CategoriesController::class, 'store'])->name('category.store');
+
+    Route::get('/category/{id}/edit', [CategoriesController::class, 'edit'])->name('category.edit');
+    Route::put('/category/{id}', [CategoriesController::class, 'update'])->name('category.update');
+    
+    Route::get('/category/{id}', [CategoriesController::class, 'show'])->name('category.show');
     Route::delete('/category/{id}', [CategoriesController::class, 'destroy'])->name('category.destroy');
     Route::put('/category/{id}', [CategoriesController::class, 'update'])->name('category.update');
     Route::get('/category/search', [CategoriesController::class, 'search'])->name('category.search');
