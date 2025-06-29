@@ -116,4 +116,17 @@ class CategoriesController extends Controller
         return response()->json($categories);
     }
 
+    public function show($id)
+    {
+        $category = Category::findOrFail($id);
+
+        return response()->json([
+            'id' => $category->id,
+            'name' => $category->name,
+            'description' => $category->description,
+            'image_path' => asset('images/' . ($category->image_path ?? 'base.jpg')),
+        ]);
+    }
+
+
 }
