@@ -40,8 +40,54 @@
 
 ## 🗂️ Cấu Trúc Dự Án
 
-<details>
-<summary><strong>📁 hanaya-shop/</strong></summary>
+<br>
 
-
+```bash
+hanaya-shop/
+├── app/
+│   ├── Http/                   # Controller, Middleware, Request
+│   ├── Models/                 # Các model chia theo module nghiệp vụ
+│   │   ├── Cart/               # Mô hình giỏ hàng
+│   │   ├── Offer/              # Mô hình ưu đãi, giảm giá
+│   │   ├── Order/              # Mô hình đơn hàng
+│   │   ├── Product/            # Mô hình sản phẩm (hoa)
+│   │   └── User.php            # Mô hình người dùng
+│   └── Providers/              # Service providers Laravel
+│
+├── bootstrap/                  # Khởi tạo Laravel
+│   └── cache/
+│
+├── config/                     # Các file cấu hình hệ thống
+│   ├── app.php
+│   ├── auth.php
+│   ├── database.php
+│   └── ...
+│
+├── database/
+│   ├── factories/              # Tạo dữ liệu mẫu
+│   ├── migrations/             # Quản lý cấu trúc CSDL
+│   └── seeders/                # Thêm dữ liệu mẫu
+│
+├── public/
+│   ├── images/                 # Hình ảnh hoa, banner
+│   ├── index.php               # Entry point
+│   └── favicon.ico
+│
+├── resources/
+│   ├── css/                    # CSS thuần
+│   ├── js/                     # JavaScript nếu dùng
+│   └── views/                  # Blade templates
+│
+├── routes/
+│   ├── web.php                 # Tuyến web
+│   └── api.php                 # Tuyến API
+│
+├── storage/                    # Uploads, logs, cache,...
+├── tests/                      # Unit test và Feature test
+├── .env                        # Cấu hình môi trường (override bởi Docker)
+├── artisan                     # Laravel CLI
+├── composer.json              # PHP dependency
+├── Dockerfile                 # Docker config
+├── docker-compose.yml         # Docker setup Laravel + MySQL
+└── README.md                  # Tài liệu dự án
 
