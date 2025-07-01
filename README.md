@@ -39,58 +39,9 @@
 ---
 
 ## 🗂️ Cấu Trúc Dự Án
-hanaya-shop/
-├── app/
-│   ├── Http/                   # Controller, Middleware, Request
-│   ├── Models/                 # Các model chia theo module nghiệp vụ
-│   │   ├── Cart/               # Mô hình giỏ hàng
-│   │   ├── Offer/              # Mô hình ưu đãi, giảm giá
-│   │   ├── Order/              # Mô hình đơn hàng
-│   │   ├── Product/            # Mô hình sản phẩm (hoa)
-│   │   └── User.php            # Mô hình người dùng (authentication)
-│   └── Providers/              # Service providers của Laravel
-│
-├── bootstrap/                  # Khởi tạo ứng dụng Laravel
-│   └── cache/                  # Cache bootstrap
-│
-├── config/                     # Các file cấu hình hệ thống
-│   ├── app.php                 # Thông tin app, timezone, locale
-│   ├── auth.php                # Xác thực người dùng
-│   ├── database.php            # Kết nối CSDL
-│   └── ...                     # Các cấu hình khác (mail, queue, session,...)
-│
-├── database/
-│   ├── factories/              # Tạo dữ liệu mẫu tự động
-│   ├── migrations/             # Quản lý cấu trúc bảng dữ liệu
-│   └── seeders/                # Thêm dữ liệu mẫu (sản phẩm, user, đơn hàng...)
-│
-├── public/
-│   ├── build/                  # Asset frontend (nếu có Vite/build)
-│   ├── images/                 # Hình ảnh tĩnh (hoa, banner)
-│   ├── .htaccess               # Rewrite cho Apache
-│   ├── favicon.ico             # Icon trình duyệt
-│   ├── hot                     # (dev) HMR indicator
-│   ├── index.php               # Entry point chính
-│   └── robots.txt              # SEO config
-│
-├── resources/
-│   ├── css/                    # File CSS thuần
-│   ├── js/                     # JavaScript (nếu không dùng frontend tách riêng)
-│   └── views/                  # Giao diện Blade (nếu dùng server-side rendering)
-│
-├── routes/
-│   ├── web.php                 # Tuyến web (giao diện)
-│   └── api.php                 # API (cho frontend hoặc app mobile)
-│
-├── storage/                    # File upload, logs, cache,...
-│
-├── tests/                      # Unit test và feature test
-│
-├── .env                        # Cấu hình môi trường (Docker override)
-├── artisan                     # CLI của Laravel
-├── composer.json              # Quản lý package PHP
-├── Dockerfile                 # Docker build Laravel app
-├── docker-compose.yml         # Docker setup Laravel + MySQL
-├── database.sqlite            # Tùy chọn: SQLite cho phát triển nhanh
-└── README.md                  # Tài liệu mô tả dự án
+
+<details>
+<summary><strong>📁 hanaya-shop/</strong></summary>
+
+
 
