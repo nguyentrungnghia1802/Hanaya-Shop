@@ -1,50 +1,61 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const tableBody = document.querySelector("table tbody");
     const searchInput = document.getElementById("searchInput");
+    const rows = tableBody.querySelectorAll("tr");
 
-    searchInput.addEventListener("input", async function () {
-        const keyword = this.value;
+    // Sự kiện tìm kiếm
+    searchInput.addEventListener("input", function () {
+        const keyword = this.value.toLowerCase();
+        rows.forEach((row) => {
+            const id = row.cells[0].textContent.toLowerCase();
+            const name = row.cells[1].textContent.toLowerCase();
 
-        try {
-            const response = await fetch(
-                `/admin/category/search?query=${encodeURIComponent(keyword)}`,
-                {
-                    headers: { Accept: "application/json" },
-                }
-            );
-
-            if (response.ok) {
-                const categories = await response.json();
-                const tbody = document.querySelector("table tbody");
-                tbody.innerHTML = "";
-
-                categories.forEach((cat) => {
-                    const row = document.createElement("tr");
-                    row.classList.add("hover:bg-gray-50", "transition");
-                    row.innerHTML = `
-                        <td class="px-4 py-2 border-b">${cat.id}</td>
-                        <td class="px-4 py-2 border-b">${cat.name}</td>
-                        <td class="px-4 py-2 border-b">${
-                            cat.description ?? ""
-                        }</td>
-                        <td class="px-4 py-2 border-b space-x-2">
-                            <button class="inline-block px-3 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition btn-edit"
-                                data-id="${cat.id}" data-name="${
-                        cat.name
-                    }" data-description="${cat.description ?? ""}">
-                                Edit
-                            </button>
-                            <button class="inline-block px-3 py-1 bg-red-500 text-white text-xs font-medium rounded hover:bg-red-600 transition btn-delete"
-                                data-id="${cat.id}" data-url="/admin/category/${
-                        cat.id
-                    }">
-                                Delete
-                            </button>
-                        </td>`;
-                    tbody.appendChild(row);
-                });
+            if (id.includes(keyword) || name.includes(keyword)) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
             }
-        } catch (err) {
-            console.error("Lỗi tìm kiếm:", err);
+        });
+    });
+
+    // Sự kiện xóa bằng event delegation
+    tableBody.addEventListener("click", async function (e) {
+        const deleteBtn = e.target.closest(".btn-delete");
+
+        if (deleteBtn) {
+            e.preventDefault();
+            const id = deleteBtn.dataset.id;
+            const url = deleteBtn.dataset.url;
+
+            if (confirm("Bạn có chắc chắn muốn xóa?")) {
+                try {
+                    const response = await fetch(url, {
+                        method: "DELETE",
+                        headers: {
+                            "X-CSRF-TOKEN": document.querySelector(
+                                'meta[name="csrf-token"]'
+                            ).content,
+                            Accept: "application/json",
+                        },
+                    });
+
+                    if (response.ok) {
+                        const row = deleteBtn.closest("tr");
+                        row.remove(); // Xóa hàng trong bảng
+
+                        const successMsg =
+                            document.getElementById("successMsg-delete");
+                        successMsg.classList.remove("hidden");
+                        setTimeout(() => {
+                            successMsg.classList.add("hidden");
+                        }, 3000);
+                    } else {
+                        alert("Xóa thất bại. Vui lòng thử lại.");
+                    }
+                } catch (err) {
+                    console.error("Lỗi khi xóa:", err);
+                }
+            }
         }
     });
 });
