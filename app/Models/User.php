@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Order\Order;
 use App\Models\Product\Review;
+use App\Models\Cart\Cart;
 
 class User extends Authenticatable
 {
