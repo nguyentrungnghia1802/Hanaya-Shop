@@ -5,59 +5,16 @@
         </h2>
     </x-slot>
 
-    <div class="p-6 max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="p-6 text-gray-900">
-                <p>{{ __('Sản phẩm bán chạy') }}</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="py-12">
-        <section class="p-6 m-8">
-            <x-home.slider :images="[
-                'hoa_1.jpg',
-                'hoa_2.jpg',
-                'hoa_3.jpg',
-                'hoa_1.jpg',
-                'hoa_2.jpg',
-                'hoa_3.jpg',
-                'hoa_1.jpg',
-                'hoa_2.jpg',
-                'hoa_3.jpg',
-            ]" />
+    <div class="py-12 w-4/5 mx-auto ">
+        <section class="p-6 m-8 rounded-xl bg-gray-300">
+            <p class="text-2xl font-semibold mb-4">Sản phẩm mới</p>
+            <x-home.slider :products="$latest" />
         </section>
 
-        <div class="p-6 max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="p-6 text-gray-900">
-                <p>{{ __('Sale') }}</p>
-            </div>
-        </div>
-    </div>
-
-        <section class="p-6 m-8">
-            <x-home.slider :images="[
-                'hoa_1.jpg',
-                'hoa_2.jpg',
-                'hoa_3.jpg',
-                'hoa_1.jpg',
-                'hoa_2.jpg',
-                'hoa_3.jpg',
-                'hoa_1.jpg',
-                'hoa_2.jpg',
-                'hoa_3.jpg',
-            ]" />
+        <section class="p-6 m-8 rounded-xl bg-gray-300">
+            <p class="text-2xl font-semibold mb-4">Sản phẩm bán chạy</p>
+            <x-home.slider :products="$topSeller" />
         </section>
 
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <p>{{ __('More') }}</p>
-                    <p>{{ __('') }}</p>
-                </div>
-            </div>
-        </div>
     </div>
-
 </x-app-layout>
