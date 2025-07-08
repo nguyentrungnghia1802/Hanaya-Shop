@@ -7,13 +7,20 @@
 @endsection
 
 @section('content')
-    
+    <div id="successMsg"
+        class="hidden fixed bottom-5 right-5 bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded mb-4">
+        Thao tác thành công!
+    </div>
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
+                    <input type="text" id="searchProductInput" placeholder="Tìm kiếm sản phẩm..."
+                        class="border px-3 py-2 rounded mb-4 w-full max-w-sm"> <br>
+
                     <a href="{{ route('admin.product.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded inline-block mb-10">
-                        add
+                        Add
                     </a>
 
                     <table class="min-w-full table-auto border border-gray-300 text-sm">
@@ -23,7 +30,7 @@
                                 <th class="px-4 py-2 border-b">Name</th>
                                 <th class="px-4 py-2 border-b">Description</th>
                                 <th class="px-4 py-2 border-b">Price</th>
-                                <th class="px-4 py-2 border-b">quantity</th>
+                                <th class="px-4 py-2 border-b">Quantity</th>
                                 <th class="px-4 py-2 border-b">Category</th>
                                 <th class="px-4 py-2 border-b">Action</th>
                             </tr>
@@ -33,25 +40,35 @@
                             <tr class="hover:bg-gray-50 transition">
                                 <td class="px-4 py-2 border-b">{{ $item->id }}</td>
                                 <td class="px-4 py-2 border-b">{{ $item->name }}</td>
-                                <td class="px-4 py-2 border-b">{{ $item->descriptions }}</td>
+                                <td class="px-4 py-2 border-b max-w-xs truncate" title="{{ $item->descriptions }}">
+                                    {{ \Illuminate\Support\Str::limit($item->descriptions, 50) }}
+                                </td>
                                 <td class="px-4 py-2 border-b">{{ $item->price }}</td>
                                 <td class="px-4 py-2 border-b">{{ $item->stock_quantity }}</td>
                                 <td class="px-4 py-2 border-b">{{ $item->category->name }}</td>
-                                <td class="px-4 py-2 border-b space-x-2">
-                                    <a
-                                    id="btn-edit"
-                                    href="{{ route('admin.product.edit', $item->id) }}"
-                                    class="inline-block px-3 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition btn-edit">
-                                    Edit
-                                 </a>
-                                    <button
-                                        class="inline-block px-3 py-1 bg-red-500 text-white text-xs font-medium rounded hover:bg-red-600 transition">                                 
-                                        Delete
-                                    </button>
-                                    <button
-                                        class="inline-block px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-red-600 transition">                                 
-                                        view
-                                    </button>
+                                <td class="px-4 py-2 border-b">
+                                    <div class="flex flex-wrap gap-2">
+                                        <a href="{{ route('admin.product.edit', $item->id) }}"
+                                            class="px-4 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition">
+                                            Edit
+                                        </a>
+                                        <button type="button"
+                                            class="px-4 py-1 bg-red-500 text-white text-xs font-medium rounded hover:bg-red-600 transition btn-delete"
+                                            data-id="{{ $item->id }}"
+                                            data-url="{{ route('admin.product.destroy', $item->id) }}">
+                                            Delete
+                                        </button>
+                                        <a href="{{ route('admin.product.show', $item->id) }}"
+                                            class="px-4 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">
+                                            View Details
+                                        </a>
+                                        <button type="button"
+                                            class="px-4 py-1 bg-gray-500 text-white text-xs font-medium rounded hover:bg-gray-600 transition btn-view-product"
+                                            data-id="{{ $item->id }}"
+                                            data-url="{{ route('admin.product.show', $item->id) }}">
+                                            Quick View
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach
@@ -61,4 +78,108 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal hiển thị thông tin sản phẩm -->
+    <div id="productDetail" class="hidden fixed inset-0 flex items-center justify-center z-50">
+        <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-xl relative">
+            <h2 class="text-xl font-bold mb-4">Thông tin sản phẩm</h2>
+            <p><strong>ID:</strong> <span id="product-view-id" class="text-gray-700"></span></p>
+            <p><strong>Tên:</strong> <span id="product-view-name" class="text-gray-700"></span></p>
+            <p><strong>Mô tả:</strong></p>
+            <div id="product-view-description"
+                class="border p-3 rounded bg-gray-50 text-sm text-gray-800 max-h-[300px] overflow-y-auto"></div>
+            <p class="mt-4"><strong>Giá:</strong> <span id="product-view-price" class="text-gray-700"></span></p>
+            <p><strong>Số lượng:</strong> <span id="product-view-quantity" class="text-gray-700"></span></p>
+            <p><strong>Loại:</strong> <span id="product-view-category" class="text-gray-700"></span></p>
+            <p class="mt-4"><strong>Ảnh:</strong></p>
+            <img id="product-view-image" src="" alt="Ảnh sản phẩm" class="w-48 h-auto mt-2 border rounded">
+            <button id="closeProductDetail"
+                class="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-lg">&times;</button>
+        </div>
+    </div>
+    <div id="productOverlay" class="fixed inset-0 bg-black bg-opacity-40 z-40 hidden"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ẩn modal khi load
+            document.getElementById('productDetail').classList.add('hidden');
+            document.getElementById('productOverlay').classList.add('hidden');
+
+            // Quick View
+            document.querySelectorAll('.btn-view-product').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const url = this.dataset.url + '?ajax=1';
+
+                    // Loading state
+                    document.getElementById('product-view-id').textContent = 'Loading...';
+                    document.getElementById('product-view-name').textContent = 'Loading...';
+                    document.getElementById('product-view-description').innerHTML = 'Loading...';
+                    document.getElementById('product-view-price').textContent = 'Loading...';
+                    document.getElementById('product-view-quantity').textContent = 'Loading...';
+                    document.getElementById('product-view-category').textContent = 'Loading...';
+                    document.getElementById('product-view-image').src = '';
+
+                    document.getElementById('productDetail').classList.remove('hidden');
+                    document.getElementById('productOverlay').classList.remove('hidden');
+
+                    fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                        const contentType = response.headers.get('Content-Type') || '';
+                        if (!contentType.includes('application/json')) throw new Error('Response is not JSON');
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success === false) throw new Error(data.message || 'Server returned error');
+                        document.getElementById('product-view-id').textContent = data.id || 'N/A';
+                        document.getElementById('product-view-name').textContent = data.name || 'N/A';
+                        document.getElementById('product-view-description').innerHTML = data.descriptions || '<em>Không có mô tả</em>';
+                        document.getElementById('product-view-price').textContent = data.price || 'N/A';
+                        document.getElementById('product-view-quantity').textContent = data.stock_quantity || 'N/A';
+                        document.getElementById('product-view-category').textContent = data.category_name || 'N/A';
+                        document.getElementById('product-view-image').src = data.image_url || '/images/base.jpg';
+                    })
+                    .catch(error => {
+                        alert('Có lỗi xảy ra khi tải thông tin sản phẩm: ' + error.message);
+                        document.getElementById('productDetail').classList.add('hidden');
+                        document.getElementById('productOverlay').classList.add('hidden');
+                    });
+                });
+            });
+
+            // Đóng modal
+            document.getElementById('closeProductDetail').addEventListener('click', function() {
+                document.getElementById('productDetail').classList.add('hidden');
+                document.getElementById('productOverlay').classList.add('hidden');
+            });
+            document.getElementById('productOverlay').addEventListener('click', function() {
+                document.getElementById('productDetail').classList.add('hidden');
+                document.getElementById('productOverlay').classList.add('hidden');
+            });
+
+            // Search
+            document.getElementById('searchProductInput').addEventListener('input', function() {
+                const keyword = this.value.toLowerCase();
+                const rows = document.querySelectorAll('table tbody tr');
+                rows.forEach(row => {
+                    const id = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+                    const name = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                    const desc = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+                    if (id.includes(keyword) || name.includes(keyword) || desc.includes(keyword)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

@@ -50,7 +50,6 @@ class CategoriesController extends Controller
         $category->save();
 
         return redirect()->route('admin.category')->with('success', 'Category created successfully!');
-        
     }
     public function edit($id)
     {
@@ -111,23 +110,37 @@ class CategoriesController extends Controller
         $query = $request->input('query');
 
         $categories = Category::where('name', 'LIKE', "%{$query}%")
-                          ->orWhere('description', 'LIKE', "%{$query}%")
-                          ->get();
+            ->orWhere('description', 'LIKE', "%{$query}%")
+            ->get();
 
         return response()->json($categories);
     }
 
-    public function show($id)
+    public function show($id, Request $request)
     {
         $category = Category::findOrFail($id);
 
-        return response()->json([
-            'id' => $category->id,
-            'name' => $category->name,
-            'description' => $category->description,
-            'image_path' => asset('images/' . ($category->image_path ?? 'base.jpg')),
+        // Kiểm tra nhiều điều kiện để xác định AJAX request
+        $isAjax = $request->ajax() ||
+            $request->wantsJson() ||
+            $request->expectsJson() ||
+            $request->header('X-Requested-With') === 'XMLHttpRequest' ||
+            strpos($request->header('Accept', ''), 'application/json') !== false ||
+            $request->query('ajax') === '1'; // Thêm parameter để force JSON
+
+        if ($isAjax) {
+            return response()->json([
+                'success' => true,
+                'id' => $category->id,
+                'name' => $category->name,
+                'description' => $category->description ?? '',
+                'image_path' => asset('images/' . ($category->image_path ?? 'base.jpg')),
+            ]);
+        }
+
+        // Nếu không, trả về view chi tiết
+        return view('admin.categories.show', [
+            'category' => $category,
         ]);
     }
-
-
 }
