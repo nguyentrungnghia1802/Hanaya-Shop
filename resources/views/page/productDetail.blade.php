@@ -8,19 +8,31 @@
         <!-- Thông tin chi tiết sản phẩm -->
         <div class="bg-white rounded-lg shadow-md p-6 flex flex-col md:flex-row gap-6">
             <div class="md:w-1/2">
-                <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="rounded w-full h-auto object-cover">
+                <img src="{{ asset('images/' . $product->image_url) }}" alt="{{ $product->name }}" class="rounded w-full h-auto object-cover">
             </div>
             <div class="md:w-1/2">
                 <h3 class="text-2xl font-semibold text-pink-600 mb-2">{{ $product->name }}</h3>
                 <p class="text-gray-700 mb-4">{{ $product->descriptions }}</p>
                 <p class="text-2xl font-bold text-red-500 mb-4">{{ number_format($product->price, 0, ',', '.') }}₫</p>
-                <form action="{{ route('cart.add', $product->id) }}" method="POST" class="inline">
-                    @csrf
-                    <input type="hidden" name="quantity" value="1">
-                    <button type="submit" class="bg-pink-600 hover:bg-pink-700 text-white px-6 py-2 rounded shadow">
-                        Thêm vào giỏ
-                    </button>
-                </form>
+                <div id="quantity-form" class="mt-4 p-4 bg-gray-100 rounded shadow w-fit">
+                    <label for="quantity" class="block mb-2 font-medium text-gray-700">Chọn số lượng:</label>
+                    <div class="flex items-center space-x-2">
+                        <button id="decrease" class="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400">-</button>
+                        <input id="quantity" type="number" value="1" min="1" class="w-16 text-center border rounded px-2 py-1" />
+                        <button id="increase" class="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400">+</button>
+                    </div>
+                </div>
+                <form id="add-to-cart-form" action="{{ route('cart.add', $product->id) }}" method="POST" class="inline">
+    @csrf
+    <input type="hidden" name="quantity" id="form-quantity" value="1">
+    <button type="submit" class="bg-pink-600 hover:bg-pink-700 text-white px-6 py-2 rounded shadow">
+        Thêm vào giỏ
+    </button>
+</form>
+
+                <button id="buy-button" class="bg-orange-600 hover:bg-orange-700 text-white px-6 py-2 rounded shadow">
+                    Mua ngay
+                </button>
             </div>
         </div>
 
@@ -42,4 +54,26 @@
         </div>
 
     </div>
+<script>
+    const quantityInput = document.getElementById('quantity');
+    const formQuantityInput = document.getElementById('form-quantity');
+
+    // Tăng số lượng
+    document.getElementById('increase').addEventListener('click', () => {
+        quantityInput.value = parseInt(quantityInput.value) + 1;
+    });
+
+    // Giảm số lượng
+    document.getElementById('decrease').addEventListener('click', () => {
+        if (parseInt(quantityInput.value) > 1) {
+            quantityInput.value = parseInt(quantityInput.value) - 1;
+        }
+    });
+
+    // Đồng bộ số lượng khi submit
+    document.getElementById('add-to-cart-form').addEventListener('submit', function () {
+        formQuantityInput.value = quantityInput.value;
+    });
+</script>
+
 </x-app-layout>
