@@ -14,6 +14,7 @@ class CategoryFactory extends Factory
         return [
             'name' => $this->faker->unique()->words(2, true),
             'description' => $this->faker->sentence,
+            'image_path' => $this->faker->imageUrl(640, 480, 'business', true),
             'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
             'updated_at' => now(),
         ];
