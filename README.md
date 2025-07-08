@@ -39,6 +39,10 @@
 ---
 
 ## 🗂️ Cấu Trúc Dự Án
+
+<br>
+
+```bash
 hanaya-shop/
 ├── app/
 │   ├── Http/                   # Controller, Middleware, Request
@@ -47,50 +51,43 @@ hanaya-shop/
 │   │   ├── Offer/              # Mô hình ưu đãi, giảm giá
 │   │   ├── Order/              # Mô hình đơn hàng
 │   │   ├── Product/            # Mô hình sản phẩm (hoa)
-│   │   └── User.php            # Mô hình người dùng (authentication)
-│   └── Providers/              # Service providers của Laravel
+│   │   └── User.php            # Mô hình người dùng
+│   └── Providers/              # Service providers Laravel
 │
-├── bootstrap/                  # Khởi tạo ứng dụng Laravel
-│   └── cache/                  # Cache bootstrap
+├── bootstrap/                  # Khởi tạo Laravel
+│   └── cache/
 │
 ├── config/                     # Các file cấu hình hệ thống
-│   ├── app.php                 # Thông tin app, timezone, locale
-│   ├── auth.php                # Xác thực người dùng
-│   ├── database.php            # Kết nối CSDL
-│   └── ...                     # Các cấu hình khác (mail, queue, session,...)
+│   ├── app.php
+│   ├── auth.php
+│   ├── database.php
+│   └── ...
 │
 ├── database/
-│   ├── factories/              # Tạo dữ liệu mẫu tự động
-│   ├── migrations/             # Quản lý cấu trúc bảng dữ liệu
-│   └── seeders/                # Thêm dữ liệu mẫu (sản phẩm, user, đơn hàng...)
+│   ├── factories/              # Tạo dữ liệu mẫu
+│   ├── migrations/             # Quản lý cấu trúc CSDL
+│   └── seeders/                # Thêm dữ liệu mẫu
 │
 ├── public/
-│   ├── build/                  # Asset frontend (nếu có Vite/build)
-│   ├── images/                 # Hình ảnh tĩnh (hoa, banner)
-│   ├── .htaccess               # Rewrite cho Apache
-│   ├── favicon.ico             # Icon trình duyệt
-│   ├── hot                     # (dev) HMR indicator
-│   ├── index.php               # Entry point chính
-│   └── robots.txt              # SEO config
+│   ├── images/                 # Hình ảnh hoa, banner
+│   ├── index.php               # Entry point
+│   └── favicon.ico
 │
 ├── resources/
-│   ├── css/                    # File CSS thuần
-│   ├── js/                     # JavaScript (nếu không dùng frontend tách riêng)
-│   └── views/                  # Giao diện Blade (nếu dùng server-side rendering)
+│   ├── css/                    # CSS thuần
+│   ├── js/                     # JavaScript nếu dùng
+│   └── views/                  # Blade templates
 │
 ├── routes/
-│   ├── web.php                 # Tuyến web (giao diện)
-│   └── api.php                 # API (cho frontend hoặc app mobile)
+│   ├── web.php                 # Tuyến web
+│   └── api.php                 # Tuyến API
 │
-├── storage/                    # File upload, logs, cache,...
-│
-├── tests/                      # Unit test và feature test
-│
-├── .env                        # Cấu hình môi trường (Docker override)
-├── artisan                     # CLI của Laravel
-├── composer.json              # Quản lý package PHP
-├── Dockerfile                 # Docker build Laravel app
+├── storage/                    # Uploads, logs, cache,...
+├── tests/                      # Unit test và Feature test
+├── .env                        # Cấu hình môi trường (override bởi Docker)
+├── artisan                     # Laravel CLI
+├── composer.json              # PHP dependency
+├── Dockerfile                 # Docker config
 ├── docker-compose.yml         # Docker setup Laravel + MySQL
-├── database.sqlite            # Tùy chọn: SQLite cho phát triển nhanh
-└── README.md                  # Tài liệu mô tả dự án
+└── README.md                  # Tài liệu dự án
 

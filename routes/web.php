@@ -49,7 +49,7 @@ Route::middleware(['auth'])->group(function () {
 // Admin
 use App\Http\Middleware\IsAdmin;
 
-Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', IsAdmin::class])->prefix(prefix: 'admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/product', [ProductsController::class, 'index'])->name('product');
