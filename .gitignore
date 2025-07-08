@@ -7,7 +7,7 @@
 .phpstorm.meta.php
 /storage/
 bootstrap/cache/
-/public/storage/*
+/public/*
 
 
 # Debug & IDE
