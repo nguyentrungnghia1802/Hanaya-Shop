@@ -33,9 +33,9 @@
                             <tr class="hover:bg-gray-50 transition">
                                 <td class="px-4 py-2 border-b">{{ $item->id }}</td>
                                 <td class="px-4 py-2 border-b">{{ $item->name }}</td>
-                                <td class="px-4 py-2 border-b">{{ $item->description }}</td>
+                                <td class="px-4 py-2 border-b">{{ $item->descriptions }}</td>
                                 <td class="px-4 py-2 border-b">{{ $item->price }}</td>
-                                <td class="px-4 py-2 border-b">{{ $item->quantity }}</td>
+                                <td class="px-4 py-2 border-b">{{ $item->stock_quantity }}</td>
                                 <td class="px-4 py-2 border-b">{{ $item->category->name }}</td>
                                 <td class="px-4 py-2 border-b space-x-2">
                                     <button
