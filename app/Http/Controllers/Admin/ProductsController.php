@@ -102,4 +102,54 @@ class ProductsController extends Controller
 
         return redirect()->route('admin.product')->with('success', 'Product updated successfully!');
     }
+
+    public function destroy($id)
+    {
+        $product = Product::findOrFail($id);
+
+        // Xóa ảnh nếu không phải ảnh mặc định
+        if ($product->image_url && $product->image_url !== 'base.jpg' && file_exists(public_path('images/' . $product->image_url))) {
+            unlink(public_path('images/' . $product->image_url));
+        }
+
+        $product->delete();
+
+        // Nếu là AJAX thì trả về JSON, không thì redirect
+        if (request()->ajax() || request()->wantsJson()) {
+            return response()->json(['success' => true]);
+        }
+
+        return redirect()->route('admin.product')->with('success', 'Product deleted successfully!');
+    }
+
+    public function show($id, Request $request)
+    {
+        $product = Product::with('category')->findOrFail($id);
+
+        // AJAX Quick View
+        if (
+            $request->ajax() ||
+            $request->wantsJson() ||
+            $request->expectsJson() ||
+            $request->header('X-Requested-With') === 'XMLHttpRequest' ||
+            strpos($request->header('Accept', ''), 'application/json') !== false ||
+            $request->query('ajax') === '1'
+        ) {
+            return response()->json([
+                'success' => true,
+                'id' => $product->id,
+                'name' => $product->name,
+                'descriptions' => $product->descriptions,
+                'price' => $product->price,
+                'stock_quantity' => $product->stock_quantity,
+                'category_name' => $product->category ? $product->category->name : '',
+                'image_url' => asset('images/' . ($product->image_url ?? 'base.jpg')),
+            ]);
+        }
+
+        // Nếu không phải AJAX, trả về view chi tiết (bạn có thể tạo view này nếu muốn)
+        return view('admin.products.show', [
+            'product' => $product,
+        ]);
+    }
 }

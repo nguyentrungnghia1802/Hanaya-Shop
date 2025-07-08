@@ -57,6 +57,11 @@ Route::middleware(['auth', IsAdmin::class])->prefix(prefix: 'admin')->name('admi
     Route::get('/product/create', [ProductsController::class, 'create'])->name('product.create');
     Route::post('/product', [ProductsController::class, 'store'])->name('product.store');
 
+    Route::delete('/product/{id}', [ProductsController::class, 'destroy'])->name('product.destroy');
+
+    Route::get('/product/{id}', [ProductsController::class, 'show'])->name('product.show');
+
+
     Route::get('/product/{id}/edit', [ProductsController::class, 'edit'])->name('product.edit');
     Route::put('/product/{id}', [ProductsController::class, 'update'])->name('product.update');
 
