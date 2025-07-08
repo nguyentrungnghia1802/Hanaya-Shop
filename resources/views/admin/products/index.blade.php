@@ -52,12 +52,14 @@
                                             class="px-4 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition">
                                             Edit
                                         </a>
-                                        <button type="button"
-                                            class="px-4 py-1 bg-red-500 text-white text-xs font-medium rounded hover:bg-red-600 transition btn-delete"
-                                            data-id="{{ $item->id }}"
-                                            data-url="{{ route('admin.product.destroy', $item->id) }}">
-                                            Delete
-                                        </button>
+                                        <form action="{{ route('admin.product.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="px-4 py-1 bg-red-500 text-white text-xs font-medium rounded hover:bg-red-600 transition">
+                                                Delete
+                                            </button>
+                                        </form>
                                         <a href="{{ route('admin.product.show', $item->id) }}"
                                             class="px-4 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">
                                             View Details
