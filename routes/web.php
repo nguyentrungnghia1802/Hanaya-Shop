@@ -79,6 +79,12 @@ Route::middleware(['auth', IsAdmin::class])->prefix(prefix: 'admin')->name('admi
 
 
     Route::get('/user', [UsersController::class, 'index'])->name('user');
+    Route::get('/user/create', [UsersController::class, 'create'])->name('user.create');
+    Route::post('/user', [UsersController::class, 'store'])->name('user.store');
+    Route::get('/user/{id}/edit', [UsersController::class, 'edit'])->name('user.edit');
+    Route::put('/user/{id}', [UsersController::class, 'update'])->name('user.update');
+    Route::delete('/user', [UsersController::class, 'destroy'])->name('user.destroy'); // Xóa nhiều
+    Route::get('/user/{id}', [UsersController::class, 'show'])->name('user.show');
 
     Route::get('/order', [OrdersController::class, 'index'])->name('order');
 
