@@ -6,13 +6,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product\Category; // Assuming you have a Category model
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
 
 class CategoriesController extends Controller
 {
     //
     public function index()
     {
-        $categories = Category::all(); // Fetch all categories
+        $categories = Cache::remember('admin_categories_all', 600, function () {
+            return Category::all();
+        });
         return view('admin.categories.index', [
             'categories' => $categories,
         ]);
@@ -48,7 +51,7 @@ class CategoriesController extends Controller
         $category->description = $request->input('description');
         $category->image_path = $generatedFileName;
         $category->save();
-
+        Cache::forget('admin_categories_all'); // Xóa cache khi thêm mới
         return redirect()->route('admin.category')->with('success', 'Category created successfully!');
     }
     public function edit($id)
@@ -84,6 +87,7 @@ class CategoriesController extends Controller
             $category->image_path = $imageName;
         }
         $category->save();
+        Cache::forget('admin_categories_all'); // Xóa cache khi cập nhật
         return redirect()->route('admin.category')->with('success', 'Category updated successfully!');
     }
 
@@ -101,7 +105,7 @@ class CategoriesController extends Controller
             }
         }
         $category->delete();
-
+        Cache::forget('admin_categories_all'); // Xóa cache khi xóa
         return response()->json(['success' => true]);
     }
 

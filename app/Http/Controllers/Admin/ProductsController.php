@@ -6,16 +6,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product\Product; // Assuming you have a Product model
 use App\Models\Product\Category; // Assuming you have a Category model
+use Illuminate\Support\Facades\Cache;
 
 class ProductsController extends Controller
 {
     //
     public function index()
     {
-        $products = Product::all(); // Assuming you have a Product model
+        $products = Cache::remember('admin_products_all', 600, function () {
+            return Product::with('category')->get();
+        });
         return view('admin.products.index', [
             'products' => $products,
-
         ]);
     }
 
@@ -54,6 +56,7 @@ class ProductsController extends Controller
         $product->image_url = $generatedFileName;
         $product->category_id = $request->input('category_id');
         if ($product->save()) {
+            Cache::forget('admin_products_all');
             return redirect()->route('admin.product')->with('success', 'Product created successfully!');
         } else {
             return back()->with('error', 'Lưu sản phẩm thất bại!');
@@ -99,7 +102,7 @@ class ProductsController extends Controller
         }
 
         $product->save();
-
+        Cache::forget('admin_products_all');
         return redirect()->route('admin.product')->with('success', 'Product updated successfully!');
     }
 
@@ -113,7 +116,8 @@ class ProductsController extends Controller
         }
 
         $product->delete();
-
+        Cache::forget('admin_products_all');
+        
         // Nếu là AJAX thì trả về JSON, không thì redirect
         if (request()->ajax() || request()->wantsJson()) {
             return response()->json(['success' => true]);
