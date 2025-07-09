@@ -5,6 +5,13 @@
         <!-- Tiêu đề -->
         <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Chi tiết sản phẩm</h2>
 
+        <!-- Thông báo thành công -->
+        @if(session('success'))
+            <div class="mb-4 p-4 bg-green-100 text-green-800 rounded shadow text-center">
+                {{ session('success') }}
+            </div>
+        @endif
+
         <!-- Thông tin chi tiết sản phẩm -->
         <div class="bg-white rounded-lg shadow-md p-6 flex flex-col md:flex-row gap-6">
             <div class="md:w-1/2">
@@ -33,6 +40,7 @@
                 <button id="buy-button" class="bg-orange-600 hover:bg-orange-700 text-white px-6 py-2 rounded shadow">
                     Mua ngay
                 </button>
+
             </div>
         </div>
 
