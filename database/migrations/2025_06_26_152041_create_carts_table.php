@@ -14,13 +14,30 @@ return new class extends Migration
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
 
+            // Liên kết đến bảng products
+            $table->unsignedBigInteger('product_id');
+
+            // Người dùng đã đăng nhập (nullable nếu không login)
+            $table->unsignedBigInteger('user_id')->nullable();
+
+            // Người dùng chưa đăng nhập thì dùng session_id
+            $table->string('session_id')->nullable();
+
+            // Số lượng sản phẩm
+            $table->unsignedInteger('quantity')->default(1);
+
             $table->timestamps();
 
-            $table->unsignedBigInteger('product_id'); // liên kết đến bảng products
-            $table->unsignedBigInteger('user_id');
+            // Ràng buộc khóa ngoại
+            $table->foreign('product_id')
+                ->references('id')
+                ->on('products')
+                ->onDelete('cascade');
 
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
         });
     }
 
