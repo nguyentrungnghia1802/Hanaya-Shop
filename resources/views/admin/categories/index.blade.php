@@ -8,6 +8,7 @@
 @endsection
 
 @section('content')
+
     <!-- Notification messages for successful operations -->
     <div id="successMsg"
         class="hidden fixed bottom-5 right-5 bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded mb-4">
@@ -28,8 +29,12 @@
                 <div class="p-6 text-gray-900">
 
                     <!-- Search input field -->
-                    <input type="text" id="searchInput" placeholder="Search for a category..."
-                        class="border px-3 py-2 rounded mb-4 w-full max-w-sm">
+                    <form id="categorySearchForm" class="flex gap-2 mb-4 max-w-sm">
+                        <input type="text" id="searchInput" placeholder="Search for a category..."
+                            class="border px-3 py-2 rounded w-full" autocomplete="off">
+                        <button type="submit"
+                            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 rounded">Search</button>
+                    </form>
 
                     <!-- Add category button -->
                     <a href="{{ route('admin.category.create') }}"
@@ -116,67 +121,66 @@
 
     <!-- Client-side JavaScript logic -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Ẩn modal và overlay khi load trang
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initially hide modal and overlay
             document.getElementById('categoryDetail').classList.add('hidden');
             document.getElementById('overlay').classList.add('hidden');
-    
-            // Hàm gán lại sự kiện cho các nút trong bảng
-            function bindCategoryTableEvents() {
-                // Quick View
-                document.querySelectorAll('.btn-view').forEach(button => {
-                    button.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        const url = this.dataset.url + '?ajax=1';
-    
-                        // Hiển thị trạng thái loading
-                        document.getElementById('view-id').textContent = 'Loading...';
-                        document.getElementById('view-name').textContent = 'Loading...';
-                        document.getElementById('view-description').innerHTML = 'Loading...';
-                        document.getElementById('view-image').src = '';
-    
-                        // Hiện modal và overlay
-                        document.getElementById('categoryDetail').classList.remove('hidden');
-                        document.getElementById('overlay').classList.remove('hidden');
-    
-                        // Lấy dữ liệu category qua AJAX
-                        fetch(url, {
-                                method: 'GET',
-                                headers: {
-                                    'X-Requested-With': 'XMLHttpRequest',
-                                    'Accept': 'application/json',
-                                    'Content-Type': 'application/json'
-                                }
-                            })
-                            .then(response => {
-                                if (!response.ok) throw new Error(
-                                    `HTTP ${response.status}: ${response.statusText}`);
-                                const contentType = response.headers.get('Content-Type') || '';
-                                if (!contentType.includes('application/json')) throw new Error(
-                                    'Response is not JSON');
-                                return response.json();
-                            })
-                            .then(data => {
-                                if (data.success === false) throw new Error(data.message ||
-                                    'Server returned an error');
-                                document.getElementById('view-id').textContent = data.id || 'N/A';
-                                document.getElementById('view-name').textContent = data.name || 'N/A';
-                                document.getElementById('view-description').innerHTML = data.description || '<em>No description</em>';
-                                document.getElementById('view-image').src = data.image_path || '/images/base.jpg';
-                            })
-                            .catch(error => {
-                                alert('Error loading category details: ' + error.message);
-                                document.getElementById('categoryDetail').classList.add('hidden');
-                                document.getElementById('overlay').classList.add('hidden');
-                            });
+
+            // Handle quick view click
+            document.querySelectorAll('.btn-view').forEach(button => {
+                button.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const url = this.dataset.url + '?ajax=1';
+
+                    // Show loading placeholders
+                    document.getElementById('view-id').textContent = 'Loading...';
+                    document.getElementById('view-name').textContent = 'Loading...';
+                    document.getElementById('view-description').innerHTML = 'Loading...';
+                    document.getElementById('view-image').src = '';
+
+                    // Show modal and overlay
+                    document.getElementById('categoryDetail').classList.remove('hidden');
+                    document.getElementById('overlay').classList.remove('hidden');
+
+                    // Fetch category data via Ajax
+                    fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                        }
+                        const contentType = response.headers.get('Content-Type') || '';
+                        if (!contentType.includes('application/json')) {
+                            throw new Error('Response is not JSON');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success === false) {
+                            throw new Error(data.message || 'Server returned an error');
+                        }
+
+                        // Display category data in modal
+                        document.getElementById('view-id').textContent = data.id || 'N/A';
+                        document.getElementById('view-name').textContent = data.name || 'N/A';
+                        document.getElementById('view-description').innerHTML = data.description || '<em>No description</em>';
+                        document.getElementById('view-image').src = data.image_path || '/images/base.jpg';
+                    })
+                    .catch(error => {
+                        alert('Error loading category details: ' + error.message);
+                        document.getElementById('categoryDetail').classList.add('hidden');
+                        document.getElementById('overlay').classList.add('hidden');
                     });
                 });
-            }
-    
-            // Gán sự kiện lần đầu khi trang load
-            bindCategoryTableEvents();
-    
-            // Đóng modal khi click nút đóng hoặc overlay
+            });
+
+            // Handle modal close events
             document.getElementById('closeDetail').addEventListener('click', () => {
                 document.getElementById('categoryDetail').classList.add('hidden');
                 document.getElementById('overlay').classList.add('hidden');
@@ -185,49 +189,32 @@
                 document.getElementById('categoryDetail').classList.add('hidden');
                 document.getElementById('overlay').classList.add('hidden');
             });
-    
-            // Filter category
-            document.getElementById('searchInput').addEventListener('input', function() {
-                const keyword = this.value.trim();
-                fetch('{{ route('admin.category.search') }}?query=' + encodeURIComponent(keyword), {
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest'
-                        }
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        document.querySelector('table tbody').innerHTML = data.html;
-                        // Gán lại sự kiện cho các nút sau khi filter
-                        bindCategoryTableEvents();
-                    });
-            });
-    
-            // Xử lý xóa category (vẫn dùng event delegation như cũ)
+
+            // Handle delete category with confirmation
             const tableBody = document.querySelector("table tbody");
-            tableBody.addEventListener("click", async function(e) {
+            tableBody.addEventListener("click", async function (e) {
                 const deleteBtn = e.target.closest(".btn-delete");
-    
+
                 if (deleteBtn) {
                     e.preventDefault();
-    
+
                     const id = deleteBtn.dataset.id;
                     const url = deleteBtn.dataset.url;
-    
+
                     if (confirm("Are you sure you want to delete this category?")) {
                         try {
                             const response = await fetch(url, {
                                 method: "DELETE",
                                 headers: {
-                                    "X-CSRF-TOKEN": document.querySelector(
-                                        'meta[name="csrf-token"]').content,
+                                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
                                     Accept: "application/json",
                                 },
                             });
-    
+
                             if (response.ok) {
                                 const row = deleteBtn.closest("tr");
                                 row.remove();
-    
+
                                 const successMsg = document.getElementById("successMsg-delete");
                                 successMsg.classList.remove("hidden");
                                 setTimeout(() => {
@@ -245,5 +232,22 @@
                 }
             });
         });
+
+        // Bind events to the category table after initial load
+        document.getElementById('categorySearchForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const keyword = document.getElementById('searchInput').value.trim();
+    fetch('{{ route('admin.category.search') }}?query=' + encodeURIComponent(keyword), {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            document.querySelector('table tbody').innerHTML = data.html;
+            bindCategoryTableEvents();
+        });
+});
+
     </script>
 @endsection

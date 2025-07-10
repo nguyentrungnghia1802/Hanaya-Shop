@@ -18,8 +18,12 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     {{-- Search input --}}
-                    <input type="text" id="searchProductInput" placeholder="Search product..."
-                        class="border px-3 py-2 rounded mb-4 w-full max-w-sm"> <br>
+                    <form id="productSearchForm" class="flex gap-2 mb-4 max-w-sm">
+                        <input type="text" id="searchProductInput" placeholder="Search product..."
+                            class="border px-3 py-2 rounded w-full" autocomplete="off">
+                        <button type="submit"
+                            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 rounded">Search</button>
+                    </form>
 
                     {{-- Add new product --}}
                     <a href="{{ route('admin.product.create') }}"
@@ -119,27 +123,28 @@
             // Hide modal and overlay initially
             document.getElementById('productDetail').classList.add('hidden');
             document.getElementById('productOverlay').classList.add('hidden');
-    
+
             // Hàm gán lại sự kiện cho các nút trong bảng
             function bindProductTableEvents() {
                 document.querySelectorAll('.btn-view-product').forEach(button => {
                     button.addEventListener('click', function(e) {
                         e.preventDefault();
                         const url = this.dataset.url + '?ajax=1';
-    
+
                         // Set loading state
                         document.getElementById('product-view-id').textContent = 'Loading...';
                         document.getElementById('product-view-name').textContent = 'Loading...';
-                        document.getElementById('product-view-description').innerHTML = 'Loading...';
+                        document.getElementById('product-view-description').innerHTML =
+                        'Loading...';
                         document.getElementById('product-view-price').textContent = 'Loading...';
                         document.getElementById('product-view-quantity').textContent = 'Loading...';
                         document.getElementById('product-view-category').textContent = 'Loading...';
                         document.getElementById('product-view-image').src = '';
-    
+
                         // Show modal and overlay
                         document.getElementById('productDetail').classList.remove('hidden');
                         document.getElementById('productOverlay').classList.remove('hidden');
-    
+
                         // Fetch product data via AJAX
                         fetch(url, {
                                 method: 'GET',
@@ -160,17 +165,21 @@
                             .then(data => {
                                 if (data.success === false) throw new Error(data.message ||
                                     'Server returned error');
-                                document.getElementById('product-view-id').textContent = data.id ||
+                                document.getElementById('product-view-id').textContent = data
+                                    .id ||
                                     'N/A';
                                 document.getElementById('product-view-name').textContent = data
                                     .name || 'N/A';
-                                document.getElementById('product-view-description').innerHTML = data
+                                document.getElementById('product-view-description').innerHTML =
+                                    data
                                     .descriptions || '<em>No description available</em>';
                                 document.getElementById('product-view-price').textContent = data
                                     .price || 'N/A';
-                                document.getElementById('product-view-quantity').textContent = data
+                                document.getElementById('product-view-quantity').textContent =
+                                    data
                                     .stock_quantity || 'N/A';
-                                document.getElementById('product-view-category').textContent = data
+                                document.getElementById('product-view-category').textContent =
+                                    data
                                     .category_name || 'N/A';
                                 document.getElementById('product-view-image').src = data
                                     .image_url || '/images/base.jpg';
@@ -178,16 +187,18 @@
                             .catch(error => {
                                 alert('An error occurred while loading product information: ' +
                                     error.message);
-                                document.getElementById('productDetail').classList.add('hidden');
-                                document.getElementById('productOverlay').classList.add('hidden');
+                                document.getElementById('productDetail').classList.add(
+                                'hidden');
+                                document.getElementById('productOverlay').classList.add(
+                                    'hidden');
                             });
                     });
                 });
             }
-    
+
             // Gán sự kiện lần đầu khi trang load
             bindProductTableEvents();
-    
+
             // Close modal when clicking close button or overlay
             document.getElementById('closeProductDetail').addEventListener('click', function() {
                 document.getElementById('productDetail').classList.add('hidden');
@@ -197,10 +208,11 @@
                 document.getElementById('productDetail').classList.add('hidden');
                 document.getElementById('productOverlay').classList.add('hidden');
             });
-    
+
             // Filter sản phẩm
-            document.getElementById('searchProductInput').addEventListener('input', function() {
-                const keyword = this.value.trim();
+            document.getElementById('productSearchForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const keyword = document.getElementById('searchProductInput').value.trim();
                 fetch('{{ route('admin.product.search') }}?query=' + encodeURIComponent(keyword), {
                         headers: {
                             'X-Requested-With': 'XMLHttpRequest'
