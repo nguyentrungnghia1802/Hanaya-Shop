@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\OrdersController;
@@ -11,7 +11,7 @@ use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\User\soapFlowerController;
 use App\Http\Controllers\User\CartController;
-
+use App\Http\Controllers\User\DashboardController as UserDashboardController;
 
 
 
@@ -20,10 +20,8 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    // Route cho người dùng
-    Route::get('/dashboard', function () {
-        return view('page.dashboard');
-    })->middleware(['verified'])->name('dashboard');
+    // Route for user
+    Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/soapFlower', [soapFlowerController::class, 'index'])->name('soapFlower');
     Route::get('/soapFlower/{id}', [soapFlowerController::class, 'show'])->name('soapFlower.show');
@@ -48,10 +46,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 });
 
+// Admin
 use App\Http\Middleware\IsAdmin;
 
 Route::middleware(['auth', IsAdmin::class])->prefix(prefix: 'admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/product', [ProductsController::class, 'index'])->name('product');
     Route::get('/product/search', [ProductsController::class, 'search'])->name('product.search');
