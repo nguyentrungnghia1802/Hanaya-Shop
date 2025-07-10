@@ -7,22 +7,26 @@
 @endsection
 
 @section('content')
+    {{-- Success message notification --}}
     <div id="successMsg"
         class="hidden fixed bottom-5 right-5 bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded mb-4">
-        Thao tác thành công!
+        Action completed successfully!
     </div>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <input type="text" id="searchProductInput" placeholder="Tìm kiếm sản phẩm..."
+                    {{-- Search input --}}
+                    <input type="text" id="searchProductInput" placeholder="Search product..."
                         class="border px-3 py-2 rounded mb-4 w-full max-w-sm"> <br>
 
+                    {{-- Add new product --}}
                     <a href="{{ route('admin.product.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded inline-block mb-10">
                         Add
                     </a>
 
+                    {{-- Product table --}}
                     <table class="min-w-full table-auto border border-gray-300 text-sm">
                         <thead class="bg-gray-100 text-gray-700 uppercase text-left">
                             <tr>
@@ -48,11 +52,14 @@
                                 <td class="px-4 py-2 border-b">{{ $item->category->name }}</td>
                                 <td class="px-4 py-2 border-b">
                                     <div class="flex flex-wrap gap-2">
+                                        {{-- Edit button --}}
                                         <a href="{{ route('admin.product.edit', $item->id) }}"
                                             class="px-4 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition">
                                             Edit
                                         </a>
-                                        <form action="{{ route('admin.product.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa?');">
+
+                                        {{-- Delete button --}}
+                                        <form action="{{ route('admin.product.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete?');">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit"
@@ -60,10 +67,14 @@
                                                 Delete
                                             </button>
                                         </form>
+
+                                        {{-- View Details button --}}
                                         <a href="{{ route('admin.product.show', $item->id) }}"
                                             class="px-4 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">
                                             View Details
                                         </a>
+
+                                        {{-- Quick View button --}}
                                         <button type="button"
                                             class="px-4 py-1 bg-gray-500 text-white text-xs font-medium rounded hover:bg-gray-600 transition btn-view-product"
                                             data-id="{{ $item->id }}"
@@ -81,20 +92,20 @@
         </div>
     </div>
 
-    <!-- Modal hiển thị thông tin sản phẩm -->
+    {{-- Modal for product quick view --}}
     <div id="productDetail" class="hidden fixed inset-0 flex items-center justify-center z-50">
         <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-xl relative">
-            <h2 class="text-xl font-bold mb-4">Thông tin sản phẩm</h2>
+            <h2 class="text-xl font-bold mb-4">Product Details</h2>
             <p><strong>ID:</strong> <span id="product-view-id" class="text-gray-700"></span></p>
-            <p><strong>Tên:</strong> <span id="product-view-name" class="text-gray-700"></span></p>
-            <p><strong>Mô tả:</strong></p>
+            <p><strong>Name:</strong> <span id="product-view-name" class="text-gray-700"></span></p>
+            <p><strong>Description:</strong></p>
             <div id="product-view-description"
                 class="border p-3 rounded bg-gray-50 text-sm text-gray-800 max-h-[300px] overflow-y-auto"></div>
-            <p class="mt-4"><strong>Giá:</strong> <span id="product-view-price" class="text-gray-700"></span></p>
-            <p><strong>Số lượng:</strong> <span id="product-view-quantity" class="text-gray-700"></span></p>
-            <p><strong>Loại:</strong> <span id="product-view-category" class="text-gray-700"></span></p>
-            <p class="mt-4"><strong>Ảnh:</strong></p>
-            <img id="product-view-image" src="" alt="Ảnh sản phẩm" class="w-48 h-auto mt-2 border rounded">
+            <p class="mt-4"><strong>Price:</strong> <span id="product-view-price" class="text-gray-700"></span></p>
+            <p><strong>Quantity:</strong> <span id="product-view-quantity" class="text-gray-700"></span></p>
+            <p><strong>Category:</strong> <span id="product-view-category" class="text-gray-700"></span></p>
+            <p class="mt-4"><strong>Image:</strong></p>
+            <img id="product-view-image" src="" alt="Product Image" class="w-48 h-auto mt-2 border rounded">
             <button id="closeProductDetail"
                 class="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-lg">&times;</button>
         </div>
@@ -103,17 +114,17 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Ẩn modal khi load
+            // Hide modal and overlay initially
             document.getElementById('productDetail').classList.add('hidden');
             document.getElementById('productOverlay').classList.add('hidden');
 
-            // Quick View
+            // Handle quick view click
             document.querySelectorAll('.btn-view-product').forEach(button => {
                 button.addEventListener('click', function(e) {
                     e.preventDefault();
                     const url = this.dataset.url + '?ajax=1';
 
-                    // Loading state
+                    // Set loading state
                     document.getElementById('product-view-id').textContent = 'Loading...';
                     document.getElementById('product-view-name').textContent = 'Loading...';
                     document.getElementById('product-view-description').innerHTML = 'Loading...';
@@ -122,9 +133,11 @@
                     document.getElementById('product-view-category').textContent = 'Loading...';
                     document.getElementById('product-view-image').src = '';
 
+                    // Show modal and overlay
                     document.getElementById('productDetail').classList.remove('hidden');
                     document.getElementById('productOverlay').classList.remove('hidden');
 
+                    // Fetch product data via AJAX
                     fetch(url, {
                         method: 'GET',
                         headers: {
@@ -143,21 +156,21 @@
                         if (data.success === false) throw new Error(data.message || 'Server returned error');
                         document.getElementById('product-view-id').textContent = data.id || 'N/A';
                         document.getElementById('product-view-name').textContent = data.name || 'N/A';
-                        document.getElementById('product-view-description').innerHTML = data.descriptions || '<em>Không có mô tả</em>';
+                        document.getElementById('product-view-description').innerHTML = data.descriptions || '<em>No description available</em>';
                         document.getElementById('product-view-price').textContent = data.price || 'N/A';
                         document.getElementById('product-view-quantity').textContent = data.stock_quantity || 'N/A';
                         document.getElementById('product-view-category').textContent = data.category_name || 'N/A';
                         document.getElementById('product-view-image').src = data.image_url || '/images/base.jpg';
                     })
                     .catch(error => {
-                        alert('Có lỗi xảy ra khi tải thông tin sản phẩm: ' + error.message);
+                        alert('An error occurred while loading product information: ' + error.message);
                         document.getElementById('productDetail').classList.add('hidden');
                         document.getElementById('productOverlay').classList.add('hidden');
                     });
                 });
             });
 
-            // Đóng modal
+            // Close modal when clicking close button or overlay
             document.getElementById('closeProductDetail').addEventListener('click', function() {
                 document.getElementById('productDetail').classList.add('hidden');
                 document.getElementById('productOverlay').classList.add('hidden');
@@ -167,7 +180,7 @@
                 document.getElementById('productOverlay').classList.add('hidden');
             });
 
-            // Search
+            // Client-side search
             document.getElementById('searchProductInput').addEventListener('input', function() {
                 const keyword = this.value.toLowerCase();
                 const rows = document.querySelectorAll('table tbody tr');

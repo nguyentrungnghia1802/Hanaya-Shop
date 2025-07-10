@@ -4,32 +4,44 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Product\Product; // Assuming you have a Product model
-use App\Models\Product\Category; // Assuming you have a Category model
+use App\Models\Product\Product;
+use App\Models\Product\Category;
 use Illuminate\Support\Facades\Cache;
 
 class ProductsController extends Controller
 {
-    //
+    /**
+     * Display a listing of all products with their associated category.
+     * Uses cache for performance optimization.
+     */
     public function index()
     {
         $products = Cache::remember('admin_products_all', 600, function () {
-            return Product::with('category')->get();
+            return Product::with('category')->get(); // Eager load categories
         });
+
         return view('admin.products.index', [
             'products' => $products,
         ]);
     }
 
+    /**
+     * Show the form for creating a new product.
+     */
     public function create()
     {
-        $categories = Category::all(); // Fetch all categories
+        $categories = Category::all(); // Fetch all categories for the dropdown
         return view('admin.products.create', [
             'categories' => $categories,
         ]);
     }
+
+    /**
+     * Store a newly created product in the database.
+     */
     public function store(Request $request)
     {
+        // Validate form data
         $request->validate([
             'name' => 'required|string|max:255',
             'descriptions' => 'nullable|string',
@@ -39,6 +51,7 @@ class ProductsController extends Controller
             'category_id' => 'required|exists:categories,id',
         ]);
 
+        // Handle image upload or fallback to default
         $generatedFileName = null;
         if ($request->hasFile('image_url')) {
             $image = $request->file('image_url');
@@ -46,8 +59,10 @@ class ProductsController extends Controller
             $image->move(public_path('images'), $imageName);
             $generatedFileName = $imageName;
         } else {
-            $generatedFileName = 'base.jpg'; // Default image if none is uploaded
+            $generatedFileName = 'base.jpg'; // Default placeholder image
         }
+
+        // Create and save product
         $product = new Product();
         $product->name = $request->input('name');
         $product->descriptions = $request->input('descriptions');
@@ -55,25 +70,35 @@ class ProductsController extends Controller
         $product->stock_quantity = $request->input('stock_quantity');
         $product->image_url = $generatedFileName;
         $product->category_id = $request->input('category_id');
+
         if ($product->save()) {
-            Cache::forget('admin_products_all');
+            Cache::forget('admin_products_all'); // Invalidate product cache
             return redirect()->route('admin.product')->with('success', 'Product created successfully!');
         } else {
-            return back()->with('error', 'Lưu sản phẩm thất bại!');
+            return back()->with('error', 'Failed to save the product!');
         }
     }
+
+    /**
+     * Show the form for editing the specified product.
+     */
     public function edit($id)
     {
         $product = Product::findOrFail($id);
-        $categories = Category::all();
+        $categories = Category::all(); // Fetch categories for dropdown
+
         return view('admin.products.edit', [
             'product' => $product,
             'categories' => $categories,
         ]);
     }
 
+    /**
+     * Update the specified product in the database.
+     */
     public function update(Request $request, $id)
     {
+        // Validate incoming request data
         $request->validate([
             'name' => 'required|string|max:255',
             'descriptions' => 'nullable|string',
@@ -90,11 +115,18 @@ class ProductsController extends Controller
         $product->stock_quantity = $request->input('stock_quantity');
         $product->category_id = $request->input('category_id');
 
+        // Handle image replacement
         if ($request->hasFile('image_url')) {
-            // Xóa ảnh cũ nếu không phải ảnh mặc định
-            if ($product->image_url && $product->image_url !== 'base.jpg' && file_exists(public_path('images/' . $product->image_url))) {
+            // Delete old image if it exists and is not the default
+            if (
+                $product->image_url &&
+                $product->image_url !== 'base.jpg' &&
+                file_exists(public_path('images/' . $product->image_url))
+            ) {
                 unlink(public_path('images/' . $product->image_url));
             }
+
+            // Upload new image
             $image = $request->file('image_url');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('images'), $imageName);
@@ -102,23 +134,31 @@ class ProductsController extends Controller
         }
 
         $product->save();
-        Cache::forget('admin_products_all');
+        Cache::forget('admin_products_all'); // Invalidate cache
+
         return redirect()->route('admin.product')->with('success', 'Product updated successfully!');
     }
 
+    /**
+     * Remove the specified product from the database.
+     */
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
 
-        // Xóa ảnh nếu không phải ảnh mặc định
-        if ($product->image_url && $product->image_url !== 'base.jpg' && file_exists(public_path('images/' . $product->image_url))) {
+        // Delete associated image if not default
+        if (
+            $product->image_url &&
+            $product->image_url !== 'base.jpg' &&
+            file_exists(public_path('images/' . $product->image_url))
+        ) {
             unlink(public_path('images/' . $product->image_url));
         }
 
         $product->delete();
-        Cache::forget('admin_products_all');
-        
-        // Nếu là AJAX thì trả về JSON, không thì redirect
+        Cache::forget('admin_products_all'); // Invalidate cache
+
+        // Return JSON if AJAX request, otherwise redirect
         if (request()->ajax() || request()->wantsJson()) {
             return response()->json(['success' => true]);
         }
@@ -126,11 +166,15 @@ class ProductsController extends Controller
         return redirect()->route('admin.product')->with('success', 'Product deleted successfully!');
     }
 
+    /**
+     * Display the specified product details.
+     * Supports JSON response for AJAX quick view.
+     */
     public function show($id, Request $request)
     {
         $product = Product::with('category')->findOrFail($id);
 
-        // AJAX Quick View
+        // Determine if this is an AJAX/JSON request
         if (
             $request->ajax() ||
             $request->wantsJson() ||
@@ -151,7 +195,7 @@ class ProductsController extends Controller
             ]);
         }
 
-        // Nếu không phải AJAX, trả về view chi tiết (bạn có thể tạo view này nếu muốn)
+        // Return product details view
         return view('admin.products.show', [
             'product' => $product,
         ]);
