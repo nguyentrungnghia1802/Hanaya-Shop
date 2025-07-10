@@ -151,13 +151,15 @@ class CategoriesController extends Controller
      */
     public function search(Request $request)
     {
-        $query = $request->input('query');
+        $query = $request->input('query', '');
 
         $categories = Category::where('name', 'LIKE', "%{$query}%")
             ->orWhere('description', 'LIKE', "%{$query}%")
             ->get();
 
-        return response()->json($categories);
+        $html = view('admin.categories.partials.table_rows', compact('categories'))->render();
+
+        return response()->json(['html' => $html]);
     }
 
     /**

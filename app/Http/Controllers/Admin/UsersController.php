@@ -171,14 +171,18 @@ class UsersController extends Controller
      */
     public function search(Request $request)
     {
-        $query = $request->input('query');
+        $query = $request->input('query', '');
 
-        $users = User::where('name', 'LIKE', "%{$query}%")
-            ->orWhere('email', 'LIKE', "%{$query}%")
+        $users = User::where('role', 'user')
+            ->where(function ($q) use ($query) {
+                $q->where('name', 'LIKE', "%{$query}%")
+                    ->orWhere('email', 'LIKE', "%{$query}%");
+            })
             ->get();
 
-        return response()->json($users);
+        // Trả về HTML table rows để render lại tbody
+        $html = view('admin.users.partials.table_rows', compact('users'))->render();
+        return response()->json(['html' => $html]);
     }
-
 
 }
