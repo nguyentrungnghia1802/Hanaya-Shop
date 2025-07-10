@@ -13,13 +13,13 @@ class UsersController extends Controller
 {
     /**
      * Hiển thị danh sách tất cả người dùng có role = 'user'.
-     * Dữ liệu được cache trong 10 phút để tăng hiệu năng.
+     * Dữ liệu được cache trong 60 phút để tăng hiệu năng.
      *
      * @return \Illuminate\View\View
      */
     public function index()
     {
-        $users = Cache::remember('admin_users_all', 600, function () {
+        $users = Cache::remember('admin_users_all', 3600, function () {
             return User::where('role', 'user')->get();
         });
         return view('admin.users.index', compact('users'));

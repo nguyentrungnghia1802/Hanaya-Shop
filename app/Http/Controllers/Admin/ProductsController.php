@@ -16,7 +16,7 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products = Cache::remember('admin_products_all', 600, function () {
+        $products = Cache::remember('admin_products_all', 3600, function () {
             return Product::with('category')->get(); // Eager load categories
         });
 
