@@ -165,4 +165,20 @@ class UsersController extends Controller
 
         return view('admin.users.show', compact('user', 'orders', 'carts'));
     }
+
+    /**
+     * Search for users by name or email.
+     */
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        $users = User::where('name', 'LIKE', "%{$query}%")
+            ->orWhere('email', 'LIKE', "%{$query}%")
+            ->get();
+
+        return response()->json($users);
+    }
+
+
 }
