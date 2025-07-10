@@ -16,7 +16,7 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products = Cache::remember('admin_products_all', 600, function () {
+        $products = Cache::remember('admin_products_all', 3600, function () {
             return Product::with('category')->get(); // Eager load categories
         });
 
@@ -199,5 +199,32 @@ class ProductsController extends Controller
         return view('admin.products.show', [
             'product' => $product,
         ]);
+    }
+
+    public function search(Request $request)
+    {
+        $query = trim($request->input('query', ''));
+
+        if (empty($query)) {
+            $products = Product::with('category')->get();
+        } else {
+            // Tách từ khóa thành các từ riêng biệt
+            $keywords = preg_split('/\s+/', $query);
+
+            $products = Product::with('category')
+                ->where(function ($q) use ($keywords) {
+                    foreach ($keywords as $keyword) {
+                        $q->where(function ($subQuery) use ($keyword) {
+                            $subQuery->where('name', 'LIKE', "%{$keyword}%")
+                                ->orWhere('descriptions', 'LIKE', "%{$keyword}%");
+                        });
+                    }
+                })
+                ->get();
+        }
+
+        $html = view('admin.products.partials.table_rows', compact('products'))->render();
+
+        return response()->json(['html' => $html]);
     }
 }

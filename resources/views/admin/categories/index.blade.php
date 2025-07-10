@@ -8,7 +8,6 @@
 @endsection
 
 @section('content')
-
     <!-- Notification messages for successful operations -->
     <div id="successMsg"
         class="hidden fixed bottom-5 right-5 bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded mb-4">
@@ -27,10 +26,13 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-
-                    <!-- Search input field -->
-                    <input type="text" id="searchInput" placeholder="Search for a category..."
-                        class="border px-3 py-2 rounded mb-4 w-full max-w-sm">
+                    {{-- Search input --}}
+                    <form id="categorySearchForm" class="flex gap-2 mb-4 max-w-sm">
+                        <input type="text" id="searchCategoryInput" placeholder="Search category..."
+                            class="border px-3 py-2 rounded w-full" autocomplete="off">
+                        <button type="submit"
+                            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 rounded">Search</button>
+                    </form>
 
                     <!-- Add category button -->
                     <a href="{{ route('admin.category.create') }}"
@@ -117,66 +119,103 @@
 
     <!-- Client-side JavaScript logic -->
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Initially hide modal and overlay
-            document.getElementById('categoryDetail').classList.add('hidden');
-            document.getElementById('overlay').classList.add('hidden');
+        document.addEventListener('DOMContentLoaded', function() {
+            // Bind events to the category table after initial load
+            function bindCategoryTableEvents() {
+                // Bind Quick View buttons - GIỮ NGUYÊN CODE CŨ
+                document.querySelectorAll('.btn-view').forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const url = this.dataset.url + '?ajax=1';
 
-            // Handle quick view click
-            document.querySelectorAll('.btn-view').forEach(button => {
-                button.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const url = this.dataset.url + '?ajax=1';
+                        // Show loading placeholders
+                        document.getElementById('view-id').textContent = 'Loading...';
+                        document.getElementById('view-name').textContent = 'Loading...';
+                        document.getElementById('view-description').innerHTML = 'Loading...';
+                        document.getElementById('view-image').src = '';
 
-                    // Show loading placeholders
-                    document.getElementById('view-id').textContent = 'Loading...';
-                    document.getElementById('view-name').textContent = 'Loading...';
-                    document.getElementById('view-description').innerHTML = 'Loading...';
-                    document.getElementById('view-image').src = '';
+                        // Show modal and overlay
+                        document.getElementById('categoryDetail').classList.remove('hidden');
+                        document.getElementById('overlay').classList.remove('hidden');
 
-                    // Show modal and overlay
-                    document.getElementById('categoryDetail').classList.remove('hidden');
-                    document.getElementById('overlay').classList.remove('hidden');
+                        // Fetch category data via Ajax
+                        fetch(url, {
+                                method: 'GET',
+                                headers: {
+                                    'X-Requested-With': 'XMLHttpRequest',
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json'
+                                }
+                            })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error(
+                                        `HTTP ${response.status}: ${response.statusText}`);
+                                }
+                                const contentType = response.headers.get('Content-Type') || '';
+                                if (!contentType.includes('application/json')) {
+                                    throw new Error('Response is not JSON');
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                if (data.success === false) {
+                                    throw new Error(data.message || 'Server returned an error');
+                                }
 
-                    // Fetch category data via Ajax
-                    fetch(url, {
-                        method: 'GET',
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest',
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                        }
-                        const contentType = response.headers.get('Content-Type') || '';
-                        if (!contentType.includes('application/json')) {
-                            throw new Error('Response is not JSON');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        if (data.success === false) {
-                            throw new Error(data.message || 'Server returned an error');
-                        }
-
-                        // Display category data in modal
-                        document.getElementById('view-id').textContent = data.id || 'N/A';
-                        document.getElementById('view-name').textContent = data.name || 'N/A';
-                        document.getElementById('view-description').innerHTML = data.description || '<em>No description</em>';
-                        document.getElementById('view-image').src = data.image_path || '/images/base.jpg';
-                    })
-                    .catch(error => {
-                        alert('Error loading category details: ' + error.message);
-                        document.getElementById('categoryDetail').classList.add('hidden');
-                        document.getElementById('overlay').classList.add('hidden');
+                                // Display category data in modal
+                                document.getElementById('view-id').textContent = data.id ||
+                                    'N/A';
+                                document.getElementById('view-name').textContent = data.name ||
+                                    'N/A';
+                                document.getElementById('view-description').innerHTML = data
+                                    .description || '<em>No description</em>';
+                                document.getElementById('view-image').src = data.image_path ||
+                                    '/images/base.jpg';
+                            })
+                            .catch(error => {
+                                alert('Error loading category details: ' + error.message);
+                                document.getElementById('categoryDetail').classList.add(
+                                    'hidden');
+                                document.getElementById('overlay').classList.add('hidden');
+                            });
                     });
                 });
-            });
 
-            // Handle modal close events
+                // Bind Delete buttons - GIỮ NGUYÊN CODE CŨ
+                document.querySelectorAll('.btn-delete').forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        if (confirm('Are you sure you want to delete this category?')) {
+                            const url = this.dataset.url;
+                            fetch(url, {
+                                    method: 'DELETE',
+                                    headers: {
+                                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                        'X-Requested-With': 'XMLHttpRequest'
+                                    }
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        location.reload();
+                                    } else {
+                                        alert('Error deleting category');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    alert('Error deleting category');
+                                });
+                        }
+                    });
+                });
+            }
+
+            // Bind events on initial load
+            bindCategoryTableEvents();
+
+            // Handle modal close events - GIỮ NGUYÊN CODE CŨ
             document.getElementById('closeDetail').addEventListener('click', () => {
                 document.getElementById('categoryDetail').classList.add('hidden');
                 document.getElementById('overlay').classList.add('hidden');
@@ -186,63 +225,23 @@
                 document.getElementById('overlay').classList.add('hidden');
             });
 
-            // Search filter: show/hide rows based on input
-            document.getElementById('searchInput').addEventListener('input', function () {
-                const keyword = this.value.toLowerCase();
-                const rows = document.querySelectorAll('table tbody tr');
-
-                rows.forEach(row => {
-                    const id = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
-                    const name = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
-
-                    if (id.includes(keyword) || name.includes(keyword)) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
-                });
-            });
-
-            // Handle delete category with confirmation
-            const tableBody = document.querySelector("table tbody");
-            tableBody.addEventListener("click", async function (e) {
-                const deleteBtn = e.target.closest(".btn-delete");
-
-                if (deleteBtn) {
-                    e.preventDefault();
-
-                    const id = deleteBtn.dataset.id;
-                    const url = deleteBtn.dataset.url;
-
-                    if (confirm("Are you sure you want to delete this category?")) {
-                        try {
-                            const response = await fetch(url, {
-                                method: "DELETE",
-                                headers: {
-                                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                                    Accept: "application/json",
-                                },
-                            });
-
-                            if (response.ok) {
-                                const row = deleteBtn.closest("tr");
-                                row.remove();
-
-                                const successMsg = document.getElementById("successMsg-delete");
-                                successMsg.classList.remove("hidden");
-                                setTimeout(() => {
-                                    successMsg.classList.add("hidden");
-                                }, 3000);
-                            } else {
-                                console.error("Delete failed");
-                                alert("An error occurred while deleting the category");
-                            }
-                        } catch (err) {
-                            console.error("Error deleting category:", err);
-                            alert("An error occurred while deleting the category");
+            // Handle search form submission
+            document.getElementById('categorySearchForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const keyword = document.getElementById('searchCategoryInput').value.trim();
+                fetch('{{ route('admin.category.search') }}?query=' + encodeURIComponent(keyword), {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
                         }
-                    }
-                }
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        document.querySelector('table tbody').innerHTML = data.html;
+                        bindCategoryTableEvents(); // Rebind events after filtering
+                    })
+                    .catch(error => {
+                        console.error('Error fetching categories:', error);
+                    });
             });
         });
     </script>

@@ -18,11 +18,16 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     {{-- Search input --}}
-                    <input type="text" id="searchProductInput" placeholder="Search product..."
-                        class="border px-3 py-2 rounded mb-4 w-full max-w-sm"> <br>
+                    <form id="productSearchForm" class="flex gap-2 mb-4 max-w-sm">
+                        <input type="text" id="searchProductInput" placeholder="Search product..."
+                            class="border px-3 py-2 rounded w-full" autocomplete="off">
+                        <button type="submit"
+                            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 rounded">Search</button>
+                    </form>
 
                     {{-- Add new product --}}
-                    <a href="{{ route('admin.product.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded inline-block mb-10">
+                    <a href="{{ route('admin.product.create') }}"
+                        class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded inline-block mb-10">
                         Add
                     </a>
 
@@ -40,50 +45,51 @@
                             </tr>
                         </thead>
                         <tbody class="text-gray-800">
-                            @foreach($products as $item)
-                            <tr class="hover:bg-gray-50 transition">
-                                <td class="px-4 py-2 border-b">{{ $item->id }}</td>
-                                <td class="px-4 py-2 border-b">{{ $item->name }}</td>
-                                <td class="px-4 py-2 border-b max-w-xs truncate" title="{{ $item->descriptions }}">
-                                    {{ \Illuminate\Support\Str::limit($item->descriptions, 50) }}
-                                </td>
-                                <td class="px-4 py-2 border-b">{{ $item->price }}</td>
-                                <td class="px-4 py-2 border-b">{{ $item->stock_quantity }}</td>
-                                <td class="px-4 py-2 border-b">{{ $item->category->name }}</td>
-                                <td class="px-4 py-2 border-b">
-                                    <div class="flex flex-wrap gap-2">
-                                        {{-- Edit button --}}
-                                        <a href="{{ route('admin.product.edit', $item->id) }}"
-                                            class="px-4 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition">
-                                            Edit
-                                        </a>
+                            @foreach ($products as $item)
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="px-4 py-2 border-b">{{ $item->id }}</td>
+                                    <td class="px-4 py-2 border-b">{{ $item->name }}</td>
+                                    <td class="px-4 py-2 border-b max-w-xs truncate" title="{{ $item->descriptions }}">
+                                        {{ \Illuminate\Support\Str::limit($item->descriptions, 50) }}
+                                    </td>
+                                    <td class="px-4 py-2 border-b">{{ $item->price }}</td>
+                                    <td class="px-4 py-2 border-b">{{ $item->stock_quantity }}</td>
+                                    <td class="px-4 py-2 border-b">{{ $item->category->name }}</td>
+                                    <td class="px-4 py-2 border-b">
+                                        <div class="flex flex-wrap gap-2">
+                                            {{-- Edit button --}}
+                                            <a href="{{ route('admin.product.edit', $item->id) }}"
+                                                class="px-4 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition">
+                                                Edit
+                                            </a>
 
-                                        {{-- Delete button --}}
-                                        <form action="{{ route('admin.product.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                class="px-4 py-1 bg-red-500 text-white text-xs font-medium rounded hover:bg-red-600 transition">
-                                                Delete
+                                            {{-- Delete button --}}
+                                            <form action="{{ route('admin.product.destroy', $item->id) }}" method="POST"
+                                                onsubmit="return confirm('Are you sure you want to delete?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="px-4 py-1 bg-red-500 text-white text-xs font-medium rounded hover:bg-red-600 transition">
+                                                    Delete
+                                                </button>
+                                            </form>
+
+                                            {{-- View Details button --}}
+                                            <a href="{{ route('admin.product.show', $item->id) }}"
+                                                class="px-4 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">
+                                                View Details
+                                            </a>
+
+                                            {{-- Quick View button --}}
+                                            <button type="button"
+                                                class="px-4 py-1 bg-gray-500 text-white text-xs font-medium rounded hover:bg-gray-600 transition btn-view-product"
+                                                data-id="{{ $item->id }}"
+                                                data-url="{{ route('admin.product.show', $item->id) }}">
+                                                Quick View
                                             </button>
-                                        </form>
-
-                                        {{-- View Details button --}}
-                                        <a href="{{ route('admin.product.show', $item->id) }}"
-                                            class="px-4 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">
-                                            View Details
-                                        </a>
-
-                                        {{-- Quick View button --}}
-                                        <button type="button"
-                                            class="px-4 py-1 bg-gray-500 text-white text-xs font-medium rounded hover:bg-gray-600 transition btn-view-product"
-                                            data-id="{{ $item->id }}"
-                                            data-url="{{ route('admin.product.show', $item->id) }}">
-                                            Quick View
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
+                                        </div>
+                                    </td>
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -118,57 +124,80 @@
             document.getElementById('productDetail').classList.add('hidden');
             document.getElementById('productOverlay').classList.add('hidden');
 
-            // Handle quick view click
-            document.querySelectorAll('.btn-view-product').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const url = this.dataset.url + '?ajax=1';
+            // Hàm gán lại sự kiện cho các nút trong bảng
+            function bindProductTableEvents() {
+                document.querySelectorAll('.btn-view-product').forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const url = this.dataset.url + '?ajax=1';
 
-                    // Set loading state
-                    document.getElementById('product-view-id').textContent = 'Loading...';
-                    document.getElementById('product-view-name').textContent = 'Loading...';
-                    document.getElementById('product-view-description').innerHTML = 'Loading...';
-                    document.getElementById('product-view-price').textContent = 'Loading...';
-                    document.getElementById('product-view-quantity').textContent = 'Loading...';
-                    document.getElementById('product-view-category').textContent = 'Loading...';
-                    document.getElementById('product-view-image').src = '';
+                        // Set loading state
+                        document.getElementById('product-view-id').textContent = 'Loading...';
+                        document.getElementById('product-view-name').textContent = 'Loading...';
+                        document.getElementById('product-view-description').innerHTML =
+                        'Loading...';
+                        document.getElementById('product-view-price').textContent = 'Loading...';
+                        document.getElementById('product-view-quantity').textContent = 'Loading...';
+                        document.getElementById('product-view-category').textContent = 'Loading...';
+                        document.getElementById('product-view-image').src = '';
 
-                    // Show modal and overlay
-                    document.getElementById('productDetail').classList.remove('hidden');
-                    document.getElementById('productOverlay').classList.remove('hidden');
+                        // Show modal and overlay
+                        document.getElementById('productDetail').classList.remove('hidden');
+                        document.getElementById('productOverlay').classList.remove('hidden');
 
-                    // Fetch product data via AJAX
-                    fetch(url, {
-                        method: 'GET',
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest',
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                    .then(response => {
-                        if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                        const contentType = response.headers.get('Content-Type') || '';
-                        if (!contentType.includes('application/json')) throw new Error('Response is not JSON');
-                        return response.json();
-                    })
-                    .then(data => {
-                        if (data.success === false) throw new Error(data.message || 'Server returned error');
-                        document.getElementById('product-view-id').textContent = data.id || 'N/A';
-                        document.getElementById('product-view-name').textContent = data.name || 'N/A';
-                        document.getElementById('product-view-description').innerHTML = data.descriptions || '<em>No description available</em>';
-                        document.getElementById('product-view-price').textContent = data.price || 'N/A';
-                        document.getElementById('product-view-quantity').textContent = data.stock_quantity || 'N/A';
-                        document.getElementById('product-view-category').textContent = data.category_name || 'N/A';
-                        document.getElementById('product-view-image').src = data.image_url || '/images/base.jpg';
-                    })
-                    .catch(error => {
-                        alert('An error occurred while loading product information: ' + error.message);
-                        document.getElementById('productDetail').classList.add('hidden');
-                        document.getElementById('productOverlay').classList.add('hidden');
+                        // Fetch product data via AJAX
+                        fetch(url, {
+                                method: 'GET',
+                                headers: {
+                                    'X-Requested-With': 'XMLHttpRequest',
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json'
+                                }
+                            })
+                            .then(response => {
+                                if (!response.ok) throw new Error(
+                                    `HTTP ${response.status}: ${response.statusText}`);
+                                const contentType = response.headers.get('Content-Type') || '';
+                                if (!contentType.includes('application/json')) throw new Error(
+                                    'Response is not JSON');
+                                return response.json();
+                            })
+                            .then(data => {
+                                if (data.success === false) throw new Error(data.message ||
+                                    'Server returned error');
+                                document.getElementById('product-view-id').textContent = data
+                                    .id ||
+                                    'N/A';
+                                document.getElementById('product-view-name').textContent = data
+                                    .name || 'N/A';
+                                document.getElementById('product-view-description').innerHTML =
+                                    data
+                                    .descriptions || '<em>No description available</em>';
+                                document.getElementById('product-view-price').textContent = data
+                                    .price || 'N/A';
+                                document.getElementById('product-view-quantity').textContent =
+                                    data
+                                    .stock_quantity || 'N/A';
+                                document.getElementById('product-view-category').textContent =
+                                    data
+                                    .category_name || 'N/A';
+                                document.getElementById('product-view-image').src = data
+                                    .image_url || '/images/base.jpg';
+                            })
+                            .catch(error => {
+                                alert('An error occurred while loading product information: ' +
+                                    error.message);
+                                document.getElementById('productDetail').classList.add(
+                                'hidden');
+                                document.getElementById('productOverlay').classList.add(
+                                    'hidden');
+                            });
                     });
                 });
-            });
+            }
+
+            // Gán sự kiện lần đầu khi trang load
+            bindProductTableEvents();
 
             // Close modal when clicking close button or overlay
             document.getElementById('closeProductDetail').addEventListener('click', function() {
@@ -180,20 +209,21 @@
                 document.getElementById('productOverlay').classList.add('hidden');
             });
 
-            // Client-side search
-            document.getElementById('searchProductInput').addEventListener('input', function() {
-                const keyword = this.value.toLowerCase();
-                const rows = document.querySelectorAll('table tbody tr');
-                rows.forEach(row => {
-                    const id = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
-                    const name = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
-                    const desc = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
-                    if (id.includes(keyword) || name.includes(keyword) || desc.includes(keyword)) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
-                });
+            // Filter sản phẩm
+            document.getElementById('productSearchForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const keyword = document.getElementById('searchProductInput').value.trim();
+                fetch('{{ route('admin.product.search') }}?query=' + encodeURIComponent(keyword), {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        document.querySelector('table tbody').innerHTML = data.html;
+                        // Gán lại sự kiện cho các nút sau khi filter
+                        bindProductTableEvents();
+                    });
             });
         });
     </script>

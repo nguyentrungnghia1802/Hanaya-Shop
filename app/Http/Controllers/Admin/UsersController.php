@@ -165,4 +165,40 @@ class UsersController extends Controller
 
         return view('admin.users.show', compact('user', 'orders', 'carts'));
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query', '');
+
+        $users = User::where('role', 'user')
+            ->where(function ($q) use ($query) {
+                $q->where('name', 'LIKE', "%{$query}%")
+                    ->orWhere('email', 'LIKE', "%{$query}%");
+            })
+            ->get();
+
+        $html = '';
+        if ($users->count() > 0) {
+            foreach ($users as $user) {
+                $html .= '<tr>
+                    <td class="px-4 py-2 border-b"><input type="checkbox" class="check-user" value="' . $user->id . '"></td>
+                    <td class="px-4 py-2 border-b">' . $user->id . '</td>
+                    <td class="px-4 py-2 border-b">' . e($user->name) . '</td>
+                    <td class="px-4 py-2 border-b">' . e($user->email) . '</td>
+                    <td class="px-4 py-2 border-b">
+                        <div class="flex flex-wrap gap-2">
+                            <a href="' . route('admin.user.edit', $user->id) . '" class="px-3 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition">Edit</a>
+                            <button type="button" class="px-3 py-1 bg-red-500 text-white text-xs font-medium rounded hover:bg-red-600 transition btn-delete" data-id="' . $user->id . '">Delete</button>
+                            <a href="' . route('admin.user.show', $user->id) . '" class="px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">View Details</a>
+                        </div>
+                    </td>
+                </tr>';
+            }
+        } else {
+            $html = '<tr><td colspan="5" class="text-center py-4 text-gray-500">No users found.</td></tr>';
+        }
+
+        return response()->json(['html' => $html]);
+    }
+
 }
