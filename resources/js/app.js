@@ -1,5 +1,9 @@
 import "./bootstrap";
 import "./category-search";
+// import "./category-form";
+// import "./category-delete";
+// import "./category-edit";
+// import "./category-search";
 
 import Alpine from "alpinejs";
 
