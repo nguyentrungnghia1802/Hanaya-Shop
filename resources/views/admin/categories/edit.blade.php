@@ -79,4 +79,39 @@
             </button>
         </div>
     </form>
+
+    <!-- Add JavaScript for Cancel button -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle Cancel button click
+            document.getElementById('cancelBtn').addEventListener('click', function() {
+                if (confirm('Are you sure you want to cancel? Any unsaved changes will be lost.')) {
+                    window.location.href = '{{ route('admin.category') }}';
+                }
+            });
+
+            // Optional: Handle image preview when file is selected
+            document.getElementById('imageInput').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const preview = document.getElementById('previewImage');
+                        if (preview) {
+                            preview.src = e.target.result;
+                        } else {
+                            // Create new preview image if doesn't exist
+                            const img = document.createElement('img');
+                            img.id = 'previewImage';
+                            img.src = e.target.result;
+                            img.width = 150;
+                            img.alt = 'Category Image Preview';
+                            document.getElementById('imageInput').insertAdjacentElement('afterend', img);
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    </script>
 @endsection
