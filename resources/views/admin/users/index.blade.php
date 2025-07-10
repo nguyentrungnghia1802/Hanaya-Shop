@@ -1,14 +1,12 @@
 @extends('layouts.admin')
 
 @section('header')
-    <!-- Page header -->
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
         {{ __('Users') }}
     </h2>
 @endsection
 
 @section('content')
-    <!-- Success message alert -->
     <div id="successMsg"
         class="hidden fixed bottom-5 right-5 bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded mb-4">
         Operation successful!
@@ -18,6 +16,10 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
+                    <!-- Search input field -->
+                    <input type="text" id="searchInput" placeholder="Search for a user..."
+                        class="border px-3 py-2 rounded mb-4 w-full max-w-sm">
+
                     <!-- Action buttons -->
                     <div class="mb-4 flex flex-wrap gap-2">
                         <a href="{{ route('admin.user.create') }}"
@@ -76,7 +78,6 @@
         </div>
     </div>
 
-    <!-- JavaScript for delete actions -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Toggle all checkboxes
@@ -85,28 +86,32 @@
             });
 
             // Delete a single user
-            document.querySelectorAll('.btn-delete').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    if (confirm('Are you sure you want to delete this account?')) {
-                        fetch('{{ route('admin.user.destroy') }}', {
-                            method: 'DELETE',
-                            headers: {
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                ids: [this.dataset.id]
-                            })
-                        }).then(res => res.json()).then(data => {
-                            if (data.success) location.reload();
-                        });
-                    }
+            function bindDeleteButtons() {
+                document.querySelectorAll('.btn-delete').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        if (confirm('Are you sure you want to delete this account?')) {
+                            fetch('{{ route('admin.user.destroy') }}', {
+                                method: 'DELETE',
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    ids: [this.dataset.id]
+                                })
+                            }).then(res => res.json()).then(data => {
+                                if (data.success) location.reload();
+                            });
+                        }
+                    });
                 });
-            });
+            }
+            bindDeleteButtons();
 
             // Delete multiple selected users
             document.getElementById('btn-delete-multi').addEventListener('click', function() {
-                const ids = Array.from(document.querySelectorAll('.check-user:checked')).map(cb => cb.value);
+                const ids = Array.from(document.querySelectorAll('.check-user:checked')).map(cb => cb
+                .value);
                 if (ids.length === 0) return alert('Please select at least one account to delete!');
                 if (confirm('Are you sure you want to delete the selected accounts?')) {
                     fetch('{{ route('admin.user.destroy') }}', {
@@ -115,12 +120,41 @@
                             'X-CSRF-TOKEN': '{{ csrf_token() }}',
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({ ids })
+                        body: JSON.stringify({
+                            ids
+                        })
                     }).then(res => res.json()).then(data => {
                         if (data.success) location.reload();
                     });
                 }
             });
+
+            // Search filter: show/hide rows based on input
+            document.getElementById('searchInput').addEventListener('input', function() {
+    const keyword = this.value.trim().toLowerCase();
+    const rows = document.querySelectorAll('table tbody tr');
+
+    rows.forEach(row => {
+        const tds = row.querySelectorAll('td');
+        if (tds.length < 5) {
+            row.style.display = 'none';
+            return;
+        }
+        const id = (tds[1].innerText || '').trim().toLowerCase();
+        const name = (tds[2].innerText || '').trim().toLowerCase();
+        const email = (tds[3].innerText || '').trim().toLowerCase();
+
+        if (
+            id.includes(keyword) ||
+            name.includes(keyword) ||
+            email.includes(keyword)
+        ) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+});
         });
     </script>
 @endsection
