@@ -15,9 +15,10 @@ use App\Http\Controllers\User\DashboardController as UserDashboardController;
 
 
 
-Route::get('/', function () {
-    return view('page.dashboard');
-});
+
+
+Route::get('/', [UserDashboardController::class, 'index'])->name('dashboard');
+
 
 Route::middleware(['auth'])->group(function () {
     // Route for user
