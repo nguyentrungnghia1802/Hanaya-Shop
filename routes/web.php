@@ -15,9 +15,7 @@ use App\Http\Controllers\User\DashboardController as UserDashboardController;
 
 
 
-Route::get('/', function () {
-    return view('page.dashboard');
-});
+// Route::get('/', [UserDashboardController::class, 'index'])->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
     // Route for user
@@ -50,7 +48,7 @@ Route::middleware(['auth'])->group(function () {
 use App\Http\Middleware\IsAdmin;
 
 Route::middleware(['auth', IsAdmin::class])->prefix(prefix: 'admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/product', [ProductsController::class, 'index'])->name('product');
     Route::get('/product/create', [ProductsController::class, 'create'])->name('product.create');
@@ -62,7 +60,7 @@ Route::middleware(['auth', IsAdmin::class])->prefix(prefix: 'admin')->name('admi
 
     Route::get('/category/{id}/edit', [CategoriesController::class, 'edit'])->name('category.edit');
     Route::put('/category/{id}', [CategoriesController::class, 'update'])->name('category.update');
-    
+
     Route::get('/category/{id}', [CategoriesController::class, 'show'])->name('category.show');
     Route::delete('/category/{id}', [CategoriesController::class, 'destroy'])->name('category.destroy');
     Route::put('/category/{id}', [CategoriesController::class, 'update'])->name('category.update');
@@ -82,4 +80,4 @@ Route::middleware(['auth', IsAdmin::class])->prefix(prefix: 'admin')->name('admi
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
