@@ -19,9 +19,8 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = Cache::remember('admin_users_all', 600, function () {
-            return User::where('role', 'user')->get();
-        });
+        // Không dùng cache cho phân trang
+        $users = User::where('role', 'user')->paginate(20); // 20 user mỗi trang
         return view('admin.users.index', compact('users'));
     }
 

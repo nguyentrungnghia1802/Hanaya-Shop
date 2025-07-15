@@ -87,7 +87,10 @@
                             @endforeach
                         </tbody>
                     </table>
-
+                    {{-- Pagination links --}}
+                    <div class="mt-6 flex justify-center">
+                        {{ $categories->links() }}
+                    </div>
                 </div>
             </div>
         </div>
