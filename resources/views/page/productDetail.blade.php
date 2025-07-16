@@ -30,16 +30,22 @@
                     </div>
                 </div>
                 <form id="add-to-cart-form" action="{{ route('cart.add', $product->id) }}" method="POST" class="inline">
-    @csrf
-    <input type="hidden" name="quantity" id="form-quantity" value="1">
-    <button type="submit" class="bg-pink-600 hover:bg-pink-700 text-white px-6 py-2 rounded shadow">
-        Thêm vào giỏ
-    </button>
-</form>
+                    @csrf
+                    <input type="hidden" name="quantity" id="form-quantity" value="1">
+                    <button type="submit" class="bg-pink-600 hover:bg-pink-700 text-white px-6 py-2 rounded shadow">
+                        Thêm vào giỏ
+                    </button>
+                </form>
 
-                <button id="buy-button" class="bg-orange-600 hover:bg-orange-700 text-white px-6 py-2 rounded shadow">
-                    Mua ngay
-                </button>
+                <form action="{{ route('cart.buyNow') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                    <input type="hidden" name="quantity" value="1">
+                    <button type="submit" class="bg-orange-600 hover:bg-orange-700 text-white px-6 py-2 rounded shadow">Mua ngay</button>
+                </form>
+
+
+
 
             </div>
         </div>
@@ -82,6 +88,8 @@
     document.getElementById('add-to-cart-form').addEventListener('submit', function () {
         formQuantityInput.value = quantityInput.value;
     });
+
+    
 </script>
 
 </x-app-layout>
