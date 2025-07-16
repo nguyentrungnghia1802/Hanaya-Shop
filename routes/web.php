@@ -15,7 +15,10 @@ use App\Http\Controllers\User\DashboardController as UserDashboardController;
 
 
 
-// Route::get('/', [UserDashboardController::class, 'index'])->name('dashboard');
+
+
+Route::get('/', [UserDashboardController::class, 'index'])->name('dashboard');
+
 
 Route::middleware(['auth'])->group(function () {
     // Route for user
@@ -51,23 +54,33 @@ Route::middleware(['auth', IsAdmin::class])->prefix(prefix: 'admin')->name('admi
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/product', [ProductsController::class, 'index'])->name('product');
+    Route::get('/product/search', [ProductsController::class, 'search'])->name('product.search');
     Route::get('/product/create', [ProductsController::class, 'create'])->name('product.create');
     Route::post('/product', [ProductsController::class, 'store'])->name('product.store');
+    Route::delete('/product/{id}', [ProductsController::class, 'destroy'])->name('product.destroy');
+    Route::get('/product/{id}', [ProductsController::class, 'show'])->name('product.show');
+    Route::get('/product/{id}/edit', [ProductsController::class, 'edit'])->name('product.edit');
+    Route::put('/product/{id}', [ProductsController::class, 'update'])->name('product.update');
+
 
     Route::get('/category', [CategoriesController::class, 'index'])->name('category');
+    Route::get('/category/search', [CategoriesController::class, 'search'])->name('category.search');
     Route::get('/category/create', [CategoriesController::class, 'create'])->name('category.create');
     Route::post('/category', [CategoriesController::class, 'store'])->name('category.store');
-
     Route::get('/category/{id}/edit', [CategoriesController::class, 'edit'])->name('category.edit');
     Route::put('/category/{id}', [CategoriesController::class, 'update'])->name('category.update');
-
     Route::get('/category/{id}', [CategoriesController::class, 'show'])->name('category.show');
     Route::delete('/category/{id}', [CategoriesController::class, 'destroy'])->name('category.destroy');
-    Route::put('/category/{id}', [CategoriesController::class, 'update'])->name('category.update');
-    Route::get('/category/search', [CategoriesController::class, 'search'])->name('category.search');
 
 
     Route::get('/user', [UsersController::class, 'index'])->name('user');
+    Route::get('/user/search', [UsersController::class, 'search'])->name('user.search');    
+    Route::get('/user/create', [UsersController::class, 'create'])->name('user.create');
+    Route::post('/user', [UsersController::class, 'store'])->name('user.store');
+    Route::get('/user/{id}/edit', [UsersController::class, 'edit'])->name('user.edit');
+    Route::put('/user/{id}', [UsersController::class, 'update'])->name('user.update');
+    Route::delete('/user', [UsersController::class, 'destroy'])->name('user.destroy'); // Xóa nhiều
+    Route::get('/user/{id}', [UsersController::class, 'show'])->name('user.show');
 
     Route::get('/order', [OrdersController::class, 'index'])->name('order');
 
