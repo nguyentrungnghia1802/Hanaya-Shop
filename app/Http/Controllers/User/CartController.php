@@ -80,4 +80,30 @@ class CartController extends Controller
 
         return redirect()->back()->with('success', 'Đã xoá sản phẩm khỏi giỏ hàng.');
     }
+
+    public function buyNow(Request $request)
+{
+    $productId = $request->input('product_id');
+    $sessionId = Session::getId();
+
+    $product = Product::findOrFail($productId);
+    $existing = Cart::where('session_id', $sessionId)
+        ->where('product_id', $product->id)
+        ->first();
+
+    if ($existing) {
+        $existing->quantity += $request->input('quantity', 1);
+        $existing->save();
+    } else {
+        Cart::create([
+            'product_id' => $product->id,
+            'quantity'   => $request->input('quantity', 1),
+            'session_id' => $sessionId,
+        ]);
+    }
+
+    return redirect()->route('cart.index')->with('product_id', $product->id);
+}
+
+
 }
