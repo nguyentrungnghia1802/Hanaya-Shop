@@ -22,3 +22,7 @@ mysql -u root -p hanaya_shop_demo < .\database\sql\sample_data.sql
 *************************
 
 1, Phát triển ứng dụng theo mô hình Incremental Development + Agile
+
+*************************
+Về test:
+1. 
