@@ -11,8 +11,8 @@ use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\User\soapFlowerController;
 use App\Http\Controllers\User\CartController;
-use App\Http\Controllers\User\DashboardController as UserDashboardController;
-
+use App\Http\Controllers\User\CheckoutController;
+use App\Http\Controllers\User\OrderController;
 
 
 
@@ -45,6 +45,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
     Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::post('/cart', [CartController::class,'buyNow'])->name('cart.buyNow');
+
+
+    Route::post('/checkout-preview', [CheckoutController::class, 'preview'])->name('checkout.preview');
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+
+    Route::post('/checkout', [OrderController::class, 'store'])->name('checkout.store');
+    Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
+    
 });
 
 // Admin
