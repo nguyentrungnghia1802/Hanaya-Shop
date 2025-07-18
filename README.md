@@ -1,4 +1,5 @@
 
+
 # 🌸 Hanaya Shop
 
 <details>
@@ -36,12 +37,17 @@ ECサイト構築の実務経験をアピールするために開発しました
 
 ---
 
-## 🛠️ 技術スタック
+## 🛠️ 技術スタックと効果
 
-- **PHP 8.2**, **Laravel 12.2** – バックエンドAPI・管理システム
-- **MySQL** – 商品・ユーザー・注文データ管理
-- **Bladeテンプレート** – サーバーサイドレンダリング
-- **Docker Compose** – Laravel + MySQLの迅速な環境構築
+- **PHP 8.2**: 最新のPHPバージョンを採用し、セキュリティ・パフォーマンス・保守性を向上。
+- **Laravel 12.2**: モダンなMVCフレームワーク。高速な開発、堅牢な認証・権限管理、RESTful API設計、テスト容易性。
+- **MySQL**: 信頼性の高いリレーショナルデータベース。大量データの高速処理、トランザクション管理。
+- **Bladeテンプレート**: サーバーサイドレンダリングでSEO・パフォーマンス最適化。再利用性の高いUIコンポーネント。
+- **Docker Compose**: 開発・本番環境の自動構築。依存関係の一元管理、環境差異の排除、CI/CD対応。
+- **Tailwind CSS**: ユーザー体験を高めるモダンなUI設計。レスポンシブ対応。
+- **PHPUnit**: 単体・機能テストで品質担保。
+
+これらの技術により、開発効率・保守性・拡張性・セキュリティ・パフォーマンスが大幅に向上しています。
 
 ---
 
@@ -72,9 +78,30 @@ hanaya-shop/
 - 管理画面・顧客画面の両方を考慮したUI/UX設計
 - 拡張性・保守性を意識したディレクトリ構成
 
+---
+
+## 🚀 利用方法
+
+1. 必要なツール: [Docker Desktop](https://www.docker.com/products/docker-desktop/) をインストール
+2. プロジェクトディレクトリで以下を実行:
+   ```bash
+   docker-compose up --build
+   ```
+3. ブラウザで `http://localhost:8000` にアクセス
+4. 管理画面: `/admin` からログイン
+5. サンプルデータ投入:
+   ```bash
+   docker-compose exec app php artisan migrate --seed
+   ```
+6. テスト実行:
+   ```bash
+   docker-compose exec app php artisan test
+   ```
+
+詳細は `README.md` 内の各セクションをご参照ください。
+
 </details>
 
----
 
 <details>
 <summary><strong>🇺🇸 English</strong></summary>
@@ -111,12 +138,17 @@ This project demonstrates practical experience in building scalable e-commerce p
 
 ---
 
-## 🛠️ Technology Stack
+## 🛠️ Technology Stack & Benefits
 
-- **PHP 8.2**, **Laravel 12.2** – Backend API & management system
-- **MySQL** – Data storage for products, users, orders
-- **Blade template** – Server-side rendering
-- **Docker Compose** – Fast setup for Laravel + MySQL environment
+- **PHP 8.2**: Latest version for improved security, performance, and maintainability.
+- **Laravel 12.2**: Modern MVC framework enabling rapid development, robust authentication/authorization, RESTful API design, and easy testing.
+- **MySQL**: Reliable relational database for fast processing and transaction management.
+- **Blade template**: Server-side rendering for SEO and performance, reusable UI components.
+- **Docker Compose**: Automated environment setup, unified dependency management, eliminates environment differences, CI/CD ready.
+- **Tailwind CSS**: Modern UI design, responsive and user-friendly experience.
+- **PHPUnit**: Unit and feature testing for quality assurance.
+
+These technologies ensure high development efficiency, maintainability, scalability, security, and performance.
 
 ---
 
@@ -147,9 +179,30 @@ hanaya-shop/
 - Thoughtful UI/UX for both admin and customer sides
 - Scalable and maintainable project structure
 
+---
+
+## 🚀 Getting Started
+
+1. Prerequisite: Install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+2. In the project directory, run:
+   ```bash
+   docker-compose up --build
+   ```
+3. Open your browser and go to `http://localhost:8000`
+4. Admin dashboard: access via `/admin`
+5. Seed sample data:
+   ```bash
+   docker-compose exec app php artisan migrate --seed
+   ```
+6. Run tests:
+   ```bash
+   docker-compose exec app php artisan test
+   ```
+
+See each section in `README.md` for more details.
+
 </details>
 
----
 
 <details>
 <summary><strong>🇻🇳 Tiếng Việt</strong></summary>
@@ -186,12 +239,17 @@ Dự án này thể hiện kinh nghiệm thực tế xây dựng nền tảng th
 
 ---
 
-## 🛠️ Công nghệ sử dụng
+## 🛠️ Công nghệ sử dụng & Hiệu quả
 
-- **PHP 8.2**, **Laravel 12.2** – Backend API & hệ thống quản lý
-- **MySQL** – Lưu trữ dữ liệu sản phẩm, người dùng, đơn hàng
-- **Blade template** – Giao diện server-side
-- **Docker Compose** – Triển khai môi trường Laravel + MySQL nhanh chóng
+- **PHP 8.2**: Phiên bản mới nhất, tăng bảo mật, hiệu năng và dễ bảo trì.
+- **Laravel 12.2**: Framework hiện đại, phát triển nhanh, xác thực/ủy quyền mạnh mẽ, API RESTful, dễ kiểm thử.
+- **MySQL**: CSDL quan hệ, xử lý dữ liệu lớn, quản lý giao dịch hiệu quả.
+- **Blade template**: Giao diện server-side, tối ưu SEO, hiệu năng, tái sử dụng UI.
+- **Docker Compose**: Tự động hóa môi trường, quản lý phụ thuộc, loại bỏ lỗi môi trường, sẵn sàng CI/CD.
+- **Tailwind CSS**: UI hiện đại, responsive, nâng cao trải nghiệm người dùng.
+- **PHPUnit**: Đảm bảo chất lượng qua kiểm thử đơn vị và chức năng.
+
+Những công nghệ này giúp dự án đạt hiệu quả cao về tốc độ phát triển, bảo trì, mở rộng, bảo mật và hiệu năng.
 
 ---
 
@@ -221,6 +279,28 @@ hanaya-shop/
 - Tự động hóa môi trường phát triển & triển khai với Docker
 - UI/UX tối ưu cho cả admin và khách hàng
 - Cấu trúc dự án rõ ràng, dễ bảo trì
+
+---
+
+## 🚀 Hướng dẫn sử dụng
+
+1. Cài đặt [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+2. Trong thư mục dự án, chạy:
+   ```bash
+   docker-compose up --build
+   ```
+3. Mở trình duyệt và truy cập `http://localhost:8000`
+4. Đăng nhập admin tại `/admin`
+5. Tạo dữ liệu mẫu:
+   ```bash
+   docker-compose exec app php artisan migrate --seed
+   ```
+6. Chạy kiểm thử:
+   ```bash
+   docker-compose exec app php artisan test
+   ```
+
+Xem chi tiết từng phần trong `README.md`.
 
 </details>
 
