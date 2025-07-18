@@ -62,7 +62,6 @@
                                                 class="px-4 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition">
                                                 Edit
                                             </a>
-
                                             {{-- Delete button --}}
                                             <form action="{{ route('admin.product.destroy', $item->id) }}" method="POST"
                                                 onsubmit="return confirm('Are you sure you want to delete?');">
@@ -73,13 +72,11 @@
                                                     Delete
                                                 </button>
                                             </form>
-
                                             {{-- View Details button --}}
                                             <a href="{{ route('admin.product.show', $item->id) }}"
                                                 class="px-4 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">
                                                 View Details
                                             </a>
-
                                             {{-- Quick View button --}}
                                             <button type="button"
                                                 class="px-4 py-1 bg-gray-500 text-white text-xs font-medium rounded hover:bg-gray-600 transition btn-view-product"
@@ -95,6 +92,10 @@
                     </table>
                 </div>
             </div>
+        </div>
+        {{-- Pagination links --}}
+        <div class="mt-6 flex justify-center">
+            {{ $products->links() }}
         </div>
     </div>
 

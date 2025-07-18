@@ -23,17 +23,20 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     @endauth
-                    <x-nav-link :href="route('soapFlower')" :active="request()->routeIs('soapFlower')">
+                    <x-nav-link :href="route('soapFlower')" :active="request()->routeIs('soapFlower*')">
                         {{ __('Soap Flower') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('paperFlower')" :active="request()->routeIs('paperFlower')">
+                    <x-nav-link :href="route('paperFlower')" :active="request()->routeIs('paperFlower*')">
                         {{ __('Paper Flower') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('souvenir')" :active="request()->routeIs('souvenir')">
+                    <x-nav-link :href="route('souvenir')" :active="request()->routeIs('souvenir*')">
                         {{ __('Souvenir Gift') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('cart.index')" :active="request()->routeIs('cart')">
+                    <x-nav-link :href="route('cart.index')" :active="request()->routeIs('cart*')">
                         {{ __('Cart') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('cart.index')" :active="request()->routeIs('cart*')">
+                        {{ __('Order') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -128,16 +131,16 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard*')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('soapFlower')" :active="request()->routeIs('soapFlower')">
+            <x-responsive-nav-link :href="route('soapFlower')" :active="request()->routeIs('soapFlower*')">
                 {{ __('Soap Flower') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('paperFlower')" :active="request()->routeIs('paperFlower')">
+            <x-responsive-nav-link :href="route('paperFlower')" :active="request()->routeIs('paperFlower*')">
                 {{ __('Paper Flower') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('souvenir')" :active="request()->routeIs('souvenir')">
+            <x-responsive-nav-link :href="route('souvenir')" :active="request()->routeIs('souvenir*')">
                 {{ __('Souvenir Gift') }}
             </x-responsive-nav-link>
         </div>

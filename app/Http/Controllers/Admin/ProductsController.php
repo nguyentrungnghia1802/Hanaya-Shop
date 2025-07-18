@@ -16,10 +16,8 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products = Cache::remember('admin_products_all', 3600, function () {
-            return Product::with('category')->get(); // Eager load categories
-        });
-
+        // Không dùng cache cho phân trang
+        $products = Product::with('category')->paginate(20); // 20 sản phẩm mỗi trang
         return view('admin.products.index', [
             'products' => $products,
         ]);
