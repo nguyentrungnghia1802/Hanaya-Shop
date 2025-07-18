@@ -18,6 +18,11 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @if(Auth::user() && Auth::user()->role === 'admin')
+                        <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+                            {{ __('Admin Dashboard') }}
+                        </x-nav-link>
+                    @endif
                     @else
                     <x-nav-link :href="url('/')" :active="request()->is('/')">
                         {{ __('Dashboard') }}
@@ -134,6 +139,13 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard*')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            @auth
+                @if(Auth::user()->role === 'admin')
+                    <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+                        {{ __('Admin Dashboard') }}
+                    </x-responsive-nav-link>
+                @endif
+            @endauth
             <x-responsive-nav-link :href="route('soapFlower')" :active="request()->routeIs('soapFlower*')">
                 {{ __('Soap Flower') }}
             </x-responsive-nav-link>
