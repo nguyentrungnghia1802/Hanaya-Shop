@@ -1,3 +1,11 @@
+@php
+    $total = 0;
+    if (isset($selectedItems) && is_array($selectedItems)) {
+        foreach ($selectedItems as $item) {
+            $total += $item['subtotal'] ?? 0;
+        }
+    }
+@endphp
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
