@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\IsAdmin;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
