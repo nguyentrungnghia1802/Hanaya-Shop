@@ -137,6 +137,12 @@
             <x-responsive-nav-link :href="route('souvenir')" :active="request()->routeIs('souvenir*')">
                 {{ __('Souvenir Gift') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('cart.index')" :active="request()->routeIs('cart*')">
+                {{ __('Cart') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('cart.index')" :active="request()->routeIs('cart*')">
+                {{ __('Order') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
