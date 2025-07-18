@@ -14,12 +14,6 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard*')">
-                        {{ __('Admin Dashboard') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('User Dashboard') }}
-                    </x-nav-link>
                     <x-nav-link :href="route('admin.product')" :active="request()->routeIs('admin.product*')">
                         {{ __('Products') }}
                     </x-nav-link>
@@ -64,14 +58,19 @@
                         <x-dropdown-link :href="route('admin.profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
-
+                        <x-dropdown-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard*')">
+                            {{ __('Admin Dashboard') }}
+                        </x-dropdown-link>
+                        <x-dropdown-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            {{ __('User Dashboard') }}
+                        </x-dropdown-link>
                         <!-- Authentication -->
-<form method="POST" action="{{ route('logout') }}">
-    @csrf
-    <button type="submit" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-        {{ __('Log Out') }}
-    </button>
-</form>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                {{ __('Log Out') }}
+                            </button>
+                        </form>
                     </x-slot>
                 </x-dropdown>
             </div>
@@ -96,9 +95,6 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard*')">
-                {{ __('Admin Dashboard') }}
-            </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('admin.product')" :active="request()->routeIs('admin.product*')">
                 {{ __('Products') }}
             </x-responsive-nav-link>
@@ -127,17 +123,22 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
+                <x-responsive-nav-link :href="route('admin.profile.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
-
+                <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard*')">
+                    {{ __('Admin Dashboard') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    {{ __('User Dashboard') }}
+                </x-responsive-nav-link>
                 <!-- Authentication -->
-<form method="POST" action="{{ route('logout') }}">
-    @csrf
-    <button type="submit" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-        {{ __('Log Out') }}
-    </button>
-</form>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        {{ __('Log Out') }}
+                    </button>
+                </form>
             </div>
         </div>
     </div>
