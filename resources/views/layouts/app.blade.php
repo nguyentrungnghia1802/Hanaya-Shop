@@ -93,6 +93,14 @@
                 document.getElementById('pageLoadingOverlay').style.display = 'flex';
             });
         });
+        // Khi bấm nút Delete Account trong modal, tắt overlay loading ngay lập tức
+        document.querySelectorAll('button').forEach(btn => {
+            if (btn.textContent.trim() === 'Delete Account') {
+                btn.addEventListener('click', function() {
+                    document.getElementById('pageLoadingOverlay').style.display = 'none';
+                });
+            }
+        });
     });
     </script>
 </body>
