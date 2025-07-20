@@ -40,8 +40,7 @@
                     <table class="min-w-full table-auto border border-gray-300 text-sm">
                         <thead class="bg-gray-100 text-gray-700 uppercase text-left">
                             <tr>
-                                <th class="px-4 py-2 border-b"><input type="checkbox" id="checkAll"></th>
-                                <th class="px-4 py-2 border-b">ID</th>
+                                <th class="px-4 py-2 border-b">STT</th>
                                 <th class="px-4 py-2 border-b">Name</th>
                                 <th class="px-4 py-2 border-b">Email</th>
                                 <th class="px-4 py-2 border-b">Role</th>
@@ -49,12 +48,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($users as $user)
+                            @foreach ($users as $index => $user)
                                 <tr>
-                                    <td class="px-4 py-2 border-b">
-                                        <input type="checkbox" class="check-user" value="{{ $user->id }}">
-                                    </td>
-                                    <td class="px-4 py-2 border-b">{{ $user->id }}</td>
+                                    <td class="px-4 py-2 border-b">{{ ($users->currentPage() - 1) * $users->perPage() + $index + 1 }}</td>
                                     <td class="px-4 py-2 border-b">{{ $user->name }}</td>
                                     <td class="px-4 py-2 border-b">{{ $user->email }}</td>
                                     <td class="px-4 py-2 border-b">{{ $user->role }}</td>
