@@ -8,8 +8,18 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto py-8">
-    <div class="mb-6 flex justify-between items-center">
+    <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <a href="{{ route('admin.post.create') }}" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 font-semibold">Thêm bài viết mới</a>
+        
+        <!-- Form tìm kiếm -->
+        <form method="GET" action="{{ route('admin.post.index') }}" class="flex gap-2">
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Tìm kiếm bài viết..." class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Tìm kiếm</button>
+            @if(request('search'))
+                <a href="{{ route('admin.post.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Xóa bộ lọc</a>
+            @endif
+        </form>
+        
         @if(session('success'))
             <div class="text-green-600 font-semibold">{{ session('success') }}</div>
         @endif
@@ -55,6 +65,6 @@
             </tbody>
         </table>
     </div>
-    <div class="mt-6">{{ $posts->links() }}</div>
+    <div class="mt-6">{{ $posts->appends(request()->query())->links() }}</div>
 </div>
 @endsection

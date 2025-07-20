@@ -22,3 +22,10 @@ mysql -u root -p hanaya_shop_demo < .\database\sql\sample_data.sql
 *************************
 
 1, Phát triển ứng dụng theo mô hình Incremental Development + Agile
+
+*****************
+
+Cách Sử dụng API của Tiny để viết Content của Posts:
+Bước 1: Đăng nhập vào trang https://www.tiny.cloud/my-account/domains/
+Bước 2: Thêm domain của ứng dụng.
+Bước 3: Trở lại và sử dụng.

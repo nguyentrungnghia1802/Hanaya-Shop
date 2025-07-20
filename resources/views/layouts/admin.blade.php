@@ -13,6 +13,100 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
+    <!-- CSS cho CKEditor & TinyMCE content -->
+    <style>
+        .ck-editor__editable_inline {
+            min-height: 350px;
+        }
+        .ck.ck-toolbar {
+            border-top: 1px solid #c4c4c4;
+            border-left: 1px solid #c4c4c4;
+            border-right: 1px solid #c4c4c4;
+        }
+        .ck.ck-editor__main > .ck-editor__editable {
+            border-left: 1px solid #c4c4c4;
+            border-right: 1px solid #c4c4c4;
+            border-bottom: 1px solid #c4c4c4;
+        }
+
+        /* TinyMCE content style fix - Bỏ CSS làm mất format */
+        .prose {
+            color: #374151;
+            max-width: none;
+        }
+        .prose h1 {
+            font-size: 2.25em;
+            font-weight: 800;
+            line-height: 1.1111111;
+            margin-top: 0;
+            margin-bottom: 0.8888889em;
+        }
+        .prose h2 {
+            font-size: 1.875em;
+            font-weight: 700;
+            line-height: 1.3333333;
+            margin-top: 2em;
+            margin-bottom: 1em;
+        }
+        .prose h3 {
+            font-size: 1.5em;
+            font-weight: 600;
+            line-height: 1.6;
+            margin-top: 1.6em;
+            margin-bottom: 0.6em;
+        }
+        .prose strong, .prose b {
+            font-weight: 600;
+        }
+        .prose em, .prose i {
+            font-style: italic;
+        }
+        .prose ul, .prose ol {
+            margin-top: 1.25em;
+            margin-bottom: 1.25em;
+            padding-left: 1.625em;
+        }
+        .prose li {
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+        }
+        .prose blockquote {
+            font-weight: 500;
+            font-style: italic;
+            color: #374151;
+            border-left-width: 0.25rem;
+            border-left-color: #d1d5db;
+            quotes: "\201C""\201D""\2018""\2019";
+            margin-top: 1.6em;
+            margin-bottom: 1.6em;
+            padding-left: 1em;
+        }
+        .prose img {
+            margin-top: 2em;
+            margin-bottom: 2em;
+            max-width: 100%;
+            height: auto;
+        }
+        .prose p {
+            margin-top: 1.25em;
+            margin-bottom: 1.25em;
+        }
+        
+        /* TinyMCE image upload styling */
+        .tox .tox-dialog__body-content {
+            padding: 1rem;
+        }
+        .tox .tox-dialog__title {
+            color: #374151;
+            font-weight: 600;
+        }
+        .tox-dialog .tox-textfield {
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            padding: 0.5rem;
+        }
+    </style>
 </head>
 
 <body class="font-sans antialiased bg-gray-100">
@@ -40,91 +134,169 @@
         </main>
     </div>
 
-    <!-- Load CKEditor5 Full-featured từ CDN -->
-    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+    <!-- Load TinyMCE từ CDN - Editor đầy đủ tính năng -->
+    <script src="https://cdn.tiny.cloud/1/y1zo0i12q8i692ria3ibrw4baa79o7h6yaa1tgqpy03fwz1x/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const descriptionElement = document.querySelector('.description');
-            if (descriptionElement) {
-                // Tăng chiều cao textarea ban đầu
-                descriptionElement.style.minHeight = '400px';
+            tinymce.init({
+                selector: 'textarea.description',
+                height: 400,
+                menubar: false,
+                plugins: [
+                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                    'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                    'insertdatetime', 'media', 'table', 'help', 'wordcount'
+                ],
+                toolbar: 'undo redo | blocks | ' +
+                         'fontsize forecolor backcolor | bold italic underline strikethrough | ' +
+                         'alignleft aligncenter alignright alignjustify | ' +
+                         'bullist numlist outdent indent | ' +
+                         'image link | removeformat | help',
+                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+                font_size_formats: '8px 9px 10px 11px 12px 14px 16px 18px 20px 22px 24px 26px 28px 30px 32px 34px 36px',
+                color_map: [
+                    "000000", "Black",
+                    "993300", "Burnt orange",
+                    "333300", "Dark olive",
+                    "003300", "Dark green",
+                    "003366", "Dark azure",
+                    "000080", "Navy Blue",
+                    "333399", "Indigo",
+                    "333333", "Very dark gray",
+                    "800000", "Maroon",
+                    "FF6600", "Orange",
+                    "808000", "Olive",
+                    "008000", "Green",
+                    "008080", "Teal",
+                    "0000FF", "Blue",
+                    "666699", "Grayish blue",
+                    "808080", "Gray",
+                    "FF0000", "Red",
+                    "FF9900", "Amber",
+                    "99CC00", "Yellow green",
+                    "339966", "Sea green",
+                    "33CCCC", "Turquoise",
+                    "3366FF", "Royal blue",
+                    "800080", "Purple",
+                    "999999", "Medium gray",
+                    "FF00FF", "Magenta",
+                    "FFCC00", "Gold",
+                    "FFFF00", "Yellow",
+                    "00FF00", "Lime",
+                    "00FFFF", "Aqua",
+                    "00CCFF", "Sky blue",
+                    "993366", "Red violet",
+                    "FFFFFF", "White",
+                    "FF99CC", "Pink",
+                    "FFCC99", "Peach",
+                    "FFFF99", "Light yellow",
+                    "CCFFCC", "Pale green",
+                    "CCFFFF", "Pale cyan",
+                    "99CCFF", "Light sky blue",
+                    "CC99FF", "Plum"
+                ],
+                block_formats: 'Paragraph=p; Heading 1=h1; Heading 2=h2; Heading 3=h3; Heading 4=h4; Heading 5=h5; Heading 6=h6;',
                 
-                ClassicEditor
-                .create(descriptionElement, {
-                  toolbar: {
-                    items: [
-                      'heading', '|',
-                      'fontSize', 'fontFamily', '|',
-                      'bold', 'italic', 'underline', 'strikethrough', '|',
-                      'fontColor', 'fontBackgroundColor', '|',
-                      'alignment', 'outdent', 'indent', '|',
-                      'bulletedList', 'numberedList', 'blockQuote', '|',
-                      'link', 'insertTable', 'imageUpload', '|',
-                      'undo', 'redo', 'removeFormat'
-                    ],
-                    shouldNotGroupWhenFull: true
-                  },
-                  heading: {
-                    options: [
-                      { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
-                      { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
-                      { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
-                      { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
-                      { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' }
-                    ]
-                  },
-                  fontSize: {
-                    options: [ 
-                      'tiny', 'small', 'default', 'big', 'huge',
-                      8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 22, 24, 26, 28, 30, 32, 34, 36
-                    ],
-                    supportAllValues: true
-                  },
-                  fontFamily: {
-                    options: [
-                      'default',
-                      'Arial, Helvetica, sans-serif',
-                      'Courier New, Courier, monospace', 
-                      'Georgia, serif',
-                      'Times New Roman, Times, serif',
-                      'Trebuchet MS, Helvetica, sans-serif',
-                      'Verdana, Geneva, sans-serif',
-                      'Comic Sans MS, cursive',
-                      'Impact, sans-serif'
-                    ],
-                    supportAllValues: true
-                  },
-                  image: {
-                    toolbar: [
-                      'imageTextAlternative', 'imageStyle:inline', 'imageStyle:block', 'imageStyle:side'
-                    ],
-                    upload: {
-                      types: ['jpeg', 'png', 'gif', 'bmp', 'webp', 'tiff']
+                // Cấu hình upload ảnh
+                images_upload_url: '{{ route("admin.upload.ckeditor.image") }}',
+                images_upload_handler: function (blobInfo, success, failure, progress) {
+                    const xhr = new XMLHttpRequest();
+                    xhr.withCredentials = false;
+                    xhr.open('POST', '{{ route("admin.upload.ckeditor.image") }}');
+                    
+                    xhr.upload.onprogress = function (e) {
+                        progress(e.loaded / e.total * 100);
+                    };
+
+                    xhr.onload = function() {
+                        if (xhr.status === 403) {
+                            failure('HTTP Error: ' + xhr.status, { remove: true });
+                            return;
+                        }
+
+                        if (xhr.status < 200 || xhr.status >= 300) {
+                            failure('HTTP Error: ' + xhr.status);
+                            return;
+                        }
+
+                        let json;
+                        try {
+                            json = JSON.parse(xhr.responseText);
+                        } catch (e) {
+                            failure('Invalid response: ' + xhr.responseText);
+                            return;
+                        }
+
+                        if (!json || !json.url) {
+                            failure(json.error || 'Invalid JSON: ' + xhr.responseText);
+                            return;
+                        }
+
+                        success(json.url);
+                    };
+
+                    xhr.onerror = function () {
+                        failure('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
+                    };
+
+                    const formData = new FormData();
+                    formData.append('upload', blobInfo.blob(), blobInfo.filename());
+                    formData.append('_token', '{{ csrf_token() }}');
+
+                    xhr.send(formData);
+                },
+                
+                // Cấu hình ảnh
+                image_title: true,
+                image_description: false,
+                image_dimensions: false,
+                image_advtab: true,
+                
+                // Tự động resize ảnh
+                images_upload_credentials: true,
+                automatic_uploads: true,
+                
+                // Paste ảnh từ clipboard
+                paste_data_images: true,
+                
+                // File picker callback (fallback nếu upload handler fail)
+                file_picker_callback: function(callback, value, meta) {
+                    if (meta.filetype === 'image') {
+                        const input = document.createElement('input');
+                        input.setAttribute('type', 'file');
+                        input.setAttribute('accept', 'image/*');
+                        input.onchange = function() {
+                            const file = this.files[0];
+                            const formData = new FormData();
+                            formData.append('upload', file);
+                            formData.append('_token', '{{ csrf_token() }}');
+
+                            fetch('{{ route("admin.upload.ckeditor.image") }}', {
+                                method: 'POST',
+                                body: formData
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.url) {
+                                    callback(data.url, { title: file.name });
+                                } else {
+                                    console.error('Upload failed:', data);
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Upload error:', error);
+                            });
+                        };
+                        input.click();
                     }
-                  },
-                  // Cấu hình upload ảnh cho CKEditor
-                  ckfinder: {
-                    uploadUrl: '{{ route("admin.upload.ckeditor.image") }}?_token={{ csrf_token() }}'
-                  },
-                  table: {
-                    contentToolbar: [ 'tableColumn', 'tableRow', 'mergeTableCells' ]
-                  },
-                  // Tăng chiều cao editor
-                  editorConfig: {
-                    height: '400px'
-                  }
-                }).then(editor => {
-                  window.editorInstance = editor;
-                  // Tăng chiều cao vùng chỉnh sửa
-                  const editableElement = editor.ui.getEditableElement();
-                  if (editableElement) {
-                    editableElement.style.minHeight = '350px';
-                  }
-                })
-                .catch(error => {
-                  console.error('CKEditor initialization error:', error);
-                });
-            }
+                },
+                
+                setup: function (editor) {
+                    editor.on('init', function () {
+                        console.log('TinyMCE đã khởi tạo thành công với upload ảnh!');
+                    });
+                }
+            });
 
             // xử lí khi chọn ảnh
             const imageInput = document.getElementById('imageInput');

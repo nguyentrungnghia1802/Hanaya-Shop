@@ -12,40 +12,46 @@ class ImageUploadController extends Controller
 {
     public function uploadCKEditorImage(Request $request)
     {
-        $request->validate([
-            'upload' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:10240', // 10MB max
-        ]);
+        try {
+            $request->validate([
+                'upload' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:10240', // 10MB max
+            ]);
 
-        if ($request->hasFile('upload')) {
-            $file = $request->file('upload');
-            
-            // Tạo tên file unique với timestamp
-            $timestamp = Carbon::now()->format('YmdHis');
-            $randomString = Str::random(8);
-            $extension = $file->getClientOriginalExtension();
-            $filename = "post_content_{$timestamp}_{$randomString}.{$extension}";
-            
-            // Tạo thư mục nếu chưa có
-            $uploadPath = public_path('images/posts');
-            if (!file_exists($uploadPath)) {
-                mkdir($uploadPath, 0755, true);
+            if ($request->hasFile('upload')) {
+                $file = $request->file('upload');
+                
+                // Tạo tên file unique với timestamp
+                $timestamp = Carbon::now()->format('YmdHis');
+                $randomString = Str::random(8);
+                $extension = $file->getClientOriginalExtension();
+                $filename = "post_content_{$timestamp}_{$randomString}.{$extension}";
+                
+                // Tạo thư mục nếu chưa có
+                $uploadPath = public_path('images/posts');
+                if (!file_exists($uploadPath)) {
+                    mkdir($uploadPath, 0755, true);
+                }
+                
+                // Di chuyển file
+                $file->move($uploadPath, $filename);
+                
+                $url = asset("images/posts/{$filename}");
+                
+                // Response format cho TinyMCE
+                return response()->json([
+                    'url' => $url
+                ]);
             }
             
-            // Di chuyển file
-            $file->move($uploadPath, $filename);
-            
-            $url = asset("images/posts/{$filename}");
-            
             return response()->json([
-                'uploaded' => true,
-                'url' => $url
-            ]);
+                'error' => 'No file uploaded'
+            ], 400);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Upload failed: ' . $e->getMessage()
+            ], 500);
         }
-        
-        return response()->json([
-            'uploaded' => false,
-            'error' => ['message' => 'Upload failed']
-        ], 400);
     }
     
     public function uploadPostImage(Request $request)

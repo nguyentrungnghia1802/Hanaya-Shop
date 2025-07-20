@@ -12,9 +12,26 @@ use Carbon\Carbon;
 
 class PostController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::orderByDesc('created_at')->paginate(10);
+        $query = Post::query()->with('author');
+        
+        // Xử lý tìm kiếm
+        if ($request->has('search') && $request->input('search')) {
+            $searchTerm = $request->input('search');
+            $query->where(function($q) use ($searchTerm) {
+                $q->where('title', 'LIKE', "%{$searchTerm}%")
+                  ->orWhere('content', 'LIKE', "%{$searchTerm}%");
+            });
+        }
+        
+        $posts = $query->orderByDesc('created_at')->paginate(10);
+        
+        // Preserve search parameters in pagination
+        if ($request->has('search')) {
+            $posts->appends(['search' => $request->input('search')]);
+        }
+        
         return view('admin.posts.index', compact('posts'));
     }
 
