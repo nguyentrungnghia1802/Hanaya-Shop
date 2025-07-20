@@ -26,11 +26,8 @@
                     <x-nav-link :href="route('admin.order')" :active="request()->routeIs('admin.order*')">
                         {{ __('Orders') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('admin.review')" :active="request()->routeIs('admin.review*')">
-                        {{ __('Reviews') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('admin.statistical')" :active="request()->routeIs('admin.statistical*')">
-                        {{ __('Statistical') }}
+                    <x-nav-link :href="route('admin.post.index')" :active="request()->routeIs('admin.post*')">
+                        {{ __('Posts') }}
                     </x-nav-link>
                 </div>
             </div>

@@ -16,6 +16,12 @@ class PostController extends Controller
         return view('admin.posts.index', compact('posts'));
     }
 
+    public function show($id)
+    {
+        $post = Post::with('author')->findOrFail($id);
+        return view('admin.posts.show', compact('post'));
+    }
+
     public function create()
     {
         return view('admin.posts.create');
@@ -44,16 +50,18 @@ class PostController extends Controller
             'user_id' => Auth::id(),
         ]);
 
-        return redirect()->route('admin.posts.index')->with('success', 'Post created successfully');
+        return redirect()->route('admin.post.index')->with('success', 'Tạo bài viết thành công');
     }
 
-    public function edit(Post $post)
+    public function edit($id)
     {
-        return view('admin.posts.edit', compact('post'));
+        $post = Post::findOrFail($id);
+        return view('admin.posts.create', ['edit' => true, 'post' => $post]);
     }
 
-    public function update(Request $request, Post $post)
+    public function update(Request $request, $id)
     {
+        $post = Post::findOrFail($id);
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required',
@@ -66,20 +74,20 @@ class PostController extends Controller
             $post->image = $imagePath;
         }
 
-        $post->update([
-            'title' => $validated['title'],
-            'slug' => Str::slug($validated['title']),
-            'content' => $validated['content'],
-            'status' => $request->input('status', true),
-        ]);
-
+        $post->title = $validated['title'];
+        $post->slug = Str::slug($validated['title']);
+        $post->content = $validated['content'];
+        $post->status = $request->input('status', true);
         $post->save();
-        return redirect()->route('admin.posts.index')->with('success', 'Post updated successfully');
+
+        return redirect()->route('admin.post.index')->with('success', 'Cập nhật bài viết thành công');
     }
 
-    public function destroy(Post $post)
+    public function destroy($id)
     {
+        $post = Post::findOrFail($id);
         $post->delete();
-        return redirect()->route('admin.posts.index')->with('success', 'Post deleted successfully');
+        return redirect()->route('admin.post.index')->with('success', 'Xóa bài viết thành công');
     }
+
 }
