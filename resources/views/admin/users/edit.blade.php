@@ -34,7 +34,6 @@
             <select name="role" class="border px-2 py-1 rounded w-full" required>
                 <option value="user" {{ $user->role === 'user' ? 'selected' : '' }}>User</option>
                 <option value="admin" {{ $user->role === 'admin' ? 'selected' : '' }}>Admin</option>
-                <option value="manager" {{ $user->role === 'manager' ? 'selected' : '' }}>Manager</option>
             </select>
         </div>
 

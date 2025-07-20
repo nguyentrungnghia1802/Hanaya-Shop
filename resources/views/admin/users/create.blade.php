@@ -29,7 +29,6 @@
                 <select name="users[0][role]" class="col-span-3 border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-center" required>
                     <option value="user" selected>User</option>
                     <option value="admin">Admin</option>
-                    <option value="manager">Manager</option>
                 </select>
                 <button type="button"
                     class="btn-remove-user hidden col-span-1 bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-md transition">
@@ -74,7 +73,6 @@
                 <select name="users[${idx}][role]" class="col-span-3 border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-center" required>
                     <option value="user" selected>User</option>
                     <option value="admin">Admin</option>
-                    <option value="manager">Manager</option>
                 </select>
                 <button type="button"
                         class="btn-remove-user col-span-1 bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-md transition">
