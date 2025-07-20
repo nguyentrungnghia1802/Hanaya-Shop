@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\UsersController;
@@ -9,11 +10,12 @@ use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\ReviewsController;
 use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Admin\CategoriesController;
+
 use App\Http\Controllers\User\soapFlowerController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\OrderController;
-
+use App\Http\Controllers\User\DashboardController as UserDashboardController;
 
 
 
