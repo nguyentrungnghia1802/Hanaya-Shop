@@ -15,17 +15,11 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('soapFlower')" :active="request()->routeIs('soapFlower*')">
-                        {{ __('Soap Flower') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('paperFlower')" :active="request()->routeIs('paperFlower*')">
-                        {{ __('Paper Flower') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('souvenir')" :active="request()->routeIs('souvenir*')">
-                        {{ __('Souvenir Gift') }}
+                    <x-nav-link :href="route('product.index')" :active="request()->routeIs('product*')">
+                        {{ __('Products') }}
                     </x-nav-link>
                     <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts*')">
-                        {{ __('Bài viết') }}
+                        {{ __('Posts') }}
                     </x-nav-link>
                     <x-nav-link :href="route('cart.index')" :active="request()->routeIs('cart*')">
                         {{ __('Cart') }}
@@ -132,23 +126,17 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('soapFlower')" :active="request()->routeIs('soapFlower*')">
-                {{ __('Soap Flower') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('paperFlower')" :active="request()->routeIs('paperFlower*')">
-                {{ __('Paper Flower') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('souvenir')" :active="request()->routeIs('souvenir*')">
-                {{ __('Souvenir Gift') }}
+            <x-responsive-nav-link :href="route('product.index')" :active="request()->routeIs('product*')">
+                {{ __('Products') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('posts.index')" :active="request()->routeIs('posts*')">
-                {{ __('Bài viết') }}
+                {{ __('Posts') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('cart.index')" :active="request()->routeIs('cart*')">
                 {{ __('Cart') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('cart.index')" :active="request()->routeIs('cart*')">
-                {{ __('Order') }}
+                {{ __('Orders') }}
             </x-responsive-nav-link>
         </div>
 

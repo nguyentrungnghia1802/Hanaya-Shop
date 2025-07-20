@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
 use App\Models\Post;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class PostController extends Controller
 {
     public function index()
     {
         $posts = Post::where('status', true)->orderByDesc('created_at')->paginate(10);
-        return view('posts.index', compact('posts'));
+        return view('page.posts.index', compact('posts'));
     }
 
     public function show($slug)
     {
         $post = Post::where('slug', $slug)->where('status', true)->firstOrFail();
-        return view('posts.show', compact('post'));
+        return view('page.posts.show', compact('post'));
     }
 }
