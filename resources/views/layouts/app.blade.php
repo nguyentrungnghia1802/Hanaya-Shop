@@ -14,6 +14,71 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
+    <!-- CSS cho prose content - giống admin -->
+    <style>
+        .prose {
+            color: #374151;
+            max-width: none;
+        }
+        .prose h1 {
+            font-size: 2.25em;
+            font-weight: 800;
+            line-height: 1.1111111;
+            margin-top: 0;
+            margin-bottom: 0.8888889em;
+        }
+        .prose h2 {
+            font-size: 1.875em;
+            font-weight: 700;
+            line-height: 1.3333333;
+            margin-top: 2em;
+            margin-bottom: 1em;
+        }
+        .prose h3 {
+            font-size: 1.5em;
+            font-weight: 600;
+            line-height: 1.6;
+            margin-top: 1.6em;
+            margin-bottom: 0.6em;
+        }
+        .prose strong, .prose b {
+            font-weight: 600;
+        }
+        .prose em, .prose i {
+            font-style: italic;
+        }
+        .prose ul, .prose ol {
+            margin-top: 1.25em;
+            margin-bottom: 1.25em;
+            padding-left: 1.625em;
+        }
+        .prose li {
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+        }
+        .prose blockquote {
+            font-weight: 500;
+            font-style: italic;
+            color: #374151;
+            border-left-width: 0.25rem;
+            border-left-color: #d1d5db;
+            quotes: "\201C""\201D""\2018""\2019";
+            margin-top: 1.6em;
+            margin-bottom: 1.6em;
+            padding-left: 1em;
+        }
+        .prose img {
+            margin-top: 2em;
+            margin-bottom: 2em;
+            max-width: 100%;
+            height: auto;
+        }
+        .prose p {
+            margin-top: 1.25em;
+            margin-bottom: 1.25em;
+        }
+    </style>
 </head>
 
 <body class="font-sans antialiased">

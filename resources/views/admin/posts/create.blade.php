@@ -35,7 +35,10 @@
                         <option value="0" {{ !$post->status ? 'selected' : '' }}>Ẩn</option>
                     </select>
                 </div>
-                <button type="submit" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700">Cập nhật</button>
+                <div class="flex gap-2">
+                    <button type="submit" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700">Cập nhật</button>
+                    <button type="button" onclick="confirmCancel()" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Huỷ</button>
+                </div>
             </form>
         @else
             <form method="POST" action="{{ route('admin.post.store') }}" enctype="multipart/form-data">
@@ -60,9 +63,20 @@
                         <option value="0">Ẩn</option>
                     </select>
                 </div>
-                <button type="submit" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700">Tạo mới</button>
+                <div class="flex gap-2">
+                    <button type="submit" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700">Tạo mới</button>
+                    <button type="button" onclick="confirmCancel()" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Huỷ</button>
+                </div>
             </form>
         @endif
     </div>
 </div>
+
+<script>
+function confirmCancel() {
+    if (confirm('Bạn có chắc chắn muốn huỷ? Dữ liệu đã nhập sẽ bị mất.')) {
+        window.location.href = '{{ route("admin.post.index") }}';
+    }
+}
+</script>
 @endsection
