@@ -28,6 +28,7 @@
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">STT</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tiêu đề</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tác giả</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Ngày tạo</th>
@@ -36,8 +37,9 @@
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-                @forelse($posts as $post)
+                @forelse($posts as $index => $post)
                     <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ ($posts->currentPage() - 1) * $posts->perPage() + $index + 1 }}</td>
                         <td class="px-6 py-4 whitespace-nowrap font-semibold text-pink-700">{{ $post->title }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ $post->author->name ?? 'Admin' }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ $post->created_at->format('d/m/Y') }}</td>

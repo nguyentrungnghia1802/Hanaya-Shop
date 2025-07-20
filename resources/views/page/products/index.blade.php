@@ -29,8 +29,9 @@
                 @foreach ($products as $productItem)
                     <div class="bg-white rounded shadow hover:shadow-xl overflow-hidden transition flex flex-col">
                         <div class="relative">
-                            <img src="{{ asset('images/' . $productItem->image_url) }}" class="w-full h-32 sm:h-48 object-cover"
-                                alt="{{ $productItem->name }}">
+                            <div class="aspect-[3/4] w-full bg-gray-100 overflow-hidden">
+                                <img src="{{ asset('images/' . $productItem->image_url) }}" class="w-full h-full object-cover" alt="{{ $productItem->name }}">
+                            </div>
                             <span class="absolute top-2 left-2 bg-red-600 text-white text-xs px-2 py-1 rounded">
                                 Giảm {{ rand(5, 20) }}%
                             </span>
