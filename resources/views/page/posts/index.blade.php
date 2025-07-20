@@ -28,7 +28,7 @@
                         <h3 class="text-lg font-bold mb-2 text-pink-700">{{ $post->title }}</h3>
                     </a>
                     <div class="text-sm text-gray-600 mb-2">{{ $post->created_at->format('d/m/Y') }} bởi {{ $post->author->name ?? 'Admin' }}</div>
-                    <div class="text-gray-700 line-clamp-3">{{ Str::limit(strip_tags($post->content), 120) }}</div>
+                    <div class="text-gray-700 line-clamp-3">{{ Str::limit(html_entity_decode(strip_tags($post->content)), 120) }}</div>
                     <a href="{{ route('posts.show', $post->slug) }}" class="mt-4 text-pink-600 hover:underline">Đọc tiếp</a>
                 </div>
             @empty
