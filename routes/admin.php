@@ -13,6 +13,7 @@ use App\Http\Middleware\IsAdmin;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('posts', App\Http\Controllers\Admin\PostController::class);
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/product', [ProductsController::class, 'index'])->name('product');

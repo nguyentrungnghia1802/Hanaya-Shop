@@ -7,6 +7,7 @@ use App\Http\Controllers\User\soapFlowerController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\OrderController;
+use App\Http\Controllers\PostController;
 
 Route::get('/', [UserDashboardController::class, 'index'])->name('dashboard');
 
@@ -38,4 +39,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+    Route::get('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
 });
