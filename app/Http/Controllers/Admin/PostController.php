@@ -7,6 +7,8 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Carbon\Carbon;
 
 class PostController extends Controller
 {
@@ -38,7 +40,23 @@ class PostController extends Controller
 
         $imagePath = null;
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('posts', 'public');
+            $file = $request->file('image');
+            
+            // Tạo tên file unique với timestamp
+            $timestamp = Carbon::now()->format('YmdHis');
+            $randomString = Str::random(8);
+            $extension = $file->getClientOriginalExtension();
+            $filename = "post_featured_{$timestamp}_{$randomString}.{$extension}";
+            
+            // Tạo thư mục nếu chưa có
+            $uploadPath = public_path('images/posts');
+            if (!file_exists($uploadPath)) {
+                mkdir($uploadPath, 0755, true);
+            }
+            
+            // Di chuyển file
+            $file->move($uploadPath, $filename);
+            $imagePath = $filename; // Chỉ lưu tên file, không lưu đường dẫn đầy đủ
         }
 
         $post = Post::create([
@@ -70,8 +88,31 @@ class PostController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('posts', 'public');
-            $post->image = $imagePath;
+            // Xóa ảnh cũ nếu có
+            if ($post->image) {
+                $oldImagePath = public_path("images/posts/{$post->image}");
+                if (File::exists($oldImagePath)) {
+                    File::delete($oldImagePath);
+                }
+            }
+            
+            $file = $request->file('image');
+            
+            // Tạo tên file unique với timestamp
+            $timestamp = Carbon::now()->format('YmdHis');
+            $randomString = Str::random(8);
+            $extension = $file->getClientOriginalExtension();
+            $filename = "post_featured_{$timestamp}_{$randomString}.{$extension}";
+            
+            // Tạo thư mục nếu chưa có
+            $uploadPath = public_path('images/posts');
+            if (!file_exists($uploadPath)) {
+                mkdir($uploadPath, 0755, true);
+            }
+            
+            // Di chuyển file
+            $file->move($uploadPath, $filename);
+            $post->image = $filename; // Chỉ lưu tên file
         }
 
         $post->title = $validated['title'];

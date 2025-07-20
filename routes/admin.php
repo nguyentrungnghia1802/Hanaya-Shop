@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\ImageUploadController;
 
 Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->group(function () {
     Route::redirect('/', '/admin/dashboard');
@@ -42,6 +43,10 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->gr
     Route::get('/post/{id}/edit', [PostController::class, 'edit'])->name('post.edit');
     Route::put('/post/{id}', [PostController::class, 'update'])->name('post.update');
     Route::delete('/post/{id}', [PostController::class, 'destroy'])->name('post.destroy');
+    
+    // IMAGE UPLOAD ROUTES
+    Route::post('/upload/ckeditor-image', [ImageUploadController::class, 'uploadCKEditorImage'])->name('upload.ckeditor.image');
+    Route::post('/upload/post-image', [ImageUploadController::class, 'uploadPostImage'])->name('upload.post.image');
 
     Route::get('/user', [UsersController::class, 'index'])->name('user');
     Route::get('/user/search', [UsersController::class, 'search'])->name('user.search');    

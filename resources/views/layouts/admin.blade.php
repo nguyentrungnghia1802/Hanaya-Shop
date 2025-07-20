@@ -40,35 +40,109 @@
         </main>
     </div>
 
-    <!-- Load TinyMCE từ CDN -->
+    <!-- Load CKEditor5 Full-featured từ CDN -->
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
     <script>
-        ClassicEditor
-        .create(document.querySelector('.description'), {
-          toolbar: [
-            'undo', 'redo',
-            '|', 'bold', 'italic', 'underline',
-            '|', 'bulletedList', 'numberedList',
-            '|', 'alignment',
-            '|', 'link',
-            '|', 'removeFormat'
-          ]
-        }).then(editor => {
-          editorInstance = editor;
-        })
-        .catch(error => {
-          console.error(error);
-        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const descriptionElement = document.querySelector('.description');
+            if (descriptionElement) {
+                // Tăng chiều cao textarea ban đầu
+                descriptionElement.style.minHeight = '400px';
+                
+                ClassicEditor
+                .create(descriptionElement, {
+                  toolbar: {
+                    items: [
+                      'heading', '|',
+                      'fontSize', 'fontFamily', '|',
+                      'bold', 'italic', 'underline', 'strikethrough', '|',
+                      'fontColor', 'fontBackgroundColor', '|',
+                      'alignment', 'outdent', 'indent', '|',
+                      'bulletedList', 'numberedList', 'blockQuote', '|',
+                      'link', 'insertTable', 'imageUpload', '|',
+                      'undo', 'redo', 'removeFormat'
+                    ],
+                    shouldNotGroupWhenFull: true
+                  },
+                  heading: {
+                    options: [
+                      { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                      { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                      { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                      { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                      { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' }
+                    ]
+                  },
+                  fontSize: {
+                    options: [ 
+                      'tiny', 'small', 'default', 'big', 'huge',
+                      8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 22, 24, 26, 28, 30, 32, 34, 36
+                    ],
+                    supportAllValues: true
+                  },
+                  fontFamily: {
+                    options: [
+                      'default',
+                      'Arial, Helvetica, sans-serif',
+                      'Courier New, Courier, monospace', 
+                      'Georgia, serif',
+                      'Times New Roman, Times, serif',
+                      'Trebuchet MS, Helvetica, sans-serif',
+                      'Verdana, Geneva, sans-serif',
+                      'Comic Sans MS, cursive',
+                      'Impact, sans-serif'
+                    ],
+                    supportAllValues: true
+                  },
+                  image: {
+                    toolbar: [
+                      'imageTextAlternative', 'imageStyle:inline', 'imageStyle:block', 'imageStyle:side'
+                    ],
+                    upload: {
+                      types: ['jpeg', 'png', 'gif', 'bmp', 'webp', 'tiff']
+                    }
+                  },
+                  // Cấu hình upload ảnh cho CKEditor
+                  ckfinder: {
+                    uploadUrl: '{{ route("admin.upload.ckeditor.image") }}?_token={{ csrf_token() }}'
+                  },
+                  table: {
+                    contentToolbar: [ 'tableColumn', 'tableRow', 'mergeTableCells' ]
+                  },
+                  // Tăng chiều cao editor
+                  editorConfig: {
+                    height: '400px'
+                  }
+                }).then(editor => {
+                  window.editorInstance = editor;
+                  // Tăng chiều cao vùng chỉnh sửa
+                  const editableElement = editor.ui.getEditableElement();
+                  if (editableElement) {
+                    editableElement.style.minHeight = '350px';
+                  }
+                })
+                .catch(error => {
+                  console.error('CKEditor initialization error:', error);
+                });
+            }
 
-        // xử lí khi chọn ảnh
-        document.getElementById('imageInput').addEventListener('change', function (event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    document.getElementById('previewImage').src = e.target.result;
-                }
-                reader.readAsDataURL(file);
+            // xử lí khi chọn ảnh
+            const imageInput = document.getElementById('imageInput');
+            if (imageInput) {
+                imageInput.addEventListener('change', function (event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            const previewImage = document.getElementById('previewImage');
+                            if (previewImage) {
+                                previewImage.src = e.target.result;
+                                previewImage.style.display = 'block';
+                            }
+                        }
+                        reader.readAsDataURL(file);
+                    }
+                });
             }
         });
     </script>

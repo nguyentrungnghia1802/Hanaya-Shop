@@ -9,7 +9,7 @@
     <div class="bg-white rounded-lg shadow p-6">
         <h2 class="text-2xl font-bold text-pink-700 mb-4">{{ $post->title }}</h2>
         @if($post->image)
-            <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}" class="h-64 w-full object-cover rounded mb-6">
+            <img src="{{ asset('images/posts/' . $post->image) }}" alt="{{ $post->title }}" class="h-64 w-full object-cover rounded mb-6">
         @endif
         <div class="text-sm text-gray-600 mb-2">{{ $post->created_at->format('d/m/Y') }} bởi {{ $post->author->name ?? 'Admin' }}</div>
         <div class="prose max-w-none text-gray-800 mb-6">{!! $post->content !!}</div>
