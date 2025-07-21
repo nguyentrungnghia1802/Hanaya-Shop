@@ -18,14 +18,18 @@
             <!-- Default row for first user -->
             <div class="user-item grid grid-cols-12 gap-4 items-center">
                 <input type="text" name="users[0][name]" placeholder="Name"
-                    class="col-span-4 border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-center"
-                    required>
-                <input type="email" name="users[0][email]" placeholder="Email"
-                    class="col-span-4 border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-center"
-                    required>
-                <input type="password" name="users[0][password]" placeholder="Password"
                     class="col-span-3 border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-center"
                     required>
+                <input type="email" name="users[0][email]" placeholder="Email"
+                    class="col-span-3 border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-center"
+                    required>
+                <input type="password" name="users[0][password]" placeholder="Password"
+                    class="col-span-2 border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-center"
+                    required>
+                <select name="users[0][role]" class="col-span-3 border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-center" required>
+                    <option value="user" selected>User</option>
+                    <option value="admin">Admin</option>
+                </select>
                 <button type="button"
                     class="btn-remove-user hidden col-span-1 bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-md transition">
                     X
@@ -58,14 +62,18 @@
             // Create input fields dynamically
             div.innerHTML = `
                 <input type="text" name="users[${idx}][name]" placeholder="Name"
-                       class="col-span-4 border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-center"
-                       required>
-                <input type="email" name="users[${idx}][email]" placeholder="Email"
-                       class="col-span-4 border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-center"
-                       required>
-                <input type="password" name="users[${idx}][password]" placeholder="Password"
                        class="col-span-3 border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-center"
                        required>
+                <input type="email" name="users[${idx}][email]" placeholder="Email"
+                       class="col-span-3 border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-center"
+                       required>
+                <input type="password" name="users[${idx}][password]" placeholder="Password"
+                       class="col-span-2 border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-center"
+                       required>
+                <select name="users[${idx}][role]" class="col-span-3 border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-center" required>
+                    <option value="user" selected>User</option>
+                    <option value="admin">Admin</option>
+                </select>
                 <button type="button"
                         class="btn-remove-user col-span-1 bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-md transition">
                     X

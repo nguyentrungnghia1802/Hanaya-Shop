@@ -1,3 +1,5 @@
+@props(['products'])
+
 <!-- Swiper Slider -->
 <div class="swiper mySwiper relative px-8">
     @if ($products->isNotEmpty())

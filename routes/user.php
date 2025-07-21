@@ -3,26 +3,19 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
-use App\Http\Controllers\User\soapFlowerController;
+use App\Http\Controllers\User\ProductController as ProductController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\OrderController;
+use App\Http\Controllers\User\PostController;
 
 Route::get('/', [UserDashboardController::class, 'index'])->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/soapFlower', [soapFlowerController::class, 'index'])->name('soapFlower');
-    Route::get('/soapFlower/{id}', [soapFlowerController::class, 'show'])->name('soapFlower.show');
-
-    Route::get('/paperFlower', function () {
-        return view('page.paperFlower');
-    })->name('paperFlower');
-
-    Route::get('/souvenir', function () {
-        return view('page.souvenir');
-    })->name('souvenir');
+    Route::get('/product', [ProductController::class, 'index'])->name('product.index');
+    Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');
 
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
@@ -38,4 +31,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+    Route::get('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
 });

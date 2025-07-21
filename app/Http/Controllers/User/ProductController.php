@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product\Product;
 use Illuminate\Http\Request;
 
-class soapFlowerController extends Controller
+class ProductController extends Controller
 {
     public function index(Request $request)
     {
@@ -51,7 +51,7 @@ class soapFlowerController extends Controller
 
         $products = $query->paginate(12)->appends(['sort' => $sort, 'q' => $keyword]);
 
-        return view('page.soapFlower', [
+        return view('page.products.index', [
             'products' => $products,
             'currentSort' => $sort,
             'keyword' => $keyword,
@@ -69,6 +69,6 @@ class soapFlowerController extends Controller
             ->limit(8)
             ->get();
 
-        return view('page.productDetail', compact('product', 'relatedProducts'));
+        return view('page.products.productDetail', compact('product', 'relatedProducts'));
     }
 }

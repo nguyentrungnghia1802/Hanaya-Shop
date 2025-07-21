@@ -15,6 +15,5 @@
             <p class="text-2xl font-semibold mb-4">Sản phẩm bán chạy</p>
             <x-home.slider :products="$topSeller" />
         </section>
-
     </div>
 </x-app-layout>
