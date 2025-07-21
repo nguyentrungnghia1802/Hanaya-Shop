@@ -54,7 +54,8 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->gr
     Route::post('/user', [UsersController::class, 'store'])->name('user.store');
     Route::get('/user/{id}/edit', [UsersController::class, 'edit'])->name('user.edit');
     Route::put('/user/{id}', [UsersController::class, 'update'])->name('user.update');
-    Route::delete('/user', [UsersController::class, 'destroy'])->name('user.destroy');
+    Route::delete('/user/{id}', [UsersController::class, 'destroySingle'])->name('user.destroy');
+    Route::delete('/user', [UsersController::class, 'destroy'])->name('user.destroy.multiple');
     Route::get('/user/{id}', [UsersController::class, 'show'])->name('user.show');
 
     Route::get('/order', [OrdersController::class, 'index'])->name('order');

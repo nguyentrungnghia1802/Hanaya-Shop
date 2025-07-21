@@ -48,10 +48,17 @@ class CartController extends Controller
     public function index()
     {
         $userId = Auth::id();
+        $sessionId = Session::getId();
 
-        $cartItems = Cart::with('product')
-            ->where('user_id', $userId)
-            ->get();
+        $query = Cart::with('product');
+        
+        if ($userId) {
+            $query->where('user_id', $userId);
+        } else {
+            $query->where('session_id', $sessionId);
+        }
+        
+        $cartItems = $query->get();
 
         $cart = [];
 
