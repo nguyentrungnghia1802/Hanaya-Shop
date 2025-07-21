@@ -4,37 +4,37 @@
 
         <!-- Breadcrumb Navigation -->
         <nav class="flex text-sm mb-4 text-gray-500" aria-label="Breadcrumb">
-            <a href="{{ route('dashboard') }}" class="hover:text-gray-900">Trang chủ</a>
+            <a href="{{ route('dashboard') }}" class="hover:text-gray-900">Home</a>
             <span class="mx-2">/</span>
-            <a href="{{ route('user.products.index') }}" class="hover:text-gray-900">Sản phẩm</a>
+            <a href="{{ route('user.products.index') }}" class="hover:text-gray-900">Products</a>
             <span class="mx-2">/</span>
             <span class="text-gray-900">{{ $product->name }}</span>
         </nav>
 
         <!-- Tiêu đề -->
-        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center">Chi tiết sản phẩm</h1>
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center">Product Details</h1>
 
-        <!-- Thông báo thành công -->
+        <!-- Success notification -->
         @if(session('success'))
             <div class="mb-6 p-4 bg-green-100 text-green-800 rounded-lg shadow text-center">
                 <i class="fas fa-check-circle mr-2"></i>{{ session('success') }}
             </div>
         @endif
 
-        <!-- Thông tin chi tiết sản phẩm -->
+        <!-- Product detailed information -->
         <div class="bg-white rounded-lg shadow-lg p-4 sm:p-6 lg:p-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-                <!-- Hình ảnh sản phẩm -->
+                <!-- Product images -->
                 <div class="space-y-4">
                     <div class="aspect-square w-full bg-gray-100 rounded-lg overflow-hidden">
-                        <img src="{{ $product->image_url ? asset('storage/' . $product->image_url) : asset('images/no-image.png') }}" 
+                        <img src="{{ $product->image_url ? asset('images/products/' . $product->image_url) : asset('images/no-image.png') }}" 
                              alt="{{ $product->name }}" 
                              class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
                     </div>
                     <!-- Thumbnails could go here if needed -->
                 </div>
                 
-                <!-- Thông tin sản phẩm -->
+                <!-- Product information -->
                 <div class="space-y-6">
                     <div>
                         <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">{{ $product->name }}</h2>
@@ -43,10 +43,10 @@
                         @endif
                         <div class="flex items-center space-x-4 text-sm text-gray-500 mb-4">
                             <span class="flex items-center">
-                                <i class="fas fa-eye mr-1"></i>{{ $product->view_count ?? 0 }} lượt xem
+                                <i class="fas fa-eye mr-1"></i>{{ $product->view_count ?? 0 }} views
                             </span>
                             <span class="flex items-center">
-                                <i class="fas fa-box mr-1"></i>{{ $product->stock_quantity }} trong kho
+                                <i class="fas fa-box mr-1"></i>{{ $product->stock_quantity }} in stock
                             </span>
                         </div>
                     </div>
@@ -100,7 +100,7 @@
                             @csrf
                             <input type="hidden" name="quantity" id="form-quantity" value="1">
                             <button type="submit" class="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-colors duration-300 flex items-center justify-center">
-                                <i class="fas fa-shopping-cart mr-2"></i>Thêm vào giỏ hàng
+                                <i class="fas fa-shopping-cart mr-2"></i>Add to Cart
                             </button>
                         </form>
 
@@ -109,7 +109,7 @@
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                             <input type="hidden" name="quantity" id="buy-now-quantity" value="1">
                             <button type="submit" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-colors duration-300 flex items-center justify-center">
-                                <i class="fas fa-bolt mr-2"></i>Mua ngay
+                                <i class="fas fa-bolt mr-2"></i>Buy Now
                             </button>
                         </form>
                     </div>
@@ -139,9 +139,9 @@
             </div>
         </div>
 
-        <!-- Sản phẩm tương tự -->
+        <!-- Similar products -->
         <div class="mt-12 sm:mt-16">
-            <h3 class="text-xl sm:text-2xl font-bold mb-6 text-center">Sản phẩm tương tự</h3>
+            <h3 class="text-xl sm:text-2xl font-bold mb-6 text-center">Similar Products</h3>
             <div class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
                 @foreach ($relatedProducts as $item)
                     <div class="bg-white rounded-lg shadow-md hover:shadow-xl overflow-hidden transition-all duration-300 transform hover:scale-105">
@@ -167,7 +167,7 @@
                             @endif
                             <a href="{{ route('user.products.show', $item->id) }}" 
                                class="inline-block mt-3 w-full text-center bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300 text-sm">
-                                Xem chi tiết
+                                View Details
                             </a>
                         </div>
                     </div>

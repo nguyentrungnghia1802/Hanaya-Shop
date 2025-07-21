@@ -12,38 +12,62 @@ use Illuminate\Support\Facades\Auth;
 class CartController extends Controller
 {
     /**
-     * Thêm sản phẩm vào giỏ hàng
+     * Add product to cart
      */
     public function add(Request $request, $productId)
     {
-        $sessionId = Session::getId();
+        try {
+            $sessionId = Session::getId();
 
-        $product = Product::findOrFail($productId);
+            $product = Product::findOrFail($productId);
 
-        // Kiểm tra xem sản phẩm đã có trong cart chưa
-        $existing = Cart::where('session_id', $sessionId)
-            ->where('product_id', $product->id)
-            ->first();
+            // Check if product already exists in cart
+            $existing = Cart::where('session_id', $sessionId)
+                ->where('product_id', $product->id)
+                ->first();
 
-        if ($existing) {
-            // Nếu có rồi → cập nhật số lượng
-            $existing->quantity += $request->input('quantity', 1);
-            $existing->save();
-        } else {
-            // Nếu chưa có → tạo mới
-            Cart::create([
-                'product_id' => $product->id,
-                'user_id' => Auth::id(), // nếu có đăng nhập
-                'quantity'   => $request->input('quantity', 1),
-                'session_id' => $sessionId,
-            ]);
+            if ($existing) {
+                // If exists → update quantity
+                $existing->quantity += $request->input('quantity', 1);
+                $existing->save();
+            } else {
+                // If not exists → create new
+                Cart::create([
+                    'product_id' => $product->id,
+                    'user_id' => Auth::id(), // if logged in
+                    'quantity'   => $request->input('quantity', 1),
+                    'session_id' => $sessionId,
+                ]);
+            }
+
+            // Get updated cart count
+            $cartCount = Cart::where('session_id', $sessionId)->sum('quantity');
+
+            // Check if this is an AJAX request
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Product added to cart successfully!',
+                    'cart_count' => $cartCount
+                ]);
+            }
+
+            return redirect()->back()->with('success', 'Product added to cart successfully!');
+
+        } catch (\Exception $e) {
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'An error occurred while adding the product to cart'
+                ], 500);
+            }
+
+            return redirect()->back()->with('error', 'An error occurred while adding the product to cart');
         }
-
-        return redirect()->back()->with('success', 'Đã thêm vào giỏ hàng!');
     }
 
     /**
-     * Hiển thị giỏ hàng
+     * Display shopping cart
      */
     public function index()
     {
@@ -75,7 +99,7 @@ class CartController extends Controller
     }
 
     /**
-     * Xoá 1 item khỏi giỏ hàng
+     * Remove item from cart
      */
     public function remove($id)
     {
@@ -92,32 +116,30 @@ class CartController extends Controller
 
         $query->delete();
 
-        return redirect()->back()->with('success', 'Đã xoá sản phẩm khỏi giỏ hàng.');
+        return redirect()->back()->with('success', 'Product removed from cart successfully.');
     }
 
     public function buyNow(Request $request)
-{
-    $productId = $request->input('product_id');
-    $sessionId = Session::getId();
+    {
+        $productId = $request->input('product_id');
+        $sessionId = Session::getId();
 
-    $product = Product::findOrFail($productId);
-    $existing = Cart::where('session_id', $sessionId)
-        ->where('product_id', $product->id)
-        ->first();
+        $product = Product::findOrFail($productId);
+        $existing = Cart::where('session_id', $sessionId)
+            ->where('product_id', $product->id)
+            ->first();
 
-    if ($existing) {
-        $existing->quantity += $request->input('quantity', 1);
-        $existing->save();
-    } else {
-        Cart::create([
-            'product_id' => $product->id,
-            'quantity'   => $request->input('quantity', 1),
-            'session_id' => $sessionId,
-        ]);
+        if ($existing) {
+            $existing->quantity += $request->input('quantity', 1);
+            $existing->save();
+        } else {
+            Cart::create([
+                'product_id' => $product->id,
+                'quantity'   => $request->input('quantity', 1),
+                'session_id' => $sessionId,
+            ]);
+        }
+
+        return redirect()->route('cart.index')->with('product_id', $product->id);
     }
-
-    return redirect()->route('cart.index')->with('product_id', $product->id);
-}
-
-
 }

@@ -28,7 +28,7 @@
                         <!-- Product Image -->
                         <div class="flex justify-center md:justify-start">
                             <div class="w-full max-w-sm">
-                                <img src="{{ asset('images/' . ($product->image_url ?? 'base.jpg')) }}" 
+                                <img src="{{ asset('images/products/' . ($product->image_url ?? 'base.jpg')) }}" 
                                      alt="{{ $product->name }}" 
                                      class="w-full h-64 object-cover rounded-lg shadow-md border">
                             </div>

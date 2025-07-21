@@ -14,7 +14,7 @@ class DashboardController extends Controller
 {
     public function index() 
     {
-        // Cache các dữ liệu trang chủ trong 30 phút
+        // Cache dashboard data for 30 minutes
         $cacheKey = 'dashboard_data_' . date('Y-m-d-H');
         
         $data = Cache::remember($cacheKey, now()->addMinutes(30), function () {
@@ -38,7 +38,7 @@ class DashboardController extends Controller
             ];
         });
 
-        // Banner lấy từ config constants
+        // Get banners from config constants
         $banners = config('constants.banners');
         return view('page.dashboard', array_merge($data, ['banners' => $banners]));
     }
@@ -61,7 +61,7 @@ class DashboardController extends Controller
     {
         $categoryMapping = [
             'soap-flower' => ['Soap Flower', 'Hoa xà phòng', 'soap flower'],
-            'paper-flower' => ['Paper Flower', 'Hoa giấy', 'paper flower'],
+            'special-flower' => ['Special Flower', 'Hoa đặc biệt', 'special flower'],
             'fresh-flowers' => ['Fresh Flowers', 'Hoa tươi', 'fresh flowers'],
             'souvenir' => ['Souvenir', 'Quà lưu niệm', 'souvenir']
         ];
@@ -94,10 +94,10 @@ class DashboardController extends Controller
     private function getCategoryDisplayName($key)
     {
         $displayNames = [
-            'soap-flower' => 'Hoa Xà Phòng',
-            'paper-flower' => 'Hoa Giấy',
-            'fresh-flowers' => 'Hoa Tươi',
-            'souvenir' => 'Quà Lưu Niệm'
+            'soap-flower' => 'Soap Flower',
+            'special-flower' => 'Special Flower',
+            'fresh-flowers' => 'Fresh Flowers',
+            'souvenir' => 'Souvenir'
         ];
         
         return $displayNames[$key] ?? ucfirst(str_replace('-', ' ', $key));

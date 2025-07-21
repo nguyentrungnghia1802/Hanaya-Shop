@@ -122,7 +122,7 @@ class ProductsController extends Controller
         if ($request->hasFile('image_url')) {
             // Delete old image if it exists and is not default
             if ($product->image_url && $product->image_url !== 'default-product.jpg') {
-                $oldImagePath = public_path('images/' . $product->image_url);
+                $oldImagePath = public_path('images/products/' . $product->image_url);
                 if (file_exists($oldImagePath)) {
                     unlink($oldImagePath);
                 }
@@ -130,7 +130,7 @@ class ProductsController extends Controller
             
             // Upload new image
             $imageName = time() . '.' . $request->file('image_url')->extension();
-            $request->file('image_url')->move(public_path('images'), $imageName);
+            $request->file('image_url')->move(public_path('images/products'), $imageName);
             $product->image_url = $imageName;
         }
 
@@ -151,9 +151,9 @@ class ProductsController extends Controller
         if (
             $product->image_url &&
             $product->image_url !== 'base.jpg' &&
-            file_exists(public_path('images/' . $product->image_url))
+            file_exists(public_path('images/products/' . $product->image_url))
         ) {
-            unlink(public_path('images/' . $product->image_url));
+            unlink(public_path('images/products/' . $product->image_url));
         }
 
         $product->delete();
@@ -192,7 +192,7 @@ class ProductsController extends Controller
                 'price' => $product->price,
                 'stock_quantity' => $product->stock_quantity,
                 'category_name' => $product->category ? $product->category->name : '',
-                'image_url' => asset('images/' . ($product->image_url ?? 'base.jpg')),
+                'image_url' => asset('images/products/' . ($product->image_url ?? 'base.jpg')),
             ]);
         }
 

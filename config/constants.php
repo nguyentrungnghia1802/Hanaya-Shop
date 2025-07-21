@@ -1,99 +1,99 @@
 <?php
 
 return [
-    // Đường dẫn ảnh logo
+    // Logo image path
     'logo_path' => 'fixed_resources/logo.png',
 
-    // Đường dẫn favicon
+    // Favicon path
     'favicon_path' => 'favicon.ico',
 
-    // Đường dẫn thư mục tài nguyên cố định
+    // Fixed resources folder path
     'fixed_resources_path' => 'fixed_resources/',
 
-    // Thông tin shop (có thể dùng cho footer, contact...)
+    // Shop information (can be used for footer, contact...)
     'shop_name' => 'HANAYA SHOP',
     'shop_email' => 'assassincreed2k1@gmail.com',
     'shop_phone' => '0948512463',
-    'shop_address' => '123 Đường Hoa, Sơn Tây, Hà Nội',
+    'shop_address' => '123 Flower Street, Son Tay, Hanoi',
 
-    // Banner cấu hình
+    // Banner configuration
     'banners' => [
         [
             'image' => 'fixed_resources/banner_1.jpg',
-            'title' => 'Chào mừng đến với Hanaya Shop',
-            'subtitle' => 'Nơi mang đến những sản phẩm hoa và quà tặng ý nghĩa',
-            'button_text' => 'Khám phá ngay',
+            'title' => 'Welcome to Hanaya Shop',
+            'subtitle' => 'Where meaningful flowers and gifts come together',
+            'button_text' => 'Explore Now',
             'button_link' => '/products'
         ],
         [
             'image' => 'fixed_resources/banner_2.jpg',
-            'title' => 'Bộ sưu tập Hoa Xà Phòng',
-            'subtitle' => 'Những bông hoa vĩnh cửu với hương thơm dịu nhẹ',
-            'button_text' => 'Xem bộ sưu tập',
+            'title' => 'Soap Flower Collection',
+            'subtitle' => 'Eternal flowers with gentle fragrance',
+            'button_text' => 'View Collection',
             'button_link' => '/products?category_name=soap-flower'
         ],
         [
             'image' => 'fixed_resources/banner_3.jpg',
-            'title' => 'Quà tặng đặc biệt',
-            'subtitle' => 'Những món quà ý nghĩa cho người thân yêu',
-            'button_text' => 'Tìm quà ngay',
+            'title' => 'Special Gifts',
+            'subtitle' => 'Meaningful gifts for your loved ones',
+            'button_text' => 'Find Gifts',
             'button_link' => '/products?category_name=souvenir'
         ]
     ],
     // Chatbot messages
     'chatbot_greeting' =>
-        "Xin chào! Tôi là chatbot của Hanaya Shop. Tôi có thể giúp bạn:\n"
-        . "🌸 Tìm kiếm sản phẩm\n"
-        . "📝 Thông tin về đơn hàng\n"
-        . "📋 Danh mục sản phẩm\n"
-        . "📰 Tin tức mới nhất\n"
-        . "❓ Trả lời các câu hỏi thường gặp\n\n"
-        . "Bạn cần hỗ trợ gì?",    
+        "Hello! I'm Hanaya Shop's chatbot. I can help you with:\n"
+        . "🌸 Product search\n"
+        . "📝 Order information\n"
+        . "📋 Product categories\n"
+        . "📰 Latest news\n"
+        . "❓ Frequently asked questions\n\n"
+        . "How can I help you?",    
     'chatbot_help' =>
-        "🤖 Hướng dẫn sử dụng chatbot Hanaya Shop:\n\n"
-        . "🔍 Tìm sản phẩm:\n"
-        . "• 'tìm hoa xà phòng'\n"
-        . "• 'sản phẩm quà tặng'\n\n"
-        . "📂 Xem danh mục:\n"
-        . "• 'danh mục sản phẩm'\n"
-        . "• 'loại sản phẩm'\n\n"
-        . "📦 Kiểm tra đơn hàng:\n"
-        . "• 'đơn hàng của tôi'\n"
-        . "• 'order'\n\n"
-        . "📰 Tin tức:\n"
-        . "• 'tin tức mới nhất'\n"
-        . "• 'bài viết'\n\n"
-        . "🏪 Thông tin cửa hàng:\n"
-        . "• 'thông tin cửa hàng'\n"
-        . "• 'địa chỉ liên hệ'\n\n"
-        . "Hãy thử hỏi tôi bất cứ điều gì!",
+        "🤖 Hanaya Shop chatbot user guide:\n\n"
+        . "🔍 Find products:\n"
+        . "• 'find soap flowers'\n"
+        . "• 'gift products'\n\n"
+        . "📂 View categories:\n"
+        . "• 'product categories'\n"
+        . "• 'product types'\n\n"
+        . "📦 Check orders:\n"
+        . "• 'my orders'\n"
+        . "• 'order status'\n\n"
+        . "📰 News:\n"
+        . "• 'latest news'\n"
+        . "• 'articles'\n\n"
+        . "🏪 Store information:\n"
+        . "• 'store info'\n"
+        . "• 'contact address'\n\n"
+        . "Feel free to ask me anything!",
     'chatbot_store_info' =>
-        "🏪 Thông tin cửa hàng Hanaya Shop:\n\n"
-        . "📍 Địa chỉ: 123 Đường Hoa, Sơn Tây, Hà Nội\n"
-        . "📞 Điện thoại: 0948512463\n"
+        "🏪 Hanaya Shop store information:\n\n"
+        . "📍 Address: 123 Flower Street, Son Tay, Hanoi\n"
+        . "📞 Phone: 0948512463\n"
         . "📧 Email: assassincreed2k1@gmail.com\n"
-        . "🕒 Giờ mở cửa: 8:00 - 22:00 (Thứ 2 - Chủ nhật)\n\n"
-        . "🚚 Giao hàng: Toàn quốc\n"
-        . "💳 Thanh toán: Tiền mặt, chuyển khoản, thẻ\n\n"
-        . "Liên hệ ngay để được tư vấn!",
+        . "🕒 Opening hours: 8:00 - 22:00 (Monday - Sunday)\n\n"
+        . "🚚 Delivery: Nationwide\n"
+        . "💳 Payment: Cash, bank transfer, cards\n\n"
+        . "Contact us now for consultation!",
     'chatbot_status' => [
-        'pending' => "Chờ xử lý",
-        'processing' => "Đang xử lý",
-        'completed' => "Hoàn thành",
-        'cancelled' => "Đã hủy"
+        'pending' => "Pending",
+        'processing' => "Processing",
+        'completed' => "Completed",
+        'cancelled' => "Cancelled"
     ],
     'chatbot_price_info' =>
-        "Về giá cả sản phẩm của chúng tôi:\n\n"
-        . "🌸 Hoa xà phòng: Từ 50.000₫ - 500.000₫\n"
-        . "🎁 Quà lưu niệm: Từ 30.000₫ - 300.000₫\n\n"
-        . "Giá cụ thể tùy thuộc vào kích thước, chất liệu và thiết kế.\n"
-        . "Xem chi tiết giá tại: /products",
+        "About our product prices:\n\n"
+        . "🌸 Soap flowers: From 50,000₫ - 500,000₫\n"
+        . "🎁 Souvenirs: From 30,000₫ - 300,000₫\n\n"
+        . "Specific prices depend on size, materials, and design.\n"
+        . "See detailed prices at: /products",
     'chatbot_default' =>
-        "Xin lỗi, tôi chưa hiểu câu hỏi của bạn. Bạn có thể hỏi tôi về:\n"
-        . "• Sản phẩm (ví dụ: 'tìm hoa xà phòng')\n"
-        . "• Danh mục sản phẩm\n"
-        . "• Đơn hàng của bạn\n"
-        . "• Tin tức mới nhất\n"
-        . "• Thông tin cửa hàng\n\n"
-        . "Hoặc gõ 'help' để xem hướng dẫn chi tiết.",
+        "Sorry, I don't understand your question. You can ask me about:\n"
+        . "• Products (e.g., 'find soap flowers')\n"
+        . "• Product categories\n"
+        . "• Your orders\n"
+        . "• Latest news\n"
+        . "• Store information\n\n"
+        . "Or type 'help' for detailed instructions.",
 ];

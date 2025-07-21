@@ -36,19 +36,19 @@
             </div>
         </a>
 
-        <!-- Paper Flower -->
-        <a href="{{ route('product.index', ['category_name' => 'paper-flower']) }}" 
-           class="category-item group relative overflow-hidden rounded-lg border-2 transition-all duration-300 hover:shadow-lg {{ $selectedCategory === 'paper-flower' ? 'border-pink-500 bg-pink-50' : 'border-gray-200 hover:border-pink-300' }}">
+        <!-- Special Flower -->
+        <a href="{{ route('product.index', ['category_name' => 'special-flower']) }}" 
+           class="category-item group relative overflow-hidden rounded-lg border-2 transition-all duration-300 hover:shadow-lg {{ $selectedCategory === 'special-flower' ? 'border-pink-500 bg-pink-50' : 'border-gray-200 hover:border-pink-300' }}">
             <div class="p-6 text-center">
-                <div class="w-16 h-16 mx-auto mb-3 rounded-full flex items-center justify-center {{ $selectedCategory === 'paper-flower' ? 'bg-pink-500' : 'bg-gray-100 group-hover:bg-pink-100' }}">
-                    <svg class="w-8 h-8 {{ $selectedCategory === 'paper-flower' ? 'text-white' : 'text-gray-600 group-hover:text-pink-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="w-16 h-16 mx-auto mb-3 rounded-full flex items-center justify-center {{ $selectedCategory === 'special-flower' ? 'bg-pink-500' : 'bg-gray-100 group-hover:bg-pink-100' }}">
+                    <svg class="w-8 h-8 {{ $selectedCategory === 'special-flower' ? 'text-white' : 'text-gray-600 group-hover:text-pink-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                     </svg>
                 </div>
-                <h4 class="font-semibold {{ $selectedCategory === 'paper-flower' ? 'text-pink-700' : 'text-gray-700 group-hover:text-pink-600' }}">
-                    Paper Flower
+                <h4 class="font-semibold {{ $selectedCategory === 'special-flower' ? 'text-pink-700' : 'text-gray-700 group-hover:text-pink-600' }}">
+                    Special Flower
                 </h4>
-                <p class="text-sm text-gray-500 mt-1">Hoa giấy</p>
+                <p class="text-sm text-gray-500 mt-1">Special flowers</p>
             </div>
         </a>
 

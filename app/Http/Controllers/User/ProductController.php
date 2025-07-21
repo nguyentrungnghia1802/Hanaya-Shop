@@ -34,7 +34,7 @@ class ProductController extends Controller
             if ($categoryName) {
                 $categoryMapping = [
                     'soap-flower' => ['Soap Flower', 'Hoa xà phòng', 'soap flower'],
-                    'paper-flower' => ['Paper Flower', 'Hoa giấy', 'paper flower'],
+                    'special-flower' => ['Special Flower', 'Hoa đặc biệt', 'special flower'],
                     'fresh-flowers' => ['Fresh Flowers', 'Hoa tươi', 'fresh flowers'],
                     'souvenir' => ['Souvenir', 'Quà lưu niệm', 'souvenir']
                 ];
@@ -108,13 +108,13 @@ class ProductController extends Controller
             $categories = \App\Models\Product\Category::withCount('product')->get();
 
             // Determine page title based on category
-            $pageTitle = 'Sản phẩm Hanaya Shop';
+            $pageTitle = 'Products - Hanaya Shop';
             if ($categoryName) {
                 $categoryTitles = [
-                    'soap-flower' => 'Hoa Xà Phòng',
-                    'paper-flower' => 'Hoa Giấy',
-                    'fresh-flowers' => 'Hoa Tươi',
-                    'souvenir' => 'Quà Lưu Niệm'
+                    'soap-flower' => 'Soap Flower',
+                    'special-flower' => 'Special Flower',
+                    'fresh-flowers' => 'Fresh Flowers',
+                    'souvenir' => 'Souvenir'
                 ];
                 $pageTitle = $categoryTitles[$categoryName] ?? $pageTitle;
             }

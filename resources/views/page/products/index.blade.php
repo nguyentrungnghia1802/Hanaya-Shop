@@ -1,12 +1,12 @@
 <x-app-layout>
     <div class="max-w-7xl mx-auto px-2 sm:px-4 py-6 sm:py-12">
-        <!-- Tiêu đề -->
-        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">{{ $pageTitle ?? 'Sản phẩm Hanaya Shop' }}</h2>
+        <!-- Page Title -->
+        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">{{ $pageTitle ?? 'Hanaya Shop Products' }}</h2>
 
         <!-- Category Navigation -->
         <x-category-navigation />
 
-        <!-- Bộ lọc & Tìm kiếm -->
+        <!-- Filter & Search -->
         <div class="mb-6 sm:mb-8">
             @php
                 $currentSort = request()->get('sort');
@@ -17,7 +17,7 @@
             <form method="GET" action="{{ route('user.products.index') }}" class="space-y-4">
                 <!-- Search Row - Mobile Responsive -->
                 <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                    <input type="text" name="q" value="{{ $keyword }}" placeholder="Tìm sản phẩm..." 
+                    <input type="text" name="q" value="{{ $keyword }}" placeholder="Search products..." 
                            class="px-3 py-2 text-sm sm:text-base rounded border focus:outline-none focus:ring focus:ring-pink-300 flex-1 min-w-0">
                     
                     @if($selectedCategoryName)
@@ -25,13 +25,13 @@
                     @endif
                     
                     <button type="submit" class="bg-pink-600 text-white px-4 sm:px-6 py-2 text-sm sm:text-base rounded hover:bg-pink-700 transition-colors whitespace-nowrap">
-                        <i class="fas fa-search mr-2"></i>Tìm kiếm
+                        <i class="fas fa-search mr-2"></i>Search
                     </button>
                 </div>
                 
                 <!-- Sort Options Row - Mobile Responsive -->
                 <div class="space-y-3">
-                    <span class="block text-sm sm:text-lg font-bold text-gray-700">Sắp xếp theo:</span>
+                    <span class="block text-sm sm:text-lg font-bold text-gray-700">Sort by:</span>
                     <input type="hidden" name="q" value="{{ $keyword }}">
                     @if($selectedCategoryName)
                         <input type="hidden" name="category_name" value="{{ $selectedCategoryName }}">
@@ -40,27 +40,27 @@
                     <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                         <a href="{{ route('user.products.index', array_merge(request()->except('sort'), ['sort' => 'desc', 'q' => $keyword, 'category_name' => $selectedCategoryName])) }}" 
                            class="bg-gray-700 text-white px-2 sm:px-4 py-2 text-xs sm:text-sm rounded hover:bg-pink-600 transition text-center {{ $currentSort === 'desc' ? 'bg-pink-600 font-bold' : '' }}">
-                            Giá Cao - Thấp
+                            Price High - Low
                         </a>
                         <a href="{{ route('user.products.index', array_merge(request()->except('sort'), ['sort' => 'asc', 'q' => $keyword, 'category_name' => $selectedCategoryName])) }}" 
                            class="bg-gray-700 text-white px-2 sm:px-4 py-2 text-xs sm:text-sm rounded hover:bg-pink-600 transition text-center {{ $currentSort === 'asc' ? 'bg-pink-600 font-bold' : '' }}">
-                            Giá Thấp - Cao
+                            Price Low - High
                         </a>
                         <a href="{{ route('user.products.index', array_merge(request()->except('sort'), ['sort' => 'sale', 'q' => $keyword, 'category_name' => $selectedCategoryName])) }}" 
                            class="bg-gray-700 text-white px-2 sm:px-4 py-2 text-xs sm:text-sm rounded hover:bg-pink-600 transition text-center {{ $currentSort === 'sale' ? 'bg-pink-600 font-bold' : '' }}">
-                            Khuyến Mãi Hot
+                            On Sale
                         </a>
                         <a href="{{ route('user.products.index', array_merge(request()->except('sort'), ['sort' => 'views', 'q' => $keyword, 'category_name' => $selectedCategoryName])) }}" 
                            class="bg-gray-700 text-white px-2 sm:px-4 py-2 text-xs sm:text-sm rounded hover:bg-pink-600 transition text-center {{ $currentSort === 'views' ? 'bg-pink-600 font-bold' : '' }}">
-                            Xem nhiều
+                            Most Viewed
                         </a>
                         <a href="{{ route('user.products.index', array_merge(request()->except('sort'), ['sort' => 'bestseller', 'q' => $keyword, 'category_name' => $selectedCategoryName])) }}" 
                            class="bg-gray-700 text-white px-2 sm:px-4 py-2 text-xs sm:text-sm rounded hover:bg-pink-600 transition text-center {{ $currentSort === 'bestseller' ? 'bg-pink-600 font-bold' : '' }}">
-                            Bán chạy
+                            Best Selling
                         </a>
                         <a href="{{ route('user.products.index', array_merge(request()->except('sort'), ['sort' => 'latest', 'q' => $keyword, 'category' => $selectedCategory, 'category_name' => $selectedCategoryName])) }}" 
                            class="bg-gray-700 text-white px-2 sm:px-4 py-2 text-xs sm:text-sm rounded hover:bg-pink-600 transition text-center {{ $currentSort === 'latest' || !$currentSort ? 'bg-pink-600 font-bold' : '' }}">
-                            Mới nhất
+                            Latest
                         </a>
                     </div>
                 </div>
@@ -86,7 +86,7 @@
                     @if($selectedCategory)
                         @php $categoryName = $categories->where('id', $selectedCategory)->first()->name ?? 'Unknown' @endphp
                         <span class="inline-flex items-center bg-green-100 text-green-800 text-sm px-3 py-1 rounded-full">
-                            Danh mục: {{ $categoryName }}
+                            Category: {{ $categoryName }}
                             <a href="{{ route('user.products.index', array_merge(request()->except('category'), ['q' => $keyword, 'category_name' => $selectedCategoryName])) }}" 
                                class="ml-2 text-green-600 hover:text-green-800">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -98,7 +98,7 @@
 
                     @if($selectedCategoryName)
                         <span class="inline-flex items-center bg-purple-100 text-purple-800 text-sm px-3 py-1 rounded-full">
-                            Loại: {{ $pageTitle }}
+                            Type: {{ $pageTitle }}
                             <a href="{{ route('user.products.index', array_merge(request()->except('category_name'), ['q' => $keyword, 'category' => $selectedCategory])) }}" 
                                class="ml-2 text-purple-600 hover:text-purple-800">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -116,7 +116,7 @@
             @endif
         </div>
 
-        <!-- Lưới sản phẩm - Mobile Responsive -->
+        <!-- Product Grid - Mobile Responsive -->
         <div class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
             @if ($products->count() > 0)
                 @foreach ($products as $productItem)
@@ -180,7 +180,7 @@
 
                                 <a href="{{ route('user.products.show', $productItem->id) }}"
                                     class="block text-center bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 sm:py-3 rounded-lg transition-colors duration-300 text-sm">
-                                    <i class="fas fa-eye mr-2"></i>Xem chi tiết
+                                    <i class="fas fa-eye mr-2"></i>View Details
                                 </a>
                             </div>
                         </div>
@@ -188,9 +188,9 @@
                 @endforeach
             @else
                 <div class="col-span-full flex flex-col items-center justify-center py-12 sm:py-16">
-                    <img src="{{ asset('fixed_resources/not_founded.jpg') }}" alt="Không tìm thấy" class="w-24 sm:w-32 h-24 sm:h-32 mb-4 opacity-70">
-                    <p class="text-base sm:text-lg text-gray-500 font-semibold">Không tìm thấy sản phẩm phù hợp.</p>
-                    <p class="text-sm text-gray-400 mt-2">Hãy thử tìm kiếm với từ khóa khác</p>
+                    <img src="{{ asset('fixed_resources/not_founded.jpg') }}" alt="No products found" class="w-24 sm:w-32 h-24 sm:h-32 mb-4 opacity-70">
+                    <p class="text-base sm:text-lg text-gray-500 font-semibold">No matching products found.</p>
+                    <p class="text-sm text-gray-400 mt-2">Try searching with different keywords</p>
                 </div>
             @endif
         </div>
