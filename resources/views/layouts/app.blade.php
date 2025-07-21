@@ -112,7 +112,7 @@
             <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
 
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Hanaya Shop</h3>
+                    <h3 class="text-lg font-semibold mb-4">{{ config('constants.shop_name') }}</h3>
                     <p class="text-sm">
                         Chuyên cung cấp hoa cao cấp, quà tặng ý nghĩa và phụ kiện trang trí.
                     </p>
@@ -130,9 +130,9 @@
 
                 <div>
                     <h3 class="text-lg font-semibold mb-4">Liên hệ</h3>
-                    <p class="text-sm"> Địa chỉ: Hà Nội</p>
-                    <p class="text-sm"> Số điện thoại: </p>
-                    <p class="text-sm"> Email: support@hanaya.vn</p>
+                    <p class="text-sm"> Địa chỉ: {{ config('constants.shop_address') }}</p>
+                    <p class="text-sm"> Số điện thoại: {{ config('constants.shop_phone') }}</p>
+                    <p class="text-sm"> Email: {{ config('constants.shop_email') }}</p>
                 </div>
             </div>
 
