@@ -138,7 +138,37 @@
                 <!-- Revenue Chart -->
                 <div class="bg-white rounded-lg shadow-lg p-6">
                     <h3 class="text-lg font-semibold text-gray-800 mb-4">Revenue Chart - Last 6 Months</h3>
-                    <canvas id="revenueChart" width="400" height="200"></canvas>
+                    <canvas id="revenueBarChart" width="400" height="200"></canvas>
+                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const ctx = document.getElementById('revenueBarChart');
+                            const revenueData = @json($monthlyRevenueChart ?? []);
+                            if (!ctx || !Array.isArray(revenueData) || revenueData.length === 0) {
+                                if (ctx) ctx.getContext('2d').fillText('No data available', 50, 50);
+                                return;
+                            }
+                            new Chart(ctx.getContext('2d'), {
+                                type: 'bar',
+                                data: {
+                                    labels: revenueData.map(item => item.month || 'N/A'),
+                                    datasets: [{
+                                        label: 'Revenue',
+                                        data: revenueData.map(item => item.revenue || 0),
+                                        backgroundColor: 'rgba(59,130,246,0.7)'
+                                    }]
+                                },
+                                options: {
+                                    plugins: {
+                                        legend: { display: false }
+                                    },
+                                    scales: {
+                                        y: { beginAtZero: true }
+                                    }
+                                }
+                            });
+                        });
+                    </script>
                 </div>
 
                 <!-- Order Status Distribution -->
@@ -311,101 +341,4 @@
         </div>
     </div>
 
-    <!-- Chart.js Script -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        // Revenue Chart với timeout protection
-        document.addEventListener('DOMContentLoaded', function() {
-            try {
-                const ctx = document.getElementById('revenueChart');
-                if (!ctx) {
-                    console.error('Revenue chart canvas not found');
-                    return;
-                }
-                
-                const revenueData = @json($monthlyRevenueChart ?? []);
-                
-                // Validation data
-                if (!Array.isArray(revenueData) || revenueData.length === 0) {
-                    console.warn('No revenue data available');
-                    ctx.getContext('2d').fillText('No data available', 50, 50);
-                    return;
-                }
-                
-                // Create chart với error handling
-                const chart = new Chart(ctx.getContext('2d'), {
-                    type: 'line',
-                    data: {
-                        labels: revenueData.map(item => item.month || 'N/A'),
-                        datasets: [{
-                            label: 'Revenue (USD)',
-                            data: revenueData.map(item => item.revenue || 0),
-                            borderColor: 'rgb(59, 130, 246)',
-                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                            borderWidth: 2,
-                            fill: true,
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        animation: {
-                            duration: 800 // Giảm animation time
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: {
-                                    callback: function(value) {
-                                        if (typeof value !== 'number') return value;
-                                        return new Intl.NumberFormat('en-US').format(value) + ' $';
-                                    },
-                                    maxTicksLimit: 6 // Giới hạn số tick
-                                }
-                            },
-                            x: {
-                                ticks: {
-                                    maxTicksLimit: 8 // Giới hạn số tick
-                                }
-                            }
-                        },
-                        plugins: {
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        const value = context.parsed.y;
-                                        if (typeof value !== 'number') return 'Revenue: N/A';
-                                        return 'Revenue: ' + new Intl.NumberFormat('en-US').format(value) + ' $';
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-                
-                // Auto refresh every 5 minutes với timeout
-                let refreshTimeout = setTimeout(function() {
-                    if (chart) {
-                        chart.destroy();
-                    }
-                    location.reload();
-                }, 300000); // 5 phút
-                
-                // Clear timeout khi user rời khỏi trang
-                window.addEventListener('beforeunload', function() {
-                    if (refreshTimeout) {
-                        clearTimeout(refreshTimeout);
-                    }
-                });
-                
-            } catch (error) {
-                console.error('Error creating revenue chart:', error);
-                const errorDiv = document.createElement('div');
-                errorDiv.className = 'text-red-500 text-center p-4';
-                errorDiv.textContent = 'Error loading revenue chart';
-                document.getElementById('revenueChart').parentNode.appendChild(errorDiv);
-            }
-        });
-    </script>
 @endsection
