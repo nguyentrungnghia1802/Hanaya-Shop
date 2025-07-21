@@ -38,31 +38,8 @@ class DashboardController extends Controller
             ];
         });
 
-        // Banner data không cache vì có thể thay đổi thường xuyên
-        $banners = [
-            [
-                'image' => 'fixed_resources/banner1.jpg',
-                'title' => 'Chào mừng đến với Hanaya Shop',
-                'subtitle' => 'Nơi mang đến những sản phẩm hoa xà phòng tuyệt đẹp và các quà tặng ý nghĩa',
-                'button_text' => 'Khám phá ngay',
-                'button_link' => route('user.products.index')
-            ],
-            [
-                'image' => 'fixed_resources/banner2.jpg',
-                'title' => 'Bộ sưu tập Hoa Xà Phòng',
-                'subtitle' => 'Những bông hoa vĩnh cửu với hương thơm dịu nhẹ',
-                'button_text' => 'Xem bộ sưu tập',
-                'button_link' => route('user.products.index', ['category_name' => 'soap-flower'])
-            ],
-            [
-                'image' => 'fixed_resources/banner3.jpg',
-                'title' => 'Quà tặng đặc biệt',
-                'subtitle' => 'Những món quà ý nghĩa cho người thân yêu',
-                'button_text' => 'Tìm quà ngay',
-                'button_link' => route('user.products.index', ['category_name' => 'souvenir'])
-            ]
-        ];
-
+        // Banner lấy từ config constants
+        $banners = config('constants.banners');
         return view('page.dashboard', array_merge($data, ['banners' => $banners]));
     }
 
