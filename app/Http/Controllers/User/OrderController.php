@@ -15,50 +15,20 @@ use Illuminate\Support\Facades\Session;
 
 class OrderController extends Controller
 {
-    //
-    public function store(Request $request)
-{
-    $user = Auth::user();
-    //dd($user);
-    if (!$user) {
-        return redirect()->route('login')->with('error', 'Vui lòng đăng nhập để đặt hàng');
+    public function index(){
+        $userId = Auth::id();
+        $orders = Order::with('orderDetail.product')
+            ->where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('page.order.index', compact('orders'));
     }
 
-    $itemsJson = $request->input('selected_items_json');
-    $selectedItems = json_decode($itemsJson, true); 
-
-    if (empty($selectedItems)) {
-        return back()->with('error', 'Không có sản phẩm nào để đặt hàng.');
+    public function show($orderId)
+    {
+        $order = Order::with('orderDetail.product')->findOrFail($orderId);
+        return view('page.order.show', compact('order'));
     }
-
-    DB::beginTransaction();
-
-    try {
-        $order = Order::create([
-            'user_id' => $user->id,
-            'total_price' => array_sum(array_column($selectedItems, 'subtotal')) + 20000,
-            'status' => 'pending',
-        ]);
-
-        foreach ($selectedItems as $item) {
-            OrderDetail::create([
-                'order_id' => $order->id,
-                'product_id' => $item['id'],
-                'quantity' => $item['quantity'],
-                'price' => $item['price'],
-            ]);
-        }
-
-        DB::commit();
-
-        session()->forget('selectedItems');
-
-        return redirect()->route('checkout.success')->with('success', 'Đặt hàng thành công!');
-    } catch (\Exception $e) {
-        dd('Lỗi khi tạo đơn hàng:', $e->getMessage(), $e->getTraceAsString());
-        DB::rollBack();
-        return back()->with('error', 'Đặt hàng thất bại: ' . $e->getMessage());
-    }
-}
 
 }
