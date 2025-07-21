@@ -104,11 +104,8 @@
             <x-responsive-nav-link :href="route('admin.order')" :active="request()->routeIs('admin.order*')">
                 {{ __('Orders') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('admin.review')" :active="request()->routeIs('admin.review*')">
-                {{ __('Reviews') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('admin.statistical')" :active="request()->routeIs('admin.statistical*')">
-                {{ __('Statistical') }}
+            <x-responsive-nav-link :href="route('admin.post.index')" :active="request()->routeIs('admin.post*')">
+                {{ __('Posts') }}
             </x-responsive-nav-link>
         </div>
 

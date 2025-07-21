@@ -14,6 +14,12 @@ composer create-project --prefer-dist laravel/laravel hanaya_shop
 php artisan serve --host=0.0.0.0 --port=8000
 ```
 
+> **Truy cập ứng dụng tại:**
+> 
+> - http://127.0.0.1:8000
+> - http://localhost:8000
+> - http://<IPv4>:8000  (VD: http://192.168.1.101:8000)
+
 > **Lưu ý:** Nếu app.css không load, hãy mở thêm một terminal và chạy:
 ```bash
 npm run dev
