@@ -86,7 +86,7 @@
     {{-- Display current image (if exists) --}}
     @if($product->image_url)
         <p class="text-sm text-gray-600">Current image:</p>
-        <img id="previewImage" src="{{ asset('images/' . $product->image_url) }}" alt="Product Image" width="150"
+        <img id="previewImage" src="{{ asset('images/products/' . $product->image_url) }}" alt="Product Image" width="150"
              class="mt-1 rounded border">
     @endif
 

@@ -1,10 +1,15 @@
-@props(['categoryData', 'title' => 'Sản phẩm theo danh mục'])
+@props(['categoryData', 'title' => 'Products by Category'])
 
+@if(session('success'))
+    <div class="mb-6 p-4 bg-green-100 text-green-800 rounded-lg shadow text-center">
+        <i class="fas fa-check-circle mr-2"></i>{{ session('success') }}
+    </div>
+@endif
 @if(isset($categoryData) && count($categoryData) > 0)
 <div class="mb-12">
     <div class="container mx-auto px-4">
         <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">{{ $title }}</h2>
-        <p class="text-center text-gray-600 mb-8">Khám phá sản phẩm mới nhất từ các danh mục nổi bật</p>
+        <p class="text-center text-gray-600 mb-8">Discover the latest products from featured categories</p>
         
         @foreach($categoryData as $category)
         <div class="mb-10">
@@ -13,12 +18,12 @@
                 <div class="flex items-center">
                     <h3 class="text-2xl font-bold text-gray-800">{{ $category['name'] }}</h3>
                     <span class="ml-3 bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-sm font-medium">
-                        {{ $category['products']->count() }} sản phẩm
+                        {{ $category['products']->count() }} products
                     </span>
                 </div>
                 <a href="{{ route('user.products.index', ['category_name' => $category['slug']]) }}" 
                    class="text-pink-600 hover:text-pink-700 font-semibold flex items-center">
-                    Xem tất cả
+                    View All
                     <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
@@ -32,7 +37,7 @@
                     <div class="relative">
                         <div class="aspect-square w-full bg-gray-100 overflow-hidden">
                             <img 
-                                src="{{ $product->image_url ? asset('storage/' . $product->image_url) : asset('images/no-image.png') }}" 
+                                src="{{ asset('images/products/' . ($product->image_url ?? 'default-product.jpg')) }}" 
                                 alt="{{ $product->name }}"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                             >
@@ -46,7 +51,7 @@
                         
                         @if($product->stock_quantity <= 5)
                         <div class="absolute top-2 right-2 bg-orange-500 text-white px-2 py-1 rounded-lg text-xs">
-                            Sắp hết
+                            Low Stock
                         </div>
                         @endif
 
@@ -60,19 +65,20 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                                     </svg>
                                 </a>
-                                <button onclick="addToCart({{ $product->id }})" 
-                                        class="bg-white text-gray-800 p-2 rounded-full hover:bg-pink-500 hover:text-white transition-colors">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m1.6 8L6 5H3m4 8v6a1 1 0 001 1h10a1 1 0 001-1v-6m-6 2v4m0-4V9"></path>
-                                    </svg>
-                                </button>
+                                <form id="add-to-cart-form" action="{{ route('cart.add', $product->id) }}" method="POST" class="w-full">
+                                    @csrf
+                                    <input type="hidden" name="quantity" id="form-quantity" value="1">
+                                    <button type="submit" class="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition-colors duration-300 flex items-center justify-center" title="Add to Cart">
+                                        <i class="fas fa-shopping-cart mr-2"></i>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
                     
                     <div class="p-4">
                         <h4 class="font-semibold text-lg mb-2 line-clamp-2 text-gray-800">{{ $product->name }}</h4>
-                        <p class="text-gray-600 text-sm mb-3 line-clamp-2">{{ $product->descriptions }}</p>
+                        <p class="text-gray-600 text-sm mb-3 line-clamp-2">{{ strip_tags($product->descriptions) }}</p>
                         
                         @if($product->category)
                         <span class="inline-block bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full mb-3">
@@ -85,15 +91,15 @@
                             @if($product->discount_percent > 0)
                             <div class="flex items-center">
                                 <span class="text-lg font-bold text-red-600">
-                                    {{ number_format($product->discounted_price, 0, ',', '.') }}đ
+                                    ${{ number_format($product->discounted_price ?? $product->price, 2) }}
                                 </span>
                                 <span class="text-sm text-gray-500 line-through ml-2">
-                                    {{ number_format($product->price, 0, ',', '.') }}đ
+                                    ${{ number_format($product->price, 2) }}
                                 </span>
                             </div>
                             @else
                             <span class="text-lg font-bold text-gray-900">
-                                {{ number_format($product->price, 0, ',', '.') }}đ
+                                ${{ number_format($product->price, 2) }}
                             </span>
                             @endif
                         </div>
@@ -107,13 +113,13 @@
                         <!-- Action Buttons -->
                         <a href="{{ route('user.products.show', $product->id) }}" 
                            class="w-full bg-pink-500 hover:bg-pink-600 text-white text-center py-2 px-4 rounded-lg transition-colors flex items-center justify-center mb-2">
-                            <i class="fas fa-eye mr-2"></i>Xem chi tiết
+                            <i class="fas fa-eye mr-2"></i>View Details
                         </a>
-                        <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                        <form id="add-to-cart-form" action="{{ route('cart.add', $product->id) }}" method="POST" class="w-full">
                             @csrf
-                            <input type="hidden" name="quantity" value="1">
-                            <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white text-center py-2 px-4 rounded-lg transition-colors flex items-center justify-center">
-                                <i class="fas fa-cart-plus mr-2"></i>Thêm vào giỏ
+                            <input type="hidden" name="quantity" id="form-quantity" value="1">
+                            <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white text-center py-2 px-4 rounded-lg transition-colors flex items-center justify-center" title="Add to Cart">
+                                <i class="fas fa-cart-plus mr-2"></i>Add to Cart
                             </button>
                         </form>
                     </div>
@@ -144,13 +150,13 @@ function addToCart(productId) {
             if (typeof Swal !== 'undefined') {
                 Swal.fire({
                     icon: 'success',
-                    title: 'Thành công!',
-                    text: 'Đã thêm sản phẩm vào giỏ hàng',
+                    title: 'Success!',
+                    text: 'Product added to cart successfully',
                     timer: 2000,
                     showConfirmButton: false
                 });
             } else {
-                alert('Đã thêm sản phẩm vào giỏ hàng!');
+                alert('Product added to cart successfully!');
             }
             
             // Update cart count if element exists
@@ -162,11 +168,11 @@ function addToCart(productId) {
             if (typeof Swal !== 'undefined') {
                 Swal.fire({
                     icon: 'error',
-                    title: 'Lỗi!',
-                    text: data.message || 'Có lỗi xảy ra khi thêm sản phẩm'
+                    title: 'Error!',
+                    text: data.message || 'An error occurred while adding the product'
                 });
             } else {
-                alert(data.message || 'Có lỗi xảy ra khi thêm sản phẩm');
+                alert(data.message || 'An error occurred while adding the product');
             }
         }
     })
@@ -175,11 +181,11 @@ function addToCart(productId) {
         if (typeof Swal !== 'undefined') {
             Swal.fire({
                 icon: 'error',
-                title: 'Lỗi!',
-                text: 'Có lỗi xảy ra khi thêm sản phẩm'
+                title: 'Error!',
+                text: 'An error occurred while adding the product'
             });
         } else {
-            alert('Có lỗi xảy ra khi thêm sản phẩm');
+            alert('An error occurred while adding the product');
         }
     });
 }
