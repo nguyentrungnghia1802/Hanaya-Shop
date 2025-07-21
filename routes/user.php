@@ -11,16 +11,20 @@ use App\Http\Controllers\User\PostController;
 
 Route::get('/', [UserDashboardController::class, 'index'])->name('dashboard');
 
+// Product routes available for both guests and authenticated users
+Route::get('/products', [ProductController::class, 'index'])->name('user.products.index');
+Route::get('/products/{id}', [ProductController::class, 'show'])->name('user.products.show');
+Route::get('/product', [ProductController::class, 'index'])->name('product.index');
+Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');
+
+// Cart routes available for both guests and authenticated users
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
+Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+Route::post('/cart', [CartController::class,'buyNow'])->name('cart.buyNow');
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
-
-    Route::get('/product', [ProductController::class, 'index'])->name('product.index');
-    Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');
-
-    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-    Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
-    Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
-    Route::post('/cart', [CartController::class,'buyNow'])->name('cart.buyNow');
 
     Route::post('/checkout-preview', [CheckoutController::class, 'preview'])->name('checkout.preview');
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');

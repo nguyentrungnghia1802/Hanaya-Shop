@@ -41,6 +41,8 @@
                                     <th class="px-2 sm:px-4 py-2 border-b">Description</th>
                                     <th class="px-2 sm:px-4 py-2 border-b">Price</th>
                                     <th class="px-2 sm:px-4 py-2 border-b">Quantity</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">Discount</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">Views</th>
                                     <th class="px-2 sm:px-4 py-2 border-b">Category</th>
                                     <th class="px-2 sm:px-4 py-2 border-b">Action</th>
                             </tr>
@@ -53,8 +55,18 @@
                                     <td class="px-4 py-2 border-b max-w-xs truncate" title="{{ $item->descriptions }}">
                                         {{ \Illuminate\Support\Str::limit($item->descriptions, 50) }}
                                     </td>
-                                    <td class="px-4 py-2 border-b">{{ $item->price }}</td>
+                                    <td class="px-4 py-2 border-b">{{ number_format($item->price) }} ₫</td>
                                     <td class="px-4 py-2 border-b">{{ $item->stock_quantity }}</td>
+                                    <td class="px-4 py-2 border-b">
+                                        @if($item->discount_percent > 0)
+                                            <span class="text-red-600 font-semibold">{{ $item->discount_percent }}%</span>
+                                        @else
+                                            <span class="text-gray-400">0%</span>
+                                        @endif
+                                    </td>
+                                    <td class="px-4 py-2 border-b">
+                                        <span class="text-blue-600">{{ number_format($item->view_count ?? 0) }}</span>
+                                    </td>
                                     <td class="px-4 py-2 border-b">{{ $item->category->name }}</td>
                                     <td class="px-4 py-2 border-b">
                                         <div class="flex flex-wrap gap-2">

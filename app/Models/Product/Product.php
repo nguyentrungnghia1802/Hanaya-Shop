@@ -22,6 +22,8 @@ class Product extends Model
         'stock_quantity',
         'image_url',
         'category_id',
+        'discount_percent',
+        'view_count',
     ];
 
     protected $dates = [
@@ -35,9 +37,19 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function getDiscountedPrice($discountPercentage)
+    public function getDiscountedPrice($discountPercentage = null)
     {
-        return $this->price - ($this->price * $discountPercentage / 100);
+        $discount = $discountPercentage ?? $this->discount_percent;
+        return $this->price - ($this->price * $discount / 100);
+    }
+
+    // Accessor for discounted price
+    public function getDiscountedPriceAttribute()
+    {
+        if ($this->discount_percent > 0) {
+            return $this->price - ($this->price * $this->discount_percent / 100);
+        }
+        return $this->price;
     }
 
     public function orderDetail()
