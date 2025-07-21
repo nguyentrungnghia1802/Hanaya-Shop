@@ -5,7 +5,8 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <img src="{{ asset('fixed_resources/logo.jpg') }}" alt="Logo" class="h-9 w-auto" loading="lazy" fetchpriority="high">
+                    <img src="{{ asset('fixed_resources/logo.png') }}" alt="Logo" class="h-9 w-auto">
+
                     <a href="{{ route('admin.dashboard') }}">
                         <p style="margin-left: 10px"> HANAYA SHOP </p>
 
@@ -26,11 +27,8 @@
                     <x-nav-link :href="route('admin.order')" :active="request()->routeIs('admin.order*')">
                         {{ __('Orders') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('admin.review')" :active="request()->routeIs('admin.review*')">
-                        {{ __('Reviews') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('admin.statistical')" :active="request()->routeIs('admin.statistical*')">
-                        {{ __('Statistical') }}
+                    <x-nav-link :href="route('admin.post.index')" :active="request()->routeIs('admin.post*')">
+                        {{ __('Posts') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -107,11 +105,8 @@
             <x-responsive-nav-link :href="route('admin.order')" :active="request()->routeIs('admin.order*')">
                 {{ __('Orders') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('admin.review')" :active="request()->routeIs('admin.review*')">
-                {{ __('Reviews') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('admin.statistical')" :active="request()->routeIs('admin.statistical*')">
-                {{ __('Statistical') }}
+            <x-responsive-nav-link :href="route('admin.post.index')" :active="request()->routeIs('admin.post*')">
+                {{ __('Posts') }}
             </x-responsive-nav-link>
         </div>
 

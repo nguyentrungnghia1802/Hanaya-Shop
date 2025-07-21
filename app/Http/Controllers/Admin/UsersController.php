@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 use App\Models\Order\Order;
 use App\Models\Cart\Cart;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
@@ -20,7 +21,7 @@ class UsersController extends Controller
     public function index()
     {
         // Không dùng cache cho phân trang
-        $users = User::where('role', 'user')->paginate(20); // 20 user mỗi trang
+        $users = User::where('id', '!=', Auth::id())->paginate(20); // 20 user mỗi trang, loại bỏ chính mình
         return view('admin.users.index', compact('users'));
     }
 
@@ -50,15 +51,16 @@ class UsersController extends Controller
             'users.*.name' => 'required|string|max:255',
             'users.*.email' => 'required|email|unique:users,email',
             'users.*.password' => 'required|string|min:6',
+            'users.*.role' => 'required|in:user,admin',
         ]);
 
         // Lặp qua từng người dùng và tạo tài khoản
-        foreach ($request->users as $userData) {
+        foreach ($request->input('users') as $userData) {
             User::create([
                 'name' => $userData['name'],
                 'email' => $userData['email'],
                 'password' => bcrypt($userData['password']),
-                'role' => 'user',
+                'role' => $userData['role'],
             ]);
         }
 
@@ -76,7 +78,10 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        $user = User::where('role', 'user')->findOrFail($id);
+        if ($id == Auth::id()) {
+            abort(403, 'Bạn không thể sửa chính mình.');
+        }
+        $user = User::findOrFail($id);
         return view('admin.users.edit', compact('user'));
     }
 
@@ -91,22 +96,27 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::where('role', 'user')->findOrFail($id);
+        if ($id == Auth::id()) {
+            abort(403, 'Bạn không thể cập nhật chính mình.');
+        }
+        $user = User::findOrFail($id);
 
         // Xác thực dữ liệu đầu vào
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            'email' => 'required|email|unique:users,email,' . $user->getKey(),
+            'role' => 'required|in:user,admin',
             'password' => 'nullable|string|min:6',
         ]);
 
         // Cập nhật thông tin người dùng
-        $user->name = $request->name;
-        $user->email = $request->email;
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->role = $request->input('role');
 
         // Nếu có nhập mật khẩu mới thì cập nhật
-        if ($request->password) {
-            $user->password = bcrypt($request->password);
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->input('password'));
         }
 
         $user->save();
@@ -128,12 +138,10 @@ class UsersController extends Controller
     public function destroy(Request $request)
     {
         $ids = $request->input('ids', []);
-
-        // Đảm bảo $ids luôn là mảng
         if (!is_array($ids)) $ids = [$ids];
-
-        // Xóa người dùng với role = 'user' theo danh sách ID
-        User::where('role', 'user')->whereIn('id', $ids)->delete();
+        // Loại bỏ id của admin đang đăng nhập khỏi danh sách xóa
+        $ids = array_diff($ids, [Auth::id()]);
+        User::whereIn('id', $ids)->delete();
 
         // Làm mới cache
         Cache::forget('admin_users_all');
@@ -154,7 +162,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $user = User::where('role', 'user')->findOrFail($id);
+        $user = User::findOrFail($id);
 
         // Lấy danh sách đơn hàng
         $orders = $user->order()->get();
@@ -169,7 +177,7 @@ class UsersController extends Controller
     {
         $query = $request->input('query', '');
 
-        $users = User::where('role', 'user')
+        $users = User::where('id', '!=', Auth::id())
             ->where(function ($q) use ($query) {
                 $q->where('name', 'LIKE', "%{$query}%")
                     ->orWhere('email', 'LIKE', "%{$query}%");
@@ -180,21 +188,22 @@ class UsersController extends Controller
         if ($users->count() > 0) {
             foreach ($users as $user) {
                 $html .= '<tr>
-                    <td class="px-4 py-2 border-b"><input type="checkbox" class="check-user" value="' . $user->id . '"></td>
-                    <td class="px-4 py-2 border-b">' . $user->id . '</td>
+                    <td class="px-4 py-2 border-b"><input type="checkbox" class="check-user" value="' . $user->getKey() . '"></td>
+                    <td class="px-4 py-2 border-b">' . $user->getKey() . '</td>
                     <td class="px-4 py-2 border-b">' . e($user->name) . '</td>
                     <td class="px-4 py-2 border-b">' . e($user->email) . '</td>
+                    <td class="px-4 py-2 border-b">' . e($user->role) . '</td>
                     <td class="px-4 py-2 border-b">
                         <div class="flex flex-wrap gap-2">
-                            <a href="' . route('admin.user.edit', $user->id) . '" class="px-3 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition">Edit</a>
-                            <button type="button" class="px-3 py-1 bg-red-500 text-white text-xs font-medium rounded hover:bg-red-600 transition btn-delete" data-id="' . $user->id . '">Delete</button>
-                            <a href="' . route('admin.user.show', $user->id) . '" class="px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">View Details</a>
+                            <a href="' . route('admin.user.edit', $user->getKey()) . '" class="px-3 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition">Edit</a>
+                            <button type="button" class="px-3 py-1 bg-red-500 text-white text-xs font-medium rounded hover:bg-red-600 transition btn-delete" data-id="' . $user->getKey() . '">Delete</button>
+                            <a href="' . route('admin.user.show', $user->getKey()) . '" class="px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">View Details</a>
                         </div>
                     </td>
                 </tr>';
             }
         } else {
-            $html = '<tr><td colspan="5" class="text-center py-4 text-gray-500">No users found.</td></tr>';
+            $html = '<tr><td colspan="6" class="text-center py-4 text-gray-500">No users found.</td></tr>';
         }
 
         return response()->json(['html' => $html]);
