@@ -419,14 +419,14 @@
         </div>
     </div>
 
-    <script>
-    function addToCart(productId) {
+<script>
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.add-to-cart-form').forEach(function(form) {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             const action = form.getAttribute('action');
             const quantity = form.querySelector('input[name="quantity"]').value || 1;
+
             fetch(action, {
                 method: 'POST',
                 headers: {
@@ -438,22 +438,13 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Find overlay in this product card
-                    const overlay = form.closest('.group').querySelector('.absolute.inset-0');
-                    let modal = overlay.querySelector('.success-modal');
-                    if (!modal) {
-                        modal = document.createElement('div');
-                        modal.className = 'success-modal bg-white text-green-700 font-bold rounded-lg shadow-lg px-6 py-4 flex flex-col items-center justify-center';
-                        modal.style.position = 'absolute';
-                        modal.style.top = '50%';
-                        modal.style.left = '50%';
-                        modal.style.transform = 'translate(-50%, -50%)';
-                        modal.style.zIndex = '50';
-                        modal.innerHTML = '<span>✔️ Product added to cart!</span><button class="mt-2 px-4 py-1 bg-green-600 text-white rounded" onclick="this.parentElement.remove()">OK</button>';
-                        overlay.appendChild(modal);
+                    // Show popup
+                    const popup = document.getElementById('success-popup');
+                    if (popup) {
+                        popup.classList.remove('hidden');
+                        setTimeout(() => popup.classList.add('hidden'), 2500);
                     }
-                    // Remove after 2s if not dismissed
-                    setTimeout(() => { if (modal && modal.parentElement) modal.remove(); }, 2000);
+
                     // Update cart count
                     const cartCount = document.querySelector('.cart-count');
                     if (cartCount && data.cart_count) {
@@ -469,5 +460,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-    </script>
+</script>
+
+<!-- Success Popup -->
+<div id="success-popup" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
+    <div class="bg-white rounded-lg shadow-lg p-6 text-center w-80">
+        <h3 class="text-lg font-semibold text-green-600 mb-2">Success</h3>
+        <p class="text-gray-700">Success to add to cart!</p>
+        <button onclick="document.getElementById('success-popup').classList.add('hidden')" class="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+            OK
+        </button>
+    </div>
+</div>
+
 </x-app-layout>
