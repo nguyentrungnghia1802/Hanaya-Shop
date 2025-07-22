@@ -14,9 +14,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Category::factory()->count(2)->create();
-        Product::factory()->count(20)->create();
+        // Tạo categories trước
+        Category::factory()->count(5)->create();
+        
+        // Tạo products
+        Product::factory()->count(50)->create();
+        
+        // Tạo posts và users
         $this->call([
+            UserSeeder::class,
             PostSeeder::class,
         ]);
     }

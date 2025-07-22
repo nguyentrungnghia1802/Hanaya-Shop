@@ -34,13 +34,14 @@
                                  <input type="checkbox" name="cart_ids[]" value="{{ $id }}" 
                                      class="cart-checkbox" 
                                     data-price="{{ $item['price'] * $item['quantity'] }}"
-                                    data-id="{{ $id }}">
+                                    data-id="{{ $id }}"
+                                    data-product-id="{{ $item['product_id'] }}">
                             </td>
                             <td class="py-2 px-4 border-b">
                                 <img src="{{ $item['image_url'] }}" alt="{{ $item['name'] }}" class="w-16 h-16 object-cover rounded">
                             </td>
                             <td class="py-2 px-4 border-b">{{ $item['name'] }}</td>
-                            <td class="py-2 px-4 border-b">{{ number_format($item['price'], 0, ',', '.') }}₫</td>
+                            <td class="py-2 px-4 border-b">{{ number_format($item['price'], 0, ',', '.') }} USD</td>
                             <td class="py-2 px-4 border-b text-center">
                                 <div class="flex items-center justify-center gap-2">
                                 <button type="button" class="btn-decrease bg-gray-200 px-2 rounded" data-id="{{ $id }}">−</button>
@@ -52,7 +53,7 @@
                                 </div>
                             </td>
                             <td class="py-2 px-4 border-b item-total" data-id="{{ $id }}">
-                                {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}₫
+                                {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }} USD
                             </td>
                             <td class="py-2 px-4 border-b">
                                 <a href="{{ route('cart.remove', $id) }}" class="text-red-600 hover:underline">Xóa</a>
@@ -61,7 +62,7 @@
                         @endforeach
                         <tr>
                             <td colspan="4" class="text-right font-bold py-2 px-4">Tổng cộng:</td>
-                            <td colspan="2" class="font-bold py-2 px-4" id="totalPrice">0₫</td>
+                            <td colspan="2" class="font-bold py-2 px-4" id="totalPrice">0 USD</td>
                         </tr>
                     </tbody>
                 </table>
@@ -83,11 +84,12 @@
                             <input type="checkbox" name="cart_ids[]" value="{{ $id }}"
                                 class="cart-checkbox"
                                 data-price="{{ $item['price'] * $item['quantity'] }}"
-                                data-id="{{ $id }}">
+                                data-id="{{ $id }}"
+                                data-product-id="{{ $item['product_id'] }}">
                             <img src="{{ $item['image_url'] }}" alt="{{ $item['name'] }}" class="w-20 h-20 object-cover rounded">
                             <div class="flex-1">
                                 <div class="font-semibold">{{ $item['name'] }}</div>
-                                <div class="text-pink-600 font-bold">{{ number_format($item['price'], 0, ',', '.') }}₫</div>
+                                <div class="text-pink-600 font-bold">{{ number_format($item['price'], 0, ',', '.') }} USD</div>
                             </div>
                         </div>
                         <div class="flex items-center justify-between">
@@ -100,7 +102,7 @@
                                 <button type="button" class="btn-increase bg-gray-200 px-2 rounded" data-id="{{ $id }}">+</button>
                             </div>
                             <div class="item-total font-bold text-gray-700" data-id="{{ $id }}">
-                                {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}₫
+                                {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }} USD
                             </div>
                             <a href="{{ route('cart.remove', $id) }}" class="text-red-600 hover:underline">Xóa</a>
                         </div>
@@ -108,7 +110,7 @@
                     @endforeach
                     <div class="bg-white rounded shadow p-4 flex justify-between items-center font-bold">
                         <span>Tổng cộng:</span>
-                        <span id="totalPrice">0₫</span>
+                        <span id="totalPrice">0 USD</span>
                     </div>
                     <div class="text-right mt-4">
                         <button type="submit" class="bg-pink-600 hover:bg-pink-700 text-white px-6 py-2 rounded shadow">
@@ -130,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const checkoutForm = document.getElementById('checkout-form');
 
     function formatCurrency(value) {
-        return new Intl.NumberFormat('vi-VN').format(value) + '₫';
+        return new Intl.NumberFormat('vi-VN').format(value) + ' USD';
     }
 
     function updateTotal() {
@@ -266,8 +268,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const price = parseFloat(row.querySelector('.quantity-input').dataset.price);
             const quantity = parseInt(row.querySelector('.quantity-input').value);
             const subtotal = price * quantity;
+            const productId = cb.dataset.productId; // Lấy product_id thực tế
             selectedItems.push({
-                id,
+                id: productId, // Sử dụng product_id thay vì cart_id
                 image,
                 name,
                 price,

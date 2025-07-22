@@ -41,6 +41,9 @@
                         <table class="min-w-full table-auto border border-gray-300 text-sm">
                             <thead class="bg-gray-100 text-gray-700 uppercase text-left">
                                 <tr>
+                                    <th class="px-2 sm:px-4 py-2 border-b">
+                                        <input type="checkbox" id="checkAll">
+                                    </th>
                                     <th class="px-2 sm:px-4 py-2 border-b">STT</th>
                                     <th class="px-2 sm:px-4 py-2 border-b">Name</th>
                                     <th class="px-2 sm:px-4 py-2 border-b">Email</th>
@@ -51,6 +54,9 @@
                             <tbody>
                                 @foreach ($users as $index => $user)
                                     <tr>
+                                        <td class="px-2 sm:px-4 py-2 border-b">
+                                            <input type="checkbox" class="check-user" value="{{ $user->id }}">
+                                        </td>
                                         <td class="px-2 sm:px-4 py-2 border-b">{{ ($users->currentPage() - 1) * $users->perPage() + $index + 1 }}</td>
                                         <td class="px-2 sm:px-4 py-2 border-b max-w-[120px] truncate">{{ $user->name }}</td>
                                         <td class="px-2 sm:px-4 py-2 border-b max-w-[160px] truncate">{{ $user->email }}</td>
@@ -94,15 +100,12 @@
                 document.querySelectorAll('.btn-delete').forEach(btn => {
                     btn.addEventListener('click', function() {
                         if (confirm('Are you sure you want to delete this account?')) {
-                            fetch('{{ route('admin.user.destroy') }}', {
+                            fetch(`{{ url('admin/user') }}/${this.dataset.id}`, {
                                 method: 'DELETE',
                                 headers: {
                                     'X-CSRF-TOKEN': '{{ csrf_token() }}',
                                     'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({
-                                    ids: [this.dataset.id]
-                                })
+                                }
                             }).then(res => res.json()).then(data => {
                                 if (data.success) location.reload();
                             });
@@ -124,7 +127,7 @@
                 const ids = Array.from(document.querySelectorAll('.check-user:checked')).map(cb => cb.value);
                 if (ids.length === 0) return alert('Please select at least one account to delete!');
                 if (confirm('Are you sure you want to delete the selected accounts?')) {
-                    fetch('{{ route('admin.user.destroy') }}', {
+                    fetch('{{ route('admin.user.destroy.multiple') }}', {
                         method: 'DELETE',
                         headers: {
                             'X-CSRF-TOKEN': '{{ csrf_token() }}',
