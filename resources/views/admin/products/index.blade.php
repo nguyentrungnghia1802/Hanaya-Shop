@@ -56,7 +56,7 @@
                                             title="{{ $item->descriptions }}">
                                             {{ \Illuminate\Support\Str::limit($item->descriptions, 40) }}
                                         </td>
-                                        <td class="px-4 py-2 border-b">{{ number_format($item->price) }} ₫</td>
+                                        <td class="px-4 py-2 border-b">{{ number_format($item->price) }} USD</td>
                                         <td class="px-4 py-2 border-b">{{ $item->stock_quantity }}</td>
                                         <td class="px-4 py-2 border-b">
                                             @if ($item->discount_percent > 0)
