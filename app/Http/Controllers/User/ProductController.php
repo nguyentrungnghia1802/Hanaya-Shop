@@ -16,7 +16,7 @@ class ProductController extends Controller
         $keyword = $request->query('q');
         $categoryId = $request->query('category');
         $categoryName = $request->query('category_name');
-        
+
         // Create cache key based on query parameters
         $cacheKey = 'products_index_' . md5(serialize([
             'sort' => $sort,
@@ -27,7 +27,7 @@ class ProductController extends Controller
         ]));
 
         // Cache the results for 15 minutes
-        $result = Cache::remember($cacheKey, 900, function() use ($sort, $keyword, $categoryId, $categoryName, $request) {
+        $result = Cache::remember($cacheKey, 900, function () use ($sort, $keyword, $categoryId, $categoryName, $request) {
             $query = Product::with('category');
 
             // Filter by category_name if provided
@@ -38,11 +38,11 @@ class ProductController extends Controller
                     'fresh-flowers' => ['Fresh Flowers', 'Hoa tươi', 'fresh flowers'],
                     'souvenir' => ['Souvenir', 'Quà lưu niệm', 'souvenir']
                 ];
-                
+
                 if (isset($categoryMapping[$categoryName])) {
                     $categoryNames = $categoryMapping[$categoryName];
-                    $query->whereHas('category', function($q) use ($categoryNames) {
-                        $q->where(function($subQ) use ($categoryNames) {
+                    $query->whereHas('category', function ($q) use ($categoryNames) {
+                        $q->where(function ($subQ) use ($categoryNames) {
                             foreach ($categoryNames as $name) {
                                 $subQ->orWhere('name', 'like', "%$name%");
                             }
@@ -57,17 +57,17 @@ class ProductController extends Controller
 
             // Tìm kiếm theo nhiều trường, bao gồm cả tên category
             if ($keyword) {
-                $query->where(function($q) use ($keyword) {
+                $query->where(function ($q) use ($keyword) {
                     $q->where('name', 'like', "%$keyword%")
-                      ->orWhere('descriptions', 'like', "%$keyword%")
-                      ->orWhere('price', 'like', "%$keyword%")
-                      ->orWhere('image_url', 'like', "%$keyword%")
-                      ->orWhere('category_id', 'like', "%$keyword%")
-                      ->orWhereHas('category', function($catQ) use ($keyword) {
-                          $catQ->where('name', 'like', "%$keyword%")
-                               ->orWhere('descriptions', 'like', "%$keyword%")
-                          ;
-                      });
+                        ->orWhere('descriptions', 'like', "%$keyword%")
+                        ->orWhere('price', 'like', "%$keyword%")
+                        ->orWhere('image_url', 'like', "%$keyword%")
+                        ->orWhere('category_id', 'like', "%$keyword%")
+                        ->orWhereHas('category', function ($catQ) use ($keyword) {
+                            $catQ->where('name', 'like', "%$keyword%")
+                                ->orWhere('descriptions', 'like', "%$keyword%")
+                            ;
+                        });
                 });
             }
 
@@ -87,9 +87,9 @@ class ProductController extends Controller
                 case 'bestseller':
                     // Join with order_details to get best sellers
                     $query->leftJoin('order_details', 'products.id', '=', 'order_details.product_id')
-                          ->select('products.*', DB::raw('COALESCE(SUM(order_details.quantity), 0) as total_sold'))
-                          ->groupBy('products.id', 'products.name', 'products.price', 'products.image_url', 'products.stock_quantity', 'products.category_id', 'products.descriptions', 'products.created_at', 'products.updated_at', 'products.discount_percent', 'products.view_count')
-                          ->orderByDesc('total_sold');
+                        ->select('products.*', DB::raw('COALESCE(SUM(order_details.quantity), 0) as total_sold'))
+                        ->groupBy('products.id', 'products.name', 'products.price', 'products.image_url', 'products.stock_quantity', 'products.category_id', 'products.descriptions', 'products.created_at', 'products.updated_at', 'products.discount_percent', 'products.view_count')
+                        ->orderByDesc('total_sold');
                     break;
                 case 'latest':
                 default:
@@ -98,7 +98,7 @@ class ProductController extends Controller
             }
 
             $products = $query->paginate(12)->appends([
-                'sort' => $sort, 
+                'sort' => $sort,
                 'q' => $keyword,
                 'category' => $categoryId,
                 'category_name' => $categoryName
@@ -138,7 +138,7 @@ class ProductController extends Controller
     public function show($id)
     {
         // Cache the product details
-        $product = Cache::remember("product_detail_{$id}", 1800, function() use ($id) {
+        $product = Cache::remember("product_detail_{$id}", 1800, function () use ($id) {
             return Product::findOrFail($id);
         });
 
@@ -146,7 +146,7 @@ class ProductController extends Controller
         Product::where('id', $id)->increment('view_count');
 
         // Cache related products
-        $relatedProducts = Cache::remember("related_products_{$id}", 1800, function() use ($id) {
+        $relatedProducts = Cache::remember("related_products_{$id}", 1800, function () use ($id) {
             return Product::where('id', '!=', $id)
                 ->orderBy('created_at', 'desc')
                 ->limit(8)

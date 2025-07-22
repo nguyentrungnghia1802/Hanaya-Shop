@@ -51,7 +51,7 @@ class ProductsController extends Controller
             'image_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Handle image upload or fallback to defaultƯ
+        // Handle image upload or fallback to default
         $generatedFileName = 'default-product.jpg'; // Default image
         if ($request->hasFile('image_url')) {
             $imageName = time() . '.' . $request->file('image_url')->extension();
