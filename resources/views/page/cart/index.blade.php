@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const checkoutForm = document.getElementById('checkout-form');
 
     function formatCurrency(value) {
-        return new Intl.NumberFormat('vi-VN').format(value) + '₫';
+        return new Intl.NumberFormat('vi-VN').format(value) + ' USD';
     }
 
     function updateTotal() {
