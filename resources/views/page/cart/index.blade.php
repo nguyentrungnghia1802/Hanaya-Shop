@@ -89,7 +89,7 @@
                             <img src="{{ $item['image_url'] }}" alt="{{ $item['name'] }}" class="w-20 h-20 object-cover rounded">
                             <div class="flex-1">
                                 <div class="font-semibold">{{ $item['name'] }}</div>
-                                <div class="text-pink-600 font-bold">{{ number_format($item['price'], 0, ',', '.') }}₫</div>
+                                <div class="text-pink-600 font-bold">{{ number_format($item['price'], 0, ',', '.') }} USD</div>
                             </div>
                         </div>
                         <div class="flex items-center justify-between">
@@ -102,7 +102,7 @@
                                 <button type="button" class="btn-increase bg-gray-200 px-2 rounded" data-id="{{ $id }}">+</button>
                             </div>
                             <div class="item-total font-bold text-gray-700" data-id="{{ $id }}">
-                                {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}₫
+                                {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }} USD
                             </div>
                             <a href="{{ route('cart.remove', $id) }}" class="text-red-600 hover:underline">Xóa</a>
                         </div>
