@@ -213,18 +213,5 @@
                 {{ $products->links() }}
             </div>
         </div>
-
-        <!-- Nút Liên hệ & Lên đầu trang - Mobile Optimized -->
-        <div class="fixed bottom-4 right-4 flex flex-col gap-3 z-50">
-            <a href="tel:0123456789"
-                class="bg-pink-600 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-full shadow-lg hover:bg-pink-700 transition-all duration-300 flex items-center gap-2 text-sm sm:text-base">
-                <i class="fas fa-headset"></i>
-                <span class="hidden sm:inline">Liên hệ</span>
-            </a>
-            <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
-                class="bg-gray-700 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-full shadow-lg hover:bg-gray-600 transition-all duration-300">
-                <i class="fas fa-arrow-up"></i>
-            </button>
-        </div>
     </div>
 </x-app-layout>
