@@ -48,9 +48,9 @@
                                 </tr>
                             </thead>
                             <tbody class="text-gray-800">
-                                @foreach ($products as $item)
+                                @foreach ($products as $index => $item)
                                     <tr class="hover:bg-gray-50 transition">
-                                        <td class="px-4 py-2 border-b">{{ $item->id }}</td>
+                                        <td class="px-4 py-2 border-b">{{ $products->firstItem() + $index }}</td>
                                         <td class="px-4 py-2 border-b">{{ $item->name }}</td>
                                         <td class="px-2 py-2 border-b max-w-[120px] truncate text-xs"
                                             title="{{ $item->descriptions }}">
