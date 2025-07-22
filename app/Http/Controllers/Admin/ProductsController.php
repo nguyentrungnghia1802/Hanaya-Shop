@@ -48,7 +48,7 @@ class ProductsController extends Controller
             'category_id' => 'required|exists:categories,id',
             'discount_percent' => 'nullable|numeric|min:0|max:100',
             'view_count' => 'nullable|integer|min:0',
-            'image_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image_url' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
         // Handle image upload or fallback to default
