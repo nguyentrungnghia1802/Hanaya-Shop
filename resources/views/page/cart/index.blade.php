@@ -41,7 +41,7 @@
                                 <img src="{{ $item['image_url'] }}" alt="{{ $item['name'] }}" class="w-16 h-16 object-cover rounded">
                             </td>
                             <td class="py-2 px-4 border-b">{{ $item['name'] }}</td>
-                            <td class="py-2 px-4 border-b">{{ number_format($item['price'], 0, ',', '.') }}₫</td>
+                            <td class="py-2 px-4 border-b">{{ number_format($item['price'], 0, ',', '.') }} USD</td>
                             <td class="py-2 px-4 border-b text-center">
                                 <div class="flex items-center justify-center gap-2">
                                 <button type="button" class="btn-decrease bg-gray-200 px-2 rounded" data-id="{{ $id }}">−</button>
@@ -53,7 +53,7 @@
                                 </div>
                             </td>
                             <td class="py-2 px-4 border-b item-total" data-id="{{ $id }}">
-                                {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}₫
+                                {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }} USD
                             </td>
                             <td class="py-2 px-4 border-b">
                                 <a href="{{ route('cart.remove', $id) }}" class="text-red-600 hover:underline">Xóa</a>
@@ -62,7 +62,7 @@
                         @endforeach
                         <tr>
                             <td colspan="4" class="text-right font-bold py-2 px-4">Tổng cộng:</td>
-                            <td colspan="2" class="font-bold py-2 px-4" id="totalPrice">0₫</td>
+                            <td colspan="2" class="font-bold py-2 px-4" id="totalPrice">0 USD</td>
                         </tr>
                     </tbody>
                 </table>
