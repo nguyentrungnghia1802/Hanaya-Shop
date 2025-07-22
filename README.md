@@ -1,53 +1,40 @@
 
+# 🌸 Hanaya Shop - Laravel E-commerce Platform
 
-# 🌸 Hanaya Shop
+![Laravel](https://img.shields.io/badge/Laravel-12.2-FF2D20?style=for-the-badge&logo=laravel)
+![PHP](https://img.shields.io/badge/PHP-8.2-777BB4?style=for-the-badge&logo=php)
+![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql)
 
-<details>
-<summary><strong>🇯🇵 日本語</strong></summary>
-
-## 概要
-
-**Hanaya Shop**は、ユーザーが美しい生花を簡単に選択・購入・決済できるよう設計された、最新のUI/UXを備えたオンラインフラワーショップWebアプリケーションです。
-ECサイト構築の実務経験をアピールするために開発しました。
+> **Hanaya Shop** là nền tảng thương mại điện tử hiện đại dành cho cửa hàng hoa, được phát triển với Laravel và tối ưu cho deployment.
 
 ---
 
-## 🎯 プロジェクト目的
+## 📋 Mục lục
 
-- 花屋向けのシンプルかつ拡張性の高いECプラットフォームの構築
-- 商品（花）、カート、注文の効率的な管理
-- 管理者用ダッシュボードの実装
-- **Docker**による迅速な環境構築（.env不要）
-
----
-
-## 🌟 主な機能
-
-### 👤 顧客向け
-- 商品一覧の閲覧、カテゴリ・用途・価格による絞り込み
-- 商品詳細・画像・価格の表示
-- カートへの追加・注文作成
-- 購入履歴の確認（会員登録時）
-
-### 🛠️ 管理者向け
-- 商品カテゴリ管理
-- 商品のCRUD（追加・編集・削除・表示/非表示切替）
-- 注文管理（承認・キャンセル・ステータス更新）
-- 顧客管理
+- [🎯 Tổng quan dự án](#-tổng-quan-dự-án)
+- [🌟 Tính năng chính](#-tính-năng-chính)
+- [🛠️ Công nghệ sử dụng](#️-công-nghệ-sử-dụng)
+- [🚀 Hướng dẫn cài đặt](#-hướng-dẫn-cài-đặt)
+- [📈 Lịch sử cập nhật](#-lịch-sử-cập-nhật)
+- [🐳 Docker Deployment](#-docker-deployment)
+- [📚 Tài liệu tham khảo](#-tài-liệu-tham-khảo)
 
 ---
 
-## 🛠️ 技術スタックと効果
+## 🎯 Tổng quan dự án
 
-- **PHP 8.2**: 最新のPHPバージョンを採用し、セキュリティ・パフォーマンス・保守性を向上。
-- **Laravel 12.2**: モダンなMVCフレームワーク。高速な開発、堅牢な認証・権限管理、RESTful API設計、テスト容易性。
-- **MySQL**: 信頼性の高いリレーショナルデータベース。大量データの高速処理、トランザクション管理。
-- **Bladeテンプレート**: サーバーサイドレンダリングでSEO・パフォーマンス最適化。再利用性の高いUIコンポーネント。
-- **Docker Compose**: 開発・本番環境の自動構築。依存関係の一元管理、環境差異の排除、CI/CD対応。
-- **Tailwind CSS**: ユーザー体験を高めるモダンなUI設計。レスポンシブ対応。
-- **PHPUnit**: 単体・機能テストで品質担保。
+**Hanaya Shop** là hệ thống quản lý cửa hàng hoa trực tuyến, được thiết kế để giúp người dùng dễ dàng:
+- Duyệt và mua hoa tươi với giao diện thân thiện
+- Quản lý sản phẩm, đơn hàng hiệu quả
+- Triển khai nhanh chóng với Docker
+- Mở rộng linh hoạt cho nhiều loại hình kinh doanh
 
-これらの技術により、開発効率・保守性・拡張性・セキュリティ・パフォーマンスが大幅に向上しています。
+### 🎯 Mục tiêu
+- Xây dựng nền tảng e-commerce mở rộng cho cửa hàng hoa
+- Quản lý sản phẩm, giỏ hàng, đơn hàng hiệu quả
+- Giao diện quản trị trực quan cho admin
+- Triển khai production với Docker (không cần config phức tạp)
 
 ---
 
