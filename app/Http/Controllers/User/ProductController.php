@@ -139,19 +139,19 @@ class ProductController extends Controller
     {
         // Cache the product details
         $product = Cache::remember("product_detail_{$id}", 1800, function () use ($id) {
-            return Product::findOrFail($id);
+            return Product::with('category')->findOrFail($id);
         });
 
         // Increment view count (don't cache this)
         Product::where('id', $id)->increment('view_count');
 
-        // Cache related products
-        $relatedProducts = Cache::remember("related_products_{$id}", 1800, function () use ($id) {
-            return Product::where('id', '!=', $id)
-                ->orderBy('created_at', 'desc')
-                ->limit(8)
-                ->get();
-        });
+        // Lấy các sản phẩm cùng category, khác id hiện tại
+        $relatedProducts = Product::with('category')
+            ->where('id', '!=', $id)
+            ->where('category_id', $product->category_id)
+            ->orderBy('created_at', 'desc')
+            ->limit(8)
+            ->get();
 
         return view('page.products.productDetail', compact('product', 'relatedProducts'));
     }
