@@ -49,7 +49,7 @@ class CategoriesController extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension(); // Unique filename with timestamp
-            $image->move(public_path('images'), $imageName);
+            $image->move(public_path('images/categories'), $imageName);
             $generatedFileName = $imageName;
         } else {
             // Default image if none is uploaded
@@ -100,13 +100,13 @@ class CategoriesController extends Controller
         // Handle image upload and replace old image if needed
         if ($request->hasFile('image')) {
             // Delete old image if it exists
-            if ($category->image_path && file_exists(public_path('images/' . $category->image_path))) {
-                unlink(public_path('images/' . $category->image_path));
+            if ($category->image_path && file_exists(public_path('images/categories/' . $category->image_path))) {
+                unlink(public_path('images/categories/' . $category->image_path));
             }
 
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images'), $imageName);
+            $image->move(public_path('images/categories'), $imageName);
             $category->image_path = $imageName;
         }
 
@@ -125,7 +125,7 @@ class CategoriesController extends Controller
     public function destroy($id)
     {
         $category = Category::findOrFail($id);
-        $imagePath = public_path('images/' . $category->image_path);
+        $imagePath = public_path('images/categories/' . $category->image_path);
 
         // Delete image file if exists
         if ($category->image_path && file_exists($imagePath)) {
@@ -182,7 +182,7 @@ class CategoriesController extends Controller
                 'id' => $category->id,
                 'name' => $category->name,
                 'description' => $category->description ?? '',
-                'image_path' => asset('images/' . ($category->image_path ?? 'base.jpg')),
+                'image_path' => asset('images/categories/' . ($category->image_path ?? 'base.jpg')),
             ]);
         }
 

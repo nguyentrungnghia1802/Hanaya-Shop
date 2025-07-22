@@ -33,64 +33,79 @@
 
                     {{-- Product table --}}
                     <div class="overflow-x-auto">
-                    <table class="min-w-full table-auto border border-gray-300 text-sm">
-                        <thead class="bg-gray-100 text-gray-700 uppercase text-left">
-                            <tr>
+                        <table class="min-w-full table-auto border border-gray-300 text-sm">
+                            <thead class="bg-gray-100 text-gray-700 uppercase text-left">
+                                <tr>
                                     <th class="px-2 sm:px-4 py-2 border-b">#</th>
                                     <th class="px-2 sm:px-4 py-2 border-b">Name</th>
                                     <th class="px-2 sm:px-4 py-2 border-b">Description</th>
                                     <th class="px-2 sm:px-4 py-2 border-b">Price</th>
                                     <th class="px-2 sm:px-4 py-2 border-b">Quantity</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">Discount</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">Views</th>
                                     <th class="px-2 sm:px-4 py-2 border-b">Category</th>
                                     <th class="px-2 sm:px-4 py-2 border-b">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-gray-800">
-                            @foreach ($products as $item)
-                                <tr class="hover:bg-gray-50 transition">
-                                    <td class="px-4 py-2 border-b">{{ $item->id }}</td>
-                                    <td class="px-4 py-2 border-b">{{ $item->name }}</td>
-                                    <td class="px-4 py-2 border-b max-w-xs truncate" title="{{ $item->descriptions }}">
-                                        {{ \Illuminate\Support\Str::limit($item->descriptions, 50) }}
-                                    </td>
-                                    <td class="px-4 py-2 border-b">{{ $item->price }}</td>
-                                    <td class="px-4 py-2 border-b">{{ $item->stock_quantity }}</td>
-                                    <td class="px-4 py-2 border-b">{{ $item->category->name }}</td>
-                                    <td class="px-4 py-2 border-b">
-                                        <div class="flex flex-wrap gap-2">
-                                            {{-- Edit button --}}
-                                            <a href="{{ route('admin.product.edit', $item->id) }}"
-                                                class="px-4 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition">
-                                                Edit
-                                            </a>
-                                            {{-- Delete button --}}
-                                            <form action="{{ route('admin.product.destroy', $item->id) }}" method="POST"
-                                                onsubmit="return confirm('Are you sure you want to delete?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit"
-                                                    class="px-4 py-1 bg-red-500 text-white text-xs font-medium rounded hover:bg-red-600 transition">
-                                                    Delete
-                                                </button>
-                                            </form>
-                                            {{-- View Details button --}}
-                                            <a href="{{ route('admin.product.show', $item->id) }}"
-                                                class="px-4 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">
-                                                View Details
-                                            </a>
-                                            {{-- Quick View button --}}
-                                            <button type="button"
-                                                class="px-4 py-1 bg-gray-500 text-white text-xs font-medium rounded hover:bg-gray-600 transition btn-view-product"
-                                                data-id="{{ $item->id }}"
-                                                data-url="{{ route('admin.product.show', $item->id) }}">
-                                                Quick View
-                                            </button>
-                                        </div>
-                                    </td>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody class="text-gray-800">
+                                @foreach ($products as $index => $item)
+                                    <tr class="hover:bg-gray-50 transition">
+                                        <td class="px-4 py-2 border-b">{{ $products->firstItem() + $index }}</td>
+                                        <td class="px-4 py-2 border-b">{{ $item->name }}</td>
+                                        <td class="px-2 py-2 border-b max-w-[120px] truncate text-xs"
+                                            title="{{ $item->descriptions }}">
+                                            {{ \Illuminate\Support\Str::limit($item->descriptions, 40) }}
+                                        </td>
+                                        <td class="px-4 py-2 border-b">{{ number_format($item->price) }} USD</td>
+                                        <td class="px-4 py-2 border-b">{{ $item->stock_quantity }}</td>
+                                        <td class="px-4 py-2 border-b">
+                                            @if ($item->discount_percent > 0)
+                                                <span
+                                                    class="text-red-600 font-semibold">{{ $item->discount_percent }}%</span>
+                                            @else
+                                                <span class="text-gray-400">0%</span>
+                                            @endif
+                                        </td>
+                                        <td class="px-4 py-2 border-b">
+                                            <span class="text-blue-600">{{ number_format($item->view_count ?? 0) }}</span>
+                                        </td>
+                                        <td class="px-4 py-2 border-b">{{ $item->category->name }}</td>
+                                        <td class="px-4 py-2 border-b">
+                                            <div class="flex flex-wrap gap-2">
+                                                {{-- Edit button --}}
+                                                <a href="{{ route('admin.product.edit', $item->id) }}"
+                                                    class="px-4 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition">
+                                                    Edit
+                                                </a>
+                                                {{-- Delete button --}}
+                                                <form action="{{ route('admin.product.destroy', $item->id) }}"
+                                                    method="POST"
+                                                    onsubmit="return confirm('Are you sure you want to delete?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        class="px-4 py-1 bg-red-500 text-white text-xs font-medium rounded hover:bg-red-600 transition">
+                                                        Delete
+                                                    </button>
+                                                </form>
+                                                {{-- View Details button --}}
+                                                <a href="{{ route('admin.product.show', $item->id) }}"
+                                                    class="px-4 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">
+                                                    View Details
+                                                </a>
+                                                {{-- Quick View button --}}
+                                                <button type="button"
+                                                    class="px-4 py-1 bg-gray-500 text-white text-xs font-medium rounded hover:bg-gray-600 transition btn-view-product"
+                                                    data-id="{{ $item->id }}"
+                                                    data-url="{{ route('admin.product.show', $item->id) }}">
+                                                    Quick View
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -138,7 +153,7 @@
                         document.getElementById('product-view-id').textContent = 'Loading...';
                         document.getElementById('product-view-name').textContent = 'Loading...';
                         document.getElementById('product-view-description').innerHTML =
-                        'Loading...';
+                            'Loading...';
                         document.getElementById('product-view-price').textContent = 'Loading...';
                         document.getElementById('product-view-quantity').textContent = 'Loading...';
                         document.getElementById('product-view-category').textContent = 'Loading...';
@@ -191,7 +206,7 @@
                                 alert('An error occurred while loading product information: ' +
                                     error.message);
                                 document.getElementById('productDetail').classList.add(
-                                'hidden');
+                                    'hidden');
                                 document.getElementById('productOverlay').classList.add(
                                     'hidden');
                             });

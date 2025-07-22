@@ -112,27 +112,27 @@
             <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
 
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Hanaya Shop</h3>
+                    <h3 class="text-lg font-semibold mb-4">{{ config('constants.shop_name') }}</h3>
                     <p class="text-sm">
-                        Chuyên cung cấp hoa cao cấp, quà tặng ý nghĩa và phụ kiện trang trí.
+                        Specializing in premium flowers, meaningful gifts and decorative accessories.
                     </p>
                 </div>
 
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Liên kết nhanh</h3>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
                     <ul class="text-sm space-y-2">
-                        <li><a href="/" class="hover:text-white">Trang chủ</a></li>
-                        <li><a href="/products" class="hover:text-white">Sản phẩm</a></li>
-                        <li><a href="/about" class="hover:text-white">Giới thiệu</a></li>
-                        <li><a href="/contact" class="hover:text-white">Liên hệ</a></li>
+                        <li><a href="/" class="hover:text-white">Home</a></li>
+                        <li><a href="/products" class="hover:text-white">Products</a></li>
+                        <li><a href="/about" class="hover:text-white">About</a></li>
+                        <li><a href="/contact" class="hover:text-white">Contact</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Liên hệ</h3>
-                    <p class="text-sm"> Địa chỉ: Hà Nội</p>
-                    <p class="text-sm"> Số điện thoại: </p>
-                    <p class="text-sm"> Email: support@hanaya.vn</p>
+                    <h3 class="text-lg font-semibold mb-4">Contact</h3>
+                    <p class="text-sm"> Address: {{ config('constants.shop_address') }}</p>
+                    <p class="text-sm"> Phone: {{ config('constants.shop_phone') }}</p>
+                    <p class="text-sm"> Email: {{ config('constants.shop_email') }}</p>
                 </div>
             </div>
 
@@ -166,6 +166,9 @@
         });
     });
     </script>
+
+    <!-- Chatbot Component -->
+    <x-chatbot />
 </body>
 
 </html>
