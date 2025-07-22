@@ -343,3 +343,4 @@ docker compose -f docker-compose.prod.yml logs db
 ---
 
 **Hanaya Shop Deployment** - Optimized for production with Nginx + PHP-FPM 🌸
+
