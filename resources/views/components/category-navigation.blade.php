@@ -54,15 +54,15 @@
         </a>
 
         <!-- Fresh Flowers -->
-        <a href="{{ route('user.products.index', ['category_name' => 'fresh-flowers']) }}" 
-           class="category-item group relative overflow-hidden rounded-lg border-2 transition-all duration-300 hover:shadow-md {{ $currentCategoryName === 'fresh-flowers' ? 'border-pink-500 bg-pink-50' : 'border-gray-200 hover:border-pink-300' }}">
+        <a href="{{ route('user.products.index', ['category_name' => 'fresh-flower']) }}" 
+           class="category-item group relative overflow-hidden rounded-lg border-2 transition-all duration-300 hover:shadow-md {{ $currentCategoryName === 'fresh-flower' ? 'border-pink-500 bg-pink-50' : 'border-gray-200 hover:border-pink-300' }}">
             <div class="p-3 text-center">
-                <div class="w-12 h-12 mx-auto mb-2 rounded-full flex items-center justify-center {{ $currentCategoryName === 'fresh-flowers' ? 'bg-pink-500' : 'bg-gray-100 group-hover:bg-pink-100' }}">
-                    <svg class="w-6 h-6 {{ $currentCategoryName === 'fresh-flowers' ? 'text-white' : 'text-gray-600 group-hover:text-pink-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="w-12 h-12 mx-auto mb-2 rounded-full flex items-center justify-center {{ $currentCategoryName === 'fresh-flower' ? 'bg-pink-500' : 'bg-gray-100 group-hover:bg-pink-100' }}">
+                    <svg class="w-6 h-6 {{ $currentCategoryName === 'fresh-flower' ? 'text-white' : 'text-gray-600 group-hover:text-pink-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
                     </svg>
                 </div>
-                <h4 class="text-sm font-semibold {{ $currentCategoryName === 'fresh-flowers' ? 'text-pink-700' : 'text-gray-700 group-hover:text-pink-600' }}">
+                <h4 class="text-sm font-semibold {{ $currentCategoryName === 'fresh-flower' ? 'text-pink-700' : 'text-gray-700 group-hover:text-pink-600' }}">
                     Fresh Flowers
                 </h4>
             </div>

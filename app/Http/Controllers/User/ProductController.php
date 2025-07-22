@@ -34,8 +34,8 @@ class ProductController extends Controller
             if ($categoryName) {
                 $categoryMapping = [
                     'soap-flower' => ['Soap Flower', 'Hoa xà phòng', 'soap flower'],
+                    'fresh-flower' => ['Fresh Flower', 'Hoa tươi', 'fresh flower'],
                     'special-flower' => ['Special Flower', 'Hoa đặc biệt', 'special flower'],
-                    'fresh-flowers' => ['Fresh Flowers', 'Hoa tươi', 'fresh flowers'],
                     'souvenir' => ['Souvenir', 'Quà lưu niệm', 'souvenir']
                 ];
 
@@ -113,7 +113,7 @@ class ProductController extends Controller
                 $categoryTitles = [
                     'soap-flower' => 'Soap Flower',
                     'special-flower' => 'Special Flower',
-                    'fresh-flowers' => 'Fresh Flowers',
+                    'fresh-flower' => 'Fresh Flower',
                     'souvenir' => 'Souvenir'
                 ];
                 $pageTitle = $categoryTitles[$categoryName] ?? $pageTitle;
