@@ -88,6 +88,7 @@ class CartController extends Controller
 
         foreach ($cartItems as $item) {
             $cart[$item->id] = [
+                'product_id' => $item->product->id,  // Thêm product_id
                 'name'       => $item->product->name,
                 'image_url'  => $item->product->image_url,
                 'price'      => $item->product->price,

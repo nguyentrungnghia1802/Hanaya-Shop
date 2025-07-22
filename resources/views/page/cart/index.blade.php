@@ -34,7 +34,8 @@
                                  <input type="checkbox" name="cart_ids[]" value="{{ $id }}" 
                                      class="cart-checkbox" 
                                     data-price="{{ $item['price'] * $item['quantity'] }}"
-                                    data-id="{{ $id }}">
+                                    data-id="{{ $id }}"
+                                    data-product-id="{{ $item['product_id'] }}">
                             </td>
                             <td class="py-2 px-4 border-b">
                                 <img src="{{ $item['image_url'] }}" alt="{{ $item['name'] }}" class="w-16 h-16 object-cover rounded">
@@ -83,7 +84,8 @@
                             <input type="checkbox" name="cart_ids[]" value="{{ $id }}"
                                 class="cart-checkbox"
                                 data-price="{{ $item['price'] * $item['quantity'] }}"
-                                data-id="{{ $id }}">
+                                data-id="{{ $id }}"
+                                data-product-id="{{ $item['product_id'] }}">
                             <img src="{{ $item['image_url'] }}" alt="{{ $item['name'] }}" class="w-20 h-20 object-cover rounded">
                             <div class="flex-1">
                                 <div class="font-semibold">{{ $item['name'] }}</div>
@@ -266,8 +268,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const price = parseFloat(row.querySelector('.quantity-input').dataset.price);
             const quantity = parseInt(row.querySelector('.quantity-input').value);
             const subtotal = price * quantity;
+            const productId = cb.dataset.productId; // Lấy product_id thực tế
             selectedItems.push({
-                id,
+                id: productId, // Sử dụng product_id thay vì cart_id
                 image,
                 name,
                 price,
