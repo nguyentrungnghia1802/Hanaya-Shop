@@ -97,7 +97,7 @@ class ProductController extends Controller
                     break;
             }
 
-            $products = $query->paginate(12)->appends([
+            $products = $query->paginate(10)->appends([
                 'sort' => $sort,
                 'q' => $keyword,
                 'category' => $categoryId,
