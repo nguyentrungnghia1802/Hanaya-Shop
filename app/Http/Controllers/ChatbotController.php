@@ -108,7 +108,7 @@ class ChatbotController extends Controller
         $response = "Đây là một số sản phẩm phù hợp:\n\n";
         foreach ($products as $product) {
             $response .= "🌸 {$product->name}\n";
-            $response .= "💰 " . number_format($product->price, 0, ',', '.') . "₫\n";
+            $response .= "💰 " . number_format($product->price, 0, ',', '.') . " USD\n";
             $response .= "📋 {$product->category->name}\n";
             $response .= "🔗 " . route('product.show', $product->id) . "\n\n";
         }
@@ -151,7 +151,7 @@ class ChatbotController extends Controller
         $response = "Đây là các đơn hàng gần đây của bạn:\n\n";
         foreach ($orders as $order) {
             $response .= "📦 Đơn hàng #{$order->id}\n";
-            $response .= "💰 " . number_format($order->total_amount, 0, ',', '.') . "₫\n";
+            $response .= "💰 " . number_format($order->total_amount, 0, ',', '.') . " USD\n";
             $response .= "📅 {$order->created_at->format('d/m/Y H:i')}\n";
             $response .= "🔄 Trạng thái: " . $this->translateStatus($order->status) . "\n\n";
         }

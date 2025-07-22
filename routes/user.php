@@ -24,7 +24,7 @@ Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.r
 Route::post('/cart', [CartController::class,'buyNow'])->name('cart.buyNow');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
 
     Route::post('/checkout-preview', [CheckoutController::class, 'preview'])->name('checkout.preview');
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');

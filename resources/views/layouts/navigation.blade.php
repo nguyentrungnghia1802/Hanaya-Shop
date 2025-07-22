@@ -58,7 +58,7 @@
                                 <x-dropdown-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                                     {{ __('Admin Dashboard') }}
                                 </x-dropdown-link>
-                                <x-dropdown-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                                <x-dropdown-link :href="route('user.dashboard')" :active="request()->routeIs('user.dashboard')">
                                     {{ __('User Dashboard') }}
                                 </x-dropdown-link>
                             @endif
@@ -155,7 +155,7 @@
                         <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                             {{ __('Admin Dashboard') }}
                         </x-responsive-nav-link>
-                        <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        <x-responsive-nav-link :href="route('user.dashboard')" :active="request()->routeIs('user.dashboard')">
                             {{ __('User Dashboard') }}
                         </x-responsive-nav-link>
                     @endif
