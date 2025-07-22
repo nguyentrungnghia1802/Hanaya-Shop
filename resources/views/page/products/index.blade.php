@@ -161,15 +161,15 @@
                                 @if ($productItem->discount_percent > 0)
                                     <div class="space-y-1">
                                         <div class="text-pink-600 font-bold text-lg">
-                                            {{ number_format($productItem->discounted_price, 0, ',', '.') }}₫
+                                            {{ number_format($productItem->discounted_price, 0, ',', '.') }} USD
                                         </div>
                                         <div class="text-xs text-gray-500 line-through">
-                                            {{ number_format($productItem->price, 0, ',', '.') }}₫
+                                            {{ number_format($productItem->price, 0, ',', '.') }} USD
                                         </div>
                                     </div>
                                 @else
                                     <div class="text-pink-600 font-bold text-lg">
-                                        {{ number_format($productItem->price, 0, ',', '.') }}₫
+                                        {{ number_format($productItem->price, 0, ',', '.') }} USD
                                     </div>
                                 @endif
 

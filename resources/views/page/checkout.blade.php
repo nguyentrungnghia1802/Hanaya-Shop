@@ -53,14 +53,14 @@
                                 <img src="{{ $item['image'] }}" class="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded">
                             </td>
                             <td class="py-2 px-4 border-b">{{ $item['name'] }}</td>
-                            <td class="py-2 px-4 border-b">{{ number_format($item['price'], 0, ',', '.') }}₫</td>
+                            <td class="py-2 px-4 border-b">{{ number_format($item['price'], 0, ',', '.') }} USD</td>
                             <td class="py-2 px-4 border-b">{{ $item['quantity'] }}</td>
-                            <td class="py-2 px-4 border-b">{{ number_format($item['subtotal'], 0, ',', '.') }}₫</td>
+                            <td class="py-2 px-4 border-b">{{ number_format($item['subtotal'], 0, ',', '.') }} USD</td>
                         </tr>
                     @endforeach
                     <tr>
                         <td colspan="4" class="text-right font-bold py-2 px-4">Tổng cộng:</td>
-                        <td class="font-bold py-2 px-4">{{ number_format($total, 0, ',', '.') }}₫</td>
+                        <td class="font-bold py-2 px-4">{{ number_format($total, 0, ',', '.') }} USD</td>
                     </tr>
                 </tbody>
             </table>
@@ -102,11 +102,11 @@
                 </div>
                 <div class="flex items-center justify-between flex-wrap gap-2 mb-4 text-xs sm:text-base">
                     <h3 class="text-lg font-semibold text-gray-800 mt-6 mb-2">Phí vận chuyển:</h3>
-                    <p class="text-xl font-bold text-pink-600">20000₫</p>
+                    <p class="text-xl font-bold text-pink-600">8 USD</p>
                 </div>
                <div class="flex items-center justify-between flex-wrap gap-2 mb-4 text-xs sm:text-base">
                     <h3 class="text-lg font-semibold text-gray-800 mt-6 mb-2">Tổng thanh toán:</h3>
-                    <p class="text-xl font-bold text-pink-800">{{ number_format($total + 20000, 0, ',', '.') }}₫</p>
+                    <p class="text-xl font-bold text-pink-800">{{ number_format($total + 8, 0, ',', '.') }} USD</p>
                </div class="flex items-center justify-between flex-wrap gap-2 mb-4">
             </div>
 

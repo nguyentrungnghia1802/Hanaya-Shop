@@ -72,7 +72,7 @@
                             <div class="flex items-center">
                                 <input type="number" name="price" id="price" min="0" step="1000"
                                     class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none">
-                                <span class="ml-2">VND</span>
+                                <span class="ml-2"> USD</span>
                             </div>
                         </div>
 
