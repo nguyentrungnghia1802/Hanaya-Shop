@@ -17,30 +17,35 @@ class CartController extends Controller
     public function add(Request $request, $productId)
     {
         $sessionId = Session::getId();
-
         $product = Product::findOrFail($productId);
+        $quantityToAdd = $request->input('quantity', 1);
 
-        // Kiểm tra xem sản phẩm đã có trong cart chưa
         $existing = Cart::where('session_id', $sessionId)
             ->where('product_id', $product->id)
             ->first();
 
+        $currentQuantity = $existing ? $existing->quantity : 0;
+        $newTotalQuantity = $currentQuantity + $quantityToAdd;
+
+        if ($newTotalQuantity > $product->stock_quantity) {
+            return redirect()->back()->with('error', 'Số lượng vượt quá số lượng tồn kho.');
+        }
+
         if ($existing) {
-            // Nếu có rồi → cập nhật số lượng
-            $existing->quantity += $request->input('quantity', 1);
+            $existing->quantity = $newTotalQuantity;
             $existing->save();
         } else {
-            // Nếu chưa có → tạo mới
             Cart::create([
                 'product_id' => $product->id,
-                'user_id' => Auth::id(), // nếu có đăng nhập
-                'quantity'   => $request->input('quantity', 1),
+                'user_id' => Auth::id(),
+                'quantity' => $quantityToAdd,
                 'session_id' => $sessionId,
             ]);
         }
 
         return redirect()->back()->with('success', 'Đã thêm vào giỏ hàng!');
     }
+
 
     /**
      * Hiển thị giỏ hàng
