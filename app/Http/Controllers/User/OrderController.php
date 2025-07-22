@@ -41,11 +41,18 @@ class OrderController extends Controller
         ]);
 
         foreach ($selectedItems as $item) {
+            // Kiểm tra product tồn tại
+            $product = Product::find($item['id']);
+            if (!$product) {
+                throw new \Exception('Product not found: ' . $item['id']);
+            }
+            
             OrderDetail::create([
                 'order_id' => $order->id,
-                'product_id' => $item['id'],
+                'product_id' => $product->id,
                 'quantity' => $item['quantity'],
                 'price' => $item['price'],
+                'subtotal' => $item['quantity'] * $item['price'], // Thêm subtotal
             ]);
         }
 

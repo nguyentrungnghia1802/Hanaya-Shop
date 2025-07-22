@@ -90,13 +90,6 @@
                                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none">
                         </div>
 
-                        {{-- View Count --}}
-                        <div>
-                            <label for="view_count" class="block text-sm font-medium text-gray-700 mb-1">View Count</label>
-                            <input type="number" name="view_count" id="view_count" min="0" value="0"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none">
-                        </div>
-
                         {{-- Product category selection --}}
                         <div>
                             <label for="category_id" class="block text-sm font-medium text-gray-700 mb-1">Product Category</label>
