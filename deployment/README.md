@@ -2,58 +2,241 @@
 
 > **Production-ready deployment với Nginx + PHP-FPM + MySQL + Redis**
 
+---
+
+## 🚀 Hướng Dẫn Deploy Chi Tiết
+
+### 📁 Các File Phụ Trách Deployment
+
+**Trong thư mục `deployment/`:**
+- `docker-compose.prod.yml` - Cấu hình chính cho production
+- `scripts/deploy.sh` & `scripts/deploy.bat` - Script deploy tự động
+- `nginx/` - Cấu hình web server Nginx
+- `php/` - Cấu hình PHP-FPM và PHP.ini
+- `mysql/` - Cấu hình MySQL database
+- `supervisor/` - Quản lý processes
+- `.env` - Biến môi trường production
+
+**Ngoài thư mục `deployment/`:**
+- `quick-deploy.sh` & `quick-deploy.bat` (thư mục gốc) - Script deploy nhanh
+- `Dockerfile` (thư mục gốc) - Build image ứng dụng
+- `.dockerignore` (thư mục gốc) - Loại trừ file khi build
+
+---
+
+## 🎯 Trường Hợp 1: Deploy Lần Đầu
+
+### Bước 1: Từ Development sang Production
+```bash
+# 1. Dừng development server (nếu đang chạy)
+# Ctrl+C để dừng php artisan serve và npm run dev
+
+# 2. Commit code (nếu có thay đổi)
+git add .
+git commit -m "Ready for deployment"
+
+# 3. Deploy lần đầu với sample data
+# Từ thư mục gốc dự án:
+
+# Windows:
+quick-deploy.bat --seed
+
+# Linux/Mac:
+./quick-deploy.sh --seed
+```
+
+### Bước 2: Sau Khi Deploy Thành Công
+
+**Những file được tạo trong Docker Desktop:**
+
+**📂 Images (Tab Images):**
+- `hanaya-shop-app:latest` - ⚠️ KHÔNG ĐƯỢC XÓA (Application image)
+- `mysql:8.0` - ⚠️ KHÔNG ĐƯỢC XÓA (Database image) 
+- `redis:7-alpine` - ⚠️ KHÔNG ĐƯỢC XÓA (Cache image)
+- `nginxproxy/nginx-proxy` - ⚠️ KHÔNG ĐƯỢC XÓA (Proxy image)
+
+**📂 Containers (Tab Containers):**
+- `hanaya-shop-app` - ⚠️ KHÔNG ĐƯỢC XÓA (Main application)
+- `hanaya-shop-db` - ⚠️ KHÔNG ĐƯỢC XÓA (Database data)
+- `hanaya-shop-redis` - ⚠️ KHÔNG ĐƯỢC XÓA (Cache data)
+- `hanaya-shop-proxy` - Có thể xóa nếu không dùng HTTPS
+
+**📂 Volumes (Tab Volumes):**
+- `deployment_db_data` - ⚠️ TUYỆT ĐỐI KHÔNG XÓA (Database data)
+- `deployment_storage_data` - ⚠️ TUYỆT ĐỐI KHÔNG XÓA (File uploads)
+- `deployment_redis_data` - Có thể xóa (Cache sẽ tự tạo lại)
+
+### Bước 3: Truy Cập Ứng Dụng
+- **Website**: http://localhost
+- **Admin**: http://localhost/admin
+- **Database**: localhost:3307
+
+### Bước 4: Đổi Domain
+```bash
+# Chỉnh sửa file .env trong thư mục deployment/
+# Thay đổi dòng:
+APP_URL=https://your-domain.com
+
+# Restart containers:
+cd deployment
+docker compose -f docker-compose.prod.yml restart
+```
+
+### Bước 5: Hủy Deploy Để Về Development
+```bash
+# Từ thư mục deployment/
+cd deployment
+
+# Dừng tất cả containers:
+docker compose -f docker-compose.prod.yml down
+
+# Về thư mục gốc:
+cd ..
+
+# Chạy development:
+php artisan serve --host=0.0.0.0 --port=8000
+npm run dev
+```
+
+---
+
+## 🔄 Trường Hợp 2: Khởi Động Lại Sau Khi Tắt Máy
+
+### Kiểm Tra Trạng Thái
+```bash
+# Kiểm tra containers còn không:
+docker ps -a
+
+# Nếu containers vẫn còn nhưng đã dừng:
+cd deployment
+docker compose -f docker-compose.prod.yml start
+
+# Nếu không có containers nào (hiếm khi xảy ra):
+docker compose -f docker-compose.prod.yml up -d
+```
+
+### Xác Nhận
+✅ **Những file deployed trước đó VẪN CÒN trong Docker Desktop**
+- Images, Volumes, Networks đều được giữ lại
+- Chỉ cần start containers là ứng dụng hoạt động ngay
+
+**Lưu ý**: Nếu bạn đã xóa nhầm containers, data vẫn an toàn trong Volumes. Chỉ cần chạy lại:
+```bash
+cd deployment
+docker compose -f docker-compose.prod.yml up -d
+```
+
+---
+
+## 📁 Trường Hợp 3: Di Chuyển File Trong Deployment
+
+### Quy Tắc Đường Dẫn
+
+**Nếu di chuyển `deployment/` sang vị trí khác:**
+```bash
+# VD: Di chuyển từ C:\xampp\htdocs\Hanaya-Shop\deployment\
+# Sang: C:\deploy\hanaya\
+
+# Cập nhật lệnh:
+cd C:\deploy\hanaya\
+docker compose -f docker-compose.prod.yml up -d
+```
+
+**Nếu đổi tên thư mục `deployment/` thành tên khác:**
+```bash
+# VD: Đổi thành "production"
+cd production
+docker compose -f docker-compose.prod.yml up -d
+
+# Cập nhật script quick-deploy.bat:
+# Thay "deployment/" thành "production/"
+```
+
+### ⚠️ Files TUYỆT ĐỐI KHÔNG ĐƯỢC XÓA:
+
+**Cấp độ NGHIÊM TRỌNG:**
+- `docker-compose.prod.yml` - Toàn bộ cấu hình deployment
+- `volumes/` (nếu có) - Data persistence
+- `.env` - Environment production
+
+**Cấp độ QUAN TRỌNG:**
+- `nginx/default.conf` - Web server sẽ lỗi 502
+- `php/php-fpm.conf` - Application không start
+- `mysql/mysql.conf` - Database performance thấp
+- `supervisor/supervisord.conf` - Services không tự động start
+
+**Có thể xóa/tạo lại:**
+- `scripts/` - Chỉ ảnh hưởng automation
+- `nginx/certs/` - Chỉ ảnh hưởng HTTPS
+- `backups/` - Không ảnh hưởng hoạt động
+
+---
+
 ## 📁 Cấu trúc Deployment
 
 ```
 deployment/
-├── docker-compose.prod.yml      # Docker Compose cho production
-├── scripts/                     # Scripts deployment
-│   ├── deploy.sh               # Deploy script cho Linux/Mac
-│   └── deploy.bat              # Deploy script cho Windows
-├── nginx/                      # Nginx configuration
-│   ├── nginx.conf              # Main Nginx config
-│   ├── default.conf            # Site configuration
-│   └── certs/                  # SSL certificates
-│       └── README.md           # Hướng dẫn SSL
-├── php/                        # PHP-FPM configuration
-│   ├── php-fpm.conf            # PHP-FPM pool config
-│   └── php.ini                 # PHP configuration
-├── mysql/                      # MySQL configuration
-│   └── mysql.conf              # MySQL performance tuning
-└── supervisor/                 # Process manager
-    └── supervisord.conf        # Supervisor configuration
+├── docker-compose.prod.yml      # ⚠️ CORE - Cấu hình deployment
+├── .env                        # ⚠️ CORE - Environment variables
+├── scripts/                    # Automation scripts
+│   ├── deploy.sh              # Deploy cho Linux/Mac  
+│   └── deploy.bat             # Deploy cho Windows
+├── nginx/                     # ⚠️ QUAN TRỌNG - Web server
+│   ├── nginx.conf             # Main Nginx config
+│   ├── default.conf           # Site configuration
+│   └── certs/                 # SSL certificates
+│       └── README.md          # Hướng dẫn SSL
+├── php/                       # ⚠️ QUAN TRỌNG - PHP runtime
+│   ├── php-fpm.conf           # PHP-FPM pool config
+│   └── php.ini                # PHP configuration
+├── mysql/                     # ⚠️ QUAN TRỌNG - Database config
+│   └── mysql.conf             # MySQL performance tuning
+└── supervisor/                # ⚠️ QUAN TRỌNG - Process manager
+    └── supervisord.conf       # Supervisor configuration
 ```
 
-## 🚀 Quick Start
+---
 
-### 1. Deploy lần đầu (từ thư mục gốc)
+## 🚀 Quick Start Commands
+
+### Deploy Lần Đầu
 ```bash
-# Linux/Mac
-./quick-deploy.sh --seed
-
-# Windows
+# Windows (từ thư mục gốc):
 quick-deploy.bat --seed
+
+# Linux/Mac (từ thư mục gốc):
+./quick-deploy.sh --seed
 ```
 
-### 2. Deploy thường xuyên
+### Deploy Thường Xuyên
 ```bash
-# Linux/Mac
-./quick-deploy.sh
-
-# Windows
+# Windows:
 quick-deploy.bat
+
+# Linux/Mac:
+./quick-deploy.sh
 ```
 
-### 3. Deploy thủ công
+### Kiểm Tra & Quản Lý
 ```bash
+# Xem status:
 cd deployment
+docker compose -f docker-compose.prod.yml ps
 
-# Linux/Mac
-./scripts/deploy.sh production
+# Xem logs:
+docker compose -f docker-compose.prod.yml logs -f
 
-# Windows
-scripts\deploy.bat production
+# Restart:
+docker compose -f docker-compose.prod.yml restart
+
+# Dừng:
+docker compose -f docker-compose.prod.yml down
+
+# Start lại:
+docker compose -f docker-compose.prod.yml up -d
 ```
+
+---
 
 ## ⚙️ Cấu hình Chi tiết
 
@@ -86,10 +269,12 @@ scripts\deploy.bat production
 - **Laravel Workers**: Queue processing (2 processes)
 - **Laravel Scheduler**: Cron jobs automation
 
+---
+
 ## 🔧 Customization
 
 ### Environment Variables
-Chỉnh sửa file `.env` trong thư mục gốc:
+Chỉnh sửa file `.env` trong thư mục deployment:
 ```env
 APP_URL=https://your-domain.com
 DB_PASSWORD=your-secure-password
@@ -109,62 +294,6 @@ services:
 1. Đặt certificates vào `nginx/certs/`
 2. Certificates cần có tên: `fullchain.pem` và `privkey.pem`
 3. Restart containers: `docker-compose restart`
-
-## 📊 Monitoring Commands
-
-```bash
-# Xem status containers
-docker-compose -f docker-compose.prod.yml ps
-
-# Xem logs realtime
-docker-compose -f docker-compose.prod.yml logs -f app
-
-# Xem resource usage
-docker stats
-
-# Access container shell
-docker-compose -f docker-compose.prod.yml exec app bash
-
-# Database backup
-docker exec hanaya-shop-db mysqldump -u root -p hanaya_shop > backup.sql
-```
-
-## 🔒 Security Features
-
-- **Rate Limiting**: API và login endpoints
-- **Security Headers**: XSS, CSRF, Content-Type protection
-- **File Access**: Restricted access to sensitive files
-- **PHP Security**: Disabled dangerous functions
-- **Database**: Internal networking only
-- **SSL**: Full HTTPS support
-
-## 🚨 Troubleshooting
-
-### Container không start
-```bash
-docker-compose -f docker-compose.prod.yml logs app
-docker-compose -f docker-compose.prod.yml build --no-cache app
-```
-
-### Database connection issues
-```bash
-docker-compose -f docker-compose.prod.yml logs db
-docker-compose -f docker-compose.prod.yml restart db
-```
-
-### Permission problems
-```bash
-docker-compose -f docker-compose.prod.yml exec app chown -R www-data:www-data /var/www/html
-```
-
-### Performance issues
-```bash
-# Clear all caches
-docker-compose -f docker-compose.prod.yml exec app php artisan optimize:clear
-
-# Rebuild optimizations
-docker-compose -f docker-compose.prod.yml exec app php artisan optimize
-```
 
 ---
 
@@ -187,8 +316,9 @@ docker-compose -f docker-compose.prod.yml exec app php artisan optimize
 ## 🛠️ Phát Triển Tiếp
 
 ### 1. Dừng Deploy để Phát Triển
-NOTE: Nhớ lệnh    **cd deployment**
 ```bash
+cd deployment
+
 # Dừng tất cả containers
 docker compose -f docker-compose.prod.yml down
 
@@ -291,53 +421,64 @@ git push
 
 ---
 
-## ⚡ Quick Commands
+## 📊 Monitoring Commands
 
 ```bash
-# Xem tất cả containers
-docker ps
-
-# Restart chỉ app
-docker compose -f docker-compose.prod.yml restart app
+# Xem status containers
+docker-compose -f docker-compose.prod.yml ps
 
 # Xem logs realtime
-docker compose -f docker-compose.prod.yml logs -f
+docker-compose -f docker-compose.prod.yml logs -f app
 
-# Vào container shell
-docker compose -f docker-compose.prod.yml exec app bash
+# Xem resource usage
+docker stats
 
-# Clear cache Laravel
-docker compose -f docker-compose.prod.yml exec app php artisan optimize:clear
+# Access container shell
+docker-compose -f docker-compose.prod.yml exec app bash
 
-# Backup database
-docker exec hanaya-shop-db mysqldump -u root -p hanaya_shop > backup_$(date +%Y%m%d).sql
+# Database backup
+docker exec hanaya-shop-db mysqldump -u root -p hanaya_shop > backup.sql
 ```
 
 ---
 
-## 🔧 Sửa Lỗi Thường Gặp
+## 🔒 Security Features
 
-### Route Error (404 Not Found)
+- **Rate Limiting**: API và login endpoints
+- **Security Headers**: XSS, CSRF, Content-Type protection
+- **File Access**: Restricted access to sensitive files
+- **PHP Security**: Disabled dangerous functions
+- **Database**: Internal networking only
+- **SSL**: Full HTTPS support
+
+---
+
+## 🚨 Troubleshooting
+
+### Container không start
 ```bash
-# Clear route cache
-docker compose -f docker-compose.prod.yml exec app php artisan route:clear
-docker compose -f docker-compose.prod.yml exec app php artisan route:cache
+docker-compose -f docker-compose.prod.yml logs app
+docker-compose -f docker-compose.prod.yml build --no-cache app
 ```
 
-### Permission Error
+### Database connection issues
 ```bash
-# Fix permissions
-docker compose -f docker-compose.prod.yml exec app chown -R www-data:www-data /var/www/html
-docker compose -f docker-compose.prod.yml exec app chmod -R 755 /var/www/html/storage
+docker-compose -f docker-compose.prod.yml logs db
+docker-compose -f docker-compose.prod.yml restart db
 ```
 
-### Database Connection Error
+### Permission problems
 ```bash
-# Restart database
-docker compose -f docker-compose.prod.yml restart db
+docker-compose -f docker-compose.prod.yml exec app chown -R www-data:www-data /var/www/html
+```
 
-# Check database logs
-docker compose -f docker-compose.prod.yml logs db
+### Performance issues
+```bash
+# Clear all caches
+docker-compose -f docker-compose.prod.yml exec app php artisan optimize:clear
+
+# Rebuild optimizations
+docker-compose -f docker-compose.prod.yml exec app php artisan optimize
 ```
 
 ---
