@@ -7,7 +7,7 @@ services:
     ports:
       - "80:80"
     environment:
-      # - VIRTUAL_HOST=hanayashop.duckdns.org
+      - VIRTUAL_HOST=hanayashop.duckdns.org
       - APP_ENV=production
       - APP_DEBUG=false
       - APP_KEY=${APP_KEY}
