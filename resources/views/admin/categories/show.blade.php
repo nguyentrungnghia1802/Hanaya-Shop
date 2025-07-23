@@ -28,7 +28,7 @@
                         <!-- Category Image -->
                         <div class="flex justify-center md:justify-start">
                             <div class="w-full max-w-sm">
-                                <img src="{{ asset('images/' . ($category->image_path ?? 'base.jpg')) }}" 
+                                <img src="{{ asset('images/categories/' . ($category->image_path ?? 'base.jpg')) }}" 
                                      alt="{{ $category->name }}" 
                                      class="w-full h-64 object-cover rounded-lg shadow-md border">
                             </div>

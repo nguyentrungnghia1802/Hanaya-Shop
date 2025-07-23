@@ -9,12 +9,13 @@
 @section('content')
 
 {{-- Product Edit Form --}}
-<form id="productForm-edit"
-      class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
-      bg-white p-6 rounded-lg shadow-lg z-50 w-full max-w-3xl space-y-4"
-      action="{{ route('admin.product.update', $product->id) }}"
-      method="POST"
-      enctype="multipart/form-data">
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+        <form id="productForm-edit"
+              class="p-6 space-y-4"
+              action="{{ route('admin.product.update', $product->id) }}"
+              method="POST"
+              enctype="multipart/form-data">
 
     @csrf {{-- CSRF protection --}}
     @method('PUT') {{-- Use PUT method for resource update --}}
@@ -36,14 +37,24 @@
     {{-- Product Price --}}
     <div>
         <label for="price" class="block text-sm font-medium text-gray-700 mb-1">Price</label>
-        <input type="number" name="price" id="price-edit" value="{{ old('price', $product->price) }}" required min="0"
+        <div class="flex items-center">
+            <input type="number" name="price" id="price-edit" value="{{ old('price', $product->price) }}" required min="0" step="0.01"
                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none">
+            <span class="ml-2">USD</span>
+        </div>
     </div>
 
     {{-- Stock Quantity --}}
     <div>
         <label for="stock_quantity" class="block text-sm font-medium text-gray-700 mb-1">Stock Quantity</label>
         <input type="number" name="stock_quantity" id="stock_quantity-edit" value="{{ old('stock_quantity', $product->stock_quantity) }}" required min="0"
+               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none">
+    </div>
+
+    {{-- Discount Percent --}}
+    <div>
+        <label for="discount_percent" class="block text-sm font-medium text-gray-700 mb-1">Discount Percent (%)</label>
+        <input type="number" name="discount_percent" id="discount_percent-edit" value="{{ old('discount_percent', $product->discount_percent) }}" min="0" max="100" step="0.01"
                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none">
     </div>
 
@@ -72,7 +83,7 @@
     {{-- Display current image (if exists) --}}
     @if($product->image_url)
         <p class="text-sm text-gray-600">Current image:</p>
-        <img id="previewImage" src="{{ asset('images/' . $product->image_url) }}" alt="Product Image" width="150"
+        <img id="previewImage" src="{{ asset('images/products/' . $product->image_url) }}" alt="Product Image" width="150"
              class="mt-1 rounded border">
     @endif
 
@@ -89,7 +100,9 @@
             Save
         </button>
     </div>
-</form>
+        </form>
+    </div>
+</div>
 
 @endsection
 
