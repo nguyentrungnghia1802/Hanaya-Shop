@@ -28,6 +28,15 @@
                 class="border px-2 py-1 rounded w-full" required>
         </div>
 
+        <!-- Role field -->
+        <div>
+            <label class="block mb-1">Role</label>
+            <select name="role" class="border px-2 py-1 rounded w-full" required>
+                <option value="user" {{ $user->role === 'user' ? 'selected' : '' }}>User</option>
+                <option value="admin" {{ $user->role === 'admin' ? 'selected' : '' }}>Admin</option>
+            </select>
+        </div>
+
         <!-- Password field (optional) -->
         <div>
             <label class="block mb-1">New Password (leave blank to keep current password)</label>

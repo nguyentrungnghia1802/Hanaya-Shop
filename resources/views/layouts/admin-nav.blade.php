@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-9 w-auto">
+                    <img src="{{ asset(config('constants.logo_path')) }}" alt="Logo" class="h-9 w-auto">
 
                     <a href="{{ route('admin.dashboard') }}">
                         <p style="margin-left: 10px"> HANAYA SHOP </p>
@@ -15,9 +15,6 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard*')">
-                        {{ __('Admin Dashboard') }}
-                    </x-nav-link>
                     <x-nav-link :href="route('admin.product')" :active="request()->routeIs('admin.product*')">
                         {{ __('Products') }}
                     </x-nav-link>
@@ -30,11 +27,8 @@
                     <x-nav-link :href="route('admin.order')" :active="request()->routeIs('admin.order*')">
                         {{ __('Orders') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('admin.review')" :active="request()->routeIs('admin.review*')">
-                        {{ __('Reviews') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('admin.statistical')" :active="request()->routeIs('admin.statistical*')">
-                        {{ __('Statistical') }}
+                    <x-nav-link :href="route('admin.post.index')" :active="request()->routeIs('admin.post*')">
+                        {{ __('Posts') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -62,16 +56,18 @@
                         <x-dropdown-link :href="route('admin.profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
-
+                        <x-dropdown-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard*')">
+                            {{ __('Admin Dashboard') }}
+                        </x-dropdown-link>
+                        <x-dropdown-link :href="route('user.dashboard')" :active="request()->routeIs('user.dashboard')">
+                            {{ __('User Dashboard') }}
+                        </x-dropdown-link>
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-
-                            <x-dropdown-link :href="route('logout')"
-                                onclick="event.preventDefault();
-                                                this.closest('form').submit();">
+                            <button type="submit" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                 {{ __('Log Out') }}
-                            </x-dropdown-link>
+                            </button>
                         </form>
                     </x-slot>
                 </x-dropdown>
@@ -97,9 +93,6 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard*')">
-                {{ __('Admin Dashboard') }}
-            </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('admin.product')" :active="request()->routeIs('admin.product*')">
                 {{ __('Products') }}
             </x-responsive-nav-link>
@@ -112,11 +105,8 @@
             <x-responsive-nav-link :href="route('admin.order')" :active="request()->routeIs('admin.order*')">
                 {{ __('Orders') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('admin.review')" :active="request()->routeIs('admin.review*')">
-                {{ __('Reviews') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('admin.statistical')" :active="request()->routeIs('admin.statistical*')">
-                {{ __('Statistical') }}
+            <x-responsive-nav-link :href="route('admin.post.index')" :active="request()->routeIs('admin.post*')">
+                {{ __('Posts') }}
             </x-responsive-nav-link>
         </div>
 
@@ -128,19 +118,21 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
+                <x-responsive-nav-link :href="route('admin.profile.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
-
+                <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard*')">
+                    {{ __('Admin Dashboard') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('user.dashboard')" :active="request()->routeIs('user.dashboard')">
+                    {{ __('User Dashboard') }}
+                </x-responsive-nav-link>
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-
-                    <x-responsive-nav-link :href="route('logout')"
-                        onclick="event.preventDefault();
-                                        this.closest('form').submit();">
+                    <button type="submit" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                         {{ __('Log Out') }}
-                    </x-responsive-nav-link>
+                    </button>
                 </form>
             </div>
         </div>

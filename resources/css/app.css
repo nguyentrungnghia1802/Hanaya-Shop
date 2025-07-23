@@ -3,3 +3,79 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom responsive utilities */
+@layer utilities {
+    /* Line clamp utilities for older browsers */
+    .line-clamp-1 {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+    }
+    
+    .line-clamp-2 {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+    }
+    
+    .line-clamp-3 {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+    }
+    
+    /* Mobile-first responsive utilities */
+    .min-w-0 {
+        min-width: 0;
+    }
+    
+    /* Custom aspect ratios */
+    .aspect-square {
+        aspect-ratio: 1 / 1;
+    }
+    
+    .aspect-product {
+        aspect-ratio: 3 / 4;
+    }
+    
+    /* Smooth transitions */
+    .transition-all {
+        transition: all 0.3s ease;
+    }
+    
+    /* Custom shadows */
+    .shadow-product {
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    
+    .shadow-product-hover {
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+}
+
+/* Custom components */
+@layer components {
+    .btn-primary {
+        @apply bg-pink-600 hover:bg-pink-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300;
+    }
+    
+    .btn-secondary {
+        @apply bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300;
+    }
+    
+    .card {
+        @apply bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300;
+    }
+    
+    .card-product {
+        @apply bg-white rounded-lg shadow-md hover:shadow-xl overflow-hidden transition-all duration-300 transform hover:scale-105;
+    }
+    
+    .input-field {
+        @apply px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent;
+    }
+}

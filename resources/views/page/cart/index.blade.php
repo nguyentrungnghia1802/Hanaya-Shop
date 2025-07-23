@@ -10,7 +10,8 @@
             @csrf
             <input type="hidden" name="selected_items_json" id="selected_items_json">
             <div class="overflow-x-auto">
-                <table class="min-w-full bg-white rounded shadow">
+                <!-- Desktop Table -->
+                <table class="min-w-full bg-white rounded shadow hidden md:table">
                     <thead>
                         <tr>
                             <th class="py-2 px-4 border-b text-center">
@@ -33,14 +34,14 @@
                                  <input type="checkbox" name="cart_ids[]" value="{{ $id }}" 
                                      class="cart-checkbox" 
                                     data-price="{{ $item['price'] * $item['quantity'] }}"
-                                    data-id="{{ $id }}">
-    
+                                    data-id="{{ $id }}"
+                                    data-product-id="{{ $item['product_id'] }}">
                             </td>
                             <td class="py-2 px-4 border-b">
                                 <img src="{{ $item['image_url'] }}" alt="{{ $item['name'] }}" class="w-16 h-16 object-cover rounded">
                             </td>
                             <td class="py-2 px-4 border-b">{{ $item['name'] }}</td>
-                            <td class="py-2 px-4 border-b">{{ number_format($item['price'], 0, ',', '.') }}₫</td>
+                            <td class="py-2 px-4 border-b">{{ number_format($item['price'], 0, ',', '.') }} USD</td>
                             <td class="py-2 px-4 border-b text-center">
                                 <div class="flex items-center justify-center gap-2">
                                 <button type="button" class="btn-decrease bg-gray-200 px-2 rounded" data-id="{{ $id }}">−</button>
@@ -52,9 +53,8 @@
                                 </div>
                             </td>
                             <td class="py-2 px-4 border-b item-total" data-id="{{ $id }}">
-                                {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}₫
+                                {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }} USD
                             </td>
-    
                             <td class="py-2 px-4 border-b">
                                 <a href="{{ route('cart.remove', $id) }}" class="text-red-600 hover:underline">Xóa</a>
                             </td>
@@ -62,15 +62,62 @@
                         @endforeach
                         <tr>
                             <td colspan="4" class="text-right font-bold py-2 px-4">Tổng cộng:</td>
-                            <td colspan="2" class="font-bold py-2 px-4" id="totalPrice">0₫</td>
+                            <td colspan="2" class="font-bold py-2 px-4" id="totalPrice">0 USD</td>
                         </tr>
                     </tbody>
                 </table>
-            </div>
-            <div class="mt-6 text-right">
-                <button type="submit" class="bg-pink-600 hover:bg-pink-700 text-white px-6 py-2 rounded shadow">
-                    Thanh toán
-                </button>
+                <!-- Desktop Checkout Button -->
+                <div class="mt-6 text-right hidden md:block">
+                    <button type="submit" class="bg-pink-600 hover:bg-pink-700 text-white px-6 py-2 rounded shadow">
+                        Thanh toán
+                    </button>
+                </div>
+                <!-- Mobile Card List -->
+                <div class="md:hidden space-y-4">
+                    <div class="bg-white rounded shadow p-4 flex items-center gap-3">
+                        <input type="checkbox" id="select-all-mobile" title="Chọn tất cả">
+                        <span class="font-semibold">Chọn tất cả</span>
+                    </div>
+                    @foreach($cart as $id => $item)
+                    <div class="bg-white rounded shadow p-4 flex flex-col gap-3">
+                        <div class="flex items-center gap-3">
+                            <input type="checkbox" name="cart_ids[]" value="{{ $id }}"
+                                class="cart-checkbox"
+                                data-price="{{ $item['price'] * $item['quantity'] }}"
+                                data-id="{{ $id }}"
+                                data-product-id="{{ $item['product_id'] }}">
+                            <img src="{{ $item['image_url'] }}" alt="{{ $item['name'] }}" class="w-20 h-20 object-cover rounded">
+                            <div class="flex-1">
+                                <div class="font-semibold">{{ $item['name'] }}</div>
+                                <div class="text-pink-600 font-bold">{{ number_format($item['price'], 0, ',', '.') }} USD</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <button type="button" class="btn-decrease bg-gray-200 px-2 rounded" data-id="{{ $id }}">−</button>
+                                <input type="number" min="1" class="quantity-input w-[60px] text-center border rounded" value="{{ $item['quantity'] }}"
+                                    data-id="{{ $id }}"
+                                    data-price="{{ $item['price'] }}"
+                                    data-total="{{ $item['price'] * $item['quantity'] }}">
+                                <button type="button" class="btn-increase bg-gray-200 px-2 rounded" data-id="{{ $id }}">+</button>
+                            </div>
+                            <div class="item-total font-bold text-gray-700" data-id="{{ $id }}">
+                                {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }} USD
+                            </div>
+                            <a href="{{ route('cart.remove', $id) }}" class="text-red-600 hover:underline">Xóa</a>
+                        </div>
+                    </div>
+                    @endforeach
+                    <div class="bg-white rounded shadow p-4 flex justify-between items-center font-bold">
+                        <span>Tổng cộng:</span>
+                        <span id="totalPrice">0 USD</span>
+                    </div>
+                    <div class="text-right mt-4">
+                        <button type="submit" class="bg-pink-600 hover:bg-pink-700 text-white px-6 py-2 rounded shadow">
+                            Thanh toán
+                        </button>
+                    </div>
+                </div>
             </div>
         </form>
         @else
@@ -81,24 +128,29 @@
 document.addEventListener("DOMContentLoaded", function () {
     const totalPriceEl = document.getElementById('totalPrice');
     const selectAllCheckbox = document.getElementById('select-all');
+    const selectAllMobile = document.getElementById('select-all-mobile');
     const checkoutForm = document.getElementById('checkout-form');
 
     function formatCurrency(value) {
-        return new Intl.NumberFormat('vi-VN').format(value) + '₫';
+        return new Intl.NumberFormat('vi-VN').format(value) + ' USD';
     }
 
     function updateTotal() {
         let total = 0;
-        document.querySelectorAll('.cart-checkbox').forEach(cb => {
-            if (cb.checked) {
-                const id = cb.dataset.id;
-                const qtyInput = document.querySelector(`.quantity-input[data-id="${id}"]`);
-                const price = parseFloat(qtyInput.dataset.price);
-                const quantity = parseInt(qtyInput.value);
-                total += price * quantity;
-            }
+        const checkedIds = new Set();
+        document.querySelectorAll('.cart-checkbox:checked').forEach(cb => {
+            const id = cb.dataset.id;
+            if (checkedIds.has(id)) return;
+            checkedIds.add(id);
+            const qtyInput = document.querySelector(`.quantity-input[data-id="${id}"]`);
+            const price = parseFloat(qtyInput.dataset.price);
+            const quantity = parseInt(qtyInput.value);
+            total += price * quantity;
         });
-        totalPriceEl.textContent = formatCurrency(total);
+        // Cập nhật cả tổng desktop và mobile
+        document.querySelectorAll('#totalPrice').forEach(el => {
+            el.textContent = formatCurrency(total);
+        });
     }
 
     function updateCheckboxPrice(id, newTotal) {
@@ -164,6 +216,17 @@ document.addEventListener("DOMContentLoaded", function () {
             document.querySelectorAll('.cart-checkbox').forEach(cb => {
                 cb.checked = isChecked;
             });
+            if (selectAllMobile) selectAllMobile.checked = isChecked;
+            updateTotal();
+        });
+    }
+    if (selectAllMobile) {
+        selectAllMobile.addEventListener('change', function () {
+            const isChecked = this.checked;
+            document.querySelectorAll('.cart-checkbox').forEach(cb => {
+                cb.checked = isChecked;
+            });
+            if (selectAllCheckbox) selectAllCheckbox.checked = isChecked;
             updateTotal();
         });
     }
@@ -173,9 +236,8 @@ document.addEventListener("DOMContentLoaded", function () {
         cb.addEventListener('change', function () {
             const allCheckboxes = document.querySelectorAll('.cart-checkbox');
             const allChecked = [...allCheckboxes].every(c => c.checked);
-            if (selectAllCheckbox) {
-                selectAllCheckbox.checked = allChecked;
-            }
+            if (selectAllCheckbox) selectAllCheckbox.checked = allChecked;
+            if (selectAllMobile) selectAllMobile.checked = allChecked;
             updateTotal();
         });
     });
@@ -183,19 +245,32 @@ document.addEventListener("DOMContentLoaded", function () {
     // Gửi form
     checkoutForm.addEventListener('submit', function (e) {
         const selectedItems = [];
-
+        const checkedIds = new Set();
         document.querySelectorAll('.cart-checkbox:checked').forEach(cb => {
             const id = cb.dataset.id;
-            const row = cb.closest('tr');
-
+            if (checkedIds.has(id)) return; // Nếu đã lấy rồi thì bỏ qua
+            checkedIds.add(id);
+            // Tìm row cho desktop hoặc card cho mobile
+            let row = cb.closest('tr');
+            if (!row) {
+                row = cb.closest('.bg-white');
+            }
             const image = row.querySelector('img').getAttribute('src');
-            const name = row.querySelector('td:nth-child(4)').textContent.trim();
+            // Desktop: tên ở td thứ 3, Mobile: lấy .font-semibold
+            let name = '';
+            const nameTd = row.querySelector('td:nth-child(3)');
+            if (nameTd) {
+                name = nameTd.textContent.trim();
+            } else {
+                const nameDiv = row.querySelector('.font-semibold');
+                name = nameDiv ? nameDiv.textContent.trim() : '';
+            }
             const price = parseFloat(row.querySelector('.quantity-input').dataset.price);
             const quantity = parseInt(row.querySelector('.quantity-input').value);
             const subtotal = price * quantity;
-
+            const productId = cb.dataset.productId; // Lấy product_id thực tế
             selectedItems.push({
-                id,
+                id: productId, // Sử dụng product_id thay vì cart_id
                 image,
                 name,
                 price,
@@ -203,7 +278,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 subtotal
             });
         });
-
         document.getElementById('selected_items_json').value = JSON.stringify(selectedItems);
     });
 

@@ -14,9 +14,84 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
+    <!-- CSS cho prose content - giống admin -->
+    <style>
+        .prose {
+            color: #374151;
+            max-width: none;
+        }
+        .prose h1 {
+            font-size: 2.25em;
+            font-weight: 800;
+            line-height: 1.1111111;
+            margin-top: 0;
+            margin-bottom: 0.8888889em;
+        }
+        .prose h2 {
+            font-size: 1.875em;
+            font-weight: 700;
+            line-height: 1.3333333;
+            margin-top: 2em;
+            margin-bottom: 1em;
+        }
+        .prose h3 {
+            font-size: 1.5em;
+            font-weight: 600;
+            line-height: 1.6;
+            margin-top: 1.6em;
+            margin-bottom: 0.6em;
+        }
+        .prose strong, .prose b {
+            font-weight: 600;
+        }
+        .prose em, .prose i {
+            font-style: italic;
+        }
+        .prose ul, .prose ol {
+            margin-top: 1.25em;
+            margin-bottom: 1.25em;
+            padding-left: 1.625em;
+        }
+        .prose li {
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+        }
+        .prose blockquote {
+            font-weight: 500;
+            font-style: italic;
+            color: #374151;
+            border-left-width: 0.25rem;
+            border-left-color: #d1d5db;
+            quotes: "\201C""\201D""\2018""\2019";
+            margin-top: 1.6em;
+            margin-bottom: 1.6em;
+            padding-left: 1em;
+        }
+        .prose img {
+            margin-top: 2em;
+            margin-bottom: 2em;
+            max-width: 100%;
+            height: auto;
+        }
+        .prose p {
+            margin-top: 1.25em;
+            margin-bottom: 1.25em;
+        }
+    </style>
 </head>
 
 <body class="font-sans antialiased">
+    <!-- Loading overlay đặt ngay sau <body> -->
+    <div id="pageLoadingOverlay" style="display:none;position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:rgba(255,255,255,0.8);backdrop-filter:blur(2px);align-items:center;justify-content:center;">
+        <div style="font-size:2rem;color:#ec4899;display:flex;flex-direction:column;align-items:center;">
+            <svg class="animate-spin h-14 w-14 mb-4 text-pink-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+            </svg>
+            <div class="text-xl font-semibold text-pink-600 tracking-wide animate-pulse">Loading...</div>
+        </div>
+    </div>
     <div class="min-h-screen bg-gray-100">
         @include('layouts.navigation')
 
@@ -37,27 +112,27 @@
             <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
 
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Hanaya Shop</h3>
+                    <h3 class="text-lg font-semibold mb-4">{{ config('constants.shop_name') }}</h3>
                     <p class="text-sm">
-                        Chuyên cung cấp hoa cao cấp, quà tặng ý nghĩa và phụ kiện trang trí.
+                        Specializing in premium flowers, meaningful gifts and decorative accessories.
                     </p>
                 </div>
 
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Liên kết nhanh</h3>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
                     <ul class="text-sm space-y-2">
-                        <li><a href="/" class="hover:text-white">Trang chủ</a></li>
-                        <li><a href="/products" class="hover:text-white">Sản phẩm</a></li>
-                        <li><a href="/about" class="hover:text-white">Giới thiệu</a></li>
-                        <li><a href="/contact" class="hover:text-white">Liên hệ</a></li>
+                        <li><a href="/" class="hover:text-white">Home</a></li>
+                        <li><a href="/products" class="hover:text-white">Products</a></li>
+                        <li><a href="/about" class="hover:text-white">About</a></li>
+                        <li><a href="/contact" class="hover:text-white">Contact</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Liên hệ</h3>
-                    <p class="text-sm"> Địa chỉ: Hà Nội</p>
-                    <p class="text-sm"> Số điện thoại: </p>
-                    <p class="text-sm"> Email: support@hanaya.vn</p>
+                    <h3 class="text-lg font-semibold mb-4">Contact</h3>
+                    <p class="text-sm"> Address: {{ config('constants.shop_address') }}</p>
+                    <p class="text-sm"> Phone: {{ config('constants.shop_phone') }}</p>
+                    <p class="text-sm"> Email: {{ config('constants.shop_email') }}</p>
                 </div>
             </div>
 
@@ -66,6 +141,34 @@
             </div>
         </footer>
     </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Chặn click trên nav-link và delay chuyển trang
+        document.querySelectorAll('nav a,button[type="submit"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                // Chỉ xử lý link nội bộ (không có target _blank, không phải anchor, không có modifier key)
+                if (
+                    this.target === '_blank' ||
+                    this.href && this.href.startsWith('javascript:') ||
+                    this.href === '#' ||
+                    e.ctrlKey || e.shiftKey || e.metaKey || e.altKey
+                ) return;
+                document.getElementById('pageLoadingOverlay').style.display = 'flex';
+            });
+        });
+        // Khi bấm nút Delete Account trong modal, tắt overlay loading ngay lập tức
+        document.querySelectorAll('button').forEach(btn => {
+            if (btn.textContent.trim() === 'Delete Account') {
+                btn.addEventListener('click', function() {
+                    document.getElementById('pageLoadingOverlay').style.display = 'none';
+                });
+            }
+        });
+    });
+    </script>
+
+    <!-- Chatbot Component -->
+    <x-chatbot />
 </body>
 
 </html>

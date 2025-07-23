@@ -48,7 +48,7 @@
             <p class="text-sm text-gray-700 mt-2">Current Image:</p>
             <img 
                 id="previewImage" 
-                src="{{ asset('images/' . $category->image_path) }}" 
+                src="{{ asset('images/categories/' . $category->image_path) }}" 
                 alt="Category Image" 
                 width="150">
         @endif
