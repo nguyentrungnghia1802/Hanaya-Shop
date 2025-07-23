@@ -12,6 +12,9 @@
             </div>
         @endif
 
+        <!-- Thông báo lỗi -->
+        <x-alert />
+
         <!-- Thông tin chi tiết sản phẩm -->
         <div class="bg-white rounded-lg shadow-md p-6 flex flex-col md:flex-row gap-6">
             <div class="md:w-1/2">

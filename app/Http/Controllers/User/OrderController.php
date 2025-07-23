@@ -31,4 +31,28 @@ class OrderController extends Controller
         return view('page.order.show', compact('order'));
     }
 
+    public function cancel($orderId)
+{
+    $order = Order::findOrFail($orderId);
+
+    DB::beginTransaction();
+    try {
+        foreach ($order->orderDetail as $detail) {
+            $product = $detail->product;
+            $product->stock_quantity += $detail->quantity;
+            $product->save();
+        }
+        $order->status = 'canceled';
+        $order->save();
+
+        DB::commit();
+
+        return redirect()->route('order.index')->with('success', 'Đơn hàng đã được hủy thành công.');
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return redirect()->back()->with('error', 'Đã xảy ra lỗi khi hủy đơn hàng: ' . $e->getMessage());
+    }
+}
+
+
 }

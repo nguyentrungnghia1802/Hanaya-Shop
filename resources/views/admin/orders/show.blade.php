@@ -98,9 +98,16 @@
     @if ($order->status === 'shipped')
         <!-- Nút Disabled -->
         <button type="button"
-            class="bg-gray-400 text-white font-semibold py-2 px-6 rounded-lg shadow cursor-not-allowed"
+            class="bg-gray-400 text-black font-semibold py-2 px-6 rounded-lg shadow cursor-not-allowed"
             disabled>
             Đã giao
+        </button>
+    @elseif ($order->status === 'canceled')
+        <!-- Nút Disabled -->
+        <button type="button"
+            class="bg-gray-400 text-black font-semibold py-2 px-6 rounded-lg shadow cursor-not-allowed"
+            disabled>
+            Đã Hủy
         </button>
     @else
         <button type="submit"
