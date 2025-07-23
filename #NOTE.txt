@@ -25,4 +25,5 @@ mysql -u root -p hanaya_shop_demo < .\database\sql\sample_data.sql
 
 *************************
 Về test:
-1. 
+
+RUN: php artisan test
