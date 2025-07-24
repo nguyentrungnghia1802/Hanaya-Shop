@@ -16,7 +16,7 @@ quick-deploy.bat --seed
 ```
 
 ## 3. Quản lý ứng dụng
-```bash
+```bash`
 cd deployment
 docker compose -f docker-compose.prod.yml up -d      # Khởi động
 docker compose -f docker-compose.prod.yml down        # Dừng
@@ -24,6 +24,12 @@ docker compose -f docker-compose.prod.yml restart     # Restart
 docker compose -f docker-compose.prod.yml logs -f     # Xem logs
 docker compose -f docker-compose.prod.yml up -d --build  #Sửa lớn, thay đổi Dockerfile, cài thêm package
 ```
+
+## 7. Deploy lại application
+```bash`
+cd c:\xampp\htdocs\Hanaya-Shop\deployment
+docker compose -f docker-compose.prod.yml up -d --build
+docker compose -f docker-compose.prod.yml build
 
 ## 4. Truy cập
 - Website: http://localhost
