@@ -48,10 +48,10 @@ class OrderController extends Controller
 
         DB::commit();
 
-        return redirect()->route('order.index')->with('success', 'Đơn hàng đã được hủy thành công.');
+        return redirect()->route('order.index')->with('success', 'Order has been cancelled successfully.');
     } catch (\Exception $e) {
         DB::rollBack();
-        return redirect()->back()->with('error', 'Đã xảy ra lỗi khi hủy đơn hàng: ' . $e->getMessage());
+        return redirect()->back()->with('error', 'An error occurred while cancelling the order: ' . $e->getMessage());
     }
 }
 
