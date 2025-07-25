@@ -8,6 +8,7 @@ use App\Models\Product\Category;
 use App\Models\Post;
 use App\Models\Order\Order;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ChatbotController extends Controller
 {
@@ -17,7 +18,7 @@ class ChatbotController extends Controller
 
         if (empty($message)) {
             return response()->json([
-                'response' => 'Xin chào! Tôi có thể giúp gì cho bạn hôm nay?'
+                'response' => 'Hello! I can help you today. What would you like to know?'
             ]);
         }
 
@@ -35,19 +36,39 @@ class ChatbotController extends Controller
             return config('constants.chatbot_greeting');
         }
 
+        // Best sellers / popular products
+        if ($this->containsWords($message, ['best seller', 'bán chạy', 'popular', 'phổ biến', 'top'])) {
+            return $this->handleBestSellers();
+        }
+
+        // Sale/discount products
+        if ($this->containsWords($message, ['sale', 'giảm giá', 'khuyến mãi', 'discount', 'ưu đãi'])) {
+            return $this->handleSaleProducts();
+        }
+
         // Product search
-        if ($this->containsWords($message, ['sản phẩm', 'tìm', 'tìm kiếm', 'product'])) {
+        if ($this->containsWords($message, ['sản phẩm', 'tìm', 'tìm kiếm', 'product', 'find'])) {
             return $this->handleProductSearch($message);
         }
 
         // Categories
-        if ($this->containsWords($message, ['danh mục', 'category', 'loại'])) {
+        if ($this->containsWords($message, ['danh mục', 'category', 'loại', 'categories'])) {
             return $this->handleCategoryQuery();
+        }
+
+        // Reviews and ratings
+        if ($this->containsWords($message, ['review', 'đánh giá', 'rating', 'feedback'])) {
+            return $this->handleReviewsQuery();
         }
 
         // Order inquiry
         if ($this->containsWords($message, ['đơn hàng', 'order', 'mua'])) {
             return $this->handleOrderQuery();
+        }
+
+        // Cart inquiry
+        if ($this->containsWords($message, ['giỏ hàng', 'cart', 'shopping cart'])) {
+            return $this->handleCartQuery();
         }
 
         // Latest posts/news
@@ -61,8 +82,13 @@ class ChatbotController extends Controller
         }
 
         // Store information
-        if ($this->containsWords($message, ['cửa hàng', 'store', 'shop', 'địa chỉ', 'liên hệ'])) {
+        if ($this->containsWords($message, ['cửa hàng', 'store', 'shop', 'địa chỉ', 'liên hệ', 'contact'])) {
             return $this->handleStoreInfo();
+        }
+
+        // Shipping info
+        if ($this->containsWords($message, ['shipping', 'giao hàng', 'delivery', 'vận chuyển'])) {
+            return $this->handleShippingInfo();
         }
 
         // Help
@@ -102,20 +128,144 @@ class ChatbotController extends Controller
         $products = $query->get();
 
         if ($products->count() === 0) {
-            return "Không tìm thấy sản phẩm nào. Bạn có thể xem tất cả sản phẩm tại: " . route('product.index');
+            return "❌ No products found matching your search.\n\n" .
+                "🔍 **Try these suggestions:**\n" .
+                "• Search for 'soap flowers'\n" .
+                "• Search for 'fresh flowers'\n" .
+                "• Search for 'souvenirs'\n\n" .
+                "🌸 [View all products](" . route('user.products.index') . ")";
         }
 
-        $response = "Đây là một số sản phẩm phù hợp:\n\n";
-        foreach ($products as $product) {
-            $response .= "🌸 {$product->name}\n";
-            $response .= "💰 " . number_format($product->price, 0, ',', '.') . " USD\n";
-            $response .= "📋 {$product->category->name}\n";
-            $response .= "🔗 " . route('product.show', $product->id) . "\n\n";
+        $response = "🔍 **Found " . $products->count() . " products for you:**\n\n";
+        
+        foreach ($products as $index => $product) {
+            $price = $product->discount_percent > 0 ? 
+                "~~" . number_format($product->price, 0, ',', '.') . " USD~~ **" . number_format($product->discounted_price, 0, ',', '.') . " USD**" :
+                "**" . number_format($product->price, 0, ',', '.') . " USD**";
+                
+            $response .= "🌸 **" . ($index + 1) . ". " . $product->name . "**\n";
+            $response .= "💰 " . $price . "\n";
+            $response .= "📂 " . $product->category->name . "\n";
+            $response .= "👁️ " . ($product->view_count ?? 0) . " views\n";
+            if ($product->discount_percent > 0) {
+                $response .= "🏷️ **-" . $product->discount_percent . "% OFF**\n";
+            }
+            $response .= "🔗 [View details](" . route('user.products.show', $product->id) . ")\n\n";
         }
 
-        $response .= "Xem thêm sản phẩm tại: " . route('product.index');
+        $response .= "🛒 [View all products](" . route('user.products.index') . ")";
 
         return $response;
+    }
+
+    private function handleBestSellers()
+    {
+        $products = Product::with('category')
+            ->leftJoin('order_details', 'products.id', '=', 'order_details.product_id')
+            ->select('products.*', DB::raw('COALESCE(SUM(order_details.quantity), 0) as total_sold'))
+            ->groupBy('products.id')
+            ->orderByDesc('total_sold')
+            ->take(5)
+            ->get();
+
+        if ($products->count() === 0) {
+            return "📈 No sales data available yet.\n\n🌸 [Explore our products](" . route('user.products.index') . ")";
+        }
+
+        $response = "🏆 **Best Selling Products:**\n\n";
+        
+        foreach ($products as $index => $product) {
+            $sold = $product->total_sold > 0 ? $product->total_sold . " sold" : "New product";
+            $price = $product->discount_percent > 0 ? 
+                "~~" . number_format($product->price, 0, ',', '.') . " USD~~ **" . number_format($product->discounted_price, 0, ',', '.') . " USD**" :
+                "**" . number_format($product->price, 0, ',', '.') . " USD**";
+                
+            $response .= "🥇 **" . ($index + 1) . ". " . $product->name . "**\n";
+            $response .= "💰 " . $price . "\n";
+            $response .= "📦 " . $sold . "\n";
+            $response .= "🔗 [Buy now](" . route('user.products.show', $product->id) . ")\n\n";
+        }
+
+        $response .= "🛍️ [View all best sellers](" . route('user.products.index', ['sort' => 'bestseller']) . ")";
+
+        return $response;
+    }
+
+    private function handleSaleProducts()
+    {
+        $products = Product::with('category')
+            ->where('discount_percent', '>', 0)
+            ->orderBy('discount_percent', 'desc')
+            ->take(5)
+            ->get();
+
+        if ($products->count() === 0) {
+            return "🎯 No products on sale right now.\n\n" .
+                "💡 **Don't worry!** New sales are coming soon.\n" .
+                "🔔 Keep checking back for amazing deals!\n\n" .
+                "🌸 [Browse all products](" . route('user.products.index') . ")";
+        }
+
+        $response = "🔥 **Products on Sale - Limited Time!**\n\n";
+        
+        foreach ($products as $index => $product) {
+            $response .= "🏷️ **" . ($index + 1) . ". " . $product->name . "**\n";
+            $response .= "💥 **-" . $product->discount_percent . "% OFF**\n";
+            $response .= "💰 ~~" . number_format($product->price, 0, ',', '.') . " USD~~ **" . number_format($product->discounted_price, 0, ',', '.') . " USD**\n";
+            $response .= "💵 You save: **" . number_format($product->price - $product->discounted_price, 0, ',', '.') . " USD**\n";
+            $response .= "🛒 [Get this deal](" . route('user.products.show', $product->id) . ")\n\n";
+        }
+
+        $response .= "🎉 [View all sale products](" . route('user.products.index', ['sort' => 'sale']) . ")";
+
+        return $response;
+    }
+
+    private function handleReviewsQuery()
+    {
+        return "⭐ **Customer Reviews & Ratings:**\n\n" .
+            "🌟 **Average Rating:** 4.8/5 stars\n" .
+            "📝 **Total Reviews:** 500+ happy customers\n\n" .
+            "💬 **What customers say:**\n" .
+            "• \"Beautiful soap flowers, exactly as described!\"\n" .
+            "• \"Fast delivery and excellent packaging\"\n" .
+            "• \"Perfect gifts for special occasions\"\n" .
+            "• \"High quality products at reasonable prices\"\n\n" .
+            "📖 [Read all reviews](" . route('user.products.index') . ")\n" .
+            "✍️ [Leave a review after purchase](" . route('user.products.index') . ")";
+    }
+
+    private function handleCartQuery()
+    {
+        if (!Auth::check()) {
+            return "🛒 **Shopping Cart Information:**\n\n" .
+                "To view your cart, you need to sign in first.\n\n" .
+                "🔐 [Sign in](" . route('login') . ")\n" .
+                "📝 [Create account](" . route('register') . ")\n\n" .
+                "🌸 [Continue shopping](" . route('user.products.index') . ")";
+        }
+
+        return "🛒 **Your Shopping Cart:**\n\n" .
+            "To view your current cart items and checkout:\n\n" .
+            "🛍️ [View cart](" . route('cart.index') . ")\n" .
+            "💳 [Proceed to checkout](" . route('cart.index') . ")\n\n" .
+            "🌸 [Continue shopping](" . route('user.products.index') . ")";
+    }
+
+    private function handleShippingInfo()
+    {
+        return "🚚 **Shipping & Delivery Information:**\n\n" .
+            "📦 **Delivery Options:**\n" .
+            "• Standard shipping: 2-3 business days\n" .
+            "• Express shipping: 1-2 business days\n" .
+            "• Same-day delivery (Hanoi area only)\n\n" .
+            "💰 **Shipping Costs:**\n" .
+            "• Free shipping for orders over 100 USD\n" .
+            "• Standard: 10 USD nationwide\n" .
+            "• Express: 20 USD nationwide\n\n" .
+            "📍 **Coverage:** Nationwide delivery\n" .
+            "📞 **Track orders:** Call " . config('constants.shop_phone') . "\n\n" .
+            "🛍️ [Start shopping](" . route('user.products.index') . ")";
     }
 
     private function handleCategoryQuery()
@@ -123,14 +273,37 @@ class ChatbotController extends Controller
         $categories = Category::withCount('product')->get();
 
         if ($categories->count() === 0) {
-            return "Hiện tại chưa có danh mục sản phẩm nào.";
+            return "📂 No product categories available yet.";
         }
 
-        $response = "Chúng tôi có các danh mục sản phẩm sau:\n\n";
+        $response = "📂 **Our Product Categories:**\n\n";
+        
+        $categoryIcons = [
+            'soap' => '🧼',
+            'flower' => '🌸',
+            'fresh' => '🌹',
+            'souvenir' => '🎁',
+            'gift' => '🎀'
+        ];
+        
         foreach ($categories as $category) {
-            $response .= "📂 {$category->name} ({$category->product_count} sản phẩm)\n";
-            $response .= "🔗 " . route('product.index', ['category' => $category->id]) . "\n\n";
+            $icon = '📦';
+            foreach ($categoryIcons as $key => $categoryIcon) {
+                if (stripos($category->name, $key) !== false) {
+                    $icon = $categoryIcon;
+                    break;
+                }
+            }
+            
+            $response .= "$icon **{$category->name}**\n";
+            $response .= "📊 {$category->product_count} products available\n";
+            if ($category->descriptions) {
+                $response .= "ℹ️ " . substr($category->descriptions, 0, 80) . (strlen($category->descriptions) > 80 ? '...' : '') . "\n";
+            }
+            $response .= "🛍️ [Shop now](" . route('user.products.index', ['category' => $category->id]) . ")\n\n";
         }
+
+        $response .= "🌸 [Browse all products](" . route('user.products.index') . ")";
 
         return $response;
     }
@@ -138,23 +311,45 @@ class ChatbotController extends Controller
     private function handleOrderQuery()
     {
         if (!Auth::check()) {
-            return "Để xem thông tin đơn hàng, bạn cần đăng nhập tại: " . route('login') .
-                "\n\nNếu bạn muốn mua hàng, hãy xem sản phẩm tại: " . route('product.index');
+            return "📦 **Order Information:**\n\n" .
+                "To view your orders, please sign in first.\n\n" .
+                "🔐 [Sign in](" . route('login') . ")\n" .
+                "📝 [Create new account](" . route('register') . ")\n\n" .
+                "🛍️ **Want to place an order?**\n" .
+                "🌸 [Browse products](" . route('user.products.index') . ")";
         }
 
         $orders = Order::where('user_id', Auth::id())->latest()->take(3)->get();
 
         if ($orders->count() === 0) {
-            return "Bạn chưa có đơn hàng nào. Hãy khám phá sản phẩm của chúng tôi tại: " . route('product.index');
+            return "📦 **Your Orders:**\n\n" .
+                "You haven't placed any orders yet.\n\n" .
+                "🛍️ [Start shopping](" . route('user.products.index') . ")\n" .
+                "🎁 [View gift ideas](" . route('user.products.index', ['category_name' => 'souvenir']) . ")";
         }
 
-        $response = "Đây là các đơn hàng gần đây của bạn:\n\n";
-        foreach ($orders as $order) {
-            $response .= "📦 Đơn hàng #{$order->id}\n";
-            $response .= "💰 " . number_format($order->total_amount, 0, ',', '.') . " USD\n";
-            $response .= "📅 {$order->created_at->format('d/m/Y H:i')}\n";
-            $response .= "🔄 Trạng thái: " . $this->translateStatus($order->status) . "\n\n";
+        $response = "📦 **Your Recent Orders:**\n\n";
+        
+        foreach ($orders as $index => $order) {
+            $statusIcons = [
+                'pending' => '⏳',
+                'processing' => '⚙️',
+                'completed' => '✅',
+                'cancelled' => '❌'
+            ];
+            
+            $statusIcon = $statusIcons[$order->status] ?? '📦';
+            $statusText = $this->translateStatus($order->status);
+            
+            $response .= "🧾 **Order #" . ($index + 1) . " (#{$order->id})**\n";
+            $response .= "💰 **" . number_format($order->total_amount, 0, ',', '.') . " USD**\n";
+            $response .= "📅 " . $order->created_at->format('M d, Y \a\t H:i') . "\n";
+            $response .= "$statusIcon Status: **$statusText**\n";
+            $response .= "🔍 [View details](" . route('order.show', $order->id) . ")\n\n";
         }
+
+        $response .= "📋 [View all orders](" . route('order.index') . ")\n";
+        $response .= "🛍️ [Continue shopping](" . route('user.products.index') . ")";
 
         return $response;
     }
@@ -168,28 +363,28 @@ class ChatbotController extends Controller
             ->get();
 
         if ($posts->count() === 0) {
-            return "📝 Hiện tại chưa có bài viết nào được đăng.\n\n" .
-                "Hãy quay lại sau để cập nhật tin tức mới nhất từ Hanaya Shop! 🌸";
+            return "📝 Currently no articles have been published.\n\n" .
+                "Please come back later for the latest news from Hanaya Shop! 🌸";
         }
 
-        $response = "📰 **Tin tức & Bài viết mới nhất từ Hanaya Shop:**\n\n";
+        $response = "📰 **Latest News & Articles from Hanaya Shop:**\n\n";
 
         foreach ($posts as $index => $post) {
-            $response .= "� **" . ($index + 1) . ". " . $post->title . "**\n";
-            $response .= "📅 Ngày đăng: " . $post->created_at->format('d/m/Y H:i') . "\n";
-            $response .= "✍️ Tác giả: " . ($post->author->name ?? 'Admin Hanaya Shop') . "\n";
+            $response .= "📄 **" . ($index + 1) . ". " . $post->title . "**\n";
+            $response .= "📅 Published: " . $post->created_at->format('M d, Y H:i') . "\n";
+            $response .= "✍️ Author: " . ($post->author->name ?? 'Admin Hanaya Shop') . "\n";
 
-            // Lấy 150 ký tự đầu của nội dung
+            // Get first 150 characters of content
             $excerpt = strip_tags($post->content);
             $excerpt = mb_strlen($excerpt) > 150 ? mb_substr($excerpt, 0, 150) . '...' : $excerpt;
-            $response .= "📖 Tóm tắt: " . $excerpt . "\n\n";
+            $response .= "📖 Summary: " . $excerpt . "\n\n";
         }
 
-        $response .= "🌸 **Mẹo hay:**\n";
-        $response .= "• Theo dõi blog của chúng tôi để cập nhật xu hướng hoa trang trí mới nhất\n";
-        $response .= "• Tìm hiểu cách chăm sóc và bảo quản sản phẩm hoa\n";
-        $response .= "• Khám phá ý tưởng trang trí và quà tặng độc đáo\n\n";
-        $response .= "💡 Truy cập website để đọc toàn bộ bài viết và khám phá thêm nhiều nội dung thú vị!";
+        $response .= "🌸 **Tips:**\n";
+        $response .= "• Follow our blog for the latest flower decoration trends\n";
+        $response .= "• Learn how to care for and preserve flower products\n";
+        $response .= "• Discover unique decoration and gift ideas\n\n";
+        $response .= "💡 Visit our website to read full articles and discover more interesting content!";
 
         return $response;
     }

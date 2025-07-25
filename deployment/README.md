@@ -28,8 +28,9 @@ docker compose -f docker-compose.prod.yml up -d --build  #Sửa lớn, thay đ�
 ## 7. Deploy lại application
 ```bash`
 cd c:\xampp\htdocs\Hanaya-Shop\deployment
-docker compose -f docker-compose.prod.yml up -d --build
+docker compose -f docker-compose.prod.yml up -d --build   #Dùng để cập nhật code mới vào container
 docker compose -f docker-compose.prod.yml build
+docker compose -f docker-compose.prod.yml exec app php artisan migrate --force   #Dùng để chạy migration, cập nhật database
 
 ## 4. Truy cập
 - Website: http://localhost
