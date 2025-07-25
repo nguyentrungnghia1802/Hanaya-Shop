@@ -1,4 +1,4 @@
-{{-- resources/views/page/productDetail.blade.php --}}
+{{-- resources/views/page/products/productDetail.blade.php --}}
 <x-app-layout>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
 
@@ -21,6 +21,9 @@
             </div>
         @endif
 
+        <!-- Thông báo lỗi -->
+        <x-alert />
+
         <!-- Product detailed information -->
         <div class="bg-white rounded-lg shadow-lg p-4 sm:p-6 lg:p-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
@@ -31,9 +34,7 @@
                              alt="{{ $product->name }}" 
                              class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
                     </div>
-                    <!-- Thumbnails could go here if needed -->
                 </div>
-                
                 <!-- Product information -->
                 <div class="space-y-6">
                     <div>
@@ -50,11 +51,9 @@
                             </span>
                         </div>
                     </div>
-
                     <div class="prose max-w-none">
                         <p class="text-gray-700 leading-relaxed">{{ $product->descriptions }}</p>
                     </div>
-
                     <!-- Giá sản phẩm -->
                     <div class="border-t border-b border-gray-200 py-4">
                         @if($product->discount_percent > 0)
@@ -77,7 +76,6 @@
                         </p>
                         @endif
                     </div>
-
                     <!-- Chọn số lượng -->
                     <div class="bg-gray-50 rounded-lg p-4">
                         <label for="quantity" class="block mb-3 font-medium text-gray-700">Chọn số lượng:</label>
@@ -93,7 +91,6 @@
                             <span class="text-sm text-gray-600">/ {{ $product->stock_quantity }} có sẵn</span>
                         </div>
                     </div>
-
                     <!-- Nút hành động -->
                     <div class="space-y-3">
                         <form id="add-to-cart-form" action="{{ route('cart.add', $product->id) }}" method="POST" class="w-full">
@@ -103,7 +100,6 @@
                                 <i class="fas fa-shopping-cart mr-2"></i>Add to Cart
                             </button>
                         </form>
-
                         <form action="{{ route('cart.buyNow') }}" method="POST" class="w-full">
                             @csrf
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
@@ -113,7 +109,6 @@
                             </button>
                         </form>
                     </div>
-
                     <!-- Thông tin bổ sung -->
                     <div class="border-t border-gray-200 pt-6">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
@@ -183,14 +178,12 @@
         const buyNowQuantityInput = document.getElementById('buy-now-quantity');
         const maxStock = {{ $product->stock_quantity }};
 
-        // Cập nhật số lượng trong tất cả forms
         function updateQuantity() {
             const currentValue = quantityInput.value;
             formQuantityInput.value = currentValue;
             buyNowQuantityInput.value = currentValue;
         }
 
-        // Tăng số lượng
         document.getElementById('increase').addEventListener('click', () => {
             const currentValue = parseInt(quantityInput.value);
             if (currentValue < maxStock) {
@@ -199,7 +192,6 @@
             }
         });
 
-        // Giảm số lượng
         document.getElementById('decrease').addEventListener('click', () => {
             const currentValue = parseInt(quantityInput.value);
             if (currentValue > 1) {
@@ -208,7 +200,6 @@
             }
         });
 
-        // Xử lý thay đổi trực tiếp trong input
         quantityInput.addEventListener('change', function() {
             let value = parseInt(this.value);
             if (isNaN(value) || value < 1) {
@@ -220,7 +211,6 @@
             updateQuantity();
         });
 
-        // Đồng bộ số lượng khi submit form
         document.getElementById('add-to-cart-form').addEventListener('submit', function () {
             updateQuantity();
         });

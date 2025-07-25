@@ -138,3 +138,56 @@
         </div>
     </div>
 </nav>
+  <!-- Bell Icon -->
+<div class="z-[9999]" style="position: fixed; top: 1.3rem; right: 3rem;">
+    <button id="notificationBell" class="relative focus:outline-none">
+        <svg class="w-6 h-6 text-gray-600 hover:text-gray-800 transition" fill="none" stroke="currentColor" stroke-width="2"
+             viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+        </svg>
+
+        @if(auth()->user()->unreadNotifications->count() > 0)
+            <span class="absolute top-0 right-0 inline-flex items-center justify-center px-0.5 py-0.5 text-xs font-bold leading-none text-white bg-red-600 rounded-full animate-ping">
+                {{ auth()->user()->unreadNotifications->count() }}
+            </span>
+        @endif
+    </button>
+</div>
+
+<div id="notificationDropdown"
+     class="hidden max-h-72 overflow-y-auto bg-white shadow-lg rounded-lg border border-gray-200 z-50" style="position: fixed; top: 3rem; right: 5rem;">
+    @forelse (auth()->user()->unreadNotifications as $notification)
+        <div class="p-4 border-b border-gray-100 hover:bg-gray-50 transition">
+            <div class="text-gray-800 mb-1">
+                {{ $notification->data['message'] }}
+            </div>
+            <a href="{{ route('admin.order.show', $notification->data['order_id']) }}"
+               class="text-sm text-blue-600 hover:underline">
+                → Xem chi tiết đơn hàng
+            </a>
+        </div>
+    @empty
+        <div class="p-4 text-gray-500 text-sm text-center">Không có thông báo mới.</div>
+    @endforelse
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const bell = document.getElementById('notificationBell');
+        const dropdown = document.getElementById('notificationDropdown');
+
+        bell.addEventListener('click', function (e) {
+            e.stopPropagation();
+            dropdown.classList.toggle('hidden');
+        });
+
+        // Ẩn dropdown khi click ra ngoài
+        document.addEventListener('click', function (e) {
+            if (!dropdown.contains(e.target) && !bell.contains(e.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
+    });
+</script>
