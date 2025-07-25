@@ -3,6 +3,7 @@
 namespace Database\Factories\Product;
 
 use App\Models\Product\Product;
+use App\Models\Product\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Nette\Utils\Random;
 

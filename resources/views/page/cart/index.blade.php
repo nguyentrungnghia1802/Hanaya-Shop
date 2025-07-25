@@ -2,6 +2,8 @@
 <x-app-layout>
     <div class="max-w-4xl mx-auto py-10 px-4">
         <h2 class="text-2xl font-bold mb-6">Giỏ hàng của bạn</h2>
+        <x-alert />
+
         @if(session('success'))
         <div class="mb-4 p-3 bg-green-100 text-green-700 rounded">{{ session('success') }}</div>
         @endif
@@ -38,7 +40,9 @@
                                     data-product-id="{{ $item['product_id'] }}">
                             </td>
                             <td class="py-2 px-4 border-b">
-                                <img src="{{ $item['image_url'] }}" alt="{{ $item['name'] }}" class="w-16 h-16 object-cover rounded">
+                                <img src="{{ $item['image_url'] && file_exists(public_path('images/products/' . $item['image_url']))
+                                    ? asset('images/products/' . $item['image_url'])
+                                    : asset('images/no-image.png') }}" alt="{{ $item['name'] }}" class="w-16 h-16 object-cover rounded">
                             </td>
                             <td class="py-2 px-4 border-b">{{ $item['name'] }}</td>
                             <td class="py-2 px-4 border-b">{{ number_format($item['price'], 0, ',', '.') }} USD</td>
@@ -48,7 +52,8 @@
                                 <input type="number" min="1" class="quantity-input w-[80px] text-center border rounded" value="{{ $item['quantity'] }}" 
                                     data-id="{{ $id }}" 
                                     data-price="{{ $item['price'] }}"
-                                    data-total="{{ $item['price'] * $item['quantity'] }}">
+                                    data-total="{{ $item['price'] * $item['quantity'] }}"
+                                    data-stock="{{ $item['product_quantity'] }}">                                
                                     <button type="button" class="btn-increase bg-gray-200 px-2 rounded" data-id="{{ $id }}">+</button>
                                 </div>
                             </td>
@@ -86,7 +91,9 @@
                                 data-price="{{ $item['price'] * $item['quantity'] }}"
                                 data-id="{{ $id }}"
                                 data-product-id="{{ $item['product_id'] }}">
-                            <img src="{{ $item['image_url'] }}" alt="{{ $item['name'] }}" class="w-20 h-20 object-cover rounded">
+                            <img src="{{ $item['image_url'] && file_exists(public_path('images/products/' . $item['image_url']))
+                                ? asset('images/products/' . $item['image_url'])
+                                : asset('images/no-image.png') }}" alt="{{ $item['name'] }}" class="w-20 h-20 object-cover rounded">
                             <div class="flex-1">
                                 <div class="font-semibold">{{ $item['name'] }}</div>
                                 <div class="text-pink-600 font-bold">{{ number_format($item['price'], 0, ',', '.') }} USD</div>
@@ -244,10 +251,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Gửi form
     checkoutForm.addEventListener('submit', function (e) {
+        const checkedCheckboxes = document.querySelectorAll('.cart-checkbox:checked');
         const selectedItems = [];
         const checkedIds = new Set();
         document.querySelectorAll('.cart-checkbox:checked').forEach(cb => {
             const id = cb.dataset.id;
+
             if (checkedIds.has(id)) return; // Nếu đã lấy rồi thì bỏ qua
             checkedIds.add(id);
             // Tìm row cho desktop hoặc card cho mobile
@@ -268,14 +277,16 @@ document.addEventListener("DOMContentLoaded", function () {
             const price = parseFloat(row.querySelector('.quantity-input').dataset.price);
             const quantity = parseInt(row.querySelector('.quantity-input').value);
             const subtotal = price * quantity;
-            const productId = cb.dataset.productId; // Lấy product_id thực tế
+            const stock_quantity = parseInt(row.querySelector('.quantity-input').dataset.stock);
+
             selectedItems.push({
-                id: productId, // Sử dụng product_id thay vì cart_id
+                id: cb.dataset.productId, // Lấy đúng product_id từ checkbox
                 image,
                 name,
                 price,
                 quantity,
-                subtotal
+                subtotal,
+                stock_quantity
             });
         });
         document.getElementById('selected_items_json').value = JSON.stringify(selectedItems);
