@@ -13,7 +13,7 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
     <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/components.js'])
 
     <!-- CSS cho CKEditor & TinyMCE content -->
     <style>
@@ -158,60 +158,44 @@
     <!-- Load TinyMCE từ CDN - Editor đầy đủ tính năng -->
 <script src="https://cdn.tiny.cloud/1/y1zo0i12q8i692ria3ibrw4baa79o7h6yaa1tgqpy03fwz1x/tinymce/6/tinymce.min.js"
     referrerpolicy="origin"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        tinymce.init({
-            selector: 'textarea.description',
-            height: 400,
-            menubar: false,
-            // Các plugin cần thiết
-            plugins: [
-                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-                'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                'insertdatetime', 'media', 'table', 'paste', 'help', 'wordcount'
-            ],
-            // Toolbar và buttons
-            toolbar: 'undo redo | formatselect | ' +
-                'bold italic backcolor | alignleft aligncenter ' +
-                'alignright alignjustify | bullist numlist outdent indent | ' +
-                'removeformat | help | image | media | link',
-            // CSP compliant mode - THÊM DÒNG NÀY
-            inline_boundaries_selector: 'a[href],code,b,i,strong,em,span.mce-annotation',
-            // Vô hiệu hóa JavaScript nội tuyến và tính năng đánh giá động
-            allow_script_urls: false,
-            allow_html_in_named_anchor: true,
-            valid_elements: '*[*]',
-            extended_valid_elements: '*[*]',
-            // Vô hiệu hóa các eval trong template và tránh sử dụng Function constructor
-            template_cdate_format: '[Date Created (CDATE): %m/%d/%Y : %H:%M:%S]',
-            template_mdate_format: '[Date Modified (MDATE): %m/%d/%Y : %H:%M:%S]',
-            // Cấu hình upload ảnh an toàn
-            images_upload_url: '{{ route('admin.upload.ckeditor.image') }}',
-            images_upload_handler: function(blobInfo, success, failure, progress) {
-                // Giữ nguyên hàm upload ảnh hiện tại
-                // ...existing code...
-            },
-            // Các cài đặt khác
-            // ...existing code...
-        });
 
-        // xử lí khi chọn ảnh - GIỮ NGUYÊN
-        const imageInput = document.getElementById('imageInput');
-        if (imageInput) {
-            imageInput.addEventListener('change', function(event) {
-                const file = event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const previewImage = document.getElementById('previewImage');
-                        if (previewImage) {
-                            previewImage.src = e.target.result;
-                            previewImage.style.display = 'block';
-                        }
-                    }
-                    reader.readAsDataURL(file);
+<!-- Include our CSP-compliant components -->
+@vite('resources/js/components.js')
+
+<script>
+    // CSP-compliant TinyMCE initialization
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof tinymce !== 'undefined') {
+            tinymce.init({
+                selector: 'textarea.description',
+                height: 400,
+                menubar: false,
+                plugins: [
+                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
+                    'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                    'insertdatetime', 'media', 'table', 'help', 'wordcount'
+                ],
+                toolbar: 'undo redo | formatselect | ' +
+                    'bold italic backcolor | alignleft aligncenter ' +
+                    'alignright alignjustify | bullist numlist outdent indent | ' +
+                    'removeformat | help | image | media | link',
+                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+                branding: false,
+                promotion: false,
+                // CSP compliant settings
+                allow_script_urls: false,
+                convert_urls: false,
+                setup: function(editor) {
+                    editor.on('init', function() {
+                        console.log('TinyMCE initialized successfully');
+                    });
                 }
             });
+        }
+
+        // Initialize image preview
+        if (typeof initImagePreview === 'function') {
+            initImagePreview();
         }
     });
 </script>

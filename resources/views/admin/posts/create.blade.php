@@ -78,5 +78,18 @@ function confirmCancel() {
         window.location.href = '{{ route("admin.post.index") }}';
     }
 }
+
+// Initialize TinyMCE and Image Preview when document is ready
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize TinyMCE
+    if (typeof initTinyMCE === 'function') {
+        initTinyMCE('.description');
+    }
+    
+    // Initialize Image Preview
+    if (typeof initImagePreview === 'function') {
+        initImagePreview();
+    }
+});
 </script>
 @endsection

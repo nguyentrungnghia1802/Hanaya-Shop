@@ -1,4 +1,4 @@
-<nav x-data="NavigationComponent()" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -35,7 +35,48 @@
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <x-dropdown align="right" width="48">
+                <div class="flex items-center space-x-4">
+                    <!-- Bell Icon -->
+                    <div class="relative">
+                        <button id="notificationBell" class="relative focus:outline-none bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-shadow">
+                            <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-600 hover:text-gray-800 transition" fill="none" stroke="currentColor" stroke-width="2"
+                                 viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9">
+                                </path>
+                            </svg>
+
+                            @if(auth()->user()->unreadNotifications->count() > 0)
+                                <span class="absolute -top-1 -right-1 inline-flex items-center justify-center w-5 h-5 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+                                    {{ auth()->user()->unreadNotifications->count() }}
+                                </span>
+                            @endif
+                        </button>
+
+                        <!-- Notification Dropdown -->
+                        <div id="notificationDropdown"
+                             class="hidden absolute top-full right-0 mt-1 w-72 sm:w-80 max-h-72 overflow-y-auto bg-white shadow-lg rounded-lg border border-gray-200 z-50">
+                            @forelse (auth()->user()->unreadNotifications as $notification)
+                                <div class="p-3 sm:p-4 border-b border-gray-100 hover:bg-gray-50 transition">
+                                    <div class="text-gray-800 mb-1 text-sm">
+                                        {{ $notification->data['message'] ?? 'New order received' }}
+                                    </div>
+                                    <a href="{{ route('admin.order.show', $notification->data['order_id']) }}"
+                                       class="text-sm text-blue-600 hover:text-blue-800">
+                                        View order details →
+                                    </a>
+                                    <div class="text-xs text-gray-500 mt-1">
+                                        {{ $notification->created_at->diffForHumans() }}
+                                    </div>
+                                </div>
+                            @empty
+                                <div class="p-4 text-gray-500 text-sm text-center">Không có thông báo mới.</div>
+                            @endforelse
+                        </div>
+                    </div>
+
+                    <!-- User Dropdown -->
+                    <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
                             class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
@@ -71,18 +112,57 @@
                         </form>
                     </x-slot>
                 </x-dropdown>
+                </div>
             </div>
             
-
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
+                <!-- Notification Bell Mobile -->
+                <div class="relative mr-2">
+                    <button id="notificationBellMobile" class="relative focus:outline-none bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-shadow">
+                        <svg class="w-5 h-5 text-gray-600 hover:text-gray-800 transition" fill="none" stroke="currentColor" stroke-width="2"
+                             viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9">
+                            </path>
+                        </svg>
+
+                        @if(auth()->user()->unreadNotifications->count() > 0)
+                            <span class="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+                                {{ auth()->user()->unreadNotifications->count() }}
+                            </span>
+                        @endif
+                    </button>
+
+                    <!-- Mobile Notification Dropdown -->
+                    <div id="notificationDropdownMobile"
+                         class="hidden absolute top-full right-0 mt-1 w-72 max-h-72 overflow-y-auto bg-white shadow-lg rounded-lg border border-gray-200 z-50">
+                        @forelse (auth()->user()->unreadNotifications as $notification)
+                            <div class="p-3 border-b border-gray-100 hover:bg-gray-50 transition">
+                                <div class="text-gray-800 mb-1 text-sm">
+                                    {{ $notification->data['message'] ?? 'New order received' }}
+                                </div>
+                                <a href="{{ route('admin.order.show', $notification->data['order_id']) }}"
+                                   class="text-sm text-blue-600 hover:text-blue-800">
+                                    View order details →
+                                </a>
+                                <div class="text-xs text-gray-500 mt-1">
+                                    {{ $notification->created_at->diffForHumans() }}
+                                </div>
+                            </div>
+                        @empty
+                            <div class="p-4 text-gray-500 text-sm text-center">Không có thông báo mới.</div>
+                        @endforelse
+                    </div>
+                </div>
+                
                 <button @click="open = ! open"
                     class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="getHamburgerIconClass()" class="inline-flex"
+                        <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex"
                             stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="getCloseIconClass()" class="hidden" stroke-linecap="round"
+                        <path :class="{ 'hidden': !open, 'inline-flex': open }" class="hidden" stroke-linecap="round"
                             stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
@@ -91,7 +171,7 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div :class="getResponsiveMenuClass()" class="hidden sm:hidden">
+    <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('admin.product')" :active="request()->routeIs('admin.product*')">
                 {{ __('Products') }}
@@ -130,63 +210,61 @@
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <x-responsive-nav-link :href="route('logout')"
+                        onclick="event.preventDefault();
+                                    this.closest('form').submit();">
                         {{ __('Log Out') }}
-                    </button>
+                    </x-responsive-nav-link>
                 </form>
             </div>
         </div>
     </div>
 </nav>
-  <!-- Bell Icon -->
-<div class="z-[9999]" style="position: fixed; top: 1.3rem; right: 3rem;">
-    <button id="notificationBell" class="relative focus:outline-none">
-        <svg class="w-6 h-6 text-gray-600 hover:text-gray-800 transition" fill="none" stroke="currentColor" stroke-width="2"
-             viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
-        </svg>
-
-        @if(auth()->user()->unreadNotifications->count() > 0)
-            <span class="absolute top-0 right-0 inline-flex items-center justify-center px-0.5 py-0.5 text-xs font-bold leading-none text-white bg-red-600 rounded-full animate-ping">
-                {{ auth()->user()->unreadNotifications->count() }}
-            </span>
-        @endif
-    </button>
-</div>
-
-<div id="notificationDropdown"
-     class="hidden max-h-72 overflow-y-auto bg-white shadow-lg rounded-lg border border-gray-200 z-50" style="position: fixed; top: 3rem; right: 5rem;">
-    @forelse (auth()->user()->unreadNotifications as $notification)
-        <div class="p-4 border-b border-gray-100 hover:bg-gray-50 transition">
-            <div class="text-gray-800 mb-1">
-                {{ $notification->data['message'] }}
-            </div>
-            <a href="{{ route('admin.order.show', $notification->data['order_id']) }}"
-               class="text-sm text-blue-600 hover:underline">
-                → Xem chi tiết đơn hàng
-            </a>
-        </div>
-    @empty
-        <div class="p-4 text-gray-500 text-sm text-center">Không có thông báo mới.</div>
-    @endforelse
-</div>
-
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        // Desktop notification bell
         const bell = document.getElementById('notificationBell');
         const dropdown = document.getElementById('notificationDropdown');
+        
+        // Mobile notification bell
+        const bellMobile = document.getElementById('notificationBellMobile');
+        const dropdownMobile = document.getElementById('notificationDropdownMobile');
 
-        bell.addEventListener('click', function (e) {
-            e.stopPropagation();
-            dropdown.classList.toggle('hidden');
-        });
+        // Desktop notification bell click handler
+        if (bell && dropdown) {
+            bell.addEventListener('click', function (e) {
+                e.stopPropagation();
+                dropdown.classList.toggle('hidden');
+                // Hide mobile dropdown if open
+                if (dropdownMobile && !dropdownMobile.classList.contains('hidden')) {
+                    dropdownMobile.classList.add('hidden');
+                }
+            });
+        }
 
-        // Ẩn dropdown khi click ra ngoài
+        // Mobile notification bell click handler
+        if (bellMobile && dropdownMobile) {
+            bellMobile.addEventListener('click', function (e) {
+                e.stopPropagation();
+                dropdownMobile.classList.toggle('hidden');
+                // Hide desktop dropdown if open
+                if (dropdown && !dropdown.classList.contains('hidden')) {
+                    dropdown.classList.add('hidden');
+                }
+            });
+        }
+
+        // Close dropdowns when clicking outside
         document.addEventListener('click', function (e) {
-            if (!dropdown.contains(e.target) && !bell.contains(e.target)) {
+            // Close desktop dropdown
+            if (dropdown && !dropdown.contains(e.target) && bell && !bell.contains(e.target)) {
                 dropdown.classList.add('hidden');
+            }
+            
+            // Close mobile dropdown
+            if (dropdownMobile && !dropdownMobile.contains(e.target) && bellMobile && !bellMobile.contains(e.target)) {
+                dropdownMobile.classList.add('hidden');
             }
         });
     });
