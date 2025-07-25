@@ -28,8 +28,8 @@
                     </svg>
                 </div>
                 <div>
-                    <h3 class="font-semibold text-sm md:text-base">Chatbot Hanaya</h3>
-                    <p class="text-xs text-pink-100">Trợ lý ảo của bạn</p>
+                    <h3 class="font-semibold text-sm md:text-base">Hanaya Assistant</h3>
+                    <p class="text-xs text-pink-100">Your shopping helper</p>
                 </div>
             </div>
         </div>
@@ -43,7 +43,7 @@
                     </svg>
                 </div>
                 <div class="bg-white rounded-lg p-3 shadow-sm max-w-[75%] md:max-w-xs">
-                    <p class="text-sm text-gray-800">Xin chào! Tôi có thể giúp gì cho bạn hôm nay?</p>
+                    <p class="text-sm text-gray-800">Hello! How can I help you today?</p>
                 </div>
             </div>
         </div>
@@ -51,14 +51,20 @@
         <!-- Quick Actions -->
         <div class="px-3 md:px-4 py-2 bg-gray-50 border-t border-gray-200">
             <div class="flex flex-wrap gap-1">
-                <button class="quick-action text-xs bg-white border border-gray-200 rounded-full px-2 md:px-3 py-1 hover:bg-gray-100 transition" data-message="danh mục sản phẩm">
-                    📂 Danh mục
+                <button class="quick-action text-xs bg-white border border-gray-200 rounded-full px-2 md:px-3 py-1 hover:bg-gray-100 transition" data-message="best sellers">
+                    🏆 Best Sellers
                 </button>
-                <button class="quick-action text-xs bg-white border border-gray-200 rounded-full px-2 md:px-3 py-1 hover:bg-gray-100 transition" data-message="sản phẩm mới">
-                    🆕 Sản phẩm mới
+                <button class="quick-action text-xs bg-white border border-gray-200 rounded-full px-2 md:px-3 py-1 hover:bg-gray-100 transition" data-message="sale products">
+                    � Sales
                 </button>
-                <button class="quick-action text-xs bg-white border border-gray-200 rounded-full px-2 md:px-3 py-1 hover:bg-gray-100 transition" data-message="thông tin cửa hàng">
-                    🏪 Liên hệ
+                <button class="quick-action text-xs bg-white border border-gray-200 rounded-full px-2 md:px-3 py-1 hover:bg-gray-100 transition" data-message="categories">
+                    📂 Categories
+                </button>
+                <button class="quick-action text-xs bg-white border border-gray-200 rounded-full px-2 md:px-3 py-1 hover:bg-gray-100 transition" data-message="store info">
+                    🏪 Contact
+                </button>
+                <button class="quick-action text-xs bg-white border border-gray-200 rounded-full px-2 md:px-3 py-1 hover:bg-gray-100 transition" data-message="help">
+                    ❓ Help
                 </button>
             </div>
         </div>
@@ -66,7 +72,7 @@
         <!-- Input Area -->
         <div class="p-3 md:p-4 border-t border-gray-200 bg-white">
             <div class="flex space-x-2">
-                <input type="text" id="chat-input" placeholder="Nhập tin nhắn..." 
+                <input type="text" id="chat-input" placeholder="Type your message..." 
                        class="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent">
                 <button id="send-message" class="bg-pink-600 hover:bg-pink-700 text-white rounded-lg px-3 md:px-4 py-2 transition-colors flex-shrink-0">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -89,7 +95,7 @@
                     <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
                     <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
                 </div>
-                <span class="text-sm text-gray-500">Đang nhập...</span>
+                <span class="text-sm text-gray-500">Typing...</span>
             </div>
         </div>
     </div>
@@ -191,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => {
             hideTypingIndicator();
-            addMessage('Xin lỗi, có lỗi xảy ra. Vui lòng thử lại sau.', 'bot');
+            addMessage('Sorry, an error occurred. Please try again later.', 'bot');
             console.error('Error:', error);
         });
     }
@@ -232,20 +238,43 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             `;
         } else {
+            const processedText = processMarkdownLinks(text);
             messageDiv.innerHTML = `
                 <div class="w-6 h-6 bg-pink-500 rounded-full flex items-center justify-center flex-shrink-0">
                     <svg class="w-3 h-3 md:w-4 md:h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
                     </svg>
                 </div>
-                <div class="bg-white rounded-lg p-3 shadow-sm max-w-[75%] md:max-w-xs">
-                    <p class="text-sm text-gray-800 whitespace-pre-line">${escapeHtml(text)}</p>
+                <div class="bg-white rounded-lg p-3 shadow-sm max-w-[85%] md:max-w-sm">
+                    <div class="text-sm text-gray-800 whitespace-pre-line markdown-content">${processedText}</div>
                 </div>
             `;
         }
 
         messagesContainer.appendChild(messageDiv);
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    // Process markdown-style links and make them clickable
+    function processMarkdownLinks(text) {
+        // Convert markdown links [text](url) to HTML links
+        text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-pink-600 hover:text-pink-800 underline font-medium transition-colors" target="_blank">$1</a>');
+        
+        // Convert bold text **text** to HTML bold
+        text = text.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold">$1</strong>');
+        
+        // Convert strikethrough ~~text~~ to HTML strikethrough
+        text = text.replace(/~~(.*?)~~/g, '<span class="line-through text-gray-500">$1</span>');
+        
+        // Escape remaining HTML but preserve our converted links and formatting
+        text = text.replace(/&/g, '&amp;')
+                  .replace(/</g, '&lt;')
+                  .replace(/>/g, '&gt;')
+                  .replace(/&lt;(\/?)a([^&]*?)&gt;/g, '<$1a$2>')
+                  .replace(/&lt;(\/?)strong([^&]*?)&gt;/g, '<$1strong$2>')
+                  .replace(/&lt;(\/?)span([^&]*?)&gt;/g, '<$1span$2>');
+        
+        return text;
     }
 
     function showTypingIndicator() {
