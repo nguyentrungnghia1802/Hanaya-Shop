@@ -117,11 +117,7 @@
                                                 <div class="flex items-center space-x-3">
                                                     <span class="text-sm font-medium text-gray-700">Qty:</span>
                                                     <div class="flex items-center space-x-2">
-                                                        <button type="button" class="btn-decrease w-8 h-8 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center transition-colors" data-id="{{ $id }}">
-                                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
-                                                            </svg>
-                                                        </button>
+
                                                         <input type="number" 
                                                                min="1" 
                                                                class="quantity-input w-16 text-center border border-gray-300 rounded-lg py-2 focus:ring-2 focus:ring-pink-500 focus:border-transparent" 
@@ -130,11 +126,6 @@
                                                                data-price="{{ $item['price'] }}"
                                                                data-total="{{ $item['price'] * $item['quantity'] }}"
                                                                data-stock="{{ $item['product_quantity'] }}">
-                                                        <button type="button" class="btn-increase w-8 h-8 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center transition-colors" data-id="{{ $id }}">
-                                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                                                            </svg>
-                                                        </button>
                                                     </div>
                                                 </div>
 
