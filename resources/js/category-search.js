@@ -1,9 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
     const tableBody = document.querySelector("table tbody");
     const searchInput = document.getElementById("searchInput");
+    
+    // Only run if both elements exist
+    if (!tableBody || !searchInput) {
+        return;
+    }
+    
     const rows = tableBody.querySelectorAll("tr");
 
-    // Sự kiện tìm kiếm
+    // Search event listener
     searchInput.addEventListener("input", function () {
         const keyword = this.value.toLowerCase();
         rows.forEach((row) => {

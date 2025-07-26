@@ -1,4 +1,4 @@
-<nav x-data="{ open: false, loading: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-white border-b border-gray-100 transition-colors duration-300">
     <!-- Primary Navigation Menu -->
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -21,7 +21,7 @@
                     <x-nav-link :href="route('cart.index')" :active="request()->routeIs('cart*')">
                         {{ __('Cart') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('cart.index')" :active="request()->routeIs('cart*')">
+                    <x-nav-link :href="route('order.index')" :active="request()->routeIs('order*')">
                         {{ __('Order') }}
                     </x-nav-link>
                     <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts*')">
@@ -66,8 +66,7 @@
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
-                                                this.closest('form').submit();">
+                                    data-logout-link>
                                     {{ __('Log Out') }}
                                 </x-dropdown-link>
                             </form>
@@ -131,7 +130,7 @@
             <x-responsive-nav-link :href="route('cart.index')" :active="request()->routeIs('cart*')">
                 {{ __('Cart') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('cart.index')" :active="request()->routeIs('cart*')">
+            <x-responsive-nav-link :href="route('order.index')" :active="request()->routeIs('order*')">
                 {{ __('Orders') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('posts.index')" :active="request()->routeIs('posts*')">
@@ -163,11 +162,22 @@
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
+                            data-logout-link>
                             {{ __('Log Out') }}
                         </x-responsive-nav-link>
                     </form>
+                </div>
+            </div>
+        @else
+            <!-- Guest user responsive options -->
+            <div class="pt-4 pb-1 border-t border-gray-200">
+                <div class="mt-3 space-y-1">
+                    <x-responsive-nav-link :href="route('login')">
+                        {{ __('Login') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('register')">
+                        {{ __('Register') }}
+                    </x-responsive-nav-link>
                 </div>
             </div>
         @endauth

@@ -40,17 +40,23 @@ return [
             'button_link' => '/products?category_name=souvenir'
         ]
     ],
+
+    //Checkout
+    'checkout' => [
+        'shipping_fee' => 8, // Fixed shipping fee
+    ],
+
     // Chatbot messages
     'chatbot_greeting' =>
-        "Hello! I'm Hanaya Shop's chatbot. I can help you with:\n"
+    "Hello! I'm Hanaya Shop's chatbot. I can help you with:\n"
         . "🌸 Product search\n"
         . "📝 Order information\n"
         . "📋 Product categories\n"
         . "📰 Latest news\n"
         . "❓ Frequently asked questions\n\n"
-        . "How can I help you?",    
+        . "How can I help you?",
     'chatbot_help' =>
-        "🤖 Hanaya Shop chatbot user guide:\n\n"
+    "🤖 Hanaya Shop chatbot user guide:\n\n"
         . "🔍 Find products:\n"
         . "• 'find soap flowers'\n"
         . "• 'gift products'\n\n"
@@ -68,7 +74,7 @@ return [
         . "• 'contact address'\n\n"
         . "Feel free to ask me anything!",
     'chatbot_store_info' =>
-        "🏪 Hanaya Shop store information:\n\n"
+    "🏪 Hanaya Shop store information:\n\n"
         . "📍 Address: 123 Flower Street, Son Tay, Hanoi\n"
         . "📞 Phone: 0948512463\n"
         . "📧 Email: assassincreed2k1@gmail.com\n"
@@ -83,17 +89,18 @@ return [
         'cancelled' => "Cancelled"
     ],
     'chatbot_price_info' =>
-        "About our product prices:\n\n"
+    "About our product prices:\n\n"
         . "🌸 Soap flowers: From 15 USD - 500 USD\n"
         . "🎁 Souvenirs: From 5 USD - 800 USD\n\n"
         . "Specific prices depend on size, materials, and design.\n"
         . "See detailed prices at: /products",
     'chatbot_default' =>
-        "Sorry, I don't understand your question. You can ask me about:\n"
+    "Sorry, I don't understand your question. You can ask me about:\n"
         . "• Products (e.g., 'find soap flowers')\n"
         . "• Product categories\n"
         . "• Your orders\n"
         . "• Latest news\n"
         . "• Store information\n\n"
         . "Or type 'help' for detailed instructions.",
+        
 ];

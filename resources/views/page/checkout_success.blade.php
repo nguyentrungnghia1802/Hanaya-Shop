@@ -17,10 +17,10 @@
             </p>
 
             <div class="mt-6 flex flex-col md:flex-row justify-end gap-4">
-                <a href="#" class="bg-gray-200 text-gray-800 px-5 py-2 rounded hover:bg-gray-300 transition">
+                <a href="{{ route('order.cancel', $orderId) }}" class="bg-gray-200 text-gray-800 px-5 py-2 rounded hover:bg-gray-300 transition">
                     Hủy đơn hàng
                 </a>
-                <a href="#" class="bg-pink-600 text-white px-5 py-2 rounded hover:bg-pink-700 transition">
+                <a href="{{ route('order.show', $orderId) }}" class="bg-pink-600 text-white px-5 py-2 rounded hover:bg-pink-700 transition">
                     Xem đơn hàng
                 </a>
             </div>
