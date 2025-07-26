@@ -37,7 +37,7 @@
                 </div>
                 <div class="flex gap-2">
                     <button type="submit" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700">Cập nhật</button>
-                    <button type="button" onclick="confirmCancel()" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Huỷ</button>
+                    <button type="button" data-confirm-cancel data-redirect-url="{{ route('admin.post.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Huỷ</button>
                 </div>
             </form>
         @else
@@ -65,31 +65,14 @@
                 </div>
                 <div class="flex gap-2">
                     <button type="submit" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700">Tạo mới</button>
-                    <button type="button" onclick="confirmCancel()" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Huỷ</button>
+                    <button type="button" data-confirm-cancel data-redirect-url="{{ route('admin.post.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Huỷ</button>
                 </div>
             </form>
         @endif
     </div>
 </div>
 
-<script>
-function confirmCancel() {
-    if (confirm('Bạn có chắc chắn muốn huỷ? Dữ liệu đã nhập sẽ bị mất.')) {
-        window.location.href = '{{ route("admin.post.index") }}';
-    }
-}
-
-// Initialize TinyMCE and Image Preview when document is ready
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize TinyMCE
-    if (typeof initTinyMCE === 'function') {
-        initTinyMCE('.description');
-    }
-    
-    // Initialize Image Preview
-    if (typeof initImagePreview === 'function') {
-        initImagePreview();
-    }
-});
-</script>
+@push('scripts')
+<script src="{{ asset('js/admin-post-create.js') }}"></script>
+@endpush
 @endsection
