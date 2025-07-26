@@ -80,7 +80,8 @@
                                                 {{-- Delete button --}}
                                                 <form action="{{ route('admin.product.destroy', $item->id) }}"
                                                     method="POST"
-                                                    onsubmit="return confirm('Are you sure you want to delete?');">
+                                                    data-confirm-delete
+                                                    data-confirm-message="Are you sure you want to delete?">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit"
@@ -245,4 +246,8 @@
             });
         });
     </script>
+
+@push('scripts')
+<script src="{{ asset('js/admin-delete-forms.js') }}"></script>
+@endpush
 @endsection

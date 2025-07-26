@@ -84,6 +84,7 @@
                                 <i class="fas fa-minus text-sm"></i>
                             </button>
                             <input id="quantity" type="number" value="1" min="1" max="{{ $product->stock_quantity }}" 
+                                   data-max-stock="{{ $product->stock_quantity }}"
                                    class="w-20 text-center border-2 border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-pink-500" />
                             <button id="increase" class="flex items-center justify-center w-10 h-10 bg-gray-200 hover:bg-gray-300 rounded-full transition-colors">
                                 <i class="fas fa-plus text-sm"></i>
@@ -199,48 +200,8 @@
             </div>
         </div>    </div>
 
-    <script>
-        const quantityInput = document.getElementById('quantity');
-        const formQuantityInput = document.getElementById('form-quantity');
-        const buyNowQuantityInput = document.getElementById('buy-now-quantity');
-        const maxStock = {{ $product->stock_quantity }};
-
-        function updateQuantity() {
-            const currentValue = quantityInput.value;
-            formQuantityInput.value = currentValue;
-            buyNowQuantityInput.value = currentValue;
-        }
-
-        document.getElementById('increase').addEventListener('click', () => {
-            const currentValue = parseInt(quantityInput.value);
-            if (currentValue < maxStock) {
-                quantityInput.value = currentValue + 1;
-                updateQuantity();
-            }
-        });
-
-        document.getElementById('decrease').addEventListener('click', () => {
-            const currentValue = parseInt(quantityInput.value);
-            if (currentValue > 1) {
-                quantityInput.value = currentValue - 1;
-                updateQuantity();
-            }
-        });
-
-        quantityInput.addEventListener('change', function() {
-            let value = parseInt(this.value);
-            if (isNaN(value) || value < 1) {
-                value = 1;
-            } else if (value > maxStock) {
-                value = maxStock;
-            }
-            this.value = value;
-            updateQuantity();
-        });
-
-        document.getElementById('add-to-cart-form').addEventListener('submit', function () {
-            updateQuantity();
-        });
-    </script>
+@push('scripts')
+<script src="{{ asset('js/product-detail.js') }}" defer></script>
+@endpush
 
 </x-app-layout>

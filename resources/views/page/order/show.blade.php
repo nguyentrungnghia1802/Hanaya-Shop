@@ -284,7 +284,7 @@
                     </button>
                 @else
                     <a href="{{ route('order.cancel', $order->id) }}"
-                       onclick="return confirm('Are you sure you want to cancel this order?')"
+                       data-confirm-cancel
                        class="inline-flex items-center px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -305,3 +305,7 @@
         </div>
     </div>
 </x-app-layout>
+
+@push('scripts')
+<script src="{{ asset('js/order.js') }}" defer></script>
+@endpush

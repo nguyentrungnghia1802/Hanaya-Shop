@@ -15,7 +15,7 @@
                     class="px-4 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition">
                     Edit
                 </a>
-                <form action="{{ route('admin.product.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete?');">
+                                <form action="{{ route('admin.product.destroy', $item->id) }}" method="POST" data-confirm-delete data-confirm-message="Are you sure you want to delete?" class="inline">
                     @csrf
                     @method('DELETE')
                     <button type="submit"
