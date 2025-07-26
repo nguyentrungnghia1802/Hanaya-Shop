@@ -1,68 +1,81 @@
 <!-- Chatbot Widget -->
 <div id="chatbot-widget" class="fixed bottom-4 right-4 z-50">
     <!-- Chatbot Toggle Button -->
-    <button id="chatbot-toggle" class="bg-pink-600 hover:bg-pink-700 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110">
-        <svg id="chat-icon" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <button id="chatbot-toggle" class="bg-pink-600 hover:bg-pink-700 text-white rounded-full w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110">
+        <svg id="chat-icon" class="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
         </svg>
-        <svg id="close-icon" class="w-8 h-8 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg id="close-icon" class="w-6 h-6 sm:w-8 sm:h-8 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
         </svg>
     </button>
 
     <!-- Chatbot Window -->
-    <div id="chatbot-window" class="hidden absolute bottom-20 right-0 w-[500px] h-[650px] bg-white rounded-lg shadow-2xl border border-gray-200 flex flex-col">
+    <div id="chatbot-window" class="hidden absolute bottom-16 sm:bottom-20 right-0 w-80 sm:w-96 lg:w-[500px] h-[400px] sm:h-[500px] lg:h-[650px] bg-white rounded-lg shadow-2xl border border-gray-200 flex flex-col">
         <!-- Header -->
-        <div class="bg-gradient-to-r from-pink-600 to-purple-600 text-white p-4 rounded-t-lg">
+        <div class="bg-gradient-to-r from-pink-600 to-purple-600 text-white p-3 sm:p-4 rounded-t-lg">
             <div class="flex items-center space-x-3">
-                <div class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                <div class="w-8 h-8 sm:w-10 sm:h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"></path>
                     </svg>
                 </div>
                 <div>
-                    <h3 class="font-semibold">Chatbot Hanaya</h3>
-                    <p class="text-xs text-pink-100">Trợ lý ảo của bạn</p>
+                    <h3 class="font-semibold text-sm sm:text-base">Hanaya Assistant</h3>
+                    <p class="text-xs sm:text-sm text-pink-100">Online now</p>
+                </div>
+                <div class="ml-auto">
+                    <div class="w-2 h-2 sm:w-3 sm:h-3 bg-green-400 rounded-full animate-pulse"></div>
                 </div>
             </div>
         </div>
 
         <!-- Messages Container -->
-        <div id="chat-messages" class="flex-1 p-4 overflow-y-auto space-y-3">
+        <div id="chat-messages" class="flex-1 p-3 sm:p-4 overflow-y-auto space-y-3 text-xs sm:text-sm">
             <div class="flex items-start space-x-2">
-                <div class="w-6 h-6 bg-pink-500 rounded-full flex items-center justify-center flex-shrink-0">
-                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                <div class="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg class="w-3 h-3 sm:w-4 sm:h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"></path>
                     </svg>
                 </div>
-                <div class="bg-gray-100 rounded-lg p-3 max-w-xs">
-                    <p class="text-sm text-gray-800">Xin chào! Tôi có thể giúp gì cho bạn hôm nay?</p>
+                <div class="bg-gray-100 rounded-lg px-3 py-2 max-w-xs sm:max-w-sm">
+                    <p>Xin chào! Tôi là trợ lý ảo của Hanaya Shop. Tôi có thể giúp bạn:</p>
+                    <ul class="mt-2 space-y-1 text-xs">
+                        <li>🔍 Tìm kiếm sản phẩm</li>
+                        <li>📦 Kiểm tra đơn hàng</li>
+                        <li>🏪 Thông tin cửa hàng</li>
+                        <li>📰 Tin tức mới nhất</li>
+                    </ul>
+                    <p class="mt-2">Bạn cần hỗ trợ gì hôm nay? 🌸</p>
                 </div>
             </div>
         </div>
 
         <!-- Quick Actions -->
-        <div class="px-4 py-2 bg-gray-50">
+        <div class="px-3 sm:px-4 py-2 bg-gray-50 border-t border-gray-100">
             <div class="flex flex-wrap gap-1">
-                <button class="quick-action text-xs bg-white border border-gray-200 rounded-full px-3 py-1 hover:bg-gray-100 transition" data-message="danh mục sản phẩm">
-                    📂 Danh mục
+                <button class="quick-action text-xs px-2 py-1 bg-pink-100 text-pink-700 rounded-full hover:bg-pink-200 transition-colors" data-message="Tìm hoa xà phòng">
+                    🧼 Hoa xà phòng
                 </button>
-                <button class="quick-action text-xs bg-white border border-gray-200 rounded-full px-3 py-1 hover:bg-gray-100 transition" data-message="sản phẩm mới">
-                    🆕 Sản phẩm mới
+                <button class="quick-action text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded-full hover:bg-purple-200 transition-colors" data-message="Xem đơn hàng của tôi">
+                    📦 Đơn hàng
                 </button>
-                <button class="quick-action text-xs bg-white border border-gray-200 rounded-full px-3 py-1 hover:bg-gray-100 transition" data-message="thông tin cửa hàng">
-                    🏪 Liên hệ
+                <button class="quick-action text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full hover:bg-green-200 transition-colors" data-message="Thông tin cửa hàng">
+                    🏪 Cửa hàng
+                </button>
+                <button class="quick-action text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200 transition-colors" data-message="Tin tức mới nhất">
+                    📰 Tin tức
                 </button>
             </div>
         </div>
 
         <!-- Input Area -->
-        <div class="p-4 border-t border-gray-200">
+        <div class="p-3 sm:p-4 border-t border-gray-200">
             <div class="flex space-x-2">
                 <input type="text" id="chat-input" placeholder="Nhập tin nhắn..." 
-                       class="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent">
-                <button id="send-message" class="bg-pink-600 hover:bg-pink-700 text-white rounded-lg px-4 py-2 transition-colors">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                       class="flex-1 px-3 py-2 text-xs sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent">
+                <button id="send-message" class="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-2 rounded-lg hover:from-pink-600 hover:to-purple-700 transition-all duration-200">
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                     </svg>
                 </button>
@@ -70,19 +83,20 @@
         </div>
 
         <!-- Typing Indicator -->
-        <div id="typing-indicator" class="hidden px-4 py-2">
+        <div id="typing-indicator" class="hidden px-3 sm:px-4 py-2">
             <div class="flex items-center space-x-2">
-                <div class="w-6 h-6 bg-pink-500 rounded-full flex items-center justify-center">
-                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                <div class="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center">
+                    <svg class="w-3 h-3 sm:w-4 sm:h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"></path>
                     </svg>
                 </div>
-                <div class="typing-dots flex space-x-1">
-                    <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                    <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
-                    <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                <div class="bg-gray-100 rounded-lg px-3 py-2">
+                    <div class="flex space-x-1">
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                    </div>
                 </div>
-                <span class="text-sm text-gray-500">Đang nhập...</span>
             </div>
         </div>
     </div>
@@ -134,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
             body: JSON.stringify({ message: message })
         })
@@ -145,8 +159,8 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => {
             hideTypingIndicator();
-            addMessage('Xin lỗi, có lỗi xảy ra. Vui lòng thử lại sau.', 'bot');
             console.error('Error:', error);
+            addMessage('Xin lỗi, có lỗi xảy ra. Vui lòng thử lại sau.', 'bot');
         });
     }
 
@@ -154,6 +168,7 @@ document.addEventListener('DOMContentLoaded', function() {
     sendBtn.addEventListener('click', sendMessage);
     chatInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
+            e.preventDefault();
             sendMessage();
         }
     });
@@ -161,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Quick actions
     quickActions.forEach(btn => {
         btn.addEventListener('click', function() {
-            const message = this.dataset.message;
+            const message = this.getAttribute('data-message');
             chatInput.value = message;
             sendMessage();
         });
@@ -173,32 +188,48 @@ document.addEventListener('DOMContentLoaded', function() {
         messageDiv.className = 'flex items-start space-x-2';
         
         if (sender === 'user') {
-            messageDiv.className += ' justify-end';
+            messageDiv.classList.add('justify-end');
             messageDiv.innerHTML = `
-                <div class="bg-pink-600 text-white rounded-lg p-3 max-w-xs">
-                    <p class="text-sm">${escapeHtml(text)}</p>
+                <div class="bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-lg px-3 py-2 max-w-xs sm:max-w-sm text-right">
+                    <p>${escapeHtml(text)}</p>
                 </div>
-                <div class="w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center flex-shrink-0">
-                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                <div class="w-6 h-6 sm:w-8 sm:h-8 bg-gray-300 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg class="w-3 h-3 sm:w-4 sm:h-4 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
                     </svg>
                 </div>
             `;
         } else {
             messageDiv.innerHTML = `
-                <div class="w-6 h-6 bg-pink-500 rounded-full flex items-center justify-center flex-shrink-0">
-                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                <div class="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg class="w-3 h-3 sm:w-4 sm:h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"></path>
                     </svg>
                 </div>
-                <div class="bg-gray-100 rounded-lg p-3 max-w-xs">
-                    <p class="text-sm text-gray-800 whitespace-pre-line">${escapeHtml(text)}</p>
+                <div class="bg-gray-100 rounded-lg px-3 py-2 max-w-xs sm:max-w-sm">
+                    <div class="chatbot-response">${formatResponse(text)}</div>
                 </div>
             `;
         }
 
         messagesContainer.appendChild(messageDiv);
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    function formatResponse(text) {
+        // Convert URLs to clickable links
+        text = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" class="text-pink-600 hover:text-pink-800 underline">$1</a>');
+        
+        // Convert route links to internal navigation
+        text = text.replace(/🔗 (\/[^\s\n]+)/g, '<a href="$1" class="inline-block mt-1 px-2 py-1 bg-pink-100 text-pink-700 rounded text-xs hover:bg-pink-200 transition-colors">Xem ngay →</a>');
+        
+        // Format line breaks
+        text = text.replace(/\n/g, '<br>');
+        
+        // Format bold text
+        text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        
+        return text;
     }
 
     function showTypingIndicator() {
@@ -215,6 +246,28 @@ document.addEventListener('DOMContentLoaded', function() {
         div.textContent = text;
         return div.innerHTML;
     }
+
+    // Handle responsive positioning on mobile
+    function adjustChatbotPosition() {
+        const chatWindow = document.getElementById('chatbot-window');
+        const viewportWidth = window.innerWidth;
+        
+        if (viewportWidth < 640) { // Mobile breakpoint
+            chatWindow.style.right = '0.5rem';
+            chatWindow.style.left = '0.5rem';
+            chatWindow.style.width = 'auto';
+            chatWindow.style.maxWidth = 'calc(100vw - 1rem)';
+        } else {
+            chatWindow.style.right = '0';
+            chatWindow.style.left = 'auto';
+            chatWindow.style.width = '';
+            chatWindow.style.maxWidth = '';
+        }
+    }
+
+    // Adjust position on resize
+    window.addEventListener('resize', adjustChatbotPosition);
+    adjustChatbotPosition(); // Initial adjustment
 });
 </script>
 
@@ -253,5 +306,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
 #chat-messages::-webkit-scrollbar-thumb:hover {
     background: #d1d5db;
+}
+
+.chatbot-response a {
+    word-break: break-word;
+}
+
+/* Mobile adjustments */
+@media (max-width: 640px) {
+    #chatbot-widget {
+        bottom: 1rem;
+        right: 1rem;
+    }
+    
+    #chatbot-window {
+        bottom: 4rem;
+        right: 0;
+        left: 0.5rem;
+        width: auto !important;
+        max-width: calc(100vw - 1rem) !important;
+    }
 }
 </style>
