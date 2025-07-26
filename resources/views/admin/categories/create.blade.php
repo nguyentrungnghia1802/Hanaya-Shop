@@ -58,14 +58,14 @@
                 width="150">
         </div>
 
-        <!-- Input for category description -->
+        <!-- Input for category description (plain textarea) -->
         <div>
             <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
             <textarea 
                 name="description" 
-                id="myeditorinstance" 
-                class="w-full h-[300px] px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none">
-            </textarea>
+                id="description" 
+                class="w-full h-[120px] px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
+                >{{ old('description') }}</textarea>
         </div>
 
         <!-- Submit button -->
@@ -75,23 +75,4 @@
             Save
         </button>
     </form>
-
-    <script>
-        // Set global variable for TinyMCE upload URL
-        window.tinymceUploadUrl = "{{ route('admin.upload.tinymce.image') }}";
-        
-        // Initialize TinyMCE and Image Preview when document is ready
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize TinyMCE
-            if (typeof window.initTinyMCE === 'function') {
-                window.initTinyMCE();
-            }
-            
-            // Initialize Image Preview
-            if (typeof initImagePreview === 'function') {
-                initImagePreview();
-            }
-        });
-    </script>
-    <x-head.tinymce-config />
 @endsection
