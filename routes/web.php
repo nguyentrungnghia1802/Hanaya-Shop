@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ChatbotController;
+use App\Http\Controllers\User\ChatbotController;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/user.php';
