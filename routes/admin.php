@@ -47,6 +47,7 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->gr
     // IMAGE UPLOAD ROUTES
     Route::post('/upload/ckeditor-image', [ImageUploadController::class, 'uploadCKEditorImage'])->name('upload.ckeditor.image');
     Route::post('/upload/post-image', [ImageUploadController::class, 'uploadPostImage'])->name('upload.post.image');
+    Route::post('/posts/upload-image', [ImageUploadController::class, 'uploadTinyMCEImage'])->name('upload.tinymce.image');
 
     Route::get('/user', [UsersController::class, 'index'])->name('user');
     Route::get('/user/search', [UsersController::class, 'search'])->name('user.search');    
@@ -59,6 +60,11 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->gr
     Route::get('/user/{id}', [UsersController::class, 'show'])->name('user.show');
 
     Route::get('/order', [OrdersController::class, 'index'])->name('order');
+    Route::get('/order/{id}', [OrdersController::class, 'show'])->name('order.show');
+    Route::put('/orders/{order}/confirm', [OrdersController::class, 'confirm'])->name('order.confirm');
+    Route::put('/orders/{order}/cancel', [OrdersController::class, 'cancel'])->name('orders.cancel');
+
+
     Route::get('/review', [ReviewsController::class, 'index'])->name('review');
     Route::get('/statistical', [StatisticalController::class, 'index'])->name('statistical');
 

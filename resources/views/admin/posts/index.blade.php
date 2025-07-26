@@ -52,7 +52,7 @@
                         </td>
                         <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-right flex flex-col sm:flex-row gap-2 justify-end">
                             <a href="{{ route('admin.post.show', ['id' => $post->id]) }}" class="text-blue-600 hover:underline">Xem chi tiết</a>
-                            <form action="{{ route('admin.post.destroy', ['id' => $post->id]) }}" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa bài viết này?');">
+                            <form action="{{ route('admin.post.destroy', ['id' => $post->id]) }}" method="POST" data-confirm-delete data-confirm-message="Bạn có chắc muốn xóa bài viết này?">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-red-600 hover:underline">Xóa</button>

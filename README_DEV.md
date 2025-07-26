@@ -458,3 +458,184 @@ Nếu có vấn đề khi triển khai, hãy kiểm tra:
 > **Made with ❤️ by Hanaya Team**
 > 
 > *Cập nhật lần cuối: 22/07/2025 - Phase 2 hoàn thành*
+---
+
+# 🚧 Code Fix Journey
+
+This section documents the troubleshooting, bugfix, and security compliance journey for Hanaya Shop. After each major fix, update this section with details and solutions.
+
+## 1. Docker Production Deployment Issues & Solutions
+
+### 1.1. Customer Access Path
+To access Hanaya Shop, use:
+
+```
+http://localhost
+```
+On a real server, replace `localhost` with your domain or public IP (e.g., http://yourdomain.com or http://123.45.67.89).
+
+### 1.2. Common Errors
+- **500 Internal Server Error** in production Docker
+- "Vite manifest not found at: /var/www/html/public/build/manifest.json" in Laravel logs
+- APP_KEY, database, Redis, cache errors
+
+### 1.3. Root Causes
+- **Missing frontend build (Vite manifest)**: The `public/build` folder and `manifest.json` are not created if you skip the frontend build (`npm run build`) during Docker production build.
+- Other issues: APP_KEY not generated, misconfigured database/Redis, uncleared cache, etc.
+
+### 1.4. Troubleshooting Steps
+
+**Step 1: Check Laravel logs**
+- Inspect `storage/logs/laravel.log` for error details
+- Found: `Vite manifest not found at: /var/www/html/public/build/manifest.json`
+
+**Step 2: Review Dockerfile and build process**
+- Dockerfile missing frontend build (Vite)
+- Production build lacks `public/build`, causing Laravel 500 error
+
+**Step 3: Add multi-stage build to Dockerfile**
+- Add Node.js stage for frontend assets:
+  ```Dockerfile
+  FROM node:18-alpine AS frontend-builder
+  WORKDIR /app
+  COPY package*.json ./
+  RUN npm ci
+  COPY . .
+  RUN npm run build
+  ```
+- Copy build results to PHP stage:
+  ```Dockerfile
+  COPY --from=frontend-builder /app/public/build ./public/build
+  ```
+
+**Step 4: Rebuild Docker image**
+- Use:
+  ```sh
+  docker compose -f docker-compose.prod.yml build --no-cache app
+  docker compose -f docker-compose.prod.yml up -d
+  ```
+- Do not use `--only=production` for npm to ensure devDependencies (Vite) are installed
+
+**Step 5: Verify Website**
+- Access `http://localhost` to confirm no 500 error
+- Check Laravel logs for Vite manifest errors
+
+**Other fixes:**
+- **APP_KEY**: Regenerate with `php artisan key:generate`
+- **Database/Redis**: Review `.env` and docker-compose config
+- **Cache**: Run `php artisan config:clear`, `cache:clear`, `route:clear`, etc.
+
+**Conclusion:**
+- Always build frontend assets (Vite) and copy to production image
+- Check Laravel logs for 500 error root causes
+- Use multi-stage Docker build for optimal backend/frontend resources
+
+---
+
+## 2. CSP (Content Security Policy) Compliance & Alpine.js Fixes
+
+### 2.1. Overview
+Resolved Alpine.js CSP violations causing browser JavaScript errors and improved overall frontend security.
+
+### 2.2. Key Changes
+
+**Alpine.js Components Refactored**
+- Moved complex Alpine.js expressions from Blade templates to external JS functions
+- Created CSP-compliant component functions in `resources/js/components.js`
+- Replaced inline `x-data` expressions with function calls
+
+**CSP Headers Updated**
+- Updated `deployment/nginx/default.conf`:
+  - Allowed fonts.bunny.net in `style-src` and `font-src`
+  - Stricter directives for scripts, styles, fonts, images, connections
+
+**Alpine.js Version Updated**
+- Upgraded Alpine.js from `^3.4.2` to `^3.14.0` for better CSP support
+
+### 2.3. Deployment Instructions
+
+**Development:**
+```bash
+# Windows
+update-csp.bat
+# Linux/Mac
+./update-csp.sh
+```
+
+**Production:**
+```bash
+cd deployment
+docker compose -f docker-compose.prod.yml up -d --build
+```
+
+### 2.4. What This Fixes
+
+**Before (CSP Violations):**
+```javascript
+// Alpine Expression Error: Refused to evaluate a string as JavaScript
+Expression: "{ open: false, loading: false }"
+Expression: "open = false"
+Expression: "open = ! open"
+Expression: "{ 'hidden': open, 'inline-flex': !open }"
+// etc...
+```
+
+**After (CSP Compliant):**
+- No more Alpine.js evaluation errors
+- Complex JavaScript moved to external files
+- Simple expressions remain inline
+- All functionality preserved
+
+### 2.5. Testing Checklist
+
+After deployment, verify:
+1. **Navigation Components:**
+   - Mobile hamburger menu works
+   - Dropdown menus work
+   - No console errors
+2. **Modal Components:**
+   - Modals open/close properly
+   - Focus management works
+   - Keyboard navigation works
+3. **Admin Features:**
+   - TinyMCE editor loads and works
+   - Image uploads work
+   - All admin navigation functions
+4. **Console Check:**
+   - Open browser developer tools
+   - Check for CSP violations in console
+   - Verify no "unsafe-eval" errors
+
+### 2.6. Security Benefits
+1. Stricter CSP: More specific directives
+2. External JS: Complex logic moved out of inline expressions
+3. Maintained Functionality: All UI interactions preserved
+4. Future-Proof: Alpine.js updated to latest stable version
+
+### 2.7. Troubleshooting
+If you encounter issues:
+1. Clear all caches:
+   ```bash
+   php artisan config:clear
+   php artisan cache:clear
+   php artisan view:clear
+   npm run build
+   ```
+2. Check console for errors:
+   - Open browser developer tools
+   - Look for any CSP violations
+   - Report any new errors
+3. Verify file permissions:
+   ```bash
+   chmod +x update-csp.sh
+   ```
+
+### 2.8. Support
+If you need help with this update, check:
+1. Browser console for error messages
+2. Nginx error logs: `/var/log/nginx/error.log`
+3. PHP error logs: `/var/log/php_errors.log`
+
+---
+
+# (This section is merged from CSP_UPDATE.md for full project troubleshooting and compliance history)

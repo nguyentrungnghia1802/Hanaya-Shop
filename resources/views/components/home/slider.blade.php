@@ -25,7 +25,7 @@
                                        title="Quick View">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <button onclick="addToCart({{ $productItem->id }})" 
+                                    <button data-add-to-cart="{{ $productItem->id }}" 
                                             class="bg-pink-600 text-white p-2 rounded-full hover:bg-pink-700 transition-colors"
                                             title="Add to Cart">
                                         <i class="fas fa-shopping-cart"></i>

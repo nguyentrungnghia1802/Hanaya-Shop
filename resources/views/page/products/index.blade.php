@@ -14,11 +14,40 @@
                 $selectedCategoryName = request()->get('category_name');
             @endphp
 
+            <!-- Search Status Banner -->
+            @if($keyword || $selectedCategoryName)
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                    <div class="flex items-center text-blue-800">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        <span class="text-sm">
+                            @if($keyword && $selectedCategoryName)
+                                Searching for "<strong>{{ $keyword }}</strong>" in category "<strong>{{ ucfirst(str_replace('-', ' ', $selectedCategoryName)) }}</strong>"
+                            @elseif($keyword)
+                                Searching for "<strong>{{ $keyword }}</strong>" in all products
+                            @elseif($selectedCategoryName)
+                                Showing products in category "<strong>{{ ucfirst(str_replace('-', ' ', $selectedCategoryName)) }}</strong>"
+                            @endif
+                        </span>
+                        <a href="{{ route('user.products.index') }}" class="ml-auto text-blue-600 hover:text-blue-800 text-sm font-medium">
+                            Clear filters
+                        </a>
+                    </div>
+                </div>
+            @endif
+
             <form method="GET" action="{{ route('user.products.index') }}" class="space-y-4">
                 <!-- Search Row - Mobile Responsive -->
                 <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                    <input type="text" name="q" value="{{ $keyword }}" placeholder="Search products..."
-                        class="px-3 py-2 text-sm sm:text-base rounded border focus:outline-none focus:ring focus:ring-pink-300 flex-1 min-w-0">
+                    <div class="flex-1 relative">
+                        <input type="text" name="q" value="{{ $keyword }}" 
+                            placeholder="{{ $selectedCategoryName ? 'Search in ' . ucfirst(str_replace('-', ' ', $selectedCategoryName)) . ' category...' : 'Search products...' }}"
+                            class="w-full px-3 py-2 text-sm sm:text-base rounded border focus:outline-none focus:ring focus:ring-pink-300">
+                        @if($selectedCategoryName)
+                            <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-gray-500 bg-pink-100 px-2 py-1 rounded">
+                                {{ ucfirst(str_replace('-', ' ', $selectedCategoryName)) }}
+                            </span>
+                        @endif
+                    </div>
 
                     @if ($selectedCategoryName)
                         <input type="hidden" name="category_name" value="{{ $selectedCategoryName }}">
@@ -26,7 +55,7 @@
 
                     <button type="submit"
                         class="bg-pink-600 text-white px-4 sm:px-6 py-2 text-sm sm:text-base rounded hover:bg-pink-700 transition-colors whitespace-nowrap">
-                        <i class="fas fa-search mr-2"></i>Search
+                        <i class="fas fa-search mr-2"></i>{{ $selectedCategoryName ? 'Search in Category' : 'Search All' }}
                     </button>
                 </div>
 
@@ -128,7 +157,7 @@
             @if ($products->count() > 0)
                 @foreach ($products as $productItem)
                     <div
-                        class="bg-white rounded-lg shadow-md hover:shadow-xl overflow-hidden transition-all duration-300 flex flex-col transform hover:scale-105">
+                        class="bg-white rounded-lg shadow-md hover:shadow-xl overflow-hidden transition-all duration-300 flex flex-col transform hover:scale-105 h-full">
                         <div class="relative">
                             <div class="aspect-[3/4] w-full bg-gray-100 overflow-hidden">
                                 <img src="{{ $productItem->image_url ? asset('images/products/' . $productItem->image_url) : asset('images/no-image.png') }}"
@@ -146,18 +175,25 @@
                                 <i class="far fa-heart text-sm"></i>
                             </button>
                         </div>
-                        <div class="p-3 sm:p-4 flex-1 flex flex-col justify-between">
-                            <div>
-                                <h3 class="text-sm sm:text-base font-semibold text-gray-800 line-clamp-2 mb-2">
+                        <div class="p-3 sm:p-4 flex-1 flex flex-col">
+                            <!-- Fixed height title area -->
+                            <div class="h-12 mb-2">
+                                <h3 class="text-sm sm:text-base font-semibold text-gray-800 line-clamp-2">
                                     {{ $productItem->name }}</h3>
-                                @if ($productItem->category)
-                                    <p class="text-xs text-pink-600 font-medium mb-1">
-                                        {{ $productItem->category->name }}</p>
-                                @endif
-                                <p class="text-xs text-gray-600 line-clamp-2 mb-3">{{ $productItem->descriptions }}</p>
+                            </div>
+                            
+                            @if ($productItem->category)
+                                <p class="text-xs text-pink-600 font-medium mb-1">
+                                    {{ $productItem->category->name }}</p>
+                            @endif
+                            
+                            <!-- Fixed height description -->
+                            <div class="h-10 mb-3">
+                                <p class="text-xs text-gray-600 line-clamp-2">{{ $productItem->descriptions }}</p>
                             </div>
 
-                            <div class="space-y-2">
+                            <!-- Fixed height price area -->
+                            <div class="h-12 mb-2">
                                 @if ($productItem->discount_percent > 0)
                                     <div class="space-y-1">
                                         <div class="text-pink-600 font-bold text-lg">
@@ -172,23 +208,26 @@
                                         {{ number_format($productItem->price, 0, ',', '.') }} USD
                                     </div>
                                 @endif
+                            </div>
 
-                                <div class="flex items-center justify-between text-xs text-gray-500">
-                                    <span class="flex items-center">
-                                        <i class="fas fa-eye mr-1"></i>{{ $productItem->view_count ?? 0 }}
-                                    </span>
-                                    <span class="flex items-center">
-                                        <i class="fas fa-box mr-1"></i>{{ $productItem->stock_quantity }}
-                                    </span>
-                                </div>
+                            <div class="flex items-center justify-between text-xs text-gray-500 mb-2">
+                                <span class="flex items-center">
+                                    <i class="fas fa-eye mr-1"></i>{{ $productItem->view_count ?? 0 }}
+                                </span>
+                                <span class="flex items-center">
+                                    <i class="fas fa-box mr-1"></i>{{ $productItem->stock_quantity }}
+                                </span>
+                            </div>
 
-                                <div class="flex items-center text-yellow-400 text-sm">
-                                    @for ($i = 1; $i <= 5; $i++)
-                                        <i class="fas fa-star{{ $i <= 4 ? '' : ' text-gray-300' }}"></i>
-                                    @endfor
-                                    <span class="text-gray-500 text-xs ml-1">(4.0)</span>
-                                </div>
+                            <div class="flex items-center text-yellow-400 text-sm mb-3">
+                                @for ($i = 1; $i <= 5; $i++)
+                                    <i class="fas fa-star{{ $i <= 4 ? '' : ' text-gray-300' }}"></i>
+                                @endfor
+                                <span class="text-gray-500 text-xs ml-1">(4.0)</span>
+                            </div>
 
+                            <!-- Button pushes to bottom -->
+                            <div class="mt-auto">
                                 <a href="{{ route('user.products.show', $productItem->id) }}"
                                     class="block text-center bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 sm:py-3 rounded-lg transition-colors duration-300 text-sm">
                                     <i class="fas fa-eye mr-2"></i>View Details

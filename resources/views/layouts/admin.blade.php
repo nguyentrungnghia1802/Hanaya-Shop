@@ -13,7 +13,7 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
     <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/components.js'])
 
     <!-- CSS cho CKEditor & TinyMCE content -->
     <style>
@@ -156,195 +156,47 @@
     </div>
 
     <!-- Load TinyMCE từ CDN - Editor đầy đủ tính năng -->
-    <script src="https://cdn.tiny.cloud/1/y1zo0i12q8i692ria3ibrw4baa79o7h6yaa1tgqpy03fwz1x/tinymce/6/tinymce.min.js"
-        referrerpolicy="origin"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
+<script src="https://cdn.tiny.cloud/1/y1zo0i12q8i692ria3ibrw4baa79o7h6yaa1tgqpy03fwz1x/tinymce/6/tinymce.min.js"
+    referrerpolicy="origin"></script>
+
+<!-- Include our CSP-compliant components -->
+@vite('resources/js/components.js')
+
+<script>
+    // CSP-compliant TinyMCE initialization
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof tinymce !== 'undefined') {
             tinymce.init({
                 selector: 'textarea.description',
                 height: 400,
                 menubar: false,
                 plugins: [
-                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-                    'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
+                    'searchreplace', 'visualblocks', 'code', 'fullscreen',
                     'insertdatetime', 'media', 'table', 'help', 'wordcount'
                 ],
-                toolbar: 'undo redo | blocks | ' +
-                    'fontsize forecolor backcolor | bold italic underline strikethrough | ' +
-                    'alignleft aligncenter alignright alignjustify | ' +
-                    'bullist numlist outdent indent | ' +
-                    'image link | removeformat | help',
+                toolbar: 'undo redo | formatselect | ' +
+                    'bold italic backcolor | alignleft aligncenter ' +
+                    'alignright alignjustify | bullist numlist outdent indent | ' +
+                    'removeformat | help | image | media | link',
                 content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
-                font_size_formats: '8px 9px 10px 11px 12px 14px 16px 18px 20px 22px 24px 26px 28px 30px 32px 34px 36px',
-                color_map: [
-                    "000000", "Black",
-                    "993300", "Burnt orange",
-                    "333300", "Dark olive",
-                    "003300", "Dark green",
-                    "003366", "Dark azure",
-                    "000080", "Navy Blue",
-                    "333399", "Indigo",
-                    "333333", "Very dark gray",
-                    "800000", "Maroon",
-                    "FF6600", "Orange",
-                    "808000", "Olive",
-                    "008000", "Green",
-                    "008080", "Teal",
-                    "0000FF", "Blue",
-                    "666699", "Grayish blue",
-                    "808080", "Gray",
-                    "FF0000", "Red",
-                    "FF9900", "Amber",
-                    "99CC00", "Yellow green",
-                    "339966", "Sea green",
-                    "33CCCC", "Turquoise",
-                    "3366FF", "Royal blue",
-                    "800080", "Purple",
-                    "999999", "Medium gray",
-                    "FF00FF", "Magenta",
-                    "FFCC00", "Gold",
-                    "FFFF00", "Yellow",
-                    "00FF00", "Lime",
-                    "00FFFF", "Aqua",
-                    "00CCFF", "Sky blue",
-                    "993366", "Red violet",
-                    "FFFFFF", "White",
-                    "FF99CC", "Pink",
-                    "FFCC99", "Peach",
-                    "FFFF99", "Light yellow",
-                    "CCFFCC", "Pale green",
-                    "CCFFFF", "Pale cyan",
-                    "99CCFF", "Light sky blue",
-                    "CC99FF", "Plum"
-                ],
-                block_formats: 'Paragraph=p; Heading 1=h1; Heading 2=h2; Heading 3=h3; Heading 4=h4; Heading 5=h5; Heading 6=h6;',
-
-                // Cấu hình upload ảnh
-                images_upload_url: '{{ route('admin.upload.ckeditor.image') }}',
-                images_upload_handler: function(blobInfo, success, failure, progress) {
-                    const xhr = new XMLHttpRequest();
-                    xhr.withCredentials = false;
-                    xhr.open('POST', '{{ route('admin.upload.ckeditor.image') }}');
-
-                    xhr.upload.onprogress = function(e) {
-                        progress(e.loaded / e.total * 100);
-                    };
-
-                    xhr.onload = function() {
-                        if (xhr.status === 403) {
-                            failure('HTTP Error: ' + xhr.status, {
-                                remove: true
-                            });
-                            return;
-                        }
-
-                        if (xhr.status < 200 || xhr.status >= 300) {
-                            failure('HTTP Error: ' + xhr.status);
-                            return;
-                        }
-
-                        let json;
-                        try {
-                            json = JSON.parse(xhr.responseText);
-                        } catch (e) {
-                            failure('Invalid response: ' + xhr.responseText);
-                            return;
-                        }
-
-                        if (!json || !json.url) {
-                            failure(json.error || 'Invalid JSON: ' + xhr.responseText);
-                            return;
-                        }
-
-                        success(json.url);
-                    };
-
-                    xhr.onerror = function() {
-                        failure('Image upload failed due to a XHR Transport error. Code: ' + xhr
-                            .status);
-                    };
-
-                    const formData = new FormData();
-                    formData.append('upload', blobInfo.blob(), blobInfo.filename());
-                    formData.append('_token', '{{ csrf_token() }}');
-
-                    xhr.send(formData);
-                },
-
-                // Cấu hình ảnh
-                image_title: true,
-                image_description: false,
-                image_dimensions: false,
-                image_advtab: true,
-
-                // Tự động resize ảnh
-                images_upload_credentials: true,
-                automatic_uploads: true,
-
-                // Paste ảnh từ clipboard
-                paste_data_images: true,
-
-                // File picker callback (fallback nếu upload handler fail)
-                file_picker_callback: function(callback, value, meta) {
-                    if (meta.filetype === 'image') {
-                        const input = document.createElement('input');
-                        input.setAttribute('type', 'file');
-                        input.setAttribute('accept', 'image/*');
-                        input.onchange = function() {
-                            const file = this.files[0];
-                            const formData = new FormData();
-                            formData.append('upload', file);
-                            formData.append('_token', '{{ csrf_token() }}');
-
-                            fetch('{{ route('admin.upload.ckeditor.image') }}', {
-                                    method: 'POST',
-                                    body: formData
-                                })
-                                .then(response => response.json())
-                                .then(data => {
-                                    if (data.url) {
-                                        callback(data.url, {
-                                            title: file.name
-                                        });
-                                    } else {
-                                        console.error('Upload failed:', data);
-                                    }
-                                })
-                                .catch(error => {
-                                    console.error('Upload error:', error);
-                                });
-                        };
-                        input.click();
-                    }
-                },
-
+                branding: false,
+                promotion: false,
+                // CSP compliant settings
+                allow_script_urls: false,
+                convert_urls: false,
                 setup: function(editor) {
-                    editor.on('init', function() {
-                        console.log('TinyMCE đã khởi tạo thành công với upload ảnh!');
-                    });
+                    // TinyMCE initialized successfully
                 }
             });
+        }
 
-            // xử lí khi chọn ảnh
-            const imageInput = document.getElementById('imageInput');
-            if (imageInput) {
-                imageInput.addEventListener('change', function(event) {
-                    const file = event.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            const previewImage = document.getElementById('previewImage');
-                            if (previewImage) {
-                                previewImage.src = e.target.result;
-                                previewImage.style.display = 'block';
-                            }
-                        }
-                        reader.readAsDataURL(file);
-                    }
-                });
-            }
-        });
-    </script>
+        // Initialize image preview
+        if (typeof initImagePreview === 'function') {
+            initImagePreview();
+        }
+    });
+</script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -367,6 +219,8 @@
             });
         });
     </script>
+
+    @stack('scripts')
 </body>
 
 </html>

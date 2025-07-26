@@ -53,15 +53,15 @@
                 width="150">
         @endif
 
-        <!-- Input for category description -->
+        <!-- Input for category description (plain textarea) -->
         <div>
             <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
             <textarea 
                 name="description" 
-                id="description-edit" 
+                id="description" 
                 cols="30" 
                 rows="10"
-                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none description">{{ old('description', $category->description) }}</textarea>
+                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none">{{ old('description', $category->description) }}</textarea>
         </div>
 
         <!-- Action buttons: Cancel and Save -->
@@ -80,7 +80,6 @@
         </div>
     </form>
 
-    <!-- Add JavaScript for Cancel button -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Handle Cancel button click

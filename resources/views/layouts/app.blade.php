@@ -13,7 +13,15 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
     <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/components.js'])
+    
+    <!-- CSP Compliant Scripts -->
+    <script src="{{ asset('js/app-main.js') }}" defer></script>
+    <script src="{{ asset('js/category-products.js') }}" defer></script>
+    <script src="{{ asset('js/navigation.js') }}" defer></script>
+    
+    <!-- Page-specific scripts -->
+    @stack('scripts')
     
     <!-- CSS cho prose content - giống admin -->
     <style>
@@ -81,7 +89,7 @@
     </style>
 </head>
 
-<body class="font-sans antialiased">
+<body class="font-sans antialiased bg-gray-100 transition-colors duration-300">
     <!-- Loading overlay đặt ngay sau <body> -->
     <div id="pageLoadingOverlay" style="display:none;position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:rgba(255,255,255,0.8);backdrop-filter:blur(2px);align-items:center;justify-content:center;">
         <div style="font-size:2rem;color:#ec4899;display:flex;flex-direction:column;align-items:center;">
@@ -92,7 +100,7 @@
             <div class="text-xl font-semibold text-pink-600 tracking-wide animate-pulse">Loading...</div>
         </div>
     </div>
-    <div class="min-h-screen bg-gray-100">
+    <div class="min-h-screen bg-gray-100 transition-colors duration-300">
         @include('layouts.navigation')
 
         <!-- Page Heading -->
@@ -108,7 +116,7 @@
         <main>
             {{ $slot }}
         </main>
-        <footer class="bg-gray-800 text-gray-200 py-8 mt-10 flex flex-col">
+        <footer class="bg-gray-800 text-gray-200 py-8 mt-10 flex flex-col transition-colors duration-300">
             <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
 
                 <div>
@@ -124,7 +132,6 @@
                         <li><a href="/" class="hover:text-white">Home</a></li>
                         <li><a href="/products" class="hover:text-white">Products</a></li>
                         <li><a href="/about" class="hover:text-white">About</a></li>
-                        <li><a href="/contact" class="hover:text-white">Contact</a></li>
                     </ul>
                 </div>
 
@@ -136,36 +143,11 @@
                 </div>
             </div>
 
-            <div class="text-center text-sm text-gray-400 mt-8 border-t border-gray-700 pt-4">
+            <div class="text-center text-sm text-gray-400 dark:text-gray-500 mt-8 border-t border-gray-700 dark:border-gray-600 pt-4 transition-colors duration-300">
                 &copy; {{ date('Y') }} Hanaya.
             </div>
         </footer>
     </div>
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Chặn click trên nav-link và delay chuyển trang
-        document.querySelectorAll('nav a,button[type="submit"]').forEach(link => {
-            link.addEventListener('click', function(e) {
-                // Chỉ xử lý link nội bộ (không có target _blank, không phải anchor, không có modifier key)
-                if (
-                    this.target === '_blank' ||
-                    this.href && this.href.startsWith('javascript:') ||
-                    this.href === '#' ||
-                    e.ctrlKey || e.shiftKey || e.metaKey || e.altKey
-                ) return;
-                document.getElementById('pageLoadingOverlay').style.display = 'flex';
-            });
-        });
-        // Khi bấm nút Delete Account trong modal, tắt overlay loading ngay lập tức
-        document.querySelectorAll('button').forEach(btn => {
-            if (btn.textContent.trim() === 'Delete Account') {
-                btn.addEventListener('click', function() {
-                    document.getElementById('pageLoadingOverlay').style.display = 'none';
-                });
-            }
-        });
-    });
-    </script>
 
     <!-- Chatbot Component -->
     <x-chatbot />
