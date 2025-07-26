@@ -1,7 +1,7 @@
 <!-- Chatbot Widget -->
-<div id="chatbot-widget" class="fixed bottom-4 right-4 z-50">
+<div id="chatbot-widget" class="fixed bottom-4 right-4 z-50 w-auto">
     <!-- Chatbot Toggle Button -->
-    <button id="chatbot-toggle" class="bg-pink-600 hover:bg-pink-700 text-white rounded-full w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110">
+    <button id="chatbot-toggle" class="bg-pink-600 hover:bg-pink-700 text-white rounded-full w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-pink-400">
         <svg id="chat-icon" class="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
         </svg>
@@ -11,7 +11,7 @@
     </button>
 
     <!-- Chatbot Window -->
-    <div id="chatbot-window" class="hidden absolute bottom-16 sm:bottom-20 right-0 w-80 sm:w-96 lg:w-[500px] h-[400px] sm:h-[500px] lg:h-[650px] bg-white rounded-lg shadow-2xl border border-gray-200 flex flex-col">
+    <div id="chatbot-window" class="hidden fixed bottom-16 sm:bottom-20 right-0 w-80 sm:w-96 lg:w-[500px] h-[400px] sm:h-[500px] lg:h-[650px] bg-white rounded-lg shadow-2xl border border-gray-200 flex flex-col max-w-full" style="max-width:100vw;">
         <!-- Header -->
         <div class="bg-gradient-to-r from-pink-600 to-purple-600 text-white p-3 sm:p-4 rounded-t-lg">
             <div class="flex items-center space-x-3">
@@ -31,7 +31,7 @@
         </div>
 
         <!-- Messages Container -->
-        <div id="chat-messages" class="flex-1 p-3 sm:p-4 overflow-y-auto space-y-3 text-xs sm:text-sm">
+        <div id="chat-messages" class="flex-1 p-2 sm:p-4 overflow-y-auto space-y-3 text-xs sm:text-sm">
             <div class="flex items-start space-x-2">
                 <div class="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
                     <svg class="w-3 h-3 sm:w-4 sm:h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -52,7 +52,7 @@
         </div>
 
         <!-- Quick Actions -->
-        <div class="px-3 sm:px-4 py-2 bg-gray-50 border-t border-gray-100">
+        <div class="px-2 sm:px-4 py-2 bg-gray-50 border-t border-gray-100">
             <div class="flex flex-wrap gap-1">
                 <button class="quick-action text-xs px-2 py-1 bg-pink-100 text-pink-700 rounded-full hover:bg-pink-200 transition-colors" data-message="Tìm hoa xà phòng">
                     🧼 Hoa xà phòng
@@ -70,11 +70,11 @@
         </div>
 
         <!-- Input Area -->
-        <div class="p-3 sm:p-4 border-t border-gray-200">
+        <div class="p-2 sm:p-4 border-t border-gray-200">
             <div class="flex space-x-2">
                 <input type="text" id="chat-input" placeholder="Nhập tin nhắn..." 
-                       class="flex-1 px-3 py-2 text-xs sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent">
-                <button id="send-message" class="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-2 rounded-lg hover:from-pink-600 hover:to-purple-700 transition-all duration-200">
+                       class="flex-1 px-2 py-2 text-xs sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent" style="min-width:0;">
+                <button id="send-message" class="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-2 rounded-lg hover:from-pink-600 hover:to-purple-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pink-400">
                     <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                     </svg>
@@ -250,24 +250,36 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle responsive positioning on mobile
     function adjustChatbotPosition() {
         const chatWindow = document.getElementById('chatbot-window');
+        const widget = document.getElementById('chatbot-widget');
         const viewportWidth = window.innerWidth;
-        
         if (viewportWidth < 640) { // Mobile breakpoint
-            chatWindow.style.right = '0.5rem';
-            chatWindow.style.left = '0.5rem';
-            chatWindow.style.width = 'auto';
-            chatWindow.style.maxWidth = 'calc(100vw - 1rem)';
+            chatWindow.style.position = 'fixed';
+            chatWindow.style.left = '50%';
+            chatWindow.style.transform = 'translateX(-50%)';
+            chatWindow.style.right = 'auto';
+            chatWindow.style.width = 'calc(100vw - 1.5rem)';
+            chatWindow.style.maxWidth = 'calc(100vw - 1.5rem)';
+            chatWindow.style.height = '60vh';
+            chatWindow.style.minHeight = '320px';
+            chatWindow.style.bottom = '5.5rem';
+            widget.style.right = '1rem';
+            widget.style.left = 'auto';
         } else {
+            chatWindow.style.position = 'fixed';
             chatWindow.style.right = '0';
             chatWindow.style.left = 'auto';
+            chatWindow.style.transform = '';
             chatWindow.style.width = '';
             chatWindow.style.maxWidth = '';
+            chatWindow.style.height = '';
+            chatWindow.style.minHeight = '';
+            chatWindow.style.bottom = '';
+            widget.style.right = '';
+            widget.style.left = '';
         }
     }
-
-    // Adjust position on resize
     window.addEventListener('resize', adjustChatbotPosition);
-    adjustChatbotPosition(); // Initial adjustment
+    adjustChatbotPosition();
 });
 </script>
 
@@ -315,16 +327,33 @@ document.addEventListener('DOMContentLoaded', function() {
 /* Mobile adjustments */
 @media (max-width: 640px) {
     #chatbot-widget {
-        bottom: 1rem;
-        right: 1rem;
-    }
-    
-    #chatbot-window {
-        bottom: 4rem;
-        right: 0;
-        left: 0.5rem;
+        bottom: 1.5rem !important;
+        right: 1rem !important;
+        left: auto !important;
         width: auto !important;
-        max-width: calc(100vw - 1rem) !important;
+        z-index: 50;
+    }
+    #chatbot-window {
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        right: auto !important;
+        width: calc(100vw - 1.5rem) !important;
+        max-width: calc(100vw - 1.5rem) !important;
+        min-height: 320px !important;
+        height: 60vh !important;
+        bottom: 5.5rem !important;
+        z-index: 51;
+    }
+    #chat-messages {
+        padding: 0.5rem !important;
+    }
+    .quick-action {
+        font-size: 13px !important;
+        padding: 0.25rem 0.75rem !important;
+    }
+    #chat-input {
+        font-size: 13px !important;
+        padding: 0.5rem 0.75rem !important;
     }
 }
 </style>
