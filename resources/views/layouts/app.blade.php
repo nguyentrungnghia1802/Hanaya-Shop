@@ -16,7 +16,6 @@
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/components.js'])
     
     <!-- CSP Compliant Scripts -->
-    <script src="{{ asset('js/chatbot.js') }}" defer></script>
     <script src="{{ asset('js/app-main.js') }}" defer></script>
     <script src="{{ asset('js/category-products.js') }}" defer></script>
     <script src="{{ asset('js/navigation.js') }}" defer></script>
@@ -150,6 +149,8 @@
         </footer>
     </div>
 
+    <!-- Chatbot Component -->
+    <x-chatbot />
 </body>
 
 </html>
