@@ -230,5 +230,17 @@ function setContent() {
     tinymce.get('myeditorinstance').setContent(sampleContent);
 }
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('[data-confirm-cancel]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            if (confirm('Bạn có chắc chắn muốn huỷ? Mọi thay đổi sẽ không được lưu.')) {
+                window.location.href = btn.getAttribute('data-redirect-url');
+            }
+        });
+    });
+});
+</script>
 @endpush
 @endsection
