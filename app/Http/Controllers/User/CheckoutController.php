@@ -70,7 +70,7 @@ class CheckoutController extends Controller
     try {
         $order = Order::create([
             'user_id'     => $user->id,
-            'total_price' => array_sum(array_column($selectedItems, 'subtotal')) + constant('checkout.shipping_fee'),
+            'total_price' => array_sum(array_column($selectedItems, 'subtotal')) + config('constants.checkout.shipping_fee', 8),
             'status'      => 'pending',
         ]);
 
