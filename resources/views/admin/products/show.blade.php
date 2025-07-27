@@ -166,7 +166,7 @@
                                                 <div class="flex-shrink-0 ml-4">
                                                     <form method="POST"
                                                         action="{{ route('admin.product.review.delete', $review->id) }}"
-                                                        onsubmit="return confirm('Are you sure you want to delete this review? This action cannot be undone.')">
+                                                        class="delete-review-form">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit"
@@ -215,3 +215,22 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle delete review confirmation
+        const deleteReviewForms = document.querySelectorAll('.delete-review-form');
+        
+        deleteReviewForms.forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (confirm('Are you sure you want to delete this review? This action cannot be undone and will also delete any associated image.')) {
+                    this.submit();
+                }
+            });
+        });
+    });
+</script>
+@endpush

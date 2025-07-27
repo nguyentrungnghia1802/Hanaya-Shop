@@ -65,6 +65,8 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->gr
     Route::put('/orders/{order}/confirm', [OrdersController::class, 'confirm'])->name('order.confirm');
     Route::put('/orders/{order}/cancel', [OrdersController::class, 'cancel'])->name('orders.cancel');
 
+    Route::get('/reviews', [ReviewsController::class, 'index'])->name('reviews');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
