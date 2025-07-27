@@ -136,4 +136,9 @@ class ImageUploadController extends Controller
             ], 500);
         }
     }
+
+    // public function uploadImg(Request $request){
+    //     switc (this === Post)
+    //     return $this->uploadTinyMCEImage($request);
+    // }
 }

@@ -49,6 +49,10 @@
                             <span class="flex items-center">
                                 <i class="fas fa-box mr-1"></i>{{ $product->stock_quantity }} in stock
                             </span>
+                            <span class="flex items-center">
+                                <x-star-rating :rating="$averageRating" size="sm" />
+                                <span class="ml-1">({{ $totalReviews }})</span>
+                            </span>
                         </div>
                     </div>
                     <div class="prose max-w-none">
@@ -150,6 +154,70 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Product Reviews Section -->
+        <div class="mt-12 sm:mt-16">
+            <div class="bg-white rounded-lg shadow-lg p-6 sm:p-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl sm:text-2xl font-bold text-gray-900">Customer Reviews</h3>
+                    <div class="flex items-center space-x-2">
+                        <x-star-rating :rating="$averageRating" size="lg" show-text />
+                        <span class="text-sm text-gray-600">({{ $totalReviews }} reviews)</span>
+                    </div>
+                </div>
+
+                @if($reviews->count() > 0)
+                    <div class="space-y-6">
+                        @foreach($reviews as $review)
+                            <div class="border-b border-gray-200 pb-6 last:border-b-0 last:pb-0">
+                                <div class="flex items-start space-x-4">
+                                    <div class="flex-shrink-0">
+                                        <div class="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center">
+                                            <span class="text-pink-600 font-semibold text-sm">
+                                                {{ strtoupper(substr($review->user->name, 0, 1)) }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <div>
+                                                <h4 class="text-sm font-medium text-gray-900">{{ $review->user->name }}</h4>
+                                                <div class="flex items-center space-x-2 mt-1">
+                                                    <x-star-rating :rating="$review->rating" size="sm" />
+                                                    <span class="text-xs text-gray-500">
+                                                        {{ $review->created_at->format('M d, Y') }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @if($review->comment)
+                                            <div class="text-gray-700 text-sm leading-relaxed prose prose-sm max-w-none">
+                                                {!! $review->comment !!}
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <!-- Pagination -->
+                    @if($reviews->hasPages())
+                        <div class="mt-6 flex justify-center">
+                            {{ $reviews->links() }}
+                        </div>
+                    @endif
+                @else
+                    <div class="text-center py-8">
+                        <div class="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-star text-gray-400 text-xl"></i>
+                        </div>
+                        <h4 class="text-lg font-medium text-gray-900 mb-2">No reviews yet</h4>
+                        <p class="text-gray-600">Be the first to review this product!</p>
+                    </div>
+                @endif
             </div>
         </div>
 

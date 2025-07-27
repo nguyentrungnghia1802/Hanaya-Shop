@@ -11,6 +11,7 @@ use App\Models\Order\Order;
 use App\Models\Order\OrderDetail;
 use App\Models\Product\Product;
 use App\Models\Cart\Cart;
+use App\Models\Product\Review;
 use Illuminate\Support\Facades\Session;
 
 
@@ -18,17 +19,53 @@ class OrderController extends Controller
 {
     public function index(){
         $userId = Auth::id();
-        $orders = Order::with('orderDetail.product')
+        $orders = Order::with(['orderDetail.product', 'review'])
             ->where('user_id', $userId)
             ->orderBy('created_at', 'desc')
             ->get();
+
+        // Get review status for each order detail
+        $canReviewStatus = config('constants.review.can_review_status');
+        
+        foreach ($orders as $order) {
+            foreach ($order->orderDetail as $detail) {
+                // Check if user has already reviewed this product in this order
+                $existingReview = Review::where('user_id', $userId)
+                    ->where('product_id', $detail->product_id)
+                    ->where('order_id', $order->id)
+                    ->first();
+                
+                $detail->can_review = ($order->status === $canReviewStatus && !$existingReview);
+                $detail->has_review = !!$existingReview;
+                $detail->review = $existingReview;
+            }
+        }
 
         return view('page.order.index', compact('orders'));
     }
 
     public function show($orderId)
     {
-        $order = Order::with('orderDetail.product')->findOrFail($orderId);
+        $userId = Auth::id();
+        $order = Order::with(['orderDetail.product', 'review'])
+            ->where('user_id', $userId)
+            ->findOrFail($orderId);
+
+        // Get review status for each order detail
+        $canReviewStatus = config('constants.review.can_review_status');
+        
+        foreach ($order->orderDetail as $detail) {
+            // Check if user has already reviewed this product in this order
+            $existingReview = Review::where('user_id', $userId)
+                ->where('product_id', $detail->product_id)
+                ->where('order_id', $order->id)
+                ->first();
+            
+            $detail->can_review = ($order->status === $canReviewStatus && !$existingReview);
+            $detail->has_review = !!$existingReview;
+            $detail->review = $existingReview;
+        }
+
         return view('page.order.show', compact('order'));
     }
 
