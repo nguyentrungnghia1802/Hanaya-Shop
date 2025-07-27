@@ -52,4 +52,5 @@ Route::middleware(['auth'])->group(function () {
     // Review routes
     Route::get('/review/create', [ReviewController::class, 'create'])->name('review.create');
     Route::post('/review', [ReviewController::class, 'store'])->name('review.store');
+    Route::get('/product/{id}/reviews', [ReviewController::class, 'getProductReviews'])->name('product.reviews');
 });

@@ -34,12 +34,19 @@ class ReviewController extends Controller
         // Handle image upload if available
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension(); // Unique filename with timestamp
-            $image->move(public_path('images/categories'), $imageName);
+            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension(); // Unique filename with timestamp
+            
+            // Create reviews directory if it doesn't exist
+            $uploadPath = public_path('images/reviews');
+            if (!file_exists($uploadPath)) {
+                mkdir($uploadPath, 0755, true);
+            }
+            
+            $image->move($uploadPath, $imageName);
             $generatedFileName = $imageName;
         } else {
             // Default image if none is uploaded
-            $generatedFileName = 'base.jpg';
+            $generatedFileName = null; // Don't store default image path
         }
 
         // Kiểm tra xem order có thuộc về user hiện tại không
