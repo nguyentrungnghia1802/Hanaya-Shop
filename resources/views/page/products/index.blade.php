@@ -62,11 +62,6 @@
                 <!-- Sort Options Row - Mobile Responsive -->
                 <div class="space-y-3">
                     <span class="block text-sm sm:text-lg font-bold text-gray-700">Sort by:</span>
-                    <input type="hidden" name="q" value="{{ $keyword }}">
-                    @if ($selectedCategoryName)
-                        <input type="hidden" name="category_name" value="{{ $selectedCategoryName }}">
-                    @endif
-
                     <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                         <a href="{{ route('user.products.index', array_merge(request()->except('sort'), ['sort' => 'desc', 'q' => $keyword, 'category_name' => $selectedCategoryName])) }}"
                             class="bg-gray-700 text-white px-2 sm:px-4 py-2 text-xs sm:text-sm rounded hover:bg-pink-600 transition text-center {{ $currentSort === 'desc' ? 'bg-pink-600 font-bold' : '' }}">
