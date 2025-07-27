@@ -23,11 +23,24 @@ class ReviewController extends Controller
             'order_id' => 'required|exists:orders,id',
             'rating' => 'required|integer|min:1|max:5',
             'comment' => 'nullable|string|max:10000',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $userId = Auth::id();
         $productId = $request->product_id;
         $orderId = $request->order_id;
+        $generatedFileName = null;
+
+        // Handle image upload if available
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension(); // Unique filename with timestamp
+            $image->move(public_path('images/categories'), $imageName);
+            $generatedFileName = $imageName;
+        } else {
+            // Default image if none is uploaded
+            $generatedFileName = 'base.jpg';
+        }
 
         // Kiểm tra xem order có thuộc về user hiện tại không
         $order = Order::where('id', $orderId)
@@ -70,6 +83,7 @@ class ReviewController extends Controller
             'order_id' => $orderId,
             'rating' => $request->rating,
             'comment' => $request->comment,
+            'image_path' => $generatedFileName,
         ]);
 
         return back()->with('success', 'Review submitted successfully!');

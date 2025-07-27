@@ -20,9 +20,8 @@
             <!-- Product Information -->
             <div class="mb-8 p-4 bg-gray-50 rounded-lg border">
                 <div class="flex items-center space-x-4">
-                    <img src="{{ $product->image_url ? asset('images/products/' . $product->image_url) : asset('images/no-image.png') }}" 
-                         alt="{{ $product->name }}" 
-                         class="w-16 h-16 object-cover rounded-lg">
+                    <img src="{{ $product->image_url ? asset('images/products/' . $product->image_url) : asset('images/no-image.png') }}"
+                        alt="{{ $product->name }}" class="w-16 h-16 object-cover rounded-lg">
                     <div>
                         <h3 class="font-semibold text-lg text-gray-900">{{ $product->name }}</h3>
                         <p class="text-gray-600">Order #{{ $order->id }}</p>
@@ -44,10 +43,10 @@
                     </label>
                     <div class="flex items-center space-x-2">
                         <div class="star-rating flex space-x-1" data-rating="5">
-                            @for($i = 1; $i <= 5; $i++)
-                                <button type="button" 
-                                        class="star text-3xl text-gray-300 hover:text-yellow-400 transition-colors duration-200 focus:outline-none"
-                                        data-value="{{ $i }}">
+                            @for ($i = 1; $i <= 5; $i++)
+                                <button type="button"
+                                    class="star text-3xl text-gray-300 hover:text-yellow-400 transition-colors duration-200 focus:outline-none"
+                                    data-value="{{ $i }}">
                                     ★
                                 </button>
                             @endfor
@@ -62,32 +61,30 @@
 
                 <!-- Comment Section -->
                 <div>
-                    <label for="comment" class="block text-sm font-medium text-gray-700 mb-3">
-                        Your Review
-                    </label>
-                    <div class="mt-1">
-                        <x-forms.tinymce-editor 
-                            name="comment" 
-                            id="review-comment"
-                            :value="old('comment')"
-                            placeholder="Share your experience with this product..."
-                            :height="250"
-                        />
-                    </div>
-                    @error('comment')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
+                    <label for="comment" class="block text-sm font-medium text-gray-700 mb-1">Your Review</label>
+                    <textarea name="comment" id="review-comment"
+                        class="w-full h-[120px] px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none">{{ old('comment') }}</textarea>
+                </div>
+
+                <!-- Input for review image -->
+                <div>
+                    <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Image:</label>
+                    <input type="file" name="image" id="imageInput" accept="image/*" class="block mt-1">
+
+                    <!-- Placeholder or current image preview -->
+                    <p class="mt-2 text-sm text-gray-600">Current Image:</p>
+                    <img id="previewImage" src="{{ asset('images/base.jpg') }}" alt="Review Image" width="150">
                 </div>
 
                 <!-- Action Buttons -->
                 <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t">
-                    <button type="submit" 
-                            class="flex-1 bg-pink-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-pink-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2">
+                    <button type="submit"
+                        class="flex-1 bg-pink-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-pink-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2">
                         <i class="fas fa-star mr-2"></i>
                         Submit Review
                     </button>
-                    <a href="{{ route('order.index') }}" 
-                       class="flex-1 bg-gray-100 text-gray-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-200 transition-colors duration-200 text-center focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                    <a href="{{ route('order.index') }}"
+                        class="flex-1 bg-gray-100 text-gray-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-200 transition-colors duration-200 text-center focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
                         <i class="fas fa-arrow-left mr-2"></i>
                         Back to Orders
                     </a>
@@ -123,66 +120,66 @@
     </div>
 
     @push('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const stars = document.querySelectorAll('.star');
-            const ratingInput = document.getElementById('rating');
-            const ratingText = document.querySelector('.rating-text');
-            
-            const ratingTexts = {
-                1: 'Poor (1 star)',
-                2: 'Fair (2 stars)', 
-                3: 'Good (3 stars)',
-                4: 'Very Good (4 stars)',
-                5: 'Excellent (5 stars)'
-            };
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const stars = document.querySelectorAll('.star');
+                const ratingInput = document.getElementById('rating');
+                const ratingText = document.querySelector('.rating-text');
 
-            // Initialize with 5 stars
-            updateStars(5);
+                const ratingTexts = {
+                    1: 'Poor (1 star)',
+                    2: 'Fair (2 stars)',
+                    3: 'Good (3 stars)',
+                    4: 'Very Good (4 stars)',
+                    5: 'Excellent (5 stars)'
+                };
 
-            stars.forEach(star => {
-                star.addEventListener('click', function() {
-                    const rating = parseInt(this.dataset.value);
-                    updateStars(rating);
-                    ratingInput.value = rating;
-                    ratingText.textContent = ratingTexts[rating];
+                // Initialize with 5 stars
+                updateStars(5);
+
+                stars.forEach(star => {
+                    star.addEventListener('click', function() {
+                        const rating = parseInt(this.dataset.value);
+                        updateStars(rating);
+                        ratingInput.value = rating;
+                        ratingText.textContent = ratingTexts[rating];
+                    });
+
+                    star.addEventListener('mouseenter', function() {
+                        const rating = parseInt(this.dataset.value);
+                        highlightStars(rating);
+                    });
                 });
 
-                star.addEventListener('mouseenter', function() {
-                    const rating = parseInt(this.dataset.value);
-                    highlightStars(rating);
+                document.querySelector('.star-rating').addEventListener('mouseleave', function() {
+                    const currentRating = parseInt(ratingInput.value);
+                    updateStars(currentRating);
                 });
+
+                function updateStars(rating) {
+                    stars.forEach((star, index) => {
+                        if (index < rating) {
+                            star.classList.remove('text-gray-300');
+                            star.classList.add('text-yellow-400');
+                        } else {
+                            star.classList.remove('text-yellow-400');
+                            star.classList.add('text-gray-300');
+                        }
+                    });
+                }
+
+                function highlightStars(rating) {
+                    stars.forEach((star, index) => {
+                        if (index < rating) {
+                            star.classList.remove('text-gray-300');
+                            star.classList.add('text-yellow-400');
+                        } else {
+                            star.classList.remove('text-yellow-400');
+                            star.classList.add('text-gray-300');
+                        }
+                    });
+                }
             });
-
-            document.querySelector('.star-rating').addEventListener('mouseleave', function() {
-                const currentRating = parseInt(ratingInput.value);
-                updateStars(currentRating);
-            });
-
-            function updateStars(rating) {
-                stars.forEach((star, index) => {
-                    if (index < rating) {
-                        star.classList.remove('text-gray-300');
-                        star.classList.add('text-yellow-400');
-                    } else {
-                        star.classList.remove('text-yellow-400');
-                        star.classList.add('text-gray-300');
-                    }
-                });
-            }
-
-            function highlightStars(rating) {
-                stars.forEach((star, index) => {
-                    if (index < rating) {
-                        star.classList.remove('text-gray-300');
-                        star.classList.add('text-yellow-400');
-                    } else {
-                        star.classList.remove('text-yellow-400');
-                        star.classList.add('text-gray-300');
-                    }
-                });
-            }
-        });
-    </script>
+        </script>
     @endpush
 </x-app-layout>
