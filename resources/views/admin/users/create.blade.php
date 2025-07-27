@@ -24,9 +24,9 @@
                     class="col-span-3 border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-center"
                     required>
                 <input type="password" name="users[0][password]" placeholder="Password"
-                    class="col-span-2 border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-center"
+                    class="col-span-3 border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-center"
                     required>
-                <select name="users[0][role]" class="col-span-3 border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-center" required>
+                <select name="users[0][role]" class="col-span-2 border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-center" required>
                     <option value="user" selected>User</option>
                     <option value="admin">Admin</option>
                 </select>
@@ -68,9 +68,9 @@
                        class="col-span-3 border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-center"
                        required>
                 <input type="password" name="users[${idx}][password]" placeholder="Password"
-                       class="col-span-2 border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-center"
+                       class="col-span-3 border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-center"
                        required>
-                <select name="users[${idx}][role]" class="col-span-3 border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-center" required>
+                <select name="users[${idx}][role]" class="col-span-2 border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-center" required>
                     <option value="user" selected>User</option>
                     <option value="admin">Admin</option>
                 </select>
