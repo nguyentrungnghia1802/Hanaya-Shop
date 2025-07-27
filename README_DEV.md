@@ -30,6 +30,16 @@ composer create-project --prefer-dist laravel/laravel hanaya_shop
 ```bash
 php artisan serve --host=0.0.0.0 --port=8000
 ```
+### Refresh Backend
+```bash
+php artisan cache:clear
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+
+php artisan clear-compiled
+composer dump-autoload
+```
 
 > **Truy cập ứng dụng tại:**
 > 
@@ -407,17 +417,6 @@ php artisan optimize
 - [ ] Mobile responsive trên các thiết bị
 - [ ] SEO optimization
 - [ ] Cart functionality integration
-
-### Refresh Backend
-```bash
-php artisan cache:clear
-php artisan config:clear
-php artisan route:clear
-php artisan view:clear
-
-php artisan clear-compiled
-composer dump-autoload
-```
 
 ---
 
