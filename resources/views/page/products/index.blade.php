@@ -62,7 +62,6 @@
                 <!-- Sort Options Row - Mobile Responsive -->
                 <div class="space-y-3">
                     <span class="block text-sm sm:text-lg font-bold text-gray-700">Sort by:</span>
-                    <input type="hidden" name="q" value="{{ $keyword }}">
                     @if ($selectedCategoryName)
                         <input type="hidden" name="category_name" value="{{ $selectedCategoryName }}">
                     @endif
