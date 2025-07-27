@@ -224,11 +224,27 @@
                                     </div>
                                 </div>
 
-                                <!-- Price -->
+                                <!-- Price and Actions -->
                                 <div class="flex-shrink-0">
-                                    <div class="text-right">
-                                        <p class="text-lg font-bold text-gray-900">${{ number_format($detail->price * $detail->quantity) }}</p>
-                                        <p class="text-sm text-gray-500">Total</p>
+                                    <div class="text-right space-y-3">
+                                        <div>
+                                            <p class="text-lg font-bold text-gray-900">${{ number_format($detail->price * $detail->quantity) }}</p>
+                                            <p class="text-sm text-gray-500">Total</p>
+                                        </div>
+                                        
+                                        <!-- Review Action -->
+                                        @if($detail->can_review)
+                                            <a href="{{ route('review.create', ['product_id' => $detail->product_id, 'order_id' => $order->id]) }}"
+                                               class="inline-flex items-center px-3 py-2 bg-yellow-500 hover:bg-yellow-600 text-white text-xs font-medium rounded-lg transition-colors duration-200">
+                                                <i class="fas fa-star mr-1"></i>
+                                                Write Review
+                                            </a>
+                                        @elseif($detail->has_review)
+                                            <div class="flex items-center text-xs text-green-600">
+                                                <i class="fas fa-check-circle mr-1"></i>
+                                                <span>Reviewed</span>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

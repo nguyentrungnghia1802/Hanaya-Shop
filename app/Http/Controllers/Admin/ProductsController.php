@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product\Product;
 use App\Models\Product\Category;
+use App\Models\Product\Review;
 use Illuminate\Support\Facades\Cache;
 
 class ProductsController extends Controller
@@ -196,9 +197,16 @@ class ProductsController extends Controller
             ]);
         }
 
+        // Get reviews for this product
+        $reviews = Review::with(['user', 'order'])
+            ->where('product_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
         // Return product details view
         return view('admin.products.show', [
             'product' => $product,
+            'reviews' => $reviews,
         ]);
     }
 
@@ -227,5 +235,16 @@ class ProductsController extends Controller
         $html = view('admin.products.partials.table_rows', compact('products'))->render();
 
         return response()->json(['html' => $html]);
+    }
+
+    /**
+     * Delete a review (for inappropriate content)
+     */
+    public function deleteReview($reviewId)
+    {
+        $review = Review::findOrFail($reviewId);
+        $review->delete();
+
+        return back()->with('success', 'Review deleted successfully.');
     }
 }

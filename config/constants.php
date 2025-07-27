@@ -46,6 +46,23 @@ return [
         'shipping_fee' => 8, // Fixed shipping fee
     ],
 
+    // Order status configuration  
+    'order_statuses' => [
+        'pending' => 'pending',
+        'processing' => 'processing', 
+        'shipped' => 'shipped',
+        'completed' => 'completed',
+        'cancelled' => 'cancelled',
+    ],
+
+    // Review configuration
+    'review' => [
+        'can_review_status' => 'shipped', // Status when user can review
+        'max_rating' => 5,
+        'min_rating' => 1,
+        'default_rating' => 5,
+    ],
+
     // Chatbot messages
     'chatbot_greeting' =>
     "Hello! I'm Hanaya Shop's chatbot. I can help you with:\n"

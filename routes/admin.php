@@ -25,6 +25,7 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->gr
     Route::get('/product/{id}', [ProductsController::class, 'show'])->name('product.show');
     Route::get('/product/{id}/edit', [ProductsController::class, 'edit'])->name('product.edit');
     Route::put('/product/{id}', [ProductsController::class, 'update'])->name('product.update');
+    Route::delete('/product/review/{reviewId}', [ProductsController::class, 'deleteReview'])->name('product.review.delete');
 
     Route::get('/category', [CategoriesController::class, 'index'])->name('category');
     Route::get('/category/search', [CategoriesController::class, 'search'])->name('category.search');
