@@ -464,6 +464,37 @@ Nếu có vấn đề khi triển khai, hãy kiểm tra:
 
 This section documents the troubleshooting, bugfix, and security compliance journey for Hanaya Shop. After each major fix, update this section with details and solutions.
 
+## 3. HTML Nested <a> Tag Bug & Cart UX Improvements
+
+### 3.1. Nested <a> Tag Issue in Order Details
+**Background:**
+During the development and UI refinement of the order details page (`order.show`), we discovered a critical HTML issue: the "Write Review" button was implemented as an `<a>` tag nested inside a larger parent `<a>` tag (which wrapped the entire product row). This is invalid HTML and caused JavaScript errors and unpredictable browser behavior, especially with event handling and navigation.
+
+**How We Fixed It:**
+- Refactored the Blade template to ensure no `<a>` tags are nested. The product image and name remain clickable (wrapped in a single `<a>`), while the review button is now rendered as a separate element outside the parent link.
+- Carefully reviewed all similar UI patterns across the project to prevent future nested anchor issues.
+- Double-checked controller logic and JavaScript event handling to ensure no side effects or broken flows after the markup change.
+
+### 3.2. Cart Page UX Enhancement
+**Background:**
+User feedback and internal testing revealed that, on the cart page, users expected to be able to click on a product's image or name to view its details. However, this was not possible in the original implementation, which slowed down the shopping experience.
+
+**How We Fixed It:**
+- Updated both the desktop (table) and mobile (card) cart layouts so that both the product image and name are wrapped in an `<a>` tag linking to the product detail page (`user.products.show`).
+- Ensured the new links are accessible and visually clear, improving navigation and overall user experience.
+
+### 3.3. Full Flow & Regression Testing
+**Process:**
+- Verified that all related routes (review, product detail) work as expected after the markup changes.
+- Audited and updated JavaScript event listeners to avoid event conflicts, especially with the new link structure.
+- Performed end-to-end testing: placing orders, viewing order details, writing reviews, and using the cart on both desktop and mobile.
+
+**Result:**
+- The nested anchor bug is fully resolved—no more HTML validation or JavaScript errors.
+- Cart usability is significantly improved, with a smoother, more intuitive shopping flow.
+
+**Reflection on the Dev Process:**
+This round of fixes highlights the importance of both code quality and user experience in product development. The team quickly identified the root cause of the HTML issue, collaborated to refactor the UI, and validated the solution through thorough testing. By listening to user feedback and proactively reviewing our codebase, we not only fixed bugs but also delivered a more polished and user-friendly product.
 ## 1. Docker Production Deployment Issues & Solutions
 
 ### 1.1. Customer Access Path
@@ -639,3 +670,4 @@ If you need help with this update, check:
 ---
 
 # (This section is merged from CSP_UPDATE.md for full project troubleshooting and compliance history)
+
