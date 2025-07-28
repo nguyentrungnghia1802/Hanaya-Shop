@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="max-w-5xl mx-auto py-8 px-2 sm:px-4 sm:py-12">
         <!-- Page Title -->
-        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">{{ $pageTitle ?? '✒Posts' }}</h2>
+        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">✒Posts</h2>
 
             <!-- Search Form -->
             <div class="mb-8 flex justify-center">
