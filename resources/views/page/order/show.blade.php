@@ -195,27 +195,31 @@
 
                 <div class="divide-y divide-gray-200">
                     @foreach ($order->orderDetail as $detail)
-                        <a href="{{ route('user.products.show', $detail->product_id) }}" class="block p-6 hover:bg-gray-50 transition-colors group">
+                        <div class="p-6 hover:bg-gray-50 transition-colors">
                             <div class="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-6">
                                 <!-- Product Image -->
                                 <div class="flex-shrink-0">
-                                    <div class="w-20 h-20 bg-gradient-to-br from-pink-100 to-purple-100 rounded-xl flex items-center justify-center">
-                                        @if($detail->product && $detail->product->image_url)
-                                            <img src="{{ asset('images/products/' . $detail->product->image_url) }}" 
-                                                 alt="{{ $detail->product->name }}"
-                                                 class="w-16 h-16 object-cover rounded-lg group-hover:scale-105 transition-transform duration-200">
-                                        @else
-                                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                            </svg>
-                                        @endif
-                                    </div>
+                                    <a href="{{ route('user.products.show', $detail->product_id) }}" class="block group">
+                                        <div class="w-20 h-20 bg-gradient-to-br from-pink-100 to-purple-100 rounded-xl flex items-center justify-center">
+                                            @if($detail->product && $detail->product->image_url)
+                                                <img src="{{ asset('images/products/' . $detail->product->image_url) }}" 
+                                                     alt="{{ $detail->product->name }}"
+                                                     class="w-16 h-16 object-cover rounded-lg group-hover:scale-105 transition-transform duration-200">
+                                            @else
+                                                <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                                </svg>
+                                            @endif
+                                        </div>
+                                    </a>
                                 </div>
 
                                 <!-- Product Details -->
                                 <div class="flex-1 min-w-0">
-                                    <h4 class="text-lg font-semibold text-gray-900 mb-1 group-hover:text-pink-600 transition-colors">{{ $detail->product->name ?? 'Product Not Found' }}</h4>
-                                    <p class="text-sm text-gray-600 mb-2">{{ $detail->product->description ?? 'No description available' }}</p>
+                                    <a href="{{ route('user.products.show', $detail->product_id) }}" class="block group">
+                                        <h4 class="text-lg font-semibold text-gray-900 mb-1 group-hover:text-pink-600 transition-colors">{{ $detail->product->name ?? 'Product Not Found' }}</h4>
+                                        <p class="text-sm text-gray-600 mb-2">{{ $detail->product->description ?? 'No description available' }}</p>
+                                    </a>
                                     <div class="flex items-center space-x-4 text-sm text-gray-500">
                                         <span>Quantity: {{ $detail->quantity }}</span>
                                         <span>•</span>
@@ -234,19 +238,23 @@
                                         @if($detail->can_review)
                                             <a href="{{ route('review.create', ['product_id' => $detail->product_id, 'order_id' => $order->id]) }}"
                                                class="inline-flex items-center px-3 py-2 bg-yellow-500 hover:bg-yellow-600 text-white text-xs font-medium rounded-lg transition-colors duration-200 mt-2">
-                                                <i class="fas fa-star mr-1"></i>
+                                                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                                </svg>
                                                 Write Review
                                             </a>
                                         @elseif($detail->has_review)
                                             <div class="flex items-center text-xs text-green-600 mt-2">
-                                                <i class="fas fa-check-circle mr-1"></i>
+                                                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                                </svg>
                                                 <span>Reviewed</span>
                                             </div>
                                         @endif
                                     </div>
                                 </div>
                             </div>
-                        </a>
+                        </div>
                     @endforeach
                 </div>
 

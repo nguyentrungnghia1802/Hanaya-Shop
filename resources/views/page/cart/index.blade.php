@@ -1,6 +1,16 @@
 {{-- filepath: resources/views/cart/index.blade.php --}}
 <x-app-layout>
-
+    <x-slot name="header">
+        <div class="bg-gradient-to-r">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="py-6">
+                    <h1 class="text-3xl font-bold">📋 My Orders</h1>
+                    <p class="text-pink-100 mt-2">Track and manage your orders</p>
+                </div>
+            </div>
+        </div>
+    </x-slot>
+    
     <div class="min-h-screen bg-gray-50 py-8">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <x-alert />
@@ -14,10 +24,7 @@
                     <!-- Desktop Table -->
                     <div class="hidden md:block">
                         <h2 class="text-2xl font-bold flex items-center">
-                            <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 11H5m14-4H9m4 8H7m6 4v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002-2z"></path>
-                            </svg>
+
                             Cart
                         </h2>
                         <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden mt-8">
