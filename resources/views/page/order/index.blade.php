@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="bg-gradient-to-r from-pink-500 to-purple-600 text-white">
+        <div class="bg-gradient-to-r">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="py-6">
                     <h1 class="text-3xl font-bold">📋 My Orders</h1>
