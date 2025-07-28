@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="max-w-7xl mx-auto px-2 sm:px-4 py-6 sm:py-12">
         <!-- Page Title -->
-        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">{{ $pageTitle ?? 'Hanaya Shop Products' }}</h2>
+        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">{{ $pageTitle ?? '🌸Hanaya Shop Products' }}</h2>
 
         <!-- Category Navigation -->
         <x-category-navigation />
