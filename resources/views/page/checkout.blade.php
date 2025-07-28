@@ -5,6 +5,8 @@
             $total += $item['subtotal'] ?? 0;
         }
     }
+    $defaultMethod = isset($paymentMethods) && count($paymentMethods) > 0 ? ucfirst(str_replace('_', ' ', $paymentMethods[0])) : 'Không có phương thức';
+
 @endphp
 <x-app-layout>
     <x-slot name="header">
@@ -88,11 +90,11 @@
             <div class="flex items-center justify-between flex-wrap gap-2 mb-4">
                 <div>
                     <h3 class="text-lg font-semibold text-gray-800">Phương thức thanh toán:</h3>
-                    <h4 class="text-gray-700">Thanh toán khi nhận hàng</h4>
+                    <h4 class="text-gray-700" id="current-method">{{ $defaultMethod }}</h4>
                 </div>
-                <button class="bg-pink-600 text-white px-3 sm:px-4 py-2 rounded hover:bg-pink-700 transition whitespace-nowrap w-full sm:w-auto">
-                    Thay đổi
-                </button>
+                <button id="change-method-btn" type="button" class="bg-pink-600 text-white px-3 sm:px-4 py-2 rounded hover:bg-pink-700 transition whitespace-nowrap w-full sm:w-auto">
+    Thay đổi
+</button>
             </div>
 
             <div>
@@ -112,6 +114,8 @@
 
            <form method="POST" action="{{ route('checkout.store') }}">
     @csrf
+    <input type="hidden" name="payment_method" id="payment_method_input">
+
     <input type="hidden" name="selected_items_json" value='@json($selectedItems)'>
     
     <button type="submit" class="bg-orange-600 text-white px-3 sm:px-4 py-2 rounded w-full sm:w-auto">
@@ -121,6 +125,59 @@
 
 
 
+
         </div>
   </div>
+
+<!-- Danh sách phương thức thanh toán dưới dạng modal đẹp và giữa màn hình -->
+<div id="method-selection"
+     class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-md">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4 text-center">Chọn phương thức thanh toán</h3>
+        <div class="flex flex-wrap justify-center gap-3">
+            @foreach($paymentMethods as $method)
+                <button type="button"
+                    class="method-option px-4 py-2 border rounded-lg hover:bg-pink-50 transition text-sm sm:text-base"
+                    data-method="{{ $method }}">
+                    {{ ucfirst(str_replace('_', ' ', $method)) }}
+                </button>
+            @endforeach
+        </div>
+        <div class="mt-4 text-center">
+            <button id="close-method-selection"
+                class="mt-4 text-sm text-gray-500 hover:underline hover:text-gray-700">Hủy</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const btn = document.getElementById('change-method-btn');
+        const methodBox = document.getElementById('method-selection');
+        const currentMethod = document.getElementById('current-method');
+        const closeBtn = document.getElementById('close-method-selection');
+
+        // Mở modal
+        btn.addEventListener('click', () => {
+            methodBox.classList.remove('hidden');
+        });
+
+        // Đóng modal khi chọn phương thức
+        document.querySelectorAll('.method-option').forEach(button => {
+            button.addEventListener('click', () => {
+                const selected = button.dataset.method;
+                document.getElementById('payment_method_input').value = selected;
+                currentMethod.textContent = selected.charAt(0).toUpperCase() + selected.slice(1).replaceAll('_', ' ');
+                methodBox.classList.add('hidden');
+            });
+        });
+
+        // Đóng modal khi nhấn nút hủy
+        closeBtn.addEventListener('click', () => {
+            methodBox.classList.add('hidden');
+        });
+    });
+</script>
+
 </x-app-layout>

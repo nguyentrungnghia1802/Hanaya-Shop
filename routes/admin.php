@@ -63,6 +63,8 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->gr
     Route::get('/order/{id}', [OrdersController::class, 'show'])->name('order.show');
     Route::put('/orders/{order}/confirm', [OrdersController::class, 'confirm'])->name('order.confirm');
     Route::put('/orders/{order}/cancel', [OrdersController::class, 'cancel'])->name('orders.cancel');
+    Route::put('/orders/{order}/shipped', [OrdersController::class, 'shipped'])->name('order.shipped');
+    Route::put('/orders/{order}/paid', [OrdersController::class, 'paid'])->name('order.paid');
 
 
     Route::get('/review', [ReviewsController::class, 'index'])->name('review');

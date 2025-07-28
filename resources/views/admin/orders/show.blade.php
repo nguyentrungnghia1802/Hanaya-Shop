@@ -84,19 +84,24 @@
 
         <!-- Action Buttons -->
         <div class="flex justify-end gap-4 mt-6">
-            @if ($order->status === 'shipped')
+            @if ($order->status === 'completed')
                 <!-- Disabled Button -->
                 <button type="button"
                     class="bg-gray-400 text-black font-semibold py-2 px-6 rounded-lg shadow cursor-not-allowed"
                     disabled>
                     Delivered
                 </button>
-            @elseif ($order->status === 'canceled')
+            @elseif ($order->status === 'cancelled')
                 <!-- Disabled Button -->
                 <button type="button"
                     class="bg-gray-400 text-black font-semibold py-2 px-6 rounded-lg shadow cursor-not-allowed"
                     disabled>
                     Canceled
+                </button>
+            @elseif ($order->status === 'processing')
+                <button type="submit"
+                        class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded-lg shadow transition">
+                        Shipped
                 </button>
             @else
                 <!-- Cancel Order Button -->
