@@ -23,13 +23,6 @@
                         <button type="submit"
                             class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 rounded">Search</button>
                     </form>
-
-                    <!-- Add category button -->
-                    <a href="#"
-                        class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded mb-[20px] inline-block transition duration-200">
-                        Add
-                    </a>
-
                     <!-- Category list table -->
                     <div class="overflow-x-auto">
                         <table class="min-w-full table-auto border border-gray-300 text-sm">
@@ -40,23 +33,23 @@
                                     <th class="px-2 sm:px-4 py-2 border-b">Total price</th>
                                     <th class="px-2 sm:px-4 py-2 border-b">Order at</th>
                                     <th class="px-2 sm:px-4 py-2 border-b">Status</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">Payment status</th>
                                     <th class="px-2 sm:px-4 py-2 border-b">Action</th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-800">
                                 @foreach ($order as $item)
+                                    @php
+                                        $matchedPayment = $payment->firstWhere('order_id', $item->id);
+                                    @endphp
                                     <tr class="hover:bg-gray-50 transition">
                                         <td class="px-4 py-2 border-b">{{ $item->id }}</td>
                                         <td class="px-4 py-2 border-b">{{ $item->user_id }}</td>
                                         <td class="px-4 py-2 border-b">{{ $item->total_price }}</td>
                                         <td class="px-4 py-2 border-b">{{ $item->created_at }}</td>
                                         <td class="px-4 py-2 border-b">{{ $item->status }}</td>
+                                        <td class="px-4 py-2 border-b">{{ $matchedPayment->payment_status }}</td>
                                         <td class="px-4 py-2 border-b space-x-2">
-                                            <!-- Edit button -->
-                                            <a href="#"
-                                                class="inline-block px-3 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition">
-                                                Edit
-                                            </a>
 
                                             @if ($item->status === 'pending')
                                                 <!-- Cancel button -->
@@ -121,9 +114,9 @@
                                             @endif
 
                                             <!-- Paid button -->
-                                            @php
+                                            {{-- @php
                                                 $matchedPayment = $payment->firstWhere('order_id', $item->id);
-                                            @endphp
+                                            @endphp --}}
                                             @if (($item->status === 'processing' || $item->status === 'shipped') && $matchedPayment->payment_status === 'pending')
                                                 <form action="{{ route('admin.order.paid', $item->id) }}" method="POST" class="inline">
                                                      @csrf
