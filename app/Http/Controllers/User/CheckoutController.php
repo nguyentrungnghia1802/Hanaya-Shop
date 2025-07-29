@@ -16,6 +16,7 @@ use App\Models\User;
 use App\Notifications\OrderCancelledNotification;
 use App\Notifications\OrderConfirmedNotification;
 use App\Models\Order\Payment;
+use App\Models\Address;
 
 class CheckoutController extends Controller
 {
@@ -47,6 +48,8 @@ class CheckoutController extends Controller
 
     public function index()
     {
+        $user = Auth::user();
+        $addresses = Address::where('user_id', $user->id)->get();
         $selectedItems = session('selectedItems', []);
         if (empty($selectedItems)) {
             return redirect()->back()->with('error', 'Không có sản phẩm nào được chọn để đặt hàng.');
@@ -54,7 +57,7 @@ class CheckoutController extends Controller
 
         $paymentMethods = Payment::getAvailableMethods();
 
-        return view('page.checkout', compact('selectedItems', 'paymentMethods'));
+        return view('page.checkout', compact('selectedItems', 'paymentMethods', 'addresses'));
     }
 
     public function success(Request $request)
@@ -118,7 +121,7 @@ class CheckoutController extends Controller
                     'payment_method' => $paymentMethod,
                     'payment_status' => 'completed',
                 ]);
-                
+
             }
 
             $cartIds = array_column($selectedItems, 'cart_id');

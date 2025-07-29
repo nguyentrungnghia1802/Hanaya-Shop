@@ -28,8 +28,16 @@
                     Phường Định Công, Quận Hoàng Mai, Hà Nội
                 </span>
             </h4>
-            <button class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition">
+            <button id="change-address-btn" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition">
+                Thêm
+            </button>
+
+            <button id="toggle-address-list" class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition">
                 Thay đổi
+            </button>
+
+            <button id="open-address-form" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition">
+                Thêm
             </button>
         </div>
 
@@ -150,6 +158,96 @@
     </div>
 </div>
 
+<!-- Modal chọn địa chỉ -->
+<div id="address-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-2xl">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4 text-center">Chọn địa chỉ mới</h3>
+        
+        <input type="text" id="autocomplete" placeholder="Nhập địa chỉ..." class="w-full p-2 border rounded mb-4" />
+
+        <div id="map" class="w-full h-64 rounded mb-4"></div>
+
+        <input type="text" id="new-phone" placeholder="Số điện thoại" class="w-full p-2 border rounded mb-4" />
+
+        <div class="text-center flex justify-between">
+            {{-- <button id="save-address" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition">
+                Lưu địa chỉ
+            </button> --}}
+            <button  class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition">
+                Lưu địa chỉ
+            </button>
+            <button id="cancel-address" class="text-gray-600 hover:underline">Hủy</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal form -->
+<div id="address-form-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-lg">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4 text-center">Thêm địa chỉ giao hàng</h3>
+
+        <div class="mb-4">
+            <label class="block mb-1 text-gray-700">Số điện thoại</label>
+            <input id="phone_number" type="text" class="w-full border rounded px-3 py-2" placeholder="Nhập SĐT" required>
+        </div>
+
+        <div class="mb-4">
+            <label class="block mb-1 text-gray-700">Tỉnh/Thành phố</label>
+            <select id="province" class="w-full border rounded px-3 py-2" required>
+                <option value="">-- Chọn tỉnh --</option>
+            </select>
+        </div>
+
+        <div class="mb-4">
+            <label class="block mb-1 text-gray-700">Quận/Huyện</label>
+            <select id="district" class="w-full border rounded px-3 py-2" disabled required>
+                <option value="">-- Chọn huyện --</option>
+            </select>
+        </div>
+
+        <div class="mb-4">
+            <label class="block mb-1 text-gray-700">Phường/Xã</label>
+            <select id="ward" class="w-full border rounded px-3 py-2" disabled required>
+                <option value="">-- Chọn xã --</option>
+            </select>
+        </div>
+
+        <div class="mb-4">
+            <label class="block mb-1 text-gray-700">Địa chỉ chi tiết</label>
+            <input id="address_detail" type="text" class="w-full border rounded px-3 py-2" placeholder="Số nhà, tên đường..." required>
+        </div>
+
+        <div class="flex justify-between items-center">
+            <button id="save-address" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition">
+                Lưu địa chỉ
+            </button>
+            <button id="close-address-form" class="text-gray-600 hover:underline">
+                Hủy
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Danh sách địa chỉ -->
+<div id="address-list-container"
+     class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <h3 class="text-lg font-semibold text-center mb-4">Danh sách địa chỉ</h3>
+
+    <div id="address-list" class="space-y-3">
+        @foreach ($addresses as $address)
+            <div class="border p-3 rounded bg-gray-100">
+                <p><strong>SĐT:</strong> {{ $address->phone_number }}</p>
+                <p><strong>Địa chỉ:</strong> {{ $address->address }}</p>
+            </div>
+        @endforeach
+    </div>
+
+     <button id="close-address-list" class="text-gray-600 hover:underline">
+                Hủy
+            </button>
+</div>
+
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -178,6 +276,209 @@
             methodBox.classList.add('hidden');
         });
     });
+
+
+
+//     let map, marker, autocomplete;
+
+// function initMap() {
+//     const defaultLatLng = { lat: 21.0035, lng: 105.8201 };
+
+//     map = new google.maps.Map(document.getElementById("map"), {
+//         center: defaultLatLng,
+//         zoom: 15,
+//     });
+
+//     marker = new google.maps.Marker({
+//         position: defaultLatLng,
+//         map,
+//         draggable: true,
+//     });
+
+//     autocomplete = new google.maps.places.Autocomplete(document.getElementById("autocomplete"));
+//     autocomplete.bindTo("bounds", map);
+
+//     autocomplete.addListener("place_changed", () => {
+//         const place = autocomplete.getPlace();
+//         if (!place.geometry) return;
+
+//         const location = place.geometry.location;
+//         map.setCenter(location);
+//         marker.setPosition(location);
+//     });
+// }
+
+
+//     document.addEventListener('DOMContentLoaded', function () {
+//     const addressBtn = document.getElementById('change-address-btn');
+//     const addressModal = document.getElementById('address-modal');
+//     const cancelBtn = document.getElementById('cancel-address');
+//     const saveBtn = document.getElementById('save-address');
+
+//     addressBtn.addEventListener('click', () => {
+//         addressModal.classList.remove('hidden');
+//         setTimeout(() => {
+//             initMap();
+//         }, 200); // Gọi sau khi modal hiển thị
+//     });
+
+//     cancelBtn.addEventListener('click', () => {
+//         addressModal.classList.add('hidden');
+//     });
+
+//     saveBtn.addEventListener('click', () => {
+//         const phone = document.getElementById('new-phone').value;
+//         const address = document.getElementById('autocomplete').value;
+//         const lat = marker.getPosition().lat();
+//         const lng = marker.getPosition().lng();
+
+//         if (!address || !phone) {
+//             alert('Vui lòng nhập đầy đủ địa chỉ và số điện thoại.');
+//             return;
+//         }
+
+//         // Cập nhật giao diện
+//         document.querySelector('.text-gray-700.leading-relaxed').innerHTML = `
+//             <span class="block font-medium">Người dùng</span>
+//             <span class="block text-sm text-gray-600">${phone}</span>
+//             <span class="block text-sm text-gray-600">${address}</span>
+//         `;
+
+//         addressModal.classList.add('hidden');
+//     });
+// });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const openBtn = document.getElementById('open-address-form');
+    const modal = document.getElementById('address-form-modal');
+    const closeBtn = document.getElementById('close-address-form');
+
+    const provinceSelect = document.getElementById('province');
+    const districtSelect = document.getElementById('district');
+    const wardSelect = document.getElementById('ward');
+
+    openBtn.addEventListener('click', () => {
+        modal.classList.remove('hidden');
+        if (provinceSelect.options.length === 1) {
+            // Load tỉnh khi mở modal (1 lần)
+            fetch('https://provinces.open-api.vn/api/p/')
+                .then(res => res.json())
+                .then(data => {
+                    data.forEach(p => {
+                        let opt = document.createElement('option');
+                        opt.value = p.code;
+                        opt.textContent = p.name;
+                        provinceSelect.appendChild(opt);
+                    });
+                });
+        }
+    });
+
+    closeBtn.addEventListener('click', () => {
+        modal.classList.add('hidden');
+    });
+
+    provinceSelect.addEventListener('change', () => {
+        const code = provinceSelect.value;
+        districtSelect.innerHTML = '<option value="">-- Chọn huyện --</option>';
+        wardSelect.innerHTML = '<option value="">-- Chọn xã --</option>';
+        wardSelect.disabled = true;
+
+        if (!code) {
+            districtSelect.disabled = true;
+            return;
+        }
+
+        districtSelect.disabled = false;
+        fetch(`https://provinces.open-api.vn/api/p/${code}?depth=2`)
+            .then(res => res.json())
+            .then(data => {
+                data.districts.forEach(d => {
+                    const opt = document.createElement('option');
+                    opt.value = d.code;
+                    opt.textContent = d.name;
+                    districtSelect.appendChild(opt);
+                });
+            });
+    });
+
+    districtSelect.addEventListener('change', () => {
+        const code = districtSelect.value;
+        wardSelect.innerHTML = '<option value="">-- Chọn xã --</option>';
+
+        if (!code) {
+            wardSelect.disabled = true;
+            return;
+        }
+
+        wardSelect.disabled = false;
+        fetch(`https://provinces.open-api.vn/api/d/${code}?depth=2`)
+            .then(res => res.json())
+            .then(data => {
+                data.wards.forEach(w => {
+                    const opt = document.createElement('option');
+                    opt.value = w.code;
+                    opt.textContent = w.name;
+                    wardSelect.appendChild(opt);
+                });
+            });
+    });
+
+    document.getElementById('save-address').addEventListener('click', function () {
+    const phone = document.getElementById('phone_number').value;
+    const province = document.getElementById('province').selectedOptions[0]?.text || '';
+    const district = document.getElementById('district').selectedOptions[0]?.text || '';
+    const ward = document.getElementById('ward').selectedOptions[0]?.text || '';
+    const detail = document.getElementById('address_detail').value;
+
+    const fullAddress = `${detail}, ${ward}, ${district}, ${province}`;
+
+    if (!phone || !province || !district || !ward || !detail) {
+        alert("Vui lòng điền đầy đủ thông tin.");
+        return;
+    }
+
+    fetch('{{ route('admin.addresses.store') }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({
+            phone_number: phone,
+            address: fullAddress
+        })
+    })
+    .then(response => {
+        if (!response.ok) throw new Error("Lỗi khi lưu địa chỉ.");
+        return response.json();
+    })
+    .then(address => {
+        // Thêm phần tử mới vào danh sách
+        const div = document.createElement('div');
+        div.className = 'border p-3 rounded bg-gray-100';
+        div.innerHTML = `
+            <p><strong>SĐT:</strong> ${address.phone_number}</p>
+            <p><strong>Địa chỉ:</strong> ${address.address}</p>
+        `;
+        document.getElementById('address-list').appendChild(div);
+
+        // Ẩn modal và reset form
+        document.getElementById('address-form-modal').classList.add('hidden');
+        document.getElementById('phone_number').value = '';
+        document.getElementById('address_detail').value = '';
+        // Reset select nếu cần
+    })
+    .catch(err => alert(err.message));
+});
+
+document.getElementById('toggle-address-list').addEventListener('click', () => {
+    const listContainer = document.getElementById('address-list-container');
+    listContainer.classList.toggle('hidden');
+});
+
+
+});
 </script>
 
 </x-app-layout>
