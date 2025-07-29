@@ -24,7 +24,7 @@ class OrdersController extends Controller
 {
     public function index()
     {
-        $order = Order::all();
+        $order = Order::orderBy('created_at', 'desc')->get();
         $payment = Payment::all();
         return view('admin.orders.index', compact('order', 'payment'));
     }
@@ -45,7 +45,7 @@ class OrdersController extends Controller
             $admin->notify(new OrderConfirmedNotification($order));
         }
 
-        return redirect()->back()->with('success', 'Đơn hàng đã được xác nhận và chuyển sang trạng thái processing.');
+        return redirect()->back()->with('success', 'xác nhận đơn hàng thành công');
     }
 
     public function shipped(Order $order)
@@ -92,7 +92,7 @@ class OrdersController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'Đơn hàng đã được xác nhận và chuyển sang trạng thái processing.');
+        return redirect()->back()->with('success', 'Xác nhận thanh toán thành công');
     }
 
     public function cancel($orderId)

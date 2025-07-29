@@ -30,8 +30,8 @@
                     @php
                         $statuses = [
                             'pending' => ['label' => 'Processing', 'step' => 1],
-                            'confirmed' => ['label' => 'Confirmed', 'step' => 2],
-                            'shipped' => ['label' => 'Delivered', 'step' => 3],
+                            'processing' => ['label' => 'Confirmed', 'step' => 2],
+                            'completed' => ['label' => 'Delivered', 'step' => 3],
                         ];
                         $currentStep = $statuses[$order->status]['step'] ?? 0;
                     @endphp
@@ -135,15 +135,15 @@
                                 <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
                                     Processing
                                 </span>
-                            @elseif($order->status === 'confirmed')
+                            @elseif($order->status === 'processing')
                                 <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                                     Confirmed
                                 </span>
-                            @elseif($order->status === 'shipped')
+                            @elseif($order->status === 'completed')
                                 <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                     Delivered
                                 </span>
-                            @elseif($order->status === 'canceled')
+                            @elseif($order->status === 'cancelled')
                                 <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
                                     Canceled
                                 </span>
@@ -264,7 +264,7 @@
 
             <!-- Action Buttons -->
             <div class="flex flex-col sm:flex-row gap-4 justify-end">
-                @if ($order->status === 'shipped')
+                {{-- @if ($order->status === 'shipped')
                     <button type="button"
                             disabled
                             class="inline-flex items-center px-6 py-3 bg-gray-300 text-gray-500 font-semibold rounded-lg cursor-not-allowed">
@@ -282,7 +282,8 @@
                         </svg>
                         Order Canceled
                     </button>
-                @else
+                @else --}}
+                @if($order->status === 'pending')
                     <a href="{{ route('order.cancel', $order->id) }}"
                        data-confirm-cancel
                        class="inline-flex items-center px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
@@ -291,6 +292,15 @@
                         </svg>
                         Cancel Order
                     </a>
+                @else
+                    <button type="button"
+                            disabled
+                            class="inline-flex items-center px-6 py-3 bg-red-100 text-red-800 font-semibold rounded-lg cursor-not-allowed">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                        Cancel Order
+                    </button>
                 @endif
 
                 <a href="{{ route('user.products.index') }}" 
