@@ -49,7 +49,9 @@ class CheckoutController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $userName = $user->name;
         $addresses = Address::where('user_id', $user->id)->get();
+        $firstAddress = $addresses->first();
         $selectedItems = session('selectedItems', []);
         if (empty($selectedItems)) {
             return redirect()->back()->with('error', 'Không có sản phẩm nào được chọn để đặt hàng.');
@@ -57,7 +59,7 @@ class CheckoutController extends Controller
 
         $paymentMethods = Payment::getAvailableMethods();
 
-        return view('page.checkout', compact('selectedItems', 'paymentMethods', 'addresses'));
+        return view('page.checkout', compact('selectedItems', 'paymentMethods', 'addresses', 'userName', 'firstAddress'));
     }
 
     public function success(Request $request)
@@ -71,6 +73,15 @@ class CheckoutController extends Controller
     {
         $user = Auth::user();
         $paymentMethod = 'cash_on_delivery';
+        $address = $request->input('address_id');
+        $message = $request->input('note', '');
+
+        $request->validate([
+            'address_id' => 'required|exists:addresses,id',
+        ], [
+            'address_id.required' => 'Vui lòng chọn địa chỉ nhận hàng.',
+            'address_id.exists' => 'Địa chỉ không hợp lệ.'
+        ]);
 
         if ($request->input('payment_method') !== null) {
             $paymentMethod = $request->input('payment_method');
@@ -86,7 +97,10 @@ class CheckoutController extends Controller
                 'user_id'     => $user->id,
                 'total_price' => array_sum(array_column($selectedItems, 'subtotal')) + config('constants.checkout.shipping_fee', 8),
                 'status'      => 'pending',
+                'address_id'  => $address,
+                'message'     => $message,
             ]);
+
 
             foreach ($selectedItems as $item) {
                 $product = Product::find($item['id']);

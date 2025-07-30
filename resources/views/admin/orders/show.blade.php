@@ -18,10 +18,9 @@
                     <p><span class="font-medium">Email:</span> {{ $order->user->email }}</p>
                     <p>
                         <span class="font-medium">Address:</span>
-                        <span class="block text-sm text-gray-600">(+84) 374169035</span>
+                        <span class="block text-sm text-gray-600">{{ $order->address->phone_number }}</span>
                         <span class="block text-sm text-gray-600">
-                            No. 15, Alley 415 Lane 192 Le Trong Tan,<br>
-                            Dinh Cong Ward, Hoang Mai District, Hanoi
+                            {{ $order->address->address }}
                         </span>
                     </p>
                 </div>
@@ -65,6 +64,16 @@
                         </div>
                     </a>
                 @endforeach
+            </div>
+        </div>
+
+        <!-- Message -->
+        <div class="bg-white shadow rounded-lg p-6">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Message</h3>
+            <div class="space-y-4">
+                <p >
+                    {{ $order->message ?? 'No message provided' }}
+                </p>
             </div>
         </div>
 
@@ -123,7 +132,9 @@
                     Shipped
                 </button>
             @endif
-
+            @php
+                $matchedPayment = $payment->firstWhere('order_id', $order->id);
+            @endphp
             {{-- Paid --}}
             @if (($order->status === 'processing' || $order->status === 'shipped') && $matchedPayment->payment_status === 'pending')
                 <form action="{{ route('admin.order.paid', $order->id) }}" method="POST" class="inline">
