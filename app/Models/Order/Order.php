@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User;
 use App\Models\Product\Review;
+use App\Models\Address;
+
+
 
 class Order extends Model
 {
@@ -17,6 +20,8 @@ class Order extends Model
         'user_id',
         'total_price',
         'status',
+        'message',
+        'address_id',
     ];
 
     // Accessor for total_amount (if used in views)
@@ -56,5 +61,11 @@ class Order extends Model
     {
         return $this->hasMany(Review::class);
     }
+
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
+    }
+
 
 }
