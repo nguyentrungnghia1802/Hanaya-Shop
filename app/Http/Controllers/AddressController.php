@@ -12,24 +12,33 @@ class AddressController extends Controller
 {
     //
     public function store(Request $request)
-    {
-        dd('vao controller');
-    $validated = $request->validate([
-        'phone_number' => 'required',
-        'address' => 'required',
-    ]);
+{
+    try {
+        $validated = $request->validate([
+            'phone_number' => 'required',
+            'address' => 'required',
+        ]);
 
-    $address = Address::create([
-        'user_id' => auth()->id(),
-        'phone_number' => $validated['phone_number'],
-        'address' => $validated['address'],
-    ]);
+        $address = Address::create([
+            'user_id' => auth()->id(),
+            'phone_number' => $validated['phone_number'],
+            'address' => $validated['address'],
+        ]);
 
-    return response()->json([
-        'status' => 'success',
-        'address' => $address,
-    ]);
+        return response()->json([
+            'status' => 'success',
+            'address' => $address,
+        ]);
+    } catch (\Throwable $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage(),
+            'line' => $e->getLine(),
+            'file' => $e->getFile(),
+        ], 500);
     }
+}
+
 
 
 

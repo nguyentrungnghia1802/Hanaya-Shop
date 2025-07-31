@@ -68,8 +68,6 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->gr
     Route::put('/orders/{order}/shipped', [OrdersController::class, 'shipped'])->name('order.shipped');
     Route::put('/orders/{order}/paid', [OrdersController::class, 'paid'])->name('order.paid');
 
-    Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store');
-
 
     Route::get('/review', [ReviewsController::class, 'index'])->name('review');
     Route::get('/statistical', [StatisticalController::class, 'index'])->name('statistical');

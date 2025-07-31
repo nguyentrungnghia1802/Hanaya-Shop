@@ -19,10 +19,7 @@ class Address extends Model
         'address',
         'latitude',
         'longitude',
-    ];
-
-    protected $casts = [
-        'latitude' => 'decimal:7',
-        'longitude' => 'decimal:7',
+        'created_at',
+        'updated_at',
     ];
 }

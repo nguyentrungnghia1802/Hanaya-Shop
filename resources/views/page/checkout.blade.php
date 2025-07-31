@@ -476,11 +476,10 @@
                 return;
             }
 
-            fetch('{{ route('admin.addresses.store') }}', {
+            fetch('{{ route('addresses.store') }}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json',
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 },
                 body: JSON.stringify({
@@ -531,8 +530,7 @@
             listContainer.classList.toggle('hidden');
         });
 
-        const id = this.dataset.id;
-        document.getElementById('selected_address_id').value = id;
+
 
         });
 
