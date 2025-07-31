@@ -13,6 +13,12 @@ use App\Models\Product\Product;
 use App\Models\Cart\Cart;
 use App\Models\Product\Review;
 use Illuminate\Support\Facades\Session;
+use App\Notifications\NewOrderPending;
+use App\Models\User;
+use App\Notifications\OrderCancelledNotification;
+use App\Notifications\OrderConfirmedNotification;
+use App\Models\Order\Payment;
+
 
 
 class OrderController extends Controller
@@ -75,13 +81,20 @@ class OrderController extends Controller
 
     DB::beginTransaction();
     try {
+        $payment = Payment::where('order_id', $order->id)->get();
+        $payment->payment_status = 'failed';
         foreach ($order->orderDetail as $detail) {
             $product = $detail->product;
             $product->stock_quantity += $detail->quantity;
             $product->save();
         }
-        $order->status = 'canceled';
+        $order->status = 'cancelled';
         $order->save();
+
+        $admins = User::where('role', 'admin')->get();
+        foreach ($admins as $admin) {
+             $admin->notify(new OrderCancelledNotification($order));
+        }
 
         DB::commit();
 

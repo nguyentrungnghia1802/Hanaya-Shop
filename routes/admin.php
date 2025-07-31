@@ -12,6 +12,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\ImageUploadController;
+use App\Http\Controllers\AddressController;
+use App\Http\Controllers\NotificationController;
 
 Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->group(function () {
     Route::redirect('/', '/admin/dashboard');
@@ -64,11 +66,16 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->gr
     Route::get('/order/{id}', [OrdersController::class, 'show'])->name('order.show');
     Route::put('/orders/{order}/confirm', [OrdersController::class, 'confirm'])->name('order.confirm');
     Route::put('/orders/{order}/cancel', [OrdersController::class, 'cancel'])->name('orders.cancel');
+    Route::put('/orders/{order}/shipped', [OrdersController::class, 'shipped'])->name('order.shipped');
+    Route::put('/orders/{order}/paid', [OrdersController::class, 'paid'])->name('order.paid');
 
     Route::get('/reviews', [ReviewsController::class, 'index'])->name('reviews');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::post('/notifications/mark-read', [NotificationController::class, 'markAsRead'])->name('notifications.markRead');
+    
 
 });

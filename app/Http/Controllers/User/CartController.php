@@ -69,6 +69,7 @@ class CartController extends Controller
 
         foreach ($cartItems as $item) {
             $cart[$item->id] = [
+                'id'         => $item->id,
                 'product_id' => $item->product->id,
                 'product_quantity' => $item->product->stock_quantity,
                 'name'       => $item->product->name,
