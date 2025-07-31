@@ -32,8 +32,8 @@
                     @php
                         $statuses = [
                             'pending' => ['label' => 'Processing', 'step' => 1],
-                            'confirmed' => ['label' => 'Confirmed', 'step' => 2],
-                            'shipped' => ['label' => 'Delivered', 'step' => 3],
+                            'processing' => ['label' => 'Confirmed', 'step' => 2],
+                            'completed' => ['label' => 'Delivered', 'step' => 3],
                         ];
                         $currentStep = $statuses[$order->status]['step'] ?? 0;
                     @endphp
@@ -105,7 +105,7 @@
                     </div>
                 </div>
 
-                @if ($order->status === 'canceled')
+                @if($order->status === 'cancelled')
                     <div class="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
@@ -161,19 +161,16 @@
                                     class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
                                     Processing
                                 </span>
-                            @elseif($order->status === 'confirmed')
-                                <span
-                                    class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            @elseif($order->status === 'processing')
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                                     Confirmed
                                 </span>
-                            @elseif($order->status === 'shipped')
-                                <span
-                                    class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                            @elseif($order->status === 'completed')
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                     Delivered
                                 </span>
-                            @elseif($order->status === 'canceled')
-                                <span
-                                    class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                            @elseif($order->status === 'cancelled')
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
                                     Canceled
                                 </span>
                             @endif
@@ -203,12 +200,11 @@
                         </div>
                         <div class="flex justify-between items-center py-3 border-b border-gray-200">
                             <span class="text-gray-600">Phone Number:</span>
-                            <span class="font-semibold text-gray-900">{{ $order->phone ?? 'N/A' }}</span>
+                            <span class="font-semibold text-gray-900">{{ $order->address->phone_number ?? 'N/A' }}</span>
                         </div>
                         <div class="flex justify-between items-start py-3">
                             <span class="text-gray-600">Address:</span>
-                            <span
-                                class="font-semibold text-gray-900 text-right max-w-xs">{{ $order->address ?? 'N/A' }}</span>
+                            <span class="font-semibold text-gray-900 text-right max-w-xs">{{ $order->address->address ?? 'N/A' }}</span>
                         </div>
                     </div>
                 </div>
@@ -306,6 +302,7 @@
                         </div>
                     @endforeach
                 </div>
+                
 
                 <!-- Order Total -->
                 <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
@@ -336,11 +333,32 @@
                 </div>
             </div>
 
+            <!-- Message -->
+            <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+                    <h3 class="text-xl font-bold text-gray-900 flex items-center">
+                        <svg class="w-6 h-6 mr-2 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                        </svg>
+                        Message
+                    </h3>
+                </div>
+
+                <div class="divide-y divide-gray-200">
+                    <div class="p-6">
+                        <p class="text-gray-700">{{ $order->message ?? 'No message provided' }}</p>
+                    </div>
+                </div>
+                
+
+            </div>
+
             <!-- Action Buttons -->
             <div class="flex flex-col sm:flex-row gap-4 justify-end">
-                @if ($order->status === 'shipped')
-                    <button type="button" disabled
-                        class="inline-flex items-center px-6 py-3 bg-gray-300 text-gray-500 font-semibold rounded-lg cursor-not-allowed">
+                {{-- @if ($order->status === 'shipped')
+                    <button type="button"
+                            disabled
+                            class="inline-flex items-center px-6 py-3 bg-gray-300 text-gray-500 font-semibold rounded-lg cursor-not-allowed">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7">
                             </path>
@@ -356,15 +374,25 @@
                         </svg>
                         Order Canceled
                     </button>
-                @else
-                    <a href="{{ route('order.cancel', $order->id) }}" data-confirm-cancel
-                        class="inline-flex items-center px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                @else --}}
+                @if($order->status === 'pending')
+                    <a href="{{ route('order.cancel', $order->id) }}"
+                       data-confirm-cancel
+                       class="inline-flex items-center px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
                         Cancel Order
                     </a>
+                @else
+                    <button type="button"
+                            disabled
+                            class="inline-flex items-center px-6 py-3 bg-red-100 text-red-800 font-semibold rounded-lg cursor-not-allowed">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                        Cancel Order
+                    </button>
                 @endif
 
                 <a href="{{ route('user.products.index') }}"

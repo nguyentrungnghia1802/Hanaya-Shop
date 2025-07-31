@@ -13,11 +13,14 @@ class CreateOrdersTable extends Migration
             $table->decimal('total_price', 10, 2)->default(0.00); // tổng tiền đơn hàng
             $table->decimal('discount', 10, 2)->default(0.00); // số tiền giảm giá
             $table->enum('status', ['pending', 'processing', 'shipped', 'completed', 'cancelled'])->default('pending'); // trạng thái đơn hàng
+            $table->string('message')->nullable(); // thông điệp từ người dùng
             $table->timestamps();
             $table->unsignedBigInteger('user_id'); // khóa ngoại liên kết tới bảng users
+            $table->unsignedBigInteger('address_id')->nullable(); // khóa ngoại tới địa chỉ, có thể null nếu chưa chọn
 
             // Khóa ngoại
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('address_id')->references('id')->on('addresses')->onDelete('set null');
         });
     }
 

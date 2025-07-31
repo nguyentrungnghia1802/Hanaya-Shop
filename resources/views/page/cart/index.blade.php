@@ -18,197 +18,190 @@
                         <div class="hidden md:block">
                             <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden mt-8">
 
-                                <table class="min-w-full">
-                                    <thead class="bg-gradient-to-r from-pink-50 to-purple-50">
-                                        <tr>
-                                            <th class="py-3 px-4 text-center">
-                                                <input type="checkbox" id="select-all" title="Chọn tất cả">
-                                            </th>
-                                            <th class="py-3 px-4">Ảnh</th>
-                                            <th class="py-3 px-4">Tên sản phẩm</th>
-                                            <th class="py-3 px-4">Giá</th>
-                                            <th class="py-3 px-4">Số lượng</th>
-                                            <th class="py-3 px-4">Thành tiền</th>
-                                            <th class="py-3 px-4"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @php $total = 0; @endphp
-                                        @foreach ($cart as $id => $item)
-                                            @php $total += $item['price'] * $item['quantity']; @endphp
-                                            <tr class="hover:bg-pink-50 transition-all">
-                                                <td class="py-3 px-4 text-center align-middle">
-                                                    <input type="checkbox" name="cart_ids[]" value="{{ $id }}"
-                                                        class="cart-checkbox accent-pink-500 w-5 h-5"
-                                                        data-price="{{ $item['price'] * $item['quantity'] }}"
-                                                        data-id="{{ $id }}"
-                                                        data-product-id="{{ $item['product_id'] }}">
-                                                </td>
-                                                <td class="py-3 px-4 align-middle">
-                                                    <a href="{{ route('user.products.show', $item['product_id']) }}" title="Xem chi tiết sản phẩm">
-                                                        <div class="w-16 h-16 rounded-lg overflow-hidden border-2 border-pink-200 bg-gray-100 flex items-center justify-center">
-                                                            <img src="{{ $item['image_url'] && file_exists(public_path('images/products/' . $item['image_url']))
-                                                                ? asset('images/products/' . $item['image_url'])
-                                                                : asset('images/no-image.png') }}"
-                                                                alt="{{ $item['name'] }}"
-                                                                class="w-full h-full object-cover">
-                                                        </div>
-                                                    </a>
-                                                </td>
-                                                <td class="py-3 px-4 align-middle font-semibold text-gray-900">
-                                                    <a href="{{ route('user.products.show', $item['product_id']) }}" class="hover:text-pink-600 transition-colors" title="Xem chi tiết sản phẩm">
-                                                        {{ $item['name'] }}
-                                                    </a>
-                                                </td>
-                                                <td class="py-3 px-4 align-middle text-pink-600 font-bold">
-                                                    {{ number_format($item['price'], 0, ',', '.') }} USD</td>
-                                                <td class="py-3 px-4 align-middle text-center">
-                                                    <div class="flex items-center justify-center gap-2">
-                                                        <button type="button"
-                                                            class="btn-decrease bg-gray-200 hover:bg-pink-100 text-pink-600 px-2 rounded transition"
-                                                            data-id="{{ $id }}">−</button>
-                                                        <input type="number" min="1"
-                                                            class="quantity-input w-[80px] text-center border rounded focus:ring-pink-500"
-                                                            value="{{ $item['quantity'] }}"
-                                                            data-id="{{ $id }}"
-                                                            data-price="{{ $item['price'] }}"
-                                                            data-total="{{ $item['price'] * $item['quantity'] }}"
-                                                            data-stock="{{ $item['product_quantity'] }}">
-                                                        <button type="button"
-                                                            class="btn-increase bg-gray-200 hover:bg-pink-100 text-pink-600 px-2 rounded transition"
-                                                            data-id="{{ $id }}">+</button>
-                                                    </div>
-                                                </td>
-                                                <td class="py-3 px-4 align-middle item-total font-bold text-purple-700"
-                                                    data-id="{{ $id }}">
-                                                    {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}
-                                                    USD
-                                                </td>
-                                                <td class="py-3 px-4 align-middle">
-                                                    <a href="{{ route('cart.remove', $id) }}"
-                                                        class="text-red-600 hover:underline font-medium">Xóa</a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                        <tr>
-                                            <td colspan="4"
-                                                class="text-right font-bold py-3 px-4 text-lg text-gray-700">
-                                                Tổng cộng:</td>
-                                            <td colspan="2" class="font-bold py-3 px-4 text-lg text-pink-600"
-                                                id="totalPrice">0 USD</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="mt-8 text-right">
-                                <button type="submit"
-                                    class="inline-flex items-center px-8 py-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2">
-                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-                                    </svg>
-                                    Thanh toán
-                                </button>
-                            </div>
-                        </div>
-                        <!-- Mobile Card List -->
-                        <div class="md:hidden space-y-6 mt-8">
-                            <div
-                                class="bg-white rounded-xl shadow-lg p-4 flex items-center gap-3 border-l-4 border-pink-500">
-                                <input type="checkbox" id="select-all-mobile" title="Chọn tất cả"
-                                    class="accent-pink-500 w-5 h-5">
-                                <span class="font-semibold text-gray-700">Chọn tất cả</span>
-                            </div>
-                            @foreach ($cart as $id => $item)
-                                <div
-                                    class="bg-white rounded-xl shadow-lg border border-gray-200 p-4 flex flex-col gap-3">
-                                    <div class="flex items-center gap-3">
-                                        <input type="checkbox" name="cart_ids[]" value="{{ $id }}"
-                                            class="cart-checkbox accent-pink-500 w-5 h-5"
-                                            data-price="{{ $item['price'] * $item['quantity'] }}"
-                                            data-id="{{ $id }}" data-product-id="{{ $item['product_id'] }}">
-                                        <a href="{{ route('user.products.show', $item['product_id']) }}" class="flex items-center gap-3 group" title="Xem chi tiết sản phẩm">
-                                            <div class="w-20 h-20 rounded-lg overflow-hidden border-2 border-pink-200 bg-gray-100 flex items-center justify-center">
-                                                <img src="{{ $item['image_url'] && file_exists(public_path('images/products/' . $item['image_url']))
-                                                    ? asset('images/products/' . $item['image_url'])
-                                                    : asset('images/no-image.png') }}"
-                                                    alt="{{ $item['name'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200">
-                                            </div>
-                                            <div class="flex-1">
-                                                <div class="font-semibold text-gray-900 group-hover:text-pink-600 transition-colors">{{ $item['name'] }}</div>
-                                                <div class="text-pink-600 font-bold">
-                                                    {{ number_format($item['price'], 0, ',', '.') }} USD
+                            <table class="min-w-full">
+                                <thead class="bg-gradient-to-r from-pink-50 to-purple-50">
+                                    <tr>
+                                        <th class="py-3 px-4 text-center">
+                                            <input type="checkbox" id="select-all" title="Chọn tất cả">
+                                        </th>
+                                        <th class="py-3 px-4">Ảnh</th>
+                                        <th class="py-3 px-4">Tên sản phẩm</th>
+                                        <th class="py-3 px-4">Giá</th>
+                                        <th class="py-3 px-4">Số lượng</th>
+                                        <th class="py-3 px-4">Thành tiền</th>
+                                        <th class="py-3 px-4"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php $total = 0; @endphp
+                                    @foreach ($cart as $id => $item)
+                                        @php $total += $item['price'] * $item['quantity']; @endphp
+                                        <tr class="hover:bg-pink-50 transition-all">
+                                            <td class="py-3 px-4 text-center align-middle">
+                                                <input type="checkbox" name="cart_ids[]" value="{{ $id }}"
+                                                    class="cart-checkbox accent-pink-500 w-5 h-5"
+                                                    data-price="{{ $item['price'] * $item['quantity'] }}"
+                                                    data-id="{{ $id }}"
+                                                    data-product-id="{{ $item['product_id'] }}">
+                                            </td>
+                                            <td class="py-3 px-4 align-middle">
+                                                <div
+                                                    class="w-16 h-16 rounded-lg overflow-hidden border-2 border-pink-200 bg-gray-100 flex items-center justify-center">
+                                                    <img src="{{ $item['image_url'] && file_exists(public_path('images/products/' . $item['image_url']))
+                                                        ? asset('images/products/' . $item['image_url'])
+                                                        : asset('images/no-image.png') }}"
+                                                        alt="{{ $item['name'] }}" class="w-full h-full object-cover">
                                                 </div>
-                                            </div>
-                                        </a>
+                                            </td>
+                                            <td class="py-3 px-4 align-middle font-semibold text-gray-900">
+                                                {{ $item['name'] }}</td>
+                                            <td class="py-3 px-4 align-middle text-pink-600 font-bold">
+                                                {{ number_format($item['price'], 0, ',', '.') }} USD</td>
+                                            <td class="py-3 px-4 align-middle text-center">
+                                                <div class="flex items-center justify-center gap-2">
+                                                    <button type="button"
+                                                        class="btn-decrease bg-gray-200 hover:bg-pink-100 text-pink-600 px-2 rounded transition"
+                                                        data-id="{{ $id }}">−</button>
+                                                    {{-- <input name="quantities[{{ $id }}]" type="number" min="1"
+                                                        class="quantity-input w-[80px] text-center border rounded focus:ring-pink-500"
+                                                        value="{{ $item['quantity'] }}" data-id="{{ $id }}"
+                                                        data-price="{{ $item['price'] }}"
+                                                        data-total="{{ $item['price'] * $item['quantity'] }}"
+                                                        data-stock="{{ $item['product_quantity'] }}"> --}}
+                                                         <input name="quantities[{{ $id }}]" type="number" min="1"
+    class="quantity-input w-[80px] text-center border rounded focus:ring-pink-500"
+    value="{{ $item['quantity'] }}" data-id="{{ $id }}"
+    data-price="{{ $item['price'] }}"
+    data-total="{{ $item['price'] * $item['quantity'] }}"
+    data-stock="{{ $item['product_quantity'] }}">
+
+                                                    <button type="button"
+                                                        class="btn-increase bg-gray-200 hover:bg-pink-100 text-pink-600 px-2 rounded transition"
+                                                        data-id="{{ $id }}">+</button>
+                                                </div>
+                                            </td>
+                                            <td class="py-3 px-4 align-middle item-total font-bold text-purple-700"
+                                                data-id="{{ $id }}">
+                                                {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}
+                                                USD
+                                            </td>
+                                            <td class="py-3 px-4 align-middle">
+                                                <a href="{{ route('cart.remove', $id) }}"
+                                                    class="text-red-600 hover:underline font-medium">Xóa</a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    <tr>
+                                        <td colspan="4" class="text-right font-bold py-3 px-4 text-lg text-gray-700">
+                                            Tổng cộng:</td>
+                                        <td colspan="2" class="font-bold py-3 px-4 text-lg text-pink-600"
+                                            id="totalPrice">0 USD</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="mt-8 text-right">
+                            <button type="submit"
+                                class="inline-flex items-center px-8 py-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                                </svg>
+                                Thanh toán
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Mobile Card List -->
+                    <div class="md:hidden space-y-6 mt-8">
+                        <div
+                            class="bg-white rounded-xl shadow-lg p-4 flex items-center gap-3 border-l-4 border-pink-500">
+                            <input type="checkbox" id="select-all-mobile" title="Chọn tất cả"
+                                class="accent-pink-500 w-5 h-5">
+                            <span class="font-semibold text-gray-700">Chọn tất cả</span>
+                        </div>
+                        @foreach ($cart as $id => $item)
+                            <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-4 flex flex-col gap-3">
+                                <div class="flex items-center gap-3">
+                                    <input type="checkbox" name="cart_ids[]" value="{{ $id }}"
+                                        class="cart-checkbox accent-pink-500 w-5 h-5"
+                                        data-price="{{ $item['price'] * $item['quantity'] }}"
+                                        data-id="{{ $id }}" data-product-id="{{ $item['product_id'] }}">
+                                    <div
+                                        class="w-20 h-20 rounded-lg overflow-hidden border-2 border-pink-200 bg-gray-100 flex items-center justify-center">
+                                        <img src="{{ $item['image_url'] && file_exists(public_path('images/products/' . $item['image_url']))
+                                            ? asset('images/products/' . $item['image_url'])
+                                            : asset('images/no-image.png') }}"
+                                            alt="{{ $item['name'] }}" class="w-full h-full object-cover">
                                     </div>
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex items-center gap-2">
-                                            <button type="button"
-                                                class="btn-decrease bg-gray-200 hover:bg-pink-100 text-pink-600 px-2 rounded transition"
-                                                data-id="{{ $id }}">−</button>
-                                            <input type="number" min="1"
-                                                class="quantity-input w-[60px] text-center border rounded focus:ring-pink-500"
-                                                value="{{ $item['quantity'] }}" data-id="{{ $id }}"
-                                                data-price="{{ $item['price'] }}"
-                                                data-total="{{ $item['price'] * $item['quantity'] }}">
-                                            <button type="button"
-                                                class="btn-increase bg-gray-200 hover:bg-pink-100 text-pink-600 px-2 rounded transition"
-                                                data-id="{{ $id }}">+</button>
-                                        </div>
-                                        <div class="item-total font-bold text-purple-700"
-                                            data-id="{{ $id }}">
-                                            {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }} USD
-                                        </div>
-                                        <a href="{{ route('cart.remove', $id) }}"
-                                            class="text-red-600 hover:underline font-medium">Xóa</a>
+                                    <div class="flex-1">
+                                        <div class="font-semibold text-gray-900">{{ $item['name'] }}</div>
+                                        <div class="text-pink-600 font-bold">
+                                            {{ number_format($item['price'], 0, ',', '.') }} USD</div>
                                     </div>
                                 </div>
-                            @endforeach
-                            <div
-                                class="bg-white rounded-xl shadow-lg p-4 flex justify-between items-center font-bold border-l-4 border-purple-500">
-                                <span class="text-gray-700">Tổng cộng:</span>
-                                <span id="totalPrice" class="text-pink-600">0 USD</span>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-2">
+                                        <button type="button"
+                                            class="btn-decrease bg-gray-200 hover:bg-pink-100 text-pink-600 px-2 rounded transition"
+                                            data-id="{{ $id }}">−</button>
+                                        <input type="number" min="1"
+                                            class="quantity-input w-[60px] text-center border rounded focus:ring-pink-500"
+                                            value="{{ $item['quantity'] }}" data-id="{{ $id }}"
+                                            data-price="{{ $item['price'] }}"
+                                            data-total="{{ $item['price'] * $item['quantity'] }}">
+                                        <button type="button"
+                                            class="btn-increase bg-gray-200 hover:bg-pink-100 text-pink-600 px-2 rounded transition"
+                                            data-id="{{ $id }}">+</button>
+                                    </div>
+                                    <div class="item-total font-bold text-purple-700" data-id="{{ $id }}">
+                                        {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }} USD
+                                    </div>
+                                    <a href="{{ route('cart.remove', $id) }}"
+                                        class="text-red-600 hover:underline font-medium">Xóa</a>
+                                </div>
                             </div>
-                            <div class="text-right mt-4">
-                                <button type="submit"
-                                    class="inline-flex items-center px-8 py-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2">
-                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-                                    </svg>
-                                    Thanh toán
-                                </button>
-                            </div>
+                        @endforeach
+                        <div
+                            class="bg-white rounded-xl shadow-lg p-4 flex justify-between items-center font-bold border-l-4 border-purple-500">
+                            <span class="text-gray-700">Tổng cộng:</span>
+                            <span id="totalPrice" class="text-pink-600">0 USD</span>
                         </div>
-                    </form>
-                @else
-                    <!-- Empty State -->
-                    <div class="text-center py-16">
-                        <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-                            </svg>
+                        <div class="text-right mt-4">
+                            <button type="submit"
+                                class="inline-flex items-center px-8 py-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                                </svg>
+                                Thanh toán
+                            </button>
                         </div>
-                        <h3 class="text-lg font-medium text-gray-900 mb-2">Giỏ hàng của bạn đang trống</h3>
-                        <p class="text-gray-500 mb-6">Bạn chưa thêm sản phẩm nào vào giỏ hàng. Hãy mua sắm ngay!</p>
-                        <a href="{{ route('user.products.index') }}"
-                            class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-                            </svg>
-                            Mua sắm ngay
-                        </a>
                     </div>
-                @endif
-            </div>
+                </form>
+            @else
+                <!-- Empty State -->
+                <div class="text-center py-16">
+                    <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">Giỏ hàng của bạn đang trống</h3>
+                    <p class="text-gray-500 mb-6">Bạn chưa thêm sản phẩm nào vào giỏ hàng. Hãy mua sắm ngay!</p>
+                    <a href="{{ route('user.products.index') }}"
+                        class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                        </svg>
+                        Mua sắm ngay
+                    </a>
+                </div>
+            @endif
         </div>
     </div>
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const totalPriceEl = document.getElementById('totalPrice');
@@ -359,6 +352,7 @@
                         .stock);
 
                     selectedItems.push({
+                        cart_id: cb.dataset.id,
                         id: cb.dataset.productId, // Lấy đúng product_id từ checkbox
                         image,
                         name,
