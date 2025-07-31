@@ -36,7 +36,7 @@ COPY deployment/php/php.ini /usr/local/etc/php/conf.d/laravel.ini
 COPY deployment/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY deployment/nginx/default.conf /etc/nginx/sites-available/default
 
-# Configure Supervisor
+# Configure Supervisor (với queue worker)
 COPY deployment/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 WORKDIR /var/www/html
