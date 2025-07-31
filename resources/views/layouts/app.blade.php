@@ -19,6 +19,15 @@
     <script src="{{ asset('js/app-main.js') }}" defer></script>
     <script src="{{ asset('js/category-products.js') }}" defer></script>
     <script src="{{ asset('js/navigation.js') }}" defer></script>
+    {{-- <script
+    src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=places&callback=initMap&loading=async"
+    async defer></script> --}}
+
+    {{-- <script async
+    src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&loading=async&libraries=places&callback=initMap">
+</script> --}}
+
+
     
     <!-- Page-specific scripts -->
     @stack('scripts')
