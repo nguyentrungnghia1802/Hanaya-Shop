@@ -106,7 +106,7 @@
                         Edit Category
                     </a>
 
-                    <button type="button" onclick="confirmDelete()" 
+                    <button type="button" data-confirm-delete
                             class="inline-flex items-center px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-semibold rounded transition duration-200">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
@@ -126,11 +126,13 @@
         <p class="text-gray-700 mb-6">Are you sure you want to delete this category? This action cannot be undone.</p>
         
         <div class="flex justify-end space-x-3">
-            <button type="button" onclick="closeDeleteModal()" 
+            <button type="button" data-close-modal
                     class="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-700 rounded transition duration-200">
                 Cancel
             </button>
-            <button type="button" onclick="deleteCategory()" 
+            <button type="button" data-delete-category 
+                    data-delete-url="{{ route('admin.category.destroy', $category->id) }}"
+                    data-redirect-url="{{ route('admin.category') }}"
                     class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded transition duration-200">
                 Delete
             </button>
@@ -185,5 +187,9 @@ async function deleteCategory() {
 // Close modal when clicking overlay
 document.getElementById('deleteOverlay').addEventListener('click', closeDeleteModal);
 </script>
+
+@push('scripts')
+<script src="{{ asset('js/admin-category-show.js') }}"></script>
+@endpush
 
 @endsection

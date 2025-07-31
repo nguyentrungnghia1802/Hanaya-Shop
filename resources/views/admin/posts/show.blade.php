@@ -17,7 +17,7 @@
         </div>
         <div class="flex gap-2 mt-4">
             <a href="{{ route('admin.post.edit', ['id' => $post->id]) }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Sửa</a>
-            <form action="{{ route('admin.post.destroy', ['id' => $post->id]) }}" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa bài viết này?');">
+            <form action="{{ route('admin.post.destroy', ['id' => $post->id]) }}" method="POST" data-confirm-delete data-confirm-message="Bạn có chắc muốn xóa bài viết này?">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Xóa</button>

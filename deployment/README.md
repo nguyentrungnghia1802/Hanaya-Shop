@@ -16,14 +16,24 @@ quick-deploy.bat --seed
 ```
 
 ## 3. Quản lý ứng dụng
-```bash
+```bash`
 cd deployment
 docker compose -f docker-compose.prod.yml up -d      # Khởi động
-docker compose -f docker-compose.prod.yml down        # Dừng
+docker compose -f docker-compose.prod.yml down --rmi all        # Dừng
 docker compose -f docker-compose.prod.yml restart     # Restart
 docker compose -f docker-compose.prod.yml logs -f     # Xem logs
 docker compose -f docker-compose.prod.yml up -d --build  #Sửa lớn, thay đổi Dockerfile, cài thêm package
 ```
+
+## 7. Deploy lại application
+```bash`
+cd c:\xampp\htdocs\Hanaya-Shop\deployment
+docker compose -f docker-compose.prod.yml up -d --build   #Dùng để cập nhật code mới vào container
+docker compose -f docker-compose.prod.yml build
+docker compose -f docker-compose.prod.yml exec app php artisan migrate --force   #Dùng để chạy migration, cập nhật database
+
+docker exec -it hanaya-shop-app bash       #Truy cập bash của Server, có thể dùng lệnh php
+Sau đó: php artisan tinker                 #Kiểm tra thông tin
 
 ## 4. Truy cập
 - Website: http://localhost

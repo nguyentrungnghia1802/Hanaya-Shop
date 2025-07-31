@@ -1,5 +1,6 @@
 import "./bootstrap";
 import "./category-search";
+import "./components";
 // import "./category-form";
 // import "./category-delete";
 // import "./category-edit";
