@@ -105,7 +105,7 @@ class DashboardControllerUnitTest extends TestCase
             'status' => 'completed',
             'total_price' => 300000,
             'created_at' => Carbon::now()->subMonth(),
-            'updated_at' => now()
+            'updated_at' => now()->subMonth()
         ]);
 
         $response = $this->controller->index();
