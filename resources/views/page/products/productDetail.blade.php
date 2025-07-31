@@ -101,24 +101,42 @@
                     <!-- Action buttons -->
                     <div class="space-y-3">
                         @auth
-                            <form id="add-to-cart-form" action="{{ route('cart.add', $product->id) }}" method="POST"
-                                class="w-full">
-                                @csrf
-                                <input type="hidden" name="quantity" id="form-quantity" value="1">
-                                <button type="submit"
-                                    class="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-colors duration-300 flex items-center justify-center">
-                                    <i class="fas fa-shopping-cart mr-2"></i>Add to Cart
+                            @if ($product->stock_quantity > 0)
+                                <form id="add-to-cart-form" action="{{ route('cart.add', $product->id) }}" method="POST" class="w-full">
+                                    @csrf
+                                    <input type="hidden" name="quantity" id="form-quantity" value="1">
+                                    <button type="submit" class="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-colors duration-300 flex items-center justify-center">
+                                        <i class="fas fa-shopping-cart mr-2"></i>Add to Cart
+                                    </button>
+                                </form>
+                                <form action="{{ route('cart.buyNow') }}" method="POST" class="w-full">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                    <input type="hidden" name="quantity" id="buy-now-quantity" value="1">
+                                    <button type="submit" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-colors duration-300 flex items-center justify-center">
+                                        <i class="fas fa-bolt mr-2"></i>Buy Now
+                                    </button>
+                                </form>
+                            @else
+                                <button 
+                                    type="button" 
+                                    class="w-full bg-pink-400 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-colors duration-300 flex items-center justify-center cursor-not-allowed opacity-60" 
+                                    disabled>
+                                    
+                                    <i class="fas fa-shopping-cart mr-2"></i>Out of stock
                                 </button>
-                            </form>
-                            <form action="{{ route('cart.buyNow') }}" method="POST" class="w-full">
-                                @csrf
-                                <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                <input type="hidden" name="quantity" id="buy-now-quantity" value="1">
-                                <button type="submit"
-                                    class="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-colors duration-300 flex items-center justify-center">
-                                    <i class="fas fa-bolt mr-2"></i>Buy Now
+                                <button 
+                                    type="button" 
+                                    class="w-full bg-pink-400 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-colors duration-300 flex items-center justify-center cursor-not-allowed opacity-60" 
+                                    disabled>
+                                    
+                                    <i class="fas fa-shopping-cart mr-2"></i>Out of stock
                                 </button>
-                            </form>
+
+                            @endif
+
+
+
                         @else
                             <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-center">
                                 <div class="flex items-center justify-center mb-2">

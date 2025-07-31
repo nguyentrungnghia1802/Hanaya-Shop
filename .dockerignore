@@ -41,6 +41,8 @@ Thumbs.db
 /storage/framework/views/*
 /bootstrap/cache/*
 .env
+.env.local
+.env.development
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml

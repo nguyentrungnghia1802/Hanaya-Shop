@@ -46,32 +46,35 @@
                                 </path>
                             </svg>
 
-                            @if(auth()->user()->unreadNotifications->count() > 0)
-                                <span class="absolute -top-1 -right-1 inline-flex items-center justify-center w-5 h-5 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
-                                    {{ auth()->user()->unreadNotifications->count() }}
-                                </span>
-                            @endif
+                           @if(auth()->check() && auth()->user()->unreadNotifications->count() > 0)
+    <span class="absolute -top-1 -right-1 inline-flex items-center justify-center w-5 h-5 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+        {{ auth()->user()->unreadNotifications->count() }}
+    </span>
+@endif
+
                         </button>
 
                         <!-- Notification Dropdown -->
                         <div id="notificationDropdown"
                              class="hidden absolute top-full right-0 mt-1 w-72 sm:w-80 max-h-72 overflow-y-auto bg-white shadow-lg rounded-lg border border-gray-200 z-50">
-                            @forelse (auth()->user()->unreadNotifications as $notification)
-                                <div class="p-3 sm:p-4 border-b border-gray-100 hover:bg-gray-50 transition">
-                                    <div class="text-gray-800 mb-1 text-sm">
-                                        {{ $notification->data['message'] ?? 'New order received' }}
-                                    </div>
-                                    <a href="{{ route('admin.order.show', $notification->data['order_id']) }}"
-                                       class="text-sm text-blue-600 hover:text-blue-800">
-                                        View order details →
-                                    </a>
-                                    <div class="text-xs text-gray-500 mt-1">
-                                        {{ $notification->created_at->diffForHumans() }}
-                                    </div>
-                                </div>
-                            @empty
-                                <div class="p-4 text-gray-500 text-sm text-center">Không có thông báo mới.</div>
-                            @endforelse
+                           @forelse (auth()->user()->unreadNotifications as $notification)
+    <div class="notification-item p-3 sm:p-4 border-b border-gray-100 hover:bg-gray-50 transition cursor-pointer"
+         data-id="{{ $notification->id }}">
+        <div class="text-gray-800 mb-1 text-sm">
+            {{ $notification->data['message'] ?? 'New order received' }}
+        </div>
+        <a href="{{ route('admin.order.show', ['id' => $notification->data['order_id'], 'notification_id' => $notification->id]) }}"
+           class="text-sm text-blue-600 hover:text-blue-800">
+            View order details →
+        </a>
+        <div class="text-xs text-gray-500 mt-1">
+            {{ $notification->created_at->diffForHumans() }}
+        </div>
+    </div>
+@empty
+    <div class="p-4 text-gray-500 text-sm text-center">Không có thông báo mới.</div>
+@endforelse
+
                         </div>
                     </div>
 
@@ -225,6 +228,7 @@
         // Desktop notification bell
         const bell = document.getElementById('notificationBell');
         const dropdown = document.getElementById('notificationDropdown');
+        const badge = document.querySelector('#notificationBell span');
         
         // Mobile notification bell
         const bellMobile = document.getElementById('notificationBellMobile');
@@ -266,5 +270,31 @@
                 dropdownMobile.classList.add('hidden');
             }
         });
+
+        document.querySelectorAll('.notification-item').forEach(item => {
+        item.addEventListener('click', function () {
+            const notificationId = this.dataset.id;
+
+            // Giảm số lượng badge
+            if (badge) {
+                let count = parseInt(badge.textContent.trim());
+                if (count > 1) {
+                    badge.textContent = count - 1;
+                } else {
+                    badge.remove();
+                }
+            }
+
+            // Gửi request tới controller
+            fetch('/admin/notifications/mark-read', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({ id: notificationId })
+            });
+        });
+    });
     });
 </script>

@@ -15,6 +15,8 @@ class Payment extends Model
         'payment_method',
         'payment_status',
         'transaction_id',
+        'order_id',
+        
     ];
 
     protected $date = [
@@ -26,5 +28,10 @@ class Payment extends Model
     public function order()
     {
         return $this->belongsTo(Order::class);
+    }
+
+    public static function getAvailableMethods(): array
+    {
+        return ['cash_on_delivery', 'credit_card', 'paypal'];
     }
 }

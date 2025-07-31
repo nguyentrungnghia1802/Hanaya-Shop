@@ -1,26 +1,22 @@
 {{-- filepath: resources/views/cart/index.blade.php --}}
 <x-app-layout>
+    <div class="max-w-7xl mx-auto px-2 sm:px-4 py-6 sm:py-12">
+        <!-- Page Title -->
+        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">🛒 Cart</h2>
 
-    <div class="min-h-screen bg-gray-50 py-8">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <x-alert />
-            @if (session('success'))
-                <div class="mb-4 p-3 bg-green-100 text-green-700 rounded">{{ session('success') }}</div>
-            @endif
-            @if (count($cart) > 0)
-                <form id="checkout-form" method="POST" action="{{ route('checkout.preview') }}">
-                    @csrf
-                    <input type="hidden" name="selected_items_json" id="selected_items_json">
-                    <!-- Desktop Table -->
-                    <div class="hidden md:block">
-                        <h2 class="text-2xl font-bold flex items-center">
-                            <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 11H5m14-4H9m4 8H7m6 4v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002-2z"></path>
-                            </svg>
-                            Cart
-                        </h2>
-                        <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden mt-8">
+        <div class="min-h-screen bg-gray-50 py-8">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <x-alert />
+                @if (session('success'))
+                    <div class="mb-4 p-3 bg-green-100 text-green-700 rounded">{{ session('success') }}</div>
+                @endif
+                @if (count($cart) > 0)
+                    <form id="checkout-form" method="POST" action="{{ route('checkout.preview') }}">
+                        @csrf
+                        <input type="hidden" name="selected_items_json" id="selected_items_json">
+                        <!-- Desktop Table -->
+                        <div class="hidden md:block">
+                            <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden mt-8">
 
                             <table class="min-w-full">
                                 <thead class="bg-gradient-to-r from-pink-50 to-purple-50">
@@ -66,12 +62,19 @@
                                                     <button type="button"
                                                         class="btn-decrease bg-gray-200 hover:bg-pink-100 text-pink-600 px-2 rounded transition"
                                                         data-id="{{ $id }}">−</button>
-                                                    <input type="number" min="1"
+                                                    {{-- <input name="quantities[{{ $id }}]" type="number" min="1"
                                                         class="quantity-input w-[80px] text-center border rounded focus:ring-pink-500"
                                                         value="{{ $item['quantity'] }}" data-id="{{ $id }}"
                                                         data-price="{{ $item['price'] }}"
                                                         data-total="{{ $item['price'] * $item['quantity'] }}"
-                                                        data-stock="{{ $item['product_quantity'] }}">
+                                                        data-stock="{{ $item['product_quantity'] }}"> --}}
+                                                         <input name="quantities[{{ $id }}]" type="number" min="1"
+    class="quantity-input w-[80px] text-center border rounded focus:ring-pink-500"
+    value="{{ $item['quantity'] }}" data-id="{{ $id }}"
+    data-price="{{ $item['price'] }}"
+    data-total="{{ $item['price'] * $item['quantity'] }}"
+    data-stock="{{ $item['product_quantity'] }}">
+
                                                     <button type="button"
                                                         class="btn-increase bg-gray-200 hover:bg-pink-100 text-pink-600 px-2 rounded transition"
                                                         data-id="{{ $id }}">+</button>
@@ -349,6 +352,7 @@
                         .stock);
 
                     selectedItems.push({
+                        cart_id: cb.dataset.id,
                         id: cb.dataset.productId, // Lấy đúng product_id từ checkbox
                         image,
                         name,
@@ -364,6 +368,5 @@
             updateTotal();
         });
     </script>
-
 
 </x-app-layout>
