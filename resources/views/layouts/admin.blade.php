@@ -130,8 +130,8 @@
 <body class="font-sans antialiased bg-gray-100">
     <!-- Loading overlay đặt ngay sau <body> -->
     <div id="pageLoadingOverlay"
-        style="display:none;position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:rgba(255,255,255,0.7);align-items:center;justify-content:center;">
-        <div style="font-size:2rem;color:#2563eb;">
+        class="hidden fixed inset-0 z-50 bg-white bg-opacity-70">
+        <div class="text-2xl text-blue-600 flex flex-col items-center justify-center h-full">
             <svg class="animate-spin h-10 w-10 mr-3 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
@@ -211,7 +211,9 @@
                         e.ctrlKey || e.shiftKey || e.metaKey || e.altKey
                     ) return;
                     e.preventDefault();
-                    document.getElementById('pageLoadingOverlay').style.display = 'flex';
+                    const overlay = document.getElementById('pageLoadingOverlay');
+                    overlay.classList.remove('hidden');
+                    overlay.classList.add('flex', 'items-center', 'justify-center');
                     setTimeout(() => {
                         window.location.href = this.href;
                     }, 150);

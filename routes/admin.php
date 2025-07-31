@@ -27,6 +27,7 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->gr
     Route::get('/product/{id}', [ProductsController::class, 'show'])->name('product.show');
     Route::get('/product/{id}/edit', [ProductsController::class, 'edit'])->name('product.edit');
     Route::put('/product/{id}', [ProductsController::class, 'update'])->name('product.update');
+    Route::delete('/product/review/{reviewId}', [ProductsController::class, 'deleteReview'])->name('product.review.delete');
 
     Route::get('/category', [CategoriesController::class, 'index'])->name('category');
     Route::get('/category/search', [CategoriesController::class, 'search'])->name('category.search');
@@ -68,9 +69,7 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->gr
     Route::put('/orders/{order}/shipped', [OrdersController::class, 'shipped'])->name('order.shipped');
     Route::put('/orders/{order}/paid', [OrdersController::class, 'paid'])->name('order.paid');
 
-
-    Route::get('/review', [ReviewsController::class, 'index'])->name('review');
-    Route::get('/statistical', [StatisticalController::class, 'index'])->name('statistical');
+    Route::get('/reviews', [ReviewsController::class, 'index'])->name('reviews');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

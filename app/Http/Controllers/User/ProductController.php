@@ -28,7 +28,7 @@ class ProductController extends Controller
 
         // Cache the results for 15 minutes
         $result = Cache::remember($cacheKey, 900, function () use ($sort, $keyword, $categoryId, $categoryName, $request) {
-            $query = Product::with('category');
+            $query = Product::with(['category', 'reviews']);
 
             // Filter by category_name if provided
             if ($categoryName) {
@@ -145,6 +145,16 @@ class ProductController extends Controller
         // Increment view count (don't cache this)
         Product::where('id', $id)->increment('view_count');
 
+        // Get reviews for this product
+        $reviews = $product->reviews()
+            ->with('user')
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
+
+        // Calculate average rating
+        $averageRating = $product->reviews()->avg('rating') ?? 5;
+        $totalReviews = $product->reviews()->count();
+
         // Lấy các sản phẩm cùng category, khác id hiện tại
         $relatedProducts = Product::with('category')
             ->where('id', '!=', $id)
@@ -153,6 +163,12 @@ class ProductController extends Controller
             ->limit(8)
             ->get();
 
-        return view('page.products.productDetail', compact('product', 'relatedProducts'));
+        return view('page.products.productDetail', compact(
+            'product', 
+            'relatedProducts',
+            'reviews',
+            'averageRating',
+            'totalReviews'
+        ));
     }
 }

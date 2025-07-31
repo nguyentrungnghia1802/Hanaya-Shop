@@ -19,7 +19,7 @@
     @if($posts->count() > 0)
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($posts as $post)
-                <article class="group cursor-pointer bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden">
+                <a href="{{ route('posts.show', $post->slug) }}" class="group cursor-pointer bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden block focus:outline-none focus:ring-2 focus:ring-blue-400">
                     <div class="relative overflow-hidden rounded-t-xl mb-3">
                         <img src="{{ $post->image ? asset('images/posts/' . $post->image) : asset('fixed_resources/default-post.jpg') }}" 
                              alt="{{ $post->title }}" 
@@ -30,16 +30,13 @@
                             </span>
                         </div>
                     </div>
-                    
                     <div class="space-y-2 p-4">
                         <h4 class="font-semibold text-gray-800 group-hover:text-blue-600 transition-colors line-clamp-2">
                             {{ $post->title }}
                         </h4>
-                        
                         <p class="text-gray-600 text-sm line-clamp-3">
                             {{ Str::limit(html_entity_decode(strip_tags($post->content)), 100) }}
                         </p>
-                        
                         <div class="flex items-center text-xs text-gray-500 space-x-4">
                             <span class="flex items-center">
                                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -54,16 +51,14 @@
                                 {{ $post->created_at->diffForHumans() }}
                             </span>
                         </div>
-                        
-                        <a href="{{ route('posts.show', $post->slug) }}" 
-                           class="inline-flex items-center text-blue-600 hover:text-blue-800 text-sm font-medium mt-2 transition-colors duration-300">
+                        <span class="inline-flex items-center text-blue-600 hover:text-blue-800 text-sm font-medium mt-2 transition-colors duration-300">
                             Đọc thêm
                             <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                             </svg>
-                        </a>
+                        </span>
                     </div>
-                </article>
+                </a>
             @endforeach
         </div>
     @else
