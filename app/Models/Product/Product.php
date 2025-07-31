@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Order\OrderDetail;
 use App\Models\Product\Category;
 use App\Models\Cart\Cart;
+use App\Models\Product\Review;
 
 
 class Product extends Model
@@ -60,5 +61,22 @@ class Product extends Model
     public function cart()
     {
         return $this->hasMany(Cart::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    // Get average rating for this product
+    public function getAverageRatingAttribute()
+    {
+        return $this->reviews()->avg('rating') ?? 5;
+    }
+
+    // Get total review count
+    public function getReviewCountAttribute()
+    {
+        return $this->reviews()->count();
     }
 }

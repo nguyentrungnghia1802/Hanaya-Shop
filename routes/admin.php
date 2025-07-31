@@ -25,6 +25,7 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->gr
     Route::get('/product/{id}', [ProductsController::class, 'show'])->name('product.show');
     Route::get('/product/{id}/edit', [ProductsController::class, 'edit'])->name('product.edit');
     Route::put('/product/{id}', [ProductsController::class, 'update'])->name('product.update');
+    Route::delete('/product/review/{reviewId}', [ProductsController::class, 'deleteReview'])->name('product.review.delete');
 
     Route::get('/category', [CategoriesController::class, 'index'])->name('category');
     Route::get('/category/search', [CategoriesController::class, 'search'])->name('category.search');
@@ -47,6 +48,7 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->gr
     // IMAGE UPLOAD ROUTES
     Route::post('/upload/ckeditor-image', [ImageUploadController::class, 'uploadCKEditorImage'])->name('upload.ckeditor.image');
     Route::post('/upload/post-image', [ImageUploadController::class, 'uploadPostImage'])->name('upload.post.image');
+    Route::post('/posts/upload-image', [ImageUploadController::class, 'uploadTinyMCEImage'])->name('upload.tinymce.image');
 
     Route::get('/user', [UsersController::class, 'index'])->name('user');
     Route::get('/user/search', [UsersController::class, 'search'])->name('user.search');    
@@ -59,8 +61,11 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->gr
     Route::get('/user/{id}', [UsersController::class, 'show'])->name('user.show');
 
     Route::get('/order', [OrdersController::class, 'index'])->name('order');
-    Route::get('/review', [ReviewsController::class, 'index'])->name('review');
-    Route::get('/statistical', [StatisticalController::class, 'index'])->name('statistical');
+    Route::get('/order/{id}', [OrdersController::class, 'show'])->name('order.show');
+    Route::put('/orders/{order}/confirm', [OrdersController::class, 'confirm'])->name('order.confirm');
+    Route::put('/orders/{order}/cancel', [OrdersController::class, 'cancel'])->name('orders.cancel');
+
+    Route::get('/reviews', [ReviewsController::class, 'index'])->name('reviews');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

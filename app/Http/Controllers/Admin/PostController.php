@@ -144,8 +144,43 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post = Post::findOrFail($id);
+        
+        // Delete featured image if exists
+        if ($post->image) {
+            $imagePath = public_path("images/posts/{$post->image}");
+            if (File::exists($imagePath)) {
+                File::delete($imagePath);
+            }
+        }
+        
+        // Extract and delete images from content
+        if ($post->content) {
+            $this->deleteImagesFromContent($post->content);
+        }
+        
         $post->delete();
-        return redirect()->route('admin.post.index')->with('success', 'Xóa bài viết thành công');
+        return redirect()->route('admin.post.index')->with('success', 'Xóa bài viết và tất cả ảnh liên quan thành công');
+    }
+
+    /**
+     * Delete images found in post content
+     */
+    private function deleteImagesFromContent($content)
+    {
+        // Find all image URLs in the content
+        preg_match_all('/src=["\']([^"\']*images\/posts\/[^"\']*)["\']/', $content, $matches);
+        
+        if (!empty($matches[1])) {
+            foreach ($matches[1] as $imageUrl) {
+                // Extract filename from URL
+                $filename = basename($imageUrl);
+                $imagePath = public_path("images/posts/{$filename}");
+                
+                if (File::exists($imagePath)) {
+                    File::delete($imagePath);
+                }
+            }
+        }
     }
 
 }
