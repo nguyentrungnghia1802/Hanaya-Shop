@@ -22,12 +22,24 @@ use App\Models\Order\Payment;
 
 class OrdersController extends Controller
 {
-    public function index()
-    {
-        $order = Order::orderBy('created_at', 'desc')->get();
-        $payment = Payment::all();
-        return view('admin.orders.index', compact('order', 'payment'));
+    // public function index()
+    // {
+    //     $order = Order::orderBy('created_at', 'desc')->get();
+    //     $payment = Payment::all();
+    //     return view('admin.orders.index', compact('order', 'payment'));
+    // }
+    public function index(Request $request)
+{
+    $query = Order::query();
+    if ($request->filled('status')) {
+        $query->where('status', $request->status);
     }
+    $order = $query->orderBy('created_at', 'desc')->get();
+    $payment = Payment::all();
+
+    return view('admin.orders.index', compact('order', 'payment'));
+}
+
 
     public function show($orderId)
     {
