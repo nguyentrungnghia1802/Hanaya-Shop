@@ -161,6 +161,10 @@
                                     class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
                                     Processing
                                 </span>
+                            @elseif($order->status === 'shipped')
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                    Shipped
+                                </span>
                             @elseif($order->status === 'processing')
                                 <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                                     Confirmed
