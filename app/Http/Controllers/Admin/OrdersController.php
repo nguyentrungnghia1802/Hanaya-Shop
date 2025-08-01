@@ -22,23 +22,35 @@ use App\Models\Order\Payment;
 
 class OrdersController extends Controller
 {
-    // public function index()
-    // {
-    //     $order = Order::orderBy('created_at', 'desc')->get();
-    //     $payment = Payment::all();
-    //     return view('admin.orders.index', compact('order', 'payment'));
-    // }
-    public function index(Request $request)
-{
-    $query = Order::query();
-    if ($request->filled('status')) {
-        $query->where('status', $request->status);
-    }
-    $order = $query->orderBy('created_at', 'desc')->get();
-    $payment = Payment::all();
 
-    return view('admin.orders.index', compact('order', 'payment'));
-}
+    public function index(Request $request)
+    {
+        $search = $request->input('search');
+        $status = $request->input('status');
+
+        $query = Order::with('user'); // tránh N+1
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('id', 'like', "%{$search}%")
+                  ->orWhere('user_id', 'like', "%{$search}%")
+                  ->orWhereHas('user', function ($q2) use ($search) {
+                       $q2->where('name', 'like', "%{$search}%");
+                   })
+                  ->orWhere('total_price', 'like', "%{$search}%")
+                  ->orWhereDate('created_at', $search);
+            });
+        }
+
+        if ($status !== null && $status !== '') {
+            $query->where('status', $status);
+        }
+
+        $order = $query->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
+        $payment = Payment::all();
+
+        return view('admin.orders.index', compact('order', 'payment'));
+    }
 
 
     public function show($orderId)

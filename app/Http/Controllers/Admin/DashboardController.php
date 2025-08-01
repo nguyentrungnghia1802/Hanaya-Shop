@@ -63,6 +63,8 @@ class DashboardController extends Controller
                 'pending' => Order::where('status', 'pending')->count(),
                 'completed' => Order::where('status', 'completed')->count(),
                 'cancelled' => Order::where('status', 'cancelled')->count(),
+                'processing' => Order::where('status', 'processing')->count(),
+                'shipped' => Order::where('status', 'shipped')->count(),
             ];
 
             // Monthly revenue for chart - last 6 months only
