@@ -74,26 +74,54 @@ class OrdersController extends Controller
     public function paid(Order $order)
     {
         $payment = Payment::where('order_id', $order->id)->first();
-        if ($order->status === 'shipped') {
-            $payment->payment_status = 'completed';
-            $order->status = 'completed';
-            $order->save();
-            $payment->save();
-            $admins = User::where('role', 'admin')->get();
-            foreach ($admins as $admin) {
-                $admin->notify(new OrderCompletedNotification($order));
-                $admin->notify(new OrderCompletedNotification($order));
-            }
-        } else {
-            $payment->payment_status = 'completed';
-            $payment->save();
-            $admins = User::where('role', 'admin')->get();
-            foreach ($admins as $admin) {
-                $admin->notify(new OrderPaidNotification($order));
-            }
+        
+        if (!$payment) {
+            return redirect()->back()->with('error', 'Không tìm thấy thông tin thanh toán cho đơn hàng này');
         }
-
-        return redirect()->back()->with('success', 'Xác nhận thanh toán thành công');
+        
+        DB::beginTransaction();
+        try {
+            $payment->payment_status = 'completed';
+            $payment->save();
+            
+            // If order is shipped and payment is now completed, mark order as completed
+            if ($order->status === 'shipped') {
+                $order->status = 'completed';
+                $order->save();
+                
+                // Notify admins
+                $admins = User::where('role', 'admin')->get();
+                $customer = User::find($order->user_id);
+                
+                foreach ($admins as $admin) {
+                    $admin->notify(new OrderCompletedNotification($order));
+                }
+                
+                // Notify customer
+                if ($customer) {
+                    $customer->notify(new OrderCompletedNotification($order));
+                }
+            } else {
+                // Just notify about payment
+                $admins = User::where('role', 'admin')->get();
+                $customer = User::find($order->user_id);
+                
+                foreach ($admins as $admin) {
+                    $admin->notify(new OrderPaidNotification($order));
+                }
+                
+                // Notify customer
+                if ($customer) {
+                    $customer->notify(new OrderPaidNotification($order));
+                }
+            }
+            
+            DB::commit();
+            return redirect()->back()->with('success', 'Xác nhận thanh toán thành công');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Lỗi khi cập nhật trạng thái thanh toán: ' . $e->getMessage());
+        }
     }
 
     public function cancel($orderId)
