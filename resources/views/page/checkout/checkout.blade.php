@@ -88,14 +88,6 @@
             @endif
         </div>
 
-        {{-- Voucher --}}
-        <div class="bg-white rounded-xl shadow-md p-4 sm:p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-2">Voucher</h3>
-            <button class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition">
-                Chọn voucher
-            </button>
-        </div>
-
         {{-- Thanh toán--}}
         <div class="bg-white rounded-xl shadow-md p-4 sm:p-6">
             <div class="flex items-center justify-between flex-wrap gap-2 mb-4">

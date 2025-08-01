@@ -7,7 +7,6 @@
 @endsection
 
 @section('content')
-
     <!-- Thông báo lỗi -->
     <x-alert />
 
@@ -41,6 +40,9 @@
                                 @foreach ($order as $item)
                                     @php
                                         $matchedPayment = $payment->firstWhere('order_id', $item->id);
+                                        if($matchedPayment && !$matchedPayment->payment_status) {
+                                            $matchedPayment->payment_status = 'N/A';
+                                        }
                                     @endphp
                                     <tr class="hover:bg-gray-50 transition">
                                         <td class="px-4 py-2 border-b">{{ $item->id }}</td>
@@ -48,12 +50,15 @@
                                         <td class="px-4 py-2 border-b">{{ $item->total_price }}</td>
                                         <td class="px-4 py-2 border-b">{{ $item->created_at }}</td>
                                         <td class="px-4 py-2 border-b">{{ $item->status }}</td>
-                                        <td class="px-4 py-2 border-b">{{ $matchedPayment->payment_status }}</td>
+                                        <td class="px-4 py-2 border-b">
+                                            {{ $matchedPayment ? $matchedPayment->payment_status : 'N/A' }}
+                                        </td>
                                         <td class="px-4 py-2 border-b space-x-2">
 
                                             @if ($item->status === 'pending')
                                                 <!-- Cancel button -->
-                                                <form action="{{ route('admin.orders.cancel', $item->id) }}" method="POST" class="inline">
+                                                <form action="{{ route('admin.orders.cancel', $item->id) }}" method="POST"
+                                                    class="inline">
                                                     @csrf
                                                     @method('PUT')
                                                     <button type="submit"
@@ -78,7 +83,8 @@
 
                                             <!-- Confirm button -->
                                             @if ($item->status === 'pending')
-                                                <form action="{{ route('admin.order.confirm', $item->id) }}" method="POST" class="inline">
+                                                <form action="{{ route('admin.order.confirm', $item->id) }}" method="POST"
+                                                    class="inline">
                                                     @csrf
                                                     @method('PUT')
                                                     <button type="submit"
@@ -96,8 +102,8 @@
 
                                             <!-- Shipped button -->
                                             @if ($item->status === 'processing')
-
-                                                <form action="{{ route('admin.order.shipped', $item->id) }}" method="POST" class="inline">
+                                                <form action="{{ route('admin.order.shipped', $item->id) }}" method="POST"
+                                                    class="inline">
                                                     @csrf
                                                     @method('PUT')
                                                     <button type="submit"
@@ -117,9 +123,10 @@
                                             {{-- @php
                                                 $matchedPayment = $payment->firstWhere('order_id', $item->id);
                                             @endphp --}}
-                                            @if (($item->status === 'processing' || $item->status === 'shipped') && $matchedPayment->payment_status === 'pending')
-                                                <form action="{{ route('admin.order.paid', $item->id) }}" method="POST" class="inline">
-                                                     @csrf
+                                            @if (($item->status === 'processing' || $item->status === 'shipped') && $matchedPayment && $matchedPayment->payment_status === 'pending')
+                                                <form action="{{ route('admin.order.paid', $item->id) }}" method="POST"
+                                                    class="inline">
+                                                    @csrf
                                                     @method('PUT')
                                                     <button type="submit"
                                                         class="inline-block px-3 py-1 bg-pink-500 text-white text-xs font-medium rounded hover:bg-gray-600 transition">
@@ -149,5 +156,4 @@
             </div>
         </div>
     </div>
-
 @endsection
