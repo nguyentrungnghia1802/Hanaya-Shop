@@ -12,7 +12,7 @@
                         </a>
                         <div>
                             <h1 class="text-3xl font-bold">📋 Order Details</h1>
-                            <p class="text-pink-100 mt-2">Order #{{ $order->id }} -
+                            <p class="text-pink-400 mt-2">Order #{{ $order->id }} -
                                 {{ $order->created_at->format('M d, Y H:i') }}</p>
                         </div>
                     </div>

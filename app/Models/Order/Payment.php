@@ -16,7 +16,16 @@ class Payment extends Model
         'payment_status',
         'transaction_id',
         'order_id',
-        
+    ];
+
+    protected $attributes = [
+        'payment_method' => 'cash_on_delivery', // Default value
+        'payment_status' => 'pending',
+    ];
+
+    protected $casts = [
+        'payment_method' => 'string',
+        'payment_status' => 'string',
     ];
 
     protected $date = [

@@ -32,6 +32,8 @@ sudo docker-compose up -d
 ```bash
 sudo docker-compose exec app php artisan migrate --force
 ```
+
+**Chi tiết đầy đủ về quy trình cập nhật có trong file [SERVER_UPDATE_GUIDE.md](SERVER_UPDATE_GUIDE.md)**
 ### Chỉ CẦN THAY ĐỔI file deployment khi:
 ❗ Thêm service mới (ví dụ: Elasticsearch, Queue worker)
 

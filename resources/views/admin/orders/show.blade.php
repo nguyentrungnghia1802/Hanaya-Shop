@@ -32,7 +32,45 @@
                 <div class="space-y-2 text-gray-700">
                     <p><span class="font-medium">Order Date:</span> {{ $order->created_at->format('d/m/Y H:i') }}</p>
                     <p><span class="font-medium">Total Amount:</span> {{ number_format($order->total_price) }}₫</p>
-                    <p><span class="font-medium">Status:</span> {{ $order->status }}</p>
+                    <p>
+                        <span class="font-medium">Status:</span> 
+                        <span class="px-2 py-1 rounded text-sm font-medium inline-block
+                            {{ $order->status === 'completed' ? 'bg-green-100 text-green-800' : 
+                               ($order->status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
+                                ($order->status === 'cancelled' ? 'bg-red-100 text-red-800' : 
+                                 'bg-blue-100 text-blue-800')) }}">
+                            {{ ucfirst($order->status) }}
+                        </span>
+                    </p>
+                </div>
+                
+                <!-- Payment Information -->
+                <div class="mt-6 pt-4 border-t border-gray-200">
+                    <h4 class="font-semibold text-gray-800 mb-3">Payment Information</h4>
+                    @if($payment && count($payment) > 0)
+                        @php $paymentInfo = $payment[0]; @endphp
+                        <div class="space-y-2 text-gray-700">
+                            <p>
+                                <span class="font-medium">Payment Method:</span> 
+                                {{ ucfirst(str_replace('_', ' ', $paymentInfo->payment_method)) }}
+                            </p>
+                            <p>
+                                <span class="font-medium">Payment Status:</span> 
+                                <span class="px-2 py-1 rounded text-xs font-medium
+                                    {{ $paymentInfo->payment_status === 'completed' ? 'bg-green-100 text-green-800' : 
+                                       ($paymentInfo->payment_status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
+                                        'bg-red-100 text-red-800') }}">
+                                    {{ ucfirst($paymentInfo->payment_status) }}
+                                </span>
+                            </p>
+                            @if($paymentInfo->transaction_id)
+                                <p><span class="font-medium">Transaction ID:</span> {{ $paymentInfo->transaction_id }}</p>
+                            @endif
+                            <p><span class="font-medium">Payment Date:</span> {{ $paymentInfo->created_at->format('d/m/Y H:i') }}</p>
+                        </div>
+                    @else
+                        <p class="text-gray-500 italic">No payment information available</p>
+                    @endif
                 </div>
             </div>
         </div>
@@ -133,24 +171,40 @@
                 </button>
             @endif
             @php
-                $matchedPayment = $payment->firstWhere('order_id', $order->id);
+                $matchedPayment = $payment->first();
             @endphp
             {{-- Paid --}}
-            @if (($order->status === 'processing' || $order->status === 'shipped') && $matchedPayment->payment_status === 'pending')
+            @if (($order->status === 'processing' || $order->status === 'shipped') && $matchedPayment && $matchedPayment->payment_status === 'pending')
                 <form action="{{ route('admin.order.paid', $order->id) }}" method="POST" class="inline">
                     @csrf
                     @method('PUT')
                     <button type="submit"
-                            class="inline-block px-5 py-2 bg-pink-500 text-white text-base font-semibold rounded-lg hover:bg-gray-600 transition">
-                        Paid
+                            class="inline-block px-5 py-2 bg-pink-500 text-white text-base font-semibold rounded-lg hover:bg-pink-600 transition">
+                        Mark as Paid
                     </button>
                 </form>
             @else
                 <button type="button"
                         class="inline-block px-5 py-2 bg-gray-300 text-white text-base font-semibold rounded-lg cursor-not-allowed"
                         disabled>
-                    Paid
+                        @if($matchedPayment && $matchedPayment->payment_status === 'completed')
+                            Already Paid
+                        @else
+                            Mark as Paid
+                        @endif
                 </button>
+            @endif
+            
+            {{-- Cancel --}}
+            @if ($order->status !== 'completed' && $order->status !== 'cancelled')
+                <form action="{{ route('admin.order.cancel', $order->id) }}" method="POST" class="inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" onclick="return confirm('Are you sure you want to cancel this order?')"
+                            class="inline-block px-5 py-2 bg-red-500 text-white text-base font-semibold rounded-lg hover:bg-red-600 transition">
+                        Cancel Order
+                    </button>
+                </form>
             @endif
         </div>
     </div>

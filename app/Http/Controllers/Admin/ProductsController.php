@@ -15,12 +15,40 @@ class ProductsController extends Controller
      * Display a listing of all products with their associated category.
      * Uses cache for performance optimization.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Không dùng cache cho phân trang
-        $products = Product::with('category')->paginate(20); // 20 sản phẩm mỗi trang
+        // Get filter parameters
+        $categoryId = $request->input('category_id');
+        $stockFilter = $request->input('stock_filter');
+        
+        // Start building the query
+        $query = Product::with('category')->orderBy('created_at', 'desc'); // Sort by newest first
+        
+        // Apply category filter if selected
+        if ($categoryId) {
+            $query->where('category_id', $categoryId);
+        }
+        
+        // Apply stock filter if selected
+        if ($stockFilter) {
+            if ($stockFilter === 'low_stock') {
+                $query->where('stock_quantity', '<', 2)->where('stock_quantity', '>', 0);
+            } elseif ($stockFilter === 'out_of_stock') {
+                $query->where('stock_quantity', 0);
+            }
+        }
+        
+        // Paginate the results
+        $products = $query->paginate(20)->withQueryString(); // Add withQueryString to maintain filters in pagination
+        
+        // Get all categories for the filter dropdown
+        $categories = Category::all();
+        
         return view('admin.products.index', [
             'products' => $products,
+            'categories' => $categories,
+            'selectedCategory' => $categoryId,
+            'selectedStockFilter' => $stockFilter,
         ]);
     }
 
@@ -212,29 +240,50 @@ class ProductsController extends Controller
 
     public function search(Request $request)
     {
-        $query = trim($request->input('query', ''));
+        $searchQuery = trim($request->input('query', ''));
+        $categoryId = $request->input('category_id');
+        $stockFilter = $request->input('stock_filter');
 
-        if (empty($query)) {
-            $products = Product::with('category')->get();
-        } else {
-            // Tách từ khóa thành các từ riêng biệt
-            $keywords = preg_split('/\s+/', $query);
+        // Start building the query with ordering by newest first
+        $productsQuery = Product::with('category')->orderBy('created_at', 'desc');
 
-            $products = Product::with('category')
-                ->where(function ($q) use ($keywords) {
-                    foreach ($keywords as $keyword) {
-                        $q->where(function ($subQuery) use ($keyword) {
-                            $subQuery->where('name', 'LIKE', "%{$keyword}%")
-                                ->orWhere('descriptions', 'LIKE', "%{$keyword}%");
-                        });
-                    }
-                })
-                ->get();
+        // Apply search filter
+        if (!empty($searchQuery)) {
+            // Split keywords into separate words
+            $keywords = preg_split('/\s+/', $searchQuery);
+
+            $productsQuery->where(function ($q) use ($keywords) {
+                foreach ($keywords as $keyword) {
+                    $q->where(function ($subQuery) use ($keyword) {
+                        $subQuery->where('name', 'LIKE', "%{$keyword}%")
+                            ->orWhere('descriptions', 'LIKE', "%{$keyword}%");
+                    });
+                }
+            });
         }
 
+        // Apply category filter if selected
+        if ($categoryId) {
+            $productsQuery->where('category_id', $categoryId);
+        }
+        
+        // Apply stock filter if selected
+        if ($stockFilter) {
+            if ($stockFilter === 'low_stock') {
+                $productsQuery->where('stock_quantity', '<', 2)->where('stock_quantity', '>', 0);
+            } elseif ($stockFilter === 'out_of_stock') {
+                $productsQuery->where('stock_quantity', 0);
+            }
+        }
+
+        $products = $productsQuery->get();
+        
         $html = view('admin.products.partials.table_rows', compact('products'))->render();
 
-        return response()->json(['html' => $html]);
+        return response()->json([
+            'html' => $html,
+            'count' => $products->count()
+        ]);
     }
 
     /**
