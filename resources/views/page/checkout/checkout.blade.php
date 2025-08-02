@@ -37,10 +37,6 @@
                 @endif
             </h4>
 
-            <button id="change-address-btn" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition">
-                Thêm
-            </button>
-
             <button id="toggle-address-list" class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition">
                 Thay đổi
             </button>
