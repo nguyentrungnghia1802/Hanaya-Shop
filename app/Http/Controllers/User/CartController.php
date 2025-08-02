@@ -43,7 +43,7 @@ class CartController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('success', 'Đã thêm vào giỏ hàng!');
+        return redirect()->back()->with('success', 'Added to cart!');
     }
 
 
@@ -68,17 +68,19 @@ class CartController extends Controller
         $cart = [];
 
         foreach ($cartItems as $item) {
+            $price = $item->product->price;
+            $discountPercent = $item->product->discount_percent;
+            $newPrice = $price * (1 - $discountPercent / 100);
             $cart[$item->id] = [
                 'id'         => $item->id,
                 'product_id' => $item->product->id,
                 'product_quantity' => $item->product->stock_quantity,
                 'name'       => $item->product->name,
                 'image_url'  => $item->product->image_url,
-                'price'      => $item->product->price,
+                'price'      => $newPrice,
                 'quantity'   => $item->quantity,
             ];
         }
-
 
         return view('page.cart.index', compact('cart'));
     }

@@ -109,7 +109,7 @@
                                         <i class="fas fa-shopping-cart mr-2"></i>Add to Cart
                                     </button>
                                 </form>
-                                <form action="{{ route('cart.buyNow') }}" method="POST" class="w-full">
+                                <form action="{{ route('cart.buyNow', $product->id) }}" method="POST" class="w-full">
                                     @csrf
                                     <input type="hidden" name="product_id" value="{{ $product->id }}">
                                     <input type="hidden" name="quantity" id="buy-now-quantity" value="1">
