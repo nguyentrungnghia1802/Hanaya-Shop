@@ -27,6 +27,9 @@
                     <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts*')">
                         {{ __('Posts') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('user.about')" :active="request()->routeIs('user.about')">
+                        {{ __('About') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -135,6 +138,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('posts.index')" :active="request()->routeIs('posts*')">
                 {{ __('Posts') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('user.about')" :active="request()->routeIs('user.about')">
+                {{ __('About') }}
             </x-responsive-nav-link>
         </div>
 
