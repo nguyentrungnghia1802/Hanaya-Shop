@@ -77,7 +77,7 @@ class PaymentService
             ]);
             
             // Update order status to processing
-            $order->update(['status' => 'processing']);
+            $order->update(['status' => 'pending']);
         } catch (\Exception $e) {
             Log::error('Credit card payment processing error: ' . $e->getMessage(), [
                 'order_id' => $order->id,
@@ -128,7 +128,7 @@ class PaymentService
             ]);
             
             // Update order status to processing
-            $order->update(['status' => 'processing']);
+            $order->update(['status' => 'pending']);
         } catch (\Exception $e) {
             Log::error('PayPal payment processing error: ' . $e->getMessage(), [
                 'order_id' => $order->id,
@@ -164,7 +164,7 @@ class PaymentService
             ]);
             
             // Update order status to processing
-            $order->update(['status' => 'processing']);
+            $order->update(['status' => 'pending']);
             
         } catch (\Exception $e) {
             Log::error('COD payment processing error: ' . $e->getMessage(), [
