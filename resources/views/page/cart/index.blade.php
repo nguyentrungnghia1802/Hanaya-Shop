@@ -22,13 +22,13 @@
                                 <thead class="bg-gradient-to-r from-pink-50 to-purple-50">
                                     <tr>
                                         <th class="py-3 px-4 text-center">
-                                            <input type="checkbox" id="select-all" title="Chọn tất cả">
+                                            <input type="checkbox" id="select-all" title="Select All">
                                         </th>
-                                        <th class="py-3 px-4">Ảnh</th>
-                                        <th class="py-3 px-4">Tên sản phẩm</th>
-                                        <th class="py-3 px-4">Giá</th>
-                                        <th class="py-3 px-4">Số lượng</th>
-                                        <th class="py-3 px-4">Thành tiền</th>
+                                        <th class="py-3 px-4">Image</th>
+                                        <th class="py-3 px-4">Product Name</th>
+                                        <th class="py-3 px-4">Price</th>
+                                        <th class="py-3 px-4">Quantity</th>
+                                        <th class="py-3 px-4">Total</th>
                                         <th class="py-3 px-4"></th>
                                     </tr>
                                 </thead>
@@ -87,13 +87,13 @@
                                             </td>
                                             <td class="py-3 px-4 align-middle">
                                                 <a href="{{ route('cart.remove', $id) }}"
-                                                    class="text-red-600 hover:underline font-medium">Xóa</a>
+                                                    class="text-red-600 hover:underline font-medium">Delete</a>
                                             </td>
                                         </tr>
                                     @endforeach
                                     <tr>
                                         <td colspan="4" class="text-right font-bold py-3 px-4 text-lg text-gray-700">
-                                            Tổng cộng:</td>
+                                            Total:</td>
                                         <td colspan="2" class="font-bold py-3 px-4 text-lg text-pink-600"
                                             id="totalPrice">0 USD</td>
                                     </tr>
@@ -107,7 +107,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                                 </svg>
-                                Thanh toán
+                                Checkout
                             </button>
                         </div>
                     </div>
@@ -115,9 +115,9 @@
                     <div class="md:hidden space-y-6 mt-8">
                         <div
                             class="bg-white rounded-xl shadow-lg p-4 flex items-center gap-3 border-l-4 border-pink-500">
-                            <input type="checkbox" id="select-all-mobile" title="Chọn tất cả"
+                            <input type="checkbox" id="select-all-mobile" title="Select All"
                                 class="accent-pink-500 w-5 h-5">
-                            <span class="font-semibold text-gray-700">Chọn tất cả</span>
+                            <span class="font-semibold text-gray-700">Select All</span>
                         </div>
                         @foreach ($cart as $id => $item)
                             <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-4 flex flex-col gap-3">
@@ -157,13 +157,13 @@
                                         {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }} USD
                                     </div>
                                     <a href="{{ route('cart.remove', $id) }}"
-                                        class="text-red-600 hover:underline font-medium">Xóa</a>
+                                        class="text-red-600 hover:underline font-medium">Delete</a>
                                 </div>
                             </div>
                         @endforeach
                         <div
                             class="bg-white rounded-xl shadow-lg p-4 flex justify-between items-center font-bold border-l-4 border-purple-500">
-                            <span class="text-gray-700">Tổng cộng:</span>
+                            <span class="text-gray-700">Total:</span>
                             <span id="totalPrice" class="text-pink-600">0 USD</span>
                         </div>
                         <div class="text-right mt-4">
@@ -173,7 +173,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                                 </svg>
-                                Thanh toán
+                                Checkout
                             </button>
                         </div>
                     </div>
@@ -188,15 +188,15 @@
                                 d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                         </svg>
                     </div>
-                    <h3 class="text-lg font-medium text-gray-900 mb-2">Giỏ hàng của bạn đang trống</h3>
-                    <p class="text-gray-500 mb-6">Bạn chưa thêm sản phẩm nào vào giỏ hàng. Hãy mua sắm ngay!</p>
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">Your cart is empty</h3>
+                    <p class="text-gray-500 mb-6">You haven't added any products to your cart yet. Start shopping now!</p>
                     <a href="{{ route('user.products.index') }}"
                         class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                         </svg>
-                        Mua sắm ngay
+                        Shopping Now
                     </a>
                 </div>
             @endif
@@ -225,7 +225,7 @@
                     const quantity = parseInt(qtyInput.value);
                     total += price * quantity;
                 });
-                // Cập nhật cả tổng desktop và mobile
+                // Update total price display
                 document.querySelectorAll('#totalPrice').forEach(el => {
                     el.textContent = formatCurrency(total);
                 });
@@ -246,7 +246,7 @@
                 }
             }
 
-            // Tăng giảm số lượng
+            // Increase/Decrease quantity
             document.querySelectorAll('.btn-increase').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const id = this.dataset.id;
@@ -287,7 +287,7 @@
                 });
             });
 
-            // Checkbox chọn tất cả
+            // Select All functionality
             if (selectAllCheckbox) {
                 selectAllCheckbox.addEventListener('change', function() {
                     const isChecked = this.checked;
@@ -309,7 +309,7 @@
                 });
             }
 
-            // Khi chọn 1 checkbox thì kiểm tra lại trạng thái chọn tất cả
+            // When selecting a checkbox, check the status of the "Select All" checkbox
             document.querySelectorAll('.cart-checkbox').forEach(cb => {
                 cb.addEventListener('change', function() {
                     const allCheckboxes = document.querySelectorAll('.cart-checkbox');
@@ -320,7 +320,7 @@
                 });
             });
 
-            // Gửi form
+            // Handle form submission
             checkoutForm.addEventListener('submit', function(e) {
                 const checkedCheckboxes = document.querySelectorAll('.cart-checkbox:checked');
                 const selectedItems = [];
@@ -328,15 +328,15 @@
                 document.querySelectorAll('.cart-checkbox:checked').forEach(cb => {
                     const id = cb.dataset.id;
 
-                    if (checkedIds.has(id)) return; // Nếu đã lấy rồi thì bỏ qua
+                    if (checkedIds.has(id)) return; // If already retrieved, skip
                     checkedIds.add(id);
-                    // Tìm row cho desktop hoặc card cho mobile
+                    // Find row for desktop or card for mobile
                     let row = cb.closest('tr');
                     if (!row) {
                         row = cb.closest('.bg-white');
                     }
                     const image = row.querySelector('img').getAttribute('src');
-                    // Desktop: tên ở td thứ 3, Mobile: lấy .font-semibold
+                    // Get product name
                     let name = '';
                     const nameTd = row.querySelector('td:nth-child(3)');
                     if (nameTd) {
@@ -353,7 +353,7 @@
 
                     selectedItems.push({
                         cart_id: cb.dataset.id,
-                        id: cb.dataset.productId, // Lấy đúng product_id từ checkbox
+                        id: cb.dataset.productId, // Get correct product_id from checkbox
                         image,
                         name,
                         price,

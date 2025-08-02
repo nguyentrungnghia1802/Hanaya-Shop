@@ -17,10 +17,10 @@
     <x-alert />
 
     <div class="max-w-4xl mx-auto py-12 px-2 sm:px-4 space-y-8 sm:space-y-10">
-        
-        {{-- Địa chỉ nhận hàng --}}
+
+        {{-- Address Information --}}
         <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-2">Địa chỉ nhận hàng</h3>
+            <h3 class="text-lg font-semibold text-gray-800 mb-2">Address Information</h3>
             <h4 class="text-gray-700 leading-relaxed mb-4">
                 <span class="block font-medium">{{ $userName }}</span>
 
@@ -38,25 +38,25 @@
             </h4>
 
             <button id="toggle-address-list" class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition">
-                Thay đổi
+                Change Address
             </button>
 
             <button id="open-address-form" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition">
-                Thêm
+                Add Address
             </button>
         </div>
 
-        {{-- Danh sách sản phẩm --}}
+        {{-- Product List --}}
         <div class="bg-white rounded-xl shadow-md p-4 sm:p-6 overflow-x-auto">
             @if(count($selectedItems) > 0)
             <table class="min-w-full text-xs sm:text-sm">
                 <thead>
                     <tr>
-                        <th class="py-2 px-4 border-b">Ảnh</th>
-                        <th class="py-2 px-4 border-b">Tên sản phẩm</th>
-                        <th class="py-2 px-4 border-b">Giá</th>
-                        <th class="py-2 px-4 border-b">Số lượng</th>
-                        <th class="py-2 px-4 border-b">Thành tiền</th>
+                        <th class="py-2 px-4 border-b">Images</th>
+                        <th class="py-2 px-4 border-b">Product Name</th>
+                        <th class="py-2 px-4 border-b">Price</th>
+                        <th class="py-2 px-4 border-b">Quantity</th>
+                        <th class="py-2 px-4 border-b">Total</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -80,33 +80,33 @@
                 </tbody>
             </table>
             @else
-                <p>Không có sản phẩm nào được chọn để thanh toán.</p>
+                <p>No products selected for checkout.</p>
             @endif
         </div>
 
-        {{-- Thanh toán--}}
+        {{-- Payment --}}
         <div class="bg-white rounded-xl shadow-md p-4 sm:p-6">
             <div class="flex items-center justify-between flex-wrap gap-2 mb-4">
                 <div>
-                    <h3 class="text-lg font-semibold text-gray-800">Phương thức thanh toán:</h3>
+                    <h3 class="text-lg font-semibold text-gray-800">Payment Method:</h3>
                     <h4 class="text-gray-700" id="current-method">{{ $defaultMethod }}</h4>
                 </div>
                 <button id="change-method-btn" type="button" class="bg-pink-600 text-white px-3 sm:px-4 py-2 rounded hover:bg-pink-700 transition whitespace-nowrap w-full sm:w-auto">
-                    Thay đổi
+                    Change
                 </button>
             </div>
 
             <div>
                 <div class="flex items-center justify-between flex-wrap gap-2 mb-4 text-xs sm:text-base">
-                    <h3 class="text-lg font-semibold text-gray-800 mt-6 mb-2">Tổng tiền hàng:</h3>
+                    <h3 class="text-lg font-semibold text-gray-800 mt-6 mb-2">Subtotal:</h3>
                     <p class="text-xl font-bold text-pink-600">{{ number_format($total, 0, ',', '.') }}₫</p>
                 </div>
                 <div class="flex items-center justify-between flex-wrap gap-2 mb-4 text-xs sm:text-base">
-                    <h3 class="text-lg font-semibold text-gray-800 mt-6 mb-2">Phí vận chuyển:</h3>
+                    <h3 class="text-lg font-semibold text-gray-800 mt-6 mb-2">Shipping Fee:</h3>
                     <p class="text-xl font-bold text-pink-600">8 USD</p>
                 </div>
                <div class="flex items-center justify-between flex-wrap gap-2 mb-4 text-xs sm:text-base">
-                    <h3 class="text-lg font-semibold text-gray-800 mt-6 mb-2">Tổng thanh toán:</h3>
+                    <h3 class="text-lg font-semibold text-gray-800 mt-6 mb-2">Total Payment:</h3>
                     <p class="text-xl font-bold text-pink-800">{{ number_format($total + 8, 0, ',', '.') }} USD</p>
                </div class="flex items-center justify-between flex-wrap gap-2 mb-4">
             </div>
@@ -124,12 +124,12 @@
                     id="selected_address_id" 
                     value="{{ $firstAddress->id ?? '' }}">
 
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">Lời nhắn:</h3>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Note:</h3>
                 <textarea 
                     name="note"
                     class="w-full p-2 border rounded text-xs sm:text-sm mb-4"
                     rows="4"
-                    placeholder="Nhập lời nhắn của bạn...">{{ old('note') }}</textarea>
+                    placeholder="Enter your note...">{{ old('note') }}</textarea>
 
                 <div class="mt-6">
                     <div id="payment-methods-container" class="space-y-4">
@@ -141,9 +141,9 @@
 
                 <div class="mt-6">
                     <button id="direct-submit-btn" type="submit" class="bg-orange-600 text-white px-3 sm:px-4 py-2 rounded w-full sm:w-auto">
-                        Đặt hàng ngay
+                        Place Order
                     </button>
-                    <p class="text-xs text-gray-500 mt-2">Hoặc chọn phương thức thanh toán từ các tùy chọn bên trên</p>
+                    <p class="text-xs text-gray-500 mt-2">Or select a payment method from the options above</p>
                 </div>
             </form>
 
@@ -153,12 +153,12 @@
         </div>
   </div>
 
-<!-- Danh sách phương thức thanh toán dưới dạng modal đẹp và giữa màn hình -->
+<!-- Payment method selection modal -->
 <div id="method-selection"
      class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
     <div class="flex items-center justify-center h-full">
         <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-md">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4 text-center">Chọn phương thức thanh toán</h3>
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 text-center">Select Payment Method</h3>
             <div class="flex flex-wrap justify-center gap-3">
                 @foreach($paymentMethods as $method)
                     <button type="button"
@@ -190,7 +190,7 @@
             </div>
             <div class="mt-4 text-center">
                 <button id="close-method-selection"
-                    class="mt-4 text-sm text-gray-500 hover:underline hover:text-gray-700">Hủy</button>
+                    class="mt-4 text-sm text-gray-500 hover:underline hover:text-gray-700">Cancel</button>
             </div>
         </div>
     </div>
@@ -219,58 +219,58 @@
 <div id="address-form-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
     <div class="flex items-center justify-center h-full">
         <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-lg">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4 text-center">Thêm địa chỉ giao hàng</h3>
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 text-center">Add Shipping Address</h3>
 
         <div class="mb-4">
-            <label class="block mb-1 text-gray-700">Số điện thoại</label>
-            <input id="phone_number" type="text" class="w-full border rounded px-3 py-2" placeholder="Nhập SĐT" required>
+            <label class="block mb-1 text-gray-700">Phone Number</label>
+            <input id="phone_number" type="text" class="w-full border rounded px-3 py-2" placeholder="Enter phone number" required>
         </div>
 
         <div class="mb-4">
-            <label class="block mb-1 text-gray-700">Tỉnh/Thành phố</label>
+            <label class="block mb-1 text-gray-700">City/Province</label>
             <select id="province" class="w-full border rounded px-3 py-2" required>
-                <option value="">-- Chọn tỉnh --</option>
+                <option value="">-- Select Province --</option>
             </select>
         </div>
 
         <div class="mb-4">
-            <label class="block mb-1 text-gray-700">Quận/Huyện</label>
+            <label class="block mb-1 text-gray-700">District</label>
             <select id="district" class="w-full border rounded px-3 py-2" disabled required>
-                <option value="">-- Chọn huyện --</option>
+                <option value="">-- Select District --</option>
             </select>
         </div>
 
         <div class="mb-4">
-            <label class="block mb-1 text-gray-700">Phường/Xã</label>
+            <label class="block mb-1 text-gray-700">Ward</label>
             <select id="ward" class="w-full border rounded px-3 py-2" disabled required>
-                <option value="">-- Chọn xã --</option>
+                <option value="">-- Select Ward --</option>
             </select>
         </div>
 
         <div class="mb-4">
-            <label class="block mb-1 text-gray-700">Địa chỉ chi tiết</label>
-            <input id="address_detail" type="text" class="w-full border rounded px-3 py-2" placeholder="Số nhà, tên đường..." required>
+            <label class="block mb-1 text-gray-700">Detailed Address</label>
+            <input id="address_detail" type="text" class="w-full border rounded px-3 py-2" placeholder="House number, street name..." required>
         </div>
 
         <div class="flex justify-between items-center">
             <button id="save-address" type="button" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition">
-                Lưu địa chỉ
+                Save Address
             </button>
             <button id="close-address-form" class="text-gray-600 hover:underline">
-                Hủy
+                Cancel
             </button>
         </div>
     </div>
 </div>
 
-<!-- Danh sách địa chỉ -->
+<!-- Address List -->
 <div id="address-list-container"
      class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
     <div class="flex items-center justify-center h-full">
         <div class="bg-white rounded-lg shadow-lg w-full max-w-md max-h-[90vh] overflow-hidden relative">
-            <h3 class="text-xl font-semibold text-center mb-4 pt-6">Danh sách địa chỉ</h3>
+            <h3 class="text-xl font-semibold text-center mb-4 pt-6">Address List</h3>
 
-        <!-- Vùng cuộn riêng cho danh sách -->
+        <!-- Scrollable area for the address list -->
         <div id="address-list"
              class="space-y-4 px-6 overflow-y-auto max-h-[60vh]">
             @foreach ($addresses as $address)
@@ -279,8 +279,8 @@
                     data-phone="{{ $address->phone_number }}"
                     data-address="{{ $address->address }}">
                     <div class="border border-gray-300 rounded-lg p-4 bg-gray-50 shadow-sm">
-                        <p class="text-gray-800"><strong>SĐT:</strong> {{ $address->phone_number }}</p>
-                        <p class="text-gray-800"><strong>Địa chỉ:</strong> {{ $address->address }}</p>
+                        <p class="text-gray-800"><strong>Phone:</strong> {{ $address->phone_number }}</p>
+                        <p class="text-gray-800"><strong>Address:</strong> {{ $address->address }}</p>
                     </div>
                 </a>
             @endforeach
@@ -289,11 +289,11 @@
 
         <div class="mt-6 flex justify-center px-6 pb-6">
             <button class="close-address-list px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium rounded">
-                Đóng
+                Close
             </button>
         </div>
 
-        <!-- Nút X góc trên bên phải -->
+        <!-- Close button in the top right corner -->
         <button class="close-address-list absolute top-3 right-3 text-gray-500 hover:text-gray-700">
             <svg xmlns="http://www.w3.org/2000/svg"
                  class="h-5 w-5" viewBox="0 0 20 20"
@@ -349,7 +349,7 @@
             methodBox.classList.remove('hidden');
         });
 
-        // Đóng modal khi chọn phương thức
+        // Close modal when a payment method is selected
         document.querySelectorAll('.method-option').forEach(button => {
             button.addEventListener('click', () => {
                 const selected = button.dataset.method;
@@ -362,7 +362,7 @@
             });
         });
 
-        // Đóng modal khi nhấn nút hủy
+        // Close modal when cancel button is pressed
         closeBtn.addEventListener('click', () => {
             methodBox.classList.add('hidden');
         });
@@ -471,7 +471,7 @@
         openBtn.addEventListener('click', () => {
             modal.classList.remove('hidden');
             if (provinceSelect.options.length === 1) {
-                // Load tỉnh khi mở modal (1 lần)
+                // Load provinces when opening modal (only once)
                 fetch('https://provinces.open-api.vn/api/p/')
                     .then(res => res.json())
                     .then(data => {
@@ -491,8 +491,8 @@
 
         provinceSelect.addEventListener('change', () => {
             const code = provinceSelect.value;
-            districtSelect.innerHTML = '<option value="">-- Chọn huyện --</option>';
-            wardSelect.innerHTML = '<option value="">-- Chọn xã --</option>';
+            districtSelect.innerHTML = '<option value="">-- Select District --</option>';
+            wardSelect.innerHTML = '<option value="">-- Select Ward --</option>';
             wardSelect.disabled = true;
 
             if (!code) {
@@ -545,7 +545,7 @@
             const fullAddress = `${detail}, ${ward}, ${district}, ${province}`;
 
             if (!phone || !province || !district || !ward || !detail) {
-                alert("Vui lòng điền đầy đủ thông tin.");
+                alert("Please fill in all the information.");
                 return;
             }
 
@@ -575,8 +575,8 @@
 
                         a.innerHTML = `
                             <div class="border border-gray-300 rounded-lg p-4 bg-gray-50 shadow-sm">
-                                <p class="text-gray-800"><strong>SĐT:</strong> ${phone}</p>
-                                <p class="text-gray-800"><strong>Địa chỉ:</strong> ${addressText}</p>
+                                <p class="text-gray-800"><strong>Phone:</strong> ${phone}</p>
+                                <p class="text-gray-800"><strong>Address:</strong> ${addressText}</p>
                             </div>
                         `;
                     document.getElementById('address-list').appendChild(a);
@@ -615,12 +615,12 @@
                 const phone = this.dataset.phone;
                 const address = this.dataset.address;
 
-                // Cập nhật nội dung
+                // Update content
                 document.getElementById('selected_address_id').value = id;
                 document.getElementById('selected-phone').textContent = phone;
                 document.getElementById('selected-address').innerHTML = address.replace(/\n/g, '<br>');
 
-                // Ẩn danh sách địa chỉ
+                // Hide address list
                 document.getElementById('address-list-container').classList.add('hidden');
             });
         });
