@@ -72,23 +72,74 @@ class CheckoutController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-        $paymentMethod = 'cash_on_delivery';
         $address = $request->input('address_id');
         $message = $request->input('note', '');
+        $paymentData = $request->input('payment_data', '{}');
 
         $request->validate([
             'address_id' => 'required|exists:addresses,id',
+            'payment_method' => 'required|in:' . implode(',', Payment::getAvailableMethods()),
         ], [
             'address_id.required' => 'Vui lòng chọn địa chỉ nhận hàng.',
-            'address_id.exists' => 'Địa chỉ không hợp lệ.'
+            'address_id.exists' => 'Địa chỉ không hợp lệ.',
+            'payment_method.required' => 'Vui lòng chọn phương thức thanh toán.',
+            'payment_method.in' => 'Phương thức thanh toán không hợp lệ.'
         ]);
 
-        if ($request->input('payment_method') !== null) {
-            $paymentMethod = $request->input('payment_method');
+        // Get and validate payment method
+        $paymentMethod = $request->input('payment_method');
+        $allowedMethods = Payment::getAvailableMethods();
+        
+        // Ensure payment_method is a string (not null or empty)
+        if (!is_string($paymentMethod) || empty(trim($paymentMethod))) {
+            \Illuminate\Support\Facades\Log::error('Payment method is not a valid string', [
+                'user_id' => $user->id,
+                'payment_method' => $paymentMethod,
+                'payment_method_type' => gettype($paymentMethod)
+            ]);
+            
+            return redirect()
+                ->route('checkout.index')
+                ->with('error', 'Phương thức thanh toán không hợp lệ (định dạng không đúng)');
+        }
+        
+        // Validate against allowed values
+        if (!in_array($paymentMethod, $allowedMethods)) {
+            \Illuminate\Support\Facades\Log::warning('Invalid payment method attempted', [
+                'user_id' => $user->id,
+                'payment_method' => $paymentMethod,
+                'allowed_methods' => $allowedMethods
+            ]);
+            
+            return redirect()
+                ->route('checkout.index')
+                ->with('error', 'Phương thức thanh toán không hợp lệ');
+        }
+        
+        // Decode payment data with validation
+        try {
+            $paymentDataArray = json_decode($paymentData, true);
+            if (!is_array($paymentDataArray)) {
+                $paymentDataArray = [];
+            }
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Payment data JSON decode error: ' . $e->getMessage());
+            $paymentDataArray = [];
         }
 
         $itemsJson = $request->input('selected_items_json');
-        $selectedItems = json_decode($itemsJson, true);
+        
+        try {
+            $selectedItems = json_decode($itemsJson, true);
+            if (!is_array($selectedItems) || empty($selectedItems)) {
+                throw new \Exception('No items selected for checkout');
+            }
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Selected items JSON decode error: ' . $e->getMessage());
+            return redirect()
+                ->route('checkout.index')
+                ->with('error', 'Lỗi dữ liệu giỏ hàng. Vui lòng thử lại.');
+        }
 
         DB::beginTransaction();
 
@@ -100,7 +151,6 @@ class CheckoutController extends Controller
                 'address_id'  => $address,
                 'message'     => $message,
             ]);
-
 
             foreach ($selectedItems as $item) {
                 $product = Product::find($item['id']);
@@ -123,19 +173,12 @@ class CheckoutController extends Controller
                 }
             }
 
-            if ($paymentMethod === 'cash_on_delivery') {
-                Payment::create([
-                    'order_id'       => $order->id,
-                    'payment_method' => $paymentMethod,
-                    'payment_status' => 'pending',
-                ]);
-            } else {
-                Payment::create([
-                    'order_id'       => $order->id,
-                    'payment_method' => $paymentMethod,
-                    'payment_status' => 'completed',
-                ]);
-
+            // Process payment based on the selected method
+            $paymentService = app()->make(\App\Services\PaymentService::class);
+            $paymentResult = $paymentService->processPayment($paymentMethod, $order, $paymentDataArray);
+            
+            if (!$paymentResult['success']) {
+                throw new \Exception($paymentResult['message']);
             }
 
             $cartIds = array_column($selectedItems, 'cart_id');
@@ -147,12 +190,25 @@ class CheckoutController extends Controller
 
             session()->forget('selectedItems');
 
+            // Redirect to success page with appropriate message
+            $successMessage = $paymentResult['message'] ?? 'Đặt hàng thành công!';
+            
             return redirect()
                 ->route('checkout.success', ['order_id' => $order->id])
-                ->with('success', 'Đặt hàng thành công!');
+                ->with('success', $successMessage);
+                
         } catch (\Exception $e) {
             DB::rollBack();
-            dd('Lỗi khi tạo đơn hàng:', $e->getMessage(), $e->getTraceAsString());
+            \Illuminate\Support\Facades\Log::error('Order creation error: ' . $e->getMessage(), [
+                'user_id' => $user->id,
+                'payment_method' => $paymentMethod,
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return redirect()
+                ->route('checkout.index')
+                ->withInput()
+                ->with('error', 'Lỗi khi xử lý đơn hàng: ' . $e->getMessage());
         }
     }
 }

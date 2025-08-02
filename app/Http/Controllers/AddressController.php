@@ -20,7 +20,7 @@ class AddressController extends Controller
         ]);
 
         $address = Address::create([
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'phone_number' => $validated['phone_number'],
             'address' => $validated['address'],
         ]);

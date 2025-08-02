@@ -15,6 +15,9 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/components.js'])
     
+    <!-- Alpine.js -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.5/dist/cdn.min.js" defer></script>
+    
     <!-- CSP Compliant Scripts -->
     <script src="{{ asset('js/app-main.js') }}" defer></script>
     <script src="{{ asset('js/category-products.js') }}" defer></script>
