@@ -18,9 +18,9 @@
                     <p><span class="font-medium">Email:</span> {{ $order->user->email }}</p>
                     <p>
                         <span class="font-medium">Address:</span>
-                        <span class="block text-sm text-gray-600">{{ $order->address->phone_number }}</span>
+                        <span class="block text-sm text-gray-600">{{ optional($order->address)->phone_number ?? 'No phone number provided' }}</span>
                         <span class="block text-sm text-gray-600">
-                            {{ $order->address->address }}
+                            {{ optional($order->address)->address ?? 'No address provided' }}
                         </span>
                     </p>
                 </div>
@@ -197,7 +197,7 @@
             
             {{-- Cancel --}}
             @if ($order->status !== 'completed' && $order->status !== 'cancelled')
-                <form action="{{ route('admin.order.cancel', $order->id) }}" method="POST" class="inline">
+                <form action="{{ route('admin.orders.cancel', $order->id) }}" method="POST" class="inline">
                     @csrf
                     @method('DELETE')
                     <button type="submit" onclick="return confirm('Are you sure you want to cancel this order?')"
