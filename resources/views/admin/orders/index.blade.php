@@ -130,7 +130,7 @@
                                                     @csrf
                                                     @method('PUT')
                                                     <button type="submit"
-                                                        class="inline-block px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-gray-600 transition">
+                                                        class="inline-block px-3 py-1 bg-purple-500 text-white text-xs font-medium rounded hover:bg-gray-600 transition">
                                                         Shipped
                                                     </button>
                                                 </form>
@@ -157,6 +157,7 @@
                                                     class="inline-block px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">
                                                     View Details
                                                 </a>
+                                                @if($matchedPayment && $matchedPayment->payment_status === 'pending')
                                                 <form action="{{ route('admin.order.paid', $item->id) }}" method="POST"
                                                     class="inline">
                                                     @csrf
@@ -166,6 +167,13 @@
                                                         Paid
                                                     </button>
                                                 </form>
+                                                @else
+                                                    <button type="button"
+                                                        class="inline-block px-3 py-1 bg-gray-300 text-white text-xs font-medium rounded cursor-not-allowed"
+                                                        disabled>
+                                                        Paid
+                                                    </button>
+                                                @endif
                                             @elseif($item->status === 'completed')
                                                 <a href="{{ route('admin.order.show', $item->id) }}"
                                                     class="inline-block px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">

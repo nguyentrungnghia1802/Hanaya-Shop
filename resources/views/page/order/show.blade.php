@@ -399,6 +399,27 @@
                     </button>
                 @endif
 
+                @if($order->status === 'shipped' && $payment_status === 'completed')
+                    <a href="{{ route('order.receive', $order->id) }}"
+                       data-confirm-cancel
+                       class="inline-flex items-center px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                       <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                       </svg>
+                        Received
+                    </a>
+                @else
+                    <button type="button"
+                        disabled
+                        class="inline-flex items-center px-6 py-3 bg-gray-200 text-gray-600 font-semibold rounded-lg cursor-not-allowed">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        Received
+                    </button>
+                @endif
+
+
                 <a href="{{ route('user.products.index') }}"
                     class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
