@@ -13,7 +13,7 @@ return [
     // Shop information (can be used for footer, contact...)
     'shop_name' => 'HANAYA SHOP',
     'shop_email' => 'support@hanayashop.com',
-    'shop_phone' => '0948512463',
+    'shop_phone' => '0353295709',
     'shop_address' => '123 Flower Street, Son Tay, Hanoi',
 
     // Banner configuration
