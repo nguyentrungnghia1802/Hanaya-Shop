@@ -90,26 +90,26 @@
                                     @if ($hasDiscount)
                                         <div class="space-y-1">
                                             <div class="text-pink-600 font-bold">
-                                                ${{ number_format($item['discounted_price'] ?? $item['price'], 0, ',', '.') }}
+                                                ${{ number_format($item['discounted_price'] ?? $item['price'], 2, '.', ',') }}
                                             </div>
                                             <div class="text-xs text-gray-500 line-through">
-                                                ${{ number_format($item['price'], 0, ',', '.') }}
+                                                ${{ number_format($item['price'], 2, '.', ',') }}
                                             </div>
                                         </div>
                                     @else
                                         <div class="text-pink-600 font-bold">
-                                            ${{ number_format($item['price'], 0, ',', '.') }}
+                                            ${{ number_format($item['price'], 2, '.', ',') }}
                                         </div>
                                     @endif
                                 </td>
                                 <td class="py-2 px-4 border-b">{{ $item['quantity'] }}</td>
-                                <td class="py-2 px-4 border-b">${{ number_format(($item['discounted_price'] ?? $item['price']) * $item['quantity'], 0, ',', '.') }}
+                                <td class="py-2 px-4 border-b">${{ number_format(($item['discounted_price'] ?? $item['price']) * $item['quantity'], 2, '.', ',') }}
                                 </td>
                             </tr>
                         @endforeach
                         <tr>
                             <td colspan="4" class="text-right font-bold py-2 px-4">Total:</td>
-                            <td class="font-bold py-2 px-4">${{ number_format($total, 0, ',', '.') }}</td>
+                            <td class="font-bold py-2 px-4">${{ number_format($total, 2, '.', ',') }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -136,31 +136,31 @@
                 @if ($totalSavings > 0)
                     <div class="flex items-center justify-between flex-wrap gap-2 mb-2 text-xs sm:text-base">
                         <h3 class="text-lg font-medium text-gray-600">Original Subtotal:</h3>
-                        <p class="text-lg text-gray-500 line-through">${{ number_format($originalTotal, 0, ',', '.') }}</p>
+                        <p class="text-lg text-gray-500 line-through">${{ number_format($originalTotal, 2, '.', ',') }}</p>
                     </div>
                 @endif
                 
                 <!-- Subtotal after discount -->
                 <div class="flex items-center justify-between flex-wrap gap-2 mb-4 text-xs sm:text-base">
                     <h3 class="text-lg font-semibold text-gray-800">Subtotal:</h3>
-                    <p class="text-xl font-bold text-pink-600">${{ number_format($total, 0, ',', '.') }}</p>
+                    <p class="text-xl font-bold text-pink-600">${{ number_format($total, 2, '.', ',') }}</p>
                 </div>
                 
                 <!-- Savings -->
                 @if ($totalSavings > 0)
                     <div class="flex items-center justify-between flex-wrap gap-2 mb-4 text-xs sm:text-base">
                         <h3 class="text-lg font-medium text-green-600">You Save:</h3>
-                        <p class="text-lg font-bold text-green-600">-${{ number_format($totalSavings, 0, ',', '.') }}</p>
+                        <p class="text-lg font-bold text-green-600">-${{ number_format($totalSavings, 2, '.', ',') }}</p>
                     </div>
                 @endif
                 
                 <div class="flex items-center justify-between flex-wrap gap-2 mb-4 text-xs sm:text-base">
                     <h3 class="text-lg font-semibold text-gray-800">Shipping Fee:</h3>
-                    <p class="text-xl font-bold text-pink-600">$8</p>
+                    <p class="text-xl font-bold text-pink-600">$8.00</p>
                 </div>
                 <div class="flex items-center justify-between flex-wrap gap-2 mb-4 text-xs sm:text-base border-t pt-4">
                     <h3 class="text-lg font-semibold text-gray-800">Total Payment:</h3>
-                    <p class="text-xl font-bold text-pink-800">${{ number_format($total + 8, 0, ',', '.') }}</p>
+                    <p class="text-xl font-bold text-pink-800">${{ number_format($total + 8, 2, '.', ',') }}</p>
                 </div>
             </div>
 

@@ -202,7 +202,7 @@ class DashboardController extends Controller
                 // Add formatted data point to chart array
                 $monthlyRevenueChart[] = [
                     'month' => $month->format('M Y'),           // Human-readable month/year
-                    'revenue' => number_format($revenue, 0, ',', '.') // Formatted revenue string
+                    'revenue' => number_format($revenue, 2, '.', ',') // Formatted revenue string
                 ];
             }
 

@@ -41,7 +41,7 @@ class OrderPaidNotification extends Notification implements ShouldQueue
             ->subject('Payment Confirmed for Order #' . $this->order->id)
             ->greeting('Hello ' . $notifiable->name . ',')
             ->line('Payment has been confirmed for Order #' . $this->order->id)
-            ->line('Total: ' . number_format($this->order->total_price) . ' USD')
+            ->line('Total: $' . number_format($this->order->total_price, 2, '.', ',') . ' USD')
             ->action('View Order', route('order.show', $this->order->id))
             ->line('Thank you for shopping with us!');
     }
