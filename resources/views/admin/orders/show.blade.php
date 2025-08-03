@@ -31,7 +31,7 @@
                 <h3 class="text-xl font-semibold text-gray-800 mb-4">Order Information</h3>
                 <div class="space-y-2 text-gray-700">
                     <p><span class="font-medium">Order Date:</span> {{ $order->created_at->format('d/m/Y H:i') }}</p>
-                    <p><span class="font-medium">Total Amount:</span> ${{ number_format($order->total_price) }}</p>
+                    <p><span class="font-medium">Total Amount:</span> ${{ number_format($order->total_price, 2, '.', ',') }}</p>
                     <p>
                         <span class="font-medium">Status:</span> 
                         <span class="px-2 py-1 rounded text-sm font-medium inline-block

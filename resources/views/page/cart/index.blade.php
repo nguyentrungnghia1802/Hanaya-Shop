@@ -86,17 +86,17 @@
                                                     <div class="space-y-1">
                                                         {{-- Discounted Price - Highlighted in pink color --}}
                                                         <div class="text-pink-600 font-bold">
-                                                            ${{ number_format($item['discounted_price'], 0, ',', '.') }}
+                                                            ${{ number_format($item['discounted_price'], 2, '.', ',') }}
                                                         </div>
                                                         {{-- Original Price - Strikethrough to show savings --}}
                                                         <div class="text-xs text-gray-500 line-through">
-                                                            ${{ number_format($item['price'], 0, ',', '.') }}
+                                                            ${{ number_format($item['price'], 2, '.', ',') }}
                                                         </div>
                                                     </div>
                                                 @else
                                                     {{-- Regular Price Display - No discount available --}}
                                                     <div class="text-pink-600 font-bold">
-                                                        ${{ number_format($item['price'], 0, ',', '.') }}
+                                                        ${{ number_format($item['price'], 2, '.', ',') }}
                                                     </div>
                                                 @endif
                                             </td>
@@ -127,7 +127,7 @@
                                             {{-- Line Total Cell - Displays total price for this item (price × quantity) --}}
                                             <td class="py-3 px-4 align-middle item-total font-bold text-purple-700"
                                                 data-id="{{ $id }}">
-                                                ${{ number_format($item['discounted_price'] * $item['quantity'], 0, ',', '.') }}
+                                                ${{ number_format($item['discounted_price'] * $item['quantity'], 2, '.', ',') }}
                                             </td>
                                             {{-- Delete Action Cell - Link to remove item from cart --}}
                                             <td class="py-3 px-4 align-middle">
@@ -203,17 +203,17 @@
                                             <div class="space-y-1">
                                                 {{-- Current Discounted Price - Highlighted in pink --}}
                                                 <div class="text-pink-600 font-bold">
-                                                    ${{ number_format($item['discounted_price'], 0, ',', '.') }}
+                                                    ${{ number_format($item['discounted_price'], 2, '.', ',') }}
                                                 </div>
                                                 {{-- Original Price - Smaller text with strikethrough --}}
                                                 <div class="text-xs text-gray-500 line-through">
-                                                    ${{ number_format($item['price'], 0, ',', '.') }}
+                                                    ${{ number_format($item['price'], 2, '.', ',') }}
                                                 </div>
                                             </div>
                                         @else
                                             {{-- Regular Price - No discount available --}}
                                             <div class="text-pink-600 font-bold">
-                                                ${{ number_format($item['price'], 0, ',', '.') }}
+                                                ${{ number_format($item['price'], 2, '.', ',') }}
                                             </div>
                                         @endif
                                     </div>
@@ -242,7 +242,7 @@
                                     </div>
                                     {{-- Mobile Item Total - Real-time updated line total --}}
                                     <div class="item-total font-bold text-purple-700" data-id="{{ $id }}">
-                                        ${{ number_format($item['discounted_price'] * $item['quantity'], 0, ',', '.') }}
+                                        ${{ number_format($item['discounted_price'] * $item['quantity'], 2, '.', ',') }}
                                     </div>
                                     {{-- Mobile Delete Action - Remove item from cart --}}
                                     <a href="{{ route('cart.remove', $id) }}"

@@ -7,7 +7,7 @@
         <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ $product->name }}</h3>
         <p class="text-gray-600 mb-4">{{ \Illuminate\Support\Str::limit($product->descriptions, 80) }}</p>
         <div class="flex items-center justify-between mb-4">
-            <span class="text-lg font-bold text-pink-600">${{ number_format($product->price, 0, ',', '.') }}</span>
+            <span class="text-lg font-bold text-pink-600">${{ number_format($product->price, 2, '.', ',') }}</span>
             @if($product->stock_quantity > 0)
                 <span class="text-green-600 text-sm">In Stock</span>
             @else

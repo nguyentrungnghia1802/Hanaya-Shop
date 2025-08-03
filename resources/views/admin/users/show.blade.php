@@ -50,7 +50,7 @@
             @if ($orders->count())
                 <ul class="list-disc ml-6">
                     @foreach ($orders as $order)
-                        <li>Order ID: {{ $order->id }} - Total: {{ number_format($order->total ?? 0, 0, ',', '.') }}₫</li>
+                        <li>Order ID: {{ $order->id }} - Total: ${{ number_format($order->total ?? 0, 2, '.', ',') }}</li>
                     @endforeach
                 </ul>
             @else

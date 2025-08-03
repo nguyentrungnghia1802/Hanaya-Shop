@@ -81,7 +81,7 @@
                                 <div class="ml-4">
                                     <p class="text-sm font-medium text-gray-500">Total Value</p>
                                     <p class="text-2xl font-bold text-gray-900">
-                                        ${{ number_format($orders->sum('total_price')) }}</p>
+                                        ${{ number_format($orders->sum('total_price'), 2, '.', ',') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -154,7 +154,7 @@
                                                         class="text-xs font-medium text-gray-500 uppercase tracking-wide">
                                                         Total Amount</p>
                                                     <p class="text-lg font-bold text-gray-900">
-                                                        ${{ number_format($order->total_price) }}</p>
+                                                        ${{ number_format($order->total_price, 2, '.', ',') }}</p>
                                                 </div>
                                                 <div class="bg-gray-50 rounded-lg p-3">
                                                     <p

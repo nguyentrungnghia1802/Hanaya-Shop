@@ -176,7 +176,7 @@
                         </div>
                         <div class="flex justify-between items-center py-3 border-b border-gray-200">
                             <span class="text-gray-600">Total Amount:</span>
-                            <span class="font-semibold text-gray-900">${{ number_format($order->total_price) }}</span>
+                            <span class="font-semibold text-gray-900">${{ number_format($order->total_price, 2, '.', ',') }}</span>
                         </div>
                         <div class="flex justify-between items-center py-3">
                             <span class="text-gray-600">Status:</span>
@@ -304,11 +304,11 @@
                                             Unit Price: 
                                             @if ($hasDiscount && abs($orderPrice - $currentDiscountedPrice) < 0.01)
                                                 {{-- Nếu giá đặt hàng = giá khuyến mãi hiện tại --}}
-                                                <span class="text-pink-600 font-medium">${{ number_format($orderPrice) }}</span>
-                                                <span class="text-gray-400 line-through text-xs ml-1">${{ number_format($currentPrice) }}</span>
+                                                <span class="text-pink-600 font-medium">${{ number_format($orderPrice, 2, '.', ',') }}</span>
+                                                <span class="text-gray-400 line-through text-xs ml-1">${{ number_format($currentPrice, 2, '.', ',') }}</span>
                                             @else
                                                 {{-- Giá bình thường hoặc khác --}}
-                                                <span class="text-gray-900 font-medium">${{ number_format($orderPrice) }}</span>
+                                                <span class="text-gray-900 font-medium">${{ number_format($orderPrice, 2, '.', ',') }}</span>
                                             @endif
                                         </span>
                                     </div>
@@ -411,7 +411,7 @@
                             <div class="flex justify-between items-center">
                                 <span class="text-lg font-semibold text-gray-900">Order Total:</span>
                                 <span
-                                    class="text-2xl font-bold text-purple-600">${{ number_format($order->total_price) }}</span>
+                                    class="text-2xl font-bold text-purple-600">${{ number_format($order->total_price, 2, '.', ',') }}</span>
                             </div>
                         </div>
                     </div>

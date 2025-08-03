@@ -62,7 +62,7 @@
                         <div class="ml-5 w-0 flex-1">
                             <dl>
                                 <dt class="text-sm font-medium text-gray-500 truncate">Monthly Revenue</dt>
-                                <dd class="text-lg font-medium text-gray-900">${{ number_format($monthlyRevenue ?? 0, 0, ',', '.') }}</dd>
+                                <dd class="text-lg font-medium text-gray-900">${{ number_format($monthlyRevenue ?? 0, 2, '.', ',') }}</dd>
                             </dl>
                         </div>
                     </div>
@@ -158,7 +158,7 @@
                 </div>
                 {{-- Total revenue - Cumulative revenue from all orders --}}
                 <div class="bg-white rounded-lg shadow p-4 text-center">
-                    <div class="text-2xl font-bold text-orange-600">${{ number_format($totalRevenue ?? 0, 0, ',', '.') }}</div>
+                    <div class="text-2xl font-bold text-orange-600">${{ number_format($totalRevenue ?? 0, 2, '.', ',') }}</div>
                     <div class="text-sm text-gray-600">Total Revenue</div>
                 </div>
             </div>
@@ -399,7 +399,7 @@
                                         {{-- Customer name cell with fallback to 'Guest' --}}
                                         <td class="px-4 py-2 text-sm text-gray-900">{{ $order->user->name ?? 'Guest' }}</td>
                                         {{-- Order total with currency formatting and green accent --}}
-                                        <td class="px-4 py-2 text-sm font-semibold text-green-600">${{ number_format($order->total_amount, 0, ',', '.') }}</td>
+                                        <td class="px-4 py-2 text-sm font-semibold text-green-600">${{ number_format($order->total_amount, 2, '.', ',') }}</td>
                                         {{-- Order status cell with colored badge --}}
                                         <td class="px-4 py-2">
                                             {{-- Status badge with conditional background and text colors --}}
