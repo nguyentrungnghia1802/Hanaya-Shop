@@ -7,9 +7,7 @@
         <div class="min-h-screen bg-gray-50 py-8">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <x-alert />
-                @if (session('success'))
-                    <div class="mb-4 p-3 bg-green-100 text-green-700 rounded">{{ session('success') }}</div>
-                @endif
+
                 @if (count($cart) > 0)
                     <form id="checkout-form" method="POST" action="{{ route('checkout.preview') }}">
                         @csrf
@@ -69,13 +67,13 @@
                                                         data-total="{{ $item['price'] * $item['quantity'] }}"
                                                         data-stock="{{ $item['product_quantity'] }}"> --}}
                                                          <input name="quantities[{{ $id }}]" type="number" min="1"
-    class="quantity-input w-[80px] text-center border rounded focus:ring-pink-500"
-    value="{{ $item['quantity'] }}" data-id="{{ $id }}"
-    data-price="{{ $item['price'] }}"
-    data-total="{{ $item['price'] * $item['quantity'] }}"
-    data-stock="{{ $item['product_quantity'] }}">
+                                                            class="quantity-input w-[80px] text-center border rounded focus:ring-pink-500"
+                                                            value="{{ $item['quantity'] }}" data-id="{{ $id }}"
+                                                            data-price="{{ $item['price'] }}"
+                                                            data-total="{{ $item['price'] * $item['quantity']}}"
+                                                            data-stock="{{ $item['product_quantity'] }}">
 
-                                                    <button type="button"
+                                                        <button type="button"
                                                         class="btn-increase bg-gray-200 hover:bg-pink-100 text-pink-600 px-2 rounded transition"
                                                         data-id="{{ $id }}">+</button>
                                                 </div>
@@ -148,7 +146,7 @@
                                             class="quantity-input w-[60px] text-center border rounded focus:ring-pink-500"
                                             value="{{ $item['quantity'] }}" data-id="{{ $id }}"
                                             data-price="{{ $item['price'] }}"
-                                            data-total="{{ $item['price'] * $item['quantity'] }}">
+                                            data-total="{{ $item['price'] * $item['quantity']}}">
                                         <button type="button"
                                             class="btn-increase bg-gray-200 hover:bg-pink-100 text-pink-600 px-2 rounded transition"
                                             data-id="{{ $id }}">+</button>
