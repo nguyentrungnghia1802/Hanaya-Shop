@@ -59,6 +59,9 @@ class OrderController extends Controller
 
         // Get review status for each order detail
         $canReviewStatus = config('constants.review.can_review_status');
+        $payment = Payment::where('order_id', $order->id)->get();
+        $payment_status = $payment->first()->payment_status ?? '';
+        
         
         foreach ($order->orderDetail as $detail) {
             // Check if user has already reviewed this product in this order
@@ -72,7 +75,7 @@ class OrderController extends Controller
             $detail->review = $existingReview;
         }
 
-        return view('page.order.show', compact('order'));
+        return view('page.order.show', compact('order', 'payment_status'));
     }
 
     public function cancel($orderId)
@@ -104,6 +107,16 @@ class OrderController extends Controller
         return redirect()->back()->with('error', 'An error occurred while cancelling the order: ' . $e->getMessage());
     }
 }
+    
+    public function receive($orderId)
+    {
+        $order = Order::findOrFail($orderId);
+        $order->status = 'completed';
+        $order->save();
+        
+
+        return redirect()->back()->with('success', 'Order has been marked as received.');
+    }
 
 
 }

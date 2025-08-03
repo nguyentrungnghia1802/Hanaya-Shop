@@ -12,7 +12,7 @@
                         </a>
                         <div>
                             <h1 class="text-3xl font-bold">📋 Order Details</h1>
-                            <p class="text-pink-100 mt-2">Order #{{ $order->id }} -
+                            <p class="text-pink-400 mt-2">Order #{{ $order->id }} -
                                 {{ $order->created_at->format('M d, Y H:i') }}</p>
                         </div>
                     </div>
@@ -33,7 +33,8 @@
                         $statuses = [
                             'pending' => ['label' => 'Processing', 'step' => 1],
                             'processing' => ['label' => 'Confirmed', 'step' => 2],
-                            'completed' => ['label' => 'Delivered', 'step' => 3],
+                            'shipped' => ['label' => 'Shipped', 'step' => 3],
+                            'completed' => ['label' => 'Delivered', 'step' => 4],
                         ];
                         $currentStep = $statuses[$order->status]['step'] ?? 0;
                     @endphp
@@ -100,10 +101,33 @@
                             @endif
                         </div>
                         <p
-                            class="text-sm font-medium mt-2 text-center {{ $currentStep >= 3 ? 'text-purple-600' : 'text-gray-500' }}">
-                            Delivered</p>
+                            class="text-sm font-medium mt-2 text-center {{ $currentStep >= 4 ? 'text-purple-600' : 'text-gray-500' }}">
+                            Shipped</p>
                     </div>
-                </div>
+
+                    <!-- Connection Line 3-4 -->
+                    <div class="flex-1 h-0.5 {{ $currentStep >= 4 ? 'bg-purple-500' : 'bg-gray-200' }} mx-4"></div>
+
+                    <!-- Step 4: Delivered -->
+                    <div class="flex flex-col items-center flex-1">
+                        <div
+                            class="w-10 h-10 rounded-full flex items-center justify-center {{ $currentStep >= 4 ? 'bg-purple-500 text-white' : 'bg-gray-200 text-gray-400' }}">
+                            @if ($currentStep >= 4)
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                    clip-rule="evenodd"></path>
+                                </svg>
+                            @else
+                                <span>4</span>
+                            @endif
+                        </div>
+                            <p
+                                class="text-sm font-medium mt-2 text-center {{ $currentStep >= 4 ? 'text-purple-600' : 'text-gray-500' }}">
+                                Delivered</p>
+                        </div>
+
+                    </div>
 
                 @if($order->status === 'cancelled')
                     <div class="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
@@ -152,7 +176,7 @@
                         </div>
                         <div class="flex justify-between items-center py-3 border-b border-gray-200">
                             <span class="text-gray-600">Total Amount:</span>
-                            <span class="font-semibold text-gray-900">${{ number_format($order->total_price) }}</span>
+                            <span class="font-semibold text-gray-900">${{ number_format($order->total_price, 2, '.', ',') }}</span>
                         </div>
                         <div class="flex justify-between items-center py-3">
                             <span class="text-gray-600">Status:</span>
@@ -160,6 +184,10 @@
                                 <span
                                     class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
                                     Processing
+                                </span>
+                            @elseif($order->status === 'shipped')
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                    Shipped
                                 </span>
                             @elseif($order->status === 'processing')
                                 <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
@@ -263,7 +291,26 @@
                                     <div class="flex items-center space-x-4 text-sm text-gray-500">
                                         <span>Quantity: {{ $detail->quantity }}</span>
                                         <span>•</span>
-                                        <span>Unit Price: ${{ number_format($detail->price) }}</span>
+                                        <span>
+                                            @php
+                                                $currentProduct = $detail->product;
+                                                $orderPrice = $detail->price; // Giá lúc đặt hàng
+                                                $currentPrice = $currentProduct ? $currentProduct->price : $orderPrice; // Giá hiện tại
+                                                $hasDiscount = $currentProduct && $currentProduct->discount_percent > 0;
+                                                $currentDiscountedPrice = $hasDiscount ? 
+                                                    $currentPrice * (1 - $currentProduct->discount_percent / 100) : $currentPrice;
+                                            @endphp
+                                            
+                                            Unit Price: 
+                                            @if ($hasDiscount && abs($orderPrice - $currentDiscountedPrice) < 0.01)
+                                                {{-- Nếu giá đặt hàng = giá khuyến mãi hiện tại --}}
+                                                <span class="text-pink-600 font-medium">${{ number_format($orderPrice, 2, '.', ',') }}</span>
+                                                <span class="text-gray-400 line-through text-xs ml-1">${{ number_format($currentPrice, 2, '.', ',') }}</span>
+                                            @else
+                                                {{-- Giá bình thường hoặc khác --}}
+                                                <span class="text-gray-900 font-medium">${{ number_format($orderPrice, 2, '.', ',') }}</span>
+                                            @endif
+                                        </span>
                                     </div>
                                 </div>
 
@@ -306,19 +353,57 @@
 
                 <!-- Order Total -->
                 <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                    @php
+                        $subtotal = $order->total_price - config('constants.checkout.shipping_fee', 8);
+                        $shippingFee = config('constants.checkout.shipping_fee', 8);
+                        $originalSubtotal = 0;
+                        $totalSavings = 0;
+                        
+                        // Tính tổng tiết kiệm
+                        foreach ($order->orderDetail as $detail) {
+                            $currentProduct = $detail->product;
+                            if ($currentProduct) {
+                                $currentPrice = $currentProduct->price;
+                                $originalItemTotal = $currentPrice * $detail->quantity;
+                                $orderItemTotal = $detail->price * $detail->quantity;
+                                
+                                $originalSubtotal += $originalItemTotal;
+                                
+                                // Nếu giá đặt hàng thấp hơn giá gốc hiện tại thì có tiết kiệm
+                                if ($orderItemTotal < $originalItemTotal) {
+                                    $totalSavings += ($originalItemTotal - $orderItemTotal);
+                                }
+                            }
+                        }
+                    @endphp
+                    
                     <div class="space-y-3">
+                        @if ($totalSavings > 0)
+                            <!-- Original Subtotal -->
+                            <div class="flex justify-between items-center">
+                                <span class="text-base text-gray-500">Original Subtotal:</span>
+                                <span class="text-base text-gray-500 line-through">${{ number_format($originalSubtotal) }}</span>
+                            </div>
+                        @endif
+                        
                         <!-- Subtotal -->
                         <div class="flex justify-between items-center">
                             <span class="text-base text-gray-700">Subtotal:</span>
-                            <span
-                                class="text-base font-medium text-gray-900">${{ number_format($order->total_price - config('constants.checkout.shipping_fee', 8)) }}</span>
+                            <span class="text-base font-medium text-gray-900">${{ number_format($subtotal) }}</span>
                         </div>
+                        
+                        @if ($totalSavings > 0)
+                            <!-- Savings -->
+                            <div class="flex justify-between items-center">
+                                <span class="text-base text-green-600">You Saved:</span>
+                                <span class="text-base font-medium text-green-600">-${{ number_format($totalSavings) }}</span>
+                            </div>
+                        @endif
 
                         <!-- Shipping Fee -->
                         <div class="flex justify-between items-center">
                             <span class="text-base text-gray-700">Shipping Fee:</span>
-                            <span
-                                class="text-base font-medium text-gray-900">${{ number_format(config('constants.checkout.shipping_fee', 8)) }}</span>
+                            <span class="text-base font-medium text-gray-900">${{ number_format($shippingFee) }}</span>
                         </div>
 
                         <!-- Divider -->
@@ -326,7 +411,7 @@
                             <div class="flex justify-between items-center">
                                 <span class="text-lg font-semibold text-gray-900">Order Total:</span>
                                 <span
-                                    class="text-2xl font-bold text-purple-600">${{ number_format($order->total_price) }}</span>
+                                    class="text-2xl font-bold text-purple-600">${{ number_format($order->total_price, 2, '.', ',') }}</span>
                             </div>
                         </div>
                     </div>
@@ -394,6 +479,27 @@
                         Cancel Order
                     </button>
                 @endif
+
+                @if($order->status === 'shipped' && $payment_status === 'completed')
+                    <a href="{{ route('order.receive', $order->id) }}"
+                       data-confirm-cancel
+                       class="inline-flex items-center px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                       <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                       </svg>
+                        Received
+                    </a>
+                @else
+                    <button type="button"
+                        disabled
+                        class="inline-flex items-center px-6 py-3 bg-gray-200 text-gray-600 font-semibold rounded-lg cursor-not-allowed">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        Received
+                    </button>
+                @endif
+
 
                 <a href="{{ route('user.products.index') }}"
                     class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2">
