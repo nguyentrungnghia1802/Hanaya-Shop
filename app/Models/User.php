@@ -37,6 +37,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory; // Factory support for testing
 use Illuminate\Foundation\Auth\User as Authenticatable; // Laravel's authentication base class
 use Illuminate\Notifications\Notifiable;               // Notification system support
+use Illuminate\Auth\Passwords\CanResetPassword;        // Password reset functionality
 use App\Models\Order\Order;      // Order model for purchase tracking
 use App\Models\Product\Review;   // Review model for product feedback
 use App\Models\Cart\Cart;        // Shopping cart model
@@ -51,7 +52,7 @@ use App\Models\Cart\Cart;        // Shopping cart model
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable; // Enable model factories and notification system
+    use HasFactory, Notifiable, CanResetPassword; // Enable model factories, notifications, and password reset
 
     /**
      * Mass Assignable Attributes
