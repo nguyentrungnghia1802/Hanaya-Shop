@@ -67,7 +67,7 @@
                                 </tr>
                             </thead>
                             <tbody class="text-gray-800">
-                                @foreach ($order as $item)
+                                @foreach ($order as $index => $item)
                                     @php
                                         $matchedPayment = $payment->firstWhere('order_id', $item->id);
                                         if($matchedPayment && !$matchedPayment->payment_status) {
@@ -77,7 +77,7 @@
                                          $isAllFilter = request('status') === null || request('status') === '';
                                     @endphp
                                     <tr class="hover:bg-gray-50 transition">
-                                        <td class="px-4 py-2 border-b">{{ $item->id }}</td>
+                                        <td class="px-4 py-2 border-b">{{ $order->firstItem() + $index }}</td>
                                         <td class="px-4 py-2 border-b">{{ $item->user->name ?? 'Unknown' }} (ID: {{ $item->user_id }})</td>
                                         <td class="px-4 py-2 border-b">{{ $item->total_price }}</td>
                                         <td class="px-4 py-2 border-b">{{ $item->created_at }}</td>

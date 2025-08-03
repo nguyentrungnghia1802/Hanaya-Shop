@@ -31,7 +31,7 @@
                 <h3 class="text-xl font-semibold text-gray-800 mb-4">Order Information</h3>
                 <div class="space-y-2 text-gray-700">
                     <p><span class="font-medium">Order Date:</span> {{ $order->created_at->format('d/m/Y H:i') }}</p>
-                    <p><span class="font-medium">Total Amount:</span> {{ number_format($order->total_price) }}₫</p>
+                    <p><span class="font-medium">Total Amount:</span> ${{ number_format($order->total_price) }}</p>
                     <p>
                         <span class="font-medium">Status:</span> 
                         <span class="px-2 py-1 rounded text-sm font-medium inline-block
@@ -93,10 +93,10 @@
                             </div>
                             <div class="mt-2 md:mt-0 text-right">
                                 <p class="text-sm text-gray-600">
-                                    Unit Price: {{ number_format($detail->price) }}₫
+                                    Unit Price: ${{ number_format($detail->price) }}
                                 </p>
                                 <p class="text-sm font-medium text-gray-900">
-                                    Total: {{ number_format($detail->price * $detail->quantity) }}₫
+                                    Total: ${{ number_format($detail->price * $detail->quantity) }}
                                 </p>
                             </div>
                         </div>

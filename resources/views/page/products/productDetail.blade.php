@@ -14,13 +14,6 @@
         <!-- Tiêu đề -->
         <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center">Product Details</h1>
 
-        <!-- Success notification -->
-        @if (session('success'))
-            <div class="mb-6 p-4 bg-green-100 text-green-800 rounded-lg shadow text-center">
-                <i class="fas fa-check-circle mr-2"></i>{{ session('success') }}
-            </div>
-        @endif
-
         <!-- Thông báo lỗi -->
         <x-alert />
 
