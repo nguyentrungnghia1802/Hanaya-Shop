@@ -291,7 +291,26 @@
                                     <div class="flex items-center space-x-4 text-sm text-gray-500">
                                         <span>Quantity: {{ $detail->quantity }}</span>
                                         <span>•</span>
-                                        <span>Unit Price: ${{ number_format($detail->price) }}</span>
+                                        <span>
+                                            @php
+                                                $currentProduct = $detail->product;
+                                                $orderPrice = $detail->price; // Giá lúc đặt hàng
+                                                $currentPrice = $currentProduct ? $currentProduct->price : $orderPrice; // Giá hiện tại
+                                                $hasDiscount = $currentProduct && $currentProduct->discount_percent > 0;
+                                                $currentDiscountedPrice = $hasDiscount ? 
+                                                    $currentPrice * (1 - $currentProduct->discount_percent / 100) : $currentPrice;
+                                            @endphp
+                                            
+                                            Unit Price: 
+                                            @if ($hasDiscount && abs($orderPrice - $currentDiscountedPrice) < 0.01)
+                                                {{-- Nếu giá đặt hàng = giá khuyến mãi hiện tại --}}
+                                                <span class="text-pink-600 font-medium">${{ number_format($orderPrice) }}</span>
+                                                <span class="text-gray-400 line-through text-xs ml-1">${{ number_format($currentPrice) }}</span>
+                                            @else
+                                                {{-- Giá bình thường hoặc khác --}}
+                                                <span class="text-gray-900 font-medium">${{ number_format($orderPrice) }}</span>
+                                            @endif
+                                        </span>
                                     </div>
                                 </div>
 
@@ -334,19 +353,57 @@
 
                 <!-- Order Total -->
                 <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                    @php
+                        $subtotal = $order->total_price - config('constants.checkout.shipping_fee', 8);
+                        $shippingFee = config('constants.checkout.shipping_fee', 8);
+                        $originalSubtotal = 0;
+                        $totalSavings = 0;
+                        
+                        // Tính tổng tiết kiệm
+                        foreach ($order->orderDetail as $detail) {
+                            $currentProduct = $detail->product;
+                            if ($currentProduct) {
+                                $currentPrice = $currentProduct->price;
+                                $originalItemTotal = $currentPrice * $detail->quantity;
+                                $orderItemTotal = $detail->price * $detail->quantity;
+                                
+                                $originalSubtotal += $originalItemTotal;
+                                
+                                // Nếu giá đặt hàng thấp hơn giá gốc hiện tại thì có tiết kiệm
+                                if ($orderItemTotal < $originalItemTotal) {
+                                    $totalSavings += ($originalItemTotal - $orderItemTotal);
+                                }
+                            }
+                        }
+                    @endphp
+                    
                     <div class="space-y-3">
+                        @if ($totalSavings > 0)
+                            <!-- Original Subtotal -->
+                            <div class="flex justify-between items-center">
+                                <span class="text-base text-gray-500">Original Subtotal:</span>
+                                <span class="text-base text-gray-500 line-through">${{ number_format($originalSubtotal) }}</span>
+                            </div>
+                        @endif
+                        
                         <!-- Subtotal -->
                         <div class="flex justify-between items-center">
                             <span class="text-base text-gray-700">Subtotal:</span>
-                            <span
-                                class="text-base font-medium text-gray-900">${{ number_format($order->total_price - config('constants.checkout.shipping_fee', 8)) }}</span>
+                            <span class="text-base font-medium text-gray-900">${{ number_format($subtotal) }}</span>
                         </div>
+                        
+                        @if ($totalSavings > 0)
+                            <!-- Savings -->
+                            <div class="flex justify-between items-center">
+                                <span class="text-base text-green-600">You Saved:</span>
+                                <span class="text-base font-medium text-green-600">-${{ number_format($totalSavings) }}</span>
+                            </div>
+                        @endif
 
                         <!-- Shipping Fee -->
                         <div class="flex justify-between items-center">
                             <span class="text-base text-gray-700">Shipping Fee:</span>
-                            <span
-                                class="text-base font-medium text-gray-900">${{ number_format(config('constants.checkout.shipping_fee', 8)) }}</span>
+                            <span class="text-base font-medium text-gray-900">${{ number_format($shippingFee) }}</span>
                         </div>
 
                         <!-- Divider -->

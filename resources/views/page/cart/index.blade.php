@@ -33,12 +33,12 @@
                                 <tbody>
                                     @php $total = 0; @endphp
                                     @foreach ($cart as $id => $item)
-                                        @php $total += $item['price'] * $item['quantity']; @endphp
+                                        @php $total += $item['discounted_price'] * $item['quantity']; @endphp
                                         <tr class="hover:bg-pink-50 transition-all">
                                             <td class="py-3 px-4 text-center align-middle">
                                                 <input type="checkbox" name="cart_ids[]" value="{{ $id }}"
                                                     class="cart-checkbox accent-pink-500 w-5 h-5"
-                                                    data-price="{{ $item['price'] * $item['quantity'] }}"
+                                                    data-price="{{ $item['discounted_price'] * $item['quantity'] }}"
                                                     data-id="{{ $id }}"
                                                     data-product-id="{{ $item['product_id'] }}">
                                             </td>
@@ -53,24 +53,34 @@
                                             </td>
                                             <td class="py-3 px-4 align-middle font-semibold text-gray-900">
                                                 {{ $item['name'] }}</td>
-                                            <td class="py-3 px-4 align-middle text-pink-600 font-bold">
-                                                {{ number_format($item['price'], 0, ',', '.') }} USD</td>
+                                            <td class="py-3 px-4 align-middle">
+                                                @if ($item['discount_percent'] > 0)
+                                                    <div class="space-y-1">
+                                                        <div class="text-pink-600 font-bold">
+                                                            {{ number_format($item['discounted_price'], 0, ',', '.') }} USD
+                                                        </div>
+                                                        <div class="text-xs text-gray-500 line-through">
+                                                            {{ number_format($item['price'], 0, ',', '.') }} USD
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <div class="text-pink-600 font-bold">
+                                                        {{ number_format($item['price'], 0, ',', '.') }} USD
+                                                    </div>
+                                                @endif
+                                            </td>
                                             <td class="py-3 px-4 align-middle text-center">
                                                 <div class="flex items-center justify-center gap-2">
                                                     <button type="button"
                                                         class="btn-decrease bg-gray-200 hover:bg-pink-100 text-pink-600 px-2 rounded transition"
                                                         data-id="{{ $id }}">−</button>
-                                                    {{-- <input name="quantities[{{ $id }}]" type="number" min="1"
-                                                        class="quantity-input w-[80px] text-center border rounded focus:ring-pink-500"
-                                                        value="{{ $item['quantity'] }}" data-id="{{ $id }}"
-                                                        data-price="{{ $item['price'] }}"
-                                                        data-total="{{ $item['price'] * $item['quantity'] }}"
-                                                        data-stock="{{ $item['product_quantity'] }}"> --}}
                                                          <input name="quantities[{{ $id }}]" type="number" min="1"
                                                             class="quantity-input w-[80px] text-center border rounded focus:ring-pink-500"
                                                             value="{{ $item['quantity'] }}" data-id="{{ $id }}"
-                                                            data-price="{{ $item['price'] }}"
-                                                            data-total="{{ $item['price'] * $item['quantity']}}"
+                                                            data-price="{{ $item['discounted_price'] }}"
+                                                            data-original-price="{{ $item['price'] }}"
+                                                            data-discount-percent="{{ $item['discount_percent'] }}"
+                                                            data-total="{{ $item['discounted_price'] * $item['quantity']}}"
                                                             data-stock="{{ $item['product_quantity'] }}">
 
                                                         <button type="button"
@@ -80,7 +90,7 @@
                                             </td>
                                             <td class="py-3 px-4 align-middle item-total font-bold text-purple-700"
                                                 data-id="{{ $id }}">
-                                                {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}
+                                                {{ number_format($item['discounted_price'] * $item['quantity'], 0, ',', '.') }}
                                                 USD
                                             </td>
                                             <td class="py-3 px-4 align-middle">
@@ -122,7 +132,7 @@
                                 <div class="flex items-center gap-3">
                                     <input type="checkbox" name="cart_ids[]" value="{{ $id }}"
                                         class="cart-checkbox accent-pink-500 w-5 h-5"
-                                        data-price="{{ $item['price'] * $item['quantity'] }}"
+                                        data-price="{{ $item['discounted_price'] * $item['quantity'] }}"
                                         data-id="{{ $id }}" data-product-id="{{ $item['product_id'] }}">
                                     <div
                                         class="w-20 h-20 rounded-lg overflow-hidden border-2 border-pink-200 bg-gray-100 flex items-center justify-center">
@@ -133,8 +143,20 @@
                                     </div>
                                     <div class="flex-1">
                                         <div class="font-semibold text-gray-900">{{ $item['name'] }}</div>
-                                        <div class="text-pink-600 font-bold">
-                                            {{ number_format($item['price'], 0, ',', '.') }} USD</div>
+                                        @if ($item['discount_percent'] > 0)
+                                            <div class="space-y-1">
+                                                <div class="text-pink-600 font-bold">
+                                                    {{ number_format($item['discounted_price'], 0, ',', '.') }} USD
+                                                </div>
+                                                <div class="text-xs text-gray-500 line-through">
+                                                    {{ number_format($item['price'], 0, ',', '.') }} USD
+                                                </div>
+                                            </div>
+                                        @else
+                                            <div class="text-pink-600 font-bold">
+                                                {{ number_format($item['price'], 0, ',', '.') }} USD
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="flex items-center justify-between">
@@ -145,14 +167,17 @@
                                         <input type="number" min="1"
                                             class="quantity-input w-[60px] text-center border rounded focus:ring-pink-500"
                                             value="{{ $item['quantity'] }}" data-id="{{ $id }}"
-                                            data-price="{{ $item['price'] }}"
-                                            data-total="{{ $item['price'] * $item['quantity']}}">
+                                            data-price="{{ $item['discounted_price'] }}"
+                                            data-original-price="{{ $item['price'] }}"
+                                            data-discount-percent="{{ $item['discount_percent'] }}"
+                                            data-total="{{ $item['discounted_price'] * $item['quantity']}}"
+                                            data-stock="{{ $item['product_quantity'] }}">
                                         <button type="button"
                                             class="btn-increase bg-gray-200 hover:bg-pink-100 text-pink-600 px-2 rounded transition"
                                             data-id="{{ $id }}">+</button>
                                     </div>
                                     <div class="item-total font-bold text-purple-700" data-id="{{ $id }}">
-                                        {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }} USD
+                                        {{ number_format($item['discounted_price'] * $item['quantity'], 0, ',', '.') }} USD
                                     </div>
                                     <a href="{{ route('cart.remove', $id) }}"
                                         class="text-red-600 hover:underline font-medium">Delete</a>
@@ -344,6 +369,8 @@
                         name = nameDiv ? nameDiv.textContent.trim() : '';
                     }
                     const price = parseFloat(row.querySelector('.quantity-input').dataset.price);
+                    const originalPrice = parseFloat(row.querySelector('.quantity-input').dataset.originalPrice);
+                    const discountPercent = parseFloat(row.querySelector('.quantity-input').dataset.discountPercent) || 0;
                     const quantity = parseInt(row.querySelector('.quantity-input').value);
                     const subtotal = price * quantity;
                     const stock_quantity = parseInt(row.querySelector('.quantity-input').dataset
@@ -354,7 +381,9 @@
                         id: cb.dataset.productId, // Get correct product_id from checkbox
                         image,
                         name,
-                        price,
+                        price: originalPrice, // Giá gốc
+                        discounted_price: price, // Giá sau giảm
+                        discount_percent: discountPercent,
                         quantity,
                         subtotal,
                         stock_quantity
