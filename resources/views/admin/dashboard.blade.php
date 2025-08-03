@@ -192,6 +192,9 @@
                                             @case('cancelled')
                                                 Cancelled
                                                 @break
+                                            @case('shipped')
+                                                Shipped
+                                                @break
                                             @default
                                                 {{ ucfirst($status) }}
                                         @endswitch
