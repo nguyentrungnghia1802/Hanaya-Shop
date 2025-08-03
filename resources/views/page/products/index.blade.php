@@ -15,20 +15,23 @@
             @endphp
 
             <!-- Search Status Banner -->
-            @if($keyword || $selectedCategoryName)
+            @if ($keyword || $selectedCategoryName)
                 <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
                     <div class="flex items-center text-blue-800">
                         <i class="fas fa-info-circle mr-2"></i>
                         <span class="text-sm">
-                            @if($keyword && $selectedCategoryName)
-                                Searching for "<strong>{{ $keyword }}</strong>" in category "<strong>{{ ucfirst(str_replace('-', ' ', $selectedCategoryName)) }}</strong>"
+                            @if ($keyword && $selectedCategoryName)
+                                Searching for "<strong>{{ $keyword }}</strong>" in category
+                                "<strong>{{ ucfirst(str_replace('-', ' ', $selectedCategoryName)) }}</strong>"
                             @elseif($keyword)
                                 Searching for "<strong>{{ $keyword }}</strong>" in all products
                             @elseif($selectedCategoryName)
-                                Showing products in category "<strong>{{ ucfirst(str_replace('-', ' ', $selectedCategoryName)) }}</strong>"
+                                Showing products in category
+                                "<strong>{{ ucfirst(str_replace('-', ' ', $selectedCategoryName)) }}</strong>"
                             @endif
                         </span>
-                        <a href="{{ route('user.products.index') }}" class="ml-auto text-blue-600 hover:text-blue-800 text-sm font-medium">
+                        <a href="{{ route('user.products.index') }}"
+                            class="ml-auto text-blue-600 hover:text-blue-800 text-sm font-medium">
                             Clear filters
                         </a>
                     </div>
@@ -39,11 +42,12 @@
                 <!-- Search Row - Mobile Responsive -->
                 <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
                     <div class="flex-1 relative">
-                        <input type="text" name="q" value="{{ $keyword }}" 
+                        <input type="text" name="q" value="{{ $keyword }}"
                             placeholder="{{ $selectedCategoryName ? 'Search in ' . ucfirst(str_replace('-', ' ', $selectedCategoryName)) . ' category...' : 'Search products...' }}"
                             class="w-full px-3 py-2 text-sm sm:text-base rounded border focus:outline-none focus:ring focus:ring-pink-300">
-                        @if($selectedCategoryName)
-                            <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-gray-500 bg-pink-100 px-2 py-1 rounded">
+                        @if ($selectedCategoryName)
+                            <span
+                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-gray-500 bg-pink-100 px-2 py-1 rounded">
                                 {{ ucfirst(str_replace('-', ' ', $selectedCategoryName)) }}
                             </span>
                         @endif
@@ -55,7 +59,8 @@
 
                     <button type="submit"
                         class="bg-pink-600 text-white px-4 sm:px-6 py-2 text-sm sm:text-base rounded hover:bg-pink-700 transition-colors whitespace-nowrap">
-                        <i class="fas fa-search mr-2"></i>{{ $selectedCategoryName ? 'Search in Category' : 'Search All' }}
+                        <i
+                            class="fas fa-search mr-2"></i>{{ $selectedCategoryName ? 'Search in Category' : 'Search All' }}
                     </button>
                 </div>
 
@@ -176,12 +181,12 @@
                                 <h3 class="text-sm sm:text-base font-semibold text-gray-800 line-clamp-2">
                                     {{ $productItem->name }}</h3>
                             </div>
-                            
+
                             @if ($productItem->category)
                                 <p class="text-xs text-pink-600 font-medium mb-1">
                                     {{ $productItem->category->name }}</p>
                             @endif
-                            
+
                             <!-- Fixed height description -->
                             <div class="h-10 mb-3">
                                 <p class="text-xs text-gray-600 line-clamp-2">{{ $productItem->descriptions }}</p>
@@ -192,15 +197,15 @@
                                 @if ($productItem->discount_percent > 0)
                                     <div class="space-y-1">
                                         <div class="text-pink-600 font-bold text-lg">
-                                            {{ number_format($productItem->discounted_price, 0, ',', '.') }} USD
+                                            ${{ number_format($productItem->discounted_price, 2, '.', ',') }}
                                         </div>
                                         <div class="text-xs text-gray-500 line-through">
-                                            {{ number_format($productItem->price, 0, ',', '.') }} USD
+                                            ${{ number_format($productItem->price, 2, '.', ',') }}
                                         </div>
                                     </div>
                                 @else
                                     <div class="text-pink-600 font-bold text-lg">
-                                        {{ number_format($productItem->price, 0, ',', '.') }} USD
+                                        ${{ number_format($productItem->price, 2, '.', ',') }}
                                     </div>
                                 @endif
                             </div>
@@ -215,10 +220,22 @@
                             </div>
 
                             <div class="flex items-center text-yellow-400 text-sm mb-3">
-                                @for ($i = 1; $i <= 5; $i++)
-                                    <i class="fas fa-star{{ $i <= 4 ? '' : ' text-gray-300' }}"></i>
-                                @endfor
-                                <span class="text-gray-500 text-xs ml-1">(4.0)</span>
+                                @php
+                                    $avgRating = round($productItem->reviews_avg_rating ?? 5, 1); // trung bình rating
+                                @endphp
+
+                                <div class="flex items-center text-yellow-400 text-sm mb-3">
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        <i
+                                            class="fas fa-star{{ $i <= floor($avgRating) ? '' : ' text-gray-300' }}"></i>
+                                    @endfor
+                                    <span class="text-gray-500 text-xs ml-1">
+                                        ({{ $avgRating }})
+                                        {{-- hoặc nếu có dùng withCount: --}}
+                                        {{-- ({{ $avgRating }} / {{ $productItem->reviews_count }} đánh giá) --}}
+                                    </span>
+                                </div>
+
                             </div>
 
                             <!-- Button pushes to bottom -->

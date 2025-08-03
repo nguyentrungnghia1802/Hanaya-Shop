@@ -1,10 +1,5 @@
 @props(['categoryData', 'title' => 'Products by Category'])
 
-@if(session('success'))
-    <div class="mb-6 p-4 bg-green-100 text-green-800 rounded-lg shadow text-center">
-        <i class="fas fa-check-circle mr-2"></i>{{ session('success') }}
-    </div>
-@endif
 @if(isset($categoryData) && count($categoryData) > 0)
 <div class="mb-12">
     <div class="container mx-auto px-4">

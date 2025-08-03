@@ -28,7 +28,7 @@
                     <div class="mb-4 flex flex-wrap gap-2">
                         <a href="{{ route('admin.user.create') }}"
                             class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded transition">
-                            Add User
+                            Add
                         </a>
                         <button id="btn-delete-multi"
                             class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded transition">
@@ -44,7 +44,7 @@
                                     <th class="px-2 sm:px-4 py-2 border-b">
                                         <input type="checkbox" id="checkAll">
                                     </th>
-                                    <th class="px-2 sm:px-4 py-2 border-b">STT</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">#</th>
                                     <th class="px-2 sm:px-4 py-2 border-b">Name</th>
                                     <th class="px-2 sm:px-4 py-2 border-b">Email</th>
                                     <th class="px-2 sm:px-4 py-2 border-b">Role</th>

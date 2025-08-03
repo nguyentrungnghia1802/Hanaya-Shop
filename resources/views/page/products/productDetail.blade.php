@@ -11,17 +11,10 @@
             <span class="text-gray-900">{{ $product->name }}</span>
         </nav>
 
-        <!-- Tiêu đề -->
+        <!-- Header -->
         <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center">Product Details</h1>
 
-        <!-- Success notification -->
-        @if (session('success'))
-            <div class="mb-6 p-4 bg-green-100 text-green-800 rounded-lg shadow text-center">
-                <i class="fas fa-check-circle mr-2"></i>{{ session('success') }}
-            </div>
-        @endif
-
-        <!-- Thông báo lỗi -->
+        <!-- Announcement -->
         <x-alert />
 
         <!-- Product detailed information -->
@@ -64,19 +57,19 @@
                             <div class="space-y-2">
                                 <div class="flex items-center space-x-3">
                                     <span class="text-3xl sm:text-4xl font-bold text-red-600">
-                                        {{ number_format($product->discounted_price, 0, ',', '.') }} USD
+                                        ${{ number_format($product->discounted_price, 2, '.', ',') }}
                                     </span>
                                     <span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-sm font-medium">
                                         -{{ $product->discount_percent }}%
                                     </span>
                                 </div>
                                 <p class="text-lg text-gray-500 line-through">
-                                    {{ number_format($product->price, 0, ',', '.') }} USD
+                                    ${{ number_format($product->price, 2, '.', ',') }}
                                 </p>
                             </div>
                         @else
                             <p class="text-3xl sm:text-4xl font-bold text-pink-600">
-                                {{ number_format($product->price, 0, ',', '.') }} USD
+                                ${{ number_format($product->price, 2, '.', ',') }}
                             </p>
                         @endif
                     </div>
@@ -109,7 +102,7 @@
                                         <i class="fas fa-shopping-cart mr-2"></i>Add to Cart
                                     </button>
                                 </form>
-                                <form action="{{ route('cart.buyNow') }}" method="POST" class="w-full">
+                                <form action="{{ route('cart.buyNow', $product->id) }}" method="POST" class="w-full">
                                     @csrf
                                     <input type="hidden" name="product_id" value="{{ $product->id }}">
                                     <input type="hidden" name="quantity" id="buy-now-quantity" value="1">
@@ -132,10 +125,7 @@
                                     
                                     <i class="fas fa-shopping-cart mr-2"></i>Out of stock
                                 </button>
-
                             @endif
-
-
 
                         @else
                             <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-center">
@@ -281,15 +271,15 @@
                                 @if ($item->discount_percent > 0)
                                     <div class="space-y-1">
                                         <p class="text-pink-600 font-bold text-lg">
-                                            {{ number_format($item->discounted_price, 0, ',', '.') }} USD
+                                            ${{ number_format($item->discounted_price, 2, '.', ',') }}
                                         </p>
                                         <p class="text-sm text-gray-500 line-through">
-                                            {{ number_format($item->price, 0, ',', '.') }} USD
+                                            ${{ number_format($item->price, 2, '.', ',') }}
                                         </p>
                                     </div>
                                 @else
                                     <p class="text-pink-600 font-bold text-lg">
-                                        {{ number_format($item->price, 0, ',', '.') }} USD</p>
+                                        ${{ number_format($item->price, 2, '.', ',') }}</p>
                                 @endif
                             </div>
 
