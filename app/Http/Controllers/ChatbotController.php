@@ -1,96 +1,284 @@
 <?php
+/**
+ * AI Chatbot Controller
+ * 
+ * This controller provides intelligent chatbot functionality for customer support
+ * in the Hanaya Shop e-commerce application. It processes natural language queries
+ * and provides contextual responses about products, orders, services, and store information.
+ * 
+ * Key Features:
+ * - Natural language processing for customer queries
+ * - Product search and recommendation
+ * - Order status inquiry and management
+ * - Store information and service details
+ * - Dynamic response generation with real-time data
+ * - Multi-language support (Vietnamese and English)
+ * 
+ * Supported Query Categories:
+ * - Greetings and welcome messages
+ * - Product search and filtering
+ * - Category information and browsing
+ * - Order tracking and inquiry
+ * - News and blog content
+ * - Pricing and payment information
+ * - Shipping and delivery details
+ * - Store contact and location
+ * - Help and guidance
+ * 
+ * Response Features:
+ * - Rich formatted responses with emojis
+ * - Direct links to relevant pages
+ * - Real-time data from database
+ * - Personalized content based on user authentication
+ * - Fallback responses for unrecognized queries
+ * 
+ * @package App\Http\Controllers
+ * @author Hanaya Shop Development Team
+ * @version 1.0
+ */
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Product\Product;
-use App\Models\Product\Category;
-use App\Models\Post;
-use App\Models\Order\Order;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;           // HTTP request handling
+use App\Models\Product\Product;       // Product model for search and recommendations
+use App\Models\Product\Category;      // Category model for browsing
+use App\Models\Post;                  // Post model for news and blog content
+use App\Models\Order\Order;           // Order model for order tracking
+use Illuminate\Support\Facades\Auth;  // Authentication services for personalized responses
 
+/**
+ * Chatbot Controller Class
+ * 
+ * Handles AI-powered customer support through natural language processing
+ * and intelligent response generation. Provides comprehensive assistance
+ * for customer inquiries about products, orders, and services.
+ */
 class ChatbotController extends Controller
 {
+    /**
+     * Main Chat Handler
+     * 
+     * Processes incoming chat messages and generates appropriate responses.
+     * Handles message preprocessing, intent detection, and response generation.
+     * Provides fallback greeting for empty messages.
+     * 
+     * Processing Flow:
+     * - Input sanitization and normalization
+     * - Message intent classification
+     * - Context-aware response generation
+     * - JSON response formatting
+     * 
+     * @param \Illuminate\Http\Request $request HTTP request containing user message
+     * @return \Illuminate\Http\JsonResponse JSON response with chatbot reply
+     */
     public function chat(Request $request)
     {
+        // Message Preprocessing
+        /**
+         * Input Processing - Clean and normalize user input
+         * Trims whitespace and converts to lowercase for consistent processing
+         * Handles empty messages with default greeting response
+         */
         $message = trim(strtolower($request->input('message', '')));
 
+        // Empty Message Handling
+        /**
+         * Default Greeting - Handle empty or invalid messages
+         * Returns configured greeting message for engagement
+         * Ensures users always receive a helpful response
+         */
         if (empty($message)) {
             return response()->json([
                 'response' => config('constants.chatbot_greeting')
             ]);
         }
 
+        // Message Processing
+        /**
+         * Intent Detection and Response Generation
+         * Routes message to appropriate handler based on detected intent
+         * Generates contextual response with relevant information
+         */
         $response = $this->processMessage($message);
 
+        // Response Formatting
+        /**
+         * JSON Response - Format response for frontend consumption
+         * Consistent response structure for client-side handling
+         * Enables seamless chat interface integration
+         */
         return response()->json([
             'response' => $response
         ]);
     }
 
+    /**
+     * Message Processing and Intent Detection
+     * 
+     * Analyzes user messages to detect intent and generate appropriate responses.
+     * Uses keyword matching and pattern recognition to classify user queries
+     * and route them to specialized response handlers.
+     * 
+     * Intent Categories:
+     * - Greetings and welcome
+     * - Product search and recommendations
+     * - Category browsing
+     * - Order inquiries
+     * - News and content
+     * - Pricing information
+     * - Store details
+     * - Shipping information
+     * - Payment methods
+     * - Help and support
+     * 
+     * @param string $message Preprocessed user message
+     * @return string Generated response text with formatting
+     */
     private function processMessage($message)
     {
-        // Greetings
+        // Greeting Detection
+        /**
+         * Welcome Intent - Detect greeting messages
+         * Responds to hello, hi, and Vietnamese greetings
+         * Provides welcoming response with service overview
+         */
         if ($this->containsWords($message, ['xin chào', 'chào', 'hello', 'hi', 'hey'])) {
             return $this->getGreetingResponse();
         }
 
-        // Product search
+        // Product Search Intent
+        /**
+         * Product Search - Handle product and gift inquiries
+         * Detects product-related keywords in multiple languages
+         * Routes to product search and recommendation system
+         */
         if ($this->containsWords($message, ['sản phẩm', 'tìm', 'tìm kiếm', 'product', 'hoa', 'quà', 'gift'])) {
             return $this->handleProductSearch($message);
         }
 
-        // Categories
+        // Category Browsing Intent
+        /**
+         * Category Information - Handle category and classification queries
+         * Provides category listing and product organization information
+         * Helps users navigate product catalog efficiently
+         */
         if ($this->containsWords($message, ['danh mục', 'category', 'loại', 'phân loại'])) {
             return $this->handleCategoryQuery();
         }
 
-        // Order inquiry
+        // Order Inquiry Intent
+        /**
+         * Order Management - Handle order tracking and purchase queries
+         * Provides order status, history, and checkout assistance
+         * Requires authentication for personalized order information
+         */
         if ($this->containsWords($message, ['đơn hàng', 'order', 'mua', 'thanh toán', 'checkout'])) {
             return $this->handleOrderQuery();
         }
 
-        // Latest posts/news
+        // News and Content Intent
+        /**
+         * Content Information - Handle news, blog, and article requests
+         * Provides latest posts, articles, and company updates
+         * Keeps customers informed about products and promotions
+         */
         if ($this->containsWords($message, ['tin tức', 'bài viết', 'news', 'post', 'blog'])) {
             return $this->handleNewsQuery();
         }
 
-        // Pricing
+        // Pricing Intent
+        /**
+         * Price Information - Handle pricing and cost inquiries
+         * Provides product pricing, ranges, and cost information
+         * Includes promotional pricing and discount details
+         */
         if ($this->containsWords($message, ['giá', 'price', 'bao nhiêu', 'chi phí', 'cost'])) {
             return $this->handlePriceQuery($message);
         }
 
-        // Store information
+        // Store Information Intent
+        /**
+         * Store Details - Handle store location and contact queries
+         * Provides address, contact information, and business hours
+         * Includes service details and store policies
+         */
         if ($this->containsWords($message, ['cửa hàng', 'store', 'shop', 'địa chỉ', 'liên hệ', 'contact'])) {
             return $this->handleStoreInfo();
         }
 
-        // Shipping information
+        // Shipping Information Intent
+        /**
+         * Delivery Information - Handle shipping and delivery queries
+         * Provides shipping costs, timeframes, and delivery policies
+         * Includes tracking and logistics information
+         */
         if ($this->containsWords($message, ['giao hàng', 'ship', 'delivery', 'vận chuyển'])) {
             return $this->handleShippingInfo();
         }
 
-        // Payment methods
+        // Payment Information Intent
+        /**
+         * Payment Methods - Handle payment and billing inquiries
+         * Provides available payment options and processing information
+         * Includes security and payment policy details
+         */
         if ($this->containsWords($message, ['thanh toán', 'payment', 'pay', 'tiền'])) {
             return $this->handlePaymentInfo();
         }
 
-        // Help
+        // Help Intent
+        /**
+         * Support Request - Handle help and guidance requests
+         * Provides usage instructions and support information
+         * Offers guidance on effective chatbot interaction
+         */
         if ($this->containsWords($message, ['help', 'giúp', 'hướng dẫn', 'hỗ trợ', 'support'])) {
             return $this->getHelpResponse();
         }
 
-        // Popular products
+        // Popular Products Intent
+        /**
+         * Trending Products - Handle popular and bestselling product queries
+         * Provides top-selling products and customer favorites
+         * Includes popularity metrics and recommendations
+         */
         if ($this->containsWords($message, ['bán chạy', 'popular', 'hot', 'bestseller', 'nổi bật'])) {
             return $this->handlePopularProducts();
         }
 
-        // Default response with suggestions
+        // Fallback Response
+        /**
+         * Unrecognized Intent - Handle unknown or unclear messages
+         * Provides helpful suggestions and guidance for better queries
+         * Ensures users receive useful response even for unclear input
+         */
         return $this->getDefaultResponse();
     }
 
+    /**
+     * Generate Greeting Response
+     * 
+     * Provides welcoming messages with service overview and engagement prompts.
+     * Rotates between different greeting styles to maintain conversation freshness.
+     * Includes service highlights and direct links to key features.
+     * 
+     * Response Features:
+     * - Multiple greeting variations for diversity
+     * - Service capability overview
+     * - Direct navigation links
+     * - Engagement prompts for interaction
+     * - Emoji formatting for visual appeal
+     * 
+     * @return string Formatted greeting response with service information
+     */
     private function getGreetingResponse()
     {
+        // Greeting Response Variations
+        /**
+         * Multiple Greeting Options - Provide variety in welcome messages
+         * Each greeting includes different service highlights and engagement styles
+         * Random selection ensures fresh experience for returning users
+         */
         $greetings = [
             "🌸 **Chào mừng bạn đến với Hanaya Shop!**\n\nTôi là trợ lý ảo, sẵn sàng hỗ trợ bạn:\n\n✨ **Dịch vụ của tôi:**\n🔍 Tìm kiếm sản phẩm\n📦 Kiểm tra đơn hàng\n🏪 Thông tin cửa hàng\n📰 Tin tức & khuyến mãi\n💡 Tư vấn sản phẩm\n\n**Bạn muốn tôi giúp gì hôm nay?** 😊",
 
@@ -99,12 +287,47 @@ class ChatbotController extends Controller
             "🌹 **Chào bạn! Welcome to Hanaya Shop!**\n\n🎊 **Hôm nay có gì đặc biệt:**\n• Bộ sưu tập hoa xà phòng mới\n• Quà tặng Valentine độc đáo\n• Miễn phí giao hàng đơn từ 100 USD\n\n💬 **Hỏi tôi bất cứ điều gì về:**\nSản phẩm, giá cả, giao hàng, khuyến mãi...\n\n**Bắt đầu cuộc trò chuyện nào!** ✨"
         ];
 
+        // Random Greeting Selection
+        /**
+         * Greeting Rotation - Select random greeting for variety
+         * Prevents repetitive responses and maintains user engagement
+         * Each greeting provides complete service overview
+         */
         return $greetings[array_rand($greetings)];
     }
 
+    /**
+     * Handle Product Search Queries
+     * 
+     * Processes product search requests with intelligent keyword matching and filtering.
+     * Provides comprehensive product information including pricing, availability, and links.
+     * Includes search suggestions and shopping guidance for enhanced user experience.
+     * 
+     * Search Features:
+     * - Keyword extraction from natural language
+     * - Multi-field search across product data
+     * - Category-based filtering
+     * - Popularity-based sorting
+     * - Stock availability validation
+     * 
+     * Response Elements:
+     * - Product details with pricing
+     * - Category information
+     * - View count and popularity metrics
+     * - Direct product links
+     * - Search suggestions for improvement
+     * 
+     * @param string $message User search query
+     * @return string Formatted product search results
+     */
     private function handleProductSearch($message)
     {
-        // Extract keywords from message
+        // Keyword Extraction
+        /**
+         * Search Term Identification - Extract relevant keywords from user message
+         * Supports both Vietnamese and English search terms
+         * Covers product types, features, and categories
+         */
         $keywords = ['hoa', 'xà phòng', 'soap', 'flower', 'quà', 'gift', 'souvenir', 'tươi', 'fresh', 'đặc biệt', 'special'];
         $foundKeywords = [];
 
@@ -114,8 +337,20 @@ class ChatbotController extends Controller
             }
         }
 
+        // Product Query Construction
+        /**
+         * Database Query Building - Construct search query with filters
+         * Includes product relationships and stock validation
+         * Limits results for optimal response formatting
+         */
         $query = Product::with('category')->where('stock_quantity', '>', 0)->take(3);
 
+        // Keyword-Based Filtering
+        /**
+         * Search Filtering - Apply keyword filters when available
+         * Searches across product name, description, and category
+         * Uses OR logic for broader search results
+         */
         if (!empty($foundKeywords)) {
             $query->where(function ($q) use ($foundKeywords) {
                 foreach ($foundKeywords as $keyword) {
@@ -128,8 +363,20 @@ class ChatbotController extends Controller
             });
         }
 
+        // Execute Search Query
+        /**
+         * Query Execution - Get products ordered by popularity
+         * Sorts by view count to prioritize popular products
+         * Returns collection for result processing
+         */
         $products = $query->orderBy('view_count', 'desc')->get();
 
+        // No Results Handling
+        /**
+         * Empty Results Response - Handle queries with no matching products
+         * Provides alternative suggestions and search guidance
+         * Includes navigation links and search improvement tips
+         */
         if ($products->count() === 0) {
             return "🔍 **Không tìm thấy sản phẩm phù hợp**\n\n"
                 . "Có thể bạn quan tâm đến:\n"
@@ -143,6 +390,12 @@ class ChatbotController extends Controller
                 . "• 'hoa tươi cưới'";
         }
 
+        // Results Formatting
+        /**
+         * Product Information Display - Format search results for presentation
+         * Includes comprehensive product details and navigation links
+         * Provides shopping guidance and contact information
+         */
         $response = "🌸 **Sản phẩm phù hợp với yêu cầu của bạn:**\n\n";
         foreach ($products as $product) {
             $response .= "🌺 **{$product->name}**\n";
@@ -153,6 +406,12 @@ class ChatbotController extends Controller
             $response .= "🔗 " . route('user.products.show', $product->id) . "\n\n";
         }
 
+        // Additional Information
+        /**
+         * Shopping Guidance - Provide additional navigation and shopping tips
+         * Includes catalog link and shopping best practices
+         * Offers contact information for personalized assistance
+         */
         $response .= "✨ **Xem thêm sản phẩm:**\n";
         $response .= "🔗 " . route('user.products.index') . "\n\n";
 
