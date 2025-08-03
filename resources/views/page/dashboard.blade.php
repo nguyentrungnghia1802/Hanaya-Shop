@@ -1,9 +1,36 @@
 <x-app-layout>
-    {{-- <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Home - Hanaya Shop') }}
-        </h2>
-    </x-slot> --}}
+    <!-- Flash Messages -->
+    @if (session('success'))
+        <div id="success-alert" class="fixed top-4 right-4 z-50 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center">
+            <i class="fas fa-check-circle mr-2"></i>
+            <span>{{ session('success') }}</span>
+            <button onclick="document.getElementById('success-alert').remove()" class="ml-4 text-white hover:text-gray-200">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <script>
+            setTimeout(function() {
+                const alert = document.getElementById('success-alert');
+                if (alert) alert.remove();
+            }, 3000);
+        </script>
+    @endif
+
+    @if (session('error'))
+        <div id="error-alert" class="fixed top-4 right-4 z-50 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center">
+            <i class="fas fa-exclamation-circle mr-2"></i>
+            <span>{{ session('error') }}</span>
+            <button onclick="document.getElementById('error-alert').remove()" class="ml-4 text-white hover:text-gray-200">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <script>
+            setTimeout(function() {
+                const alert = document.getElementById('error-alert');
+                if (alert) alert.remove();
+            }, 3000);
+        </script>
+    @endif
 
     <div class="min-h-screen bg-gray-50 transition-colors duration-300">
         <!-- Banner Section -->
@@ -82,16 +109,24 @@
                                             title="Quick View">
                                             <i class="fas fa-eye w-4 h-4"></i>
                                         </a>
-                                        <form id="add-to-cart-form" action="{{ route('cart.add', $product->id) }}"
-                                            method="POST" class="w-full">
-                                            @csrf
-                                            <input type="hidden" name="quantity" id="form-quantity" value="1">
-                                            <button type="submit"
-                                                class="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-colors duration-300 flex items-center justify-center"
-                                                title="Add to Cart">
-                                                <i class="fas fa-shopping-cart mr-2"></i>
+                                        @if ($product->stock_quantity > 0)
+                                            <form id="add-to-cart-form" action="{{ route('cart.add', $product->id) }}"
+                                                method="POST" class="w-full">
+                                                @csrf
+                                                <input type="hidden" name="quantity" id="form-quantity" value="1">
+                                                <button type="submit"
+                                                    class="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-colors duration-300 flex items-center justify-center"
+                                                    title="Add to Cart">
+                                                    <i class="fas fa-shopping-cart mr-2"></i>
+                                                </button>
+                                            </form>
+                                        @else
+                                            <button disabled
+                                                class="w-full bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg shadow-lg cursor-not-allowed flex items-center justify-center"
+                                                title="Out of Stock">
+                                                <i class="fas fa-ban mr-2"></i>Out of Stock
                                             </button>
-                                        </form>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -189,18 +224,26 @@
                                                 title="Quick View">
                                                 <i class="fas fa-eye"></i>
                                             </a>
-                                            <form id="add-to-cart-form"
-                                                action="{{ route('cart.add', $product->id) }}" method="POST"
-                                                class="w-full">
-                                                @csrf
-                                                <input type="hidden" name="quantity" id="form-quantity"
-                                                    value="1">
-                                                <button type="submit"
-                                                    class="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-colors duration-300 flex items-center justify-center"
-                                                    title="Add to Cart">
-                                                    <i class="fas fa-shopping-cart mr-2"></i>
+                                            @if ($product->stock_quantity > 0)
+                                                <form id="add-to-cart-form"
+                                                    action="{{ route('cart.add', $product->id) }}" method="POST"
+                                                    class="w-full">
+                                                    @csrf
+                                                    <input type="hidden" name="quantity" id="form-quantity"
+                                                        value="1">
+                                                    <button type="submit"
+                                                        class="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-colors duration-300 flex items-center justify-center"
+                                                        title="Add to Cart">
+                                                        <i class="fas fa-shopping-cart mr-2"></i>
+                                                    </button>
+                                                </form>
+                                            @else
+                                                <button disabled
+                                                    class="w-full bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg shadow-lg cursor-not-allowed flex items-center justify-center"
+                                                    title="Out of Stock">
+                                                    <i class="fas fa-ban mr-2"></i>Out of Stock
                                                 </button>
-                                            </form>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -290,18 +333,26 @@
                                                 title="Quick View">
                                                 <i class="fas fa-eye"></i>
                                             </a>
-                                            <form id="add-to-cart-form"
-                                                action="{{ route('cart.add', $product->id) }}" method="POST"
-                                                class="w-full">
-                                                @csrf
-                                                <input type="hidden" name="quantity" id="form-quantity"
-                                                    value="1">
-                                                <button type="submit"
-                                                    class="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-colors duration-300 flex items-center justify-center"
-                                                    title="Add to Cart">
-                                                    <i class="fas fa-shopping-cart mr-2"></i>
+                                            @if ($product->stock_quantity > 0)
+                                                <form id="add-to-cart-form"
+                                                    action="{{ route('cart.add', $product->id) }}" method="POST"
+                                                    class="w-full">
+                                                    @csrf
+                                                    <input type="hidden" name="quantity" id="form-quantity"
+                                                        value="1">
+                                                    <button type="submit"
+                                                        class="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-colors duration-300 flex items-center justify-center"
+                                                        title="Add to Cart">
+                                                        <i class="fas fa-shopping-cart mr-2"></i>
+                                                    </button>
+                                                </form>
+                                            @else
+                                                <button disabled
+                                                    class="w-full bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg shadow-lg cursor-not-allowed flex items-center justify-center"
+                                                    title="Out of Stock">
+                                                    <i class="fas fa-ban mr-2"></i>Out of Stock
                                                 </button>
-                                            </form>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -395,16 +446,24 @@
                                             title="Quick View">
                                             <i class="fas fa-eye w-4 h-4"></i>
                                         </a>
-                                        <form id="add-to-cart-form" action="{{ route('cart.add', $product->id) }}"
-                                            method="POST" class="w-full">
-                                            @csrf
-                                            <input type="hidden" name="quantity" id="form-quantity" value="1">
-                                            <button type="submit"
-                                                class="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-colors duration-300 flex items-center justify-center"
-                                                title="Add to Cart">
-                                                <i class="fas fa-shopping-cart mr-2"></i>
+                                        @if ($product->stock_quantity > 0)
+                                            <form id="add-to-cart-form" action="{{ route('cart.add', $product->id) }}"
+                                                method="POST" class="w-full">
+                                                @csrf
+                                                <input type="hidden" name="quantity" id="form-quantity" value="1">
+                                                <button type="submit"
+                                                    class="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-colors duration-300 flex items-center justify-center"
+                                                    title="Add to Cart">
+                                                    <i class="fas fa-shopping-cart mr-2"></i>
+                                                </button>
+                                            </form>
+                                        @else
+                                            <button disabled
+                                                class="w-full bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg shadow-lg cursor-not-allowed flex items-center justify-center"
+                                                title="Out of Stock">
+                                                <i class="fas fa-ban mr-2"></i>Out of Stock
                                             </button>
-                                        </form>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

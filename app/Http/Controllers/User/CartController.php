@@ -20,6 +20,11 @@ class CartController extends Controller
         $product = Product::findOrFail($productId);
         $quantityToAdd = $request->input('quantity', 1);
 
+        // Check if product is out of stock
+        if ($product->stock_quantity <= 0) {
+            return redirect()->back()->with('error', 'Out of Stock');
+        }
+
         $existing = Cart::where('session_id', $sessionId)
             ->where('product_id', $product->id)
             ->first();
