@@ -246,15 +246,15 @@
                     <!-- Team Member 2 -->
                     <div class="text-center">
                         <div class="relative mb-6">
-                            <img src="{{ asset('fixed_resources/author_2.jpg') }}" 
+                            <img src="{{ asset('fixed_resources/about/nghia.jpg') }}" 
                                  alt="Team Member 2" 
                                  class="w-32 h-32 rounded-full mx-auto object-cover shadow-lg">
                             <div class="absolute inset-0 w-32 h-32 rounded-full mx-auto bg-gradient-to-r from-pink-500 to-purple-600 opacity-0 hover:opacity-20 transition-opacity duration-300"></div>
                         </div>
-                        <h4 class="text-xl font-semibold text-gray-900 mb-2">Sarah Chen</h4>
+                        <h4 class="text-xl font-semibold text-gray-900 mb-2">Nguyen Trung Nghia</h4>
                         <p class="text-pink-600 font-medium mb-3">Head of Operations</p>
                         <p class="text-gray-600 text-sm">
-                            Sarah ensures every order is perfectly crafted and delivered with care. Her attention to detail makes every customer experience exceptional.
+                            Nghia ensures every order is perfectly crafted and delivered with care. His attention to detail makes every customer experience exceptional.
                         </p>
                     </div>
 
