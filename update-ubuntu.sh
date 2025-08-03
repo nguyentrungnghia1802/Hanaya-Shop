@@ -53,7 +53,13 @@ print_color $YELLOW "Waiting for application to start..."
 sleep 20
 
 print_color $YELLOW "Running database migrations..."
-docker-compose -f docker-compose.production.yml exec -T app php artisan migrate --force
+MIGRATION_PENDING=$(docker-compose -f docker-compose.production.yml exec -T app php artisan migrate:status | grep -c "No")
+if [ "$MIGRATION_PENDING" -gt 0 ]; then
+    print_color $YELLOW "Running database migrations... ($MIGRATION_PENDING pending)"
+    docker-compose -f docker-compose.production.yml exec -T app php artisan migrate --force
+else
+    print_color $GREEN "No new migrations to run. Skipping migrate."
+fi
 
 print_color $YELLOW "Clearing caches..."
 docker-compose -f docker-compose.production.yml exec -T app php artisan config:clear
