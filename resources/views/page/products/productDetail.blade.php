@@ -11,10 +11,10 @@
             <span class="text-gray-900">{{ $product->name }}</span>
         </nav>
 
-        <!-- Tiêu đề -->
+        <!-- Header -->
         <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center">Product Details</h1>
 
-        <!-- Thông báo lỗi -->
+        <!-- Announcement -->
         <x-alert />
 
         <!-- Product detailed information -->

@@ -1,36 +1,6 @@
 <x-app-layout>
     <!-- Flash Messages -->
-    @if (session('success'))
-        <div id="success-alert" class="fixed top-4 right-4 z-50 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center">
-            <i class="fas fa-check-circle mr-2"></i>
-            <span>{{ session('success') }}</span>
-            <button onclick="document.getElementById('success-alert').remove()" class="ml-4 text-white hover:text-gray-200">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <script>
-            setTimeout(function() {
-                const alert = document.getElementById('success-alert');
-                if (alert) alert.remove();
-            }, 3000);
-        </script>
-    @endif
-
-    @if (session('error'))
-        <div id="error-alert" class="fixed top-4 right-4 z-50 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center">
-            <i class="fas fa-exclamation-circle mr-2"></i>
-            <span>{{ session('error') }}</span>
-            <button onclick="document.getElementById('error-alert').remove()" class="ml-4 text-white hover:text-gray-200">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <script>
-            setTimeout(function() {
-                const alert = document.getElementById('error-alert');
-                if (alert) alert.remove();
-            }, 3000);
-        </script>
-    @endif
+    <x-alert />
 
     <div class="min-h-screen bg-gray-50 transition-colors duration-300">
         <!-- Banner Section -->
