@@ -6,10 +6,10 @@
             <svg class="w-6 h-6 mr-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
             </svg>
-            Tin tức mới nhất
+            Newest Posts
         </h3>
         <a href="{{ route('posts.index') }}" class="text-blue-600 hover:text-blue-800 font-medium flex items-center transition-colors duration-300">
-            Xem tất cả 
+            View All
             <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
             </svg>
@@ -52,7 +52,7 @@
                             </span>
                         </div>
                         <span class="inline-flex items-center text-blue-600 hover:text-blue-800 text-sm font-medium mt-2 transition-colors duration-300">
-                            Đọc thêm
+                            Read More
                             <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                             </svg>
@@ -66,7 +66,7 @@
             <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
             </svg>
-            <p class="text-gray-500 text-lg">Chưa có bài viết nào được đăng</p>
+            <p class="text-gray-500 text-lg">No posts have been published yet</p>
         </div>
     @endif
 </div>
