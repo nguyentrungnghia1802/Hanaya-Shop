@@ -5,7 +5,7 @@
     id="credit-card-form">
     <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
         <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-semibold">Pay with Credit Card</h3>
+            <h3 class="text-lg font-semibold">{{ __('payment.pay_with_credit_card') }}</h3>
             <div class="flex space-x-2">
                 <img src="{{ asset('fixed_resources/payment/visa.svg') }}" alt="Visa" class="h-6">
                 <img src="{{ asset('fixed_resources/payment/mastercard.svg') }}" alt="Mastercard" class="h-6">
@@ -15,7 +15,7 @@
         
         <div class="space-y-4">
             <div class="form-group">
-                <label for="card_number" class="block text-sm font-medium text-gray-700 mb-1">Card Number</label>
+                <label for="card_number" class="block text-sm font-medium text-gray-700 mb-1">{{ __('payment.card_number') }}</label>
                 <input 
                     type="text" 
                     id="card_number" 
@@ -29,7 +29,7 @@
             
             <div class="grid grid-cols-2 gap-4">
                 <div class="form-group">
-                    <label for="expiry" class="block text-sm font-medium text-gray-700 mb-1">Expiry Date (MM/YY)</label>
+                    <label for="expiry" class="block text-sm font-medium text-gray-700 mb-1">{{ __('payment.expiry_date') }}</label>
                     <input 
                         type="text" 
                         id="expiry" 
@@ -56,7 +56,7 @@
             </div>
             
             <div class="form-group">
-                <label for="card_holder" class="block text-sm font-medium text-gray-700 mb-1">Card Holder Name</label>
+                <label for="card_holder" class="block text-sm font-medium text-gray-700 mb-1">{{ __('payment.card_holder_name') }}</label>
                 <input 
                     type="text" 
                     id="card_holder" 
@@ -79,13 +79,13 @@
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    Processing...
+                    {{ __('payment.processing') }}
                 </span>
                 <span x-show="!isProcessing">
-                    Pay Now
+                    {{ __('payment.pay_now') }}
                 </span>
             </button>
-            <p class="text-xs text-center text-gray-500 mt-2">Your payment information is secure</p>
+            <p class="text-xs text-center text-gray-500 mt-2">{{ __('payment.secure_payment_info') }}</p>
         </div>
     </div>
 </div>

@@ -37,6 +37,13 @@ return [
     'order_date' => 'Order Date',
     'customer_info' => 'Customer Information',
     'update_status' => 'Update Status',
+    'order_confirmed_successfully' => 'Order confirmed successfully',
+    'order_shipped_successfully' => 'Order shipped successfully',
+    'payment_info_not_found' => 'Payment information not found for this order',
+    'payment_confirmed_successfully' => 'Payment confirmed successfully',
+    'payment_update_error' => 'Error updating payment status',
+    'order_cancelled_successfully' => 'Order has been cancelled successfully',
+    'order_cancel_error' => 'An error occurred while cancelling the order',
     
     // User management
     'user_management' => 'User Management',
