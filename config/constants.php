@@ -20,23 +20,23 @@ return [
     'banners' => [
         [
             'image' => 'fixed_resources/banner_1.jpg',
-            'title' => 'Welcome to Hanaya Shop',
-            'subtitle' => 'Where meaningful flowers and gifts come together',
-            'button_text' => 'Explore Now',
+            'title_key' => 'banners.welcome_title',
+            'subtitle_key' => 'banners.welcome_subtitle', 
+            'button_text_key' => 'banners.explore_now',
             'button_link' => '/products'
         ],
         [
             'image' => 'fixed_resources/banner_2.jpg',
-            'title' => 'Soap Flower Collection',
-            'subtitle' => 'Eternal flowers with gentle fragrance',
-            'button_text' => 'View Collection',
+            'title_key' => 'banners.soap_flower_title',
+            'subtitle_key' => 'banners.soap_flower_subtitle',
+            'button_text_key' => 'banners.view_collection',
             'button_link' => '/products?category_name=soap-flower'
         ],
         [
             'image' => 'fixed_resources/banner_3.jpg',
-            'title' => 'Special Gifts',
-            'subtitle' => 'Meaningful gifts for your loved ones',
-            'button_text' => 'Find Gifts',
+            'title_key' => 'banners.special_gifts_title',
+            'subtitle_key' => 'banners.special_gifts_subtitle',
+            'button_text_key' => 'banners.find_gifts',
             'button_link' => '/products?category_name=souvenir'
         ]
     ],
@@ -63,106 +63,20 @@ return [
         'default_rating' => 5,
     ],
 
-    // Chatbot messages
-    'chatbot_greeting' =>
-    "Hello! I'm Hanaya Shop's AI assistant. I can help you with:\n"
-        . "🌸 Product search & recommendations\n"
-        . "📝 Order tracking & status\n"
-        . "📋 Product categories & collections\n"
-        . "📰 Latest news & blog updates\n"
-        . "💰 Pricing & payment information\n"
-        . "🚚 Shipping & delivery details\n"
-        . "🏪 Store information & contact\n"
-        . "❓ Frequently asked questions\n\n"
-        . "What can I help you with today?",
-    'chatbot_help' =>
-    "🤖 Hanaya Shop chatbot user guide:\n\n"
-        . "🔍 Find products:\n"
-        . "• 'find soap flowers'\n"
-        . "• 'show me gifts'\n"
-        . "• 'what's popular'\n"
-        . "• 'recommend something'\n\n"
-        . "📂 Browse categories:\n"
-        . "• 'product categories'\n"
-        . "• 'show categories'\n"
-        . "• 'what do you sell'\n\n"
-        . "📦 Check orders:\n"
-        . "• 'my orders'\n"
-        . "• 'order status'\n"
-        . "• 'track my order'\n\n"
-        . "📰 News & updates:\n"
-        . "• 'latest news'\n"
-        . "• 'blog posts'\n"
-        . "• 'what's new'\n\n"
-        . "🏪 Store information:\n"
-        . "• 'store info'\n"
-        . "• 'contact details'\n"
-        . "• 'store hours'\n"
-        . "• 'location'\n\n"
-        . "💰 Pricing & payments:\n"
-        . "• 'price range'\n"
-        . "• 'payment methods'\n"
-        . "• 'shipping costs'\n\n"
-        . "Feel free to ask me anything in natural language!",
-    'chatbot_store_info' =>
-    "🏪 Hanaya Shop store information:\n\n"
-        . "📍 Address: 123 Flower Street, Son Tay, Hanoi\n"
-        . "📞 Phone: 0948512463\n"
-        . "📧 Email: assassincreed2k1@gmail.com\n"
-        . "🕒 Business hours: 8:00 AM - 10:00 PM (Monday - Sunday)\n\n"
-        . "🚚 Delivery: Nationwide shipping available\n"
-        . "💳 Payment: Cash, bank transfer, credit/debit cards\n"
-        . "🎁 Special services: Gift wrapping, custom arrangements\n\n"
-        . "Contact us now for personalized consultation!",
-    'chatbot_status' => [
-        'pending' => "Pending - Your order is being processed",
-        'processing' => "Processing - We're preparing your order",
-        'shipped' => "Shipped - Your order is on the way",
-        'completed' => "Completed - Order delivered successfully",
-        'cancelled' => "Cancelled - Order has been cancelled"
+    // Chatbot messages - now use translation keys
+    'chatbot_greeting_key' => 'chatbot.greeting',
+    'chatbot_help_key' => 'chatbot.help', 
+    'chatbot_store_info_key' => 'chatbot.store_info',
+    'chatbot_status_keys' => [
+        'pending' => 'chatbot.status.pending',
+        'processing' => 'chatbot.status.processing',
+        'shipped' => 'chatbot.status.shipped',
+        'completed' => 'chatbot.status.completed',
+        'cancelled' => 'chatbot.status.cancelled'
     ],
-    'chatbot_price_info' =>
-    "About our product prices:\n\n"
-        . "🌸 Soap flowers: From $15 - $500\n"
-        . "🎁 Souvenirs & gifts: From $5 - $800\n"
-        . "💐 Fresh flowers: From $10 - $200\n"
-        . "🎀 Custom arrangements: From $25 - $1000\n\n"
-        . "Prices vary based on size, materials, design complexity, and customization.\n"
-        . "💡 Free shipping on orders over $100!\n"
-        . "🎊 Bulk order discounts available!\n\n"
-        . "See detailed prices at: /products",
-    'chatbot_shipping_info' =>
-    "🚚 Shipping & delivery information:\n\n"
-        . "📦 Free shipping on orders over $100\n"
-        . "🚚 Standard delivery: 3-5 business days\n"
-        . "⚡ Express delivery: 1-2 business days (+$15)\n"
-        . "🏃 Same-day delivery: Available in Hanoi (+$25)\n\n"
-        . "📍 Delivery areas: Nationwide coverage\n"
-        . "📋 Tracking: Real-time order tracking available\n"
-        . "📦 Packaging: Eco-friendly, secure packaging\n"
-        . "🎁 Gift options: Free gift wrapping & cards\n\n"
-        . "Questions about delivery? Contact us: 0948512463",
-    'chatbot_payment_info' =>
-    "💳 Payment methods & options:\n\n"
-        . "💰 Cash on delivery (COD)\n"
-        . "🏦 Bank transfer (instant confirmation)\n"
-        . "💳 Credit/Debit cards (Visa, Mastercard)\n"
-        . "📱 Digital wallets (Momo, ZaloPay)\n"
-        . "💎 Installment plans available\n\n"
-        . "🔒 Secure payments with SSL encryption\n"
-        . "🎊 Special offers: 5% discount on bank transfers\n"
-        . "💝 Loyalty points on every purchase\n\n"
-        . "Need payment assistance? We're here to help!",
-    'chatbot_default' =>
-    "I understand you're looking for help! Here's what I can assist you with:\n\n"
-        . "🔍 **Product search**: 'find soap flowers', 'show me gifts'\n"
-        . "📂 **Categories**: 'what categories do you have'\n"
-        . "📦 **Orders**: 'check my orders', 'track order'\n"
-        . "📰 **News**: 'latest updates', 'blog posts'\n"
-        . "🏪 **Store info**: 'contact details', 'store hours'\n"
-        . "💰 **Pricing**: 'price range', 'payment methods'\n"
-        . "🚚 **Shipping**: 'delivery options', 'shipping costs'\n\n"
-        . "💡 **Quick tip**: Try asking questions naturally, like 'What flowers do you recommend for a birthday?' or 'How much does shipping cost?'\n\n"
-        . "Type 'help' for detailed instructions or just ask me anything!",
+    'chatbot_price_info_key' => 'chatbot.price_info',
+    'chatbot_shipping_info_key' => 'chatbot.shipping_info',
+    'chatbot_payment_info_key' => 'chatbot.payment_info',
+    'chatbot_default_key' => 'chatbot.default',
         
 ];

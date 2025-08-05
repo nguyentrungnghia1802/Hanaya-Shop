@@ -2,7 +2,7 @@
 
 @section('header')
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        {{ __('Products') }}
+        {{ __('admin.products') }}
     </h2>
 @endsection
 
@@ -90,10 +90,10 @@
                                 @foreach ($products as $index => $item)
                                     <tr class="hover:bg-gray-50 transition">
                                         <td class="px-4 py-2 border-b">{{ $products->firstItem() + $index }}</td>
-                                        <td class="px-4 py-2 border-b">{{ $item->name }}</td>
+                                        <td class="px-4 py-2 border-b">{{ is_string($item->name) ? $item->name : (is_array($item->name) ? implode(', ', $item->name) : json_encode($item->name)) }}</td>
                                         <td class="px-2 py-2 border-b max-w-[120px] truncate text-xs"
-                                            title="{{ $item->descriptions }}">
-                                            {{ \Illuminate\Support\Str::limit($item->descriptions, 40) }}
+                                            title="{{ is_string($item->descriptions) ? $item->descriptions : (is_array($item->descriptions) ? implode(', ', $item->descriptions) : json_encode($item->descriptions)) }}">
+                                            {{ \Illuminate\Support\Str::limit(is_string($item->descriptions) ? $item->descriptions : (is_array($item->descriptions) ? implode(', ', $item->descriptions) : json_encode($item->descriptions)), 40) }}
                                         </td>
                                         <td class="px-4 py-2 border-b">${{ number_format($item->price, 2, '.', ',') }}</td>
                                         <td class="px-4 py-2 border-b">{{ $item->stock_quantity }}</td>
@@ -108,7 +108,7 @@
                                         <td class="px-4 py-2 border-b">
                                             <span class="text-blue-600">{{ number_format($item->view_count ?? 0) }}</span>
                                         </td>
-                                        <td class="px-4 py-2 border-b">{{ $item->category->name }}</td>
+                                        <td class="px-4 py-2 border-b">{{ isset($item->category->name) && is_string($item->category->name) ? $item->category->name : (is_array($item->category->name ?? null) ? implode(', ', $item->category->name) : json_encode($item->category->name ?? '')) }}</td>
                                         <td class="px-4 py-2 border-b">
                                             <div class="flex flex-wrap gap-2">
                                                 {{-- Edit button --}}
