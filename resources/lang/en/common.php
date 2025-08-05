@@ -68,4 +68,19 @@ return [
     'address' => 'Address',
     'phone' => 'Phone',
     'email' => 'Email',
+    
+    // Product related
+    'category' => 'Category',
+    'price' => 'Price',
+    'stock' => 'Stock',
+    'available' => 'available',
+    'views' => 'Views',
+    'products_available' => 'products available',
+    'customers_viewed' => 'customers viewed',
+    'in_stock' => 'In stock',
+    'items' => 'items',
+    'order' => 'Order',
+    'date' => 'Date',
+    'total' => 'Total',
+    'status' => 'Status',
 ];
