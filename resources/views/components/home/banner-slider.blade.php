@@ -7,16 +7,16 @@
             @forelse($banners as $banner)
                 <div class="swiper-slide relative">
                     <img src="{{ asset($banner['image']) }}" 
-                         alt="{{ $banner['title'] }}" 
+                         alt="{{ __($banner['title_key']) }}" 
                          class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
                         <div class="text-center text-white p-4">
-                            <h2 class="text-2xl md:text-4xl lg:text-6xl font-bold mb-4">{{ $banner['title'] }}</h2>
-                            <p class="text-lg md:text-xl mb-6 max-w-2xl">{{ $banner['subtitle'] }}</p>
-                            @if(isset($banner['button_text']) && isset($banner['button_link']))
+                            <h2 class="text-2xl md:text-4xl lg:text-6xl font-bold mb-4">{{ __($banner['title_key']) }}</h2>
+                            <p class="text-lg md:text-xl mb-6 max-w-2xl">{{ __($banner['subtitle_key']) }}</p>
+                            @if(isset($banner['button_text_key']) && isset($banner['button_link']))
                                 <a href="{{ $banner['button_link'] }}" 
                                    class="inline-block bg-pink-600 hover:bg-pink-700 text-white font-semibold px-8 py-3 rounded-lg transition duration-300">
-                                    {{ $banner['button_text'] }}
+                                    {{ __($banner['button_text_key']) }}
                                 </a>
                             @endif
                         </div>
