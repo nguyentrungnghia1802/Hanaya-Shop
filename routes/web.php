@@ -147,3 +147,8 @@ Route::get('/test-translation', function () {
 // Route::get('/tinymce-demo', function () {
 //     return view('tinymce-demo');
 // })->name('tinymce.demo');
+
+// Include test routes for development
+if (app()->environment(['local', 'development'])) {
+    include __DIR__ . '/test-chatbot.php';
+}

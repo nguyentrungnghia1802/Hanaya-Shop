@@ -101,4 +101,149 @@ return [
         . "🚚 **Shipping**: 'delivery options', 'shipping costs'\n\n"
         . "💡 **Quick tip**: Try asking questions naturally, like 'What flowers do you recommend for a birthday?' or 'How much does shipping cost?'\n\n"
         . "Type 'help' for detailed instructions or just ask me anything!",
+    
+    // Error handling
+    'error' => '🤖 I apologize, but I encountered a technical issue. Please try again in a moment or contact our support team at :phone for immediate assistance.',
+    
+    // Product search responses
+    'no_products_found' => "🔍 **No products found matching your search**\n\n"
+        . "You might be interested in:\n"
+        . "🌸 Soap flowers: Long-lasting, gentle fragrance\n"
+        . "🌺 Fresh flowers: Natural, vibrant colors\n"
+        . "🎁 Souvenirs: Meaningful, unique gifts\n\n"
+        . "🔗 :products_url\n\n"
+        . "💡 **Search tips:**\n"
+        . "• Try broader terms like 'flowers' or 'gifts'\n"
+        . "• Search by occasion: 'birthday', 'wedding'\n"
+        . "• Browse categories for inspiration\n\n"
+        . "📞 **Need help?** Call us: :phone",
+    
+    'products_search_results' => '🌸 **Products matching your search:**',
+    
+    'browse_more_products' => "✨ **Browse more products:**\n"
+        . "🔗 :products_url\n\n"
+        . "💡 **Shopping tips:**\n"
+        . "• Check stock availability before ordering\n"
+        . "• Read product descriptions for sizing\n"
+        . "• Contact us for personalized recommendations\n"
+        . "• Hotline: :phone",
+    
+    // Category responses
+    'no_categories_found' => "📂 **Product Categories**\n\n"
+        . "We're currently updating our product categories.\n"
+        . "Please check back soon or browse all products:\n\n"
+        . "🔗 :products_url\n\n"
+        . "📞 **Need assistance?** :phone",
+    
+    'product_categories' => '📂 **Product categories at Hanaya Shop:**',
+    
+    'popular_categories' => "🎯 **Popular categories:**\n"
+        . "🧼 Soap Flowers - Long-lasting, beautiful fragrance\n"
+        . "🌺 Fresh Flowers - Natural, vibrant colors\n"
+        . "🎁 Souvenirs - Meaningful, memorable gifts\n\n"
+        . "💝 **Tip:** Choose based on special occasions like birthdays, weddings, anniversaries...",
+    
+    // Order responses
+    'login_required' => "🔐 **Please log in to check your orders**\n\n"
+        . "📱 **Login to access:**\n"
+        . "• Order history & tracking\n"
+        . "• Delivery status updates\n"
+        . "• Digital receipts\n"
+        . "• Reorder favorite items\n\n"
+        . "🔗 :login_url\n\n"
+        . "❓ **Need help?** Contact us:\n"
+        . "📞 :phone\n"
+        . "📧 :email",
+    
+    'no_orders_found' => "📦 **No orders found**\n\n"
+        . "🛒 **Start shopping:**\n"
+        . "🔗 :products_url\n\n"
+        . "🎁 **Special offers:**\n"
+        . "• Free shipping on orders over $100\n"
+        . "• 10% discount for first-time customers\n"
+        . "• Gift wrapping included\n\n"
+        . "📞 **Questions?** :phone",
+    
+    'recent_orders' => '📦 **Your recent orders:**',
+    
+    'order_support' => "🔍 **Need more help?**\n"
+        . "📞 Hotline: :phone\n"
+        . "📧 Email: :email\n"
+        . "⏰ Support hours: 8:00 AM - 10:00 PM daily",
+    
+    'order_technical_error' => "📦 **Order Information Temporarily Unavailable**\n\n"
+        . "We're experiencing technical difficulties accessing order information right now.\n\n"
+        . "📞 **For immediate order assistance, please contact:**\n"
+        . "• Phone: :phone\n"
+        . "• Email: :email\n"
+        . "• Support hours: 8:00 AM - 10:00 PM daily\n\n"
+        . "We apologize for the inconvenience and appreciate your patience! 🙏",
+    
+    // News responses
+    'no_news_found' => "📰 **News & Updates**\n\n"
+        . "No recent news available at the moment.\n"
+        . "Check back soon for updates!\n\n"
+        . "🌸 **Follow us for latest news:**\n"
+        . "• Product launches\n"
+        . "• Special promotions\n"
+        . "• Care tips & guides\n\n"
+        . "📞 **Contact:** :phone",
+    
+    'latest_news' => '📰 **Latest news & articles:**',
+    
+    'hot_topics' => "🌸 **Hot topics:**\n"
+        . "• How to choose flowers for different occasions\n"
+        . "• Soap flower care and maintenance tips\n"
+        . "• Home decoration ideas with flowers\n"
+        . "• Gift trends for 2025\n\n"
+        . "💡 **Visit our website to discover more interesting articles!**",
+    
+    // Popular products responses
+    'no_popular_products' => "🔥 **Popular Products**\n\n"
+        . "We're currently updating our bestsellers list.\n"
+        . "Browse all products to find amazing items:\n\n"
+        . "🔗 :products_url\n\n"
+        . "📞 **Recommendations?** :phone",
+    
+    'top_bestselling' => '🔥 **Top bestselling products:**',
+    
+    'why_customers_love' => "⭐ **Why customers love these:**\n"
+        . "• Premium quality, long-lasting beauty\n"
+        . "• Excellent value for money\n"
+        . "• Elegant packaging included\n"
+        . "• Outstanding customer service\n\n"
+        . "🛒 **Order now to get special offers!**",
+    
+    // Gift suggestions
+    'gift_suggestions' => "🎁 **Perfect gift ideas from Hanaya Shop:**\n\n"
+        . "💝 **Popular gift categories:**\n"
+        . "🌹 Romantic soap flower bouquets\n"
+        . "🎀 Elegant gift sets with premium packaging\n"
+        . "💐 Custom arrangements for special occasions\n"
+        . "🌸 Personalized message cards included\n\n"
+        . "🔗 :products_url\n\n"
+        . "💡 **Gift occasions:** Birthdays, anniversaries, Valentine's Day, Mother's Day, weddings, graduations\n\n"
+        . "📞 **Need personal consultation?** Call us: :phone",
+    
+    'perfect_gifts' => '🎁 **Perfect gift suggestions for you:**',
+    
+    'why_gifts_special' => "🌟 **Why our gifts are special:**\n"
+        . "• Handcrafted with love and attention to detail\n"
+        . "• Long-lasting beauty that preserves memories\n"
+        . "• Elegant packaging included at no extra cost\n"
+        . "• Personalized message cards available\n\n"
+        . "💝 **Perfect for any special occasion!**",
+    
+    // Availability responses
+    'availability_info' => '📦 **Product availability information:**',
+    'limited_stock' => 'Limited stock items',
+    'only_left' => 'Only :count left!',
+    'out_of_stock' => 'Currently out of stock',
+    'restock_soon' => 'Will restock soon',
+    
+    'stock_updates' => "✅ **Stock status updates:**\n"
+        . "• We restock popular items weekly\n"
+        . "• New arrivals every month\n"
+        . "• Notify us for restock alerts\n\n"
+        . "📞 **For specific availability:** :phone",
 ];
