@@ -32,3 +32,6 @@ Thumbs.db
 .github/
 # host address
 public/hot
+
+# Linux sh
+fix-permissions.sh
