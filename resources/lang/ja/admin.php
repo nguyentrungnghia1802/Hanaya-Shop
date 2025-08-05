@@ -37,6 +37,13 @@ return [
     'order_date' => '注文日',
     'customer_info' => '顧客情報',
     'update_status' => 'ステータス更新',
+    'order_confirmed_successfully' => '注文の確認が完了しました',
+    'order_shipped_successfully' => '注文の出荷が完了しました',
+    'payment_info_not_found' => 'この注文の支払い情報が見つかりません',
+    'payment_confirmed_successfully' => '支払いの確認が完了しました',
+    'payment_update_error' => '支払いステータスの更新中にエラーが発生しました',
+    'order_cancelled_successfully' => '注文のキャンセルが完了しました',
+    'order_cancel_error' => '注文のキャンセル中にエラーが発生しました',
     
     // User management
     'user_management' => 'ユーザー管理',

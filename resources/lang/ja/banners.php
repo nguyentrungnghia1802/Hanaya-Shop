@@ -2,7 +2,7 @@
 
 return [
     // Banner translations
-    'welcome_title' => 'Hanaya Shopへようこそ',
+    'welcome_title' => '花屋へようこそ',
     'welcome_subtitle' => '意味のある花とギフトが出会う場所',
     'explore_now' => '今すぐ探索',
     

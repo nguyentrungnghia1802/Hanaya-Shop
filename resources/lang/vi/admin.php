@@ -37,6 +37,13 @@ return [
     'order_date' => 'Ngày đặt hàng',
     'customer_info' => 'Thông tin khách hàng',
     'update_status' => 'Cập nhật trạng thái',
+    'order_confirmed_successfully' => 'Xác nhận đơn hàng thành công',
+    'order_shipped_successfully' => 'Giao hàng thành công',
+    'payment_info_not_found' => 'Không tìm thấy thông tin thanh toán cho đơn hàng này',
+    'payment_confirmed_successfully' => 'Xác nhận thanh toán thành công',
+    'payment_update_error' => 'Lỗi khi cập nhật trạng thái thanh toán',
+    'order_cancelled_successfully' => 'Hủy đơn hàng thành công',
+    'order_cancel_error' => 'Đã xảy ra lỗi khi hủy đơn hàng',
     
     // User management
     'user_management' => 'Quản lý người dùng',

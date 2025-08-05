@@ -22,12 +22,12 @@
                                 <div class="flex gap-2">
                                     <a href="{{ route('user.products.show', $productItem->id) }}" 
                                        class="bg-white text-gray-800 p-2 rounded-full hover:bg-gray-100 transition-colors"
-                                       title="Quick View">
+                                       title="{{ __('product.quick_view') }}">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                     <button data-add-to-cart="{{ $productItem->id }}" 
                                             class="bg-pink-600 text-white p-2 rounded-full hover:bg-pink-700 transition-colors"
-                                            title="Add to Cart">
+                                            title="{{ __('product.add_to_cart') }}">
                                         <i class="fas fa-shopping-cart"></i>
                                     </button>
                                 </div>
@@ -52,8 +52,8 @@
                             @endif
                             
                             <div class="flex items-center justify-between text-xs text-gray-500 mb-2">
-                                <span><i class="fas fa-eye mr-1"></i>{{ $productItem->view_count ?? 0 }} views</span>
-                                <span><i class="fas fa-box mr-1"></i>{{ $productItem->stock_quantity }} in stock</span>
+                                <span><i class="fas fa-eye mr-1"></i>{{ $productItem->view_count ?? 0 }} {{ __('product.views') }}</span>
+                                <span><i class="fas fa-box mr-1"></i>{{ $productItem->stock_quantity }} {{ __('product.in_stock') }}</span>
                             </div>
                             
                             <div class="flex items-center justify-between mt-2">
@@ -62,7 +62,7 @@
                                     <i class="fas fa-star"></i><i class="fas fa-star"></i>
                                     <i class="far fa-star"></i>
                                 </div>
-                                <button class="text-gray-500 hover:text-red-600" title="Add to Wishlist">
+                                <button class="text-gray-500 hover:text-red-600" title="{{ __('product.add_to_wishlist') }}">
                                     <i class="far fa-heart"></i>
                                 </button>
                             </div>
