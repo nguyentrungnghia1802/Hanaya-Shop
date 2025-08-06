@@ -158,7 +158,7 @@ class CheckoutController extends Controller
          */
         $selectedItems = session('selectedItems', []);
         if (empty($selectedItems)) {
-            return redirect()->back()->with('error', 'Không có sản phẩm nào được chọn để đặt hàng.');
+            return redirect()->back()->with('error', __('checkout.no_products_selected'));
         }
 
         // Get Available Payment Methods

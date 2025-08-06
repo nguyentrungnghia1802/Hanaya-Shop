@@ -75,4 +75,6 @@ return [
     'order_confirmation_email' => 'ご注文確認メールは数分以内に届きます。',
     'order_cancellation' => '注文をキャンセル',
     'view_order' => '注文を見る',
+    'no_products_selected' => 'チェックアウト用の商品が選択されていません。',
+
 ];
