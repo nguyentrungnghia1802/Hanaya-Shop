@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="max-w-7xl mx-auto px-2 sm:px-4 py-6 sm:py-12">
         <!-- Page Title -->
-        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">🌸{{ $pageTitle ?? 'Hanaya Shop Products' }}</h2>
+        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">🌸{{ $pageTitle ?? __('product.hanaya_shop_products') }}</h2>
 
         <!-- Category Navigation -->
         <x-category-navigation />
@@ -66,7 +66,7 @@
 
                 <!-- Sort Options Row - Mobile Responsive -->
                 <div class="space-y-3">
-                    <span class="block text-sm sm:text-lg font-bold text-gray-700">Sort by:</span>
+                    <span class="block text-sm sm:text-lg font-bold text-gray-700">{{ __('product.sort_by') }}:</span>
                     <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                         <a href="{{ route('user.products.index', array_merge(request()->except('sort'), ['sort' => 'desc', 'q' => $keyword, 'category_name' => $selectedCategoryName])) }}"
                             class="bg-gray-700 text-white px-2 sm:px-4 py-2 text-xs sm:text-sm rounded hover:bg-pink-600 transition text-center {{ $currentSort === 'desc' ? 'bg-pink-600 font-bold' : '' }}">
@@ -252,8 +252,8 @@
                 <div class="col-span-full flex flex-col items-center justify-center py-12 sm:py-16">
                     <img src="{{ asset('fixed_resources/not_founded.jpg') }}" alt="No products found"
                         class="w-24 sm:w-32 h-24 sm:h-32 mb-4 opacity-70">
-                    <p class="text-base sm:text-lg text-gray-500 font-semibold">No matching products found.</p>
-                    <p class="text-sm text-gray-400 mt-2">Try searching with different keywords</p>
+                    <p class="text-base sm:text-lg text-gray-500 font-semibold">{{ __('product.no_matching_products') }}</p>
+                    <p class="text-sm text-gray-400 mt-2">{{ __('product.try_different_keywords') }}</p>
                 </div>
             @endif
         </div>
