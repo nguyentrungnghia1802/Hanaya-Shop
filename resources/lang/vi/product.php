@@ -36,7 +36,8 @@ return [
     'availability' => 'Tình trạng',
     'sku' => 'Mã sản phẩm',
     'barcode' => 'Mã vạch',
-    
+    'sold' => 'Đã bán',
+
     // Product Actions
     'add_to_cart' => 'Thêm vào giỏ hàng',
     'buy_now' => 'Mua ngay',
@@ -46,7 +47,9 @@ return [
     'share_product' => 'Chia sẻ sản phẩm',
     'quick_view' => 'Xem nhanh',
     'view_details' => 'Xem chi tiết',
-    
+    'view_all' => 'Xem tất cả',
+    'sign_in_to_buy' => 'Đăng nhập để mua hàng',
+
     // Product Variants
     'select_color' => 'Chọn màu',
     'select_size' => 'Chọn kích thước',
@@ -127,4 +130,22 @@ return [
     'select_options_first' => 'Vui lòng chọn tất cả tùy chọn trước',
     'max_quantity_reached' => 'Đã đạt số lượng tối đa',
     'insufficient_stock' => 'Không đủ hàng trong kho',
+    // Cart translations
+    'cart' => 'Giỏ hàng',
+    'cart_title' => '🛒 Giỏ hàng',
+    'select_all' => 'Chọn tất cả',
+    'product_image' => 'Hình ảnh',
+    'product_name' => 'Tên sản phẩm',
+    'price' => 'Giá',
+    'total' => 'Tổng cộng',
+    'empty_cart' => 'Giỏ hàng của bạn đang trống',
+    'shop_now' => 'Mua sắm ngay',
+    'selected_items_total' => 'Tổng tiền các mục đã chọn',
+    'proceed_to_checkout' => 'Tiến hành thanh toán',
+    'please_select_items' => 'Vui lòng chọn sản phẩm để thanh toán',
+    'update_quantity' => 'Cập nhật số lượng',
+    'remove_item' => 'Xóa sản phẩm',
+    'remove' => 'Xóa',
+    'cart_empty_message' => 'Giỏ hàng của bạn hiện đang trống.',
+    'start_shopping' => 'Bắt đầu mua sắm',
 ];

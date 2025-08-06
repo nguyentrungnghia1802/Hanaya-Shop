@@ -9,6 +9,17 @@ return [
     'news_updates' => 'News & Updates',
     'featured_posts' => 'Featured Posts',
     'popular_posts' => 'Popular Posts',
+    'posts' => 'Posts',
+    'post' => 'Post',
+    'blog' => 'Blog',
+    'news' => 'News',
+    'articles' => 'Articles',
+    'back_to_posts' => 'Back to posts list',
+    'by' => 'by',
+    'search_posts' => 'Search posts...',
+    'search_results_for' => 'Search results for',
+    'clear' => 'Clear',
+    'no_posts_available' => 'No posts available.',
     
     // Post Details
     'read_more' => 'Read More',
@@ -55,7 +66,7 @@ return [
     'required_fields' => 'Required fields are marked *',
     
     // Search & Filter
-    'search_posts' => 'Search Posts',
+    'search_posts_placeholder' => 'Search posts...',
     'search_results' => 'Search Results',
     'filter_by_date' => 'Filter by Date',
     'filter_by_author' => 'Filter by Author',
@@ -115,7 +126,7 @@ return [
     
     // Post Types
     'article' => 'Article',
-    'news' => 'News',
+    'news_type' => 'News',
     'update' => 'Update',
     'guide' => 'Guide',
     'tutorial' => 'Tutorial',

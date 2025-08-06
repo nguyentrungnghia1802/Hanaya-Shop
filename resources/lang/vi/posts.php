@@ -9,6 +9,17 @@ return [
     'news_updates' => 'Tin tức & Cập nhật',
     'featured_posts' => 'Bài viết nổi bật',
     'popular_posts' => 'Bài viết phổ biến',
+    'posts' => 'Bài viết',
+    'post' => 'Bài viết',
+    'blog' => 'Blog',
+    'news' => 'Tin tức',
+    'articles' => 'Bài viết',
+    'back_to_posts' => 'Quay lại danh sách bài viết',
+    'by' => 'bởi',
+    'search_posts_placeholder' => 'Tìm kiếm bài viết...',
+    'search_results_for' => 'Kết quả tìm kiếm cho',
+    'clear' => 'Xóa',
+    'no_posts_available' => 'Không có bài viết nào.',
     
     // Post Details
     'read_more' => 'Đọc thêm',

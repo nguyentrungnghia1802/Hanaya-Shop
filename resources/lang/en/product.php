@@ -2,7 +2,10 @@
 
 return [
     // Product Listing
-    'all_products' => 'All Products',
+        // Product Pages
+    'hanaya_shop_products' => 'Hanaya Shop Products',
+    'no_matching_products' => 'No matching products found.',
+    'try_different_keywords' => 'Try searching with different keywords',
     'product_catalog' => 'Product Catalog',
     'filter_products' => 'Filter Products',
     'sort_by' => 'Sort by',
@@ -36,6 +39,7 @@ return [
     'availability' => 'Availability',
     'sku' => 'SKU',
     'barcode' => 'Barcode',
+    'sold' => 'Sold',
     
     // Product Actions
     'add_to_cart' => 'Add to Cart',
@@ -46,6 +50,8 @@ return [
     'share_product' => 'Share Product',
     'quick_view' => 'Quick View',
     'view_details' => 'View Details',
+    'view_all' => 'View All',
+    'sign_in_to_buy' => 'Sign In to Buy',
     
     // Product Variants
     'select_color' => 'Select Color',
@@ -127,4 +133,22 @@ return [
     'select_options_first' => 'Please select all options first',
     'max_quantity_reached' => 'Maximum quantity reached',
     'insufficient_stock' => 'Insufficient stock available',
+    // Cart translations
+    'cart' => 'Cart',
+    'cart_title' => '🛒 Cart',
+    'select_all' => 'Select All',
+    'product_image' => 'Image',
+    'product_name' => 'Product Name',
+    'price' => 'Price',
+    'total' => 'Total',
+    'empty_cart' => 'Your cart is empty',
+    'shop_now' => 'Shop Now',
+    'selected_items_total' => 'Selected Items Total',
+    'proceed_to_checkout' => 'Proceed to Checkout',
+    'please_select_items' => 'Please select items to checkout',
+    'update_quantity' => 'Update Quantity',
+    'remove_item' => 'Remove Item',
+    'remove' => 'Remove',
+    'cart_empty_message' => 'Your cart is currently empty.',
+    'start_shopping' => 'Start Shopping',
 ];
