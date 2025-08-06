@@ -22,6 +22,87 @@ return [
     'our_vision' => '私たちのビジョン',
     'our_values' => '私たちの価値観',
     
+    // Story paragraphs  
+    'story_paragraph_1' => '人々の生活に美しさと喜びをもたらしたいという情熱で設立されたハナヤショップは、花とギフトの世界で特別な何かを作り出すという小さな夢から始まりました。私たちの旅は、花には時として言葉では表現できない感情を表現する力があるという単純な信念から始まりました。',
+    'story_paragraph_2' => '私たちを独特にしているのは、ソープフラワーの制作への献身です。これは新鮮な花の美しさを捉えながら永遠に続く永続的な花です。これらの手作りの作品は、新鮮な花の視覚的魅力と、お客様に愛される実用性と耐久性を組み合わせています。',
+    'story_paragraph_3' => '今日、ハナヤショップは意味のあるギフト、美しい装飾、そして愛と感謝の心からの表現を求める人々の信頼できる目的地に成長しました。',
+    
+    // Why choose us
+    'why_choose_us' => 'なぜ私たちを選ぶのか？',
+    'artisan_crafted' => '職人による手作り',
+    'artisan_crafted_desc' => '各製品は熟練した職人によって丁寧に手作りされています。',
+    'premium_materials' => 'プレミアム素材',
+    'premium_materials_desc' => '最高品質を保証するために最高級の素材のみを使用しています。',
+    'unique_designs' => 'ユニークなデザイン',
+    'unique_designs_desc' => '他では見つけることのできない独占的なデザインの多様なコレクション。',
+    'lasting_beauty' => '永続する美しさ',
+    'lasting_beauty_desc' => '私たちのソープフラワーは何年にもわたってその美しさを保ちます。',
+    
+    // Discover story
+    'discover_story' => '私たちのストーリーを発見',
+    'principles_guide' => '私たちのすべての行動を導く原則',
+    
+    // Additional content for about page
+    'handcrafted_excellence' => '手作りの優秀性',
+    'handcrafted_excellence_desc' => '各ソープフラワーは細部への細心の注意を払って手作りされています。',
+    'natural_ingredients' => '天然成分',
+    'natural_ingredients_desc' => '肌に安全で環境に優しい天然成分を使用しています。',
+    'perfect_gifts' => '完璧なギフト',
+    'perfect_gifts_desc' => '誕生日から記念日、結婚式まで、あらゆる特別な機会に理想的です。',
+    
+    // What we offer
+    'what_we_offer' => '私たちが提供するもの',
+    'discover_collection' => '厳選されたコレクションを発見',
+    
+    // Our Beginning section
+    'our_beginning' => '私たちの始まり',
+    'our_beginning_description' => '小さな工房から愛される店まで、すべてのステップは品質と美しさへの私たちのコミットメントによって導かれてきました。',
+    
+    // Product categories
+    'soap_flowers' => 'ソープフラワー',
+    'soap_flowers_description' => '美しさと機能性を組み合わせた手作りの永遠の花。装飾や特別な機会に最適です。',
+    'fresh_flowers' => 'フレッシュフラワー',
+    'fresh_flowers_description' => 'ロマンチックなブーケからお祝いのセンターピースまで、あらゆる機会に美しいフレッシュフラワーアレンジメント。',
+    'special_flowers' => 'スペシャルフラワー',
+    'special_flowers_description' => '記憶に残る瞬間のために作られたエレガントでユニークな花の選択、愛、感謝、または同情を表現するのに最適です。',
+    'souvenirs' => 'お土産',
+    'souvenirs_description' => 'あなたが気にかけていることを示す思慮深く厳選されたギフトとお土産、あなたの気持ちを表現するのに最適です。',
+    
+    // Meet Our Team
+    'meet_our_team' => 'チームに会う',
+    'team_description' => 'ハナヤショップの背後にある情熱的な個人',
+    'team_group_description' => '最高のものをお届けするために協力している素晴らしいチーム',
+    
+    // Team members
+    'alex_johnson' => 'アレックス・ジョンソン',
+    'founder_creative_director' => '創設者＆クリエイティブディレクター',
+    'alex_description' => 'フローラルデザインの8年以上の経験を持つアレックスは、美しい花を誰もが利用できるようにするというビジョンでハナヤショップを設立しました。',
+    
+    'nguyen_trung_nghia' => 'グエン・チュン・ギア',
+    'head_operations' => '運営責任者',
+    'nghia_description' => 'ギアは、すべての注文が完璧に作られ、丁寧に配達されることを保証します。彼の細部への注意により、すべての顧客体験が特別になります。',
+    
+    'michael_rivera' => 'マイケル・リベラ',
+    'lead_artisan' => 'リードアルチザン',
+    'michael_description' => 'マイケルの芸術的専門知識により、私たちのソープフラワーに命が吹き込まれます。彼の革新的な技術は、永遠に続く美しい作品を作り出します。',
+    
+    // Contact section
+    'get_in_touch' => 'お問い合わせ',
+    'opening_hours' => '営業時間',
+    'opening_hours_time' => '月曜日 - 日曜日: 8:00 - 22:00',
+    
+    // Why choose us detailed
+    'why_choose_hanaya_detailed' => 'なぜハナヤショップを選ぶのか？',
+    'premium_quality' => 'プレミアム品質',
+    'premium_quality_desc' => 'すべての製品は最高級の素材で丁寧に作られています',
+    'fast_delivery' => '迅速配送',
+    'fast_delivery_desc' => 'お客様の玄関先まで迅速で信頼性の高い配送',
+    'excellent_support' => '優れたサポート',
+    'excellent_support_desc' => '私たちのチームはいつでもお客様をサポートする準備ができています',
+    'custom_orders' => 'カスタムオーダー',
+    'custom_orders_desc' => '特別な機会のためのパーソナライズされたギフトを作成します',
+    'start_shopping_now' => '今すぐショッピングを開始',
+    
     // Company Description
     'company_description' => 'ハナヤショップは、美しいソープフラワーと心のこもったギフトの最高の目的地です。私たちは芸術性と機能性を組み合わせた手作りソープフラワーを専門としています。',
     'established_year' => '2020年設立',
