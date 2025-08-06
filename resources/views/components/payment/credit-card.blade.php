@@ -62,7 +62,7 @@
                     id="card_holder" 
                     x-model="cardHolder" 
                     class="w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500" 
-                    placeholder="NGUYEN VAN A">
+                    placeholder="{{ __('payment.example_name') }}">
                 <p x-show="errors.cardHolder" x-text="errors.cardHolder" class="mt-1 text-sm text-red-600"></p>
             </div>
         </div>
@@ -85,7 +85,7 @@
                     {{ __('payment.pay_now') }}
                 </span>
             </button>
-            <p class="text-xs text-center text-gray-500 mt-2">{{ __('payment.secure_payment_info') }}</p>
+            <p class="text-xs text-center text-gray-500 mt-2">{{ __('payment.payment_security_note') }}</p>
         </div>
     </div>
 </div>
@@ -121,7 +121,7 @@
             validateCVV() {
                 this.cvv = this.cvv.replace(/\D/g, '');
                 if (this.cvv.length < 3) {
-                    this.errors.cvv = 'CVV must be at least 3 digits';
+                    this.errors.cvv = "{{ __('payment.cvv_validation') }}";
                 } else {
                     delete this.errors.cvv;
                 }
@@ -131,13 +131,13 @@
             validateCardNumber() {
                 const cardNumber = this.cardNumber.replace(/\s/g, '');
                 if (cardNumber.length < 16) {
-                    this.errors.cardNumber = 'Card number must be at least 16 digits';
+                    this.errors.cardNumber = "{{ __('payment.card_number_validation') }}";
                     return;
                 }
                 
                 // Simple check - in real world we'd use Luhn algorithm
                 if (!/^\d{16,19}$/.test(cardNumber)) {
-                    this.errors.cardNumber = 'Invalid card number';
+                    this.errors.cardNumber = "{{ __('payment.invalid_card_number') }}";
                 } else {
                     delete this.errors.cardNumber;
                 }
@@ -153,10 +153,10 @@
                 const currentMonth = currentDate.getMonth() + 1;
                 
                 if (parseInt(month) < 1 || parseInt(month) > 12) {
-                    this.errors.expiry = 'Invalid month';
+                    this.errors.expiry = "{{ __('payment.invalid_month') }}";
                 } else if (parseInt(year) < currentYear || 
                           (parseInt(year) === currentYear && parseInt(month) < currentMonth)) {
-                    this.errors.expiry = 'Card has expired';
+                    this.errors.expiry = "{{ __('payment.card_expired') }}";
                 } else {
                     delete this.errors.expiry;
                 }
@@ -169,7 +169,7 @@
                 this.validateCVV();
                 
                 if (!this.cardHolder.trim()) {
-                    this.errors.cardHolder = 'Please enter the card holder name';
+                    this.errors.cardHolder = "{{ __('payment.card_holder_required') }}";
                 } else {
                     delete this.errors.cardHolder;
                 }
