@@ -20,7 +20,7 @@
                     @click="processPayment"
                     class="bg-[#0070ba] hover:bg-[#005ea6] text-white py-3 px-8 rounded-md flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
-                <span class="font-semibold">{{ __('payment.pay_with') }}</span>
+                <span class="font-semibold">{{ __('payment.pay_with_paypal') }}</span>
                     <span class="text-xl font-bold ml-1">Pay<span class="text-[#0070ba] bg-white px-0.5 rounded">Pal</span></span>
                 </button>
             </div>
