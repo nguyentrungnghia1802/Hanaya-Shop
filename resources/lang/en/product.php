@@ -2,20 +2,32 @@
 
 return [
     // Product Listing
-        // Product Pages
+    'title' => 'Products',
+    'all_products' => 'All Products',
     'hanaya_shop_products' => 'Hanaya Shop Products',
     'no_matching_products' => 'No matching products found.',
     'try_different_keywords' => 'Try searching with different keywords',
     'product_catalog' => 'Product Catalog',
     'filter_products' => 'Filter Products',
+    'filter_by_category' => 'Filter by Category',
+    'filter_by_price' => 'Filter by Price',
     'sort_by' => 'Sort by',
-    'price_low_high' => 'Price: Low to High',
-    'price_high_low' => 'Price: High to Low',
+    'price_low_to_high' => 'Price: Low to High',
+    'price_high_to_low' => 'Price: High to Low',
+    'name_a_to_z' => 'Name: A to Z',
+    'name_z_to_a' => 'Name: Z to A',
     'newest_first' => 'Newest First',
+    'oldest_first' => 'Oldest First',
     'popularity' => 'Popularity',
     'best_rating' => 'Best Rating',
     'showing_results' => 'Showing :count results',
     'no_products_found' => 'No products found',
+    'most_viewed' => 'Most Viewed',
+    'best_selling' => 'Best Selling',
+    'latest' => 'Latest',
+    'keyword' => 'Keyword:',
+    'type' => 'Type:',
+    'loading_products' => 'Loading products...',
     
     // Product Details
     'product_details' => 'Product Details',
@@ -27,11 +39,21 @@ return [
     'product_care' => 'Care Instructions',
     'product_gallery' => 'Product Gallery',
     'product_images' => 'Product Images',
+    'description' => 'Description',
+    'stock' => 'Stock',
+    
+    // Categories
+    'soap_flower' => 'Soap Flowers',
+    'souvenir' => 'Souvenirs',
+    'fresh_flower' => 'Fresh Flowers',
+    'gift_set' => 'Gift Sets',
+    'special_flower' => 'Special Flowers',
     
     // Price & Stock
     'regular_price' => 'Regular Price',
     'sale_price' => 'Sale Price',
     'price_range' => 'Price Range',
+    'price' => 'Price',
     'in_stock' => 'In Stock',
     'out_of_stock' => 'Out of Stock',
     'low_stock' => 'Low Stock',
@@ -39,7 +61,7 @@ return [
     'availability' => 'Availability',
     'sku' => 'SKU',
     'barcode' => 'Barcode',
-    'sold' => 'Sold',
+    'sold' => 'Sold', 
     
     // Product Actions
     'add_to_cart' => 'Add to Cart',
@@ -51,6 +73,7 @@ return [
     'quick_view' => 'Quick View',
     'view_details' => 'View Details',
     'view_all' => 'View All',
+    'view_now' => 'View Now',
     'sign_in_to_buy' => 'Sign In to Buy',
     
     // Product Variants
@@ -102,7 +125,6 @@ return [
     
     // Search & Filter
     'search_products' => 'Search Products',
-    'filter_by_price' => 'Filter by Price',
     'filter_by_brand' => 'Filter by Brand',
     'filter_by_color' => 'Filter by Color',
     'filter_by_size' => 'Filter by Size',
@@ -111,7 +133,16 @@ return [
     'apply_filters' => 'Apply Filters',
     'price_range_from' => 'From',
     'price_range_to' => 'To',
-    
+    'searching' => 'Searching',
+    'in category' => 'in category',
+    'in all products' => 'in all products',
+    'showing_products_in_category' => 'Showing products in category',
+    'filtering_applied' => 'Filtering applied:',
+    'clear_all_filters' => 'Clear All Filters',
+    'select_category' => 'Select Category',
+    'search_all' => 'Search All',
+    'searching_products' => 'Search products...',
+
     // Product Tags
     'tags' => 'Tags',
     'new_arrival' => 'New Arrival',
@@ -133,13 +164,14 @@ return [
     'select_options_first' => 'Please select all options first',
     'max_quantity_reached' => 'Maximum quantity reached',
     'insufficient_stock' => 'Insufficient stock available',
+    'error_adding_to_cart' => 'Error adding product to cart.',
+    
     // Cart translations
     'cart' => 'Cart',
     'cart_title' => '🛒 Cart',
     'select_all' => 'Select All',
     'product_image' => 'Image',
     'product_name' => 'Product Name',
-    'price' => 'Price',
     'total' => 'Total',
     'empty_cart' => 'Your cart is empty',
     'shop_now' => 'Shop Now',

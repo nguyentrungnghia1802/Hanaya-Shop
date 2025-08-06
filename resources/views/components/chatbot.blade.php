@@ -13,17 +13,19 @@
     <!-- Chatbot Window -->
     <div id="chatbot-window" class="hidden fixed bottom-16 sm:bottom-20 right-0 w-80 sm:w-96 lg:w-[500px] h-[400px] sm:h-[500px] lg:h-[650px] bg-white rounded-lg shadow-2xl border border-gray-200 flex flex-col max-w-full" style="max-width:100vw;">
         <!-- Header -->
-                <!-- Header -->
         <div class="bg-gradient-to-r from-pink-600 to-purple-600 text-white p-3 sm:p-4 rounded-t-lg">
-            <div class="flex items-center justify-between">
-                <div>
-                    <h3 class="font-bold text-sm sm:text-base">{{ __('chatbot.chatbot_title') }}</h3>
-                    <p class="text-xs opacity-90">{{ __('chatbot.chatbot_subtitle') }}</p>
-                </div>
-                <div class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z"/>
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 sm:w-10 sm:h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"></path>
                     </svg>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-sm sm:text-base">Hanaya Assistant</h3>
+                    <p class="text-xs sm:text-sm text-pink-100">Online now</p>
+                </div>
+                <div class="ml-auto">
+                    <div class="w-2 h-2 sm:w-3 sm:h-3 bg-green-400 rounded-full animate-pulse"></div>
                 </div>
             </div>
         </div>
@@ -55,23 +57,19 @@
         <!-- Quick Actions -->
         <div class="px-2 sm:px-4 py-2 bg-gray-50 border-t border-gray-100">
             <div class="flex flex-wrap gap-1">
-                <button class="quick-action text-xs px-2 py-1 bg-pink-100 text-pink-700 rounded-full hover:bg-pink-200 transition-colors" data-message="{{ __('chatbot.hello') }}">
-                    🌸 {{ __('chatbot.hello') }}
+                <button class="quick-action text-xs px-2 py-1 bg-pink-100 text-pink-700 rounded-full hover:bg-pink-200 transition-colors" data-message="Find soap flowers">
+                    🧼 Soap Flowers
                 </button>
                 <button class="quick-action text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded-full hover:bg-purple-200 transition-colors" data-message="Check my orders">
-                    📦 {{ __('dashboard.my_orders') }}
+                    📦 My Orders
                 </button>
                 <button class="quick-action text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full hover:bg-green-200 transition-colors" data-message="Store information">
-                    🏪 {{ __('chatbot.store_info') }}
+                    🏪 Store Info
                 </button>
                 <button class="quick-action text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200 transition-colors" data-message="Latest news">
-                    📰 {{ __('home.latest_news') }}
+                    📰 News
                 </button>
                 <button class="quick-action text-xs px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full hover:bg-yellow-200 transition-colors" data-message="Popular products">
-                    🔥 {{ __('dashboard.best_seller_products') }}
-                </button>
-            </div>
-        </div>
                     ⭐ Popular
                 </button>
                 <button class="quick-action text-xs px-2 py-1 bg-red-100 text-red-700 rounded-full hover:bg-red-200 transition-colors" data-message="Help me">
@@ -83,7 +81,7 @@
         <!-- Input Area -->
         <div class="p-2 sm:p-4 border-t border-gray-200">
             <div class="flex space-x-2">
-                <input type="text" id="chat-input" placeholder="{{ __('chatbot.type_message') }}" 
+                <input type="text" id="chat-input" placeholder="Type your message..." 
                        class="flex-1 px-2 py-2 text-xs sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent" style="min-width:0;">
                 <button id="send-message" class="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-2 rounded-lg hover:from-pink-600 hover:to-purple-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pink-400">
                     <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -174,13 +172,13 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.response) {
                 addMessage(data.response, 'bot');
             } else {
-                addMessage('{{ __('chatbot.unexpected_response') }}', 'bot');
+                addMessage('Sorry, I received an unexpected response. Please try again.', 'bot');
             }
         })
         .catch(error => {
             hideTypingIndicator();
             console.error('Chatbot Error:', error);
-            addMessage('{{ __('chatbot.connection_error') }}', 'bot');
+            addMessage('Sorry, something went wrong. Please try again later.', 'bot');
         });
     }
 

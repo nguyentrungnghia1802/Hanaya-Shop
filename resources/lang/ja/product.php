@@ -2,18 +2,33 @@
 
 return [
     // Product Listing
+    'title' => '商品',
     'all_products' => 'すべての商品',
+    'hanaya_shop_products' => 'Hanaya Shop商品',
+    'no_matching_products' => '一致する商品が見つかりません。',
+    'try_different_keywords' => '別のキーワードで検索してみてください',
     'product_catalog' => '商品カタログ',
     'filter_products' => '商品をフィルター',
+    'filter_by_category' => 'カテゴリで絞り込み',
+    'filter_by_price' => '価格で絞り込み',
     'sort_by' => '並び替え',
-    'price_low_high' => '価格: 安い順',
-    'price_high_low' => '価格: 高い順',
+    'price_low_to_high' => '価格: 安い順',
+    'price_high_to_low' => '価格: 高い順',
+    'name_a_to_z' => '名前: あ順',
+    'name_z_to_a' => '名前: ん順',
     'newest_first' => '新着順',
+    'oldest_first' => '古い順',
     'popularity' => '人気',
     'best_rating' => '評価の高い順',
     'showing_results' => ':count件の結果を表示',
     'no_products_found' => '商品が見つかりません',
-    
+    'most_viewed' => '最も閲覧された商品',
+    'best_selling' => 'ベストセラー商品',
+    'latest' => '最新',
+    'keyword' => 'キーワード:',
+    'type' => 'タイプ:',
+    'loading_products' => '商品を読み込み中...',
+
     // Product Details
     'product_details' => '商品詳細',
     'product_description' => '商品説明',
@@ -24,11 +39,21 @@ return [
     'product_care' => 'お手入れ方法',
     'product_gallery' => '商品ギャラリー',
     'product_images' => '商品画像',
+    'description' => '説明',
+    'stock' => '在庫',
+    
+    // Categories
+    'soap_flower' => 'ソープフラワー',
+    'souvenir' => 'お土産',
+    'fresh_flower' => '生花',
+    'gift_set' => 'ギフトセット',
+    'special_flower' => '特別な花',
     
     // Price & Stock
     'regular_price' => '通常価格',
     'sale_price' => 'セール価格',
     'price_range' => '価格帯',
+    'price' => '価格',
     'in_stock' => '在庫あり',
     'out_of_stock' => '在庫切れ',
     'low_stock' => '在庫わずか',
@@ -37,7 +62,6 @@ return [
     'sku' => '商品コード',
     'barcode' => 'バーコード',
     'sold' => '販売済み',
-
 
     // Product Actions
     'add_to_cart' => 'カートに追加',
@@ -49,8 +73,8 @@ return [
     'quick_view' => 'クイックビュー',
     'view_details' => '詳細を見る',
     'view_all' => 'すべて見る',
+    'view_now' => '今すぐ見る',
     'sign_in_to_buy' => '購入するにはサインインしてください',
-
 
     // Product Variants
     'select_color' => '色を選択',
@@ -101,7 +125,6 @@ return [
     
     // Search & Filter
     'search_products' => '商品を検索',
-    'filter_by_price' => '価格でフィルター',
     'filter_by_brand' => 'ブランドでフィルター',
     'filter_by_color' => '色でフィルター',
     'filter_by_size' => 'サイズでフィルター',
@@ -110,7 +133,16 @@ return [
     'apply_filters' => 'フィルターを適用',
     'price_range_from' => '最小',
     'price_range_to' => '最大',
-    
+    'searching' => '検索中',
+    'in category' => 'カテゴリー内',
+    'in all products' => 'すべての商品内',
+    'showing_products_in_category' => 'カテゴリー内の商品を表示',
+    'filtering_applied' => 'フィルターが適用されています:',
+    'clear_all_filters' => 'すべてのフィルターをクリア',
+    'select_category' => 'カテゴリーを選択',
+    'search_all' => 'すべて検索',
+    'searching_products' => '商品を検索中...',
+
     // Product Tags
     'tags' => 'タグ',
     'new_arrival' => '新着',
@@ -132,13 +164,14 @@ return [
     'select_options_first' => '最初にすべてのオプションを選択してください',
     'max_quantity_reached' => '最大数量に達しました',
     'insufficient_stock' => '在庫が不足しています',
+    'error_adding_to_cart' => '商品をカートに追加する際にエラーが発生しました。',
+    
     // Cart translations
     'cart' => 'カート',
     'cart_title' => '🛒 カート',
     'select_all' => 'すべて選択',
     'product_image' => '画像',
     'product_name' => '商品名',
-    'price' => '価格',
     'total' => '合計',
     'empty_cart' => 'カートが空です',
     'shop_now' => '今すぐ購入',

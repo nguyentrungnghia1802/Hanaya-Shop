@@ -21,18 +21,19 @@
                         <i class="fas fa-info-circle mr-2"></i>
                         <span class="text-sm">
                             @if ($keyword && $selectedCategoryName)
-                                Searching for "<strong>{{ $keyword }}</strong>" in category
-                                "<strong>{{ ucfirst(str_replace('-', ' ', $selectedCategoryName)) }}</strong>"
+                                {{ __('product.searching') }} for "<strong>{{ $keyword }}</strong>" 
+                                {{ __('product.in category') }} "<strong>{{ ucfirst(str_replace('-', ' ', $selectedCategoryName)) }}</strong>"
                             @elseif($keyword)
-                                Searching for "<strong>{{ $keyword }}</strong>" in all products
+                                {{ __('product.searching') }} for "<strong>{{ $keyword }}</strong>" 
+                                {{ __('product.in all products') }}
                             @elseif($selectedCategoryName)
-                                Showing products in category
+                                {{ __('product.showing_products_in_category') }}
                                 "<strong>{{ ucfirst(str_replace('-', ' ', $selectedCategoryName)) }}</strong>"
                             @endif
                         </span>
                         <a href="{{ route('user.products.index') }}"
                             class="ml-auto text-blue-600 hover:text-blue-800 text-sm font-medium">
-                            Clear filters
+                            {{ __('product.clear_filters') }}
                         </a>
                     </div>
                 </div>
@@ -43,7 +44,7 @@
                 <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
                     <div class="flex-1 relative">
                         <input type="text" name="q" value="{{ $keyword }}"
-                            placeholder="{{ $selectedCategoryName ? 'Search in ' . ucfirst(str_replace('-', ' ', $selectedCategoryName)) . ' category...' : 'Search products...' }}"
+                            placeholder="{{ $selectedCategoryName ? 'Search in ' . ucfirst(str_replace('-', ' ', $selectedCategoryName)) . ' category...' : __('product.searching_products') }}"
                             class="w-full px-3 py-2 text-sm sm:text-base rounded border focus:outline-none focus:ring focus:ring-pink-300">
                         @if ($selectedCategoryName)
                             <span
@@ -60,7 +61,7 @@
                     <button type="submit"
                         class="bg-pink-600 text-white px-4 sm:px-6 py-2 text-sm sm:text-base rounded hover:bg-pink-700 transition-colors whitespace-nowrap">
                         <i
-                            class="fas fa-search mr-2"></i>{{ $selectedCategoryName ? 'Search in Category' : 'Search All' }}
+                            class="fas fa-search mr-2"></i>{{ $selectedCategoryName ? 'Search in Category' : __('product.search_all') }}
                     </button>
                 </div>
 
@@ -70,27 +71,27 @@
                     <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                         <a href="{{ route('user.products.index', array_merge(request()->except('sort'), ['sort' => 'desc', 'q' => $keyword, 'category_name' => $selectedCategoryName])) }}"
                             class="bg-gray-700 text-white px-2 sm:px-4 py-2 text-xs sm:text-sm rounded hover:bg-pink-600 transition text-center {{ $currentSort === 'desc' ? 'bg-pink-600 font-bold' : '' }}">
-                            Price High - Low
+                            {{ __('product.price_high_low') }}
                         </a>
                         <a href="{{ route('user.products.index', array_merge(request()->except('sort'), ['sort' => 'asc', 'q' => $keyword, 'category_name' => $selectedCategoryName])) }}"
                             class="bg-gray-700 text-white px-2 sm:px-4 py-2 text-xs sm:text-sm rounded hover:bg-pink-600 transition text-center {{ $currentSort === 'asc' ? 'bg-pink-600 font-bold' : '' }}">
-                            Price Low - High
+                            {{ __('product.price_low_high') }}
                         </a>
                         <a href="{{ route('user.products.index', array_merge(request()->except('sort'), ['sort' => 'sale', 'q' => $keyword, 'category_name' => $selectedCategoryName])) }}"
                             class="bg-gray-700 text-white px-2 sm:px-4 py-2 text-xs sm:text-sm rounded hover:bg-pink-600 transition text-center {{ $currentSort === 'sale' ? 'bg-pink-600 font-bold' : '' }}">
-                            On Sale
+                            {{ __('product.on_sale') }}
                         </a>
                         <a href="{{ route('user.products.index', array_merge(request()->except('sort'), ['sort' => 'views', 'q' => $keyword, 'category_name' => $selectedCategoryName])) }}"
                             class="bg-gray-700 text-white px-2 sm:px-4 py-2 text-xs sm:text-sm rounded hover:bg-pink-600 transition text-center {{ $currentSort === 'views' ? 'bg-pink-600 font-bold' : '' }}">
-                            Most Viewed
+                            {{ __('product.most_viewed') }}
                         </a>
                         <a href="{{ route('user.products.index', array_merge(request()->except('sort'), ['sort' => 'bestseller', 'q' => $keyword, 'category_name' => $selectedCategoryName])) }}"
                             class="bg-gray-700 text-white px-2 sm:px-4 py-2 text-xs sm:text-sm rounded hover:bg-pink-600 transition text-center {{ $currentSort === 'bestseller' ? 'bg-pink-600 font-bold' : '' }}">
-                            Best Selling
+                            {{ __('product.best_selling') }}
                         </a>
                         <a href="{{ route('user.products.index', array_merge(request()->except('sort'), ['sort' => 'latest', 'q' => $keyword, 'category' => $selectedCategory, 'category_name' => $selectedCategoryName])) }}"
                             class="bg-gray-700 text-white px-2 sm:px-4 py-2 text-xs sm:text-sm rounded hover:bg-pink-600 transition text-center {{ $currentSort === 'latest' || !$currentSort ? 'bg-pink-600 font-bold' : '' }}">
-                            Latest
+                            {{ __('product.latest') }}
                         </a>
                     </div>
                 </div>
@@ -99,11 +100,11 @@
             <!-- Active Filters Display -->
             @if ($selectedCategory || $selectedCategoryName || $keyword)
                 <div class="mt-4 flex flex-wrap gap-2">
-                    <span class="text-sm font-medium text-gray-600">Bộ lọc đang áp dụng:</span>
+                    <span class="text-sm font-medium text-gray-600">{{ __('product.filtering_applied') }}</span>
 
                     @if ($keyword)
                         <span class="inline-flex items-center bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full">
-                            Từ khóa: "{{ $keyword }}"
+                            {{ __('product.keyword') }}: "{{ $keyword }}"
                             <a href="{{ route('user.products.index', array_merge(request()->except('q'), ['category' => $selectedCategory, 'category_name' => $selectedCategoryName])) }}"
                                 class="ml-2 text-blue-600 hover:text-blue-800">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -118,7 +119,7 @@
                         @php $categoryName = $categories->where('id', $selectedCategory)->first()->name ?? 'Unknown' @endphp
                         <span
                             class="inline-flex items-center bg-green-100 text-green-800 text-sm px-3 py-1 rounded-full">
-                            Category: {{ $categoryName }}
+                            {{ __('product.category') }}: {{ $categoryName }}
                             <a href="{{ route('user.products.index', array_merge(request()->except('category'), ['q' => $keyword, 'category_name' => $selectedCategoryName])) }}"
                                 class="ml-2 text-green-600 hover:text-green-800">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -145,7 +146,7 @@
 
                     <a href="{{ route('user.products.index') }}"
                         class="text-sm text-red-600 hover:text-red-800 underline">
-                        Xóa tất cả bộ lọc
+                        {{ __('product.clear_all_filters') }}
                     </a>
                 </div>
             @endif
@@ -242,7 +243,7 @@
                             <div class="mt-auto">
                                 <a href="{{ route('user.products.show', $productItem->id) }}"
                                     class="block text-center bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 sm:py-3 rounded-lg transition-colors duration-300 text-sm">
-                                    <i class="fas fa-eye mr-2"></i>View Details
+                                    <i class="fas fa-eye mr-2"></i>{{ __('product.view_details') }}
                                 </a>
                             </div>
                         </div>
@@ -266,3 +267,4 @@
         </div>
     </div>
 </x-app-layout>
+
