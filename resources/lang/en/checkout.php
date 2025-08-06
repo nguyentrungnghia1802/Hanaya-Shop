@@ -61,4 +61,5 @@ return [
     'order_confirmation_email' => 'You will receive an order confirmation email within a few minutes.',
     'order_cancellation' => 'Order Cancellation',
     'view_order' => 'View Order',
+    'no_products_selected' => 'No products selected for checkout.',
 ];

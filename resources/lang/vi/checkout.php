@@ -75,4 +75,6 @@ return [
     'order_confirmation_email' => 'Bạn sẽ nhận được email xác nhận đơn hàng trong vòng vài phút.',
     'order_cancellation' => 'Hủy đơn hàng',
     'view_order' => 'Xem đơn hàng',
+    'no_products_selected' => 'Không có sản phẩm nào được chọn để thanh toán.',
+
 ];
