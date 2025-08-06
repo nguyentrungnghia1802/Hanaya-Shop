@@ -140,7 +140,7 @@
                                     <tr>
                                         {{-- Total Label - Spans multiple columns for right alignment --}}
                                         <td colspan="4" class="text-right font-bold py-3 px-4 text-lg text-gray-700">
-                                            Total:</td>
+                                            {{ __('cart.submit_total') }}</td>
                                         {{-- Total Amount - Dynamic value updated by JavaScript --}}
                                         <td colspan="2" class="font-bold py-3 px-4 text-lg text-pink-600"
                                             id="totalPrice">$0</td>
@@ -254,7 +254,7 @@
                         <div
                             class="bg-white rounded-xl shadow-lg p-4 flex justify-between items-center font-bold border-l-4 border-purple-500">
                             {{-- Total Label - Clear identification of cart total --}}
-                            <span class="text-gray-700">Total:</span>
+                            <span class="text-gray-700">{{ __('cart.submit_total') }}</span>
                             {{-- Total Amount - Dynamic value updated by JavaScript --}}
                             <span id="totalPrice" class="text-pink-600">$0</span>
                         </div>

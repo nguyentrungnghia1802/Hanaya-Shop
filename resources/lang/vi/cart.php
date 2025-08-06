@@ -10,6 +10,7 @@ return [
     'total' => 'Tổng cộng',
     'subtotal' => 'Tạm tính',
     'shipping' => 'Phí vận chuyển',
+    'submit_total' => 'Tổng cộng:',
     'tax' => 'Thuế',
     'grand_total' => 'Tổng thanh toán',
     'update_cart' => 'Cập nhật giỏ hàng',
