@@ -10,6 +10,7 @@ return [
     'total' => 'Total',
     'subtotal' => 'Subtotal',
     'shipping' => 'Shipping',
+    'submit_total' => 'Total:',
     'tax' => 'Tax',
     'grand_total' => 'Grand Total',
     'update_cart' => 'Update Cart',

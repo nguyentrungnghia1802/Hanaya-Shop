@@ -10,6 +10,7 @@ return [
     'total' => '合計',
     'subtotal' => '小計',
     'shipping' => '配送料',
+    'submit_total' => '合計:',
     'tax' => '税金',
     'grand_total' => '総合計',
     'update_cart' => 'カートを更新',

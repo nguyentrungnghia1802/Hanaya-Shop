@@ -71,11 +71,11 @@
                     <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                         <a href="{{ route('user.products.index', array_merge(request()->except('sort'), ['sort' => 'desc', 'q' => $keyword, 'category_name' => $selectedCategoryName])) }}"
                             class="bg-gray-700 text-white px-2 sm:px-4 py-2 text-xs sm:text-sm rounded hover:bg-pink-600 transition text-center {{ $currentSort === 'desc' ? 'bg-pink-600 font-bold' : '' }}">
-                            {{ __('product.price_high_low') }}
+                            {{ __('product.price_high_to_low') }}
                         </a>
                         <a href="{{ route('user.products.index', array_merge(request()->except('sort'), ['sort' => 'asc', 'q' => $keyword, 'category_name' => $selectedCategoryName])) }}"
                             class="bg-gray-700 text-white px-2 sm:px-4 py-2 text-xs sm:text-sm rounded hover:bg-pink-600 transition text-center {{ $currentSort === 'asc' ? 'bg-pink-600 font-bold' : '' }}">
-                            {{ __('product.price_low_high') }}
+                            {{ __('product.price_low_to_high') }}
                         </a>
                         <a href="{{ route('user.products.index', array_merge(request()->except('sort'), ['sort' => 'sale', 'q' => $keyword, 'category_name' => $selectedCategoryName])) }}"
                             class="bg-gray-700 text-white px-2 sm:px-4 py-2 text-xs sm:text-sm rounded hover:bg-pink-600 transition text-center {{ $currentSort === 'sale' ? 'bg-pink-600 font-bold' : '' }}">
