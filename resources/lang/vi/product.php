@@ -2,18 +2,33 @@
 
 return [
     // Product Listing
+    'title' => 'Sản phẩm',
     'all_products' => 'Tất cả sản phẩm',
+    'hanaya_shop_products' => 'Sản phẩm Hanaya Shop',
+    'no_matching_products' => 'Không tìm thấy sản phẩm phù hợp.',
+    'try_different_keywords' => 'Thử tìm kiếm với từ khóa khác',
     'product_catalog' => 'Danh mục sản phẩm',
     'filter_products' => 'Lọc sản phẩm',
+    'filter_by_category' => 'Lọc theo danh mục',
+    'filter_by_price' => 'Lọc theo giá',
     'sort_by' => 'Sắp xếp theo',
-    'price_low_high' => 'Giá: Thấp đến Cao',
-    'price_high_low' => 'Giá: Cao đến Thấp',
+    'price_low_to_high' => 'Giá: Thấp đến cao',
+    'price_high_to_low' => 'Giá: Cao đến thấp',
+    'name_a_to_z' => 'Tên: A đến Z',
+    'name_z_to_a' => 'Tên: Z đến A',
     'newest_first' => 'Mới nhất trước',
+    'oldest_first' => 'Cũ nhất',
     'popularity' => 'Phổ biến',
     'best_rating' => 'Đánh giá cao nhất',
     'showing_results' => 'Hiển thị :count kết quả',
     'no_products_found' => 'Không tìm thấy sản phẩm nào',
-    
+    'most_viewed' => 'Sản phẩm được xem nhiều nhất',
+    'best_selling' => 'Sản phẩm bán chạy nhất',
+    'latest' => 'Sản phẩm mới nhất',
+    'keyword' => 'Từ khóa:',
+    'type' => 'Loại:',
+    'loading_products' => 'Đang tải sản phẩm...',
+
     // Product Details
     'product_details' => 'Chi tiết sản phẩm',
     'product_description' => 'Mô tả sản phẩm',
@@ -24,11 +39,21 @@ return [
     'product_care' => 'Hướng dẫn bảo quản',
     'product_gallery' => 'Thư viện ảnh',
     'product_images' => 'Hình ảnh sản phẩm',
+    'description' => 'Mô tả',
+    'stock' => 'Tồn kho',
+    
+    // Categories
+    'soap_flower' => 'Hoa xà phòng',
+    'souvenir' => 'Quà lưu niệm',
+    'fresh_flower' => 'Hoa tươi',
+    'gift_set' => 'Bộ quà tặng',
+    'special_flower' => 'Hoa đặc biệt',
     
     // Price & Stock
     'regular_price' => 'Giá thường',
     'sale_price' => 'Giá khuyến mại',
     'price_range' => 'Khoảng giá',
+    'price' => 'Giá',
     'in_stock' => 'Còn hàng',
     'out_of_stock' => 'Hết hàng',
     'low_stock' => 'Sắp hết hàng',
@@ -48,6 +73,7 @@ return [
     'quick_view' => 'Xem nhanh',
     'view_details' => 'Xem chi tiết',
     'view_all' => 'Xem tất cả',
+    'view_now' => 'Xem ngay',
     'sign_in_to_buy' => 'Đăng nhập để mua hàng',
 
     // Product Variants
@@ -99,7 +125,6 @@ return [
     
     // Search & Filter
     'search_products' => 'Tìm kiếm sản phẩm',
-    'filter_by_price' => 'Lọc theo giá',
     'filter_by_brand' => 'Lọc theo thương hiệu',
     'filter_by_color' => 'Lọc theo màu sắc',
     'filter_by_size' => 'Lọc theo kích thước',
@@ -108,7 +133,16 @@ return [
     'apply_filters' => 'Áp dụng bộ lọc',
     'price_range_from' => 'Từ',
     'price_range_to' => 'Đến',
-    
+    'searching' => 'Đang tìm kiếm',
+    'in category' => 'trong danh mục',
+    'in all products' => 'trong tất cả sản phẩm',
+    'showing_products_in_category' => 'Hiển thị sản phẩm trong danh mục',
+    'filtering_applied' => 'Bộ lọc đang áp dụng:',
+    'clear_all_filters' => 'Xóa tất cả bộ lọc',
+    'select_category' => 'Chọn danh mục',
+    'search_all' => 'Tìm kiếm tất cả',
+    'searching_products' => 'Đang tìm kiếm sản phẩm...',
+
     // Product Tags
     'tags' => 'Thẻ',
     'new_arrival' => 'Hàng mới về',
@@ -130,13 +164,14 @@ return [
     'select_options_first' => 'Vui lòng chọn tất cả tùy chọn trước',
     'max_quantity_reached' => 'Đã đạt số lượng tối đa',
     'insufficient_stock' => 'Không đủ hàng trong kho',
+    'error_adding_to_cart' => 'Lỗi khi thêm sản phẩm vào giỏ hàng.',
+    
     // Cart translations
     'cart' => 'Giỏ hàng',
     'cart_title' => '🛒 Giỏ hàng',
     'select_all' => 'Chọn tất cả',
     'product_image' => 'Hình ảnh',
     'product_name' => 'Tên sản phẩm',
-    'price' => 'Giá',
     'total' => 'Tổng cộng',
     'empty_cart' => 'Giỏ hàng của bạn đang trống',
     'shop_now' => 'Mua sắm ngay',

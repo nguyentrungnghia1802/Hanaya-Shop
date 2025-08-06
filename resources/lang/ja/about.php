@@ -4,7 +4,19 @@ return [
     // About Page
     'about_us' => '私たちについて',
     'about_hanaya' => 'ハナヤショップについて',
+    'welcome_to_hanaya' => 'ハナヤショップへようこそ',
+    'hero_description' => '美しいソープフラワーの芸術を発見してください - エレガンスが機能性と出会う場所。各作品は、あなたの特別な瞬間に美しさと香りをもたらすよう丁寧に手作りされています。',
     'our_story' => '私たちのストーリー',
+    
+    // Mission & Values Section
+    'mission_values' => '私たちの使命と価値観',
+    'mission_values_description' => '私たちのすべての行動を導く原則',
+    'quality_excellence' => '品質の優秀性',
+    'quality_description' => '私たちは最高品質の製品の提供に専念し、すべてのアイテムが美しさと職人技の厳格な基準を満たすことを保証します。',
+    'customer_first' => 'お客様第一',
+    'customer_first_description' => 'お客様の満足が私たちの最優先事項です。すべてのお客様に素晴らしい体験をしていただけるよう、期待を超えるサービスを提供いたします。',
+    'sustainability' => '持続可能性',
+    'sustainability_description' => '私たちは環境を大切にし、責任ある材料調達に努め、生態学的フットプリントを最小限に抑えるよう努力しています。',
     'company_history' => '会社の歴史',
     'our_mission' => '私たちの使命',
     'our_vision' => '私たちのビジョン',

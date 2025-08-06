@@ -1,10 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="bg-gradient-to-r from-pink-500 to-purple-600 text-white">
+        <div class="bg-gradient-to-r from-pin                        <h4 class="text-xl font-semibold text-gray-900 mb-3">{{ __('about.customer_first') }}</h4>
+                        <p class="text-gray-600">
+                            {{ __('about.customer_first_desc') }}</p>00 to-purple-600 text-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="py-6">
-                    <h1 class="text-3xl font-bold">🌸 About Hanaya Shop</h1>
-                    <p class="text-pink-100 mt-2">Discover our story, mission, and the passionate team behind Hanaya Shop</p>
+                    <h1 class="text-3xl font-bold">🌸 {{ __('about.about_hanaya') }}</h1>
+                    <p class="text-pink-100 mt-2">{{ __('about.discover_story') }}</p>
                 </div>
             </div>
         </div>
@@ -15,17 +17,16 @@
             
             <!-- Hero Section -->
             <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-900 mb-6">Welcome to Hanaya Shop</h2>
+                <h2 class="text-4xl font-bold text-gray-900 mb-6">{{ __('about.welcome_to_hanaya') }}</h2>
                 <p class="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-                    Where meaningful flowers and gifts come together to create unforgettable moments. 
-                    We believe that every flower tells a story, and every gift carries a message of love.
+                    {{ __('about.hero_description') }}
                 </p>
             </div>
 
             <!-- Our Story Section -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
                 <div class="space-y-6">
-                    <h3 class="text-3xl font-bold text-gray-900">Our Story</h3>
+                    <h3 class="text-3xl font-bold text-gray-900">{{ __('about.our_story') }}</h3>
                     <div class="space-y-4 text-gray-600 leading-relaxed">
                         <p>
                             Founded with a passion for bringing beauty and joy into people's lives, Hanaya Shop began as a small dream 
@@ -61,8 +62,8 @@
             <!-- Our Mission & Values -->
             <div class="bg-white rounded-2xl shadow-xl p-8 lg:p-12 mb-20">
                 <div class="text-center mb-12">
-                    <h3 class="text-3xl font-bold text-gray-900 mb-4">Our Mission & Values</h3>
-                    <p class="text-gray-600 text-lg">The principles that guide everything we do</p>
+                    <h3 class="text-3xl font-bold text-gray-900 mb-4">{{ __('about.mission_values') }}</h3>
+                    <p class="text-gray-600 text-lg">{{ __('about.principles_guide') }}</p>
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -73,9 +74,9 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
                         </div>
-                        <h4 class="text-xl font-semibold text-gray-900 mb-3">Quality Excellence</h4>
+                        <h4 class="text-xl font-semibold text-gray-900 mb-3">{{ __('about.quality_excellence') }}</h4>
                         <p class="text-gray-600">
-                            We are committed to delivering only the highest quality products, ensuring every item meets our strict standards of beauty and craftsmanship.
+                            {{ __('about.quality_excellence_desc') }}
                         </p>
                     </div>
 
@@ -99,9 +100,9 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0 9c-1.657 0-3-4.03-3-9s1.343-9 3-9m0 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m-9 9a9 9 0 019-9"></path>
                             </svg>
                         </div>
-                        <h4 class="text-xl font-semibold text-gray-900 mb-3">Sustainability</h4>
+                        <h4 class="text-xl font-semibold text-gray-900 mb-3">{{ __('about.sustainability') }}</h4>
                         <p class="text-gray-600">
-                            We believe in responsible business practices and creating products that bring lasting joy while being mindful of our environment.
+                            {{ __('about.sustainability_description') }}
                         </p>
                     </div>
                 </div>
