@@ -11,15 +11,15 @@
     <!-- Notification messages for successful operations -->
     <div id="successMsg"
         class="hidden fixed bottom-5 right-5 bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded mb-4">
-        Category added successfully!
+        {{ __('admin.created_successfully') }}
     </div>
     <div id="successMsg-delete"
         class="hidden fixed bottom-5 right-5 bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded mb-4">
-        Category deleted successfully!
+        {{ __('admin.deleted_successfully') }}
     </div>
     <div id="successMsg-edit"
         class="hidden fixed bottom-5 right-5 bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded mb-4">
-        Category updated successfully!
+        {{ __('admin.updated_successfully') }}
     </div>
 
     <div class="py-12">
@@ -31,13 +31,13 @@
                         <input type="text" id="searchCategoryInput" placeholder="Search category..."
                             class="border px-3 py-2 rounded w-full" autocomplete="off">
                         <button type="submit"
-                            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 rounded">Search</button>
+                            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 rounded">{{ __('admin.search') }}</button>
                     </form>
 
                     <!-- Add category button -->
                     <a href="{{ route('admin.category.create') }}"
                         class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded mb-[20px] inline-block transition duration-200">
-                        Add
+                        {{ __('admin.add_category') }}
                     </a>
 
                     <!-- Category list table -->
@@ -46,8 +46,8 @@
                         <thead class="bg-gray-100 text-gray-700 uppercase text-left">
                             <tr>
                                     <th class="px-2 sm:px-4 py-2 border-b">#</th>
-                                    <th class="px-2 sm:px-4 py-2 border-b">Name</th>
-                                    <th class="px-2 sm:px-4 py-2 border-b">Action</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">{{ __('admin.name') }}</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">{{ __('admin.action') }}</th>
                             </tr>
                         </thead>
                         <tbody class="text-gray-800">
@@ -59,7 +59,7 @@
                                         <!-- Edit button -->
                                         <a href="{{ route('admin.category.edit', $item->id) }}"
                                             class="inline-block px-3 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition">
-                                            Edit
+                                            {{ __('admin.edit') }}
                                         </a>
 
                                         <!-- Delete button -->
@@ -67,13 +67,13 @@
                                             class="inline-block px-3 py-1 bg-red-500 text-white text-xs font-medium rounded hover:bg-red-600 transition btn-delete"
                                             data-id="{{ $item->id }}"
                                             data-url="{{ route('admin.category.destroy', $item->id) }}">
-                                            Delete
+                                            {{ __('admin.delete') }}
                                         </button>
 
                                         <!-- View full detail button (redirects to detail page) -->
                                         <a href="{{ route('admin.category.show', $item->id) }}"
                                             class="inline-block px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">
-                                            View Details
+                                            {{ __('admin.view_details') }}
                                         </a>
 
                                         <!-- Quick View (opens modal) -->
@@ -81,7 +81,7 @@
                                             class="inline-block px-3 py-1 bg-gray-500 text-white text-xs font-medium rounded hover:bg-gray-600 transition btn-view"
                                             data-id="{{ $item->id }}"
                                             data-url="{{ route('admin.category.show', $item->id) }}">
-                                            Quick View
+                                            {{ __('admin.quick_view') }}
                                         </button>
                                     </td>
                                 </tr>
