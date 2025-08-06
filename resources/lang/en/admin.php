@@ -65,7 +65,7 @@ return [
     'filter' => 'Filter',
     'export' => 'Export',
     'import' => 'Import',
-    
+
     // Messages
     'created_successfully' => 'Created successfully!',
     'updated_successfully' => 'Updated successfully!',
@@ -88,7 +88,7 @@ return [
     'log_out' => 'Log Out',
     'no_notifications' => 'No new notifications.',
 
-    // Controller
+    // new
     'category_created_successfully' => 'Category created successfully!',
     'category_updated_successfully' => 'Category updated successfully!',
     'category_deleted_successfully' => 'Category deleted successfully!',
@@ -109,6 +109,41 @@ return [
     'account_updated_successfully' => 'Account updated successfully!',
     'account_deleted_successfully' => 'Account deleted successfully!',
     'you_cannot_delete_yourself' => 'you cannot delete yourself.',
+    'no_categories_found' => 'No categories found.',
+    'add_flower_category' => 'Add Flower Category',
+    'category_name' => 'Category Name',
+    'quick_view' => 'Quick View',
+    'category_exists' => 'This category already exists.',
+    'category_image' => 'Category Image:',
+    'current_image' => 'Current Image:',
+    'description' => 'Description:',
+    'confirm_cancel' => 'Are you sure you want to cancel? Any unsaved changes will be lost.',
+    'add_category' => 'Add Category',
+    'name' => 'Name',
+    'action' => 'Action',
+    'back_to_categories' => 'Back to Categories',
+    'category_id' => 'Category ID',
+    'created_at' => 'Created At',
+    'updated_at' => 'Updated At',
+    'no_description_available' => 'No description available',
+    'total_products' => 'Total Products',
+    'active_products' => 'Active Products',
+    'inactive_products' => 'Inactive Products',
+    'edit_category' => 'Edit Category',
+    'delete_category' => 'Delete Category',
+    'confirm_delete_message' => 'Are you sure you want to delete this category? This action cannot be undone.',
 
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
 ];
