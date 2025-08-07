@@ -30,7 +30,7 @@
                     </svg>
                 </div>
                 <h4 class="font-semibold {{ $selectedCategory === 'soap-flower' ? 'text-pink-700' : 'text-gray-700 group-hover:text-pink-600' }}">
-                    Soap Flower
+                    Soap Flowerjhgjhkgyjkhg
                 </h4>
                 <p class="text-sm text-gray-500 mt-1">{{ __('product.soap_flowers') }}</p>
             </div>

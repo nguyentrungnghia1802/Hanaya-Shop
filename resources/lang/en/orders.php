@@ -1,6 +1,52 @@
 <?php
 
 return [
-    // Page Titles
+    // Page order index
+    'orders_title'=> 'Orders',
+    'total_orders' => 'Total Orders',
+    'delivered' => 'Delivered',
+    'processing' => 'Processing',
+    'total_value' => 'Total Value',
+    'order_id' => 'Order ID:',
+    'products' => 'Products:',
+    'total_amount' => 'Total Amount',
+    'items' => 'Items',
+    'status' => 'Status',
+    'confirmed' => 'Confirmed',
+    'shipped' => 'Shipped',
+    'cancelled' => 'Cancelled',
+    'view_details' => 'View Details',
+    'no_orders_yet' => 'No orders yet',
+    'you_have_not' => 'You have not placed any orders yet. Start shopping now!',
+    'start_shopping' => 'Start Shopping',
+    
+    // Page order show
+    'order_details' => 'Order Details',
+    'order_status' => 'Order Status',
+    'order_canceled' => 'Order Canceled',
+    'order_canceled_message' => 'This order has been canceled and any payment has been',
+    'order_information' => 'Order Information',
+    'order_date' => 'Order Date:',
+    'total_amount' => 'Total Amount:',
+    'customer_information' => 'Customer Information',
+    'full_name' => 'Full Name:',
+    'email' => 'Email:',
+    'phone_number' => 'Phone Number:',
+    'address' => 'Address:',
+    'products_list' => 'Product List',
+    'quantity' => 'Quantity:',
+    'unit_price' => 'Unit Price:',
+    'write_review' => 'Write Review',
+    'reviewed' => 'Reviewed',
+    'original_subtotal' => 'Original Subtotal:',
+    'subtotal' => 'Subtotal:',
+    'you_saved' => 'You Saved:',
+    'shipping_fee' => 'Shipping Fee:',
+    'order_total' => 'Order Total:',
+    'message' => 'Message',
+    'no_message' => 'No message provided',
+    'cancel_order' => 'Cancel Order',
+    'received' => 'Received',
+    'continue_shopping' => 'Continue Shopping',
 
 ];
