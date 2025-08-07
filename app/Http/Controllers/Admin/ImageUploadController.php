@@ -44,12 +44,12 @@ class ImageUploadController extends Controller
             }
             
             return response()->json([
-                'error' => 'No file uploaded'
+                'error' => __('admin.no_file_uploaded')
             ], 400);
             
         } catch (\Exception $e) {
             return response()->json([
-                'error' => 'Upload failed: ' . $e->getMessage()
+                'error' => __('admin.upload_failed') . ': ' . $e->getMessage()
             ], 500);
         }
     }
@@ -89,7 +89,7 @@ class ImageUploadController extends Controller
         
         return response()->json([
             'success' => false,
-            'message' => 'Upload failed'
+            'message' => __('admin.upload_failed')
         ], 400);
     }
     

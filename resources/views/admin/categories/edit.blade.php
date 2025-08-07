@@ -22,7 +22,7 @@
 
         <!-- Input for flower category name -->
         <div>
-            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Category Name</label>
+            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">{{ __('admin.category_name') }}</label>
             <input 
                 type="text" 
                 name="name" 
@@ -32,7 +32,7 @@
                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none">
             
             <!-- Custom client-side error message (initially hidden) -->
-            <p id="errorMsg-edit" class="hidden text-red-500 text-sm mt-1">This category already exists.</p>
+            <p id="errorMsg-edit" class="hidden text-red-500 text-sm mt-1">{{ __('admin.category_exists') }}</p>
         </div>
 
         <!-- Input for category image file -->
@@ -45,7 +45,7 @@
 
         <!-- Preview of the current image, if exists -->
         @if($category->image_path)
-            <p class="text-sm text-gray-700 mt-2">Current Image:</p>
+            <p class="text-sm text-gray-700 mt-2">{{ __('admin.current_image') }}</p>
             <img 
                 id="previewImage" 
                 src="{{ asset('images/categories/' . $category->image_path) }}" 
@@ -55,7 +55,7 @@
 
         <!-- Input for category description (plain textarea) -->
         <div>
-            <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+            <label for="description" class="block text-sm font-medium text-gray-700 mb-1">{{ __('admin.description') }}</label>
             <textarea 
                 name="description" 
                 id="description" 
@@ -70,12 +70,12 @@
                 type="button" 
                 id="cancelBtn"
                 class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition">
-                Cancel
+                {{ __('admin.cancel') }}
             </button>
             <button 
                 type="submit"
                 class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition">
-                Save
+                {{ __('admin.save') }}
             </button>
         </div>
     </form>
@@ -84,7 +84,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Handle Cancel button click
             document.getElementById('cancelBtn').addEventListener('click', function() {
-                if (confirm('Are you sure you want to cancel? Any unsaved changes will be lost.')) {
+                if (confirm('{{ __('admin.confirm_cancel') }}')) {
                     window.location.href = '{{ route('admin.category') }}';
                 }
             });
