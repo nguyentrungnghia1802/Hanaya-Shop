@@ -23,4 +23,11 @@ return [
     'free_shipping' => '送料無料',
     'calculate_shipping' => '配送料を計算',
     'enter_zip_code' => '郵便番号を入力',
+
+    //alerts
+    'out_of_stock_alert'    => '在庫切れ',
+    'added_to_cart'         => '商品がカートに追加されました',
+    'removed_from_cart'     => '商品がカートから削除されました',
+
+
 ];
