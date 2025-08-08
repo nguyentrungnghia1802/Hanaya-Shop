@@ -62,4 +62,14 @@ return [
     'order_cancellation' => 'Order Cancellation',
     'view_order' => 'View Order',
     'no_products_selected' => 'No products selected for checkout.',
+
+    //checkout alerts
+    'unknown_product' => 'Unknown product',
+    'please_select_address' => 'Please select a delivery address.',
+    'invalid_address' => 'Invalid address. Please check the address details and try again.',
+    'please_select_payment_method' => 'Please select a payment method.',
+    'invalid_payment_method' => 'Invalid payment method. Please select a valid payment method.',
+    'cart_data_error' => 'Cart data error. Please check your cart and try again.',
+    'order_success' => 'Order placed successfully.',
+    'order_failed' => 'Order failed. Please try again later.',
 ];

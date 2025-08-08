@@ -49,4 +49,18 @@ return [
     'received' => 'Received',
     'continue_shopping' => 'Continue Shopping',
 
+    //order controller
+    'order_has_been_cancelled' => 'Order has been cancelled successfully.',
+    'order_has_been_marked_as_received' => 'Order has been marked as received successfully.',
+
+    //review controller
+    'order_not_found' => 'Order not found or you do not have permission.',
+    'can_only_review_shipped_orders' => 'You can only review products from shipped orders',
+    'product_not_found_in_order' => 'Product not found in this order.',
+    'already_reviewed' => 'You have already reviewed this product for this order.',
+    'review_submitted_successfully' => 'Review submitted successfully!',
+    'order_not_found' => 'Order not found.',
+    'product_not_found' => 'Product not found.',
+    'product_not_found_in_order' => 'Product not found in this order.',
+    
 ];

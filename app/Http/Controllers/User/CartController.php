@@ -80,7 +80,7 @@ class CartController extends Controller
          * Returns user-friendly error message for out-of-stock situations
          */
         if ($product->stock_quantity <= 0) {
-            return redirect()->back()->with('error', 'Out of Stock');
+            return redirect()->back()->with('error', (__('cart.out_of_stock_alert')));
         }
 
         // Existing Cart Item Check
@@ -103,7 +103,7 @@ class CartController extends Controller
         $newTotalQuantity = $currentQuantity + $quantityToAdd;
 
         if ($newTotalQuantity > $product->stock_quantity) {
-            return redirect()->back()->with('error', 'Số lượng vượt quá số lượng tồn kho.');
+            return redirect()->back()->with('error', (__('cart.out_of_stock_alert')));
         }
 
         // Cart Item Creation or Update
@@ -126,7 +126,7 @@ class CartController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('success', 'Added to cart!');
+        return redirect()->back()->with('success', (__('cart.added_to_cart')));
     }
 
     /**
@@ -256,7 +256,7 @@ class CartController extends Controller
 
         $query->delete(); // Remove cart item with security validation
 
-        return redirect()->back()->with('success', 'Product removed from cart successfully.');
+        return redirect()->back()->with('success', (__('cart.removed_from_cart')));
     }
 
     /**
@@ -297,7 +297,7 @@ class CartController extends Controller
          * Returns user-friendly error for stock limitations
          */
         if ($quantity > $product->stock_quantity) {
-            return redirect()->back()->with('error', 'Số lượng vượt quá số lượng tồn kho.');
+            return redirect()->back()->with('error', ((__('cart.out_of_stock_alert'))));
         }
         
         // Existing Cart Item Check

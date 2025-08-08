@@ -23,4 +23,10 @@ return [
     'free_shipping' => 'Miễn phí vận chuyển',
     'calculate_shipping' => 'Tính phí vận chuyển',
     'enter_zip_code' => 'Nhập mã bưu điện',
+
+    //alerts
+    'out_of_stock_alert'    => 'Hết hàng',
+    'added_to_cart'         => 'Đã thêm sản phẩm vào giỏ hàng thành công',
+    'removed_from_cart'     => 'Đã xóa sản phẩm khỏi giỏ hàng thành công',
+
 ];
