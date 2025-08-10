@@ -19,7 +19,7 @@
 {{-- Page header section with dashboard title --}}
 @section('header')
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        {{ __('Admin Dashboard') }}
+        {{ __('admin.dashboard') }}
     </h2>
 @endsection
 
@@ -33,8 +33,8 @@
             <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg shadow-lg p-6 mb-8 text-white">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h1 class="text-3xl font-bold mb-2">{{ __("Welcome back!") }}</h1>
-                        <p class="text-xl text-blue-100">{{ __("Manage Hanaya Shop") }}</p>
+                        <h1 class="text-3xl font-bold mb-2">{{ __("admin.welcome_message") }}</h1>
+                        <p class="text-xl text-blue-100">{{ __("admin.manage_hanaya_shop") }}</p>
                         <p class="text-blue-100 mt-1">{{ now()->format('l, d F Y') }}</p>
                     </div>
                     {{-- Dashboard icon - hidden on mobile devices --}}
@@ -61,7 +61,7 @@
                         </div>
                         <div class="ml-5 w-0 flex-1">
                             <dl>
-                                <dt class="text-sm font-medium text-gray-500 truncate">Monthly Revenue</dt>
+                                <dt class="text-sm font-medium text-gray-500 truncate">{{ __('admin.monthly_revenue') }}</dt>
                                 <dd class="text-lg font-medium text-gray-900">${{ number_format($monthlyRevenue ?? 0, 2, '.', ',') }}</dd>
                             </dl>
                         </div>
@@ -81,7 +81,7 @@
                         </div>
                         <div class="ml-5 w-0 flex-1">
                             <dl>
-                                <dt class="text-sm font-medium text-gray-500 truncate">Total Orders</dt>
+                                <dt class="text-sm font-medium text-gray-500 truncate">{{ __('admin.total_orders') }}</dt>
                                 <dd class="text-lg font-medium text-gray-900">{{ $orderCount ?? 0 }}</dd>
                             </dl>
                         </div>
@@ -101,7 +101,7 @@
                         </div>
                         <div class="ml-5 w-0 flex-1">
                             <dl>
-                                <dt class="text-sm font-medium text-gray-500 truncate">Total Products</dt>
+                                <dt class="text-sm font-medium text-gray-500 truncate">{{ __('admin.total_products') }}</dt>
                                 <dd class="text-lg font-medium text-gray-900">{{ $productCount ?? 0 }}</dd>
                             </dl>
                         </div>
@@ -121,7 +121,7 @@
                         </div>
                         <div class="ml-5 w-0 flex-1">
                             <dl>
-                                <dt class="text-sm font-medium text-gray-500 truncate">Total Users</dt>
+                                <dt class="text-sm font-medium text-gray-500 truncate">{{ __('admin.total_users') }}</dt>
                                 <dd class="text-lg font-medium text-gray-900">{{ $userCount ?? 0 }}</dd>
                             </dl>
                         </div>
@@ -134,32 +134,32 @@
                 {{-- Categories count - Total number of product categories --}}
                 <div class="bg-white rounded-lg shadow p-4 text-center">
                     <div class="text-2xl font-bold text-blue-600">{{ $categoryCount ?? 0 }}</div>
-                    <div class="text-sm text-gray-600">Categories</div>
+                    <div class="text-sm text-gray-600">{{ __('admin.category') }}</div>
                 </div>
                 {{-- In stock products - Products currently available for purchase --}}
                 <div class="bg-white rounded-lg shadow p-4 text-center">
                     <div class="text-2xl font-bold text-green-600">{{ $activeProducts ?? 0 }}</div>
-                    <div class="text-sm text-gray-600">In Stock</div>
+                    <div class="text-sm text-gray-600">{{ __('admin.in_stock') }}</div>
                 </div>
                 {{-- Out of stock products - Products that need restocking --}}
                 <div class="bg-white rounded-lg shadow p-4 text-center">
                     <div class="text-2xl font-bold text-red-600">{{ $outOfStockProducts ?? 0 }}</div>
-                    <div class="text-sm text-gray-600">Out of Stock</div>
+                    <div class="text-sm text-gray-600">{{ __('admin.out_of_stock') }}</div>
                 </div>
                 {{-- Posts count - Total number of blog posts or content --}}
                 <div class="bg-white rounded-lg shadow p-4 text-center">
                     <div class="text-2xl font-bold text-purple-600">{{ $postCount ?? 0 }}</div>
-                    <div class="text-sm text-gray-600">Posts</div>
+                    <div class="text-sm text-gray-600">{{ __('admin.posts') }}</div>
                 </div>
                 {{-- New users this month - Recent user registrations --}}
                 <div class="bg-white rounded-lg shadow p-4 text-center">
                     <div class="text-2xl font-bold text-indigo-600">{{ $newUsersThisMonth ?? 0 }}</div>
-                    <div class="text-sm text-gray-600">New Users/Month</div>
+                    <div class="text-sm text-gray-600">{{ __('admin.new_users_this_month') }}</div>
                 </div>
                 {{-- Total revenue - Cumulative revenue from all orders --}}
                 <div class="bg-white rounded-lg shadow p-4 text-center">
                     <div class="text-2xl font-bold text-orange-600">${{ number_format($totalRevenue ?? 0, 2, '.', ',') }}</div>
-                    <div class="text-sm text-gray-600">Total Revenue</div>
+                    <div class="text-sm text-gray-600">{{ __('admin.total_revenue') }}</div>
                 </div>
             </div>
 
@@ -169,7 +169,7 @@
                 {{-- Displays revenue data for the last 6 months with Chart.js visualization --}}
                 <div class="bg-white rounded-lg shadow-lg p-6">
                     {{-- Chart title with semantic styling --}}
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Revenue Chart - Last 6 Months</h3>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">{{ __('admin.revenue_chart') }}</h3>
                     {{-- Canvas element for Chart.js bar chart rendering --}}
                     <canvas id="revenueBarChart" width="400" height="200"></canvas>
                     {{-- Chart.js library import from CDN --}}
@@ -217,7 +217,7 @@
                 {{-- Shows percentage distribution of orders across different status categories --}}
                 <div class="bg-white rounded-lg shadow-lg p-6">
                     {{-- Section title --}}
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Order Status Distribution</h3>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">{{ __('admin.order_status_distribution') }}</h3>
                     {{-- Container for status items with vertical spacing --}}
                     <div class="space-y-3">
                         {{-- Check if order status statistics are available --}}
@@ -231,19 +231,19 @@
                                         {{-- Convert status codes to readable labels --}}
                                         @switch($status)
                                             @case('pending')
-                                                Pending {{-- Orders awaiting processing --}}
+                                                {{ __('admin.pending') }} {{-- Orders awaiting processing --}}
                                                 @break
                                             @case('processing')
-                                                Processing {{-- Orders being prepared --}}
+                                                {{ __('admin.processing') }} {{-- Orders being prepared --}}
                                                 @break
                                             @case('completed')
-                                                Completed {{-- Successfully fulfilled orders --}}
+                                                {{ __('admin.completed') }} {{-- Successfully fulfilled orders --}}
                                                 @break
                                             @case('cancelled')
-                                                Cancelled {{-- Cancelled orders --}}
+                                                {{ __('admin.cancelled') }} {{-- Cancelled orders --}}
                                                 @break
                                             @case('shipped')
-                                                Shipped {{-- Orders sent to customers --}}
+                                                {{ __('admin.shipped') }} {{-- Orders sent to customers --}}
                                                 @break
                                             @default
                                                 {{ ucfirst($status) }} {{-- Fallback for unknown statuses --}}
@@ -267,7 +267,7 @@
                             @endforeach
                         @else
                             {{-- Fallback message when no order data is available --}}
-                            <p class="text-gray-500 text-center">No orders yet</p>
+                            <p class="text-gray-500 text-center">{{ __('admin.no_orders_yet') }}</p>
                         @endif
                     </div>
                 </div>
@@ -279,7 +279,7 @@
                 {{-- Best Selling Products Table - Shows top performing products by sales volume --}}
                 <div class="bg-white rounded-lg shadow-lg p-6">
                     {{-- Table title --}}
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Best Selling Products</h3>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">{{ __('admin.best_selling_products') }}</h3>
                     {{-- Responsive table container for horizontal scrolling on mobile --}}
                     <div class="overflow-x-auto">
                         {{-- Products table with automatic column sizing --}}
@@ -288,9 +288,9 @@
                             <thead class="bg-gray-50">
                                 <tr>
                                     {{-- Product name column header --}}
-                                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Product</th>
+                                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">{{ __('admin.product') }}</th>
                                     {{-- Quantity sold column header --}}
-                                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Sold</th>
+                                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">{{ __('admin.sold') }}</th>
                                 </tr>
                             </thead>
                             {{-- Table body with row dividers --}}
@@ -309,7 +309,7 @@
                                 @else
                                     {{-- Fallback row when no sales data is available --}}
                                     <tr>
-                                        <td colspan="2" class="px-4 py-4 text-center text-gray-500">No data available</td>
+                                        <td colspan="2" class="px-4 py-4 text-center text-gray-500">{{ __('admin.no_data_available') }}</td>
                                     </tr>
                                 @endif
                             </tbody>
@@ -320,7 +320,7 @@
                 {{-- Low Stock Products Table - Inventory alert system for products running low --}}
                 <div class="bg-white rounded-lg shadow-lg p-6">
                     {{-- Table title --}}
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Low Stock Products</h3>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">{{ __('admin.low_stock_products') }}</h3>
                     {{-- Responsive table container --}}
                     <div class="overflow-x-auto">
                         {{-- Inventory table with automatic column sizing --}}
@@ -329,9 +329,9 @@
                             <thead class="bg-gray-50">
                                 <tr>
                                     {{-- Product name column header --}}
-                                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Product</th>
+                                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">{{ __('admin.product') }}</th>
                                     {{-- Stock quantity column header --}}
-                                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Remaining</th>
+                                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">{{ __('admin.remaining') }}</th>
                                 </tr>
                             </thead>
                             {{-- Table body with row dividers --}}
@@ -354,7 +354,7 @@
                                 @else
                                     {{-- Fallback message when all products are adequately stocked --}}
                                     <tr>
-                                        <td colspan="2" class="px-4 py-4 text-center text-gray-500">All products are well stocked</td>
+                                        <td colspan="2" class="px-4 py-4 text-center text-gray-500">{{ __('admin.all_products_are_well_stocked') }}</td>
                                     </tr>
                                 @endif
                             </tbody>
@@ -367,7 +367,7 @@
             {{-- Provides overview of recent transaction activity and order management --}}
             <div class="bg-white rounded-lg shadow-lg p-6">
                 {{-- Section title --}}
-                <h3 class="text-lg font-semibold text-gray-800 mb-4">Recent Orders</h3>
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">{{ __('admin.recent_orders') }}</h3>
                 {{-- Responsive table container for horizontal scrolling --}}
                 <div class="overflow-x-auto">
                     {{-- Orders table with full width and automatic column sizing --}}
@@ -378,13 +378,13 @@
                                 {{-- Order ID column header --}}
                                 <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">ID</th>
                                 {{-- Customer name column header --}}
-                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Customer</th>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">{{ __('admin.customer') }}</th>
                                 {{-- Order total amount column header --}}
-                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Total</th>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">{{ __('admin.total') }}</th>
                                 {{-- Order status column header --}}
-                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Status</th>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">{{ __('admin.status') }}</th>
                                 {{-- Order date column header --}}
-                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Order Date</th>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">{{ __('admin.order_date') }}</th>
                             </tr>
                         </thead>
                         {{-- Table body with row dividers for visual separation --}}
@@ -411,16 +411,16 @@
                                                 {{-- Status text with proper capitalization --}}
                                                 @switch($order->status)
                                                     @case('pending')
-                                                        Pending {{-- Order awaiting processing --}}
+                                                        {{ __('admin.pending') }} {{-- Order awaiting processing --}}
                                                         @break
                                                     @case('processing')
-                                                        Processing {{-- Order being prepared --}}
+                                                        {{ __('admin.processing') }} {{-- Order being prepared --}}
                                                         @break
                                                     @case('completed')
-                                                        Completed {{-- Order successfully fulfilled --}}
+                                                        {{ __('admin.completed') }} {{-- Order successfully fulfilled --}}
                                                         @break
                                                     @case('cancelled')
-                                                        Cancelled {{-- Order was cancelled --}}
+                                                        {{ __('admin.cancelled') }} {{-- Order was cancelled --}}
                                                         @break
                                                     @default
                                                         {{ ucfirst($order->status) }} {{-- Fallback for unknown statuses --}}
@@ -434,7 +434,7 @@
                             @else
                                 {{-- Fallback row when no recent orders exist --}}
                                 <tr>
-                                    <td colspan="5" class="px-4 py-4 text-center text-gray-500">No orders yet</td>
+                                    <td colspan="5" class="px-4 py-4 text-center text-gray-500">{{ __('admin.no_orders_yet') }}</td>
                                 </tr>
                             @endif
                         </tbody>
