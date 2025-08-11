@@ -130,7 +130,6 @@ return [
     // Team
     'our_team' => 'Our Team',
     'meet_team' => 'Meet Our Team',
-    'team_description' => 'Our dedicated team of artisans and professionals work together to create beautiful products and provide exceptional service.',
     'founder_ceo' => 'Founder & CEO',
     'creative_director' => 'Creative Director',
     'head_artisan' => 'Head Artisan',
@@ -157,7 +156,6 @@ return [
     'packaging_shipping_desc' => 'Products are carefully packaged and shipped with love and care.',
     
     // Contact Information
-    'get_in_touch' => 'Get in Touch',
     'contact_us' => 'Contact Us',
     'visit_store' => 'Visit Our Store',
     'store_hours' => 'Store Hours',
