@@ -106,8 +106,8 @@ hanaya-shop/
 
 ## 🔗 インストール/セットアップのご案内 <a id="install-jp"></a>
 
-- 本番環境（Production）: [DEPLOYMENT_GUIDE.md](./#GUIDE/DEPLOYMENT_GUIDE.md)
-- 開発環境（Developing）: [README_DEV.md](./#GUIDE/README_DEV.md)
+- 本番環境（Production）: [DEPLOYMENT_GUIDE.md](./%23GUIDE/DEPLOYMENT_GUIDE.md)
+- 開発環境（Developing）: [README_DEV.md](./%23GUIDE/README_DEV.md)
 
 </details>
 
@@ -214,8 +214,8 @@ hanaya-shop/
 
 ## 🔗 Installation / Setup <a id="install-en"></a>
 
-- Production guide: [DEPLOYMENT_GUIDE.md](#GUIDE/DEPLOYMENT_GUIDE.md)
-- Development guide: [README_DEV.md](#GUIDE/README_DEV.md)
+- Production guide: [DEPLOYMENT_GUIDE.md](./%23GUIDE/DEPLOYMENT_GUIDE.md)
+- Development guide: [README_DEV.md](./%23GUIDE/README_DEV.md)
 
 </details>
 
@@ -322,7 +322,7 @@ hanaya-shop/
 
 ## 🔗 Hướng dẫn cài đặt / thiết lập <a id="install-vi"></a>
 
-- Production: [DEPLOYMENT_GUIDE.md](./#GUIDE/DEPLOYMENT_GUIDE.md)
-- Developing: [README_DEV.md](#GUIDE/README_DEV.md)
+- Production: [DEPLOYMENT_GUIDE.md](./%23GUIDE/DEPLOYMENT_GUIDE.md)
+- Developing: [README_DEV.md](./%23GUIDE/README_DEV.md)
 
 </details>
