@@ -7,23 +7,25 @@
 
 ## 目次
 
-- [🔗 リンク](#🔗-リンク)
-- [概要](#概要)
-- [🎯 プロジェクト目的](#🎯-プロジェクト目的)
-- [🌟 機能（Features）](#🌟-機能features)
-  - [👤 顧客向け](#👤-顧客向け)
-  - [🛠️ 管理者向け](#🛠️-管理者向け)
-- [🛠️ 技術スタック（Technologies Used）](#🛠️-技術スタックtechnologies-used)
-  - [💡 ハイライトと実運用効果（Highlights & Impact）](#💡-ハイライトと実運用効果highlights--impact)
-- [🗂️ ディレクトリ構成](#🗂️-ディレクトリ構成)
-- [🔗 インストール/セットアップのご案内](#🔗-インストールセットアップのご案内)
+- [🔗 リンク](#links-jp)
+- [概要](#overview-jp)
+- [🎯 プロジェクト目的](#goals-jp)
+- [🌟 機能（Features）](#features-jp)
+  - [👤 顧客向け](#customers-jp)
+  - [🛠️ 管理者向け](#admin-section)
+- [🛠️ 技術スタック（Technologies Used）](#tech-jp)
+  - [💡 ハイライトと実運用効果（Highlights & Impact）](#highlights-jp)
+- [🗂️ ディレクトリ構成](#structure-jp)
+- [🔗 インストール/セットアップのご案内](#install-jp)
 
-## 🔗 リンク
 
-- Webサイト: [Hanaya Shop](https://hanayashop.com)
+
+## 🔗 リンク <a id="links-jp"></a>
+
+- Webサイト: [Hanaya Shop](http://hanayashop.com)
 - デモ動画: [YouTube Demo](https://youtu.be/your-demo-id)
 
-## 概要
+## 概要 <a id="overview-jp"></a>
 
 ベトナムでは、特に祝祭期に、鮮度が短い花が売れ残り、価値を生む前に廃棄されてしまう課題が存在します。販売機会の逸失と需要とのミスマッチが、事業者の損失と社会的な無駄を生み出しています。
 
@@ -31,7 +33,7 @@
 
 ---
 
-## 🎯 プロジェクト目的
+## 🎯 プロジェクト目的 <a id="goals-jp"></a>
 
 - 現実の課題（廃棄）に向き合い、販売機会と需要のマッチングを最適化する
 - 花屋向けにシンプルで拡張性の高いECプラットフォームを提供し、導入/運用コストを下げる
@@ -41,9 +43,9 @@
 
 ---
 
-## 🌟 機能（Features）
+## 🌟 機能（Features） <a id="features-jp"></a>
 
-### 👤 顧客向け
+### 👤 顧客向け <a id="customers-jp"></a>
 - 商品一覧・詳細、カテゴリ/用途/価格のフィルタリング
 - ベストセラーや特価商品のハイライト表示
 - カート、注文作成、購入履歴
@@ -53,7 +55,7 @@
 - 直感的な住所選択（地図API連携）
 - 多様な決済手段（代金引換、銀行カード、PayPal）
 
-### 🛠️ 管理者向け
+## 🛠️ 管理者向け <a id="admin-section"></a>
 - 商品カテゴリ・商品CRUD（表示/非表示切替含む）
 - 注文の承認/キャンセル/ステータス更新、効率的な処理UI
 - 在庫監視（売り切れ/閾値接近の把握）
@@ -62,7 +64,7 @@
 
 ---
 
-## 🛠️ 技術スタック（Technologies Used）
+## 🛠️ 技術スタック（Technologies Used） <a id="tech-jp"></a>
 
 - PHP 8.2 / Laravel 12.2
 - MySQL, Redis
@@ -70,7 +72,7 @@
 - Docker Compose
 - TinyMCE (Tiny Cloud), 各種Map API
 
-### 💡 ハイライトと実運用効果（Highlights & Impact）
+### 💡 ハイライトと実運用効果（Highlights & Impact） <a id="highlights-jp"></a>
 
 - Docker Compose: 環境差異を排除し、1コマンドで導入。本番更新はイメージ差し替えで安全・迅速。
 - SSR + Tailwind: 初期表示が速くSEOに有利。離脱率を抑制し、コンバージョン改善。
@@ -82,7 +84,7 @@
 
 ---
 
-## 🗂️ ディレクトリ構成
+## 🗂️ ディレクトリ構成 <a id="structure-jp"></a>
 
 ```bash
 hanaya-shop/
@@ -102,7 +104,7 @@ hanaya-shop/
 
 ---
 
-## 🔗 インストール/セットアップのご案内
+## 🔗 インストール/セットアップのご案内 <a id="install-jp"></a>
 
 - 本番環境（Production）: [DEPLOYMENT_GUIDE.md](./#GUIDE/DEPLOYMENT_GUIDE.md)
 - 開発環境（Developing）: [README_DEV.md](./#GUIDE/README_DEV.md)
@@ -115,23 +117,23 @@ hanaya-shop/
 
 ## Table of Contents
 
-- [🔗 Links](#🔗-links)
-- [Overview](#overview)
-- [🎯 Project Goals](#🎯-project-goals)
-- [🌟 Features](#🌟-features)
-  - [👤 For Customers](#👤-for-customers)
-  - [🛠️ For Admins](#🛠️-for-admins)
-- [🛠️ Technologies Used](#🛠️-technologies-used)
-  - [💡 Highlights & Real-world Impact](#💡-highlights--real-world-impact)
-- [🗂️ Project Structure](#🗂️-project-structure)
-- [🔗 Installation / Setup](#🔗-installation--setup)
+- [🔗 Links](#links-en)
+- [Overview](#overview-en)
+- [🎯 Project Goals](#goals-en)
+- [🌟 Features](#features-en)
+  - [👤 For Customers](#customers-en)
+  - [🛠️ For Admins](#admin-en)
+- [🛠️ Technologies Used](#tech-en)
+  - [💡 Highlights & Real-world Impact](#highlights-en)
+- [🗂️ Project Structure](#structure-en)
+- [🔗 Installation / Setup](#install-en)
 
-## 🔗 Links
+## 🔗 Links <a id="links-en"></a>
 
-- Website: [Hanaya Shop](https://yourdomain.com)
+- Website: [Hanaya Shop](http://hanayashop.com)
 - Demo video: [YouTube Demo](https://youtu.be/your-demo-id)
 
-## Overview
+## Overview <a id="overview-en"></a>
 
 In Vietnam, especially during holidays, many fresh flowers are wasted because freshness is short and buyers are not reached in time. This mismatch between supply and demand hurts sellers and creates social waste.
 
@@ -139,7 +141,7 @@ In Vietnam, especially during holidays, many fresh flowers are wasted because fr
 
 ---
 
-## 🎯 Project Goals
+## 🎯 Project Goals <a id="goals-en"></a>
 
 - Confront the real-world waste problem by improving the match between supply and demand
 - Offer a simple, extensible platform that lowers deployment and operating costs for flower shops
@@ -149,9 +151,9 @@ In Vietnam, especially during holidays, many fresh flowers are wasted because fr
 
 ---
 
-## 🌟 Features
+## 🌟 Features <a id="features-en"></a>
 
-### 👤 For Customers
+### 👤 For Customers <a id="customers-en"></a>
 - Product catalog and details with category/occasion/price filters
 - Best-seller and special-deal highlights
 - Cart, checkout, and order history
@@ -161,7 +163,7 @@ In Vietnam, especially during holidays, many fresh flowers are wasted because fr
 - Intuitive address selection with map API integration
 - Multiple payment options: Cash on Delivery (COD), bank card, PayPal
 
-### 🛠️ For Admins
+## 🛠️ For Admins <a id="admin-en"></a>
 - Category and product CRUD with visibility toggles
 - Efficient order processing (approve/cancel/update status)
 - Inventory monitoring (low-stock alerts)
@@ -170,7 +172,7 @@ In Vietnam, especially during holidays, many fresh flowers are wasted because fr
 
 ---
 
-## 🛠️ Technologies Used
+## 🛠️ Technologies Used <a id="tech-en"></a>
 
 - PHP 8.2 / Laravel 12.2
 - MySQL, Redis
@@ -178,7 +180,7 @@ In Vietnam, especially during holidays, many fresh flowers are wasted because fr
 - Docker Compose
 - TinyMCE (Tiny Cloud), Map API
 
-### 💡 Highlights & Real-world Impact
+### 💡 Highlights & Real-world Impact <a id="highlights-en"></a>
 
 - Docker Compose: One-command installs and safe, image-based production updates; eliminates environment drift.
 - SSR + Tailwind: Faster first paint and better SEO; reduces bounce and improves conversion.
@@ -190,7 +192,7 @@ In Vietnam, especially during holidays, many fresh flowers are wasted because fr
 
 ---
 
-## 🗂️ Project Structure
+## 🗂️ Project Structure <a id="structure-en"></a>
 
 ```bash
 hanaya-shop/
@@ -210,7 +212,7 @@ hanaya-shop/
 
 ---
 
-## 🔗 Installation / Setup
+## 🔗 Installation / Setup <a id="install-en"></a>
 
 - Production guide: [DEPLOYMENT_GUIDE.md](#GUIDE/DEPLOYMENT_GUIDE.md)
 - Development guide: [README_DEV.md](#GUIDE/README_DEV.md)
@@ -223,23 +225,23 @@ hanaya-shop/
 
 ## Mục lục
 
-- [🔗 Đường dẫn](#🔗-đường-dẫn)
-- [Giới thiệu](#giới-thiệu)
-- [🎯 Mục tiêu dự án](#🎯-mục-tiêu-dự-án)
-- [🌟 Tính năng](#🌟-tính-năng)
-  - [👤 Trang người dùng](#👤-trang-người-dùng)
-  - [🛠️ Trang quản trị](#🛠️-trang-quản-trị)
-- [🛠️ Công nghệ sử dụng](#🛠️-công-nghệ-sử-dụng)
-  - [💡 Điểm nổi bật & Hiệu quả thực tế](#💡-điểm-nổi-bật--hiệu-quả-thực-tế)
-- [🗂️ Cấu trúc dự án](#🗂️-cấu-trúc-dự-án)
-- [🔗 Hướng dẫn cài đặt / thiết lập](#🔗-hướng-dẫn-cài-đặt--thiết-lập)
+- [🔗 Đường dẫn](#links-vi)
+- [Giới thiệu](#overview-vi)
+- [🎯 Mục tiêu dự án](#goals-vi)
+- [🌟 Tính năng](#features-vi)
+  - [👤 Trang người dùng](#customers-vi)
+  - [🛠️ Trang quản trị](#admin-vi)
+- [🛠️ Công nghệ sử dụng](#tech-vi)
+  - [💡 Điểm nổi bật & Hiệu quả thực tế](#highlights-vi)
+- [🗂️ Cấu trúc dự án](#structure-vi)
+- [🔗 Hướng dẫn cài đặt / thiết lập](#install-vi)
 
-## 🔗 Đường dẫn
+## 🔗 Đường dẫn <a id="links-vi"></a>
 
-- Trang web: [Hanaya Shop](https://yourdomain.com)
+- Trang web: [Hanaya Shop](http://hanayashop.com)
 - Video demo: [YouTube Demo](https://youtu.be/your-demo-id)
 
-## Giới thiệu
+## Giới thiệu <a id="overview-vi"></a>
 
 Ở Việt Nam, đặc biệt vào các dịp lễ Tết, rất nhiều bông hoa bị bỏ đi do thời gian tươi ngắn và người bán không kịp tiếp cận đúng khách hàng. Sự lệch pha giữa cung và cầu gây lãng phí xã hội và thiệt hại cho người bán.
 
@@ -247,7 +249,7 @@ hanaya-shop/
 
 ---
 
-## 🎯 Mục tiêu dự án
+## 🎯 Mục tiêu dự án <a id="goals-vi"></a>
 
 - Trực diện bài toán lãng phí bằng cách tối ưu kết nối cung–cầu và tăng chuyển đổi
 - Cung cấp nền tảng đơn giản, dễ mở rộng, giảm chi phí triển khai/vận hành cho cửa hàng
@@ -257,9 +259,9 @@ hanaya-shop/
 
 ---
 
-## 🌟 Tính năng
+## 🌟 Tính năng <a id="features-vi"></a>
 
-### 👤 Trang người dùng
+### 👤 Trang người dùng <a id="customers-vi"></a>
 - Danh mục/chi tiết sản phẩm, lọc theo loại/dịp/giá
 - Nổi bật Best Seller, ưu đãi giảm giá mạnh
 - Giỏ hàng, đặt hàng, lịch sử mua
@@ -269,7 +271,7 @@ hanaya-shop/
 - Chọn địa chỉ trực quan với bản đồ (Map API)
 - Thanh toán đa dạng: Thanh toán khi nhận hàng (COD), thẻ ngân hàng, PayPal
 
-### 🛠️ Trang quản trị
+## 🛠️ Trang quản trị <a id="admin-vi"></a>
 - Quản lý danh mục, sản phẩm (CRUD, bật/tắt hiển thị)
 - Xử lý đơn hàng tiện lợi (duyệt/huỷ/cập nhật trạng thái)
 - Theo dõi tồn kho (cảnh báo sắp hết hàng)
@@ -278,7 +280,7 @@ hanaya-shop/
 
 ---
 
-## 🛠️ Công nghệ sử dụng
+## 🛠️ Công nghệ sử dụng <a id="tech-vi"></a>
 
 - PHP 8.2 / Laravel 12.2
 - MySQL, Redis
@@ -286,7 +288,7 @@ hanaya-shop/
 - Docker Compose
 - TinyMCE (Tiny Cloud), Map API
 
-### 💡 Điểm nổi bật & Hiệu quả thực tế
+### 💡 Điểm nổi bật & Hiệu quả thực tế <a id="highlights-vi"></a>
 
 - Docker Compose: Cài đặt 1 lệnh, cập nhật an toàn bằng cách thay image; loại bỏ sai lệch môi trường.
 - SSR + Tailwind: Hiển thị đầu nhanh, tốt cho SEO; giảm bounce và tăng chuyển đổi.
@@ -298,7 +300,7 @@ hanaya-shop/
 
 ---
 
-## 🗂️ Cấu trúc dự án
+## 🗂️ Cấu trúc dự án <a id="structure-vi"></a>
 
 ```bash
 hanaya-shop/
@@ -318,9 +320,9 @@ hanaya-shop/
 
 ---
 
-## 🔗 Hướng dẫn cài đặt / thiết lập
+## 🔗 Hướng dẫn cài đặt / thiết lập <a id="install-vi"></a>
 
-- Production: [DEPLOYMENT_GUIDE.md](#GUIDE/DEPLOYMENT_GUIDE.md)
+- Production: [DEPLOYMENT_GUIDE.md](./#GUIDE/DEPLOYMENT_GUIDE.md)
 - Developing: [README_DEV.md](#GUIDE/README_DEV.md)
 
 </details>
