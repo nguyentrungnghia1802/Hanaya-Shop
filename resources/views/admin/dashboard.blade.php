@@ -416,6 +416,9 @@
                                                     @case('processing')
                                                         {{ __('admin.processing') }} {{-- Order being prepared --}}
                                                         @break
+                                                    @case('shgipped')
+                                                        {{ __('admin.shipped') }} {{-- Order has been shipped --}}
+                                                        @break
                                                     @case('completed')
                                                         {{ __('admin.completed') }} {{-- Order successfully fulfilled --}}
                                                         @break

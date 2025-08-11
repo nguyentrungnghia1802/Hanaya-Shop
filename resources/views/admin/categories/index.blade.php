@@ -28,7 +28,7 @@
                 <div class="p-6 text-gray-900">
                     {{-- Search input --}}
                     <form id="categorySearchForm" class="flex gap-2 mb-4 max-w-sm">
-                        <input type="text" id="searchCategoryInput" placeholder="Search category..."
+                        <input type="text" id="searchCategoryInput" placeholder="{{ __('admin.search_categories') }}"
                             class="border px-3 py-2 rounded w-full" autocomplete="off">
                         <button type="submit"
                             class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 rounded">{{ __('admin.search') }}</button>
@@ -101,16 +101,16 @@
     <!-- Modal popup for category quick view -->
     <div id="categoryDetail" class="hidden fixed inset-0 flex items-center justify-center z-50">
         <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-xl relative">
-            <h2 class="text-xl font-bold mb-4">Category Information</h2>
+            <h2 class="text-xl font-bold mb-4">{{ __('admin.category_information') }}</h2>
 
             <p><strong>ID:</strong> <span id="view-id" class="text-gray-700"></span></p>
-            <p><strong>Name:</strong> <span id="view-name" class="text-gray-700"></span></p>
+            <p><strong>{{ __('admin.name') }}</strong> <span id="view-name" class="text-gray-700"></span></p>
 
-            <p class="mt-2"><strong>Description:</strong></p>
+            <p class="mt-2"><strong>{{ __('admin.description') }}</strong></p>
             <div id="view-description"
                 class="border p-3 rounded bg-gray-50 text-sm text-gray-800 max-h-[300px] overflow-y-auto"></div>
 
-            <p class="mt-4"><strong>Image:</strong></p>
+            <p class="mt-4"><strong>{{ __('admin.Image') }}</strong></p>
             <img id="view-image" src="" alt="Category image" class="w-48 h-auto mt-2 border rounded">
 
             <!-- Close modal button -->
