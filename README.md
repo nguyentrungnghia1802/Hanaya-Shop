@@ -1,5 +1,4 @@
 # 🌸 Hanaya Shop
----
 
 <details>
 <summary><strong>🇯🇵 日本語</strong></summary>
