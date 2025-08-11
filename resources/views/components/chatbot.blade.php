@@ -21,8 +21,8 @@
                     </svg>
                 </div>
                 <div>
-                    <h3 class="font-semibold text-sm sm:text-base">Hanaya Assistant</h3>
-                    <p class="text-xs sm:text-sm text-pink-100">Online now</p>
+                    <h3 class="font-semibold text-sm sm:text-base">{{ __('chatbot.name') }}</h3>
+                    <p class="text-xs sm:text-sm text-pink-100">{{ __('chatbot.status_online') }}</p>
                 </div>
                 <div class="ml-auto">
                     <div class="w-2 h-2 sm:w-3 sm:h-3 bg-green-400 rounded-full animate-pulse"></div>
@@ -39,17 +39,17 @@
                     </svg>
                 </div>
                 <div class="bg-gray-100 rounded-lg px-3 py-2 max-w-xs sm:max-w-sm">
-                    <p>Hello! I'm Hanaya Shop's AI assistant. I can help you with:</p>
+                    <p>{{ __('chatbot.greeting_hanaya') }}</p>
                     <ul class="mt-2 space-y-1 text-xs">
-                        <li>🔍 Find products & recommendations</li>
-                        <li>📦 Track your orders</li>
-                        <li>🏪 Store information & location</li>
-                        <li>📰 Latest news & blog posts</li>
-                        <li>💰 Pricing & payment options</li>
-                        <li>� Shipping & delivery info</li>
-                        <li>❓ FAQ & customer support</li>
+                        <li>{{ __('chatbot.find_products') }}</li>
+                        <li>{{ __('chatbot.track_orders') }}</li>
+                        <li>{{ __('chatbot.store_info') }}</li>
+                        <li>{{ __('chatbot.latest_news') }}</li>
+                        <li>{{ __('chatbot.pricing_info') }}</li>
+                        <li>{{ __('chatbot.shipping_info') }}</li>
+                        <li>{{ __('chatbot.faq') }}</li>
                     </ul>
-                    <p class="mt-2">How can I assist you today? 🌸</p>
+                    <p class="mt-2">{{ __('chatbot.how_can_i_assist') }}</p>
                 </div>
             </div>
         </div>
@@ -58,22 +58,22 @@
         <div class="px-2 sm:px-4 py-2 bg-gray-50 border-t border-gray-100">
             <div class="flex flex-wrap gap-1">
                 <button class="quick-action text-xs px-2 py-1 bg-pink-100 text-pink-700 rounded-full hover:bg-pink-200 transition-colors" data-message="Find soap flowers">
-                    🧼 Soap Flowers
+                    {{ __('chatbot.soap_flowers') }}
                 </button>
                 <button class="quick-action text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded-full hover:bg-purple-200 transition-colors" data-message="Check my orders">
-                    📦 My Orders
+                    {{ __('chatbot.track_orders_button') }}
                 </button>
                 <button class="quick-action text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full hover:bg-green-200 transition-colors" data-message="Store information">
-                    🏪 Store Info
+                    {{ __('chatbot.store_info_button') }}
                 </button>
                 <button class="quick-action text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200 transition-colors" data-message="Latest news">
-                    📰 News
+                    {{ __('chatbot.latest_news_button') }}
                 </button>
                 <button class="quick-action text-xs px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full hover:bg-yellow-200 transition-colors" data-message="Popular products">
-                    ⭐ Popular
+                    {{ __('chatbot.popular_button') }}
                 </button>
                 <button class="quick-action text-xs px-2 py-1 bg-red-100 text-red-700 rounded-full hover:bg-red-200 transition-colors" data-message="Help me">
-                    ❓ Help
+                    {{ __('chatbot.help_button') }}
                 </button>
             </div>
         </div>
