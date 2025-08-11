@@ -40,7 +40,7 @@
                     </tbody>
                 </table>
             @else
-                <p class="text-gray-500">{{ __('admin.no products_in_cart') }}.</p>
+                <p class="text-gray-500">{{ __('admin.no_products_in_cart') }}.</p>
             @endif
         </div>
 
