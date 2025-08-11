@@ -64,11 +64,20 @@
 
 ## 🛠️ 技術スタック（Technologies Used） <a id="tech-jp"></a>
 
-- PHP 8.2 / Laravel 12.2
-- MySQL, Redis
-- Blade, Tailwind CSS
-- Docker Compose
-- TinyMCE (Tiny Cloud), 各種Map API
+| 技術         | 目的                        |
+|--------------|----------------------------|
+| PHP 8.2      | バックエンド開発            |
+| Laravel 12.2 | PHPバックエンドフレームワーク |
+| JavaScript   | フロントエンド開発           |
+| Vite         | 高速フロントエンドビルド      |
+| Blade        | サーバーサイドUIテンプレート  |
+| Tailwind CSS | UIデザイン                  |
+| TinyMCE      | リッチテキストエディタ        |
+| MySQL        | データベース                |
+| Redis        | キャッシュ・キュー           |
+| nginx        | Webサーバー                 |
+| Docker Compose | パッケージ化・デプロイ       |
+| Map API      | 住所選択・地図連携           |
 
 ### 💡 ハイライトと実運用効果（Highlights & Impact） <a id="highlights-jp"></a>
 
@@ -172,11 +181,20 @@ In Vietnam, especially during holidays, many fresh flowers are wasted because fr
 
 ## 🛠️ Technologies Used <a id="tech-en"></a>
 
-- PHP 8.2 / Laravel 12.2
-- MySQL, Redis
-- Blade, Tailwind CSS
-- Docker Compose
-- TinyMCE (Tiny Cloud), Map API
+| Technology    | Purpose                    |
+|--------------|----------------------------|
+| PHP 8.2      | Backend programming        |
+| Laravel 12.2 | PHP backend framework      |
+| JavaScript   | Frontend programming       |
+| Vite         | Fast frontend build tool   |
+| Blade        | Server-side UI templates   |
+| Tailwind CSS | UI design                  |
+| TinyMCE      | Rich text editor           |
+| MySQL        | Database                   |
+| Redis        | Cache & queue              |
+| nginx        | Web server                 |
+| Docker Compose | Packaging & deployment     |
+| Map API      | Address/map integration    |
 
 ### 💡 Highlights & Real-world Impact <a id="highlights-en"></a>
 
@@ -280,11 +298,20 @@ hanaya-shop/
 
 ## 🛠️ Công nghệ sử dụng <a id="tech-vi"></a>
 
-- PHP 8.2 / Laravel 12.2
-- MySQL, Redis
-- Blade, Tailwind CSS
-- Docker Compose
-- TinyMCE (Tiny Cloud), Map API
+| Công nghệ      | Mục đích sử dụng           |
+|---------------|---------------------------|
+| PHP 8.2       | Lập trình backend          |
+| Laravel 12.2  | Framework backend PHP      |
+| JavaScript    | Lập trình frontend         |
+| Vite          | Build frontend nhanh       |
+| Blade         | Giao diện phía server      |
+| Tailwind CSS  | Thiết kế giao diện         |
+| TinyMCE       | Soạn thảo văn bản nâng cao  |
+| MySQL         | Cơ sở dữ liệu              |
+| Redis         | Cache & queue              |
+| nginx         | Web server                 |
+| Docker Compose| Đóng gói & triển khai      |
+| Map API       | Tích hợp bản đồ/địa chỉ     |
 
 ### 💡 Điểm nổi bật & Hiệu quả thực tế <a id="highlights-vi"></a>
 
