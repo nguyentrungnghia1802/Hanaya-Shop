@@ -6,29 +6,29 @@ return [
     'admin_panel' => '管理パネル',
     'overview' => '概要',
     'statistics' => '統計',
-    
+
     // Menu items
     'products' => '商品',
     'orders' => '注文',
     'users' => 'ユーザー',
-    'categories' => 'カテゴリ',
+    'categories' => 'カテゴリー',
     'posts' => '投稿',
     'settings' => '設定',
     'reports' => 'レポート',
-    
+
     // Product management
     'product_management' => '商品管理',
-    'add_product' => '商品追加',
-    'edit_product' => '商品編集',
-    'delete_product' => '商品削除',
+    'add_product' => '商品を追加',
+    'edit_product' => '商品を編集',
+    'delete_product' => '商品を削除',
     'product_list' => '商品一覧',
     'product_name' => '商品名',
     'product_description' => '商品説明',
     'product_price' => '商品価格',
     'product_image' => '商品画像',
-    'product_category' => '商品カテゴリ',
+    'product_category' => '商品カテゴリー',
     'product_stock' => '在庫数',
-    
+
     // Order management
     'order_management' => '注文管理',
     'order_list' => '注文一覧',
@@ -36,23 +36,23 @@ return [
     'order_status' => '注文状況',
     'order_date' => '注文日',
     'customer_info' => '顧客情報',
-    'update_status' => 'ステータス更新',
-    'order_confirmed_successfully' => '注文の確認が完了しました',
-    'order_shipped_successfully' => '注文の出荷が完了しました',
+    'update_status' => 'ステータスを更新',
+    'order_confirmed_successfully' => '注文が正常に確定されました',
+    'order_shipped_successfully' => '注文が正常に発送されました',
     'payment_info_not_found' => 'この注文の支払い情報が見つかりません',
-    'payment_confirmed_successfully' => '支払いの確認が完了しました',
-    'payment_update_error' => '支払いステータスの更新中にエラーが発生しました',
-    'order_cancelled_successfully' => '注文のキャンセルが完了しました',
+    'payment_confirmed_successfully' => '支払いが正常に確認されました',
+    'payment_update_error' => '支払いステータスの更新エラー',
+    'order_cancelled_successfully' => '注文は正常にキャンセルされました',
     'order_cancel_error' => '注文のキャンセル中にエラーが発生しました',
-    
+
     // User management
     'user_management' => 'ユーザー管理',
     'user_list' => 'ユーザー一覧',
-    'add_user' => 'ユーザー追加',
-    'edit_user' => 'ユーザー編集',
-    'user_role' => 'ユーザーロール',
-    'user_status' => 'ユーザーステータス',
-    
+    'add_user' => 'ユーザーを追加',
+    'edit_user' => 'ユーザーを編集',
+    'user_role' => 'ユーザー権限',
+    'user_status' => 'ユーザー状態',
+
     // Common actions
     'create' => '作成',
     'edit' => '編集',
@@ -65,29 +65,74 @@ return [
     'filter' => 'フィルター',
     'export' => 'エクスポート',
     'import' => 'インポート',
-    
+
     // Messages
     'created_successfully' => '正常に作成されました！',
     'updated_successfully' => '正常に更新されました！',
     'deleted_successfully' => '正常に削除されました！',
     'operation_failed' => '操作に失敗しました！',
-    'confirm_delete' => 'このアイテムを削除してもよろしいですか？',
+    'confirm_delete' => 'この項目を削除してもよろしいですか？',
     'no_data' => 'データがありません',
-    
+
     // Status
-    'active' => 'アクティブ',
-    'inactive' => '非アクティブ',
+    'active' => '有効',
+    'inactive' => '無効',
     'pending' => '保留中',
     'approved' => '承認済み',
-    'rejected' => '却下済み',
-    
-    // ナビゲーション
+    'rejected' => '却下',
+
+    // Navigation
     'profile' => 'プロフィール',
     'admin_dashboard' => '管理者ダッシュボード',
     'user_dashboard' => 'ユーザーダッシュボード',
     'log_out' => 'ログアウト',
     'no_notifications' => '新しい通知はありません。',
 
+    // new
+    'category_created_successfully' => 'カテゴリーが正常に作成されました！',
+    'category_updated_successfully' => 'カテゴリーが正常に更新されました！',
+    'category_deleted_successfully' => 'カテゴリーが正常に削除されました！',
+    'image_deleted_successfully' => '画像が正常に削除されました！',
+    'failed_to_delete_image' => '画像の削除に失敗しました。',
+    'no_file_uploaded' => 'アップロードされたファイルがありません',
+    'upload_failed' => 'アップロードに失敗しました:',
+    'post_created_successfully' => '投稿が正常に作成されました！',
+    'post_updated_successfully' => '投稿が正常に更新されました！',
+    'post_deleted_successfully' => '投稿と関連するすべての画像が正常に削除されました',
+    'product_created_successfully' => '商品が正常に作成されました！',
+    'failed_to_create_product' => '商品の作成に失敗しました',
+    'product_updated_successfully' => '商品が正常に更新されました！',
+    'product_deleted_successfully' => '商品が正常に削除されました！',
+    'review_deleted_successfully' => 'レビューと関連する画像が正常に削除されました。',
+    'account_created_successfully' => 'アカウントが正常に作成されました！',
+    'you_cannot_edit_yourself' => '自分自身を編集することはできません。',
+    'account_updated_successfully' => 'アカウントが正常に更新されました！',
+    'account_deleted_successfully' => 'アカウントが正常に削除されました！',
+    'you_cannot_delete_yourself' => '自分自身を削除することはできません。',
+    'no_categories_found' => 'カテゴリーが見つかりません。',
+    'add_flower_category' => '花のカテゴリーを追加',
+    'category_name' => 'カテゴリー名',
+    'quick_view' => 'クイックビュー',
+    'category_exists' => 'このカテゴリーは既に存在します。',
+    'category_image' => 'カテゴリー画像：',
+    'current_image' => '現在の画像：',
+    'description' => '説明：',
+    'confirm_cancel' => 'キャンセルしてもよろしいですか？保存されていない変更は失われます。',
+    'add_category' => 'カテゴリーを追加',
+    'name' => '名前',
+    'action' => '操作',
+    'back_to_categories' => 'カテゴリー一覧に戻る',
+    'category_id' => 'カテゴリーID',
+    'created_at' => '作成日',
+    'updated_at' => '更新日',
+    'no_description_available' => '説明はありません',
+    'total_products' => '総商品数',
+    'active_products' => '有効な商品',
+    'inactive_products' => '無効な商品',
+    'edit_category' => 'カテゴリーを編集',
+    'delete_category' => 'カテゴリーを削除',
+    'confirm_delete_message' => 'このカテゴリーを削除してもよろしいですか？この操作は元に戻せません。',
+    
     // dash board
     'monthly_revenue' => '月間売上',
     'total_orders' => '総注文数',
@@ -121,5 +166,63 @@ return [
     'order_date' => '注文日',
     'welcome_message' => '管理者ダッシュボードへようこそ',
     'manage_hanaya_shop' => '花屋ショップを管理する',
+
+    // category index
+    'view_details' => '詳細を見る',
+    'search_categories' => 'カテゴリーを検索...',
+
+    // category show
+    'category_information' => 'カテゴリー情報',
+    'name' => '名前：',
+    'description' => '説明：',
+    'Image' => '画像：',
+
+    // products create
+    'add_new_product' => '新しい商品を追加',
+    'product_name' => '商品名',
+    'product_already_exists' => 'この商品はすでに存在します。',
+    'product_description' => '商品の説明',
+    'price' => '価格',
+    'stock_quantity' => '在庫数量',
+    'discount_percent' => '割引率',
+    'product_category' => 'カテゴリー',
+    'select_category' => 'カテゴリーを選択',
+    'product_image' => '商品画像',
+    'current_image' => '現在の画像：',
+    'save' => '保存',
+
+    // products index
+    'search_products' => '商品を検索...',
+    'filter_by_category' => 'カテゴリーで絞り込み',
+    'all_categories' => 'すべてのカテゴリー',
+    'all_stock_status' => 'すべての在庫状況',
+    'low_stock' => '在庫わずか',
+    'out_of_stock' => '在庫切れ',
+    'add' => '追加',
+    'name' => '名前',
+    'description' => '説明',
+    'price' => '価格',
+    'quantity' => '数量',
+    'discount' => '割引',
+    'view' => '見る',
+    'category' => 'カテゴリー',
+    'action' => '操作',
+    'edit' => '編集',
+    'delete' => '削除',
+    'quick_view' => 'クイックビュー',
+    'product_details' => '商品詳細',
+
+    'filter_by_stock' => '在庫で絞り込む',
+    'apply_filters' => 'フィルターを適用',
+    'reset' => 'フィルターをリセット',
+
+    // product show
+    'back_to_products' => '商品一覧に戻る',
+    'customer_reviews' => 'カスタマーレビュー',
+    'reviews' => 'レビュー',
+    'order' => '注文する',
+    'no_reviews_yet' => 'まだレビューがありません。',
+    'this_product_has_received_any_reviews' => 'この商品はまだレビューを受けていません。',
+
 
 ];
