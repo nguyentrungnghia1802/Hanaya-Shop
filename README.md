@@ -1,5 +1,3 @@
-
-
 # 🌸 Hanaya Shop
 ---
 
