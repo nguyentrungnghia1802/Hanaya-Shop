@@ -12,7 +12,7 @@ class CategoryFactory extends Factory
     public function definition()
     {
         static $categories = [
-            ['name' => 'Hoa xà phòng', 'description' => 'Những bông hoa vĩnh cửu với hương thơm dịu nhẹ'],
+            ['name' => 'Hoa sáp', 'description' => 'Những bông hoa vĩnh cửu với hương thơm dịu nhẹ'],
             ['name' => 'Hoa giấy', 'description' => 'Hoa giấy thủ công tinh xảo và đẹp mắt'],
             ['name' => 'Hoa tươi', 'description' => 'Hoa tươi tự nhiên được chăm sóc cẩn thận'],
             ['name' => 'Quà lưu niệm', 'description' => 'Những món quà ý nghĩa cho người thân yêu'],

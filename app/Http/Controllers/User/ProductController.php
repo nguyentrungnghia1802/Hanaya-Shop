@@ -120,7 +120,7 @@ class ProductController extends Controller
              */
             if ($categoryName) {
                 $categoryMapping = [
-                    'soap-flower' => ['Soap Flower', 'Hoa xà phòng', 'soap flower'],     // Soap flower variants
+                    'soap-flower' => ['Soap Flower', 'Hoa sáp', 'soap flower'],     // Soap flower variants
                     'fresh-flower' => ['Fresh Flower', 'Hoa tươi', 'fresh flower'],      // Fresh flower variants
                     'special-flower' => ['Special Flower', 'Hoa đặc biệt', 'special flower'], // Special flower variants
                     'souvenir' => ['Souvenir', 'Quà lưu niệm', 'souvenir']               // Souvenir variants

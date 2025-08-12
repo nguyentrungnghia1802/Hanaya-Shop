@@ -5,7 +5,7 @@ return [
     'about_us' => 'Về chúng tôi',
     'about_hanaya' => 'Về Hanaya Shop',
     'welcome_to_hanaya' => 'Chào mừng đến với Hanaya Shop',
-    'hero_description' => 'Khám phá nghệ thuật hoa xà phòng tuyệt đẹp - nơi sự thanh lịch gặp gỡ tính năng thực tiễn. Mỗi sản phẩm được chế tác thủ công cẩn thận để mang lại vẻ đẹp và hương thơm cho những khoảnh khắc đặc biệt của bạn.',
+    'hero_description' => 'Khám phá nghệ thuật hoa sáp tuyệt đẹp - nơi sự thanh lịch gặp gỡ tính năng thực tiễn. Mỗi sản phẩm được chế tác thủ công cẩn thận để mang lại vẻ đẹp và hương thơm cho những khoảnh khắc đặc biệt của bạn.',
     'our_story' => 'Câu chuyện của chúng tôi',
     
     // Mission & Values Section
@@ -24,7 +24,7 @@ return [
     
     // Story paragraphs  
     'story_paragraph_1' => 'Được thành lập với niềm đam mê mang đến vẻ đẹp và niềm vui cho cuộc sống mọi người, Hanaya Shop bắt đầu như một giấc mơ nhỏ để tạo ra điều gì đó đặc biệt trong thế giới hoa và quà tặng. Hành trình của chúng tôi bắt đầu với một niềm tin đơn giản: hoa có sức mạnh để thể hiện những cảm xúc mà đôi khi lời nói không thể diễn tả.',
-    'story_paragraph_2' => 'Điều làm chúng tôi độc đáo là sự tận tâm trong việc chế tác hoa xà phòng - những bông hoa vĩnh cửu ghi lại vẻ đẹp của hoa tươi nhưng vẫn tồn tại mãi mãi. Những sáng tạo thủ công này kết hợp sức hấp dẫn thị giác của hoa tươi với tính thực dụng và độ bền mà khách hàng của chúng tôi yêu thích.',
+    'story_paragraph_2' => 'Điều làm chúng tôi độc đáo là sự tận tâm trong việc chế tác hoa sáp - những bông hoa vĩnh cửu ghi lại vẻ đẹp của hoa tươi nhưng vẫn tồn tại mãi mãi. Những sáng tạo thủ công này kết hợp sức hấp dẫn thị giác của hoa tươi với tính thực dụng và độ bền mà khách hàng của chúng tôi yêu thích.',
     'story_paragraph_3' => 'Ngày nay, Hanaya Shop đã trở thành điểm đến đáng tin cậy cho những ai tìm kiếm quà tặng ý nghĩa, đồ trang trí đẹp mắt và những biểu hiện chân thành của tình yêu và sự trân trọng.',
     
     // Why choose us
@@ -36,7 +36,7 @@ return [
     'unique_designs' => 'Thiết kế độc đáo',
     'unique_designs_desc' => 'Bộ sưu tập đa dạng với những thiết kế độc quyền không tìm thấy ở nơi khác.',
     'lasting_beauty' => 'Vẻ đẹp bền vững',
-    'lasting_beauty_desc' => 'Hoa xà phòng của chúng tôi giữ nguyên vẻ đẹp trong nhiều năm.',
+    'lasting_beauty_desc' => 'Hoa sáp của chúng tôi giữ nguyên vẻ đẹp trong nhiều năm.',
     
     // Discover story
     'discover_story' => 'Khám phá câu chuyện của chúng tôi',
@@ -44,7 +44,7 @@ return [
     
     // Additional content for about page
     'handcrafted_excellence' => 'Sự xuất sắc thủ công',
-    'handcrafted_excellence_desc' => 'Mỗi bông hoa xà phòng được chế tác thủ công với sự chú ý tỉ mỉ đến từng chi tiết.',
+    'handcrafted_excellence_desc' => 'Mỗi bông hoa sáp được chế tác thủ công với sự chú ý tỉ mỉ đến từng chi tiết.',
     'natural_ingredients' => 'Thành phần tự nhiên',
     'natural_ingredients_desc' => 'Chúng tôi sử dụng các thành phần tự nhiên, an toàn cho da và thân thiện với môi trường.',
     'perfect_gifts' => 'Quà tặng hoàn hảo',
@@ -59,7 +59,7 @@ return [
     'our_beginning_description' => 'Từ một xưởng nhỏ đến một cửa hàng được yêu mến, mọi bước đều được dẫn dắt bởi cam kết của chúng tôi về chất lượng và vẻ đẹp.',
     
     // Product categories
-    'soap_flowers' => 'Hoa Xà Phòng',
+    'soap_flowers' => 'Hoa Sáp',
     'soap_flowers_description' => 'Những bông hoa vĩnh cửu được chế tác thủ công, kết hợp vẻ đẹp với tính năng thực tiễn. Hoàn hảo cho trang trí và những dịp đặc biệt.',
     'fresh_flowers' => 'Hoa Tươi',
     'fresh_flowers_description' => 'Những bó hoa tươi đẹp cho mọi dịp, từ những bó hoa lãng mạn đến những bình hoa trang trí tiệc.',
@@ -83,7 +83,7 @@ return [
     'custom_orders' => 'Đặt Hàng Tùy Chỉnh',
     'custom_orders_desc' => 'Chúng tôi tạo ra những món quà cá nhân hóa cho những dịp đặc biệt',
     'start_shopping_now' => 'Bắt Đầu Mua Sắm Ngay',
-    'company_description' => 'Hanaya Shop là điểm đến hàng đầu cho những bông hoa xà phòng đẹp và quà tặng ý nghĩa. Chúng tôi chuyên về hoa xà phòng thủ công kết hợp nghệ thuật với tính thực dụng.',
+    'company_description' => 'Hanaya Shop là điểm đến hàng đầu cho những bông hoa sáp đẹp và quà tặng ý nghĩa. Chúng tôi chuyên về hoa sáp thủ công kết hợp nghệ thuật với tính thực dụng.',
     'established_year' => 'Thành lập năm 2020',
     'years_experience' => 'Năm kinh nghiệm',
     'satisfied_customers' => 'Khách hàng hài lòng',
@@ -91,9 +91,9 @@ return [
     'countries_served' => 'Quốc gia phục vụ',
     
     // Mission & Vision
-    'mission_statement' => 'Mang đến vẻ đẹp và niềm vui cho cuộc sống hàng ngày thông qua những bông hoa xà phòng được chế tác cẩn thận, đồng thời cung cấp dịch vụ khách hàng tuyệt vời và sản phẩm bền vững.',
-    'vision_statement' => 'Trở thành nhà cung cấp hoa xà phòng cao cấp hàng đầu toàn cầu, truyền cảm hứng sáng tạo và lan tỏa hạnh phúc qua những sản phẩm độc đáo.',
-    
+    'mission_statement' => 'Mang đến vẻ đẹp và niềm vui cho cuộc sống hàng ngày thông qua những bông hoa sáp được chế tác cẩn thận, đồng thời cung cấp dịch vụ khách hàng tuyệt vời và sản phẩm bền vững.',
+    'vision_statement' => 'Trở thành nhà cung cấp hoa sáp cao cấp hàng đầu toàn cầu, truyền cảm hứng sáng tạo và lan tỏa hạnh phúc qua những sản phẩm độc đáo.',
+
     // Values
     'quality_value' => 'Chất lượng',
     'quality_value_desc' => 'Chúng tôi cam kết đạt tiêu chuẩn chất lượng cao nhất trong mọi sản phẩm.',
@@ -126,12 +126,12 @@ return [
     
     'michael_rivera' => 'Michael Rivera',
     'lead_artisan' => 'Nghệ nhân chính',
-    'michael_description' => 'Chuyên môn nghệ thuật của Michael mang lại sự sống cho những bông hoa xà phòng của chúng tôi. Những kỹ thuật sáng tạo của anh ấy tạo ra những tác phẩm tuyệt đẹp tồn tại mãi mãi.',
-    
+    'michael_description' => 'Chuyên môn nghệ thuật của Michael mang lại sự sống cho những bông hoa sáp của chúng tôi. Những kỹ thuật sáng tạo của anh ấy tạo ra những tác phẩm tuyệt đẹp tồn tại mãi mãi.',
+
     // Achievements
     'our_achievements' => 'Thành tựu của chúng tôi',
     'awards_recognition' => 'Giải thưởng & Ghi nhận',
-    'best_soap_flower_award' => 'Thương hiệu hoa xà phòng tốt nhất 2023',
+    'best_soap_flower_award' => 'Thương hiệu hoa sáp tốt nhất 2023',
     'eco_friendly_certification' => 'Chứng nhận sản phẩm thân thiện môi trường',
     'customer_choice_award' => 'Giải thưởng lựa chọn khách hàng',
     'innovation_award' => 'Giải thưởng đổi mới trong thủ công',
@@ -140,9 +140,9 @@ return [
     'our_process' => 'Quy trình của chúng tôi',
     'how_we_work' => 'Cách chúng tôi làm việc',
     'design_phase' => 'Giai đoạn thiết kế',
-    'design_phase_desc' => 'Đội ngũ sáng tạo thiết kế những bố cục hoa xà phòng độc đáo và đẹp mắt.',
+    'design_phase_desc' => 'Đội ngũ sáng tạo thiết kế những bố cục hoa sáp độc đáo và đẹp mắt.',
     'crafting_phase' => 'Giai đoạn chế tác',
-    'crafting_phase_desc' => 'Nghệ nhân tay nghề cao thủ công làm từng bông hoa xà phòng với sự chú ý đến chi tiết.',
+    'crafting_phase_desc' => 'Nghệ nhân tay nghề cao thủ công làm từng bông hoa sáp với sự chú ý đến chi tiết.',
     'quality_check' => 'Kiểm tra chất lượng',
     'quality_check_desc' => 'Mọi sản phẩm đều trải qua kiểm soát chất lượng nghiêm ngặt trước khi đóng gói.',
     'packaging_shipping' => 'Đóng gói & Vận chuyển',
@@ -163,7 +163,7 @@ return [
     // FAQ
     'frequently_asked' => 'Câu hỏi thường gặp',
     'common_questions' => 'Câu hỏi phổ biến',
-    'product_care_faq' => 'Làm thế nào để chăm sóc hoa xà phòng?',
+    'product_care_faq' => 'Làm thế nào để chăm sóc hoa sáp?',
     'shipping_faq' => 'Tùy chọn vận chuyển của bạn là gì?',
     'return_policy_faq' => 'Chính sách đổi trả của bạn là gì?',
     'custom_orders_faq' => 'Bạn có nhận đơn hàng tùy chỉnh không?',
@@ -172,7 +172,7 @@ return [
     'what_customers_say' => 'Khách hàng nói gì về chúng tôi',
     'customer_testimonials' => 'Lời chứng thực khách hàng',
     'testimonial_1' => '"Sản phẩm đẹp và dịch vụ tuyệt vời. Rất khuyến khích!"',
-    'testimonial_2' => '"Hoa xà phòng tuyệt đẹp và có mùi hương tuyệt vời."',
+    'testimonial_2' => '"Hoa sáp tuyệt đẹp và có mùi hương tuyệt vời."',
     'testimonial_3' => '"Quà tặng hoàn hảo cho mọi dịp. Chất lượng vượt trội."',
     
     // Call to Action

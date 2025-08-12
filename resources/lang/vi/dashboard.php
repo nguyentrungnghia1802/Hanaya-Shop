@@ -41,7 +41,7 @@ return [
     'quality_commitment' => 'Chúng tôi cam kết mang đến cho bạn những sản phẩm chất lượng cao nhất',
     'discover_what_makes_us_special' => 'Khám phá điều gì làm chúng tôi trở thành lựa chọn hoàn hảo cho nhu cầu hoa của bạn',
     'quality_guarantee' => 'Đảm bảo chất lượng',
-    'quality_guarantee_desc' => 'Tất cả hoa xà phòng của chúng tôi đều được làm thủ công bằng vật liệu cao cấp',
+    'quality_guarantee_desc' => 'Tất cả hoa sáp của chúng tôi đều được làm thủ công bằng vật liệu cao cấp',
     'fast_delivery' => 'Giao hàng nhanh',
     'fast_delivery_desc' => 'Đảm bảo giao hàng trong vòng 24-48h tại trung tâm thành phố',
     'customer_support' => 'Hỗ trợ khách hàng 24/7',

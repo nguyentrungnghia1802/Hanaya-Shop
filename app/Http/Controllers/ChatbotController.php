@@ -57,11 +57,13 @@ class ChatbotController extends Controller
      */
     private function processMessage($message)
     {
+
         // Enhanced Greeting Detection
         if ($this->containsWords($message, [
             'hello', 'hi', 'hey', 'good morning', 'good afternoon', 'good evening',
             'greetings', 'howdy', 'what\'s up', 'yo', 'hiya', 'morning', 'afternoon', 'evening',
-            'xin chào', 'chào'
+            'xin chào', 'chào',
+            'こんにちは', 'こんばんは', 'おはよう', 'やあ', 'もしもし', 'ごきげんよう', 'お疲れ様', 'おっす', 'お元気ですか', 'ご挨拶'
         ])) {
             return $this->getGreetingResponse();
         }
@@ -73,7 +75,8 @@ class ChatbotController extends Controller
             'recommendation', 'recommend', 'suggest', 'what do you', 'looking for', 'need',
             'fresh flowers', 'artificial', 'handmade', 'custom', 'special', 'unique',
             'birthday', 'anniversary', 'wedding', 'valentine', 'mothers day', 'christmas',
-            'sản phẩm', 'tìm', 'tìm kiếm', 'hoa', 'quà'
+            'sản phẩm', 'tìm', 'tìm kiếm', 'hoa', 'quà', 'quà tặng',
+            '花','はな','商品', '商品一覧', '探す', '検索', '見る', '表示', '花', '石鹸', 'ギフト', '贈り物', 'プレゼント', '購入', '買う', 'アイテム', '在庫', '販売', 'おすすめ', '提案', '新商品', '誕生日', '記念日', '結婚', 'バレンタイン', '母の日', 'クリスマス'
         ])) {
             return $this->handleProductSearch($message);
         }
@@ -83,7 +86,8 @@ class ChatbotController extends Controller
             'category', 'categories', 'type', 'types', 'kind', 'kinds', 'collection', 'collections',
             'section', 'sections', 'what do you sell', 'what\'s available', 'browse', 'explore',
             'menu', 'catalog', 'range', 'variety', 'selection',
-            'danh mục', 'loại', 'phân loại'
+            'danh mục', 'loại', 'phân loại',
+            'カテゴリ', 'カテゴリー', '種類', 'タイプ', 'コレクション', 'メニュー', 'カタログ', '分類', 'セクション', '一覧'
         ])) {
             return $this->handleCategoryQuery();
         }
@@ -93,7 +97,8 @@ class ChatbotController extends Controller
             'order', 'orders', 'purchase', 'purchases', 'buy', 'bought', 'checkout', 'cart',
             'track', 'tracking', 'status', 'delivery', 'shipped', 'delivered',
             'my order', 'order status', 'where is my', 'when will', 'receipt', 'confirmation',
-            'đơn hàng', 'mua', 'thanh toán'
+            'đơn hàng', 'mua', 'thanh toán',
+            '注文', '注文履歴', '購入', 'カート', 'チェックアウト', '追跡', '配送', '配達', '発送', 'ステータス', '領収書', '確認', '支払い'
         ])) {
             return $this->handleOrderQuery();
         }
@@ -102,7 +107,8 @@ class ChatbotController extends Controller
         if ($this->containsWords($message, [
             'news', 'blog', 'post', 'posts', 'article', 'articles', 'update', 'updates',
             'latest', 'new', 'recent', 'what\'s new', 'announcements', 'events',
-            'tin tức', 'bài viết'
+            'tin tức', 'bài viết',
+            'ニュース', 'ブログ', '投稿', '記事', 'アップデート', '最新', '新着', 'イベント', 'お知らせ'
         ])) {
             return $this->handleNewsQuery();
         }
@@ -112,7 +118,8 @@ class ChatbotController extends Controller
             'price', 'prices', 'cost', 'costs', 'expensive', 'cheap', 'affordable',
             'how much', 'pricing', 'budget', 'range', 'fee', 'charge', 'money',
             'discount', 'sale', 'offer', 'promotion', 'deal', 'deals',
-            'giá', 'bao nhiêu', 'chi phí'
+            'giá', 'bao nhiêu', 'chi phí',
+            '値段', '価格', '費用', '高い', '安い', 'お得', '割引', 'セール', 'プロモーション', 'ディール', 'いくら', '料金', '金額', '予算'
         ])) {
             return $this->handlePriceQuery($message);
         }
@@ -122,7 +129,8 @@ class ChatbotController extends Controller
             'store', 'shop', 'location', 'address', 'contact', 'phone', 'email',
             'hours', 'open', 'close', 'where', 'find you', 'visit', 'directions',
             'about', 'information', 'details', 'business hours',
-            'cửa hàng', 'địa chỉ', 'liên hệ'
+            'cửa hàng', 'địa chỉ', 'liên hệ',
+            '店舗', 'ショップ', '場所', '住所', '連絡先', '電話', 'メール', '営業時間', '開店', '閉店', 'どこ', '案内', '訪問', '詳細', 'インフォメーション'
         ])) {
             return $this->handleStoreInfo();
         }
@@ -132,7 +140,8 @@ class ChatbotController extends Controller
             'ship', 'shipping', 'delivery', 'deliver', 'send', 'transport',
             'freight', 'courier', 'post', 'mail', 'fast delivery', 'express',
             'same day', 'overnight', 'free shipping', 'shipping cost', 'shipping fee',
-            'giao hàng', 'vận chuyển'
+            'giao hàng', 'vận chuyển',
+            '配送', '配達', '発送', '送料', '宅配', '宅急便', '速達', '当日配送', '翌日配送', '無料配送', '運送', '運輸', '郵送', '郵便'
         ])) {
             return $this->handleShippingInfo();
         }
@@ -142,7 +151,8 @@ class ChatbotController extends Controller
             'payment', 'pay', 'paying', 'card', 'cash', 'bank', 'transfer',
             'method', 'methods', 'option', 'options', 'credit', 'debit',
             'wallet', 'installment', 'secure', 'safe', 'payment methods',
-            'thanh toán', 'tiền'
+            'thanh toán', 'tiền',
+            '支払い', '決済', 'カード', '現金', '銀行', '振込', '方法', 'オプション', 'クレジット', 'デビット', 'ウォレット', '分割', '安全', 'セキュア'
         ])) {
             return $this->handlePaymentInfo();
         }
@@ -152,7 +162,8 @@ class ChatbotController extends Controller
             'help', 'assist', 'support', 'guide', 'instruction', 'how to',
             'tutorial', 'explain', 'confused', 'don\'t understand', 'stuck',
             'problem', 'issue', 'trouble', 'difficulty', 'assistance',
-            'giúp', 'hướng dẫn', 'hỗ trợ'
+            'giúp', 'hướng dẫn', 'hỗ trợ',
+            '助けて', 'サポート', 'ガイド', '案内', '説明', '困った', '分からない', '問題', 'トラブル', '支援', '手伝い', '教えて'
         ])) {
             return $this->getHelpResponse();
         }
@@ -161,7 +172,8 @@ class ChatbotController extends Controller
         if ($this->containsWords($message, [
             'popular', 'bestseller', 'best selling', 'trending', 'hot', 'favorite', 'favorites',
             'top', 'most', 'recommended', 'featured', 'highlighted', 'star', 'bestsellers',
-            'bán chạy', 'nổi bật'
+            'bán chạy', 'nổi bật',
+            '人気', '売れ筋', 'おすすめ', '注目', '話題', '特集', 'ランキング', 'トップ', 'ベストセラー', '人気商品'
         ])) {
             return $this->handlePopularProducts();
         }
@@ -170,7 +182,8 @@ class ChatbotController extends Controller
         if ($this->containsWords($message, [
             'gift', 'present', 'surprise', 'for her', 'for him', 'for mom',
             'for dad', 'for wife', 'for husband', 'for girlfriend', 'for boyfriend',
-            'romantic', 'love', 'special occasion', 'gift ideas'
+            'romantic', 'love', 'special occasion', 'gift ideas',
+            'ギフト', 'プレゼント', '贈り物', 'サプライズ', '彼女', '彼氏', '母', '父', '妻', '夫', '恋人', 'ロマンチック', '愛', '特別な日', 'ギフトアイデア'
         ])) {
             return $this->handleGiftSuggestions($message);
         }
@@ -178,7 +191,8 @@ class ChatbotController extends Controller
         // Availability Intent
         if ($this->containsWords($message, [
             'available', 'in stock', 'out of stock', 'when available',
-            'restock', 'inventory', 'quantity', 'left', 'remaining', 'stock'
+            'restock', 'inventory', 'quantity', 'left', 'remaining', 'stock',
+            '在庫', '入荷', '在庫あり', '在庫切れ', '残り', '数量', '再入荷', 'ストック', '販売中', '品切れ'
         ])) {
             return $this->handleAvailabilityQuery($message);
         }
@@ -204,7 +218,7 @@ class ChatbotController extends Controller
             'flower', 'flowers', 'soap', 'gift', 'gifts', 'souvenir', 'fresh', 'special', 
             'romantic', 'love', 'birthday', 'anniversary', 'wedding', 'valentine', 
             'christmas', 'mothers day', 'handmade', 'custom', 'unique', 'beautiful',
-            'hoa', 'xà phòng', 'quà', 'tươi', 'đặc biệt'
+            'hoa', 'sáp', 'quà', 'tươi', 'đặc biệt'
         ];
         $foundKeywords = [];
 

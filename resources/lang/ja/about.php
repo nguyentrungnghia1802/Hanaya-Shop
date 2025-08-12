@@ -128,7 +128,6 @@ return [
     // Team
     'our_team' => '私たちのチーム',
     'meet_team' => 'チームに会う',
-    'team_description' => '献身的な職人と専門家のチームが協力して美しい製品を作り、優れたサービスを提供します。',
     'founder_ceo' => '創設者兼CEO',
     'creative_director' => 'クリエイティブディレクター',
     'head_artisan' => 'ヘッドアルチザン',
@@ -155,7 +154,6 @@ return [
     'packaging_shipping_desc' => '製品は愛情とケアを込めて慎重にパッケージし配送されます。',
     
     // Contact Information
-    'get_in_touch' => 'お問い合わせ',
     'contact_us' => 'お問い合わせ',
     'visit_store' => '店舗を訪問',
     'store_hours' => '営業時間',
