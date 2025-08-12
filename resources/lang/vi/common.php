@@ -14,7 +14,8 @@ return [
     'wishlist' => 'Yêu thích',
     'orders' => 'Đơn hàng',
     'dashboard' => 'Bảng điều khiển',
-    
+    'posts' => 'Bài viết',
+
     // Language switcher
     'language' => 'Ngôn ngữ',
     'english' => 'English',

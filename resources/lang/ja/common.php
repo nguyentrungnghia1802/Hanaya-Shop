@@ -14,7 +14,8 @@ return [
     'wishlist' => 'お気に入り',
     'orders' => '注文',
     'dashboard' => 'ダッシュボード',
-    
+    'posts' => '投稿',
+
     // Language switcher
     'language' => '言語',
     'english' => 'English',
