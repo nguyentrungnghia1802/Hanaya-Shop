@@ -27,7 +27,6 @@ return [
     'order_canceled_message' => 'This order has been canceled and any payment has been',
     'order_information' => 'Order Information',
     'order_date' => 'Order Date:',
-    'total_amount' => 'Total Amount:',
     'customer_information' => 'Customer Information',
     'full_name' => 'Full Name:',
     'email' => 'Email:',
@@ -59,8 +58,5 @@ return [
     'product_not_found_in_order' => 'Product not found in this order.',
     'already_reviewed' => 'You have already reviewed this product for this order.',
     'review_submitted_successfully' => 'Review submitted successfully!',
-    'order_not_found' => 'Order not found.',
     'product_not_found' => 'Product not found.',
-    'product_not_found_in_order' => 'Product not found in this order.',
-    
 ];
