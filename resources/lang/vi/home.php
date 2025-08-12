@@ -3,7 +3,7 @@
 return [
     // Home Page
     'welcome_to_hanaya' => 'Chào mừng đến với Hanaya Shop',
-    'tagline' => 'Hoa xà phòng đẹp và quà tặng ý nghĩa',
+    'tagline' => 'Hoa sáp đẹp và quà tặng ý nghĩa',
     
     // Categories Section
     'shop_by_category' => 'Mua theo danh mục',
@@ -21,7 +21,7 @@ return [
     // Why Choose Hanaya Shop
     'why_choose_hanaya' => 'Tại sao chọn Hanaya Shop?',
     'quality_guarantee' => 'Đảm bảo chất lượng',
-    'quality_guarantee_desc' => 'Tất cả hoa xà phòng được làm thủ công với chất liệu cao cấp',
+    'quality_guarantee_desc' => 'Tất cả hoa sáp của chúng tôi đều được làm thủ công với chất liệu cao cấp',
     'fast_shipping' => 'Giao hàng nhanh',
     'fast_shipping_desc' => 'Miễn phí giao hàng cho đơn từ 1.200.000đ trong 2 ngày',
     'customer_support' => 'Hỗ trợ khách hàng 24/7',
