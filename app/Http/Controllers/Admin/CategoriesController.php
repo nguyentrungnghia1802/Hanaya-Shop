@@ -53,7 +53,7 @@ class CategoriesController extends Controller
             $generatedFileName = $imageName;
         } else {
             // Default image if none is uploaded
-            $generatedFileName = 'base.jpg';
+            $generatedFileName = 'fixed_resources/not_found.jpg'; // Use a default image path
         }
 
         // Create and save the category
@@ -66,7 +66,7 @@ class CategoriesController extends Controller
         // Clear cache to refresh data
         Cache::forget('admin_categories_all');
 
-        return redirect()->route('admin.category')->with('success', 'Category created successfully!');
+        return redirect()->route('admin.category')->with('success', __('admin.category_created_successfully'));
     }
 
     /**
@@ -115,7 +115,7 @@ class CategoriesController extends Controller
         // Clear cache to refresh data
         Cache::forget('admin_categories_all');
 
-        return redirect()->route('admin.category')->with('success', 'Category updated successfully!');
+        return redirect()->route('admin.category')->with('success', __('admin.category_updated_successfully'));
     }
 
     /**
@@ -130,9 +130,9 @@ class CategoriesController extends Controller
         // Delete image file if exists
         if ($category->image_path && file_exists($imagePath)) {
             if (unlink($imagePath)) {
-                Log::info("Image deleted successfully.");
+                Log::info(__('admin.image_deleted_successfully'));
             } else {
-                Log::error("Failed to delete image.");
+                Log::error(__('admin.failed_to_delete_image'));
             }
         }
 
@@ -182,7 +182,7 @@ class CategoriesController extends Controller
                 'id' => $category->id,
                 'name' => $category->name,
                 'description' => $category->description ?? '',
-                'image_path' => asset('images/categories/' . ($category->image_path ?? 'base.jpg')),
+                'image_path' => asset('images/categories/' . ($category->image_path ?? 'fixed_resources/not_found.jpg')),
             ]);
         }
 

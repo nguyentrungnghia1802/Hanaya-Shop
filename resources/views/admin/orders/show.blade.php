@@ -12,12 +12,12 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Customer Information -->
             <div class="bg-white shadow rounded-lg p-6">
-                <h3 class="text-xl font-semibold text-gray-800 mb-4">Customer Information</h3>
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">{{ __('admin.customer_info') }}</h3>
                 <div class="space-y-2 text-gray-700">
-                    <p><span class="font-medium">Customer:</span> {{ $order->user->name }}</p>
-                    <p><span class="font-medium">Email:</span> {{ $order->user->email }}</p>
+                    <p><span class="font-medium">{{ __('admin.customer') }}:</span> {{ $order->user->name }}</p>
+                    <p><span class="font-medium">{{ __('admin.email') }}:</span> {{ $order->user->email }}</p>
                     <p>
-                        <span class="font-medium">Address:</span>
+                        <span class="font-medium">{{ __('admin.address') }}:</span>
                         <span class="block text-sm text-gray-600">{{ optional($order->address)->phone_number ?? 'No phone number provided' }}</span>
                         <span class="block text-sm text-gray-600">
                             {{ optional($order->address)->address ?? 'No address provided' }}
@@ -28,12 +28,12 @@
 
             <!-- Order Information -->
             <div class="bg-white shadow rounded-lg p-6">
-                <h3 class="text-xl font-semibold text-gray-800 mb-4">Order Information</h3>
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">{{ __('admin.order_information') }}</h3>
                 <div class="space-y-2 text-gray-700">
-                    <p><span class="font-medium">Order Date:</span> {{ $order->created_at->format('d/m/Y H:i') }}</p>
-                    <p><span class="font-medium">Total Amount:</span> ${{ number_format($order->total_price, 2, '.', ',') }}</p>
+                    <p><span class="font-medium">{{ __('admin.order_date') }}:</span> {{ $order->created_at->format('d/m/Y H:i') }}</p>
+                    <p><span class="font-medium">{{ __('admin.total_amount') }}:</span> ${{ number_format($order->total_price, 2, '.', ',') }}</p>
                     <p>
-                        <span class="font-medium">Status:</span> 
+                        <span class="font-medium">{{ __('admin.status') }}:</span> 
                         <span class="px-2 py-1 rounded text-sm font-medium inline-block
                             {{ $order->status === 'completed' ? 'bg-green-100 text-green-800' : 
                                ($order->status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
@@ -46,16 +46,16 @@
                 
                 <!-- Payment Information -->
                 <div class="mt-6 pt-4 border-t border-gray-200">
-                    <h4 class="font-semibold text-gray-800 mb-3">Payment Information</h4>
+                    <h4 class="font-semibold text-gray-800 mb-3">{{ __('admin.payment_information') }}</h4>
                     @if($payment && count($payment) > 0)
                         @php $paymentInfo = $payment[0]; @endphp
                         <div class="space-y-2 text-gray-700">
                             <p>
-                                <span class="font-medium">Payment Method:</span> 
+                                <span class="font-medium">{{ __('admin.payment_method') }}:</span> 
                                 {{ ucfirst(str_replace('_', ' ', $paymentInfo->payment_method)) }}
                             </p>
                             <p>
-                                <span class="font-medium">Payment Status:</span> 
+                                <span class="font-medium">{{ __('admin.status') }}:</span> 
                                 <span class="px-2 py-1 rounded text-xs font-medium
                                     {{ $paymentInfo->payment_status === 'completed' ? 'bg-green-100 text-green-800' : 
                                        ($paymentInfo->payment_status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
@@ -64,12 +64,12 @@
                                 </span>
                             </p>
                             @if($paymentInfo->transaction_id)
-                                <p><span class="font-medium">Transaction ID:</span> {{ $paymentInfo->transaction_id }}</p>
+                                <p><span class="font-medium">{{ __('admin.transaction_id') }}:</span> {{ $paymentInfo->transaction_id }}</p>
                             @endif
-                            <p><span class="font-medium">Payment Date:</span> {{ $paymentInfo->created_at->format('d/m/Y H:i') }}</p>
+                            <p><span class="font-medium">{{ __('admin.payment_date') }}:</span> {{ $paymentInfo->created_at->format('d/m/Y H:i') }}</p>
                         </div>
                     @else
-                        <p class="text-gray-500 italic">No payment information available</p>
+                        <p class="text-gray-500 italic">{{ __('admin.no_payment_information_found') }}</p>
                     @endif
                 </div>
             </div>
@@ -77,7 +77,7 @@
 
         <!-- Product List -->
         <div class="bg-white shadow rounded-lg p-6">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4">Product List</h3>
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">{{ __('admin.product_list') }}</h3>
             <div class="space-y-4">
                 @foreach ($order->orderDetail as $detail)
                     <a href="{{ route('product.show', $detail->product->id) }}"
@@ -88,15 +88,15 @@
                                     {{ $detail->product->name ?? 'Product has been deleted' }}
                                 </p>
                                 <p class="text-sm text-gray-500">
-                                    Quantity: {{ $detail->quantity }}
+                                    {{ __('admin.quantity') }}: {{ $detail->quantity }}
                                 </p>
                             </div>
                             <div class="mt-2 md:mt-0 text-right">
                                 <p class="text-sm text-gray-600">
-                                    Unit Price: ${{ number_format($detail->price) }}
+                                    {{ __('admin.unit_price') }}: ${{ number_format($detail->price) }}
                                 </p>
                                 <p class="text-sm font-medium text-gray-900">
-                                    Total: ${{ number_format($detail->price * $detail->quantity) }}
+                                    {{ __('admin.total') }}: ${{ number_format($detail->price * $detail->quantity) }}
                                 </p>
                             </div>
                         </div>
@@ -107,7 +107,7 @@
 
         <!-- Message -->
         <div class="bg-white shadow rounded-lg p-6">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4">Message</h3>
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">{{ __('admin.message') }}</h3>
             <div class="space-y-4">
                 <p >
                     {{ $order->message ?? 'No message provided' }}
@@ -124,14 +124,14 @@
                     @method('PUT')
                     <button type="submit"
                             class="inline-block px-5 py-2 bg-red-500 text-white text-base font-semibold rounded-lg hover:bg-gray-600 transition">
-                        Cancel
+                        {{ __('admin.cancel') }}
                     </button>
                 </form>
             @else
                 <button type="button"
                         class="inline-block px-5 py-2 bg-gray-300 text-white text-base font-semibold rounded-lg cursor-not-allowed"
                         disabled>
-                    Cancel
+                    {{ __('admin.cancel') }}
                 </button>
             @endif
 
@@ -142,14 +142,14 @@
                     @method('PUT')
                     <button type="submit"
                             class="inline-block px-5 py-2 bg-gray-500 text-white text-base font-semibold rounded-lg hover:bg-gray-600 transition">
-                        Confirm
+                        {{ __('admin.confirm') }}
                     </button>
                 </form>
             @else
                 <button type="button"
                         class="inline-block px-5 py-2 bg-gray-300 text-white text-base font-semibold rounded-lg cursor-not-allowed"
                         disabled>
-                    Confirm
+                    {{ __('admin.confirm') }}
                 </button>
             @endif
 
@@ -160,14 +160,14 @@
                     @method('PUT')
                     <button type="submit"
                             class="inline-block px-5 py-2 bg-green-500 text-white text-base font-semibold rounded-lg hover:bg-gray-600 transition">
-                        Shipped
+                        {{ __('admin.shipped') }}
                     </button>
                 </form>
             @else
                 <button type="button"
                         class="inline-block px-5 py-2 bg-gray-300 text-white text-base font-semibold rounded-lg cursor-not-allowed"
                         disabled>
-                    Shipped
+                    {{ __('admin.shipped') }}
                 </button>
             @endif
             @php
@@ -180,7 +180,7 @@
                     @method('PUT')
                     <button type="submit"
                             class="inline-block px-5 py-2 bg-pink-500 text-white text-base font-semibold rounded-lg hover:bg-pink-600 transition">
-                        Mark as Paid
+                        {{ __('admin.mark_as_paid') }}
                     </button>
                 </form>
             @else
@@ -188,15 +188,15 @@
                         class="inline-block px-5 py-2 bg-gray-300 text-white text-base font-semibold rounded-lg cursor-not-allowed"
                         disabled>
                         @if($matchedPayment && $matchedPayment->payment_status === 'completed')
-                            Already Paid
+                            {{ __('admin.already_paid') }}
                         @else
-                            Mark as Paid
+                            {{ __('admin.mark_as_paid') }}
                         @endif
                 </button>
             @endif
             
             {{-- Cancel --}}
-            @if ($order->status !== 'completed' && $order->status !== 'cancelled')
+            {{-- @if ($order->status !== 'completed' && $order->status !== 'cancelled')
                 <form action="{{ route('admin.orders.cancel', $order->id) }}" method="POST" class="inline">
                     @csrf
                     @method('DELETE')
@@ -205,7 +205,7 @@
                         Cancel Order
                     </button>
                 </form>
-            @endif
+            @endif --}}
         </div>
     </div>
 @endsection

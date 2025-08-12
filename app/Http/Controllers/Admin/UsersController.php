@@ -148,7 +148,7 @@ class UsersController extends Controller
          */
         Cache::forget('admin_users_all');
 
-        return redirect()->route('admin.user')->with('success', 'Tạo tài khoản thành công!');
+        return redirect()->route('admin.user')->with('success', __('admin.account_created_successfully'));
     }
 
     /**
@@ -175,7 +175,7 @@ class UsersController extends Controller
          * Maintains system integrity and prevents privilege escalation issues
          */
         if ($id == Auth::id()) {
-            abort(403, 'Bạn không thể sửa chính mình.');
+            abort(403, __('admin.you_cannot_edit_yourself'));
         }
         
         $user = User::findOrFail($id); // Find user or throw 404 error
@@ -214,7 +214,7 @@ class UsersController extends Controller
          * Maintains administrative account integrity
          */
         if ($id == Auth::id()) {
-            abort(403, 'Bạn không thể cập nhật chính mình.');
+            abort(403, __('admin.you_cannot_edit_yourself'));
         }
         
         $user = User::findOrFail($id);
@@ -262,7 +262,7 @@ class UsersController extends Controller
          */
         Cache::forget('admin_users_all');
 
-        return redirect()->route('admin.user')->with('success', 'Cập nhật tài khoản thành công!');
+        return redirect()->route('admin.user')->with('success', __('admin.account_updated_successfully'));
     }
 
     /**
@@ -316,7 +316,7 @@ class UsersController extends Controller
             return response()->json(['success' => true]); // AJAX success response
         }
 
-        return redirect()->route('admin.user')->with('success', 'Xóa tài khoản thành công!');
+        return redirect()->route('admin.user')->with('success', __('admin.account_deleted_successfully'));
     }
 
     /**
@@ -343,7 +343,7 @@ class UsersController extends Controller
          * Maintains administrative access to the system
          */
         if ($id == Auth::id()) {
-            abort(403, 'Bạn không thể xóa chính mình.');
+            abort(403, __('admin.you_cannot_delete_yourself'));
         }
 
         $user = User::findOrFail($id); // Find user or return 404
@@ -367,7 +367,7 @@ class UsersController extends Controller
             return response()->json(['success' => true]); // AJAX success response
         }
 
-        return redirect()->route('admin.user')->with('success', 'Xóa tài khoản thành công!');
+        return redirect()->route('admin.user')->with('success', __('admin.account_deleted_successfully'));
     }
 
     /**
@@ -459,9 +459,9 @@ class UsersController extends Controller
                     <td class="px-4 py-2 border-b">' . e($user->role) . '</td>
                     <td class="px-4 py-2 border-b">
                         <div class="flex flex-wrap gap-2">
-                            <a href="' . route('admin.user.edit', $user->getKey()) . '" class="px-3 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition">Edit</a>
-                            <button type="button" class="px-3 py-1 bg-red-500 text-white text-xs font-medium rounded hover:bg-red-600 transition btn-delete" data-id="' . $user->getKey() . '">Delete</button>
-                            <a href="' . route('admin.user.show', $user->getKey()) . '" class="px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">View Details</a>
+                            <a href="' . route('admin.user.edit', $user->getKey()) . '" class="px-3 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition">' . __('admin.edit') . '</a>
+                            <button type="button" class="px-3 py-1 bg-red-500 text-white text-xs font-medium rounded hover:bg-red-600 transition btn-delete" data-id="' . $user->getKey() . '">' . __('admin.delete') . '</button>
+                            <a href="' . route('admin.user.show', $user->getKey()) . '" class="px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">' . __('admin.view_details') . '</a>
                         </div>
                     </td>
                 </tr>';

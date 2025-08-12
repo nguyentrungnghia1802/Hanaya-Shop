@@ -4,15 +4,15 @@
 
         <!-- Breadcrumb Navigation -->
         <nav class="flex text-sm mb-4 text-gray-500" aria-label="Breadcrumb">
-            <a href="{{ route('dashboard') }}" class="hover:text-gray-900">Home</a>
+            <a href="{{ route('dashboard') }}" class="hover:text-gray-900">{{ __('dashboard.home') }}</a>
             <span class="mx-2">/</span>
-            <a href="{{ route('user.products.index') }}" class="hover:text-gray-900">Products</a>
+            <a href="{{ route('user.products.index') }}" class="hover:text-gray-900">{{ __('dashboard.products') }}</a>
             <span class="mx-2">/</span>
             <span class="text-gray-900">{{ $product->name }}</span>
         </nav>
 
         <!-- Header -->
-        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center">Product Details</h1>
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center">{{ __('product.product_details') }}</h1>
 
         <!-- Announcement -->
         <x-alert />
@@ -99,7 +99,7 @@
                                     @csrf
                                     <input type="hidden" name="quantity" id="form-quantity" value="1">
                                     <button type="submit" class="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-colors duration-300 flex items-center justify-center">
-                                        <i class="fas fa-shopping-cart mr-2"></i>Add to Cart
+                                        <i class="fas fa-shopping-cart mr-2"></i>{{ __('product.add_to_cart') }}
                                     </button>
                                 </form>
                                 <form action="{{ route('cart.buyNow', $product->id) }}" method="POST" class="w-full">
@@ -249,7 +249,7 @@
 
         <!-- Similar products -->
         <div class="mt-12 sm:mt-16">
-            <h3 class="text-xl sm:text-2xl font-bold mb-6 text-center">Similar Products</h3>
+            <h3 class="text-xl sm:text-2xl font-bold mb-6 text-center">{{ __('product.similar_products') }}</h3>
             <div class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
                 @foreach ($relatedProducts as $item)
                     <div

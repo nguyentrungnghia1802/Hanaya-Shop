@@ -38,14 +38,14 @@ class OrderCompletedNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Order #' . $this->order->id . ' Completed')
-            ->greeting('Hello ' . $notifiable->name . ',')
-            ->line('Your order #' . $this->order->id . ' has been completed successfully.')
-            ->line('Thank you for shopping with us!')
-            ->action('View Order Details', route('order.show', $this->order->id))
-            ->line('We hope you enjoy your purchase.');
+            ->subject(__('notifications.order_completed_subject', ['order_id' => $this->order->id]))
+            ->greeting(__('notifications.order_completed_greeting', ['name' => $notifiable->name]))
+            ->line(__('notifications.order_completed_line1', ['order_id' => $this->order->id]))
+            ->line(__('notifications.order_completed_line2'))
+            ->action(__('notifications.view_order_details'), route('order.show', $this->order->id))
+            ->line(__('notifications.order_completed_line3'));
     }
-
+    
     /**
      * Get the array representation of the notification.
      *
@@ -55,7 +55,8 @@ class OrderCompletedNotification extends Notification implements ShouldQueue
     {
         return [
             'order_id' => $this->order->id,
-            'message' => 'Order #' . $this->order->id . ' has been completed',
+            'message'  => __('notifications.order_completed_message', ['order_id' => $this->order->id]),
         ];
     }
+
 }

@@ -36,9 +36,9 @@ class OrderConfirmedNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Đơn hàng đã được xác nhận')
-            ->line('Đơn hàng #' . $this->order->id . ' đã được xác nhận và chuyển sang trạng thái Shipped.')
-            ->action('Xem đơn hàng', url('/admin/orders/' . $this->order->id));
+            ->subject(__('notifications.order_confirmed_subject'))
+            ->line(__('notifications.order_confirmed_line', ['order_id' => $this->order->id])) 
+            ->action(__('notifications.view_order'), url('/admin/orders/' . $this->order->id));
     }
 
     /**
@@ -50,7 +50,8 @@ class OrderConfirmedNotification extends Notification implements ShouldQueue
     {
         return [
             'order_id' => $this->order->id,
-            'message' => 'Đơn hàng #' . $this->order->id . ' đã được xác nhận.',
+            'message'  => __('notifications.order_confirmed_message', ['order_id' => $this->order->id]),
         ];
     }
+
 }
