@@ -32,4 +32,20 @@ return [
     'failed' => 'These credentials do not match our records.',
     'password_incorrect' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+
+    // Edit Profile
+    'delete_account' => 'Delete Account',
+    'delete_account_confirmation' => 'Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.',
+    'are_you_sure_you_want_to_delete_your_account' => 'Are you sure you want to delete your account?',
+    'cancel' => 'Cancel',
+    'update_password' => 'Update Password',
+    'update_password_description' => 'Ensure your account is using a long, random password to stay secure.',
+    'saved' => 'Saved',
+    'save' => 'Save',
+    'profile_information' => 'Profile Information',
+    'update_profile_information_description' => 'Update your account\'s profile information and email address.',
+    'your_email_address_is_unverified' => 'Your email address is unverified.',
+    'click_here_to_resend_verification_email' => 'Click here to re-send the verification email.',
+    'verification_link_sent_notification' => 'A new verification link has been sent to your email address.',
+    'profile' => 'Profile',
 ];
