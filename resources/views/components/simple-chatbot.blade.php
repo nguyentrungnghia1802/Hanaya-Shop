@@ -11,7 +11,7 @@
     </button>
 
     <!-- Chatbot Window -->
-    <div id="simple-chatbot-window" class="hidden fixed bottom-20 right-4 w-80 h-96 bg-white rounded-lg shadow-2xl border border-gray-200 flex flex-col">
+    <div id="simple-chatbot-window" class="fixed bottom-20 right-4 w-80 h-96 bg-white rounded-lg shadow-2xl border border-gray-200 flex flex-col">
         <!-- Header -->
         <div class="bg-gradient-to-r from-pink-600 to-purple-600 text-white p-3 rounded-t-lg">
             <div class="flex items-center space-x-2">
