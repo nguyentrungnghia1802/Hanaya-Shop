@@ -14,7 +14,8 @@ return [
     'wishlist' => 'Wishlist',
     'orders' => 'Orders',
     'dashboard' => 'Dashboard',
-    
+    'posts' => 'Posts',
+
     // Language switcher
     'language' => 'Language',
     'english' => 'English',
