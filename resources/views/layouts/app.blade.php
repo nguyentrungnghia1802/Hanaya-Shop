@@ -151,31 +151,31 @@
             <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
 
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">{{ config('constants.shop_name') }}</h3>
+                    <h3 class="text-lg font-semibold mb-4">{{ __('common.shop_name') }}</h3>
                     <p class="text-sm">
-                        Specializing in premium flowers, meaningful gifts and decorative accessories.
+                        {{ __('common.footer_description') }}
                     </p>
                 </div>
 
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <h3 class="text-lg font-semibold mb-4">{{ __('common.quick_links') }}</h3>
                     <ul class="text-sm space-y-2">
-                        <li><a href="/" class="hover:text-white">Home</a></li>
-                        <li><a href="/products" class="hover:text-white">Products</a></li>
-                        <li><a href="/about" class="hover:text-white">About</a></li>
+                        <li><a href="/" class="hover:text-white">{{ __('common.home') }}</a></li>
+                        <li><a href="/products" class="hover:text-white">{{ __('common.products') }}</a></li>
+                        <li><a href="/about" class="hover:text-white">{{ __('common.about') }}</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Contact</h3>
-                    <p class="text-sm"> Address: {{ config('constants.shop_address') }}</p>
-                    <p class="text-sm"> Phone: {{ config('constants.shop_phone') }}</p>
-                    <p class="text-sm"> Email: {{ config('constants.shop_email') }}</p>
+                    <h3 class="text-lg font-semibold mb-4">{{ __('common.contact') }}</h3>
+                    <p class="text-sm"> {{ __('common.address') }}: {{ config('constants.shop_address') }}</p>
+                    <p class="text-sm"> {{ __('common.phone') }}: {{ config('constants.shop_phone') }}</p>
+                    <p class="text-sm"> {{ __('common.email') }}: {{ config('constants.shop_email') }}</p>
                 </div>
             </div>
 
             <div class="text-center text-sm text-gray-400 dark:text-gray-500 mt-8 border-t border-gray-700 dark:border-gray-600 pt-4 transition-colors duration-300">
-                &copy; {{ date('Y') }} Hanaya.
+                &copy; {{ date('Y') }} Hanaya. {{ __('common.copyright') }}
             </div>
         </footer>
     </div>

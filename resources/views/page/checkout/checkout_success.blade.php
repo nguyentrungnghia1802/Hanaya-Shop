@@ -14,8 +14,8 @@
                     </svg>
                 </div>
                 <div>
-                    <h3 class="text-xl font-semibold text-green-700">Đặt hàng thành công!</h3>
-                    <p class="text-gray-600">Mã đơn hàng: #{{ $orderId }}</p>
+                    <h3 class="text-xl font-semibold text-green-700">{{ __('checkout.order_placed_successfully') }}</h3>
+                    <p class="text-gray-600">{{ __('checkout.order_id') }} #{{ $orderId }}</p>
                 </div>
             </div>
             
@@ -36,14 +36,14 @@
             <div class="border-t border-b border-gray-200 py-4 my-4">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
                     <div>
-                        <h4 class="font-medium text-gray-700">Phương thức thanh toán</h4>
+                        <h4 class="font-medium text-gray-700">{{ __('checkout.payment_method') }}</h4>
                         <p class="text-gray-600">
                             @if($payment->payment_method == 'credit_card')
-                                Thẻ tín dụng/ghi nợ
+                                {{ __('checkout.credit_card') }}
                             @elseif($payment->payment_method == 'paypal')
-                                PayPal
+                                {{ __('checkout.paypal') }}
                             @elseif($payment->payment_method == 'cash_on_delivery')
-                                Thanh toán khi nhận hàng (COD)
+                                {{ __('checkout.cash_on_delivery') }}
                             @endif
                         </p>
                     </div>
@@ -52,11 +52,11 @@
                             {{ $payment->payment_status == 'completed' ? 'bg-green-100 text-green-800' : 
                               ($payment->payment_status == 'pending' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800') }}">
                             @if($payment->payment_status == 'completed')
-                                Đã thanh toán
+                                {{ __('checkout.completed') }}
                             @elseif($payment->payment_status == 'pending')
-                                Chờ thanh toán
+                                {{ __('checkout.pending') }}
                             @else
-                                Thanh toán thất bại
+                                {{ __('checkout.failed') }}
                             @endif
                         </span>
                     </div>
@@ -64,22 +64,22 @@
                 
                 @if($payment->transaction_id && $payment->payment_method != 'cash_on_delivery')
                 <div class="text-sm text-gray-600">
-                    <p>Mã giao dịch: <span class="font-mono">{{ $payment->transaction_id }}</span></p>
+                    <p>{{ __('checkout.transaction_id') }} <span class="font-mono">{{ $payment->transaction_id }}</span></p>
                 </div>
                 @endif
             </div>
 
             <p class="text-gray-700 leading-relaxed mb-4">
-                Cảm ơn bạn đã đặt hàng tại <span class="font-semibold">Hanaya Shop</span>. 
+                {{ __('checkout.thank_you') }}<span class="font-semibold">Hanaya Shop</span>. 
                 @if($payment->payment_method == 'cash_on_delivery')
-                    Bạn sẽ thanh toán khi nhận được hàng.
+                    {{ __('checkout.thank_you_message') }}
                 @else
-                    Thanh toán của bạn đã được xử lý thành công.
+                    {{ __('checkout.thank_you_message_completed') }}
                 @endif
             </p>
             
             <p class="text-gray-600 mb-6">
-                Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất để xác nhận đơn hàng và thông tin giao hàng.
+                {{ __('checkout.order_confirmation_email') }}
             </p>
 
             <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6">
@@ -91,7 +91,7 @@
                     </div>
                     <div class="ml-3">
                         <p class="text-sm text-blue-700">
-                            Bạn sẽ nhận được email xác nhận đơn hàng trong vòng vài phút.
+                            {{ __('checkout.order_confirmation') }}
                         </p>
                     </div>
                 </div>
@@ -99,10 +99,10 @@
 
             <div class="mt-6 flex flex-col md:flex-row justify-end gap-4">
                 <a href="{{ route('order.cancel', $orderId) }}" class="bg-gray-200 text-gray-800 px-5 py-2 rounded hover:bg-gray-300 transition text-center">
-                    Hủy đơn hàng
+                    {{ __('checkout.order_cancellation') }}
                 </a>
                 <a href="{{ route('order.show', $orderId) }}" class="bg-pink-600 text-white px-5 py-2 rounded hover:bg-pink-700 transition text-center">
-                    Xem đơn hàng
+                    {{ __('checkout.view_order') }}
                 </a>
             </div>
         </div>

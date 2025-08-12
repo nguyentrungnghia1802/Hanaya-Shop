@@ -234,9 +234,9 @@ class ProductsController extends Controller
          */
         if ($product->save()) {
             Cache::forget('admin_products_all'); // Invalidate cache for fresh data
-            return redirect()->route('admin.product')->with('success', 'Product created successfully!');
+            return redirect()->route('admin.product')->with('success', __('admin.product_created_successfully'));
         } else {
-            return redirect()->back()->with('error', 'Failed to create product.');
+            return redirect()->back()->with('error', __('admin.product_creation_failed'));
         }
     }
 
@@ -343,7 +343,7 @@ class ProductsController extends Controller
         $product->save();
         Cache::forget('admin_products_all'); // Invalidate cache for fresh data
         
-        return redirect()->route('admin.product')->with('success', 'Product updated successfully!');
+        return redirect()->route('admin.product')->with('success', __('admin.product_updated_successfully'));
     }
 
     /**
@@ -393,7 +393,7 @@ class ProductsController extends Controller
             return response()->json(['success' => true]); // AJAX success response
         }
 
-        return redirect()->route('admin.product')->with('success', 'Product deleted successfully!');
+        return redirect()->route('admin.product')->with('success', __('admin.product_deleted_successfully'));
     }
 
     /**
@@ -594,6 +594,6 @@ class ProductsController extends Controller
         
         $review->delete(); // Remove review from database
 
-        return back()->with('success', 'Review and associated image deleted successfully.');
+        return back()->with('success', __('admin.review_deleted_successfully'));
     }
 }

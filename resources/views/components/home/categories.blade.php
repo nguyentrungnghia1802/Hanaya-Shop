@@ -6,10 +6,10 @@
             <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14-4H9m4 8H7m6 4v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002-2z"></path>
             </svg>
-            Product Categories
+            {{ __('home.shop_by_category') }}
         </h3>
         <a href="{{ route('user.products.index') }}" class="text-white hover:text-rose-200 font-medium flex items-center transition-colors duration-300">
-            View All 
+            {{ __('home.view_all_categories') }}
             <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
             </svg>
@@ -37,10 +37,10 @@
                                     {{ $category->name }}
                                 </h4>
                                 <p class="text-sm text-white text-opacity-80 line-clamp-2">
-                                    {{ strip_tags($category->description ?? 'Discover our collection of ' . strtolower($category->name)) }}
+                                    {{ strip_tags($category->description ?? __('home.category_products')) }}
                                 </p>
                                 <div class="flex items-center mt-2 text-xs text-white text-opacity-70">
-                                    <span>{{ $category->product_count ?? $category->product->count() }} products</span>
+                                    <span>{{ $category->product_count ?? $category->product->count() }} {{ __('common.products') }}</span>
                                 </div>
                             </div>
                             <div class="text-white group-hover:text-rose-200 transition-colors">
@@ -58,7 +58,7 @@
             <svg class="w-16 h-16 text-white text-opacity-60 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14-4H9m4 8H7m6 4v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002-2z"></path>
             </svg>
-            <p class="text-white text-opacity-80 text-lg">No product categories available</p>
+            <p class="text-white text-opacity-80 text-lg">{{ __('home.no_categories_available') }}</p>
         </div>
     @endif
 </div>

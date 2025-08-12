@@ -24,7 +24,7 @@
             <!-- Products by Category Section -->
             @if (isset($latestByCategory) && count($latestByCategory) > 0)
                 <section>
-                    <x-category-products :categoryData="$latestByCategory" title="Latest Products by Category" />
+                    <x-category-products :categoryData="$latestByCategory" :title="__('dashboard.latest_products_by_category')" />
                 </section>
             @endif
 
@@ -35,15 +35,17 @@
                     </div>
                     <a href="{{ route('user.products.index', ['sort' => 'bestseller']) }}"
                         class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 font-medium flex items-center transition-colors duration-300">
+                        {{ __('dashboard.view_all') }}
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
                     </a>
                 </div>
-                <h3 class="text-2xl font-bold text-gray-800 flex items-center mb-4">
+                                <h3 class="text-2xl font-bold text-gray-800 flex items-center mb-4">
                     <svg class="w-6 h-6 mr-3 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1">
-                        </path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                     </svg>
-                    Best Seller Products
+                    {{ __('dashboard.best_seller_products') }}
                 </h3>
 
 
@@ -94,7 +96,7 @@
                                             <button disabled
                                                 class="w-full bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg shadow-lg cursor-not-allowed flex items-center justify-center"
                                                 title="Out of Stock">
-                                                <i class="fas fa-ban mr-2"></i>Out of Stock
+                                                <i class="fas fa-ban mr-2"></i>{{ __('product.out_of_stock') }}
                                             </button>
                                         @endif
                                     </div>
@@ -127,7 +129,7 @@
 
                                 <div class="flex items-center justify-between text-sm text-gray-500 mb-3">
                                     <span><i class="fas fa-shopping-cart mr-1"></i>{{ $product->total_sold ?? 0 }}
-                                        sold</span>
+                                        {{ __('product.sold') }}</span>
                                     <span><i class="fas fa-eye mr-1"></i>{{ $product->view_count ?? 0 }}</span>
                                 </div>
 
@@ -135,7 +137,7 @@
                                 <div class="mt-auto">
                                     <a href="{{ route('user.products.show', $product->id) }}"
                                         class="w-full bg-red-500 hover:bg-red-600 text-white text-center py-2 px-4 rounded-lg transition-colors flex items-center justify-center">
-                                        <i class="fas fa-eye mr-2"></i>View Now
+                                        <i class="fas fa-eye mr-2"></i>{{ __('product.view_now') }}
                                     </a>
                                 </div>
                             </div>
@@ -156,11 +158,11 @@
                                     d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1">
                                 </path>
                             </svg>
-                            Sale Products
+                            {{ __('dashboard.sale_products') }}
                         </h3>
                         <a href="{{ route('user.products.index', ['sort' => 'sale']) }}"
                             class="text-orange-600 hover:text-orange-800 font-medium flex items-center">
-                            View All
+                            {{ __('product.view_all') }}
                             <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 5l7 7-7 7"></path>
@@ -211,7 +213,7 @@
                                                 <button disabled
                                                     class="w-full bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg shadow-lg cursor-not-allowed flex items-center justify-center"
                                                     title="Out of Stock">
-                                                    <i class="fas fa-ban mr-2"></i>Out of Stock
+                                                    <i class="fas fa-ban mr-2"></i>{{ __('dashboard.out_of_stock') }}
                                                 </button>
                                             @endif
                                         </div>
@@ -265,11 +267,11 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
-                            Latest Products
+                            {{ __('dashboard.latest_products') }}
                         </h3>
                         <a href="{{ route('user.products.index', ['sort' => 'latest']) }}"
                             class="text-green-600 hover:text-green-800 font-medium flex items-center">
-                            View All
+                            {{ __('product.view_all') }}
                             <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 5l7 7-7 7"></path>
@@ -320,7 +322,7 @@
                                                 <button disabled
                                                     class="w-full bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg shadow-lg cursor-not-allowed flex items-center justify-center"
                                                     title="Out of Stock">
-                                                    <i class="fas fa-ban mr-2"></i>Out of Stock
+                                                    <i class="fas fa-ban mr-2"></i>{{ __('dashboard.out_of_stock') }}
                                                 </button>
                                             @endif
                                         </div>
@@ -378,11 +380,11 @@
                                 d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
                             </path>
                         </svg>
-                        Most Viewed Products
+                        {{ __('dashboard.most_viewed_products') }}
                     </h3>
                     <a href="{{ route('user.products.index', ['sort' => 'views']) }}"
                         class="text-purple-600 hover:text-purple-800 font-medium flex items-center">
-                        View All
+                        {{ __('product.view_all') }}
                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
                             </path>
@@ -431,7 +433,7 @@
                                             <button disabled
                                                 class="w-full bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg shadow-lg cursor-not-allowed flex items-center justify-center"
                                                 title="Out of Stock">
-                                                <i class="fas fa-ban mr-2"></i>Out of Stock
+                                                <i class="fas fa-ban mr-2"></i>{{ __('dashboard.out_of_stock') }}
                                             </button>
                                         @endif
                                     </div>
@@ -471,7 +473,7 @@
                                 <div class="mt-auto">
                                     <a href="{{ route('user.products.show', $product->id) }}"
                                         class="w-full bg-purple-500 hover:bg-purple-600 text-white text-center py-2 px-4 rounded-lg transition-colors flex items-center justify-center">
-                                        <i class="fas fa-eye mr-2"></i>View Details
+                                        <i class="fas fa-eye mr-2"></i>{{ __('product.view_details') }}
                                     </a>
                                 </div>
                             </div>
@@ -483,8 +485,8 @@
             <!-- Features Section -->
             <section class="bg-gradient-to-r from-blue-500 to-teal-600 rounded-lg shadow-lg p-8 text-white">
                 <div class="text-center mb-8">
-                    <h3 class="text-3xl font-bold mb-4">Why Choose Hanaya Shop?</h3>
-                    <p class="text-xl text-blue-100">We are committed to bringing you the highest quality products</p>
+                    <h3 class="text-3xl font-bold mb-4">{{ __('dashboard.why_choose_hanaya') }}</h3>
+                    <p class="text-xl text-blue-100">{{ __('dashboard.quality_commitment') }}</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -496,8 +498,8 @@
                                     d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                         </div>
-                        <h4 class="text-xl font-semibold mb-2">Quality Guaranteed</h4>
-                        <p class="text-blue-100">All products undergo strict quality control testing</p>
+                        <h4 class="text-xl font-semibold mb-2">{{ __('dashboard.quality_guarantee') }}</h4>
+                        <p class="text-blue-100">{{ __('dashboard.quality_guarantee_desc') }}</p>
                     </div>
 
                     <div class="text-center">
@@ -508,8 +510,8 @@
                                     d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                         </div>
-                        <h4 class="text-xl font-semibold mb-2">Fast Delivery</h4>
-                        <p class="text-blue-100">Guaranteed delivery within 24-48h in city center</p>
+                        <h4 class="text-xl font-semibold mb-2">{{ __('dashboard.fast_delivery') }}</h4>
+                        <p class="text-blue-100">{{ __('dashboard.fast_delivery_desc') }}</p>
                     </div>
 
                     <div class="text-center">
@@ -521,8 +523,8 @@
                                 </path>
                             </svg>
                         </div>
-                        <h4 class="text-xl font-semibold mb-2">24/7 Support</h4>
-                        <p class="text-blue-100">Our support team is always ready to help you anytime</p>
+                        <h4 class="text-xl font-semibold mb-2">{{ __('dashboard.customer_support') }}</h4>
+                        <p class="text-blue-100">{{ __('dashboard.customer_support_desc') }}</p>
                     </div>
                 </div>
             </section>

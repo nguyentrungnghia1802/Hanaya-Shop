@@ -25,6 +25,7 @@
 
 use Illuminate\Support\Facades\Route;       // Laravel routing facade
 use App\Http\Controllers\ChatbotController; // Chatbot functionality controller
+use App\Http\Controllers\LocaleController;  // Locale switching functionality controller
 
 /**
  * Modular Route Inclusion
@@ -89,6 +90,43 @@ Route::post('/chatbot', [App\Http\Controllers\ChatbotController::class, 'chat'])
     ->name('chatbot.chat');
 
 /**
+ * Locale Switching Route - Multi-language Support
+ * 
+ * Handles switching between available application languages.
+ * Supports English, Vietnamese, and Japanese languages.
+ * Stores selected locale in session for persistence across requests.
+ * 
+ * Languages:
+ * - en: English
+ * - vi: Tiếng Việt  
+ * - ja: 日本語
+ * 
+ * Security: Validates locale parameter against configured available locales
+ * Persistence: Selected locale stored in user session
+ */
+Route::get('/locale/{locale}', [LocaleController::class, 'setLocale'])
+    ->name('locale.set')
+    ->where('locale', '[a-z]{2}');
+
+// Test translation route for development
+Route::get('/test-translation', function () {
+    $locales = ['en', 'vi', 'ja'];
+    $output = "<h1>Translation Test Results</h1>";
+    
+    foreach ($locales as $locale) {
+        app()->setLocale($locale);
+        $output .= "<h2>Locale: $locale</h2>";
+        $output .= "<p>Home: " . __('common.navigation.home') . "</p>";
+        $output .= "<p>Products: " . __('common.navigation.products') . "</p>";
+        $output .= "<p>Cart: " . __('common.navigation.cart') . "</p>";
+        $output .= "<p>Admin Products: " . __('admin.products') . "</p>";
+        $output .= "<hr>";
+    }
+    
+    return $output;
+})->name('test.translation');
+
+/**
  * Development and Testing Routes
  * 
  * Routes used for development, testing, and demonstration purposes.
@@ -109,3 +147,8 @@ Route::post('/chatbot', [App\Http\Controllers\ChatbotController::class, 'chat'])
 // Route::get('/tinymce-demo', function () {
 //     return view('tinymce-demo');
 // })->name('tinymce.demo');
+
+// Include test routes for development
+if (app()->environment(['local', 'development'])) {
+    include __DIR__ . '/test-chatbot.php';
+}

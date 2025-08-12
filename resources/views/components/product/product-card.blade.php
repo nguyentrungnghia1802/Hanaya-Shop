@@ -9,14 +9,14 @@
         <div class="flex items-center justify-between mb-4">
             <span class="text-lg font-bold text-pink-600">${{ number_format($product->price, 2, '.', ',') }}</span>
             @if($product->stock_quantity > 0)
-                <span class="text-green-600 text-sm">In Stock</span>
+                <span class="text-green-600 text-sm">{{ __('product.in_stock') }}</span>
             @else
-                <span class="text-red-500 text-sm">Out of Stock</span>
+                <span class="text-red-500 text-sm">{{ __('product.out_of_stock') }}</span>
             @endif
         </div>
         <a href="{{ route('product.show', $product->id) }}"
            class="block w-full text-center bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 rounded transition duration-200">
-           View Details
+           {{ __('product.view_details') }}
         </a>
     </div>
 </div>

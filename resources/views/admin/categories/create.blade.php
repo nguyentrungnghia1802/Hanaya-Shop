@@ -3,7 +3,7 @@
 @section('header')
     <!-- Page header -->
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        {{ __('Add Flower Category') }}
+        {{ __('admin.add_flower_category') }}
     </h2>
 @endsection
 
@@ -17,12 +17,12 @@
         class="mb-20 max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md space-y-4">
         
         @csrf <!-- CSRF token for form security -->
-        
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">Add Flower Category</h2>
+
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">{{ __('admin.add_flower_category') }}</h2>
 
         <!-- Input field for flower category name -->
         <div>
-            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Category Name</label>
+            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">{{ __('admin.category_name') }}</label>
             <input 
                 type="text" 
                 name="name" 
@@ -36,12 +36,12 @@
             @enderror
 
             <!-- Custom client-side error message (initially hidden) -->
-            <p id="errorMsg" class="hidden text-red-500 text-sm mt-1">This category already exists.</p>
+            <p id="errorMsg" class="hidden text-red-500 text-sm mt-1">{{ __('admin.category_exists') }}</p>
         </div>
 
         <!-- Input for flower category image -->
         <div>
-            <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Category Image:</label>
+            <label for="image" class="block text-sm font-medium text-gray-700 mb-1">{{ __('admin.category_image') }}</label>
             <input 
                 type="file" 
                 name="image" 
@@ -50,7 +50,7 @@
                 class="block mt-1">
             
             <!-- Placeholder or current image preview -->
-            <p class="mt-2 text-sm text-gray-600">Current Image:</p>
+            <p class="mt-2 text-sm text-gray-600">{{ __('admin.current_image') }}</p>
             <img 
                 id="previewImage" 
                 src="{{ asset('images/base.jpg') }}" 
@@ -60,7 +60,7 @@
 
         <!-- Input for category description (plain textarea) -->
         <div>
-            <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+            <label for="description" class="block text-sm font-medium text-gray-700 mb-1">{{ __('admin.description') }}</label>
             <textarea 
                 name="description" 
                 id="description" 
@@ -72,7 +72,7 @@
         <button 
             type="submit" 
             class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200">
-            Save
+            {{ __('admin.save') }}
         </button>
     </form>
 @endsection

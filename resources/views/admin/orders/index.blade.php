@@ -2,7 +2,7 @@
 
 @section('header')
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        {{ __('Orders') }}
+        {{ __('admin.orders') }}
     </h2>
 @endsection
 
@@ -17,12 +17,12 @@
             <div class="flex flex-wrap border-b border-gray-200">
         @php
             $statuses = [
-                '' => 'All',
-                'pending' => 'Pending',
-                'processing' => 'Processing',
-                'shipped' => 'Shipped',
-                'cancelled' => 'Cancelled',
-                'completed' => 'Completed'
+                '' => __('admin.all'),
+                'pending' =>  __('admin.pending'),
+                'processing' =>  __('admin.processing'),
+                'shipped' =>  __('admin.shipped'),
+                'cancelled' =>  __('admin.cancelled'),
+                'completed' =>  __('admin.completed')
             ];
             $currentStatus = request('status');
         @endphp
@@ -42,13 +42,13 @@
 
                     {{-- Search input --}}
                     <form id="categorySearchForm" method="GET" class="flex gap-2 mb-4 max-w-sm">
-                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Search order..."
+                        <input type="text" name="search" value="{{ request('search') }}" placeholder="{{ __('admin.search_order') }}"
                             class="border px-3 py-2 rounded w-full" autocomplete="off">
                             @if(request('status'))
                                 <input type="hidden" name="status" value="{{ request('status') }}">
                             @endif
                         <button type="submit"
-                            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 rounded">Search</button>
+                            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 rounded">{{ __('admin.search') }}</button>
                     </form>
 
 
@@ -58,12 +58,12 @@
                             <thead class="bg-gray-100 text-gray-700 uppercase text-left">
                                 <tr>
                                     <th class="px-2 sm:px-4 py-2 border-b">#</th>
-                                    <th class="px-2 sm:px-4 py-2 border-b">User</th>
-                                    <th class="px-2 sm:px-4 py-2 border-b">Total price</th>
-                                    <th class="px-2 sm:px-4 py-2 border-b">Order at</th>
-                                    <th class="px-2 sm:px-4 py-2 border-b">Status</th>
-                                    <th class="px-2 sm:px-4 py-2 border-b">Payment status</th>
-                                    <th class="px-2 sm:px-4 py-2 border-b">Action</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">{{ __('admin.user') }}</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">{{ __('admin.total_price') }}</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">{{ __('admin.order_at') }}</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">{{ __('admin.status') }}</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">{{ __('admin.payment_status') }}</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">{{ __('admin.action') }}</th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-800">
@@ -91,13 +91,13 @@
                                     
                                             <a href="{{ route('admin.order.show', $item->id) }}"
                                                 class="inline-block px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">
-                                                View Details
+                                                {{ __('admin.view_details') }}
                                             </a>
                                         @else
                                             @if($item->status === 'pending')
                                                 <a href="{{ route('admin.order.show', $item->id) }}"
                                                     class="inline-block px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">
-                                                    View Details
+                                                    {{ __('admin.view_details') }}
                                                 </a>
 
                                                 <form action="{{ route('admin.order.confirm', $item->id) }}" method="POST"
@@ -106,7 +106,7 @@
                                                     @method('PUT')
                                                     <button type="submit"
                                                         class="inline-block px-3 py-1 bg-gray-500 text-white text-xs font-medium rounded hover:bg-gray-600 transition">
-                                                        Confirm
+                                                        {{ __('admin.confirm') }}
                                                     </button>
                                                 </form>
 
@@ -116,13 +116,13 @@
                                                     @method('PUT')
                                                     <button type="submit"
                                                         class="inline-block px-3 py-1 bg-red-500 text-white text-xs font-medium rounded hover:bg-gray-600 transition">
-                                                        Cancel
+                                                        {{ __('admin.cancel') }}
                                                     </button>
                                                 </form>
                                             @elseif($item->status === 'processing')
                                                 <a href="{{ route('admin.order.show', $item->id) }}"
                                                     class="inline-block px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">
-                                                    View Details
+                                                    {{ __('admin.view_details') }}
                                                 </a>
 
                                                 <form action="{{ route('admin.order.shipped', $item->id) }}" method="POST"
@@ -131,7 +131,7 @@
                                                     @method('PUT')
                                                     <button type="submit"
                                                         class="inline-block px-3 py-1 bg-purple-500 text-white text-xs font-medium rounded hover:bg-gray-600 transition">
-                                                        Shipped
+                                                        {{ __('admin.shipped') }}
                                                     </button>
                                                 </form>
 
@@ -142,20 +142,20 @@
                                                         @method('PUT')
                                                         <button type="submit"
                                                             class="inline-block px-3 py-1 bg-pink-500 text-white text-xs font-medium rounded hover:bg-gray-600 transition">
-                                                            Paid
+                                                            {{ __('admin.paid') }}
                                                         </button>
                                                     </form>
                                                 @else
                                                     <button type="button"
                                                         class="inline-block px-3 py-1 bg-gray-300 text-white text-xs font-medium rounded cursor-not-allowed"
                                                         disabled>
-                                                        Paid
+                                                        {{ __('admin.paid') }}
                                                     </button>
                                                 @endif
                                             @elseif($item->status === 'shipped')
                                                 <a href="{{ route('admin.order.show', $item->id) }}"
                                                     class="inline-block px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">
-                                                    View Details
+                                                    {{ __('admin.view_details') }}
                                                 </a>
                                                 @if($matchedPayment && $matchedPayment->payment_status === 'pending')
                                                 <form action="{{ route('admin.order.paid', $item->id) }}" method="POST"
@@ -164,25 +164,25 @@
                                                     @method('PUT')
                                                     <button type="submit"
                                                         class="inline-block px-3 py-1 bg-pink-500 text-white text-xs font-medium rounded hover:bg-gray-600 transition">
-                                                        Paid
+                                                        {{ __('admin.paid') }}
                                                     </button>
                                                 </form>
                                                 @else
                                                     <button type="button"
                                                         class="inline-block px-3 py-1 bg-gray-300 text-white text-xs font-medium rounded cursor-not-allowed"
                                                         disabled>
-                                                        Paid
+                                                        {{ __('admin.paid') }}
                                                     </button>
                                                 @endif
                                             @elseif($item->status === 'completed')
                                                 <a href="{{ route('admin.order.show', $item->id) }}"
                                                     class="inline-block px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">
-                                                    View Details
+                                                    {{ __('admin.view_details') }}
                                                 </a>
                                             @elseif($item->status === 'cancelled')
                                                 <a href="{{ route('admin.order.show', $item->id) }}"
                                                     class="inline-block px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">
-                                                    View Details
+                                                    {{ __('admin.view_details') }}
                                                 </a>
                                             @endif
                                                 
