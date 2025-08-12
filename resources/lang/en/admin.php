@@ -251,6 +251,65 @@ return [
     'orders' => 'Orders',
     'no_orders_found' => 'No orders found',
 
+    // order index
+    'orders' => 'Orders',
+    'total_price' => 'Total Price',
+    'order_at' => 'Order At',
+    'status' => 'Status',
+    'payment_status' => 'Payment Status',
+    'confirm' => 'Confirm',
+    'paid' => 'Paid',
+
+    // order show
+    'address' => 'Address',
+    'order_information' => 'Order Information',
+    'total_amount' => 'Total Amount',
+    'payment_information' => 'Payment Information',
+    'payment_method' => 'Payment Method',
+    'transaction_id' => 'Transaction ID',
+    'payment_date' => 'Payment Date',
+    'no_payment_information_found' => 'No payment information found for this order',
+    'unit_price' => 'Unit Price',
+    'message' => 'Message',
+    'mark_as_paid' => 'Mark as Paid',
+    'already_paid' => 'Already Paid',
+    'search_order' => 'Search Order...',
+    'all' => 'All',
+
+    //posts index
+    'posts_management' => 'Posts Management',
+    'add_new_post' => 'Add New Post',
+    'search_posts' => 'Search Posts...',
+    'clear_filter' => 'Clear Filter',
+    'title' => 'Title',
+    'author' => 'Author',
+    'visible' => 'Visible',
+    'hidden' => 'Hidden',
+    'no_posts_found' => 'No posts found.',
+
+    // posts create
+    'create_new_post' => 'Create New Post',
+    'content' => 'Content',
+    'guide' => 'Guide',
+    'image_button_title' => 'Image Button:',
+    'image_button_desc' => 'Click the Image button on the toolbar',
+    'drag_drop_title' => 'Drag & Drop:',
+    'drag_drop_desc' => 'Drag and drop image files into the editor',
+    'copy_paste_title' => 'Copy/Paste:',
+    'copy_paste_desc' => 'Paste images from the clipboard',
+    'limitations_title' => 'Limitations:',
+    'limitations_desc' => 'Max file size 10MB, formats: jpg, png, gif, webp',
+
+    //posts show
+    'post_details' => 'Post Details',
+    'back' => 'Back',
+    'by' => 'by',
+    
+
+
+
+
+
 
 
 

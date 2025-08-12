@@ -37,10 +37,10 @@ class NewOrderPending extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->subject('Yêu cầu xác nhận đơn hàng mới')
-                    ->line('Một đơn hàng mới đang chờ xác nhận.')
-                    ->line('Mã đơn hàng: #' . $this->order->id)
-                    ->action('Xem đơn hàng', url('/admin/orders/' . $this->order->id));
+                    ->subject(__('notifications.new_order_request_subject')) 
+                    ->line(__('notifications.new_order_request_line')) 
+                    ->line(__('notifications.order_code') . ' #' . $this->order->id) 
+                    ->action(__('notifications.view_order'), url('/admin/orders/' . $this->order->id)); 
     }
 
     /**
@@ -51,11 +51,12 @@ class NewOrderPending extends Notification implements ShouldQueue
     public function toArray(object $notifiable): array
     {
         return [
-            'order_id' => $this->order->id,
-            'user_name' => $this->order->user->name ?? 'Khách hàng', // Đảm bảo $this->order->user đã được load (eager loading) nếu bạn dùng dòng này
-            'message' => 'Đơn hàng #' . $this->order->id . ' đang chờ xác nhận.',
+            'order_id'  => $this->order->id,
+            'user_name' => $this->order->user->name ?? __('notifications.guest'), 
+            'message'   => __('notifications.order_waiting_confirmation', ['order_id' => $this->order->id]),
         ];
     }
+
 
     
 }

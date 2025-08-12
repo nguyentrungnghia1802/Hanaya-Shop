@@ -224,5 +224,58 @@ return [
     'no_reviews_yet' => 'まだレビューがありません。',
     'this_product_has_received_any_reviews' => 'この商品はまだレビューを受けていません。',
 
+      // order index
+    'orders' => '注文一覧',
+    'total_price' => '合計金額',
+    'order_at' => '注文日時',
+    'status' => '状態',
+    'payment_status' => '支払い状況',
+    'confirm' => '確認',
+    'paid' => '支払い済み',
+
+    // order show
+    'address' => '住所',
+    'order_information' => '注文情報',
+    'total_amount' => '合計額',
+    'payment_information' => '支払い情報',
+    'payment_method' => '支払い方法',
+    'transaction_id' => '取引ID',
+    'payment_date' => '支払い日',
+    'no_payment_information_found' => 'この注文の支払い情報が見つかりません',
+    'unit_price' => '単価',
+    'message' => 'メッセージ',
+    'mark_as_paid' => '支払い済みにする',
+    'already_paid' => 'すでに支払い済み',
+    'all' => 'すべて',
+
+     // posts index
+    'posts_management'      => '投稿管理',
+    'add_new_post'          => '新規投稿を追加',
+    'search_posts'          => '投稿を検索...',
+    'clear_filter'          => 'フィルターをクリア',
+    'title'                 => 'タイトル',
+    'author'                => '著者',
+    'visible'               => '表示',
+    'hidden'                => '非表示',
+    'no_posts_found'        => '投稿が見つかりません。',
+
+    // posts create
+    'create_new_post'       => '新しい投稿を作成',
+    'content'               => '内容',
+    'guide'                 => 'ガイド',
+    'image_button_title'    => '画像ボタン:',
+    'image_button_desc'     => 'ツールバーの画像ボタンをクリック',
+    'drag_drop_title'       => 'ドラッグ＆ドロップ:',
+    'drag_drop_desc'        => '画像ファイルをエディタにドラッグ＆ドロップ',
+    'copy_paste_title'      => 'コピー/ペースト:',
+    'copy_paste_desc'       => 'クリップボードから画像を貼り付け',
+    'limitations_title'     => '制限事項:',
+    'limitations_desc'      => '最大ファイルサイズ10MB、対応形式: jpg, png, gif, webp',
+
+    // posts show
+    'post_details'          => '投稿の詳細',
+    'back'                  => '戻る',
+    'by'                    => '作成者',
+
 
 ];

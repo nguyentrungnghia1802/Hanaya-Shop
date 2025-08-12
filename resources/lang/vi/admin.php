@@ -249,6 +249,59 @@ return [
     'no products_in_cart' => 'Không có sản phẩm nào trong giỏ',
     'orders' => 'Đơn hàng',
     'no_orders_found' => 'Không tìm thấy đơn hàng nào',
+    
+     // order index
+    'orders' => 'Đơn hàng',
+    'total_price' => 'Tổng giá',
+    'order_at' => 'Thời gian đặt hàng',
+    'status' => 'Trạng thái',
+    'payment_status' => 'Trạng thái thanh toán',
+    'confirm' => 'Xác nhận',
+    'paid' => 'Đã thanh toán',
+
+    // order show
+    'address' => 'Địa chỉ',
+    'order_information' => 'Thông tin đơn hàng',
+    'total_amount' => 'Tổng số tiền',
+    'payment_information' => 'Thông tin thanh toán',
+    'payment_method' => 'Phương thức thanh toán',
+    'transaction_id' => 'Mã giao dịch',
+    'payment_date' => 'Ngày thanh toán',
+    'no_payment_information_found' => 'Không tìm thấy thông tin thanh toán cho đơn hàng này',
+    'unit_price' => 'Đơn giá',
+    'message' => 'Tin nhắn',
+    'mark_as_paid' => 'Đánh dấu đã thanh toán',
+    'already_paid' => 'Đã thanh toán',
+    'all' => 'Tất cả',
+
+    // posts index
+    'posts_management'      => 'Quản lý bài viết',
+    'add_new_post'          => 'Thêm bài viết mới',
+    'search_posts'          => 'Tìm kiếm bài viết...',
+    'clear_filter'          => 'Xóa bộ lọc',
+    'title'                 => 'Tiêu đề',
+    'author'                => 'Tác giả',
+    'visible'               => 'Hiển thị',
+    'hidden'                => 'Ẩn',
+    'no_posts_found'        => 'Không tìm thấy bài viết nào.',
+
+    // posts create
+    'create_new_post'       => 'Tạo bài viết mới',
+    'content'               => 'Nội dung',
+    'guide'                 => 'Hướng dẫn',
+    'image_button_title'    => 'Nút Chèn Ảnh:',
+    'image_button_desc'     => 'Nhấn nút Chèn Ảnh trên thanh công cụ',
+    'drag_drop_title'       => 'Kéo & Thả:',
+    'drag_drop_desc'        => 'Kéo và thả tệp ảnh vào trình soạn thảo',
+    'copy_paste_title'      => 'Sao chép/Dán:',
+    'copy_paste_desc'       => 'Dán hình ảnh từ clipboard',
+    'limitations_title'     => 'Giới hạn:',
+    'limitations_desc'      => 'Kích thước tối đa 10MB, định dạng: jpg, png, gif, webp',
+
+    // posts show
+    'post_details'          => 'Chi tiết bài viết',
+    'back'                  => 'Quay lại',
+    'by'                    => 'bởi',
 
 
 ];

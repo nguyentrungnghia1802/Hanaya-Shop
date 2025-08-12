@@ -36,9 +36,9 @@ class OrderCancelledNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Đơn hàng đã bị hủy')
-            ->line('Đơn hàng #' . $this->order->id . ' đã bị hủy')
-            ->action('Xem đơn hàng', url('/admin/orders/' . $this->order->id));
+            ->subject(__('notifications.order_cancelled_subject')) // Đơn hàng đã bị hủy
+            ->line(__('notifications.order_cancelled_line', ['order_id' => $this->order->id])) // Đơn hàng #... đã bị hủy
+            ->action(__('notifications.view_order'), url('/admin/orders/' . $this->order->id)); // Xem đơn hàng
     }
 
     /**
@@ -49,9 +49,9 @@ class OrderCancelledNotification extends Notification implements ShouldQueue
     public function toArray(object $notifiable): array
     {
         return [
-            //
             'order_id' => $this->order->id,
-            'message' => 'Đơn hàng #' . $this->order->id . ' đã được bị hủy',
+            'message'  => __('notifications.order_cancelled_message', ['order_id' => $this->order->id]),
         ];
     }
+
 }
