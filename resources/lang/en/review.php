@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'home' => 'Home',
+    'orders' => 'Orders',
+    'write_review' => 'Write Your Review',
+    'order' => 'Order',
+    'quantity' => 'Quantity',
+    'your_rating' => 'Your Rating',
+    'your_review' => 'Your Review',
+    'add_photo' => 'Add Photo',
+    'optional' => '(Optional)',
+    'preview' => 'Preview',
+    'submit_review' => 'Submit Review',
+    'back_to_orders' => 'Back to Orders',
+    'guidelines' => 'Review Guidelines',
+    'guideline_1' => 'Be honest and specific about your experience with the product',
+    'guideline_2' => 'Focus on the product quality, packaging, and delivery experience',
+    'guideline_3' => 'Include helpful details for other customers',
+    'guideline_4' => 'Avoid offensive language or personal information',
+    'poor_rating' => 'Poor (1 star)',
+    'fair_rating' => 'Fair (2 stars)',
+    'good_rating' => 'Good (3 stars)',
+    'very_good_rating' => 'Very Good (4 stars)',
+    'excellent_rating' => 'Excellent (5 stars)',
+];
