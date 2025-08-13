@@ -10,6 +10,7 @@ return [
     'order_id'             => 'Mã đơn hàng:',
     'products'             => 'Sản phẩm:',
     'total_amount'         => 'Tổng cộng',
+    'item'                 => 'Mặt hàng',
     'items'                => 'Mặt hàng',
     'status'               => 'Trạng thái',
     'confirmed'            => 'Đã xác nhận',
@@ -47,6 +48,8 @@ return [
     'cancel_order'         => 'Hủy đơn hàng',
     'received'             => 'Đã nhận',
     'continue_shopping'    => 'Tiếp tục mua sắm',
+    'no_description_available' => 'Không có mô tả nào',
+
 
     //order controller
     'order_has_been_cancelled'            => 'Đơn hàng đã được hủy thành công.',

@@ -52,6 +52,8 @@ return [
   'edit_user' => 'ユーザーを編集',
   'user_role' => 'ユーザー権限',
   'user_status' => 'ユーザー状態',
+  'operation_successful' => '操作が成功しました',
+
 
   // user index
   'email' => 'メール',

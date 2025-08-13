@@ -88,7 +88,7 @@
                                 class="flex items-center justify-center w-10 h-10 bg-gray-200 hover:bg-gray-300 rounded-full transition-colors">
                                 <i class="fas fa-plus text-sm"></i>
                             </button>
-                            <span class="text-sm text-gray-600">/ {{ $product->stock_quantity }} available</span>
+                            <span class="text-sm text-gray-600">/ {{ $product->stock_quantity }} {{ __('product.available') }}</span>
                         </div>
                     </div>
                     <!-- Action buttons -->

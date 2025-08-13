@@ -10,6 +10,7 @@ return [
     'order_id' => 'Order ID:',
     'products' => 'Products:',
     'total_amount' => 'Total Amount',
+    'item' => 'Item',
     'items' => 'Items',
     'status' => 'Status',
     'confirmed' => 'Confirmed',
@@ -47,6 +48,7 @@ return [
     'cancel_order' => 'Cancel Order',
     'received' => 'Received',
     'continue_shopping' => 'Continue Shopping',
+    'no_description_available' => 'No description available',
 
     //order controller
     'order_has_been_cancelled' => 'Order has been cancelled successfully.',

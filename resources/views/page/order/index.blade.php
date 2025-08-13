@@ -162,7 +162,7 @@
                                                         {{ __('orders.items') }}</p>
                                                     <p class="text-lg font-bold text-gray-900">
                                                         {{ $order->orderDetail->count() }}
-                                                        {{ $order->orderDetail->count() === 1 ? 'item' : 'items' }}</p>
+                                                        {{ $order->orderDetail->count() === 1 ? __('orders.item') : __('orders.items') }}</p>
                                                 </div>
                                                 <div class="bg-gray-50 rounded-lg p-3">
                                                     <p

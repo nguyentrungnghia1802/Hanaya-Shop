@@ -2,14 +2,14 @@
 
 @section('header')
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        {{ __('Users') }}
+        {{ __('admin.users') }}
     </h2>
 @endsection
 
 @section('content')
     <div id="successMsg"
         class="hidden fixed bottom-5 right-5 bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded mb-4">
-        Operation successful!
+        {{ __('admin.operation_successful') }}
     </div>
 
     <div class="py-12 px-2 sm:px-4">

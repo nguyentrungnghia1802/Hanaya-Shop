@@ -28,6 +28,7 @@ return [
     'keyword' => 'キーワード:',
     'type' => 'タイプ:',
     'loading_products' => '商品を読み込み中...',
+    'available' => '在庫あり',
 
     // Product Details
     'product_details' => '商品詳細',
