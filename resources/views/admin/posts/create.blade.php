@@ -37,7 +37,7 @@
                 </div>
                 <div class="flex gap-2">
                     <button type="submit" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700">{{ __('admin.update') }}</button>
-                    <button type="button" data-confirm-cancel data-redirect-url="{{ route('admin.post.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancel</button>
+                    <button type="button" data-confirm-cancel data-redirect-url="{{ route('admin.post.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">{{ __('admin.cancel') }}</button>
                 </div>
             </form>
         @else

@@ -28,7 +28,8 @@ return [
     'keyword' => 'Keyword:',
     'type' => 'Type:',
     'loading_products' => 'Loading products...',
-    
+    'available' => 'available',
+
     // Product Details
     'product_details' => 'Product Details',
     'product_description' => 'Product Description',

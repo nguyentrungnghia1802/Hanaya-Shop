@@ -52,6 +52,7 @@ return [
     'edit_user' => 'Edit User',
     'user_role' => 'User Role',
     'user_status' => 'User Status',
+    'operation_successful' => 'Operation successful',
 
     // Common actions
     'create' => 'Create',
