@@ -51,7 +51,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store');
 
     Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
-    Route::get('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
+    Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
 
     // Review routes
     Route::get('/review/create', [ReviewController::class, 'create'])->name('review.create');

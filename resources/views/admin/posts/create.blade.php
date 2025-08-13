@@ -199,12 +199,8 @@ tinymce.init({
             }
         });
     },
-    contextmenu: 'link image table',
-    mobile: {
-        theme: 'mobile',
-        plugins: ['autosave', 'lists', 'autolink'],
-        toolbar: ['undo', 'bold', 'italic', 'styleselect']
-    }
+    contextmenu: 'link image table'
+
 });
 
 function getContent() {
