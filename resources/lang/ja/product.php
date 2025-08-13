@@ -183,4 +183,18 @@ return [
     'remove' => '削除',
     'cart_empty_message' => 'カートは現在空です。',
     'start_shopping' => 'ショッピングを開始',
+
+    //Product Detail
+    'views' => '閲覧数',
+    'choose_quantity' => '数量を選択',
+    'sign_in_required' => 'サインインが必要です',
+    'sign_in_message' => '商品をカートに追加し、購入するにはサインインしてください',
+    'sign_in' => 'サインイン',
+    'create_account' => 'アカウントを作成',
+    'free_shipping' => '送料無料',
+    'return_policy' => '7日以内に返品',
+    'warranty' => '公式保証',
+    '24_7_support' => '24/7サポート',
+    'reviews' => 'レビュー',
+    'no_reviews_yet' => 'まだレビューはありません',
 ];
