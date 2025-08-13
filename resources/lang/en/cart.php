@@ -23,6 +23,8 @@ return [
     'free_shipping' => 'Free Shipping',
     'calculate_shipping' => 'Calculate Shipping',
     'enter_zip_code' => 'Enter ZIP code',
+    'select_all' => 'Select All',
+    'delete' => 'Delete',
 
     //alerts
     'out_of_stock_alert' => 'Out of Stock',
