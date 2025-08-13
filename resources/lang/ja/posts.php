@@ -54,8 +54,9 @@ return [
     'your_email' => 'メールアドレス',
     'your_comment' => 'コメント',
     'required_fields' => '必須フィールドは*でマークされています',
-    
+
     // Search & Filter
+    'search_posts_placeholder' => '投稿を検索...',
     'search_posts' => '投稿を検索',
     'search_results' => '検索結果',
     'filter_by_date' => '日付でフィルター',
