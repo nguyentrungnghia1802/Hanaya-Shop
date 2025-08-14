@@ -286,7 +286,7 @@
                                             class="text-lg font-semibold text-gray-900 mb-1 group-hover:text-pink-600 transition-colors">
                                             {{ $detail->product->name ?? 'Product Not Found' }}</h4>
                                         <p class="text-sm text-gray-600 mb-2">
-                                            {{ $detail->product->description ?? 'No description available' }}</p>
+                                            {{ $detail->product->description ?? __('orders.no_description_available') }}</p>
                                     </a>
                                     <div class="flex items-center space-x-4 text-sm text-gray-500">
                                         <span>{{ __('orders.quantity') }} {{ $detail->quantity }}</span>
@@ -431,7 +431,7 @@
 
                 <div class="divide-y divide-gray-200">
                     <div class="p-6">
-                        <p class="text-gray-700">{{ $order->message ?? 'No message provided' }}</p>
+                        <p class="text-gray-700">{{ $order->message ?? __('orders.no_message') }}</p>
                     </div>
                 </div>
                 

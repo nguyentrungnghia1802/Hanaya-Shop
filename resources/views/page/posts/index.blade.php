@@ -25,7 +25,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 @forelse($posts as $post)
                     <div class="bg-white rounded-lg shadow p-6 flex flex-col">
-                        <a href="{{ route('posts.show', $post->slug) }}">
+                        <a href="{{ route('posts.show', $post->id) }}">
                             @if ($post->image)
                                 <img src="{{ asset('images/posts/' . $post->image) }}" alt="{{ $post->title }}"
                                     class="h-48 w-full object-cover rounded mb-4">
@@ -36,7 +36,7 @@
                             {{ $post->author->name ?? 'Admin' }}</div>
                         <div class="text-gray-700 line-clamp-3">
                             {{ Str::limit(html_entity_decode(strip_tags($post->content)), 120) }}</div>
-                        <a href="{{ route('posts.show', $post->slug) }}"
+                        <a href="{{ route('posts.show', $post->id) }}"
                             class="mt-4 text-pink-600 hover:underline">{{ __('posts.read_more') }}</a>
                     </div>
                 @empty

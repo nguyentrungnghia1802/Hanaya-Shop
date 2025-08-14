@@ -19,11 +19,11 @@
     @if($posts->count() > 0)
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($posts as $post)
-                <a href="{{ route('posts.show', $post->slug) }}" class="group cursor-pointer bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden block focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <a href="{{ route('posts.show', $post->id) }}" class="group cursor-pointer bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden block focus:outline-none focus:ring-2 focus:ring-blue-400">
                     <div class="relative overflow-hidden rounded-t-xl mb-3">
                         <img src="{{ $post->image ? asset('images/posts/' . $post->image) : asset('fixed_resources/default-post.jpg') }}" 
-                             alt="{{ $post->title }}" 
-                             class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+                            alt="{{ $post->title }}" 
+                            class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
                         <div class="absolute top-3 left-3">
                             <span class="bg-blue-600 text-white text-xs px-2 py-1 rounded-full shadow-lg">
                                 {{ $post->created_at->format('d/m/Y') }}

@@ -171,7 +171,7 @@
                             <input type="checkbox" id="select-all-mobile" title="Select All"
                                 class="accent-pink-500 w-5 h-5">
                             {{-- Select All Label - Clear text for user understanding --}}
-                            <span class="font-semibold text-gray-700">Select All</span>
+                            <span class="font-semibold text-gray-700">{{ __('cart.select_all') }}</span>
                         </div>
                         {{-- Mobile Cart Items Loop - Card-based layout for each product --}}
                         @foreach ($cart as $id => $item)
@@ -246,7 +246,7 @@
                                     </div>
                                     {{-- Mobile Delete Action - Remove item from cart --}}
                                     <a href="{{ route('cart.remove', $id) }}"
-                                        class="text-red-600 hover:underline font-medium">Delete</a>
+                                        class="text-red-600 hover:underline font-medium">{{ __('cart.delete') }}</a>
                                 </div>
                             </div>
                         @endforeach
@@ -315,7 +315,7 @@
     - Validation and error handling
     --}}
     <script>
-        {{-- Document Ready Handler - Initialize cart functionality when page loads --}}
+        // {{-- Document Ready Handler - Initialize cart functionality when page loads --}}
         document.addEventListener("DOMContentLoaded", function() {
             {{-- DOM Element References - Get key elements for cart functionality --}}
             const totalPriceEl = document.getElementById('totalPrice');           // Total display elements
@@ -323,22 +323,22 @@
             const selectAllMobile = document.getElementById('select-all-mobile'); // Mobile select all checkbox
             const checkoutForm = document.getElementById('checkout-form');        // Main checkout form
 
-            {{-- 
-            Currency Formatting Function
-            Formats numbers as Vietnamese locale with USD suffix for consistent display
-            @param {number} value - The numeric value to format
-            @returns {string} Formatted currency string
-            --}}
+            // {{-- 
+            // Currency Formatting Function
+            // Formats numbers as Vietnamese locale with USD suffix for consistent display
+            // @param {number} value - The numeric value to format
+            // @returns {string} Formatted currency string
+            // --}}
             function formatCurrency(value) {
                 return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
             }
 
-            {{-- 
-            Update Total Calculation Function
-            Calculates and updates the total price based on selected items and their quantities
-            Prevents duplicate counting by tracking processed item IDs
-            Updates all total display elements (desktop and mobile)
-            --}}
+            // {{-- 
+            // Update Total Calculation Function
+            // Calculates and updates the total price based on selected items and their quantities
+            // Prevents duplicate counting by tracking processed item IDs
+            // Updates all total display elements (desktop and mobile)
+            // --}}
             function updateTotal() {
                 let total = 0;                    // Running total accumulator
                 const checkedIds = new Set();    // Track processed items to prevent duplicates
@@ -362,13 +362,13 @@
                 });
             }
 
-            {{-- 
-            Update Checkbox Price Data Function
-            Updates the data-price attribute of checkboxes when quantities change
-            This ensures accurate total calculations after quantity modifications
-            @param {string} id - The cart item ID
-            @param {number} newTotal - The new total price for this item
-            --}}
+            // {{-- 
+            // Update Checkbox Price Data Function
+            // Updates the data-price attribute of checkboxes when quantities change
+            // This ensures accurate total calculations after quantity modifications
+            // @param {string} id - The cart item ID
+            // @param {number} newTotal - The new total price for this item
+            // --}}
             function updateCheckboxPrice(id, newTotal) {
                 const cb = document.querySelector(`.cart-checkbox[data-id="${id}"]`);
                 if (cb) {
@@ -376,13 +376,13 @@
                 }
             }
 
-            {{-- 
-            Update Item Total Display Function
-            Updates the displayed line total for a specific cart item
-            @param {string} id - The cart item ID
-            @param {number} quantity - Current quantity
-            @param {number} price - Unit price
-            --}}
+            // {{-- 
+            // Update Item Total Display Function
+            // Updates the displayed line total for a specific cart item
+            // @param {string} id - The cart item ID
+            // @param {number} quantity - Current quantity
+            // @param {number} price - Unit price
+            // --}}
             function updateItemTotal(id, quantity, price) {
                 const totalCell = document.querySelector(`.item-total[data-id="${id}"]`);
                 if (totalCell) {
@@ -391,7 +391,7 @@
                 }
             }
 
-            {{-- Quantity Increase Button Event Handlers - Handle + button clicks --}}
+            // {{-- Quantity Increase Button Event Handlers - Handle + button clicks --}}
             document.querySelectorAll('.btn-increase').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const id = this.dataset.id;  // Get item ID from button data
@@ -407,7 +407,7 @@
                 });
             });
 
-            {{-- Quantity Decrease Button Event Handlers - Handle - button clicks --}}
+            // {{-- Quantity Decrease Button Event Handlers - Handle - button clicks --}}
             document.querySelectorAll('.btn-decrease').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const id = this.dataset.id;  // Get item ID from button data
@@ -425,7 +425,7 @@
                 });
             });
 
-            {{-- Manual Quantity Input Event Handlers - Handle direct input changes --}}
+            // {{-- Manual Quantity Input Event Handlers - Handle direct input changes --}}
             document.querySelectorAll('.quantity-input').forEach(input => {
                 input.addEventListener('input', function() {
                     const id = this.dataset.id;      // Get item ID from input data
@@ -439,7 +439,7 @@
                 });
             });
 
-            {{-- Desktop Select All Functionality - Handle desktop select all checkbox --}}
+            // {{-- Desktop Select All Functionality - Handle desktop select all checkbox --}}
             if (selectAllCheckbox) {
                 selectAllCheckbox.addEventListener('change', function() {
                     const isChecked = this.checked;  // Get current checked state
@@ -453,7 +453,7 @@
                 });
             }
 
-            {{-- Mobile Select All Functionality - Handle mobile select all checkbox --}}
+            // {{-- Mobile Select All Functionality - Handle mobile select all checkbox --}}
             if (selectAllMobile) {
                 selectAllMobile.addEventListener('change', function() {
                     const isChecked = this.checked;  // Get current checked state
@@ -467,7 +467,7 @@
                 });
             }
 
-            {{-- Individual Checkbox Change Handlers - Update select all status when individual items change --}}
+            // {{-- Individual Checkbox Change Handlers - Update select all status when individual items change --}}
             document.querySelectorAll('.cart-checkbox').forEach(cb => {
                 cb.addEventListener('change', function() {
                     // Check if all checkboxes are selected to update select all status
@@ -481,11 +481,11 @@
                 });
             });
 
-            {{-- 
-            Form Submission Handler - Prepare checkout data when form is submitted
-            Collects all selected items with their details and packages them as JSON
-            for backend processing in the checkout flow
-            --}}
+            // {{-- 
+            // Form Submission Handler - Prepare checkout data when form is submitted
+            // Collects all selected items with their details and packages them as JSON
+            // for backend processing in the checkout flow
+            // --}}
             checkoutForm.addEventListener('submit', function(e) {
                 const checkedCheckboxes = document.querySelectorAll('.cart-checkbox:checked');
                 const selectedItems = [];        // Array to hold selected item data
@@ -544,7 +544,7 @@
                 document.getElementById('selected_items_json').value = JSON.stringify(selectedItems);
             });
 
-            {{-- Initialize total calculation on page load --}}
+            // {{-- Initialize total calculation on page load --}}
             updateTotal();
         });
     </script>
