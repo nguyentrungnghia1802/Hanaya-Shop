@@ -1,0 +1,28 @@
+name: Block invalid PRs
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  block_invalid_pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Block PRs from deploy/tests to main/develop
+        if: |
+          (github.head_ref == 'deploy' || github.head_ref == 'tests') &&
+          (github.base_ref == 'main' || github.base_ref == 'develop')
+        run: |
+          echo "PRs from 'deploy' or 'tests' to 'main' or 'develop' are not allowed."
+          gh pr close "$GITHUB_REF" --comment "PRs from 'deploy' or 'tests' branch to 'main' or 'develop' are not allowed."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Block PRs to main except from develop
+        if: |
+          github.base_ref == 'main' && github.head_ref != 'develop'
+        run: |
+          echo "Only 'develop' can create PRs to 'main'."
+          gh pr close "$GITHUB_REF" --comment "Only 'develop' branch can create PRs to 'main'."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
