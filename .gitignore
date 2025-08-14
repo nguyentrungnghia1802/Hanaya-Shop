@@ -28,7 +28,5 @@ yarn-debug.log
 .DS_Store
 Thumbs.db
 
-#Copilot
-.github/
 # host address
 public/hot
