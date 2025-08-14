@@ -53,6 +53,8 @@ return [
   'user_role' => 'ユーザー権限',
   'user_status' => 'ユーザー状態',
   'operation_successful' => '操作が成功しました',
+  'message_account_delete' => 'アカウントが正常に削除されました！',
+  'message_selected_account_delete' => '選択したアカウントが正常に削除されました！',
 
 
   // user index

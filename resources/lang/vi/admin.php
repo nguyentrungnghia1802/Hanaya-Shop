@@ -75,6 +75,8 @@ return [
     'operation_failed' => 'Thao tác thất bại!',
     'confirm_delete' => 'Bạn có chắc muốn xóa mục này?',
     'no_data' => 'Không có dữ liệu',
+    'message_account_delete' => 'Tài khoản đã được xóa thành công!',
+    'message_selected_account_delete' => 'Các tài khoản đã chọn đã được xóa thành công!',
 
     // Status
     'active' => 'Hoạt động',
