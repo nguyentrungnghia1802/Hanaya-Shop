@@ -52,6 +52,8 @@ return [
     'edit_user' => 'Chỉnh sửa người dùng',
     'user_role' => 'Vai trò',
     'user_status' => 'Trạng thái người dùng',
+    'message_account_delete' => 'Tài khoản đã được xóa thành công!',
+    'message_selected_account_delete' => 'Các tài khoản đã chọn đã được xóa thành công!',
 
     // Common actions
     'create' => 'Tạo',
