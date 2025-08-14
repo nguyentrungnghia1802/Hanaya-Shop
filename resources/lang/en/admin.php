@@ -6,7 +6,7 @@ return [
     'admin_panel' => 'Admin Panel',
     'overview' => 'Overview',
     'statistics' => 'Statistics',
-    
+
     // Menu items
     'products' => 'Products',
     'orders' => 'Orders',
@@ -15,7 +15,7 @@ return [
     'posts' => 'Posts',
     'settings' => 'Settings',
     'reports' => 'Reports',
-    
+
     // Product management
     'product_management' => 'Product Management',
     'add_product' => 'Add Product',
@@ -28,7 +28,7 @@ return [
     'product_image' => 'Product Image',
     'product_category' => 'Product Category',
     'product_stock' => 'Stock Quantity',
-    
+
     // Order management
     'order_management' => 'Order Management',
     'order_list' => 'Order List',
@@ -44,7 +44,7 @@ return [
     'payment_update_error' => 'Error updating payment status',
     'order_cancelled_successfully' => 'Order has been cancelled successfully',
     'order_cancel_error' => 'An error occurred while cancelling the order',
-    
+
     // User management
     'user_management' => 'User Management',
     'user_list' => 'User List',
@@ -52,6 +52,8 @@ return [
     'edit_user' => 'Edit User',
     'user_role' => 'User Role',
     'user_status' => 'User Status',
+    'message_account_delete' => 'Account deleted successfully!',
+    'message_selected_account_delete' => 'Selected accounts deleted successfully!',
     
     // Common actions
     'create' => 'Create',
@@ -73,14 +75,14 @@ return [
     'operation_failed' => 'Operation failed!',
     'confirm_delete' => 'Are you sure you want to delete this item?',
     'no_data' => 'No data available',
-    
+
     // Status
     'active' => 'Active',
     'inactive' => 'Inactive',
     'pending' => 'Pending',
     'approved' => 'Approved',
     'rejected' => 'Rejected',
-    
+
     // Navigation
     'profile' => 'Profile',
     'admin_dashboard' => 'Admin Dashboard',
@@ -203,19 +205,19 @@ return [
     'this_product_has_received_any_reviews' => 'This product has not received any reviews yet.',
 
 
-     // user index
-     'email' => 'Email',
-     'role' => 'Role',
-     'search_for_a_user' => 'Search for a user...',
-      
-     // user create
-     'add_user_account' => 'Add User Account',
-     'password' => 'Password',
-     'user' => 'User',
-     'admin' => 'Admin',
-     'add_row' => 'Add Row',
+    // user index
+    'email' => 'Email',
+    'role' => 'Role',
+    'search_for_a_user' => 'Search for a user...',
 
-     //user edit
+    // user create
+    'add_user_account' => 'Add User Account',
+    'password' => 'Password',
+    'user' => 'User',
+    'admin' => 'Admin',
+    'add_row' => 'Add Row',
+
+    //user edit
     'edit_user_account' => 'Edit User Account ',
     'new_password' => 'New Password (leave blank to keep current password)',
 
@@ -226,10 +228,8 @@ return [
     'no_orders_found' => 'No orders found',
 
     // order index
-    'orders' => 'Orders',
     'total_price' => 'Total Price',
     'order_at' => 'Order At',
-    'status' => 'Status',
     'payment_status' => 'Payment Status',
     'confirm' => 'Confirm',
     'paid' => 'Paid',
@@ -278,28 +278,4 @@ return [
     'post_details' => 'Post Details',
     'back' => 'Back',
     'by' => 'by',
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ];

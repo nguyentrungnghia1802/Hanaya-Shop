@@ -149,7 +149,7 @@
                 {{ __('common.orders') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('posts.index')" :active="request()->routeIs('posts*')">
-                Posts
+                {{ __('common.posts') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('user.about')" :active="request()->routeIs('user.about')">
                 {{ __('common.about') }}

@@ -52,6 +52,8 @@ return [
     'edit_user' => 'Chỉnh sửa người dùng',
     'user_role' => 'Vai trò',
     'user_status' => 'Trạng thái người dùng',
+    'operation_successful' => 'Thao tác thành công',
+
 
     // Common actions
     'create' => 'Tạo',
@@ -73,6 +75,8 @@ return [
     'operation_failed' => 'Thao tác thất bại!',
     'confirm_delete' => 'Bạn có chắc muốn xóa mục này?',
     'no_data' => 'Không có dữ liệu',
+    'message_account_delete' => 'Tài khoản đã được xóa thành công!',
+    'message_selected_account_delete' => 'Các tài khoản đã chọn đã được xóa thành công!',
 
     // Status
     'active' => 'Hoạt động',
@@ -202,33 +206,28 @@ return [
     'no_reviews_yet' => 'Chưa có đánh giá nào.',
     'this_product_has_received_any_reviews' => 'Sản phẩm này chưa nhận được đánh giá nào.',
 
-   // user index
+    // user index
     'email' => 'Email',
     'role' => 'Vai trò',
     'search_for_a_user' => 'Tìm kiếm người dùng...',
-
     // user create
     'add_user_account' => 'Thêm tài khoản người dùng',
     'password' => 'Mật khẩu',
     'user' => 'Người dùng',
     'admin' => 'Quản trị viên',
     'add_row' => 'Thêm hàng',
-
     // user edit
     'edit_user_account' => 'Chỉnh sửa tài khoản người dùng',
     'new_password' => 'Mật khẩu mới (để trống nếu muốn giữ nguyên mật khẩu hiện tại)',
-
     // user show
     'account_details' => 'Chi tiết tài khoản',
     'cart' => 'Giỏ hàng',
     'no_products_in_cart' => 'Không có sản phẩm nào trong giỏ',
     'no_orders_found' => 'Không tìm thấy đơn hàng nào',
-    
-     // order index
-    'orders' => 'Đơn hàng',
+
+    // order index
     'total_price' => 'Tổng giá',
     'order_at' => 'Thời gian đặt hàng',
-    'status' => 'Trạng thái',
     'payment_status' => 'Trạng thái thanh toán',
     'confirm' => 'Xác nhận',
     'paid' => 'Đã thanh toán',
@@ -276,6 +275,4 @@ return [
     'post_details'          => 'Chi tiết bài viết',
     'back'                  => 'Quay lại',
     'by'                    => 'bởi',
-
-
 ];

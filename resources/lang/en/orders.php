@@ -10,6 +10,7 @@ return [
     'order_id' => 'Order ID:',
     'products' => 'Products:',
     'total_amount' => 'Total Amount',
+    'item' => 'Item',
     'items' => 'Items',
     'status' => 'Status',
     'confirmed' => 'Confirmed',
@@ -27,7 +28,6 @@ return [
     'order_canceled_message' => 'This order has been canceled and any payment has been',
     'order_information' => 'Order Information',
     'order_date' => 'Order Date:',
-    'total_amount' => 'Total Amount:',
     'customer_information' => 'Customer Information',
     'full_name' => 'Full Name:',
     'email' => 'Email:',
@@ -48,6 +48,7 @@ return [
     'cancel_order' => 'Cancel Order',
     'received' => 'Received',
     'continue_shopping' => 'Continue Shopping',
+    'no_description_available' => 'No description available',
 
     //order controller
     'order_has_been_cancelled' => 'Order has been cancelled successfully.',
@@ -59,8 +60,5 @@ return [
     'product_not_found_in_order' => 'Product not found in this order.',
     'already_reviewed' => 'You have already reviewed this product for this order.',
     'review_submitted_successfully' => 'Review submitted successfully!',
-    'order_not_found' => 'Order not found.',
     'product_not_found' => 'Product not found.',
-    'product_not_found_in_order' => 'Product not found in this order.',
-    
 ];

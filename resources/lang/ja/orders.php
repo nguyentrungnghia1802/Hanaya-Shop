@@ -10,6 +10,7 @@ return [
     'order_id'             => '注文ID：',
     'products'             => '商品：',
     'total_amount'         => '合計金額',
+    'item'                 => 'アイテム',
     'items'                => 'アイテム数',
     'status'               => 'ステータス',
     'confirmed'            => '確認済み',
@@ -19,6 +20,8 @@ return [
     'no_orders_yet'        => 'まだ注文がありません',
     'you_have_not'         => 'まだ注文をしていません。今すぐショッピングを始めましょう！',
     'start_shopping'       => 'ショッピングを始める',
+    'no_description_available' => '説明はありません',
+
 
     // Page order show
     'order_details'        => '注文の詳細',
@@ -49,15 +52,14 @@ return [
     'continue_shopping'    => '買い物を続ける',
 
     //order controller
-    'order_has_been_cancelled'            => 'Đơn hàng đã được hủy thành công.',
-    'order_has_been_marked_as_received'   => 'Đơn hàng đã được đánh dấu là đã nhận thành công.',
+    'order_has_been_cancelled'            => '注文は正常にキャンセルされました。',
+    'order_has_been_marked_as_received'   => '注文は受け取り済みに設定されました。',
 
     //review controller
-    'order_not_found'                     => 'Không tìm thấy đơn hàng hoặc bạn không có quyền truy cập.',
-    'can_only_review_shipped_orders'      => 'Bạn chỉ có thể đánh giá sản phẩm trong các đơn hàng đã được giao.',
-    'product_not_found_in_order'          => 'Không tìm thấy sản phẩm trong đơn hàng này.',
-    'already_reviewed'                    => 'Bạn đã đánh giá sản phẩm này cho đơn hàng này.',
-    'review_submitted_successfully'       => 'Đánh giá đã được gửi thành công!',
-    'product_not_found'                   => 'Không tìm thấy sản phẩm.',
-
+    'order_not_found'                     => '注文が見つからないか、アクセス権がありません。',
+    'can_only_review_shipped_orders'      => '発送済みの注文の商品にのみレビューできます。',
+    'product_not_found_in_order'          => 'この注文に商品が見つかりません。',
+    'already_reviewed'                    => 'この注文の商品はすでにレビュー済みです。',
+    'review_submitted_successfully'       => 'レビューが正常に送信されました！',
+    'product_not_found'                   => '商品が見つかりません。',
 ];

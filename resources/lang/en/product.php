@@ -28,7 +28,8 @@ return [
     'keyword' => 'Keyword:',
     'type' => 'Type:',
     'loading_products' => 'Loading products...',
-    
+    'available' => 'available',
+
     // Product Details
     'product_details' => 'Product Details',
     'product_description' => 'Product Description',
@@ -183,4 +184,19 @@ return [
     'remove' => 'Remove',
     'cart_empty_message' => 'Your cart is currently empty.',
     'start_shopping' => 'Start Shopping',
+
+    //Product Detail
+    'views' => 'Views',
+    'choose_quantity' => 'Choose Number of Products',
+    'sign_in_required' => 'Sign in required',
+    'sign_in_message' => 'Please sign in to add products to cart and make purchases',
+    'sign_in' => 'Sign In',
+    'create_account' => 'Create Account',
+    'free_shipping' => 'Free Shipping',
+    'return_policy' => 'Return within 7 days',
+    'warranty' => 'Official Warranty',
+    '24_7_support' => '24/7 Support',
+    'reviews' => 'reviews',
+    'no_reviews_yet' => 'No reviews yet',
+
 ];
