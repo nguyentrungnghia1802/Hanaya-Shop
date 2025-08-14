@@ -31,9 +31,9 @@ class PostController extends Controller
         return view('page.posts.index', compact('posts'));
     }
 
-    public function show($slug)
+    public function show($id)
     {
-        $post = Post::where('slug', $slug)->where('status', true)->firstOrFail();
+        $post = Post::where('id', $id)->where('status', true)->with('author')->firstOrFail();
         return view('page.posts.show', compact('post'));
     }
 }

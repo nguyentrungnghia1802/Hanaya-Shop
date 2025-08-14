@@ -17,13 +17,13 @@
     $defaultMethod =
         isset($paymentMethods) && count($paymentMethods) > 0
             ? ucfirst(str_replace('_', ' ', $paymentMethods[0]))
-            : 'Không có phương thức';
+            : __('checkout.no_method');
 
 @endphp
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Thanh toán') }}
+            {{ __('checkout.title') }}
         </h2>
     </x-slot>
     <x-alert />
@@ -32,7 +32,7 @@
 
         {{-- Address Information --}}
         <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-2">Address Information</h3>
+            <h3 class="text-lg font-semibold text-gray-800 mb-2">{{ __('checkout.address_information') }}</h3>
             <h4 class="text-gray-700 leading-relaxed mb-4">
                 <span class="block font-medium">{{ $userName }}</span>
 
@@ -51,12 +51,12 @@
 
             <button id="toggle-address-list"
                 class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition">
-                Change Address
+                {{ __('checkout.change_address') }}
             </button>
 
             <button id="open-address-form"
                 class="bg-green-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition">
-                Add Address
+                {{ __('checkout.add_address') }}
             </button>
         </div>
 
@@ -66,11 +66,11 @@
                 <table class="min-w-full text-xs sm:text-sm">
                     <thead>
                         <tr>
-                            <th class="py-2 px-4 border-b">Images</th>
-                            <th class="py-2 px-4 border-b">Product Name</th>
-                            <th class="py-2 px-4 border-b">Price</th>
-                            <th class="py-2 px-4 border-b">Quantity</th>
-                            <th class="py-2 px-4 border-b">Total</th>
+                            <th class="py-2 px-4 border-b">{{ __('checkout.images') }}</th>
+                            <th class="py-2 px-4 border-b">{{ __('checkout.product_name') }}</th>
+                            <th class="py-2 px-4 border-b">{{ __('checkout.price') }}</th>
+                            <th class="py-2 px-4 border-b">{{ __('checkout.quantity') }}</th>
+                            <th class="py-2 px-4 border-b">{{ __('checkout.total') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -108,13 +108,13 @@
                             </tr>
                         @endforeach
                         <tr>
-                            <td colspan="4" class="text-right font-bold py-2 px-4">Total:</td>
+                            <td colspan="4" class="text-right font-bold py-2 px-4">{{ __('checkout.total') }}</td>
                             <td class="font-bold py-2 px-4">${{ number_format($total, 2, '.', ',') }}</td>
                         </tr>
                     </tbody>
                 </table>
             @else
-                <p>No products selected for checkout.</p>
+                <p>{{ __('checkout.no_products') }}</p>
             @endif
         </div>
 
@@ -122,12 +122,12 @@
         <div class="bg-white rounded-xl shadow-md p-4 sm:p-6">
             <div class="flex items-center justify-between flex-wrap gap-2 mb-4">
                 <div>
-                    <h3 class="text-lg font-semibold text-gray-800">Payment Method:</h3>
+                    <h3 class="text-lg font-semibold text-gray-800">{{ __('checkout.payment_method') }}</h3>
                     <h4 class="text-gray-700" id="current-method">{{ $defaultMethod }}</h4>
                 </div>
                 <button id="change-method-btn" type="button"
                     class="bg-pink-600 text-white px-3 sm:px-4 py-2 rounded hover:bg-pink-700 transition whitespace-nowrap w-full sm:w-auto">
-                    Change
+                    {{ __('checkout.change_method') }}
                 </button>
             </div>
 
@@ -135,31 +135,31 @@
                 <!-- Subtotal before discount -->
                 @if ($totalSavings > 0)
                     <div class="flex items-center justify-between flex-wrap gap-2 mb-2 text-xs sm:text-base">
-                        <h3 class="text-lg font-medium text-gray-600">Original Subtotal:</h3>
+                        <h3 class="text-lg font-medium text-gray-600">{{ __('checkout.original_subtotal') }}</h3>
                         <p class="text-lg text-gray-500 line-through">${{ number_format($originalTotal, 2, '.', ',') }}</p>
                     </div>
                 @endif
                 
                 <!-- Subtotal after discount -->
                 <div class="flex items-center justify-between flex-wrap gap-2 mb-4 text-xs sm:text-base">
-                    <h3 class="text-lg font-semibold text-gray-800">Subtotal:</h3>
+                    <h3 class="text-lg font-semibold text-gray-800">{{ __('checkout.subtotal') }}</h3>
                     <p class="text-xl font-bold text-pink-600">${{ number_format($total, 2, '.', ',') }}</p>
                 </div>
                 
                 <!-- Savings -->
                 @if ($totalSavings > 0)
                     <div class="flex items-center justify-between flex-wrap gap-2 mb-4 text-xs sm:text-base">
-                        <h3 class="text-lg font-medium text-green-600">You Save:</h3>
+                        <h3 class="text-lg font-medium text-green-600">{{ __('checkout.you_save') }}</h3>
                         <p class="text-lg font-bold text-green-600">-${{ number_format($totalSavings, 2, '.', ',') }}</p>
                     </div>
                 @endif
                 
                 <div class="flex items-center justify-between flex-wrap gap-2 mb-4 text-xs sm:text-base">
-                    <h3 class="text-lg font-semibold text-gray-800">Shipping Fee:</h3>
+                    <h3 class="text-lg font-semibold text-gray-800">{{ __('checkout.shipping_fee') }}</h3>
                     <p class="text-xl font-bold text-pink-600">$8.00</p>
                 </div>
                 <div class="flex items-center justify-between flex-wrap gap-2 mb-4 text-xs sm:text-base border-t pt-4">
-                    <h3 class="text-lg font-semibold text-gray-800">Total Payment:</h3>
+                    <h3 class="text-lg font-semibold text-gray-800">{{ __('checkout.total_payment') }}</h3>
                     <p class="text-xl font-bold text-pink-800">${{ number_format($total + 8, 2, '.', ',') }}</p>
                 </div>
             </div>
@@ -174,9 +174,9 @@
 
                 <input type="hidden" name="address_id" id="selected_address_id" value="{{ $firstAddress->id ?? '' }}">
 
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">Note:</h3>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">{{ __('checkout.note') }}</h3>
                 <textarea name="note" class="w-full p-2 border rounded text-xs sm:text-sm mb-4" rows="4"
-                    placeholder="Enter your note...">{{ old('note') }}</textarea>
+                    placeholder="{{ __('checkout.enter_your_note') }}">{{ old('note') }}</textarea>
 
                 <div class="mt-6">
                     <div id="payment-methods-container" class="space-y-4">
@@ -189,9 +189,9 @@
                 <div class="mt-6">
                     <button id="direct-submit-btn" type="submit"
                         class="bg-orange-600 text-white px-3 sm:px-4 py-2 rounded w-full sm:w-auto">
-                        Place Order
+                        {{ __('checkout.place_order') }}
                     </button>
-                    <p class="text-xs text-gray-500 mt-2">Or select a payment method from the options above</p>
+                    <p class="text-xs text-gray-500 mt-2">{{ __('checkout.or_select_payment_method') }}</p>
                 </div>
             </form>
 
@@ -205,7 +205,7 @@
     <div id="method-selection" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
         <div class="flex items-center justify-center h-full">
             <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-md">
-                <h3 class="text-lg font-semibold text-gray-800 mb-4 text-center">Select Payment Method</h3>
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 text-center">{{ __('checkout.select_payment_method') }}</h3>
                 <div class="flex flex-wrap justify-center gap-3">
                     @foreach ($paymentMethods as $method)
                         <button type="button"
@@ -244,7 +244,7 @@
                 </div>
                 <div class="mt-4 text-center">
                     <button id="close-method-selection"
-                        class="mt-4 text-sm text-gray-500 hover:underline hover:text-gray-700">Cancel</button>
+                        class="mt-4 text-sm text-gray-500 hover:underline hover:text-gray-700">{{ __('checkout.cancel') }}</button>
                 </div>
             </div>
         </div>
@@ -254,48 +254,48 @@
     <div id="address-form-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
         <div class="flex items-center justify-center h-full">
             <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-lg">
-                <h3 class="text-lg font-semibold text-gray-800 mb-4 text-center">Add Shipping Address</h3>
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 text-center">{{ __('checkout.add_shipping_address') }}</h3>
 
                 <div class="mb-4">
-                    <label class="block mb-1 text-gray-700">Phone Number</label>
+                    <label class="block mb-1 text-gray-700">{{ __('checkout.phone_number') }}</label>
                     <input id="phone_number" type="text" class="w-full border rounded px-3 py-2"
-                        placeholder="Enter phone number" required>
+                        placeholder="{{ __('checkout.enter_phone_number') }}" required>
                 </div>
 
                 <div class="mb-4">
-                    <label class="block mb-1 text-gray-700">City/Province</label>
+                    <label class="block mb-1 text-gray-700">{{ __('checkout.city_province') }}</label>
                     <select id="province" class="w-full border rounded px-3 py-2" required>
-                        <option value="">-- Select Province --</option>
+                        <option value="">{{ __('checkout.select_province') }}</option>
                     </select>
                 </div>
 
                 <div class="mb-4">
-                    <label class="block mb-1 text-gray-700">District</label>
+                    <label class="block mb-1 text-gray-700">{{ __('checkout.district') }}</label>
                     <select id="district" class="w-full border rounded px-3 py-2" disabled required>
-                        <option value="">-- Select District --</option>
+                        <option value="">{{ __('checkout.select_district') }}</option>
                     </select>
                 </div>
 
                 <div class="mb-4">
-                    <label class="block mb-1 text-gray-700">Ward</label>
+                    <label class="block mb-1 text-gray-700">{{ __('checkout.ward') }}</label>
                     <select id="ward" class="w-full border rounded px-3 py-2" disabled required>
-                        <option value="">-- Select Ward --</option>
+                        <option value="">{{ __('checkout.select_ward') }}</option>
                     </select>
                 </div>
 
                 <div class="mb-4">
-                    <label class="block mb-1 text-gray-700">Detailed Address</label>
+                    <label class="block mb-1 text-gray-700">{{ __('checkout.detailed_address') }}</label>
                     <input id="address_detail" type="text" class="w-full border rounded px-3 py-2"
-                        placeholder="House number, street name..." required>
+                        placeholder="{{ __('checkout.house_number_street_name') }}" required>
                 </div>
 
                 <div class="flex justify-between items-center">
                     <button id="save-address" type="button"
                         class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition">
-                        Save Address
+                        {{ __('checkout.save_address') }}
                     </button>
                     <button id="close-address-form" class="text-gray-600 hover:underline">
-                        Cancel
+                        {{ __('checkout.cancel') }}
                     </button>
                 </div>
             </div>
@@ -306,7 +306,7 @@
     <div id="address-list-container" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
         <div class="flex items-center justify-center h-full">
             <div class="bg-white rounded-lg shadow-lg w-full max-w-md max-h-[90vh] overflow-hidden relative">
-                <h3 class="text-xl font-semibold text-center mb-4 pt-6">Address List</h3>
+                <h3 class="text-xl font-semibold text-center mb-4 pt-6">{{ __('checkout.address_list') }}</h3>
 
                 <!-- Scrollable area for the address list -->
                 <div id="address-list" class="space-y-4 px-6 overflow-y-auto max-h-[60vh]">
@@ -314,8 +314,8 @@
                         <a href="#" class="address-item" data-id="{{ $address->id }}"
                             data-phone="{{ $address->phone_number }}" data-address="{{ $address->address }}">
                             <div class="border border-gray-300 rounded-lg p-4 bg-gray-50 shadow-sm">
-                                <p class="text-gray-800"><strong>Phone:</strong> {{ $address->phone_number }}</p>
-                                <p class="text-gray-800"><strong>Address:</strong> {{ $address->address }}</p>
+                                <p class="text-gray-800"><strong>{{ __('checkout.phone') }}</strong> {{ $address->phone_number }}</p>
+                                <p class="text-gray-800"><strong>{{ __('checkout.address') }}</strong> {{ $address->address }}</p>
                             </div>
                         </a>
                     @endforeach
@@ -324,7 +324,7 @@
                 <div class="mt-6 flex justify-center px-6 pb-6">
                     <button
                         class="close-address-list px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium rounded">
-                        Close
+                        {{ __('checkout.close') }}
                     </button>
                 </div>
             </div>
@@ -665,11 +665,8 @@
                         addressFormModal.classList.add('hidden');
                         document.getElementById('phone_number').value = '';
                         document.getElementById('address_detail').value = '';
-                        
-                        console.log("Address saved successfully");
                     })
                     .catch(err => {
-                        console.error("Error saving address:", err);
                         alert("Error: " + err.message);
                     });
                 });

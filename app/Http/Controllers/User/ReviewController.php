@@ -55,13 +55,13 @@ class ReviewController extends Controller
             ->first();
 
         if (!$order) {
-            return back()->with('error', 'Order not found or you do not have permission.');
+            return back()->with('error', ((__('orders.order_not_found'))));
         }
 
         // Kiểm tra xem order có status là shipped không
         $canReviewStatus = config('constants.review.can_review_status');
         if ($order->status !== $canReviewStatus) {
-            return back()->with('error', 'You can only review products from shipped orders.');
+            return back()->with('error', ((__('orders.can_only_review_shipped_orders'))));
         }
 
         // Kiểm tra xem product có trong order không
@@ -70,7 +70,7 @@ class ReviewController extends Controller
             ->first();
 
         if (!$orderDetail) {
-            return back()->with('error', 'Product not found in this order.');
+            return back()->with('error', ((__('orders.product_not_found_in_order'))));
         }
 
         // Kiểm tra xem user đã review chưa
@@ -80,7 +80,7 @@ class ReviewController extends Controller
             ->first();
 
         if ($existingReview) {
-            return back()->with('error', 'You have already reviewed this product for this order.');
+            return back()->with('error', ((__('orders.already_reviewed'))));
         }
 
         // Tạo review mới
@@ -93,7 +93,7 @@ class ReviewController extends Controller
             'image_path' => $generatedFileName,
         ]);
 
-        return back()->with('success', 'Review submitted successfully!');
+        return back()->with('success', ((__('orders.review_submitted_successfully'))));
     }
 
     /**
@@ -124,12 +124,12 @@ class ReviewController extends Controller
             ->first();
 
         if (!$order) {
-            return redirect()->route('order.index')->with('error', 'Order not found.');
+            return redirect()->route('order.index')->with('error', ((__('orders.order_not_found'))));
         }
 
         $product = Product::find($productId);
         if (!$product) {
-            return redirect()->route('order.index')->with('error', 'Product not found.');
+            return redirect()->route('order.index')->with('error', ((__('orders.product_not_found'))));
         }
 
         // Check if product is in order
@@ -138,7 +138,7 @@ class ReviewController extends Controller
             ->first();
 
         if (!$orderDetail) {
-            return redirect()->route('order.index')->with('error', 'Product not found in this order.');
+            return redirect()->route('order.index')->with('error', ((__('orders.product_not_found_in_order'))));
         }
 
         // Check if already reviewed
@@ -148,7 +148,7 @@ class ReviewController extends Controller
             ->first();
 
         if ($existingReview) {
-            return redirect()->route('order.index')->with('error', 'You have already reviewed this product.');
+            return redirect()->route('order.index')->with('error', ((__('orders.already_reviewed'))));
         }
 
         return view('page.reviews.create', compact('product', 'order', 'orderDetail'));

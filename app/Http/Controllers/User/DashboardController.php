@@ -247,7 +247,7 @@ class DashboardController extends Controller
          * - Multiple name variations per category
          */
         $categoryMapping = [
-            'soap-flower' => ['Soap Flower', 'Hoa xà phòng', 'soap flower'],
+            'soap-flower' => ['Soap Flower', 'Hoa sáp', 'soap flower'],
             'special-flower' => ['Special Flower', 'Hoa đặc biệt', 'special flower'],
             'fresh-flowers' => ['Fresh Flowers', 'Hoa tươi', 'fresh flowers'],
             'souvenir' => ['Souvenir', 'Quà lưu niệm', 'souvenir']

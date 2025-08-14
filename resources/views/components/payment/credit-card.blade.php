@@ -5,7 +5,7 @@
     id="credit-card-form">
     <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
         <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-semibold">Pay with Credit Card</h3>
+            <h3 class="text-lg font-semibold">{{ __('payment.pay_with_credit_card') }}</h3>
             <div class="flex space-x-2">
                 <img src="{{ asset('fixed_resources/payment/visa.svg') }}" alt="Visa" class="h-6">
                 <img src="{{ asset('fixed_resources/payment/mastercard.svg') }}" alt="Mastercard" class="h-6">
@@ -15,7 +15,7 @@
         
         <div class="space-y-4">
             <div class="form-group">
-                <label for="card_number" class="block text-sm font-medium text-gray-700 mb-1">Card Number</label>
+                <label for="card_number" class="block text-sm font-medium text-gray-700 mb-1">{{ __('payment.card_number') }}</label>
                 <input 
                     type="text" 
                     id="card_number" 
@@ -29,7 +29,7 @@
             
             <div class="grid grid-cols-2 gap-4">
                 <div class="form-group">
-                    <label for="expiry" class="block text-sm font-medium text-gray-700 mb-1">Expiry Date (MM/YY)</label>
+                    <label for="expiry" class="block text-sm font-medium text-gray-700 mb-1">{{ __('payment.expiry_date') }}</label>
                     <input 
                         type="text" 
                         id="expiry" 
@@ -56,13 +56,13 @@
             </div>
             
             <div class="form-group">
-                <label for="card_holder" class="block text-sm font-medium text-gray-700 mb-1">Card Holder Name</label>
+                <label for="card_holder" class="block text-sm font-medium text-gray-700 mb-1">{{ __('payment.card_holder_name') }}</label>
                 <input 
                     type="text" 
                     id="card_holder" 
                     x-model="cardHolder" 
                     class="w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500" 
-                    placeholder="NGUYEN VAN A">
+                    placeholder="{{ __('payment.example_name') }}">
                 <p x-show="errors.cardHolder" x-text="errors.cardHolder" class="mt-1 text-sm text-red-600"></p>
             </div>
         </div>
@@ -79,13 +79,13 @@
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    Processing...
+                    {{ __('payment.processing') }}
                 </span>
                 <span x-show="!isProcessing">
-                    Pay Now
+                    {{ __('payment.pay_now') }}
                 </span>
             </button>
-            <p class="text-xs text-center text-gray-500 mt-2">Your payment information is secure</p>
+            <p class="text-xs text-center text-gray-500 mt-2">{{ __('payment.payment_security_note') }}</p>
         </div>
     </div>
 </div>
@@ -121,7 +121,7 @@
             validateCVV() {
                 this.cvv = this.cvv.replace(/\D/g, '');
                 if (this.cvv.length < 3) {
-                    this.errors.cvv = 'CVV must be at least 3 digits';
+                    this.errors.cvv = "{{ __('payment.cvv_validation') }}";
                 } else {
                     delete this.errors.cvv;
                 }
@@ -131,13 +131,13 @@
             validateCardNumber() {
                 const cardNumber = this.cardNumber.replace(/\s/g, '');
                 if (cardNumber.length < 16) {
-                    this.errors.cardNumber = 'Card number must be at least 16 digits';
+                    this.errors.cardNumber = "{{ __('payment.card_number_validation') }}";
                     return;
                 }
                 
                 // Simple check - in real world we'd use Luhn algorithm
                 if (!/^\d{16,19}$/.test(cardNumber)) {
-                    this.errors.cardNumber = 'Invalid card number';
+                    this.errors.cardNumber = "{{ __('payment.invalid_card_number') }}";
                 } else {
                     delete this.errors.cardNumber;
                 }
@@ -153,10 +153,10 @@
                 const currentMonth = currentDate.getMonth() + 1;
                 
                 if (parseInt(month) < 1 || parseInt(month) > 12) {
-                    this.errors.expiry = 'Invalid month';
+                    this.errors.expiry = "{{ __('payment.invalid_month') }}";
                 } else if (parseInt(year) < currentYear || 
                           (parseInt(year) === currentYear && parseInt(month) < currentMonth)) {
-                    this.errors.expiry = 'Card has expired';
+                    this.errors.expiry = "{{ __('payment.card_expired') }}";
                 } else {
                     delete this.errors.expiry;
                 }
@@ -169,7 +169,7 @@
                 this.validateCVV();
                 
                 if (!this.cardHolder.trim()) {
-                    this.errors.cardHolder = 'Please enter the card holder name';
+                    this.errors.cardHolder = "{{ __('payment.card_holder_required') }}";
                 } else {
                     delete this.errors.cardHolder;
                 }

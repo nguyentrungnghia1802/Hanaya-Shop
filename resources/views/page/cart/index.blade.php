@@ -3,7 +3,7 @@
     {{-- Main Container - Responsive padding and centering for optimal viewing --}}
     <div class="max-w-7xl mx-auto px-2 sm:px-4 py-6 sm:py-12">
         {{-- Page Title Section - Cart icon and title for clear page identification --}}
-        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">🛒 Cart</h2>
+        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">{{ __('product.cart_title') }}</h2>
 
         {{-- Main Content Area - Full height background with padding --}}
         <div class="min-h-screen bg-gray-50 py-8">
@@ -33,18 +33,18 @@
                                     <tr>
                                         {{-- Select All Checkbox Column - Allows bulk selection of all items --}}
                                         <th class="py-3 px-4 text-center">
-                                            <input type="checkbox" id="select-all" title="Select All">
+                                            <input type="checkbox" id="select-all" title="{{ __('product.select_all') }}">
                                         </th>
                                         {{-- Product Image Column Header --}}
-                                        <th class="py-3 px-4">Image</th>
+                                        <th class="py-3 px-4">{{ __('product.product_image') }}</th>
                                         {{-- Product Name Column Header --}}
-                                        <th class="py-3 px-4">Product Name</th>
+                                        <th class="py-3 px-4">{{ __('product.product_name') }}</th>
                                         {{-- Product Price Column Header --}}
-                                        <th class="py-3 px-4">Price</th>
+                                        <th class="py-3 px-4">{{ __('product.price') }}</th>
                                         {{-- Quantity Controls Column Header --}}
-                                        <th class="py-3 px-4">Quantity</th>
+                                        <th class="py-3 px-4">{{ __('product.quantity') }}</th>
                                         {{-- Line Total Column Header --}}
-                                        <th class="py-3 px-4">Total</th>
+                                        <th class="py-3 px-4">{{ __('product.total') }}</th>
                                         {{-- Actions Column Header (Delete button) --}}
                                         <th class="py-3 px-4"></th>
                                     </tr>
@@ -132,7 +132,7 @@
                                             {{-- Delete Action Cell - Link to remove item from cart --}}
                                             <td class="py-3 px-4 align-middle">
                                                 <a href="{{ route('cart.remove', $id) }}"
-                                                    class="text-red-600 hover:underline font-medium">Delete</a>
+                                                    class="text-red-600 hover:underline font-medium">{{ __('product.remove') }}</a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -140,7 +140,7 @@
                                     <tr>
                                         {{-- Total Label - Spans multiple columns for right alignment --}}
                                         <td colspan="4" class="text-right font-bold py-3 px-4 text-lg text-gray-700">
-                                            Total:</td>
+                                            {{ __('cart.submit_total') }}</td>
                                         {{-- Total Amount - Dynamic value updated by JavaScript --}}
                                         <td colspan="2" class="font-bold py-3 px-4 text-lg text-pink-600"
                                             id="totalPrice">$0</td>
@@ -158,7 +158,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                                 </svg>
-                                Checkout
+                                {{ __('product.proceed_to_checkout') }}
                             </button>
                         </div>
                     </div>
@@ -171,7 +171,7 @@
                             <input type="checkbox" id="select-all-mobile" title="Select All"
                                 class="accent-pink-500 w-5 h-5">
                             {{-- Select All Label - Clear text for user understanding --}}
-                            <span class="font-semibold text-gray-700">Select All</span>
+                            <span class="font-semibold text-gray-700">{{ __('cart.select_all') }}</span>
                         </div>
                         {{-- Mobile Cart Items Loop - Card-based layout for each product --}}
                         @foreach ($cart as $id => $item)
@@ -246,7 +246,7 @@
                                     </div>
                                     {{-- Mobile Delete Action - Remove item from cart --}}
                                     <a href="{{ route('cart.remove', $id) }}"
-                                        class="text-red-600 hover:underline font-medium">Delete</a>
+                                        class="text-red-600 hover:underline font-medium">{{ __('cart.delete') }}</a>
                                 </div>
                             </div>
                         @endforeach
@@ -254,7 +254,7 @@
                         <div
                             class="bg-white rounded-xl shadow-lg p-4 flex justify-between items-center font-bold border-l-4 border-purple-500">
                             {{-- Total Label - Clear identification of cart total --}}
-                            <span class="text-gray-700">Total:</span>
+                            <span class="text-gray-700">{{ __('cart.submit_total') }}</span>
                             {{-- Total Amount - Dynamic value updated by JavaScript --}}
                             <span id="totalPrice" class="text-pink-600">$0</span>
                         </div>
@@ -268,7 +268,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                                 </svg>
-                                Checkout
+                                {{ __('product.proceed_to_checkout') }}
                             </button>
                         </div>
                     </div>
@@ -286,9 +286,9 @@
                         </svg>
                     </div>
                     {{-- Empty Cart Title - Clear message about cart status --}}
-                    <h3 class="text-lg font-medium text-gray-900 mb-2">Your cart is empty</h3>
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">{{ __('product.empty_cart') }}</h3>
                     {{-- Empty Cart Description - Encouraging message to start shopping --}}
-                    <p class="text-gray-500 mb-6">You haven't added any products to your cart yet. Start shopping now!</p>
+                    <p class="text-gray-500 mb-6">{{ __('product.cart_empty_message') }}</p>
                     {{-- Call-to-Action Button - Directs user to product catalog --}}
                     <a href="{{ route('user.products.index') }}"
                         class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2">
@@ -297,7 +297,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                         </svg>
-                        Shopping Now
+                        {{ __('product.start_shopping') }}
                     </a>
                 </div>
             @endif
@@ -315,7 +315,7 @@
     - Validation and error handling
     --}}
     <script>
-        {{-- Document Ready Handler - Initialize cart functionality when page loads --}}
+        // {{-- Document Ready Handler - Initialize cart functionality when page loads --}}
         document.addEventListener("DOMContentLoaded", function() {
             {{-- DOM Element References - Get key elements for cart functionality --}}
             const totalPriceEl = document.getElementById('totalPrice');           // Total display elements
@@ -323,22 +323,22 @@
             const selectAllMobile = document.getElementById('select-all-mobile'); // Mobile select all checkbox
             const checkoutForm = document.getElementById('checkout-form');        // Main checkout form
 
-            {{-- 
-            Currency Formatting Function
-            Formats numbers as Vietnamese locale with USD suffix for consistent display
-            @param {number} value - The numeric value to format
-            @returns {string} Formatted currency string
-            --}}
+            // {{-- 
+            // Currency Formatting Function
+            // Formats numbers as Vietnamese locale with USD suffix for consistent display
+            // @param {number} value - The numeric value to format
+            // @returns {string} Formatted currency string
+            // --}}
             function formatCurrency(value) {
                 return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
             }
 
-            {{-- 
-            Update Total Calculation Function
-            Calculates and updates the total price based on selected items and their quantities
-            Prevents duplicate counting by tracking processed item IDs
-            Updates all total display elements (desktop and mobile)
-            --}}
+            // {{-- 
+            // Update Total Calculation Function
+            // Calculates and updates the total price based on selected items and their quantities
+            // Prevents duplicate counting by tracking processed item IDs
+            // Updates all total display elements (desktop and mobile)
+            // --}}
             function updateTotal() {
                 let total = 0;                    // Running total accumulator
                 const checkedIds = new Set();    // Track processed items to prevent duplicates
@@ -362,13 +362,13 @@
                 });
             }
 
-            {{-- 
-            Update Checkbox Price Data Function
-            Updates the data-price attribute of checkboxes when quantities change
-            This ensures accurate total calculations after quantity modifications
-            @param {string} id - The cart item ID
-            @param {number} newTotal - The new total price for this item
-            --}}
+            // {{-- 
+            // Update Checkbox Price Data Function
+            // Updates the data-price attribute of checkboxes when quantities change
+            // This ensures accurate total calculations after quantity modifications
+            // @param {string} id - The cart item ID
+            // @param {number} newTotal - The new total price for this item
+            // --}}
             function updateCheckboxPrice(id, newTotal) {
                 const cb = document.querySelector(`.cart-checkbox[data-id="${id}"]`);
                 if (cb) {
@@ -376,13 +376,13 @@
                 }
             }
 
-            {{-- 
-            Update Item Total Display Function
-            Updates the displayed line total for a specific cart item
-            @param {string} id - The cart item ID
-            @param {number} quantity - Current quantity
-            @param {number} price - Unit price
-            --}}
+            // {{-- 
+            // Update Item Total Display Function
+            // Updates the displayed line total for a specific cart item
+            // @param {string} id - The cart item ID
+            // @param {number} quantity - Current quantity
+            // @param {number} price - Unit price
+            // --}}
             function updateItemTotal(id, quantity, price) {
                 const totalCell = document.querySelector(`.item-total[data-id="${id}"]`);
                 if (totalCell) {
@@ -391,7 +391,7 @@
                 }
             }
 
-            {{-- Quantity Increase Button Event Handlers - Handle + button clicks --}}
+            // {{-- Quantity Increase Button Event Handlers - Handle + button clicks --}}
             document.querySelectorAll('.btn-increase').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const id = this.dataset.id;  // Get item ID from button data
@@ -407,7 +407,7 @@
                 });
             });
 
-            {{-- Quantity Decrease Button Event Handlers - Handle - button clicks --}}
+            // {{-- Quantity Decrease Button Event Handlers - Handle - button clicks --}}
             document.querySelectorAll('.btn-decrease').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const id = this.dataset.id;  // Get item ID from button data
@@ -425,7 +425,7 @@
                 });
             });
 
-            {{-- Manual Quantity Input Event Handlers - Handle direct input changes --}}
+            // {{-- Manual Quantity Input Event Handlers - Handle direct input changes --}}
             document.querySelectorAll('.quantity-input').forEach(input => {
                 input.addEventListener('input', function() {
                     const id = this.dataset.id;      // Get item ID from input data
@@ -439,7 +439,7 @@
                 });
             });
 
-            {{-- Desktop Select All Functionality - Handle desktop select all checkbox --}}
+            // {{-- Desktop Select All Functionality - Handle desktop select all checkbox --}}
             if (selectAllCheckbox) {
                 selectAllCheckbox.addEventListener('change', function() {
                     const isChecked = this.checked;  // Get current checked state
@@ -453,7 +453,7 @@
                 });
             }
 
-            {{-- Mobile Select All Functionality - Handle mobile select all checkbox --}}
+            // {{-- Mobile Select All Functionality - Handle mobile select all checkbox --}}
             if (selectAllMobile) {
                 selectAllMobile.addEventListener('change', function() {
                     const isChecked = this.checked;  // Get current checked state
@@ -467,7 +467,7 @@
                 });
             }
 
-            {{-- Individual Checkbox Change Handlers - Update select all status when individual items change --}}
+            // {{-- Individual Checkbox Change Handlers - Update select all status when individual items change --}}
             document.querySelectorAll('.cart-checkbox').forEach(cb => {
                 cb.addEventListener('change', function() {
                     // Check if all checkboxes are selected to update select all status
@@ -481,11 +481,11 @@
                 });
             });
 
-            {{-- 
-            Form Submission Handler - Prepare checkout data when form is submitted
-            Collects all selected items with their details and packages them as JSON
-            for backend processing in the checkout flow
-            --}}
+            // {{-- 
+            // Form Submission Handler - Prepare checkout data when form is submitted
+            // Collects all selected items with their details and packages them as JSON
+            // for backend processing in the checkout flow
+            // --}}
             checkoutForm.addEventListener('submit', function(e) {
                 const checkedCheckboxes = document.querySelectorAll('.cart-checkbox:checked');
                 const selectedItems = [];        // Array to hold selected item data
@@ -544,7 +544,7 @@
                 document.getElementById('selected_items_json').value = JSON.stringify(selectedItems);
             });
 
-            {{-- Initialize total calculation on page load --}}
+            // {{-- Initialize total calculation on page load --}}
             updateTotal();
         });
     </script>

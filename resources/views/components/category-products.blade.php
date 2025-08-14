@@ -4,7 +4,7 @@
 <div class="mb-12">
     <div class="container mx-auto px-4">
         <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">{{ $title }}</h2>
-        <p class="text-center text-gray-600 mb-8">Discover the latest products from featured categories</p>
+        <p class="text-center text-gray-600 mb-8">{{ __('dashboard.discover_latest_products') }}</p>
         
         @foreach($categoryData as $category)
         <div class="mb-10">
@@ -13,12 +13,12 @@
                 <div class="flex items-center">
                     <h3 class="text-2xl font-bold text-gray-800">{{ $category['name'] }}</h3>
                     <span class="ml-3 bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-sm font-medium">
-                        {{ $category['products']->count() }} products
+                        {{ $category['products']->count() }} {{ __('dashboard.products') }}
                     </span>
                 </div>
                 <a href="{{ route('user.products.index', ['category_name' => $category['slug']]) }}" 
                    class="text-pink-600 hover:text-pink-700 font-semibold flex items-center">
-                    View All
+                    {{ __('dashboard.view_all') }}
                     <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
@@ -46,7 +46,7 @@
                         
                         @if($product->stock_quantity <= 5)
                         <div class="absolute top-2 right-2 bg-orange-500 text-white px-2 py-1 rounded-lg text-xs">
-                            Low Stock
+                            {{ __('product.low_stock') }}
                         </div>
                         @endif
 
@@ -122,19 +122,19 @@
                         <div class="mt-auto space-y-2">
                             <a href="{{ route('user.products.show', $product->id) }}" 
                                class="w-full bg-pink-500 hover:bg-pink-600 text-white text-center py-2 px-4 rounded-lg transition-colors flex items-center justify-center">
-                                <i class="fas fa-eye mr-2"></i>View Details
+                                <i class="fas fa-eye mr-2"></i>{{ __('product.view_details') }}
                             </a>
                             @auth
                                 <form id="add-to-cart-form" action="{{ route('cart.add', $product->id) }}" method="POST" class="w-full">
                                     @csrf
                                     <input type="hidden" name="quantity" id="form-quantity" value="1">
                                     <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white text-center py-2 px-4 rounded-lg transition-colors flex items-center justify-center" title="Add to Cart">
-                                        <i class="fas fa-cart-plus mr-2"></i>Add to Cart
+                                        <i class="fas fa-cart-plus mr-2"></i>{{ __('product.add_to_cart') }}
                                     </button>
                                 </form>
                             @else
                                 <a href="{{ route('login') }}" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-2 px-4 rounded-lg transition-colors flex items-center justify-center" title="Sign in to add to cart">
-                                    <i class="fas fa-sign-in-alt mr-2"></i>Sign In to Buy
+                                    <i class="fas fa-sign-in-alt mr-2"></i>{{ __('product.sign_in_to_buy') }}
                                 </a>
                             @endauth
                         </div>
