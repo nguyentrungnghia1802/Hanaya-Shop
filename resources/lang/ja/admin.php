@@ -52,6 +52,8 @@ return [
     'edit_user' => 'ユーザーを編集',
     'user_role' => 'ユーザー権限',
     'user_status' => 'ユーザー状態',
+    'message_account_delete' => 'アカウントが正常に削除されました！',
+    'message_selected_account_delete' => '選択したアカウントが正常に削除されました！',
 
     // Common actions
     'create' => '作成',
