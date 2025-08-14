@@ -19,7 +19,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
                                 </path>
                             </svg>
-                            Back to Products
+                            {{ __('admin.back_to_categories') }}
                         </a>
                     </div>
 
@@ -38,37 +38,37 @@
                             <!-- Product Details -->
                             <div class="space-y-4">
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Product ID</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">ID</label>
                                     <p class="text-lg font-semibold text-gray-900">#{{ $product->id }}</p>
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Product Name</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('admin.product_name') }}</label>
                                     <p class="text-lg font-semibold text-gray-900">{{ $product->name }}</p>
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('admin.category') }}</label>
                                     <p class="text-gray-900">{{ $product->category->name ?? 'N/A' }}</p>
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Price</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('admin.price') }}</label>
                                     <p class="text-gray-900">${{ number_format($product->price, 2, '.', ',') }}</p>
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Stock Quantity</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('admin.stock_quantity') }}</label>
                                     <p class="text-gray-900">{{ $product->stock_quantity }}</p>
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Created At</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('admin.created_at') }}</label>
                                     <p class="text-gray-900">{{ $product->created_at->format('d/m/Y H:i:s') }}</p>
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Updated At</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('admin.updated_at') }}</label>
                                     <p class="text-gray-900">{{ $product->updated_at->format('d/m/Y H:i:s') }}</p>
                                 </div>
                             </div>
@@ -77,7 +77,7 @@
 
                     <!-- Description Section -->
                     <div class="bg-white border rounded-lg p-6 mb-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-3">Description</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-3">{{ __('admin.description') }}</h3>
                         <div class="prose max-w-none">
                             @if ($product->descriptions)
                                 <div class="text-gray-700 leading-relaxed">
@@ -98,7 +98,7 @@
                                     d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
                                 </path>
                             </svg>
-                            Edit Product
+                            {{ __('admin.edit_product') }}
                         </a>
                     </div>
 
@@ -106,9 +106,9 @@
                     <div class="mt-8">
                         <div class="bg-white border rounded-lg p-6">
                             <div class="flex items-center justify-between mb-6">
-                                <h3 class="text-lg font-semibold text-gray-900">Customer Reviews</h3>
+                                <h3 class="text-lg font-semibold text-gray-900">{{ __('admin.customer_reviews') }}</h3>
                                 <div class="flex items-center space-x-2">
-                                    <span class="text-sm text-gray-600">{{ $reviews->total() }} reviews</span>
+                                    <span class="text-sm text-gray-600">{{ $reviews->total() }} {{ __('admin.reviews') }}</span>
                                     @if ($reviews->count() > 0)
                                         <x-star-rating :rating="$product->reviews()->avg('rating') ?? 5" size="sm" show-text />
                                     @endif
@@ -135,7 +135,7 @@
                                                             <div class="flex items-center space-x-2 mt-1">
                                                                 <x-star-rating :rating="$review->rating" size="sm" />
                                                                 <span class="text-xs text-gray-500">
-                                                                    Order #{{ $review->order_id }}
+                                                                    {{ __('admin.order') }} #{{ $review->order_id }}
                                                                 </span>
                                                                 <span class="text-xs text-gray-500">•</span>
                                                                 <span class="text-xs text-gray-500">
@@ -178,7 +178,7 @@
                                                                     d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
                                                                 </path>
                                                             </svg>
-                                                            Delete
+                                                            {{ __('admin.delete') }}
                                                         </button>
                                                     </form>
                                                 </div>
@@ -204,8 +204,8 @@
                                             </path>
                                         </svg>
                                     </div>
-                                    <h4 class="text-lg font-medium text-gray-900 mb-2">No reviews yet</h4>
-                                    <p class="text-gray-600">This product hasn't received any reviews yet.</p>
+                                    <h4 class="text-lg font-medium text-gray-900 mb-2">{{ __('admin.no_reviews_yet') }}</h4>
+                                    <p class="text-gray-600">{{ __('admin.this_product_has_received_any_reviews') }}</p>
                                 </div>
                             @endif
                         </div>

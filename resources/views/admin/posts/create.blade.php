@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('header')
-    <h2 class="font-semibold text-xl text-gray-800 leading-tight">Create New Post</h2>
+    <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('admin.create_new_post') }}</h2>
 @endsection
 
 @section('content')
@@ -12,15 +12,15 @@
                 @csrf
                 @method('PUT')
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-bold mb-2">Title</label>
+                    <label class="block text-gray-700 font-bold mb-2">{{ __('admin.title') }}</label>
                     <input type="text" name="title" value="{{ old('title', $post->title) }}" class="w-full px-4 py-2 border rounded">
                 </div>
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-bold mb-2">Content</label>
+                    <label class="block text-gray-700 font-bold mb-2">{{ __('admin.content') }}</label>
                     <textarea name="content" id="myeditorinstance" class="w-full px-4 py-2 border rounded">{{ old('content', $post->content) }}</textarea>
                 </div>
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-bold mb-2">Image</label>
+                    <label class="block text-gray-700 font-bold mb-2">{{ __('admin.Image') }}</label>
                     <input type="file" name="image" id="imageInput" class="w-full px-4 py-2 border rounded">
                     @if($post->image)
                         <img id="previewImage" src="{{ asset('images/posts/' . $post->image) }}" alt="Current Image" class="h-32 mt-2 rounded">
@@ -29,42 +29,42 @@
                     @endif
                 </div>
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-bold mb-2">Status</label>
+                    <label class="block text-gray-700 font-bold mb-2">{{ __('admin.status') }}</label>
                     <select name="status" class="w-full px-4 py-2 border rounded">
-                        <option value="1" {{ $post->status ? 'selected' : '' }}>Visible</option>
-                        <option value="0" {{ !$post->status ? 'selected' : '' }}>Hidden</option>
+                        <option value="1" {{ $post->status ? 'selected' : '' }}>{{ __('admin.visible') }}</option>
+                        <option value="0" {{ !$post->status ? 'selected' : '' }}>{{ __('admin.hidden') }}</option>
                     </select>
                 </div>
                 <div class="flex gap-2">
-                    <button type="submit" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700">Update</button>
-                    <button type="button" data-confirm-cancel data-redirect-url="{{ route('admin.post.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancel</button>
+                    <button type="submit" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700">{{ __('admin.update') }}</button>
+                    <button type="button" data-confirm-cancel data-redirect-url="{{ route('admin.post.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">{{ __('admin.cancel') }}</button>
                 </div>
             </form>
         @else
             <form method="POST" action="{{ route('admin.post.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-bold mb-2">Title</label>
+                    <label class="block text-gray-700 font-bold mb-2">{{ __('admin.title') }}</label>
                     <input type="text" name="title" value="{{ old('title') }}" class="w-full px-4 py-2 border rounded">
                 </div>
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-bold mb-2">Content</label>
+                    <label class="block text-gray-700 font-bold mb-2">{{ __('admin.content') }}</label>
                     <textarea name="content" id="myeditorinstance" class="w-full px-4 py-2 border rounded">{{ old('content') }}</textarea>
                 </div>
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-bold mb-2">Image</label>
+                    <label class="block text-gray-700 font-bold mb-2">{{ __('admin.Image') }}</label>
                     <input type="file" name="image" id="imageInput" class="w-full px-4 py-2 border rounded">
                     <img id="previewImage" src="#" alt="Preview" class="h-32 mt-2 rounded" style="display:none;">
                 </div>
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-bold mb-2">Status</label>
+                    <label class="block text-gray-700 font-bold mb-2">{{ __('admin.status') }}</label>
                     <select name="status" class="w-full px-4 py-2 border rounded">
-                        <option value="1" selected>Visible</option>
-                        <option value="0">Hidden</option>
+                        <option value="1" selected>{{ __('admin.visible') }}</option>
+                        <option value="0">{{ __('admin.hidden') }}</option>
                     </select>
                 </div>
                 <div class="flex gap-2">
-                    <button type="submit" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700">Create</button>
+                    <button type="submit" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700">{{ __('admin.create') }}</button>
                     <button type="button" data-confirm-cancel data-redirect-url="{{ route('admin.post.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancel</button>
                 </div>
             </form>
@@ -78,12 +78,12 @@
 
 <!-- Guide TinyMCE upload -->
 <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-    <h3 style="margin: 0 0 10px 0; color: #1565c0;">📋 Guide:</h3>
+    <h3 style="margin: 0 0 10px 0; color: #1565c0;">📋 {{ __('admin.guide') }}:</h3>
     <ul style="margin: 0; color: #1565c0;">
-        <li><strong>Image Button:</strong> Click the Image button on the toolbar</li>
-        <li><strong>Drag & Drop:</strong> Drag and drop image files into the editor</li>
-        <li><strong>Copy/Paste:</strong> Paste images from the clipboard</li>
-        <li><strong>Limitations:</strong> Max file size 10MB, formats: jpg, png, gif, webp</li>
+       <li><strong>{{ __('admin.image_button_title') }}</strong> {{ __('admin.image_button_desc') }}</li>
+       <li><strong>{{ __('admin.drag_drop_title') }}</strong> {{ __('admin.drag_drop_desc') }}</li>
+       <li><strong>{{ __('admin.copy_paste_title') }}</strong> {{ __('admin.copy_paste_desc') }}</li>
+       <li><strong>{{ __('admin.limitations_title') }}</strong> {{ __('admin.limitations_desc') }}</li>
     </ul>
 </div>
 
@@ -199,12 +199,8 @@ tinymce.init({
             }
         });
     },
-    contextmenu: 'link image table',
-    mobile: {
-        theme: 'mobile',
-        plugins: ['autosave', 'lists', 'autolink'],
-        toolbar: ['undo', 'bold', 'italic', 'styleselect']
-    }
+    contextmenu: 'link image table'
+
 });
 
 function getContent() {

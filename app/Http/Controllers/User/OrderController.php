@@ -101,7 +101,7 @@ class OrderController extends Controller
 
         DB::commit();
 
-        return redirect()->route('order.index')->with('success', 'Order has been cancelled successfully.');
+        return redirect()->route('order.index')->with('success', ((__('orders.order_has_been_cancelled'))));
     } catch (\Exception $e) {
         DB::rollBack();
         return redirect()->back()->with('error', 'An error occurred while cancelling the order: ' . $e->getMessage());

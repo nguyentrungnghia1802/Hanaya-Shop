@@ -85,7 +85,7 @@ class PostController extends Controller
             'user_id' => Auth::id(),
         ]);
 
-        return redirect()->route('admin.post.index')->with('success', 'Tạo bài viết thành công');
+        return redirect()->route('admin.post.index')->with('success', __('admin.post_created_successfully'));
     }
 
     public function edit($id)
@@ -138,7 +138,7 @@ class PostController extends Controller
         $post->status = $request->input('status', true);
         $post->save();
 
-        return redirect()->route('admin.post.index')->with('success', 'Cập nhật bài viết thành công');
+        return redirect()->route('admin.post.index')->with('success', __('admin.post_updated_successfully'));
     }
 
     public function destroy($id)
@@ -159,7 +159,7 @@ class PostController extends Controller
         }
         
         $post->delete();
-        return redirect()->route('admin.post.index')->with('success', 'Xóa bài viết và tất cả ảnh liên quan thành công');
+        return redirect()->route('admin.post.index')->with('success', __('admin.post_deleted_successfully'));
     }
 
     /**

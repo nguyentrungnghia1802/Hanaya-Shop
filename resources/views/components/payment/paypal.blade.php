@@ -5,13 +5,13 @@
     id="paypal-form">
     <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
         <div class="flex items-center justify-between mb-6">
-            <h3 class="text-lg font-semibold">Pay with PayPal</h3>
+            <h3 class="text-lg font-semibold">{{ __('payment.pay_with_paypal') }}</h3>
             <img src="{{ asset('fixed_resources/payment/paypal.svg') }}" alt="PayPal" class="h-8">
         </div>
 
         <div class="text-center py-4">
             <p class="text-gray-600 mb-6">
-                You will be redirected to the PayPal website to complete your secure payment.
+                {{ __('payment.paypal_redirect_message') }}
             </p>
             
             <div x-show="!isProcessing" class="flex justify-center">
@@ -20,20 +20,20 @@
                     @click="processPayment"
                     class="bg-[#0070ba] hover:bg-[#005ea6] text-white py-3 px-8 rounded-md flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
-                <span class="font-semibold">Pay with</span>
+                <span class="font-semibold">{{ __('payment.pay_with_paypal') }}</span>
                     <span class="text-xl font-bold ml-1">Pay<span class="text-[#0070ba] bg-white px-0.5 rounded">Pal</span></span>
                 </button>
             </div>
             
             <div x-show="isProcessing" class="flex flex-col items-center justify-center">
                 <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#0070ba] mb-4"></div>
-                <p class="text-gray-600">Redirecting to PayPal...</p>
+                <p class="text-gray-600">{{ __('payment.redirecting_to_paypal') }}</p>
             </div>
         </div>
         
         <div class="mt-6 border-t pt-4">
             <p class="text-xs text-gray-500 text-center">
-                PayPal is a secure and safe online payment gateway. You do not need a PayPal account to pay.
+                {{ __('payment.paypal_security_note') }}
             </p>
         </div>
     </div>

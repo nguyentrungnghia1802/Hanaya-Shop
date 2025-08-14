@@ -89,7 +89,7 @@ class CheckoutController extends Controller
          * about specific products that have insufficient stock
          */
         foreach ($selectedItems as $item) {
-            $name = $item['name'] ?? 'Sản phẩm không xác định';        // Product name with fallback
+            $name = $item['name'] ?? ((__('checkout.unknown_product')));        // Product name with fallback
             $quantity = $item['quantity'] ?? 0;                        // Requested quantity
             $stock = $item['stock_quantity'] ?? 0;                     // Available stock
 
@@ -158,7 +158,7 @@ class CheckoutController extends Controller
          */
         $selectedItems = session('selectedItems', []);
         if (empty($selectedItems)) {
-            return redirect()->back()->with('error', 'Không có sản phẩm nào được chọn để đặt hàng.');
+            return redirect()->back()->with('error', __('checkout.no_products_selected'));
         }
 
         // Get Available Payment Methods
@@ -233,10 +233,10 @@ class CheckoutController extends Controller
             'address_id' => 'required|exists:addresses,id',
             'payment_method' => 'required|in:' . implode(',', Payment::getAvailableMethods()),
         ], [
-            'address_id.required' => 'Vui lòng chọn địa chỉ nhận hàng.',
-            'address_id.exists' => 'Địa chỉ không hợp lệ.',
-            'payment_method.required' => 'Vui lòng chọn phương thức thanh toán.',
-            'payment_method.in' => 'Phương thức thanh toán không hợp lệ.'
+            'address_id.required' => ((__('checkout.please_select_address'))),
+            'address_id.exists' => ((__('checkout.invalid_address'))),
+            'payment_method.required' => ((__('checkout.please_select_payment_method'))),
+            'payment_method.in' => ((__('checkout.invalid_payment_method'))),
         ]);
 
         // Payment Method Validation and Security Checks
@@ -258,7 +258,7 @@ class CheckoutController extends Controller
             
             return redirect()
                 ->route('checkout.index')
-                ->with('error', 'Phương thức thanh toán không hợp lệ (định dạng không đúng)');
+                ->with('error', ((__('checkout.invalid_payment_method'))));
         }
         
         // Validate payment method against allowed values
@@ -271,7 +271,7 @@ class CheckoutController extends Controller
             
             return redirect()
                 ->route('checkout.index')
-                ->with('error', 'Phương thức thanh toán không hợp lệ');
+                ->with('error', ((__('checkout.invalid_payment_method'))));
         }
         
         // Parse and Validate Payment Data
@@ -307,7 +307,7 @@ class CheckoutController extends Controller
             \Illuminate\Support\Facades\Log::error('Selected items JSON decode error: ' . $e->getMessage());
             return redirect()
                 ->route('checkout.index')
-                ->with('error', 'Lỗi dữ liệu giỏ hàng. Vui lòng thử lại.');
+                ->with('error', ((__('checkout.cart_data_error'))));
         }
 
         // Begin Database Transaction for Data Consistency
@@ -409,7 +409,7 @@ class CheckoutController extends Controller
              * Includes success message and order ID for reference
              * Provides positive feedback about successful order completion
              */
-            $successMessage = $paymentResult['message'] ?? 'Đặt hàng thành công!';
+            $successMessage = $paymentResult['message'] ?? ((__('checkout.order_success')));
             
             return redirect()
                 ->route('checkout.success', ['order_id' => $order->id])
@@ -432,7 +432,7 @@ class CheckoutController extends Controller
             return redirect()
                 ->route('checkout.index')
                 ->withInput() // Preserve form data for user convenience
-                ->with('error', 'Lỗi khi xử lý đơn hàng: ' . $e->getMessage());
+                ->with('error', ((__('checkout.order_failed'))) . $e->getMessage());
         }
     }
 }
