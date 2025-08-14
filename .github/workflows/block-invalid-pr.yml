@@ -8,13 +8,13 @@ jobs:
   block_invalid_pr:
     runs-on: ubuntu-latest
     steps:
-      - name: Block PRs from deploy/tests to main/develop
+      - name: Block PRs from deploy/test to main/develop
         if: |
-          (github.head_ref == 'deploy' || github.head_ref == 'tests') &&
+          (github.head_ref == 'deploy' || github.head_ref == 'test') &&
           (github.base_ref == 'main' || github.base_ref == 'develop')
         run: |
-          echo "PRs from 'deploy' or 'tests' to 'main' or 'develop' are not allowed."
-          gh pr close "$GITHUB_REF" --comment "PRs from 'deploy' or 'tests' branch to 'main' or 'develop' are not allowed."
+          echo "PRs from 'deploy' or 'test' to 'main' or 'develop' are not allowed."
+          gh pr close "$GITHUB_REF" --comment "PRs from 'deploy' or 'test' branch to 'main' or 'develop' are not allowed."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
