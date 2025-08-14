@@ -23,6 +23,8 @@ return [
     'free_shipping' => 'Miễn phí vận chuyển',
     'calculate_shipping' => 'Tính phí vận chuyển',
     'enter_zip_code' => 'Nhập mã bưu điện',
+    'select_all' => 'Chọn tất cả',
+    'delete' => 'Xóa',
 
     //alerts
     'out_of_stock_alert'    => 'Hết hàng',

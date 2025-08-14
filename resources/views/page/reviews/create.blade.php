@@ -2,15 +2,15 @@
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
         <!-- Breadcrumb Navigation -->
         <nav class="flex text-sm mb-4 text-gray-500" aria-label="Breadcrumb">
-            <a href="{{ route('dashboard') }}" class="hover:text-gray-900">Home</a>
+            <a href="{{ route('dashboard') }}" class="hover:text-gray-900">{{ __('review.home') }}</a>
             <span class="mx-2">/</span>
-            <a href="{{ route('order.index') }}" class="hover:text-gray-900">Orders</a>
+            <a href="{{ route('order.index') }}" class="hover:text-gray-900">{{ __('review.orders') }}</a>
             <span class="mx-2">/</span>
-            <span class="text-gray-900">Write Review</span>
+            <span class="text-gray-900">{{ __('review.write_review') }}</span>
         </nav>
 
         <!-- Page Title -->
-        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center">Write Your Review</h1>
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center">{{ __('review.write_review') }}</h1>
 
         <!-- Thông báo lỗi -->
         <x-alert />
@@ -24,8 +24,8 @@
                         alt="{{ $product->name }}" class="w-16 h-16 object-cover rounded-lg">
                     <div>
                         <h3 class="font-semibold text-lg text-gray-900">{{ $product->name }}</h3>
-                        <p class="text-gray-600">Order #{{ $order->id }}</p>
-                        <p class="text-gray-500 text-sm">Quantity: {{ $orderDetail->quantity }}</p>
+                        <p class="text-gray-600">{{ __('review.order') }} #{{ $order->id }}</p>
+                        <p class="text-gray-500 text-sm">{{ __('review.quantity') }}: {{ $orderDetail->quantity }}</p>
                     </div>
                 </div>
             </div>
@@ -39,7 +39,7 @@
                 <!-- Rating Section -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-3">
-                        Your Rating <span class="text-red-500">*</span>
+                        {{ __('review.your_rating') }} <span class="text-red-500">*</span>
                     </label>
                     <div class="flex items-center space-x-2">
                         <div class="star-rating flex space-x-1" data-rating="5">
@@ -51,7 +51,7 @@
                                 </button>
                             @endfor
                         </div>
-                        <span class="ml-3 text-sm text-gray-600 rating-text">Excellent (5 stars)</span>
+                        <span class="ml-3 text-sm text-gray-600 rating-text">{{ __('review.excellent_rating') }}</span>
                     </div>
                     <input type="hidden" name="rating" id="rating" value="5" required>
                     @error('rating')
@@ -61,7 +61,7 @@
 
                 <!-- Comment Section -->
                 <div>
-                    <label for="comment" class="block text-sm font-medium text-gray-700 mb-1">Your Review</label>
+                    <label for="comment" class="block text-sm font-medium text-gray-700 mb-1">{{ __('review.your_review') }}</label>
                     <textarea name="comment" id="review-comment"
                         class="w-full h-[120px] px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none">{{ old('comment') }}</textarea>
                 </div>
@@ -69,7 +69,7 @@
                 <!-- Input for review image -->
                 <div>
                     <label for="image" class="block text-sm font-medium text-gray-700 mb-2">
-                        Add Photo <span class="text-sm text-gray-500">(Optional)</span>
+                        {{ __('review.add_photo') }} <span class="text-sm text-gray-500">{{ __('review.optional') }}</span>
                     </label>
                     <input type="file" 
                            name="image" 
@@ -79,7 +79,7 @@
                     
                     <!-- Image preview container -->
                     <div id="imagePreviewContainer" class="mt-4 hidden">
-                        <p class="text-sm font-medium text-gray-700 mb-2">Preview:</p>
+                        <p class="text-sm font-medium text-gray-700 mb-2">{{ __('review.preview') }}:</p>
                         <div class="relative inline-block">
                             <img id="previewImage" 
                                  src="" 
@@ -103,12 +103,12 @@
                     <button type="submit"
                         class="flex-1 bg-pink-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-pink-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2">
                         <i class="fas fa-star mr-2"></i>
-                        Submit Review
+                        {{ __('review.submit_review') }}
                     </button>
                     <a href="{{ route('order.index') }}"
                         class="flex-1 bg-gray-100 text-gray-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-200 transition-colors duration-200 text-center focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
                         <i class="fas fa-arrow-left mr-2"></i>
-                        Back to Orders
+                        {{ __('review.back_to_orders') }}
                     </a>
                 </div>
             </form>
@@ -118,24 +118,24 @@
         <div class="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
             <h3 class="text-lg font-semibold text-blue-900 mb-3">
                 <i class="fas fa-info-circle mr-2"></i>
-                Review Guidelines
+                {{ __('review.guidelines') }}
             </h3>
             <ul class="text-blue-800 text-sm space-y-2">
                 <li class="flex items-start">
                     <i class="fas fa-check-circle mt-0.5 mr-2 text-blue-600"></i>
-                    Be honest and specific about your experience with the product
+                    {{ __('review.guideline_1') }}
                 </li>
                 <li class="flex items-start">
                     <i class="fas fa-check-circle mt-0.5 mr-2 text-blue-600"></i>
-                    Focus on the product quality, packaging, and delivery experience
+                    {{ __('review.guideline_2') }}
                 </li>
                 <li class="flex items-start">
                     <i class="fas fa-check-circle mt-0.5 mr-2 text-blue-600"></i>
-                    Include helpful details for other customers
+                    {{ __('review.guideline_3') }}
                 </li>
                 <li class="flex items-start">
                     <i class="fas fa-times-circle mt-0.5 mr-2 text-red-600"></i>
-                    Avoid offensive language or personal information
+                    {{ __('review.guideline_4') }}
                 </li>
             </ul>
         </div>
@@ -153,11 +153,11 @@
                 const removeImageBtn = document.getElementById('removeImage');
 
                 const ratingTexts = {
-                    1: 'Poor (1 star)',
-                    2: 'Fair (2 stars)',
-                    3: 'Good (3 stars)',
-                    4: 'Very Good (4 stars)',
-                    5: 'Excellent (5 stars)'
+                    1: '{{ __('review.poor_rating') }}',
+                    2: '{{ __('review.fair_rating') }}',
+                    3: '{{ __('review.good_rating') }}',
+                    4: '{{ __('review.very_good_rating') }}',
+                    5: '{{ __('review.excellent_rating') }}'
                 };
 
                 // Initialize with 5 stars

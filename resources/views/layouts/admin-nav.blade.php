@@ -104,10 +104,10 @@
                             {{ __('admin.profile') }}
                         </x-dropdown-link>
                         <x-dropdown-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard*')">
-                            {{ __('admin.admin_dashboard') }}
+                            {{ __('admin.admin_dashboard') }} (Admin)
                         </x-dropdown-link>
                         <x-dropdown-link :href="route('user.dashboard')" :active="request()->routeIs('user.dashboard')">
-                            {{ __('admin.user_dashboard') }}
+                            {{ __('admin.user_dashboard') }} (User)
                         </x-dropdown-link>
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
@@ -213,10 +213,10 @@
                     {{ __('admin.profile') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard*')">
-                    {{ __('admin.admin_dashboard') }}
+                    {{ __('admin.admin_dashboard') }} (Admin)
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('user.dashboard')" :active="request()->routeIs('user.dashboard')">
-                    {{ __('admin.user_dashboard') }}
+                    {{ __('admin.user_dashboard') }} (User)
                 </x-responsive-nav-link>
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">

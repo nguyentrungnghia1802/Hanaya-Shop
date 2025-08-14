@@ -77,7 +77,6 @@
 | Redis        | キャッシュ・キュー           |
 | nginx        | Webサーバー                 |
 | Docker Compose | パッケージ化・デプロイ       |
-| Map API      | 住所選択・地図連携           |
 
 ### 💡 ハイライトと実運用効果（Highlights & Impact） <a id="highlights-jp"></a>
 
@@ -86,7 +85,6 @@
 - キュー（Redis）: メール通知や重い処理を非同期化し、応答速度を安定化。
 - チャットボット: 購入前の疑問解消を自動化し、カゴ落ちを削減。
 - TinyMCE: 記事/販促の表現力向上で集客を強化。
-- Map API: 住所入力のミスを削減し、配送トラブルを減少。
 - 複数決済（代金引換・カード・PayPal）: 決済ハードルを下げ、成約率を向上。
 
 ---
@@ -167,7 +165,6 @@ In Vietnam, especially during holidays, many fresh flowers are wasted because fr
 - Multi-language switching (e.g., Japanese/English/Vietnamese)
 - Email notifications for order status updates
 - Chatbot assistance during browsing and checkout
-- Intuitive address selection with map API integration
 - Multiple payment options: Cash on Delivery (COD), bank card, PayPal
 
 ## 🛠️ For Admins <a id="admin-en"></a>
@@ -194,7 +191,6 @@ In Vietnam, especially during holidays, many fresh flowers are wasted because fr
 | Redis        | Cache & queue              |
 | nginx        | Web server                 |
 | Docker Compose | Packaging & deployment     |
-| Map API      | Address/map integration    |
 
 ### 💡 Highlights & Real-world Impact <a id="highlights-en"></a>
 
@@ -203,7 +199,6 @@ In Vietnam, especially during holidays, many fresh flowers are wasted because fr
 - Queues (Redis): Offloads email and heavy tasks; keeps requests fast and stable.
 - Chatbot: Automates pre-purchase Q&A; reduces cart abandonment.
 - TinyMCE: Better, richer promotional content; improves engagement.
-- Map API: Fewer address errors; fewer delivery issues and support tickets.
 - Multiple payments (COD, bank card, PayPal): Lowers checkout friction; increases successful payments.
 
 ---
@@ -284,7 +279,6 @@ hanaya-shop/
 - Đổi ngôn ngữ (Nhật/Anh/Việt)
 - Thông báo qua email theo trạng thái đơn hàng
 - Chatbot hỗ trợ tư vấn
-- Chọn địa chỉ trực quan với bản đồ (Map API)
 - Thanh toán đa dạng: Thanh toán khi nhận hàng (COD), thẻ ngân hàng, PayPal
 
 ## 🛠️ Trang quản trị <a id="admin-vi"></a>
@@ -311,7 +305,6 @@ hanaya-shop/
 | Redis         | Cache & queue              |
 | nginx         | Web server                 |
 | Docker Compose| Đóng gói & triển khai      |
-| Map API       | Tích hợp bản đồ/địa chỉ     |
 
 ### 💡 Điểm nổi bật & Hiệu quả thực tế <a id="highlights-vi"></a>
 
@@ -320,7 +313,6 @@ hanaya-shop/
 - Hàng đợi (Redis): Đẩy email và tác vụ nặng sang nền; giữ request nhanh và ổn định.
 - Chatbot: Tự động giải đáp trước khi mua; giảm tỷ lệ bỏ giỏ hàng.
 - TinyMCE: Nội dung tiếp thị giàu hình ảnh; tăng tương tác.
-- Map API: Ít sai địa chỉ; giảm lỗi giao hàng và hỗ trợ khách hàng.
 - Thanh toán đa dạng (COD, thẻ ngân hàng, PayPal): Giảm ma sát khi checkout; tăng tỉ lệ thanh toán thành công.
 
 ---
