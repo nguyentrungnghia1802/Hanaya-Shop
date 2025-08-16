@@ -104,12 +104,13 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
                     <!-- Soap Flowers -->
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 group">
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer transform hover:scale-105"
+                         onclick="redirectToProducts('soap-flowers')">
                         <div class="relative overflow-hidden">
                             <img src="{{ asset('fixed_resources/about/soap_flower.jpg') }}" 
                                  alt="Soap Flowers" 
                                  class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                         </div>
                         <div class="p-6">
                             <div class="flex items-center mb-3">
@@ -127,12 +128,13 @@
                     </div>
 
                     <!-- Fresh Flowers -->
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 group">
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer transform hover:scale-105"
+                         onclick="redirectToProducts('fresh-flowers')">
                         <div class="relative overflow-hidden">
                             <img src="{{ asset('fixed_resources/about/fresh_flower.jpg') }}" 
                                  alt="Fresh Flowers" 
                                  class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                         </div>
                         <div class="p-6">
                             <div class="flex items-center mb-3">
@@ -150,12 +152,13 @@
                     </div>
 
                     <!-- Special Flowers -->
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 group">
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer transform hover:scale-105"
+                         onclick="redirectToProducts('special-flowers')">
                         <div class="relative overflow-hidden">
                             <img src="{{ asset('fixed_resources/about/special_flower.jpg') }}" 
                                  alt="Special Flowers" 
                                  class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                         </div>
                         <div class="p-6">
                             <div class="flex items-center mb-3">
@@ -173,12 +176,13 @@
                     </div>
 
                     <!-- Souvenirs -->
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 group">
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer transform hover:scale-105"
+                         onclick="redirectToProducts('souvenirs')">
                         <div class="relative overflow-hidden">
                             <img src="{{ asset('fixed_resources/about/souvenir.jpg') }}" 
                                  alt="Souvenirs" 
                                  class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                         </div>
                         <div class="p-6">
                             <div class="flex items-center mb-3">
@@ -200,33 +204,41 @@
             <!-- Meet Our Team -->
             <div class="bg-white rounded-2xl shadow-xl p-0 lg:p-0 mb-20 overflow-hidden">
                 <!-- Team Header with Large Background -->
-                <div class="relative w-full h-[560px] flex flex-col items-center justify-center text-center">
+                <div class="relative w-full h-[220px] sm:h-[400px] md:h-[560px] flex flex-col items-center justify-center text-center">
                     <img src="{{ asset('fixed_resources/about/team.png') }}" alt="Hanaya Shop Team" class="absolute inset-0 w-full h-full object-cover object-center opacity-70">
                     <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-transparent"></div>
-                    <div class="relative z-10 px-8 pt-10 pb-4 flex flex-col items-center">
-                        <h3 class="text-4xl font-bold text-pink-200 mb-4 drop-shadow-lg" style="text-shadow: 0 2px 8px #000, 0 0 2px #fff;">{{ __('about.meet_our_team') }}</h3>
-                        <p class="text-pink-100 text-lg mb-4 drop-shadow-lg" style="text-shadow: 0 2px 8px #000;">{{ __('about.team_description') }}</p>
-                        <p class="text-pink-100 mt-2 italic drop-shadow-lg" style="text-shadow: 0 2px 8px #000;">{{ __('about.team_group_description') }}</p>
+                    <div class="relative z-10 px-4 sm:px-8 flex flex-col items-center justify-end h-full mb-8">
+                        <h3 class="text-1xl sm:text-2xl md:text-4xl font-bold text-white mb-2 sm:mb-4 drop-shadow-lg" style="text-shadow: 0 2px 8px #000, 0 0 2px #fff;">{{ __('about.meet_our_team') }}</h3>
+                        <p class="text-sm sm:text-lg text-pink-100 mb-2 sm:mb-4 drop-shadow-lg" style="text-shadow: 0 2px 8px #000;">{{ __('about.team_description') }}</p>
+                        <p class="text-sm sm:text-base text-pink-100 italic drop-shadow-lg" style="text-shadow: 0 2px 8px #000;">{{ __('about.team_group_description') }}</p>
                     </div>
                 </div>
                 <!-- Individual Team Members -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-8 lg:px-12 pb-12 mt-[-60px]">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-8 lg:px-12 py-12">
                     <!-- Team Member 1 -->
-                    <div class="text-center bg-white rounded-2xl shadow-lg p-6">
+                    <div class="text-center bg-white rounded-2xl shadow-lg p-6 transition-all duration-300 hover:shadow-xl hover:scale-105 cursor-pointer team-member-card" 
+                         onclick="window.open('https://github.com/Nezuko1909', '_blank')">
                         <div class="relative mb-6">
                             <img src="{{ asset('fixed_resources/about/quyen.jpg') }}"
                                  alt="Team Member 1"
-                                 class="w-32 h-32 rounded-full mx-auto object-cover shadow-lg">
+                                 class="w-32 h-32 rounded-full mx-auto object-cover shadow-lg transition-transform duration-300">
                             <div class="absolute inset-0 w-32 h-32 rounded-full mx-auto bg-gradient-to-r from-pink-500 to-purple-600 opacity-0 hover:opacity-20 transition-opacity duration-300"></div>
                         </div>
-                        <h4 class="text-xl font-semibold text-gray-900 mb-2">{{ __('about.alex_johnson') }}</h4>
-                        <p class="text-pink-600 font-medium mb-3">{{ __('about.founder_creative_director') }}</p>
-                        <p class="text-gray-600 text-sm">
-                            {{ __('about.alex_description') }}
+                        <h4 class="text-xl font-semibold text-gray-900 mb-2">{{ __('about.tan_van_quyen') }}</h4>
+                        <p class="text-pink-600 font-medium mb-3">{{ __('about.team_member') }}</p>
+                        <p class="text-gray-600 text-sm mb-3">
+                            {{ __('about.quyen_description') }}
                         </p>
+                        <div class="flex items-center justify-center space-x-2 text-gray-500">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                            <span class="text-xs">{{ __('about.click_to_view_github') }}</span>
+                        </div>
                     </div>
                     <!-- Team Member 2 -->
-                    <div class="text-center bg-white rounded-2xl shadow-lg p-6">
+                    <div class="text-center bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl hover:scale-105 transform transition-all duration-300 cursor-pointer"
+                         onclick="window.open('https://github.com/nguyentrungnghia1802', '_blank')">
                         <div class="relative mb-6">
                             <img src="{{ asset('fixed_resources/about/nghia.jpg') }}"
                                  alt="Team Member 2"
@@ -234,30 +246,44 @@
                             <div class="absolute inset-0 w-32 h-32 rounded-full mx-auto bg-gradient-to-r from-pink-500 to-purple-600 opacity-0 hover:opacity-20 transition-opacity duration-300"></div>
                         </div>
                         <h4 class="text-xl font-semibold text-gray-900 mb-2">{{ __('about.nguyen_trung_nghia') }}</h4>
-                        <p class="text-pink-600 font-medium mb-3">{{ __('about.head_operations') }}</p>
-                        <p class="text-gray-600 text-sm">
+                        <p class="text-pink-600 font-medium mb-3">{{ __('about.team_leader') }}</p>
+                        <p class="text-gray-600 text-sm mb-3">
                             {{ __('about.nghia_description') }}
                         </p>
+                        <div class="flex items-center justify-center space-x-2 text-gray-500">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                            <span class="text-xs">{{ __('about.click_to_view_github') }}</span>
+                        </div>
                     </div>
                     <!-- Team Member 3 -->
-                    <div class="text-center bg-white rounded-2xl shadow-lg p-6">
+                    <div class="text-center bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl hover:scale-105 transform transition-all duration-300 cursor-pointer"
+                         onclick="window.open('https://github.com/leducanhtai', '_blank')">
                         <div class="relative mb-6">
                             <img src="{{ asset('fixed_resources/about/tai.jpg') }}"
                                  alt="Team Member 3"
                                  class="w-32 h-32 rounded-full mx-auto object-cover shadow-lg">
                             <div class="absolute inset-0 w-32 h-32 rounded-full mx-auto bg-gradient-to-r from-pink-500 to-purple-600 opacity-0 hover:opacity-20 transition-opacity duration-300"></div>
                         </div>
-                        <h4 class="text-xl font-semibold text-gray-900 mb-2">{{ __('about.michael_rivera') }}</h4>
-                        <p class="text-pink-600 font-medium mb-3">{{ __('about.lead_artisan') }}</p>
-                        <p class="text-gray-600 text-sm">
-                            {{ __('about.michael_description') }}
+                        <h4 class="text-xl font-semibold text-gray-900 mb-2">{{ __('about.le_duc_anh_tai') }}</h4>
+                        <p class="text-pink-600 font-medium mb-3">{{ __('about.team_member') }}</p>
+                        <p class="text-gray-600 text-sm mb-3">
+                            {{ __('about.tai_description') }}
                         </p>
+                        <div class="flex items-center justify-center space-x-2 text-gray-500">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                            <span class="text-xs">{{ __('about.click_to_view_github') }}</span>
+                        </div>
+                    </div>
                     </div>
                 </div>
             </div>
 
             <!-- Contact & Location -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <!-- Contact Information -->
                 <div class="bg-white rounded-2xl shadow-xl p-8">
                     <h3 class="text-2xl font-bold text-gray-900 mb-6">{{ __('about.get_in_touch') }}</h3>
@@ -380,4 +406,29 @@
 
         </div>
     </div>
+
+    <!-- JavaScript for category navigation -->
+    <script>
+        function redirectToProducts(category) {
+            // Create URL with category parameter
+            let url = "{{ route('user.products.index') }}";
+            
+            // Map category names to filter values (matching controller expectations)
+            const categoryMap = {
+                'soap-flowers': 'soap-flower',
+                'fresh-flowers': 'fresh-flower', 
+                'special-flowers': 'special-flower',
+                'souvenirs': 'souvenir'
+            };
+            
+            // Get the actual category value for filtering
+            const filterValue = categoryMap[category] || category;
+            
+            // Add category_name parameter to URL (not category)
+            url += '?category_name=' + encodeURIComponent(filterValue);
+            
+            // Redirect to products page
+            window.location.href = url;
+        }
+    </script>
 </x-app-layout>
