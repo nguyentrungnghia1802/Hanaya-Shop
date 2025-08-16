@@ -198,29 +198,24 @@
             </div>
 
             <!-- Meet Our Team -->
-            <div class="bg-white rounded-2xl shadow-xl p-8 lg:p-12 mb-20">
-                <div class="text-center mb-12">
-                    <h3 class="text-3xl font-bold text-gray-900 mb-4">{{ __('about.meet_our_team') }}</h3>
-                    <p class="text-gray-600 text-lg">{{ __('about.team_description') }}</p>
-                </div>
-
-                <!-- Team Photo -->
-                <div class="text-center mb-12">
-                    <div class="inline-block rounded-2xl overflow-hidden shadow-lg">
-                        <img src="{{ asset('fixed_resources/about/team.jpg') }}" 
-                             alt="Hanaya Shop Team" 
-                             class="w-full max-w-2xl h-64 object-cover">
+            <div class="bg-white rounded-2xl shadow-xl p-0 lg:p-0 mb-20 overflow-hidden">
+                <!-- Team Header with Large Background -->
+                <div class="relative w-full h-[560px] flex flex-col items-center justify-center text-center">
+                    <img src="{{ asset('fixed_resources/about/team.png') }}" alt="Hanaya Shop Team" class="absolute inset-0 w-full h-full object-cover object-center opacity-70">
+                    <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-transparent"></div>
+                    <div class="relative z-10 px-8 pt-10 pb-4 flex flex-col items-center">
+                        <h3 class="text-4xl font-bold text-pink-200 mb-4 drop-shadow-lg" style="text-shadow: 0 2px 8px #000, 0 0 2px #fff;">{{ __('about.meet_our_team') }}</h3>
+                        <p class="text-pink-100 text-lg mb-4 drop-shadow-lg" style="text-shadow: 0 2px 8px #000;">{{ __('about.team_description') }}</p>
+                        <p class="text-pink-100 mt-2 italic drop-shadow-lg" style="text-shadow: 0 2px 8px #000;">{{ __('about.team_group_description') }}</p>
                     </div>
-                    <p class="text-gray-600 mt-4 italic">{{ __('about.team_group_description') }}</p>
                 </div>
-
                 <!-- Individual Team Members -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-8 lg:px-12 pb-12 mt-[-60px]">
                     <!-- Team Member 1 -->
-                    <div class="text-center">
+                    <div class="text-center bg-white rounded-2xl shadow-lg p-6">
                         <div class="relative mb-6">
-                            <img src="{{ asset('fixed_resources/about/quyen.jpg') }}" 
-                                 alt="Team Member 1" 
+                            <img src="{{ asset('fixed_resources/about/quyen.jpg') }}"
+                                 alt="Team Member 1"
                                  class="w-32 h-32 rounded-full mx-auto object-cover shadow-lg">
                             <div class="absolute inset-0 w-32 h-32 rounded-full mx-auto bg-gradient-to-r from-pink-500 to-purple-600 opacity-0 hover:opacity-20 transition-opacity duration-300"></div>
                         </div>
@@ -230,12 +225,11 @@
                             {{ __('about.alex_description') }}
                         </p>
                     </div>
-
                     <!-- Team Member 2 -->
-                    <div class="text-center">
+                    <div class="text-center bg-white rounded-2xl shadow-lg p-6">
                         <div class="relative mb-6">
-                            <img src="{{ asset('fixed_resources/about/nghia.jpg') }}" 
-                                 alt="Team Member 2" 
+                            <img src="{{ asset('fixed_resources/about/nghia.jpg') }}"
+                                 alt="Team Member 2"
                                  class="w-32 h-32 rounded-full mx-auto object-cover shadow-lg">
                             <div class="absolute inset-0 w-32 h-32 rounded-full mx-auto bg-gradient-to-r from-pink-500 to-purple-600 opacity-0 hover:opacity-20 transition-opacity duration-300"></div>
                         </div>
@@ -245,12 +239,11 @@
                             {{ __('about.nghia_description') }}
                         </p>
                     </div>
-
                     <!-- Team Member 3 -->
-                    <div class="text-center">
+                    <div class="text-center bg-white rounded-2xl shadow-lg p-6">
                         <div class="relative mb-6">
-                            <img src="{{ asset('fixed_resources/about/tai.jpg') }}" 
-                                 alt="Team Member 3" 
+                            <img src="{{ asset('fixed_resources/about/tai.jpg') }}"
+                                 alt="Team Member 3"
                                  class="w-32 h-32 rounded-full mx-auto object-cover shadow-lg">
                             <div class="absolute inset-0 w-32 h-32 rounded-full mx-auto bg-gradient-to-r from-pink-500 to-purple-600 opacity-0 hover:opacity-20 transition-opacity duration-300"></div>
                         </div>
