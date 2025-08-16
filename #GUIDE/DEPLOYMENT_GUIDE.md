@@ -61,7 +61,7 @@ cd /opt/hanaya-shop
 方法 A（推奨）: リポジトリの compose を使用
 ```bash
 curl -fsSL -o docker-compose.yml \
-  https://raw.githubusercontent.com/assassincreed2k1/Hanaya-Shop/main/deployment/docker-compose.prod.yml
+  https://raw.githubusercontent.com/nguyentrungnghia1802/Hanaya-Shop/main/deployment/docker-compose.prod.yml
 ```
 
 方法 B: 最小構成の compose を作成（参考）
@@ -501,7 +501,7 @@ cd /opt/hanaya-shop
 Tùy chọn A: Dùng file có sẵn trong repository (khuyến nghị)
 ```bash
 curl -fsSL -o docker-compose.yml \
-  https://raw.githubusercontent.com/assassincreed2k1/Hanaya-Shop/main/deployment/docker-compose.prod.yml
+  https://raw.githubusercontent.com/nguyentrungnghia1802/Hanaya-Shop/main/deployment/docker-compose.prod.yml
 ```
 
 Tùy chọn B: Tạo file compose tối thiểu (tham khảo)
