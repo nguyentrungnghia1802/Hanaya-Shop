@@ -33,7 +33,7 @@
                 </div>
                 <div class="lg:pl-8">
                     <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
-                        <img src="{{ asset('fixed_resources/about_story.jpg') }}" 
+                        <img src="{{ asset('fixed_resources/about/about_story.png') }}" 
                              alt="Hanaya Shop Story" 
                              class="w-full h-64 object-cover">
                         <div class="p-6">
