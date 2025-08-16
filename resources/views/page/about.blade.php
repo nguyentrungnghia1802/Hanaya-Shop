@@ -207,7 +207,7 @@
                 <!-- Team Photo -->
                 <div class="text-center mb-12">
                     <div class="inline-block rounded-2xl overflow-hidden shadow-lg">
-                        <img src="{{ asset('fixed_resources/team.jpg') }}" 
+                        <img src="{{ asset('fixed_resources/about/team.jpg') }}" 
                              alt="Hanaya Shop Team" 
                              class="w-full max-w-2xl h-64 object-cover">
                     </div>
@@ -219,7 +219,7 @@
                     <!-- Team Member 1 -->
                     <div class="text-center">
                         <div class="relative mb-6">
-                            <img src="{{ asset('fixed_resources/author_1.jpg') }}" 
+                            <img src="{{ asset('fixed_resources/about/quyen.jpg') }}" 
                                  alt="Team Member 1" 
                                  class="w-32 h-32 rounded-full mx-auto object-cover shadow-lg">
                             <div class="absolute inset-0 w-32 h-32 rounded-full mx-auto bg-gradient-to-r from-pink-500 to-purple-600 opacity-0 hover:opacity-20 transition-opacity duration-300"></div>
@@ -249,7 +249,7 @@
                     <!-- Team Member 3 -->
                     <div class="text-center">
                         <div class="relative mb-6">
-                            <img src="{{ asset('fixed_resources/author_3.jpg') }}" 
+                            <img src="{{ asset('fixed_resources/about/tai.jpg') }}" 
                                  alt="Team Member 3" 
                                  class="w-32 h-32 rounded-full mx-auto object-cover shadow-lg">
                             <div class="absolute inset-0 w-32 h-32 rounded-full mx-auto bg-gradient-to-r from-pink-500 to-purple-600 opacity-0 hover:opacity-20 transition-opacity duration-300"></div>
