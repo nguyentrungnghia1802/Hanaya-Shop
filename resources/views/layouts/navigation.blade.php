@@ -159,20 +159,22 @@
             <div class="px-4 py-2">
                 <div class="text-sm text-gray-600 mb-2">{{ __('common.language') }}</div>
                 <div class="space-y-1">
+                    <a href="{{ route('locale.set', 'ja') }}"
+                        class="flex items-center px-3 py-2 text-sm rounded-md {{ app()->getLocale() === 'ja' ? 'bg-pink-100 text-pink-600' : 'text-gray-700 hover:bg-gray-100' }}">
+                        <span class="w-6 text-center mr-3">🇯🇵</span>
+                        {{ __('common.japanese') }}
+                    </a>
+
                     <a href="{{ route('locale.set', 'en') }}"
                         class="flex items-center px-3 py-2 text-sm rounded-md {{ app()->getLocale() === 'en' ? 'bg-pink-100 text-pink-600' : 'text-gray-700 hover:bg-gray-100' }}">
                         <span class="w-6 text-center mr-3">🇺🇸</span>
                         {{ __('common.english') }}
                     </a>
+                    
                     <a href="{{ route('locale.set', 'vi') }}"
                         class="flex items-center px-3 py-2 text-sm rounded-md {{ app()->getLocale() === 'vi' ? 'bg-pink-100 text-pink-600' : 'text-gray-700 hover:bg-gray-100' }}">
                         <span class="w-6 text-center mr-3">🇻🇳</span>
                         {{ __('common.vietnamese') }}
-                    </a>
-                    <a href="{{ route('locale.set', 'ja') }}"
-                        class="flex items-center px-3 py-2 text-sm rounded-md {{ app()->getLocale() === 'ja' ? 'bg-pink-100 text-pink-600' : 'text-gray-700 hover:bg-gray-100' }}">
-                        <span class="w-6 text-center mr-3">🇯🇵</span>
-                        {{ __('common.japanese') }}
                     </a>
                 </div>
             </div>
