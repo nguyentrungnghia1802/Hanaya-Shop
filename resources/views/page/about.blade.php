@@ -63,7 +63,7 @@
                         </div>
                         <h4 class="text-xl font-semibold text-gray-900 mb-3">{{ __('about.quality_excellence') }}</h4>
                         <p class="text-gray-600">
-                            {{ __('about.quality_excellence_desc') }}
+                            {{ __('about.quality_description') }}
                         </p>
                     </div>
 
