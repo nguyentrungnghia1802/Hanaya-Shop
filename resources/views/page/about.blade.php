@@ -207,7 +207,7 @@
                 <!-- Team Photo -->
                 <div class="text-center mb-12">
                     <div class="inline-block rounded-2xl overflow-hidden shadow-lg">
-                        <img src="{{ asset('fixed_resources/team_group.jpg') }}" 
+                        <img src="{{ asset('fixed_resources/team.jpg') }}" 
                              alt="Hanaya Shop Team" 
                              class="w-full max-w-2xl h-64 object-cover">
                     </div>
