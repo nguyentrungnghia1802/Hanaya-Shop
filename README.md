@@ -22,7 +22,10 @@
 -   デモ動画: [YouTube Demo](https://youtu.be/your-demo-id)
 
 ![Hanaya Shop Hero Banner](.github/images/jp/hero-banner.png)
+<div align="center">
 _メインページのイメージ_
+
+</div>
 
 ## 概要 <a id="overview-jp"></a>
 
@@ -178,7 +181,10 @@ hanaya-shop/
 -   Demo video: [YouTube Demo](https://youtu.be/your-demo-id)
 
 ![Hanaya Shop Hero Banner](.github/images/en/hero-banner.png)
+<div align="center">
 _Main page visualization_
+
+</div>
 
 ## Overview <a id="overview-en"></a>
 
@@ -333,7 +339,10 @@ hanaya-shop/
 -   Video demo: [YouTube Demo](https://youtu.be/your-demo-id)
 
 ![Hanaya Shop Hero Banner](.github/images/vi/hero-banner.png)
+<div align="center">
 _Hình ảnh trang chủ_
+
+</div>
 
 ## Giới thiệu <a id="overview-vi"></a>
 
