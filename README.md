@@ -23,6 +23,7 @@
 
 ![Hanaya Shop Hero Banner](.github/images/jp/hero-banner.png)
 <div align="center">
+
 _メインページのイメージ_
 
 </div>
@@ -182,6 +183,7 @@ hanaya-shop/
 
 ![Hanaya Shop Hero Banner](.github/images/en/hero-banner.png)
 <div align="center">
+
 _Main page visualization_
 
 </div>
@@ -340,6 +342,7 @@ hanaya-shop/
 
 ![Hanaya Shop Hero Banner](.github/images/vi/hero-banner.png)
 <div align="center">
+
 _Hình ảnh trang chủ_
 
 </div>
@@ -388,6 +391,7 @@ _Hình ảnh thực tế cho vấn đề hoa bị lãng phí_
 <img src=".github/images/vi/customer-features3.png" alt="Customer Features Screenshot" width="850"/>
 
 </div>
+
 ## 🛠️ Trang quản trị <a id="admin-vi"></a>
 
 -   Quản lý danh mục, sản phẩm (CRUD, bật/tắt hiển thị)
@@ -403,6 +407,7 @@ _Hình ảnh thực tế cho vấn đề hoa bị lãng phí_
 <img src=".github/images/vi/order.png" alt="Admin Dashboard Screenshot" width="850"/>
 
 </div>
+
 ---
 
 ## 🛠️ Công nghệ sử dụng <a id="tech-vi"></a>
