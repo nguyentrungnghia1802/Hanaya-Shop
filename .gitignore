@@ -3,6 +3,7 @@
 /node_modules/
 .env
 .env.*.local
+.env.production
 .phpunit.result.cache
 .phpstorm.meta.php
 /storage/
@@ -30,3 +31,6 @@ Thumbs.db
 
 # host address
 public/hot
+
+# docker
+docker-compose.production.yml
