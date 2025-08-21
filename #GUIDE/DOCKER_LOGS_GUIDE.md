@@ -1,123 +1,124 @@
-# HƯỚNG DẪN XEM VÀ SỬA LOGS LỖI KHI DÙNG DOCKER TRÊN UBUNTU
 
-## 1. Tổng quan
-File này hướng dẫn cách xem và xử lý lỗi khi sử dụng Docker trên Ubuntu, bao quát các trường hợp phổ biến: lỗi container, lỗi build, lỗi mạng, lỗi volume, lỗi permission, lỗi service, lỗi ứng dụng bên trong container (PHP, Nginx, MySQL, Redis, ...).
+# GUIDE: Viewing and Troubleshooting Docker Logs on Ubuntu
+
+## 1. Overview
+This file explains how to view and troubleshoot errors when using Docker on Ubuntu, covering common cases: container errors, build errors, network issues, volume problems, permissions, service errors, and application errors inside containers (PHP, Nginx, MySQL, Redis, ...).
 
 ---
 
-## 2. Xem logs tổng thể của Docker
-- Xem logs daemon Docker:
+## 2. View Docker Daemon Logs
+- View Docker daemon logs:
   ```bash
   sudo journalctl -u docker.service
   ```
-- Xem trạng thái dịch vụ Docker:
+- Check Docker service status:
   ```bash
   sudo systemctl status docker
   ```
 
 ---
 
-## 3. Xem logs của container cụ thể
-- Liệt kê các container:
+## 3. View Specific Container Logs
+- List all containers:
   ```bash
   docker ps -a
   ```
-- Xem logs container (theo tên hoặc ID):
+- View logs for a container (by name or ID):
   ```bash
   docker logs <container_name_or_id>
-  # Xem realtime:
+  # View logs in real time:
   docker logs -f <container_name_or_id>
   ```
-- Xem logs nhiều dòng cuối:
+- View the last lines of logs:
   ```bash
   docker logs --tail 100 <container_name_or_id>
   ```
 
 ---
 
-## 4. Xem logs ứng dụng bên trong container
-- **PHP/Laravel**: Thường lưu ở `/var/www/html/storage/logs/laravel.log` hoặc `/app/storage/logs/laravel.log`.
+## 4. View Application Logs Inside Containers
+- **PHP/Laravel**: Usually stored at `/var/www/html/storage/logs/laravel.log` or `/app/storage/logs/laravel.log`.
   ```bash
   docker exec -it <container_name> tail -f /var/www/html/storage/logs/laravel.log
   ```
 - **Nginx/Apache**:
   - Nginx: `/var/log/nginx/error.log`, `/var/log/nginx/access.log`
   - Apache: `/var/log/apache2/error.log`, `/var/log/apache2/access.log`
-- **MySQL**: `/var/log/mysql/error.log` hoặc xem bằng lệnh:
+- **MySQL**: `/var/log/mysql/error.log` or view with:
   ```bash
   docker exec -it <container_name> cat /var/log/mysql/error.log
   ```
-- **Redis**: `/data/logs/redis.log` hoặc `/var/log/redis/redis-server.log`
+- **Redis**: `/data/logs/redis.log` or `/var/log/redis/redis-server.log`
 
 ---
 
-## 5. Xử lý các trường hợp lỗi phổ biến
-### a. Container không start được
-- Xem logs container: `docker logs <container_name>`
-- Kiểm tra cấu hình Docker Compose, Dockerfile, file .env
-- Kiểm tra port có bị trùng không
-- Kiểm tra volume mount đúng chưa
+## 5. Troubleshooting Common Errors
+### a. Container won't start
+- View container logs: `docker logs <container_name>`
+- Check Docker Compose, Dockerfile, and .env configuration
+- Check for port conflicts
+- Check if volume mounts are correct
 
-### b. Lỗi permission (quyền truy cập file/folder)
-- Thường gặp khi mount volume từ host vào container
-- Sửa bằng cách cấp quyền cho thư mục:
+### b. Permission errors (file/folder access)
+- Common when mounting volumes from host to container
+- Fix by setting permissions:
   ```bash
   sudo chown -R 1000:1000 <folder>
   sudo chmod -R 775 <folder>
   ```
-- Nếu là Laravel: cấp quyền cho `storage`, `bootstrap/cache`
+- For Laravel: set permissions for `storage`, `bootstrap/cache`
 
-### c. Lỗi database (MySQL, Redis...)
-- Xem logs service tương ứng
-- Kiểm tra biến môi trường DB_*
-- Kiểm tra volume data có bị lỗi permission không
-- Kiểm tra cấu hình mạng (network)
+### c. Database errors (MySQL, Redis...)
+- View logs for the relevant service
+- Check DB_* environment variables
+- Check for volume permission issues
+- Check network configuration
 
-### d. Lỗi ứng dụng (PHP, Node, ...)
-- Xem logs ứng dụng bên trong container
-- Kiểm tra file cấu hình, biến môi trường
-- Kiểm tra lại Dockerfile, docker-compose.yml
+### d. Application errors (PHP, Node, ...)
+- View application logs inside the container
+- Check configuration files and environment variables
+- Review Dockerfile and docker-compose.yml
 
-### e. Lỗi build image
-- Xem output khi build: `docker-compose build` hoặc `docker build`
-- Đọc kỹ dòng báo lỗi, thường là do thiếu file, sai lệnh, thiếu quyền
+### e. Build image errors
+- View build output: `docker compose build` or `docker build`
+- Read error messages carefully; usually due to missing files, wrong commands, or permission issues
 
-### f. Lỗi mạng (network)
-- Kiểm tra network Docker: `docker network ls`, `docker network inspect <network>`
-- Kiểm tra container có join đúng network không
-- Kiểm tra port mapping
-
----
-
-## 6. Khi nào cần xem logs ở đâu?
-- **Container không chạy**: Xem logs container, logs Docker daemon
-- **Web không truy cập được**: Xem logs Nginx/Apache, logs ứng dụng
-- **Lỗi 500, 502, 504**: Xem logs ứng dụng, logs web server
-- **Lỗi database**: Xem logs MySQL/Redis, kiểm tra volume
-- **Lỗi permission**: Xem logs ứng dụng, kiểm tra quyền thư mục trên host
-- **Lỗi build**: Xem output build, kiểm tra Dockerfile
+### f. Network errors
+- Check Docker networks: `docker network ls`, `docker network inspect <network>`
+- Check if containers are joined to the correct network
+- Check port mappings
 
 ---
 
-## 7. Một số lệnh hữu ích khác
-- Xem toàn bộ logs hệ thống:
+## 6. Where to Check Logs?
+- **Container won't run**: Check container logs, Docker daemon logs
+- **Website not accessible**: Check Nginx/Apache logs, application logs
+- **500, 502, 504 errors**: Check application logs, web server logs
+- **Database errors**: Check MySQL/Redis logs, check volume
+- **Permission errors**: Check application logs, check host folder permissions
+- **Build errors**: Check build output, review Dockerfile
+
+---
+
+## 7. Other Useful Commands
+- View all system logs:
   ```bash
   dmesg | tail -n 50
   sudo tail -f /var/log/syslog
   ```
-- Xem logs docker-compose:
+- View docker-compose logs:
   ```bash
-  docker-compose logs
-  docker-compose logs -f <service>
+  docker compose logs
+  docker compose logs -f <service>
   ```
-- Xem logs nhiều container cùng lúc:
+- View logs for multiple containers at once:
   ```bash
-  docker-compose logs -f
+  docker compose logs -f
   ```
 
 ---
 
-## 8. Tổng kết
-- Luôn đọc kỹ thông báo lỗi, xác định lỗi ở đâu (host, container, ứng dụng, service...)
-- Xem đúng logs, sửa đúng chỗ
-- Nếu không rõ, thử restart container, kiểm tra lại cấu hình, hỏi cộng đồng hoặc tra Google với thông báo lỗi cụ thể.
+## 8. Summary
+- Always read error messages carefully and identify where the error occurs (host, container, application, service...)
+- Check the correct logs and fix the right place
+- If unsure, try restarting the container, review configuration, ask the community, or search Google with the specific error message.
