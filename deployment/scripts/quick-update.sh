@@ -22,23 +22,35 @@ print_color $BLUE "========================================"
 print_color $BLUE "  Hanaya Shop Quick Update"
 print_color $BLUE "========================================"
 
-# Ensure we're in the right directory
-if [ ! -f "docker-compose.production.yml" ]; then
-    print_color $RED "docker-compose.production.yml not found!"
-    print_color $RED "Please make sure you're in the correct directory."
-    exit 1
+# Check if we're in the deployment directory or change to it
+if [ ! -f "docker-compose.yml" ]; then
+    if [ -d "/opt/hanaya-shop" ]; then
+        cd /opt/hanaya-shop
+        print_color $YELLOW "Changed to /opt/hanaya-shop directory"
+    else
+        print_color $RED "docker-compose.yml not found and /opt/hanaya-shop doesn't exist!"
+        print_color $RED "Please run deploy-ubuntu.sh first."
+        exit 1
+    fi
 fi
 
-# Run the main update script
-if [ -f "update-ubuntu.sh" ]; then
-    print_color $YELLOW "Running update script..."
-    chmod +x update-ubuntu.sh
-    ./update-ubuntu.sh
-else
-    print_color $RED "update-ubuntu.sh not found!"
-    print_color $RED "Please download the update script first."
-    exit 1
-fi
+# Pull and update
+print_color $YELLOW "Pulling latest image and updating..."
+docker compose pull
+docker compose up -d
+
+print_color $YELLOW "Waiting for application to be ready..."
+sleep 30
+
+print_color $YELLOW "Running database migrations..."
+docker compose exec app php artisan migrate --force
+
+print_color $YELLOW "Optimizing application..."
+docker compose exec app php artisan optimize
 
 print_color $GREEN "✅ Update completed successfully!"
 print_color $GREEN "🌐 Your application is now running with the latest version!"
+
+echo ""
+print_color $GREEN "Application Status:"
+docker compose ps

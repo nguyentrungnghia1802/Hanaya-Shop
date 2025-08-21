@@ -5,14 +5,26 @@ services:
     container_name: hanaya-shop-app
     ports:
       - "80:80"
+    # Environment variables for the application. You can fill values here or mount from a .env file.
+    # APP_ENV: Application environment (production/development)
+    # APP_DEBUG: Enable/disable debug mode (true/false)
+    # APP_URL: Application URL
+    # DB_HOST: Database service name, use 'db' if running with Docker Compose
+    # DB_DATABASE: Database name, e.g. hanaya_shop
+    # DB_USERNAME: Database username
+    # DB_PASSWORD: Database password
+    # REDIS_HOST: Redis service name, use 'redis' if running with Docker Compose
+    # CACHE_DRIVER: Cache driver (e.g. redis)
+    # SESSION_DRIVER: Session driver (e.g. redis)
+    # QUEUE_CONNECTION: Queue driver (e.g. redis)
     environment:
       - APP_ENV=production
       - APP_DEBUG=false
       - APP_URL=http://localhost
       - DB_HOST=db
-      - DB_DATABASE=hanaya_shop
-      - DB_USERNAME=hanaya_user
-      - DB_PASSWORD=Trungnghia2703
+      - DB_DATABASE=
+      - DB_USERNAME=
+      - DB_PASSWORD=
       - REDIS_HOST=redis
       - CACHE_DRIVER=redis
       - SESSION_DRIVER=redis
@@ -37,11 +49,16 @@ services:
   db:
     image: mysql:8.0
     container_name: hanaya-shop-db
+    # MySQL environment variables. Fill values here or mount from a .env file.
+    # MYSQL_ROOT_PASSWORD: MySQL root password (only for initial setup)
+    # MYSQL_DATABASE: Database name
+    # MYSQL_USER: Database username
+    # MYSQL_PASSWORD: Database password
     environment:
-      - MYSQL_ROOT_PASSWORD=Trungnghia2703
-      - MYSQL_DATABASE=hanaya_shop
-      - MYSQL_USER=hanaya_user
-      - MYSQL_PASSWORD=Trungnghia2703
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DATABASE=
+      - MYSQL_USER=
+      - MYSQL_PASSWORD=
     volumes:
       - db_data:/var/lib/mysql
     ports:
