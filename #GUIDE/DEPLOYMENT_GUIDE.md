@@ -116,18 +116,59 @@ docker compose pull
 docker compose up -d
 ```
 
-MySQL 初期化のため 30 秒ほど待ち、初回セットアップを実行:
+MySQL の完全初期化を待つ（30秒程度）。より確実にするには以下のコマンドを実行:
 ```bash
+# MySQL が接続を受け入れるまで待機（任意、より安全）
+docker compose exec db bash -c 'until mysqladmin ping -h "127.0.0.1" -u root -p"$MYSQL_ROOT_PASSWORD" --silent; do echo "MySQL待機中..."; sleep 2; done'
+```
+
+初回セットアップ（安全な順序でトラブルシューティング付き）:
+```bash
+# 1) アプリケーションキー生成
 docker compose exec app php artisan key:generate --force
+
+# 2) データベースマイグレーション実行
 docker compose exec app php artisan migrate --force
-docker compose exec app php artisan db:seed --force
-docker compose exec app php artisan optimize
+
+# 3) Faker不足エラー対策: Composerがある場合はfakerをインストール
+docker compose exec app bash -c "if command -v composer >/dev/null 2>&1; then composer require fakerphp/faker --no-interaction --prefer-dist --optimize-autoloader; else echo 'Composer未検出: Fakerインストールスキップ'; fi"
+
+# 4) シーダー実行（エラー時も続行）
+docker compose exec app php artisan db:seed --force || echo "シーダー失敗 - SQLサンプルを後でインポート推奨"
+
+# 5) キャッシュクリア（Route cache エラー対策）
+docker compose exec app php artisan route:clear || true
+docker compose exec app php artisan config:clear || true
+docker compose exec app php artisan cache:clear || true
+
+# 6) 最適化実行（エラー時も続行）
+docker compose exec app php artisan optimize || echo "最適化一部失敗 - 個別キャッシュを試行"
+
+# 最適化が失敗した場合、個別実行:
+docker compose exec app php artisan config:cache || true
+docker compose exec app php artisan view:cache || true
+# route:cache は問題がある場合スキップ
+```
+
+オプション: サンプルデータをバックアップからインポート（シーダー失敗時やデモ用途に推奨）:
+```bash
+# サンプルデータをダウンロード
+curl -fsSL -o hanaya-shop-backup.sql \
+  https://raw.githubusercontent.com/assassincreed2k1/Hanaya-Shop/main/database/sql/hanaya-shop-backup.sql
+
+# サンプルデータをインポート（rootパスワード入力が必要）
+docker compose exec -T db mysql -u root -p hanaya_shop < hanaya-shop-backup.sql
 ```
 
 Queue ワーカー（メール/通知に推奨）:
 ```bash
 docker compose exec -d app php artisan queue:work --queue=default --sleep=1 --tries=3
 ```
+
+トラブルシューティング:
+- Faker エラー: production イメージに dev 依存関係がない場合に発生。Composer でインストールするか、SQLサンプルをインポート
+- Route cache エラー: キャッシュクリア後に最適化実行。それでも失敗する場合は route:cache をスキップ
+- ログ確認: `docker compose logs -f app`
 
 ## 5) ドメインと HTTPS（推奨）
 1. ドメインの A レコードをサーバー IP に向ける
@@ -335,18 +376,59 @@ docker compose pull
 docker compose up -d
 ```
 
-Wait ~30s for MySQL to initialize, then run first-time setup:
+Wait for MySQL to fully initialize (~30s). For better reliability, use this check:
 ```bash
+# Wait until MySQL accepts connections (optional, more reliable)
+docker compose exec db bash -c 'until mysqladmin ping -h "127.0.0.1" -u root -p"$MYSQL_ROOT_PASSWORD" --silent; do echo "Waiting for MySQL..."; sleep 2; done'
+```
+
+First-time setup (safe order with troubleshooting):
+```bash
+# 1) Generate application key
 docker compose exec app php artisan key:generate --force
+
+# 2) Run database migrations
 docker compose exec app php artisan migrate --force
-docker compose exec app php artisan db:seed --force
-docker compose exec app php artisan optimize
+
+# 3) Fix Faker missing error: install faker if composer is available
+docker compose exec app bash -c "if command -v composer >/dev/null 2>&1; then composer require fakerphp/faker --no-interaction --prefer-dist --optimize-autoloader; else echo 'Composer not found: Skipping faker installation'; fi"
+
+# 4) Run seeders (continue on error)
+docker compose exec app php artisan db:seed --force || echo "Seeder failed - recommend importing SQL sample later"
+
+# 5) Clear caches (fix Route cache errors)
+docker compose exec app php artisan route:clear || true
+docker compose exec app php artisan config:clear || true
+docker compose exec app php artisan cache:clear || true
+
+# 6) Run optimization (continue on error)
+docker compose exec app php artisan optimize || echo "Optimization partially failed - trying individual caches"
+
+# If optimize fails, run individually:
+docker compose exec app php artisan config:cache || true
+docker compose exec app php artisan view:cache || true
+# Skip route:cache if problematic
+```
+
+Optional: Import sample data from backup (recommended if seeder failed or for demo):
+```bash
+# Download sample data
+curl -fsSL -o hanaya-shop-backup.sql \
+  https://raw.githubusercontent.com/assassincreed2k1/Hanaya-Shop/main/database/sql/hanaya-shop-backup.sql
+
+# Import sample data (will prompt for root password)
+docker compose exec -T db mysql -u root -p hanaya_shop < hanaya-shop-backup.sql
 ```
 
 Run a queue worker (recommended for emails/notifications):
 ```bash
 docker compose exec -d app php artisan queue:work --queue=default --sleep=1 --tries=3
 ```
+
+Troubleshooting notes:
+- Faker error: occurs when production image lacks dev dependencies. Install with composer or import SQL sample
+- Route cache error: clear caches before optimize. If still fails, skip route:cache
+- Check logs: `docker compose logs -f app`
 
 ## 5) Domain and HTTPS (optional but recommended)
 1. Point your domain A record to the server IP
@@ -557,18 +639,59 @@ docker compose up -d
 # Nếu máy dùng binary cũ: docker-compose pull && docker-compose up -d
 ```
 
-Chờ ~30 giây để MySQL khởi tạo, sau đó thực hiện thiết lập lần đầu:
+Chờ MySQL khởi tạo hoàn tất (~30 giây). Để chắc chắn hơn, có thể kiểm tra:
 ```bash
+# Chờ đến khi MySQL chấp nhận kết nối (tùy chọn, đáng tin cậy hơn)
+docker compose exec db bash -c 'until mysqladmin ping -h "127.0.0.1" -u root -p"$MYSQL_ROOT_PASSWORD" --silent; do echo "Đang chờ MySQL..."; sleep 2; done'
+```
+
+Thiết lập lần đầu (thứ tự an toàn + khắc phục lỗi thường gặp):
+```bash
+# 1) Tạo khóa ứng dụng
 docker compose exec app php artisan key:generate --force
+
+# 2) Chạy migration database
 docker compose exec app php artisan migrate --force
-docker compose exec app php artisan db:seed --force
-docker compose exec app php artisan optimize
+
+# 3) Khắc phục lỗi thiếu Faker: cài faker nếu có composer
+docker compose exec app bash -c "if command -v composer >/dev/null 2>&1; then composer require fakerphp/faker --no-interaction --prefer-dist --optimize-autoloader; else echo 'Không tìm thấy composer: Bỏ qua cài faker'; fi"
+
+# 4) Chạy seeder (tiếp tục dù có lỗi)
+docker compose exec app php artisan db:seed --force || echo "Seeder thất bại - khuyến nghị import SQL sample sau"
+
+# 5) Xóa cache (khắc phục lỗi Route cache)
+docker compose exec app php artisan route:clear || true
+docker compose exec app php artisan config:clear || true
+docker compose exec app php artisan cache:clear || true
+
+# 6) Chạy optimize (tiếp tục dù có lỗi)
+docker compose exec app php artisan optimize || echo "Optimize một phần thất bại - thử cache riêng lẻ"
+
+# Nếu optimize thất bại, chạy từng cái:
+docker compose exec app php artisan config:cache || true
+docker compose exec app php artisan view:cache || true
+# Bỏ qua route:cache nếu có vấn đề
+```
+
+Tùy chọn: Import dữ liệu mẫu từ backup (khuyến nghị khi seeder lỗi hoặc cho demo):
+```bash
+# Tải dữ liệu mẫu
+curl -fsSL -o hanaya-shop-backup.sql \
+  https://raw.githubusercontent.com/assassincreed2k1/Hanaya-Shop/main/database/sql/hanaya-shop-backup.sql
+
+# Import dữ liệu mẫu (sẽ hỏi mật khẩu root)
+docker compose exec -T db mysql -u root -p hanaya_shop < hanaya-shop-backup.sql
 ```
 
 Chạy queue worker (khuyến nghị cho email/thông báo):
 ```bash
 docker compose exec -d app php artisan queue:work --queue=default --sleep=1 --tries=3
 ```
+
+Ghi chú khắc phục sự cố:
+- Lỗi Faker: xảy ra khi image production thiếu dev dependencies. Cài bằng composer hoặc import SQL sample
+- Lỗi Route cache: xóa cache trước khi optimize. Nếu vẫn lỗi, bỏ qua route:cache
+- Kiểm tra logs: `docker compose logs -f app`
 
 ## 5) Cấu hình domain và HTTPS (khuyến nghị)
 1. Trỏ domain (A record) về IP server
