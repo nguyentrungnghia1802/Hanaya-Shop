@@ -19,7 +19,7 @@
     @if($posts->count() > 0)
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($posts as $post)
-                <a href="{{ route('posts.show', $post->id) }}" class="group cursor-pointer bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden block focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <a href="{{ route('posts.show', $post->id) }}" class="group cursor-pointer bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden focus:outline-none focus:ring-2 focus:ring-blue-400 flex flex-col h-full">
                     <div class="relative overflow-hidden rounded-t-xl mb-3">
                         <img src="{{ $post->image ? asset('images/posts/' . $post->image) : asset('fixed_resources/default-post.jpg') }}" 
                             alt="{{ $post->title }}" 
@@ -30,14 +30,14 @@
                             </span>
                         </div>
                     </div>
-                    <div class="space-y-2 p-4">
-                        <h4 class="font-semibold text-gray-800 group-hover:text-blue-600 transition-colors line-clamp-2">
+                    <div class="p-4 flex flex-col flex-1">
+                        <h4 class="font-semibold text-gray-800 group-hover:text-blue-600 transition-colors line-clamp-2 mb-2">
                             {{ $post->title }}
                         </h4>
-                        <p class="text-gray-600 text-sm line-clamp-3">
+                        <p class="text-gray-600 text-sm line-clamp-3 mb-3 min-h-[4.5rem]">
                             {{ Str::limit(html_entity_decode(strip_tags($post->content)), 100) }}
                         </p>
-                        <div class="flex items-center text-xs text-gray-500 space-x-4">
+                        <div class="flex items-center text-xs text-gray-500 space-x-4 mb-3">
                             <span class="flex items-center">
                                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
@@ -51,12 +51,14 @@
                                 {{ $post->created_at->diffForHumans() }}
                             </span>
                         </div>
-                        <span class="inline-flex items-center text-blue-600 hover:text-blue-800 text-sm font-medium mt-2 transition-colors duration-300">
-                            {{ __('posts.read_more') }}
-                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                            </svg>
-                        </span>
+                        <div class="mt-auto">
+                            <span class="inline-flex items-center text-blue-600 hover:text-blue-800 text-sm font-medium transition-colors duration-300">
+                                {{ __('posts.read_more') }}
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </span>
+                        </div>
                     </div>
                 </a>
             @endforeach
