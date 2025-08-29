@@ -25,9 +25,9 @@ return [
     'our_values' => 'Our Values',
     
     // Story paragraphs  
-    'story_paragraph_1' => 'Founded with a passion for bringing beauty and joy into people\'s lives, Hanaya Shop began as a small dream to create something special in the world of flowers and gifts. Our journey started with a simple belief: that flowers have the power to express emotions that words sometimes cannot.',
-    'story_paragraph_2' => 'What makes us unique is our dedication to crafting soap flowers - eternal blooms that capture the beauty of fresh flowers while lasting forever. These handcrafted creations combine the visual appeal of fresh flowers with the practicality and longevity that our customers love.',
-    'story_paragraph_3' => 'Today, Hanaya Shop has grown into a trusted destination for those seeking meaningful gifts, beautiful decorations, and heartfelt expressions of love and appreciation.',
+    'story_paragraph_1' => 'In Vietnam, especially during festive seasons and holidays, countless flowers are discarded due to their short lifespan and sellers\' inability to reach the right customers in time. This mismatch between supply and demand results in social waste and losses for sellers.',
+    'story_paragraph_2' => 'Hanaya Shop was created to address this real-world problem. Our platform helps expand shop visibility, increases customer touchpoints, and ensures each flower reaches the right person at the right moment. With a modern UI/UX, reliable Laravel backend, fast SSR, and practical business models for inventory, orders, and payments, we\'re making a difference.',
+    'story_paragraph_3' => 'Our long-term vision is to strengthen the connection between sellers and buyers, working towards minimizing wasted flowers to the absolute minimum. Each day, we strive to bring more beauty into people\'s lives while reducing unnecessary waste in the flower industry.',
     
     // Why choose us
     'why_choose_us' => 'Why Choose Us?',

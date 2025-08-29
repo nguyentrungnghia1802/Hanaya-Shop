@@ -26,9 +26,17 @@
                 <div class="space-y-6">
                     <h3 class="text-3xl font-bold text-gray-900">{{ __('about.our_story') }}</h3>
                     <div class="space-y-4 text-gray-600 leading-relaxed">
-                        <p>{{ __('about.story_paragraph_1') }}</p>
-                        <p>{{ __('about.story_paragraph_2') }}</p>
-                        <p>{{ __('about.story_paragraph_3') }}</p>
+                        <p class="text-lg">{{ __('about.story_paragraph_1') }}</p>
+                        <p class="text-lg">{{ __('about.story_paragraph_2') }}</p>
+                        <p class="text-lg font-medium text-pink-700">{{ __('about.story_paragraph_3') }}</p>
+                    </div>
+                    <div class="pt-4">
+                        <a href="{{ route('user.products.index') }}" class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-medium rounded-lg transition-all hover:from-pink-600 hover:to-purple-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                            {{ __('about.discover_collection') }}
+                        </a>
                     </div>
                 </div>
                 <div class="lg:pl-8">
