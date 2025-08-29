@@ -7,7 +7,8 @@ return [
     'welcome_to_hanaya' => 'Chào mừng đến với Hanaya Shop',
     'hero_description' => 'Khám phá nghệ thuật hoa sáp tuyệt đẹp - nơi sự thanh lịch gặp gỡ tính năng thực tiễn. Mỗi sản phẩm được chế tác thủ công cẩn thận để mang lại vẻ đẹp và hương thơm cho những khoảnh khắc đặc biệt của bạn.',
     'our_story' => 'Câu chuyện của chúng tôi',
-    
+    'watch_video_demo' => 'Xem video demo của chúng tôi',
+
     // Mission & Values Section
     'mission_values' => 'Sứ Mệnh & Giá Trị',
     'mission_values_description' => 'Những nguyên tắc định hướng mọi việc chúng tôi làm',

@@ -7,7 +7,8 @@ return [
     'welcome_to_hanaya' => 'Welcome to Hanaya Shop',
     'hero_description' => 'Discover the art of beautiful soap flowers - where elegance meets functionality. Each piece is carefully handcrafted to bring beauty and fragrance to your special moments.',
     'our_story' => 'Our Story',
-    
+    'watch_video_demo' => 'Watch Our Video Demo',
+
     // Mission & Values Section
     'mission_values' => 'Our Mission & Values',
     'mission_values_description' => 'The principles that guide everything we do',

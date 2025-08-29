@@ -7,7 +7,8 @@ return [
     'welcome_to_hanaya' => 'ハナヤショップへようこそ',
     'hero_description' => '美しいソープフラワーの芸術を発見してください - エレガンスが機能性と出会う場所。各作品は、あなたの特別な瞬間に美しさと香りをもたらすよう丁寧に手作りされています。',
     'our_story' => '私たちのストーリー',
-    
+    'watch_video_demo' => 'ビデオデモをご視聴ください',
+
     // Mission & Values Section
     'mission_values' => '私たちの使命と価値観',
     'mission_values_description' => '私たちのすべての行動を導く原則',
