@@ -278,4 +278,6 @@ return [
     'post_details' => 'Post Details',
     'back' => 'Back',
     'by' => 'by',
+
+    'cannot_delete_user_with_active_orders' => 'Cannot delete user with active orders',
 ];

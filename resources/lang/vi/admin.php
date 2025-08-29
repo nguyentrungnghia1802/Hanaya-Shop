@@ -275,4 +275,6 @@ return [
     'post_details'          => 'Chi tiết bài viết',
     'back'                  => 'Quay lại',
     'by'                    => 'bởi',
+
+    'cannot_delete_user_with_active_orders' => 'Không thể xóa người dùng có đơn hàng đang hoạt động',
 ];
