@@ -76,9 +76,12 @@ class PostController extends Controller
             $imagePath = $filename; // Chỉ lưu tên file, không lưu đường dẫn đầy đủ
         }
 
+        // Tạo slug an toàn cho các ký tự đặc biệt
+        $slug = $this->createSafeSlug($validated['title']);
+
         $post = Post::create([
             'title' => $validated['title'],
-            'slug' => Str::slug($validated['title']),
+            'slug' => $slug,
             'content' => $validated['content'],
             'image' => $imagePath,
             'status' => $request->input('status', true),
@@ -133,7 +136,7 @@ class PostController extends Controller
         }
 
         $post->title = $validated['title'];
-        $post->slug = Str::slug($validated['title']);
+        $post->slug = $this->createSafeSlug($validated['title'], $post->id);
         $post->content = $validated['content'];
         $post->status = $request->input('status', true);
         $post->save();
@@ -181,6 +184,73 @@ class PostController extends Controller
                 }
             }
         }
+    }
+
+    /**
+     * Tạo slug an toàn từ title, xử lý ký tự đặc biệt và đảm bảo unique
+     */
+    private function createSafeSlug($title, $postId = null)
+    {
+        // Thử tạo slug từ title
+        $slug = Str::slug($title);
+
+        // Nếu slug rỗng (ví dụ với ký tự Nhật, Trung, Hàn)
+        if (empty($slug)) {
+            // Sử dụng transliteration hoặc fallback
+            $slug = $this->transliterateToSlug($title);
+        }
+
+        // Nếu vẫn rỗng, dùng timestamp
+        if (empty($slug)) {
+            $slug = 'post-' . time();
+        }
+
+        // Đảm bảo slug unique
+        return $this->ensureUniqueSlug($slug, $postId);
+    }
+
+    /**
+     * Chuyển đổi ký tự đặc biệt thành slug
+     */
+    private function transliterateToSlug($text)
+    {
+        // Loại bỏ ký tự đặc biệt và giữ lại chữ cái, số
+        $slug = preg_replace('/[^\p{L}\p{N}\s-]/u', '', $text);
+        
+        // Nếu sau khi loại bỏ ký tự đặc biệt vẫn có nội dung
+        if (!empty(trim($slug))) {
+            return Str::slug($slug);
+        }
+
+        // Nếu không có ký tự nào còn lại, tạo slug từ độ dài title
+        return 'post-' . strlen($text) . '-' . substr(md5($text), 0, 8);
+    }
+
+    /**
+     * Đảm bảo slug là unique
+     */
+    private function ensureUniqueSlug($slug, $postId = null)
+    {
+        $originalSlug = $slug;
+        $counter = 1;
+
+        while (true) {
+            $query = Post::where('slug', $slug);
+            
+            // Nếu đang update, loại trừ post hiện tại
+            if ($postId) {
+                $query->where('id', '!=', $postId);
+            }
+
+            if (!$query->exists()) {
+                break;
+            }
+
+            $slug = $originalSlug . '-' . $counter;
+            $counter++;
+        }
+
+        return $slug;
     }
 
 }
