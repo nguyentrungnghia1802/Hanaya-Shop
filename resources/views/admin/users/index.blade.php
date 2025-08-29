@@ -12,6 +12,12 @@
         {{ __('admin.operation_successful') }}
     </div>
 
+    <div id="errorMsg"
+        class="hidden fixed bottom-5 right-5 bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-4">
+        {{ __('admin.cannot_delete_user_with_active_orders') }}
+    </div>
+
+
     <div class="py-12 px-2 sm:px-4">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -102,6 +108,14 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(() => successMsg.classList.add('hidden'), 3000);
     }
 
+    function showError(message) {
+        const errorMsg = document.getElementById('errorMsg');
+        errorMsg.textContent = message;
+        errorMsg.classList.remove('hidden');
+        setTimeout(() => errorMsg.classList.add('hidden'), 4000);
+    }
+
+
     function bindUserTableEvents() {
         document.querySelectorAll('.btn-delete').forEach(btn => {
             btn.onclick = function () {
@@ -126,6 +140,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         this.closest('tr').remove();
                         showSuccess("{{ __('admin.message_account_delete') }}");
 
+                    } else{
+                        showError("{{ __('admin.cannot_delete_user_with_active_orders') }}");
                     }
                 })
                 .catch(err => console.error('Delete error:', err));

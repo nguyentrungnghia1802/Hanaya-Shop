@@ -347,7 +347,16 @@ class UsersController extends Controller
         }
 
         $user = User::findOrFail($id); // Find user or return 404
-        $user->delete();               // Delete user account
+
+        $orders = $user->order()->whereIn('status', ['pending', 'processing', 'shipped'])->count();
+
+        if ($orders > 0) {
+            return response()->json([
+                'success' => false,
+                'message' => __('admin.cannot_delete_user_with_active_orders')
+            ]);
+        }
+        $user->delete();            // Delete user account
 
         // Cache Management
         /**
