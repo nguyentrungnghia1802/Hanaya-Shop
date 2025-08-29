@@ -168,9 +168,12 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(data => {
             if (data.success) {
                 document.querySelectorAll('.check-user:checked').forEach(cb => cb.closest('tr').remove());
-                showSuccess("{{ __('admin.message_selected_account_delete') }}");
+                showSuccess(data.message);
+            } else {
+                showError(data.message + (data.blocked ? ' (' + data.blocked.join(', ') + ')' : ''));
             }
         })
+
         .catch(err => console.error(err));
     });
 
