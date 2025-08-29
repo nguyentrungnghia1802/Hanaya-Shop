@@ -18,7 +18,7 @@
 
 ## 🔗 リンク <a id="links-jp"></a>
 
--   Web サイト: [Hanaya Shop](http://hanayashop.com)
+-   ウェブサイト: [Hanaya Shop](http://hanayashop.com)
 -   デモ動画: [YouTube Demo](https://youtu.be/your-demo-id)
 
 ![Hanaya Shop Hero Banner](.github/images/jp/hero-banner.png)
