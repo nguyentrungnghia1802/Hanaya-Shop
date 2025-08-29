@@ -22,13 +22,13 @@
             </div>
 
             <!-- Our Story Section -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
-                <div class="space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20 items-center">
+                <div class="space-y-5">
                     <h3 class="text-3xl font-bold text-gray-900">{{ __('about.our_story') }}</h3>
                     <div class="space-y-4 text-gray-600 leading-relaxed">
-                        <p class="text-lg">{{ __('about.story_paragraph_1') }}</p>
-                        <p class="text-lg">{{ __('about.story_paragraph_2') }}</p>
-                        <p class="text-lg font-medium text-pink-700">{{ __('about.story_paragraph_3') }}</p>
+                        <p>{{ __('about.story_paragraph_1') }}</p>
+                        <p>{{ __('about.story_paragraph_2') }}</p>
+                        <p class="font-medium text-pink-700">{{ __('about.story_paragraph_3') }}</p>
                     </div>
                     <div class="pt-4">
                         <a href="{{ route('user.products.index') }}" class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-medium rounded-lg transition-all hover:from-pink-600 hover:to-purple-700">
@@ -39,18 +39,65 @@
                         </a>
                     </div>
                 </div>
-                <div class="lg:pl-8">
-                    <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
-                        <img src="{{ asset('fixed_resources/about/about_story.png') }}" alt="Hanaya Shop Story"
-                            class="w-full h-64 object-cover">
+                <div class="flex justify-center lg:justify-end">
+                    <div class="bg-white rounded-2xl shadow-xl overflow-hidden w-full max-w-md story-video-container">
+                        <div class="relative cursor-pointer story-video-wrapper">
+                            <img src="{{ asset('fixed_resources/about/about_story.jpg') }}" alt="Hanaya Shop Story"
+                                class="w-full h-72 object-cover transition-transform duration-700 ease-in-out">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 transition-opacity duration-300 flex items-center justify-center">
+                                <div class="story-play-button bg-white/80 backdrop-blur-sm w-16 h-16 rounded-full flex items-center justify-center transform scale-75 opacity-0 transition-all duration-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-pink-600" fill="currentColor" viewBox="0 0 16 16">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                        <path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z"/>
+                                    </svg>
+                                </div>
+                                <div class="text-white absolute bottom-6 left-6 text-lg font-medium opacity-0 transform translate-y-4 transition-all duration-500">
+                                    {{ __('about.watch_video_demo') }}
+                                </div>
+                            </div>
+                        </div>
                         <div class="p-6">
                             <h4 class="text-lg font-semibold text-gray-900 mb-2">{{ __('about.our_beginning') }}</h4>
-                            <p class="text-gray-600 text-sm">
+                            <p class="text-gray-600">
                                 {{ __('about.our_beginning_description') }}
                             </p>
                         </div>
                     </div>
                 </div>
+                
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const storyVideo = document.querySelector('.story-video-wrapper');
+                        
+                        storyVideo.addEventListener('click', function() {
+                            window.open('https://www.youtube.com/watch?v=Qgwq9ZHUbtQ', '_blank');
+                        });
+                    });
+                </script>
+                
+                <style>
+                    .story-video-container:hover .story-video-wrapper img {
+                        transform: scale(1.05);
+                    }
+                    
+                    .story-video-container:hover .story-video-wrapper .bg-gradient-to-t {
+                        opacity: 1;
+                    }
+                    
+                    .story-video-container:hover .story-play-button {
+                        transform: scale(1);
+                        opacity: 1;
+                    }
+                    
+                    .story-video-container:hover .text-white {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                    
+                    .story-video-wrapper {
+                        overflow: hidden;
+                    }
+                </style>
             </div>
 
             <!-- Our Mission & Values -->
