@@ -88,7 +88,7 @@ class ProductController extends Controller
          * MD5 hash ensures consistent key length while capturing all parameter variations
          * This approach provides efficient caching while maintaining data freshness
          */
-        $cacheKey = 'products_index_' . md5(serialize([
+        $cacheKey = 'products_index_' . app()->getLocale() . '_' . md5(serialize([
             'sort' => $sort,
             'keyword' => $keyword,
             'categoryId' => $categoryId,
