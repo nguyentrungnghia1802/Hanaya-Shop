@@ -6,6 +6,7 @@
 ## 目次
 
 -   [🔗 リンク](#links-jp)
+-   [🛠️ インストール/セットアップのご案内](#install-jp)
 -   [概要](#overview-jp)
 -   [🎯 プロジェクト目的](#goals-jp)
 -   [🌟 機能（Features）](#features-jp)
@@ -14,12 +15,17 @@
 -   [🛠️ 技術スタック（Technologies Used）](#tech-jp)
     -   [💡 ハイライトと実運用効果（Highlights & Impact）](#highlights-jp)
 -   [🗂️ ディレクトリ構成](#structure-jp)
--   [🔗 インストール/セットアップのご案内](#install-jp)
+-   [🚀 今後の改善点](#future-jp)
 
 ## 🔗 リンク <a id="links-jp"></a>
 
 -   ウェブサイト: [Hanaya Shop](http://hanayashop.com)
 -   デモ動画: [YouTube Demo](https://youtu.be/your-demo-id)
+
+## 🛠️ インストール/セットアップのご案内 <a id="install-jp"></a>
+
+-   本番環境（Production）: [DEPLOYMENT_GUIDE.md](./%23GUIDE/DEPLOYMENT_GUIDE.md)
+-   開発環境（Developing）: [README_DEV.md](./%23GUIDE/README_DEV.md)
 
 ![Hanaya Shop Hero Banner](.github/images/jp/hero-banner.png)
 <div align="center">
@@ -138,25 +144,53 @@ _webpagetest.org_
 ```bash
 hanaya-shop/
 ├── app/                # コントローラー、モデル、サービス
+│   ├── Console/        # Artisanコマンド
+│   ├── Http/           # コントローラー、ミドルウェア、リクエスト
+│   ├── Models/         # モデル
+│   ├── Notifications/  # 通知
+│   ├── Providers/      # サービスプロバイダー
+│   ├── Services/       # サービスクラス
+│   └── View/           # Bladeコンポーネント
 ├── bootstrap/          # Laravel初期化
+│   └── cache/          # キャッシュ
 ├── config/             # システム設定
-├── database/           # マイグレーション・シーダー
+├── database/           # マイグレーション・シーダー・ファクトリー
+│   ├── factories/
+│   ├── migrations/
+│   ├── seeders/
+│   └── sql/
 ├── public/             # 画像・エントリポイント
-├── resources/          # CSS・JS・Bladeテンプレート
+│   ├── build/
+│   ├── fixed_resources/
+│   ├── images/
+│   └── js/
+├── resources/          # CSS・JS・Bladeテンプレート・言語
+│   ├── css/
+│   ├── js/
+│   ├── lang/
+│   └── views/
 ├── routes/             # Web/APIルーティング
+│   ├── admin.php
+│   ├── auth.php
+│   ├── console.php
+│   ├── user.php
+│   └── web.php
 ├── storage/            # アップロード・ログ
+│   ├── framework/
+│   └── logs/
 ├── tests/              # ユニット・機能テスト
+│   ├── Feature/
+│   └── Unit/
 ├── Dockerfile          # Docker設定
 ├── docker-compose.yml  # Docker環境構築
 └── README.md           # ドキュメント
 ```
 
+## 🚀 今後の改善点 <a id="future-jp"></a>
+
+...
+
 ---
-
-## 🔗 インストール/セットアップのご案内 <a id="install-jp"></a>
-
--   本番環境（Production）: [DEPLOYMENT_GUIDE.md](./%23GUIDE/DEPLOYMENT_GUIDE.md)
--   開発環境（Developing）: [README_DEV.md](./%23GUIDE/README_DEV.md)
 
 </details>
 
@@ -166,6 +200,7 @@ hanaya-shop/
 ## Table of Contents
 
 -   [🔗 Links](#links-en)
+-   [🛠️ Installation / Setup](#install-en)
 -   [Overview](#overview-en)
 -   [🎯 Project Goals](#goals-en)
 -   [🌟 Features](#features-en)
@@ -174,12 +209,17 @@ hanaya-shop/
 -   [🛠️ Technologies Used](#tech-en)
     -   [💡 Highlights & Real-world Impact](#highlights-en)
 -   [🗂️ Project Structure](#structure-en)
--   [🔗 Installation / Setup](#install-en)
+-   [🚀 Future Improvements](#future-en)
 
 ## 🔗 Links <a id="links-en"></a>
 
 -   Website: [Hanaya Shop](http://hanayashop.com)
 -   Demo video: [YouTube Demo](https://youtu.be/your-demo-id)
+
+## 🛠️ Installation / Setup <a id="install-en"></a>
+
+-   Production guide: [DEPLOYMENT_GUIDE.md](./%23GUIDE/DEPLOYMENT_GUIDE.md)
+-   Development guide: [README_DEV.md](./%23GUIDE/README_DEV.md)
 
 ![Hanaya Shop Hero Banner](.github/images/en/hero-banner.png)
 <div align="center">
@@ -297,25 +337,53 @@ _webpagetest.org_
 ```bash
 hanaya-shop/
 ├── app/                # Controllers, models, services
+│   ├── Console/        # Artisan commands
+│   ├── Http/           # Controllers, middleware, requests
+│   ├── Models/         # Models
+│   ├── Notifications/  # Notifications
+│   ├── Providers/      # Service providers
+│   ├── Services/       # Service classes
+│   └── View/           # Blade components
 ├── bootstrap/          # Laravel initialization
+│   └── cache/          # Cache
 ├── config/             # System configuration
-├── database/           # Migrations & seeders
+├── database/           # Migrations, seeders, factories
+│   ├── factories/
+│   ├── migrations/
+│   ├── seeders/
+│   └── sql/
 ├── public/             # Images & entry point
-├── resources/          # CSS, JS, Blade templates
+│   ├── build/
+│   ├── fixed_resources/
+│   ├── images/
+│   └── js/
+├── resources/          # CSS, JS, Blade templates, languages
+│   ├── css/
+│   ├── js/
+│   ├── lang/
+│   └── views/
 ├── routes/             # Web/API routing
+│   ├── admin.php
+│   ├── auth.php
+│   ├── console.php
+│   ├── user.php
+│   └── web.php
 ├── storage/            # Uploads, logs
+│   ├── framework/
+│   └── logs/
 ├── tests/              # Unit & feature tests
+│   ├── Feature/
+│   └── Unit/
 ├── Dockerfile          # Docker configuration
 ├── docker-compose.yml  # Docker setup
 └── README.md           # Documentation
 ```
 
+## 🚀 Future Improvements <a id="future-en"></a>
+
+...
+
 ---
-
-## 🔗 Installation / Setup <a id="install-en"></a>
-
--   Production guide: [DEPLOYMENT_GUIDE.md](./%23GUIDE/DEPLOYMENT_GUIDE.md)
--   Development guide: [README_DEV.md](./%23GUIDE/README_DEV.md)
 
 </details>
 
@@ -325,6 +393,7 @@ hanaya-shop/
 ## Mục lục
 
 -   [🔗 Đường dẫn](#links-vi)
+-   [🛠️ Hướng dẫn cài đặt / thiết lập](#install-vi)
 -   [Giới thiệu](#overview-vi)
 -   [🎯 Mục tiêu dự án](#goals-vi)
 -   [🌟 Tính năng](#features-vi)
@@ -333,12 +402,17 @@ hanaya-shop/
 -   [🛠️ Công nghệ sử dụng](#tech-vi)
     -   [💡 Điểm nổi bật & Hiệu quả thực tế](#highlights-vi)
 -   [🗂️ Cấu trúc dự án](#structure-vi)
--   [🔗 Hướng dẫn cài đặt / thiết lập](#install-vi)
+-   [🚀 Cải tiến trong tương lai](#future-vi)
 
 ## 🔗 Đường dẫn <a id="links-vi"></a>
 
 -   Trang web: [Hanaya Shop](http://hanayashop.com)
 -   Video demo: [YouTube Demo](https://youtu.be/your-demo-id)
+
+## 🛠️ Hướng dẫn cài đặt / thiết lập <a id="install-vi"></a>
+
+-   Production: [DEPLOYMENT_GUIDE.md](./%23GUIDE/DEPLOYMENT_GUIDE.md)
+-   Developing: [README_DEV.md](./%23GUIDE/README_DEV.md)
 
 ![Hanaya Shop Hero Banner](.github/images/vi/hero-banner.png)
 <div align="center">
@@ -455,24 +529,52 @@ _webpagetest.org_
 ```bash
 hanaya-shop/
 ├── app/                # Controller, model, service
+│   ├── Console/        # Artisan command
+│   ├── Http/           # Controller, middleware, request
+│   ├── Models/         # Model
+│   ├── Notifications/  # Notification
+│   ├── Providers/      # Service provider
+│   ├── Services/       # Service class
+│   └── View/           # Blade component
 ├── bootstrap/          # Khởi tạo Laravel
+│   └── cache/          # Cache
 ├── config/             # Cấu hình hệ thống
-├── database/           # Migration & seeder
+├── database/           # Migration, seeder, factory
+│   ├── factories/
+│   ├── migrations/
+│   ├── seeders/
+│   └── sql/
 ├── public/             # Hình ảnh, entry point
-├── resources/          # CSS, JS, Blade template
+│   ├── build/
+│   ├── fixed_resources/
+│   ├── images/
+│   └── js/
+├── resources/          # CSS, JS, Blade template, ngôn ngữ
+│   ├── css/
+│   ├── js/
+│   ├── lang/
+│   └── views/
 ├── routes/             # Tuyến web/API
+│   ├── admin.php
+│   ├── auth.php
+│   ├── console.php
+│   ├── user.php
+│   └── web.php
 ├── storage/            # Upload, log
+│   ├── framework/
+│   └── logs/
 ├── tests/              # Unit test & feature test
+│   ├── Feature/
+│   └── Unit/
 ├── Dockerfile          # Docker config
 ├── docker-compose.yml  # Docker setup
 └── README.md           # Tài liệu dự án
 ```
 
+## 🚀 Cải tiến trong tương lai <a id="future-vi"></a>
+
+...
+
 ---
-
-## 🔗 Hướng dẫn cài đặt / thiết lập <a id="install-vi"></a>
-
--   Production: [DEPLOYMENT_GUIDE.md](./%23GUIDE/DEPLOYMENT_GUIDE.md)
--   Developing: [README_DEV.md](./%23GUIDE/README_DEV.md)
 
 </details>

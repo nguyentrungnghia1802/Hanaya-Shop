@@ -43,7 +43,7 @@ return [
         
     'store_info' => "🏪 Hanaya Shop store information:\n\n"
         . "📍 Address: 123 Flower Street, Son Tay, Hanoi\n"
-        . "📞 Phone: 0948512463\n"
+        . "📞 Phone: 0353295709\n"
         . "📧 Email: assassincreed2k1@gmail.com\n"
         . "🕒 Business hours: 8:00 AM - 10:00 PM (Monday - Sunday)\n\n"
         . "🚚 Delivery: Nationwide shipping available\n"
@@ -78,15 +78,15 @@ return [
         . "📋 Tracking: Real-time order tracking available\n"
         . "📦 Packaging: Eco-friendly, secure packaging\n"
         . "🎁 Gift options: Free gift wrapping & cards\n\n"
-        . "Questions about delivery? Contact us: 0948512463",
+        . "Questions about delivery? Contact us: 0353295709",
         
     'payment_info' => "💳 Payment methods & options:\n\n"
         . "💰 Cash on delivery (COD)\n"
         . "🏦 Bank transfer (instant confirmation)\n"
         . "💳 Credit/Debit cards (Visa, Mastercard)\n"
-        . "📱 Digital wallets (Momo, ZaloPay)\n"
+        . "📱 Digital wallets (Paypal)\n"
         . "💎 Installment plans available\n\n"
-        . "🔒 Secure payments with SSL encryption\n"
+        . "🔒 Secure payments\n"
         . "🎊 Special offers: 5% discount on bank transfers\n"
         . "💝 Loyalty points on every purchase\n\n"
         . "Need payment assistance? We're here to help!",
