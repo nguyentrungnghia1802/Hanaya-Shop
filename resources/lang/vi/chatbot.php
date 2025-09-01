@@ -43,7 +43,7 @@ return [
 
     'store_info' => "🏪 Thông tin cửa hàng Hanaya Shop:\n\n"
         . "📍 Địa chỉ: 123 Flower Street, Sơn Tây, Hà Nội\n"
-        . "📞 Điện thoại: 0948512463\n"
+        . "📞 Điện thoại: 0353295709\n"
         . "📧 Email: assassincreed2k1@gmail.com\n"
         . "🕒 Giờ làm việc: 8:00 AM - 10:00 PM (Thứ 2 - Chủ nhật)\n\n"
         . "🚚 Giao hàng: Toàn quốc\n"
@@ -78,15 +78,15 @@ return [
         . "📋 Theo dõi: Có theo dõi đơn hàng thời gian thực\n"
         . "📦 Đóng gói: Thân thiện môi trường, an toàn\n"
         . "🎁 Quà tặng: Gói quà & thiệp miễn phí\n\n"
-        . "Có thắc mắc về giao hàng? Liên hệ: 0948512463",
+        . "Có thắc mắc về giao hàng? Liên hệ: 0353295709",
 
     'payment_info' => "💳 Phương thức & tuỳ chọn thanh toán:\n\n"
         . "💰 Thanh toán khi nhận hàng (COD)\n"
         . "🏦 Chuyển khoản ngân hàng (xác nhận ngay)\n"
         . "💳 Thẻ tín dụng/ghi nợ (Visa, Mastercard)\n"
-        . "📱 Ví điện tử (Momo, ZaloPay)\n"
+        . "📱 Ví điện tử (Paypal)\n"
         . "💎 Có trả góp\n\n"
-        . "🔒 Thanh toán bảo mật với SSL\n"
+        . "🔒 Thanh toán bảo mật\n"
         . "🎊 Ưu đãi: Giảm 5% khi chuyển khoản ngân hàng\n"
         . "💝 Điểm thưởng cho mỗi lần mua\n\n"
         . "Cần hỗ trợ thanh toán? Chúng tôi luôn sẵn sàng!",
