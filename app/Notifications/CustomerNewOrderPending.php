@@ -8,24 +8,22 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Session;
 
-class NewOrderPending extends Notification implements ShouldQueue
+class CustomerNewOrderPending extends Notification
 {
     use Queueable;
 
     public $order;
     public $locale;
-
+    
     /**
      * Create a new notification instance.
      */
-    public function __construct($order, $locale = null) // <<< SỬA TẠI ĐÂY: Thêm $order vào tham số
+    public function __construct($order, $locale = null)
     {
         $this->order = $order;
         // Lấy locale từ parameter hoặc từ session hoặc fallback to app default
         $this->locale = $locale ?: Session::get('locale', config('app.locale'));
-    }
-
-    /**
+    }    /**
      * Get the notification's delivery channels.
      *
      * @return array<int, string>
@@ -42,12 +40,11 @@ class NewOrderPending extends Notification implements ShouldQueue
     {
         // Set locale trước khi tạo nội dung email
         app()->setLocale($this->locale);
-        
         return (new MailMessage)
-                    ->subject(__('notifications.new_order_request_subject')) 
-                    ->line(__('notifications.new_order_request_line')) 
-                    ->line(__('notifications.order_code') . ' #' . $this->order->id) 
-                    ->action(__('notifications.view_order'), config('app.url') . '/admin/orders/' . $this->order->id); 
+            ->subject(__('notifications.customer_new_order_subject'))
+            ->line(__('notifications.customer_new_order_line'))
+            ->line(__('notifications.order_code') . ' #' . $this->order->id)
+            ->action(__('notifications.view_order'), config('app.url') . '/order/' . $this->order->id);
     }
 
     /**
@@ -60,10 +57,7 @@ class NewOrderPending extends Notification implements ShouldQueue
         return [
             'order_id'  => $this->order->id,
             'user_name' => $this->order->user->name ?? __('notifications.guest'), 
-            'message'   => __('notifications.order_waiting_confirmation', ['order_id' => $this->order->id]),
+            'message'   => __('notifications.customer_order_waiting_confirmation', ['order_id' => $this->order->id]),
         ];
     }
-
-
-    
 }

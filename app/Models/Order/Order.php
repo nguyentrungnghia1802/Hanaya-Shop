@@ -39,7 +39,7 @@ namespace App\Models\Order;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory; // Factory support for testing
 use Illuminate\Database\Eloquent\Model;                // Base Eloquent model class
-use Illuminate\Foundation\Auth\User;     // User model for customer relationships
+use App\Models\User;                     // User model for customer relationships  
 use App\Models\Product\Review;           // Review model for post-purchase feedback
 use App\Models\Address;                  // Address model for shipping information
 

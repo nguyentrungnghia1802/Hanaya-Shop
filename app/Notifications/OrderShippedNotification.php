@@ -6,17 +6,23 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Session;
 
 class OrderShippedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
+    public $order;
+    public $locale;
+
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct($order, $locale = null)
     {
-        //
+        $this->order = $order;
+        // Lấy locale từ parameter hoặc từ session hoặc fallback to app default
+        $this->locale = $locale ?: Session::get('locale', config('app.locale'));
     }
 
     /**
@@ -26,7 +32,7 @@ class OrderShippedNotification extends Notification implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['database', 'mail'];
     }
 
     /**
@@ -34,10 +40,14 @@ class OrderShippedNotification extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
+        // Set locale trước khi tạo nội dung email
+        app()->setLocale($this->locale);
+        
         return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+            ->subject(__('notifications.order_shipped_subject', ['order_id' => $this->order->id]))
+            ->line(__('notifications.order_shipped_line', ['order_id' => $this->order->id]))
+            ->action(__('notifications.view_order'), config('app.url') . '/admin/orders/' . $this->order->id)
+            ->line(__('notifications.order_shipped_thank_you'));
     }
 
     /**
@@ -48,7 +58,8 @@ class OrderShippedNotification extends Notification implements ShouldQueue
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            'order_id' => $this->order->id,
+            'message'  => __('notifications.order_shipped_message', ['order_id' => $this->order->id]),
         ];
     }
 }
