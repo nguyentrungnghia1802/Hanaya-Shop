@@ -45,7 +45,7 @@ class NewOrderPending extends Notification
                     ->subject(__('notifications.new_order_request_subject')) 
                     ->line(__('notifications.new_order_request_line')) 
                     ->line(__('notifications.order_code') . ' #' . $this->order->id) 
-                    ->action(__('notifications.view_order'), config('app.url') . '/admin/orders/' . $this->order->id); 
+                    ->action(__('notifications.view_order'), config('app.url') . '/admin/order/' . $this->order->id); 
     }
 
     /**
