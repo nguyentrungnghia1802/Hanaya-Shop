@@ -16,6 +16,7 @@ return [
     'verify_email' => 'Verify Email',
     'reset_password' => 'Reset Password',
     'send_reset_link' => 'Send Password Reset Link',
+    'back_to_login' => 'Back to Login',
     'current_password' => 'Current Password',
     'new_password' => 'New Password',
     'logout' => 'Log Out',
@@ -80,4 +81,20 @@ return [
     // Error Messages
     'invalid_verification_token' => 'Invalid or expired verification token.',
     'verification_token_expired' => 'Verification token has expired. Please register again.',
+    
+    // Gmail Requirement
+    'create_account' => 'Create Account',
+    'create_account_description' => 'Join Hanaya Shop and start your shopping journey',
+    'gmail_requirement_title' => '📧 Gmail Account Required',
+    'gmail_requirement_description' => 'Please use a valid Gmail address for the best experience:',
+    'gmail_for_order_updates' => 'Receive order status updates and notifications',
+    'gmail_for_password_recovery' => 'Secure password recovery and account access',
+    'gmail_for_account_security' => 'Enhanced account security and verification',
+    'gmail_required_note' => 'Gmail address is required for notifications and security',
+    
+    // Support Contact
+    'need_help' => 'Need help with verification?',
+    'contact_support' => 'Contact Support',
+    'support_email_subject' => 'Email Verification Help Request',
+    'support_email_body' => 'Hello Hanaya Shop Support,\n\nI need assistance with email verification for my account.\n\nPlease help me with this issue.\n\nThank you!',
 ];

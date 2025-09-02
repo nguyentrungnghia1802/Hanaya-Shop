@@ -16,6 +16,7 @@ return [
     'verify_email' => 'メールアドレスの確認',
     'reset_password' => 'パスワードをリセット',
     'send_reset_link' => 'パスワードリセットリンクを送信',
+    'back_to_login' => 'ログインに戻る',
     'current_password' => '現在のパスワード',
     'new_password' => '新しいパスワード',
     'logout' => 'ログアウト',
@@ -80,4 +81,20 @@ return [
     // エラーメッセージ
     'invalid_verification_token' => '無効または期限切れの確認トークンです。',
     'verification_token_expired' => '確認トークンの有効期限が切れました。再度登録してください。',
+    
+    // Gmail要件
+    'create_account' => 'アカウント作成',
+    'create_account_description' => 'Hanaya Shopに参加して、ショッピングの旅を始めましょう',
+    'gmail_requirement_title' => '📧 Gmailアカウントが必要です',
+    'gmail_requirement_description' => '最高のエクスペリエンスのため、有効なGmailアドレスをご使用ください：',
+    'gmail_for_order_updates' => '注文状況の更新と通知を受信',
+    'gmail_for_password_recovery' => '安全なパスワード回復とアカウントアクセス',
+    'gmail_for_account_security' => 'アカウントセキュリティと認証の強化',
+    'gmail_required_note' => '通知とセキュリティのためGmailアドレスが必要です',
+    
+    // サポート連絡
+    'need_help' => '認証でお困りですか？',
+    'contact_support' => 'サポートに連絡',
+    'support_email_subject' => 'メール認証のヘルプリクエスト',
+    'support_email_body' => 'Hanaya Shopサポート様\n\nアカウントのメール認証について支援が必要です。\n\nこの問題の解決をお手伝いください。\n\nありがとうございます！',
 ];
