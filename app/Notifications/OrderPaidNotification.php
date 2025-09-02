@@ -3,15 +3,13 @@
 namespace App\Notifications;
 
 use App\Models\Order\Order;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Session;
 
-class OrderPaidNotification extends Notification implements ShouldQueue
+class OrderPaidNotification extends Notification
 {
-    use Queueable;
+    // Admin notifications sent immediately for reliability
     
     protected $order;
     public $locale;
@@ -19,11 +17,11 @@ class OrderPaidNotification extends Notification implements ShouldQueue
     /**
      * Create a new notification instance.
      */
-    public function __construct(Order $order, $locale = null)
+    public function __construct(Order $order, $locale = 'en')
     {
         $this->order = $order;
-        // Lấy locale từ parameter hoặc từ session hoặc fallback to app default
-        $this->locale = $locale ?: Session::get('locale', config('app.locale'));
+        // Admin notifications always use English
+        $this->locale = 'en';
     }
 
     /**
@@ -41,8 +39,8 @@ class OrderPaidNotification extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
-        // Set locale trước khi tạo nội dung email
-        app()->setLocale($this->locale);
+        // Admin notifications always use English
+        app()->setLocale('en');
         
         return (new MailMessage)
             ->subject(__('notifications.payment_confirmed_subject', ['order_id' => $this->order->id]))
@@ -60,6 +58,9 @@ class OrderPaidNotification extends Notification implements ShouldQueue
      */
     public function toArray(object $notifiable): array
     {
+        // Admin notifications always use English
+        app()->setLocale('en');
+        
         return [
             'order_id' => $this->order->id,
             'amount'   => $this->order->total_price,

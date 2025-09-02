@@ -2,27 +2,24 @@
 
 namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Session;
 
-class OrderCancelledNotification extends Notification implements ShouldQueue
+class OrderCancelledNotification extends Notification
 {
-    use Queueable;
+    // Admin notifications sent immediately for reliability
     public $order;
     public $locale;
     
     /**
      * Create a new notification instance.
      */
-    public function __construct($order, $locale = null)
+    public function __construct($order, $locale = 'en')
     {
-        //
         $this->order = $order;
-        // Lấy locale từ parameter hoặc từ session hoặc fallback to app default
-        $this->locale = $locale ?: Session::get('locale', config('app.locale'));
+        // Admin notifications always use English
+        $this->locale = 'en';
     }
 
     /**
@@ -41,7 +38,8 @@ class OrderCancelledNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         // Set locale trước khi tạo nội dung email
-        app()->setLocale($this->locale);
+        // Admin notifications always use English
+        app()->setLocale('en');
         
         return (new MailMessage)
             ->subject(__('notifications.order_cancelled_subject')) // Đơn hàng đã bị hủy
@@ -56,6 +54,9 @@ class OrderCancelledNotification extends Notification implements ShouldQueue
      */
     public function toArray(object $notifiable): array
     {
+        // Admin notifications always use English
+        app()->setLocale('en');
+
         return [
             'order_id' => $this->order->id,
             'message'  => __('notifications.order_cancelled_message', ['order_id' => $this->order->id]),

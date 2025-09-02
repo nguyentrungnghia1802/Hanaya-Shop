@@ -69,13 +69,13 @@ class OrdersController extends Controller
         $order->status = 'processing';
         $order->save();
 
-        // Get current locale from session
+        // Get current locale from session for customer notifications for customer notifications
         $currentLocale = Session::get('locale', config('app.locale'));
 
-        // Gửi thông báo cho admin
+        // Gửi thông báo cho admin (admin uses English by default) (admin uses English by default)
         $admins = User::where('role', 'admin')->get();
         foreach ($admins as $admin) {
-            $admin->notify(new OrderConfirmedNotification($order, $currentLocale));
+            $admin->notify(new OrderConfirmedNotification($order)); // Admin uses English by default
         }
 
         // Gửi thông báo cho khách hàng đã đặt hàng (với URL khác)
@@ -92,13 +92,13 @@ class OrdersController extends Controller
         $order->status = 'shipped';
         $order->save();
         
-        // Get current locale from session
+        // Get current locale from session for customer notifications
         $currentLocale = Session::get('locale', config('app.locale'));
         
-        // Gửi thông báo cho admin
+        // Gửi thông báo cho admin (admin uses English by default)
         $admins = User::where('role', 'admin')->get();
         foreach ($admins as $admin) {
-            $admin->notify(new OrderShippedNotification($order, $currentLocale));
+            $admin->notify(new OrderShippedNotification($order)); // Admin uses English by default
         }
 
         // Gửi thông báo cho khách hàng đã đặt hàng (với URL khác)
@@ -123,19 +123,20 @@ class OrdersController extends Controller
             $payment->payment_status = 'completed';
             $payment->save();
 
-            // Get current locale from session
+            // Get current locale from session for customer notifications
             $currentLocale = Session::get('locale', config('app.locale'));
 
-            // Notify admins
+            // Notify admins about payment completion
             $admins = User::where('role', 'admin')->get();
             $customer = User::find($order->user_id);
 
             foreach ($admins as $admin) {
-                $admin->notify(new OrderCompletedNotification($order, $currentLocale));
+                $admin->notify(new OrderPaidNotification($order)); // Admin uses English by default
             }
 
             // Notify customer with specific customer notification
             if ($customer) {
+                // Create CustomerOrderPaidNotification if it doesn't exist, or use appropriate customer notification
                 $customer->notify(new CustomerOrderCompletedNotification($order, $currentLocale));
             }
 
@@ -198,13 +199,13 @@ class OrdersController extends Controller
             $order->status = 'cancelled';
             $order->save();
 
-            // Get current locale from session
+            // Get current locale from session for customer notifications
             $currentLocale = Session::get('locale', config('app.locale'));
 
-            // Gửi thông báo cho admin
+            // Gửi thông báo cho admin (admin uses English by default)
             $admins = User::where('role', 'admin')->get();
             foreach ($admins as $admin) {
-                $admin->notify(new OrderCancelledNotification($order, $currentLocale));
+                $admin->notify(new OrderCancelledNotification($order)); // Admin uses English by default
             }
 
             // Gửi thông báo cho khách hàng đã đặt hàng

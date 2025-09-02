@@ -8,7 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Session;
 
-class CustomerOrderCancelledNotification extends Notification
+class CustomerOrderCancelledNotification extends Notification implements ShouldQueue
 {
     use Queueable;
     
