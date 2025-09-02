@@ -43,6 +43,7 @@ use App\Models\Product\Product;                // Product model for inventory ma
 use App\Models\Cart\Cart;                      // Cart model for cart operations
 use Illuminate\Support\Facades\Session;        // Session management
 use App\Notifications\NewOrderPending;         // Admin notification for new orders
+use App\Notifications\CustomerNewOrderPending; // Customer notification for new orders
 use App\Models\User;                          // User model for admin notifications
 use App\Notifications\OrderCancelledNotification; // Order cancellation notifications
 use App\Notifications\OrderConfirmedNotification; // Order confirmation notifications
@@ -362,9 +363,19 @@ class CheckoutController extends Controller
              * Notifies all admin users for comprehensive order management
              */
             if ($order->status === 'pending') {
+                // Get current locale from session
+                $currentLocale = Session::get('locale', config('app.locale'));
+                
+                // Notify all admins
                 $adminUsers = User::where('role', 'admin')->get();
                 foreach ($adminUsers as $admin) {
-                    $admin->notify(new NewOrderPending($order));
+                    $admin->notify(new NewOrderPending($order, $currentLocale));
+                }
+
+                // Notify only the customer who placed the order
+                $customer = User::find($order->user_id);
+                if ($customer) {
+                    $customer->notify(new CustomerNewOrderPending($order, $currentLocale));
                 }
             }
 

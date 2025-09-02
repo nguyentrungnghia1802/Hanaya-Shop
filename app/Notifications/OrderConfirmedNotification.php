@@ -6,18 +6,23 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Session;
 
 class OrderConfirmedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
     public $order;
+    public $locale;
+    
     /**
      * Create a new notification instance.
      */
-    public function __construct($order)
+    public function __construct($order, $locale = null)
     {
         //
         $this->order = $order;
+        // Lấy locale từ parameter hoặc từ session hoặc fallback to app default
+        $this->locale = $locale ?: Session::get('locale', config('app.locale'));
     }
 
     /**
@@ -35,10 +40,13 @@ class OrderConfirmedNotification extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
+        // Set locale trước khi tạo nội dung email
+        app()->setLocale($this->locale);
+        
         return (new MailMessage)
             ->subject(__('notifications.order_confirmed_subject'))
             ->line(__('notifications.order_confirmed_line', ['order_id' => $this->order->id])) 
-            ->action(__('notifications.view_order'), url('/admin/orders/' . $this->order->id));
+            ->action(__('notifications.view_order'), config('app.url') . '/admin/orders/' . $this->order->id);
     }
 
     /**
