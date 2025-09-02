@@ -99,7 +99,7 @@ Cảm ơn!',
     'gmail_requirement_description' => 'Vui lòng sử dụng địa chỉ Gmail hợp lệ để có trải nghiệm tốt nhất:',
     'gmail_for_order_updates' => 'Nhận cập nhật trạng thái đơn hàng và thông báo',
     'gmail_for_password_recovery' => 'Khôi phục mật khẩu an toàn và truy cập tài khoản',
-    'gmail_for_account_security' => 'Tăng cường bảo mật tài khoản và xác thực',
+    // 'gmail_for_account_security' => 'Tăng cường bảo mật tài khoản và xác thực',
     'gmail_required_note' => 'Địa chỉ Gmail được yêu cầu cho thông báo và bảo mật',
     
     // Thông báo lỗi
@@ -111,4 +111,8 @@ Cảm ơn!',
     'password_placeholder' => 'Nhập mật khẩu',
     'name_placeholder' => 'Nhập họ và tên',
     'confirm_password_placeholder' => 'Nhập lại mật khẩu',
+
+    //Notes
+    'password_requirement_title' => 'Yêu cầu mật khẩu',
+    'password_requirement_description' => 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số, ký tự đặc biệt và không có khoảng trắng.',
 ];
