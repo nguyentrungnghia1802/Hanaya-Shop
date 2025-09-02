@@ -48,4 +48,36 @@ return [
     'click_here_to_resend_verification_email' => 'Click here to re-send the verification email.',
     'verification_link_sent_notification' => 'A new verification link has been sent to your email address.',
     'profile' => 'Profile',
+    
+    // New Email Verification System
+    'verify_email_title' => 'Verify Your Email Address',
+    'verify_email_sent' => 'We\'ve sent a verification link to your email address:',
+    'important' => 'Important',
+    'verify_email_instructions' => 'Please check your email (including spam folder) and click the verification link to complete your registration.',
+    'resend_verification_email' => 'Resend Verification Email',
+    'register_different_email' => 'Register with a different email',
+    'verification_link_resent' => 'Verification link sent successfully!',
+    
+    // Email Verification Success
+    'verification_success_title' => 'Email Verified Successfully!',
+    'verification_success_message' => 'Your email address has been verified and your account is now active.',
+    'welcome' => 'Welcome',
+    'account_ready' => 'Your account is ready to use.',
+    'go_to_dashboard' => 'Go to Dashboard',
+    'continue_shopping' => 'Continue Shopping',
+    'verification_completed_at' => 'Verification completed at:',
+    
+    // Email Template
+    'verify_email_subject' => 'Verify Your Email Address - Hanaya Shop',
+    'email_greeting' => 'Thank you for registering with Hanaya Shop!',
+    'email_verification_instruction' => 'Please click the button below to verify your email address and complete your account setup:',
+    'verify_email_button' => 'Verify Email Address',
+    'verification_link_expires' => 'This verification link will expire in 24 hours.',
+    'email_manual_copy' => 'If the button doesn\'t work, you can copy and paste this link into your browser:',
+    'email_not_requested' => 'If you didn\'t request this account, please ignore this email.',
+    'email_footer' => 'Thank you for choosing :shop',
+    
+    // Error Messages
+    'invalid_verification_token' => 'Invalid or expired verification token.',
+    'verification_token_expired' => 'Verification token has expired. Please register again.',
 ];

@@ -21,7 +21,7 @@
             @foreach($posts as $post)
                 <a href="{{ route('posts.show', $post->id) }}" class="group cursor-pointer bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden focus:outline-none focus:ring-2 focus:ring-blue-400 flex flex-col h-full">
                     <div class="relative overflow-hidden rounded-t-xl mb-3">
-                        <img src="{{ $post->image ? asset('images/posts/' . $post->image) : asset('fixed_resources/default-post.jpg') }}" 
+                        <img src="{{ $post->image ? asset('images/posts/' . $post->image) : asset('fixed_resources/no_image.png') }}" 
                             alt="{{ $post->title }}" 
                             class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
                         <div class="absolute top-3 left-3">
