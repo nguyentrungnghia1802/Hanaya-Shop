@@ -20,7 +20,7 @@ return [
     'current_password' => 'Current Password',
     'new_password' => 'New Password',
     'logout' => 'Log Out',
-    
+
     // Messages
     'thanks_for_signing_up' => 'Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.',
     'verification_link_sent' => 'A new verification link has been sent to the email address you provided during registration.',
@@ -28,7 +28,7 @@ return [
     'forgot_password_text' => 'Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.',
     'secure_area_confirmation' => 'This is a secure area of the application. Please confirm your password before continuing.',
     'confirm' => 'Confirm',
-    
+
     // Validation
     'failed' => 'These credentials do not match our records.',
     'password_incorrect' => 'The provided password is incorrect.',
@@ -49,7 +49,7 @@ return [
     'click_here_to_resend_verification_email' => 'Click here to re-send the verification email.',
     'verification_link_sent_notification' => 'A new verification link has been sent to your email address.',
     'profile' => 'Profile',
-    
+
     // New Email Verification System
     'verify_email_title' => 'Verify Your Email Address',
     'verify_email_sent' => 'We\'ve sent a verification link to your email address:',
@@ -58,7 +58,7 @@ return [
     'resend_verification_email' => 'Resend Verification Email',
     'register_different_email' => 'Register with a different email',
     'verification_link_resent' => 'Verification link sent successfully!',
-    
+
     // Email Verification Success
     'verification_success_title' => 'Email Verified Successfully!',
     'verification_success_message' => 'Your email address has been verified and your account is now active.',
@@ -67,7 +67,7 @@ return [
     'go_to_dashboard' => 'Go to Dashboard',
     'continue_shopping' => 'Continue Shopping',
     'verification_completed_at' => 'Verification completed at:',
-    
+
     // Email Template
     'verify_email_subject' => 'Verify Your Email Address - Hanaya Shop',
     'email_greeting' => 'Thank you for registering with Hanaya Shop!',
@@ -77,11 +77,11 @@ return [
     'email_manual_copy' => 'If the button doesn\'t work, you can copy and paste this link into your browser:',
     'email_not_requested' => 'If you didn\'t request this account, please ignore this email.',
     'email_footer' => 'Thank you for choosing :shop',
-    
+
     // Error Messages
     'invalid_verification_token' => 'Invalid or expired verification token.',
     'verification_token_expired' => 'Verification token has expired. Please register again.',
-    
+
     // Gmail Requirement
     'create_account' => 'Create Account',
     'create_account_description' => 'Join Hanaya Shop and start your shopping journey',
@@ -91,7 +91,7 @@ return [
     'gmail_for_password_recovery' => 'Secure password recovery and account access',
     'gmail_for_account_security' => 'Enhanced account security and verification',
     'gmail_required_note' => 'Gmail address is required for notifications and security',
-    
+
     // Support Contact
     'need_help' => 'Need help with verification?',
     'contact_support' => 'Contact Support',
@@ -105,4 +105,10 @@ Email requiring verification support: :email
 Please help me resolve this issue.
 
 Thank you!',
+
+    // Placeholders
+    'email_placeholder' => 'Enter your email address',
+    'password_placeholder' => 'Enter your password',
+    'name_placeholder' => 'Enter your full name',
+    'confirm_password_placeholder' => 'Re-enter your password',
 ];
