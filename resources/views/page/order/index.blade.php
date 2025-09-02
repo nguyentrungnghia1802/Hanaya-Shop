@@ -23,7 +23,7 @@
                                 </div>
                                 <div class="ml-4">
                                     <p class="text-sm font-medium text-gray-500">{{ __('orders.total_orders') }}</p>
-                                    <p class="text-2xl font-bold text-gray-900">{{ $orders->count() }}</p>
+                                    <p class="text-2xl font-bold text-gray-900">{{ $orders->total() }}</p>
                                 </div>
                             </div>
                         </div>
@@ -253,6 +253,13 @@
                                 </div>
                             </div>
                         @endforeach
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="mt-8 flex justify-center">
+                        <div class="bg-white rounded-lg shadow-lg p-4">
+                            {{ $orders->links('pagination::tailwind') }}
+                        </div>
                     </div>
                 @else
                     <!-- Empty State -->
