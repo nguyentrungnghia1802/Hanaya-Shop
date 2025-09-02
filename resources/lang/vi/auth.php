@@ -78,9 +78,19 @@ return [
     'email_not_requested' => 'Nếu bạn không yêu cầu tài khoản này, vui lòng bỏ qua email này.',
     'email_footer' => 'Cảm ơn bạn đã chọn :shop',
     
-    // Thông báo lỗi
-    'invalid_verification_token' => 'Mã xác thực không hợp lệ hoặc đã hết hạn.',
-    'verification_token_expired' => 'Mã xác thực đã hết hạn. Vui lòng đăng ký lại.',
+    // Liên hệ hỗ trợ
+    'need_help' => 'Cần hỗ trợ xác thực?',
+    'contact_support' => 'Liên Hệ Hỗ Trợ',
+    'support_email_subject' => 'Yêu Cầu Hỗ Trợ Xác Thực Email',
+    'support_email_body' => 'Kính gửi Hanaya Shop Support,
+
+Tôi cần hỗ trợ về việc xác thực email cho tài khoản của mình.
+
+Email cần hỗ trợ xác thực: :email
+
+Xin vui lòng giúp tôi giải quyết vấn đề này.
+
+Cảm ơn!',
     
     // Yêu cầu Gmail
     'create_account' => 'Tạo Tài Khoản',
@@ -92,9 +102,7 @@ return [
     'gmail_for_account_security' => 'Tăng cường bảo mật tài khoản và xác thực',
     'gmail_required_note' => 'Địa chỉ Gmail được yêu cầu cho thông báo và bảo mật',
     
-    // Liên hệ hỗ trợ
-    'need_help' => 'Cần hỗ trợ với việc xác thực?',
-    'contact_support' => 'Liên Hệ Hỗ Trợ',
-    'support_email_subject' => 'Yêu Cầu Hỗ Trợ Xác Thực Email',
-    'support_email_body' => 'Xin chào Hanaya Shop Support,\n\nTôi cần hỗ trợ với việc xác thực email cho tài khoản của tôi.\n\nVui lòng giúp tôi giải quyết vấn đề này.\n\nCảm ơn!',
+    // Thông báo lỗi
+    'invalid_verification_token' => 'Mã xác thực không hợp lệ hoặc đã hết hạn.',
+    'verification_token_expired' => 'Mã xác thực đã hết hạn. Vui lòng đăng ký lại.',
 ];

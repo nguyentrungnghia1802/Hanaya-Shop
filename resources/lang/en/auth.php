@@ -96,5 +96,13 @@ return [
     'need_help' => 'Need help with verification?',
     'contact_support' => 'Contact Support',
     'support_email_subject' => 'Email Verification Help Request',
-    'support_email_body' => 'Hello Hanaya Shop Support,\n\nI need assistance with email verification for my account.\n\nPlease help me with this issue.\n\nThank you!',
+    'support_email_body' => 'Hello Hanaya Shop Support,
+
+I need assistance with email verification for my account.
+
+Email requiring verification support: :email
+
+Please help me resolve this issue.
+
+Thank you!',
 ];

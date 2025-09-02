@@ -78,9 +78,19 @@ return [
     'email_not_requested' => 'このアカウントをリクエストしていない場合は、このメールを無視してください。',
     'email_footer' => ':shopをお選びいただき、ありがとうございます',
     
-    // エラーメッセージ
-    'invalid_verification_token' => '無効または期限切れの確認トークンです。',
-    'verification_token_expired' => '確認トークンの有効期限が切れました。再度登録してください。',
+    // サポート連絡
+    'need_help' => '認証でお困りですか？',
+    'contact_support' => 'サポートに連絡',
+    'support_email_subject' => 'メール認証のヘルプリクエスト',
+    'support_email_body' => 'Hanaya Shopサポート様
+
+アカウントのメール認証について支援が必要です。
+
+認証が必要なメールアドレス: :email
+
+この問題の解決をお手伝いください。
+
+ありがとうございます！',
     
     // Gmail要件
     'create_account' => 'アカウント作成',
@@ -92,9 +102,7 @@ return [
     'gmail_for_account_security' => 'アカウントセキュリティと認証の強化',
     'gmail_required_note' => '通知とセキュリティのためGmailアドレスが必要です',
     
-    // サポート連絡
-    'need_help' => '認証でお困りですか？',
-    'contact_support' => 'サポートに連絡',
-    'support_email_subject' => 'メール認証のヘルプリクエスト',
-    'support_email_body' => 'Hanaya Shopサポート様\n\nアカウントのメール認証について支援が必要です。\n\nこの問題の解決をお手伝いください。\n\nありがとうございます！',
+    // エラーメッセージ
+    'invalid_verification_token' => '無効または期限切れの確認トークンです。',
+    'verification_token_expired' => '確認トークンの有効期限が切れました。再度登録してください。',
 ];
