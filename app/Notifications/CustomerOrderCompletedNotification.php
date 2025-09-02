@@ -9,7 +9,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Session;
 
-class CustomerOrderCompletedNotification extends Notification
+class CustomerOrderCompletedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
     

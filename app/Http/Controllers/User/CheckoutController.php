@@ -363,16 +363,16 @@ class CheckoutController extends Controller
              * Notifies all admin users for comprehensive order management
              */
             if ($order->status === 'pending') {
-                // Get current locale from session
+                // Get current locale from session for customer notifications
                 $currentLocale = Session::get('locale', config('app.locale'));
                 
-                // Notify all admins
+                // Notify all admins (they will use English by default)
                 $adminUsers = User::where('role', 'admin')->get();
                 foreach ($adminUsers as $admin) {
-                    $admin->notify(new NewOrderPending($order, $currentLocale));
+                    $admin->notify(new NewOrderPending($order)); // Admin uses English by default
                 }
 
-                // Notify only the customer who placed the order
+                // Notify only the customer who placed the order (with their locale)
                 $customer = User::find($order->user_id);
                 if ($customer) {
                     $customer->notify(new CustomerNewOrderPending($order, $currentLocale));
