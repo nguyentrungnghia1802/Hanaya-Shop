@@ -89,7 +89,7 @@ return [
     'gmail_requirement_description' => 'Please use a valid Gmail address for the best experience:',
     'gmail_for_order_updates' => 'Receive order status updates and notifications',
     'gmail_for_password_recovery' => 'Secure password recovery and account access',
-    'gmail_for_account_security' => 'Enhanced account security and verification',
+    // 'gmail_for_account_security' => 'Enhanced account security and verification',
     'gmail_required_note' => 'Gmail address is required for notifications and security',
 
     // Support Contact
@@ -111,4 +111,8 @@ Thank you!',
     'password_placeholder' => 'Enter your password',
     'name_placeholder' => 'Enter your full name',
     'confirm_password_placeholder' => 'Re-enter your password',
+
+    // Notes
+    'password_requirement_title' => 'Password Requirements',
+    'password_requirement_description' => 'Password must contain at least 8 characters, including uppercase, lowercase, numbers, special characters, and no spaces.',
 ];
