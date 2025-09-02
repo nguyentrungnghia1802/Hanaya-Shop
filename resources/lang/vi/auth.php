@@ -105,4 +105,10 @@ Cảm ơn!',
     // Thông báo lỗi
     'invalid_verification_token' => 'Mã xác thực không hợp lệ hoặc đã hết hạn.',
     'verification_token_expired' => 'Mã xác thực đã hết hạn. Vui lòng đăng ký lại.',
+
+    // Placeholders
+    'email_placeholder' => 'Nhập địa chỉ email của bạn',
+    'password_placeholder' => 'Nhập mật khẩu',
+    'name_placeholder' => 'Nhập họ và tên',
+    'confirm_password_placeholder' => 'Nhập lại mật khẩu',
 ];
