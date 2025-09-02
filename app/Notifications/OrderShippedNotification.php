@@ -45,7 +45,7 @@ class OrderShippedNotification extends Notification
         return (new MailMessage)
             ->subject(__('notifications.order_shipped_subject', ['order_id' => $this->order->id]))
             ->line(__('notifications.order_shipped_line', ['order_id' => $this->order->id]))
-            ->action(__('notifications.view_order'), config('app.url') . '/admin/orders/' . $this->order->id)
+            ->action(__('notifications.view_order'), config('app.url') . '/admin/order/' . $this->order->id)
             ->line(__('notifications.order_shipped_thank_you'));
     }
 

@@ -30,6 +30,7 @@
             <div class="bg-white shadow rounded-lg p-6">
                 <h3 class="text-xl font-semibold text-gray-800 mb-4">{{ __('admin.order_information') }}</h3>
                 <div class="space-y-2 text-gray-700">
+                    <p><span class="font-medium">{{ __('admin.order_id') }}:</span> <span class="font-bold text-blue-600">#{{ $order->id }}</span></p>
                     <p><span class="font-medium">{{ __('admin.order_date') }}:</span> {{ $order->created_at->format('d/m/Y H:i') }}</p>
                     <p><span class="font-medium">{{ __('admin.total_amount') }}:</span> ${{ number_format($order->total_price, 2, '.', ',') }}</p>
                     <p>

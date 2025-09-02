@@ -47,7 +47,7 @@ class OrderPaidNotification extends Notification
             ->greeting(__('notifications.payment_confirmed_greeting', ['name' => $notifiable->name]))
             ->line(__('notifications.payment_confirmed_line1', ['order_id' => $this->order->id]))
             ->line(__('notifications.payment_confirmed_line2', ['amount' => number_format($this->order->total_price, 2, '.', ',')]))
-            ->action(__('notifications.view_order_details'), config('app.url') . '/admin/orders/' . $this->order->id)
+            ->action(__('notifications.view_order_details'), config('app.url') . '/admin/order/' . $this->order->id)
             ->line(__('notifications.payment_confirmed_line3'));
     }
 

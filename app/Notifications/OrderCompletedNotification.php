@@ -48,7 +48,7 @@ class OrderCompletedNotification extends Notification
             ->greeting(__('notifications.order_completed_greeting', ['name' => $notifiable->name]))
             ->line(__('notifications.order_completed_line1', ['order_id' => $this->order->id]))
             ->line(__('notifications.order_completed_line2'))
-            ->action(__('notifications.view_order_details'), config('app.url') . '/admin/orders/' . $this->order->id)
+            ->action(__('notifications.view_order_details'), config('app.url') . '/admin/order/' . $this->order->id)
             ->line(__('notifications.order_completed_line3'));
     }
     
