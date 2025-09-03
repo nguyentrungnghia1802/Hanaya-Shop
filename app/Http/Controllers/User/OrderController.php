@@ -28,7 +28,7 @@ class OrderController extends Controller
         $orders = Order::with(['orderDetail.product', 'review'])
             ->where('user_id', $userId)
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(10); // Paginate with 10 orders per page
 
         // Get review status for each order detail
         $canReviewStatus = config('constants.review.can_review_status');
