@@ -3,12 +3,15 @@
 namespace App\Notifications;
 
 use App\Models\Order\Order;
+use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class OrderCompletedNotification extends Notification
+class OrderCompletedNotification extends Notification implements ShouldQueue
 {
+    use Queueable;
     // Admin notifications sent immediately for reliability
 
     protected $order;
