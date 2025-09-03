@@ -2,12 +2,15 @@
 
 namespace App\Notifications;
 
+use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class OrderShippedNotification extends Notification
+class OrderShippedNotification extends Notification implements ShouldQueue
 {
+    use Queueable;
     // Admin notifications sent immediately for reliability
 
     public $order;
