@@ -16,8 +16,12 @@
     </head>
     <body class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-            <!-- Language Switcher -->
-            <div class="absolute top-4 right-4">
+            <!-- Header: Logo + Language Switcher -->
+            <div class="w-full sm:max-w-md flex justify-between items-center mb-6 px-6">
+                <a href="/" class="flex items-center">
+                    <x-application-logo class="w-16 h-16 mr-3" />
+                    <span class="text-3xl font-light text-gray-800">{{ __('common.shop_name') }}</span>
+                </a>
                 <div x-data="{ open: false }" class="relative">
                     <button @click="open = !open" class="flex items-center px-4 py-2 text-sm text-gray-700 bg-white rounded-lg shadow hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-500">
                         <span class="mr-2">{{ strtoupper(app()->getLocale()) }}</span>
@@ -39,13 +43,7 @@
                 </div>
             </div>
 
-            <!-- Logo and Title -->
-            <div class="mb-6">
-                <a href="/" class="flex justify-center items-center">
-                    <x-application-logo class="w-16 h-16 mr-3" />
-                    <span class="text-3xl font-light text-gray-800">{{ __('common.shop_name') }}</span>
-                </a>
-            </div>
+            <!-- ...existing code... -->
 
             <!-- Main Content Card -->
             <div class="w-full sm:max-w-md px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
