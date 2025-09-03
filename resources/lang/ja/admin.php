@@ -208,6 +208,7 @@ return [
   'customer_reviews' => 'カスタマーレビュー',
   'reviews' => 'レビュー',
   'order' => '注文する',
+  'order_id' => '注文ID',
   'no_reviews_yet' => 'まだレビューがありません。',
   'this_product_has_received_any_reviews' => 'この商品はまだレビューを受けていません。',
 

@@ -58,6 +58,7 @@
                             <thead class="bg-gray-100 text-gray-700 uppercase text-left">
                                 <tr>
                                     <th class="px-2 sm:px-4 py-2 border-b">#</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">{{ __('admin.order_id') }}</th>
                                     <th class="px-2 sm:px-4 py-2 border-b">{{ __('admin.user') }}</th>
                                     <th class="px-2 sm:px-4 py-2 border-b">{{ __('admin.total_price') }}</th>
                                     <th class="px-2 sm:px-4 py-2 border-b">{{ __('admin.order_at') }}</th>
@@ -78,6 +79,7 @@
                                     @endphp
                                     <tr class="hover:bg-gray-50 transition">
                                         <td class="px-4 py-2 border-b">{{ $order->firstItem() + $index }}</td>
+                                        <td class="px-4 py-2 border-b font-semibold text-blue-600">#{{ $item->id }}</td>
                                         <td class="px-4 py-2 border-b">{{ $item->user->name ?? 'Unknown' }} (ID: {{ $item->user_id }})</td>
                                         <td class="px-4 py-2 border-b">{{ $item->total_price }}</td>
                                         <td class="px-4 py-2 border-b">{{ $item->created_at }}</td>

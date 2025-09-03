@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class PasswordResetLinkController extends Controller
@@ -39,6 +40,11 @@ class PasswordResetLinkController extends Controller
 
         try {
             Log::info('Attempting to send password reset email to: ' . $request->email);
+            
+            // Lưu locale hiện tại để sử dụng trong notification
+            $currentLocale = app()->getLocale();
+            Session::put('locale', $currentLocale);
+            Log::info('Current locale for password reset: ' . $currentLocale);
             
             // We will send the password reset link to this user. Once we have attempted
             // to send the link, we will examine the response then see the message we

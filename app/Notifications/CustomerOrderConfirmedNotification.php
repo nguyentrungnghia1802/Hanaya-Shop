@@ -3,27 +3,25 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
-class OrderShippedNotification extends Notification implements ShouldQueue
+class CustomerOrderConfirmedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
-    // Admin notifications sent immediately for reliability
-
     public $order;
     public $locale;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($order, $locale = 'en')
+    public function __construct($order, $locale = null)
     {
         $this->order = $order;
-        // Admin notifications always use English
-        $this->locale = 'en';
+        // Lấy locale từ parameter hoặc từ session hoặc fallback to app default
+        $this->locale = $locale ?: Session::get('locale', config('app.locale'));
     }
 
     /**
@@ -42,14 +40,12 @@ class OrderShippedNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         // Set locale trước khi tạo nội dung email
-        // Admin notifications always use English
-        app()->setLocale('en');
+        app()->setLocale($this->locale);
 
         return (new MailMessage)
-            ->subject(__('notifications.order_shipped_subject', ['order_id' => $this->order->id]))
-            ->line(__('notifications.order_shipped_line', ['order_id' => $this->order->id]))
-            ->action(__('notifications.view_order'), config('app.url') . '/admin/order/' . $this->order->id)
-            ->line(__('notifications.order_shipped_thank_you'));
+            ->subject(__('notifications.order_confirmed_subject'))
+            ->line(__('notifications.order_confirmed_line', ['order_id' => $this->order->id]))
+            ->action(__('notifications.view_order'), config('app.url') . '/order/' . $this->order->id);
     }
 
     /**
@@ -59,12 +55,9 @@ class OrderShippedNotification extends Notification implements ShouldQueue
      */
     public function toArray(object $notifiable): array
     {
-        // Admin notifications always use English
-        app()->setLocale('en');
-
         return [
             'order_id' => $this->order->id,
-            'message'  => __('notifications.order_shipped_message', ['order_id' => $this->order->id]),
+            'message'  => __('notifications.order_confirmed_message', ['order_id' => $this->order->id]),
         ];
     }
 }

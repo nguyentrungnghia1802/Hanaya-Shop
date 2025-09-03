@@ -3,15 +3,14 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
-class NewOrderPending extends Notification implements ShouldQueue
+class CustomerNewOrderPending extends Notification implements ShouldQueue
 {
     use Queueable;
-    // Admin notifications sent immediately for reliability
 
     public $order;
     public $locale;
@@ -19,13 +18,12 @@ class NewOrderPending extends Notification implements ShouldQueue
     /**
      * Create a new notification instance.
      */
-    public function __construct($order, $locale = 'en') // Admin notifications always use English
+    public function __construct($order, $locale = null)
     {
         $this->order = $order;
-        // Admin notifications use fixed English locale
-        $this->locale = 'en';
+        // Lấy locale từ parameter hoặc từ session hoặc fallback to app default
+        $this->locale = $locale ?: Session::get('locale', config('app.locale'));
     }
-
     /**
      * Get the notification's delivery channels.
      *
@@ -41,14 +39,13 @@ class NewOrderPending extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
-        // Admin notifications always use English
-        app()->setLocale('en');
-
+        // Set locale trước khi tạo nội dung email
+        app()->setLocale($this->locale);
         return (new MailMessage)
-            ->subject(__('notifications.new_order_request_subject'))
-            ->line(__('notifications.new_order_request_line'))
+            ->subject(__('notifications.customer_new_order_subject'))
+            ->line(__('notifications.customer_new_order_line'))
             ->line(__('notifications.order_code') . ' #' . $this->order->id)
-            ->action(__('notifications.view_order'), config('app.url') . '/admin/order/' . $this->order->id);
+            ->action(__('notifications.view_order'), config('app.url') . '/order/' . $this->order->id);
     }
 
     /**
@@ -58,13 +55,10 @@ class NewOrderPending extends Notification implements ShouldQueue
      */
     public function toArray(object $notifiable): array
     {
-        // Admin notifications always use English
-        app()->setLocale('en');
-
         return [
             'order_id'  => $this->order->id,
             'user_name' => $this->order->user->name ?? __('notifications.guest'),
-            'message'   => __('notifications.order_waiting_confirmation', ['order_id' => $this->order->id]),
+            'message'   => __('notifications.customer_order_waiting_confirmation', ['order_id' => $this->order->id]),
         ];
     }
 }

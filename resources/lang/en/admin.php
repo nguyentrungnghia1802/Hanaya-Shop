@@ -201,6 +201,7 @@ return [
     'customer_reviews' => 'Customer Reviews',
     'reviews' => 'Reviews',
     'order' => 'Order',
+    'order_id' => 'Order ID',
     'no_reviews_yet' => 'No reviews yet.',
     'this_product_has_received_any_reviews' => 'This product has not received any reviews yet.',
 
