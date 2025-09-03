@@ -115,4 +115,15 @@ Cảm ơn!',
     //Notes
     'password_requirement_title' => 'Yêu cầu mật khẩu',
     'password_requirement_description' => 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số, ký tự đặc biệt và không có khoảng trắng.',
+
+    // Email đặt lại mật khẩu
+    'reset_password_subject' => 'Thông Báo Đặt Lại Mật Khẩu',
+    'reset_password_greeting' => 'Xin chào!',
+    'reset_password_line' => 'Bạn nhận được email này vì chúng tôi đã nhận được yêu cầu đặt lại mật khẩu cho tài khoản của bạn.',
+    'reset_password_action' => 'Đặt Lại Mật Khẩu',
+    'reset_password_expire' => 'Liên kết đặt lại mật khẩu này sẽ hết hạn trong :count phút.',
+    'reset_password_no_action' => 'Nếu bạn không yêu cầu đặt lại mật khẩu, không cần thực hiện thêm hành động nào.',
+    'reset_password_regards' => 'Trân trọng,',
+    'reset_password_signature' => 'Hanaya Shop',
+    'reset_password_trouble' => 'Nếu bạn gặp khó khăn khi nhấp vào nút "Đặt Lại Mật Khẩu", hãy sao chép và dán URL bên dưới vào trình duyệt web của bạn:',
 ];

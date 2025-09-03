@@ -115,4 +115,15 @@ return [
     //Notes
     'password_requirement_title' => 'パスワード要件',
     'password_requirement_description' => 'パスワードは8文字以上で、大文字・小文字・数字・記号を含み、スペースを含まない必要があります。',
+
+    // パスワードリセットメール
+    'reset_password_subject' => 'パスワードリセット通知',
+    'reset_password_greeting' => 'こんにちは！',
+    'reset_password_line' => 'お客様のアカウントに対してパスワードリセットリクエストを受信したため、このメールを送信しています。',
+    'reset_password_action' => 'パスワードリセット',
+    'reset_password_expire' => 'このパスワードリセットリンクは:count分で有効期限が切れます。',
+    'reset_password_no_action' => 'パスワードリセットを要求していない場合、特に対応は不要です。',
+    'reset_password_regards' => '敬具、',
+    'reset_password_signature' => 'Hanaya Shop',
+    'reset_password_trouble' => '「パスワードリセット」ボタンをクリックできない場合は、以下のURLをコピーしてWebブラウザに貼り付けてください：',
 ];

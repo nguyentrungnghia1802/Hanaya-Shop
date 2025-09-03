@@ -41,6 +41,8 @@ use Illuminate\Auth\Passwords\CanResetPassword;        // Password reset functio
 use App\Models\Order\Order;      // Order model for purchase tracking
 use App\Models\Product\Review;   // Review model for product feedback
 use App\Models\Cart\Cart;        // Shopping cart model
+use App\Notifications\ResetPassword as ResetPasswordNotification;  // Custom password reset notification
+use Illuminate\Support\Facades\Session; // Session support for locale
 
 /**
  * User Model Class
@@ -99,6 +101,31 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime', // Cast to Carbon datetime instance
             'password' => 'hashed',            // Automatically hash password on assignment
         ];
+    }
+
+    /**
+     * Send a password reset notification to the user.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        // Lấy locale hiện tại từ session hoặc sử dụng locale mặc định
+        $locale = Session::get('locale', config('app.locale'));
+        
+        // Gửi notification với locale
+        $this->notify(new ResetPasswordNotification($token, $locale));
+    }
+
+    /**
+     * Get the email address where password reset links are sent.
+     *
+     * @return string
+     */
+    public function getEmailForPasswordReset()
+    {
+        return $this->email;
     }
 
     // ===== AUTHORIZATION METHODS =====
