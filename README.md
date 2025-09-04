@@ -20,7 +20,7 @@
 ## 🔗 リンク <a id="links-jp"></a>
 
 -   ウェブサイト: [Hanaya Shop](http://hanayashop.com)
--   デモ動画: [YouTube デモ](https://youtu.be/your-demo-id)
+-   デモ動画: [YouTube デモ](https://www.youtube.com/watch?v=Qgwq9ZHUbtQ)
 
 ## 🛠️ インストール/セットアップのご案内 <a id="install-jp"></a>
 
@@ -268,7 +268,7 @@ hanaya-shop/
 ## 🔗 Links <a id="links-en"></a>
 
 -   Website: [Hanaya Shop](http://hanayashop.com)
--   Demo video: [YouTube Demo](https://youtu.be/your-demo-id)
+-   Demo video: [YouTube Demo](https://www.youtube.com/watch?v=Qgwq9ZHUbtQ)
 
 ## 🛠️ Installation / Setup <a id="install-en"></a>
 
@@ -515,7 +515,7 @@ hanaya-shop/
 ## 🔗 Đường dẫn <a id="links-vi"></a>
 
 -   Trang web: [Hanaya Shop](http://hanayashop.com)
--   Video demo: [YouTube Demo](https://youtu.be/your-demo-id)
+-   Video demo: [YouTube Demo](https://www.youtube.com/watch?v=Qgwq9ZHUbtQ)
 
 ## 🛠️ Hướng dẫn cài đặt / thiết lập <a id="install-vi"></a>
 
