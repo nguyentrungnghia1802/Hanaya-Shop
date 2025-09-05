@@ -24,6 +24,12 @@ use App\Notifications\CustomerOrderCancelledNotification;
 
 class NotificationTestController extends Controller
 {
+    /**
+     * Test sending all admin and customer notifications.
+     * Admin notifications are sent immediately in English.
+     * Customer notifications are queued and sent in the current locale.
+     * Returns a JSON response with the test results.
+     */
     public function test()
     {
         $admin = User::where('role', 'admin')->first();
@@ -75,6 +81,16 @@ class NotificationTestController extends Controller
         }
     }
 
+    /**
+     * Helper function to send a notification to a user and return the result.
+     * Instantiates the notification class with given parameters and calls notify().
+     * Returns 'SUCCESS' or error message string.
+     *
+     * @param User $user The user to notify
+     * @param string $notificationClass The notification class name
+     * @param array $params Parameters to pass to the notification constructor
+     * @return string
+     */
     private function testNotification($user, $notificationClass, $params)
     {
         try {
