@@ -126,4 +126,11 @@ Thank you!',
     'reset_password_regards' => 'Regards,',
     'reset_password_signature' => 'Hanaya Shop',
     'reset_password_trouble' => 'If you\'re having trouble clicking the "Reset Password" button, copy and paste the URL below into your web browser:',
+
+    // Test Account Experience
+    'test_account_button' => 'Try With Test Account',
+    'test_account_experience_title' => 'Experience our website before registering',
+    'test_account_experience_description' => 'Use one of the test accounts below to explore all features without creating a new account',
+    'test_account_free_note' => 'Everything is completely free, feel free to explore!',
+    'test_account_password_note' => 'All test accounts use the same password: :password',
 ];

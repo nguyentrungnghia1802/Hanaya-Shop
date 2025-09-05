@@ -22,6 +22,25 @@
 -   ウェブサイト: [Hanaya Shop](http://hanayashop.com)
 -   デモ動画: [YouTube デモ](https://www.youtube.com/watch?v=Qgwq9ZHUbtQ)
 
+## 🎯 テスト用アカウント <a id="test-accounts-jp"></a>
+
+**Hanaya Shopを登録前に体験してみてください！** 以下のテストアカウントを使用して、新しいアカウントを作成することなく、すべての顧客向け機能を完全無料でお試しいただけます。
+
+| メールアドレス              | パスワード   | 備考                    |
+|-----------------------------|-------------|------------------------|
+| testuser0@gmail.com         | 123456789   | 完全無料でご利用可能      |
+| testuser1@gmail.com         | 123456789   | 全機能をお試しできます    |
+| testuser2@gmail.com         | 123456789   | お気軽にご体験ください    |
+| testuser3@gmail.com         | 123456789   | 安心してご利用ください    |
+| testuser4@gmail.com         | 123456789   | すべて無料です          |
+| testuser5@gmail.com         | 123456789   | ご自由にお使いください    |
+| testuser6@gmail.com         | 123456789   | 制限なくご利用可能      |
+| testuser7@gmail.com         | 123456789   | 気軽にお試しください      |
+| testuser8@gmail.com         | 123456789   | 完全フリーアクセス      |
+| testuser9@gmail.com         | 123456789   | 無料体験アカウント      |
+
+💡 **使用方法**: ログインページでいずれかのアカウントでログインし、商品閲覧・購入・チャットボット・多言語切替など、顧客向け機能を自由にお試しください。
+
 ## 🛠️ インストール/セットアップのご案内 <a id="install-jp"></a>
 
 -   本番環境（Production）: [DEPLOYMENT_GUIDE.md](./%23GUIDE/DEPLOYMENT_GUIDE.md)
@@ -270,6 +289,25 @@ hanaya-shop/
 -   Website: [Hanaya Shop](http://hanayashop.com)
 -   Demo video: [YouTube Demo](https://www.youtube.com/watch?v=Qgwq9ZHUbtQ)
 
+## 🎯 Test Accounts <a id="test-accounts-en"></a>
+
+**Experience Hanaya Shop before registering!** Use one of the following test accounts to explore all customer features completely free without creating a new account.
+
+| Email                      | Password    | Note                              |
+|----------------------------|-------------|-----------------------------------|
+| testuser0@gmail.com        | 123456789   | Completely free to use            |
+| testuser1@gmail.com        | 123456789   | Try all features                  |
+| testuser2@gmail.com        | 123456789   | Feel free to explore              |
+| testuser3@gmail.com        | 123456789   | Safe to use                       |
+| testuser4@gmail.com        | 123456789   | Everything is free                |
+| testuser5@gmail.com        | 123456789   | Use freely                        |
+| testuser6@gmail.com        | 123456789   | No restrictions                   |
+| testuser7@gmail.com        | 123456789   | Casual testing welcome            |
+| testuser8@gmail.com        | 123456789   | Full free access                  |
+| testuser9@gmail.com        | 123456789   | Free trial account                |
+
+💡 **How to use**: Log in with any of these accounts on the login page and freely explore all customer features such as browsing, purchasing, chatbot, and language switching.
+
 ## 🛠️ Installation / Setup <a id="install-en"></a>
 
 -   Production guide: [DEPLOYMENT_GUIDE.md](./%23GUIDE/DEPLOYMENT_GUIDE.md)
@@ -516,6 +554,25 @@ hanaya-shop/
 
 -   Trang web: [Hanaya Shop](http://hanayashop.com)
 -   Video demo: [YouTube Demo](https://www.youtube.com/watch?v=Qgwq9ZHUbtQ)
+
+## 🎯 Tài khoản test <a id="test-accounts-vi"></a>
+
+**Trải nghiệm Hanaya Shop trước khi đăng ký!** Sử dụng một trong những tài khoản test dưới đây để khám phá toàn bộ chức năng dành cho khách hàng hoàn toàn miễn phí mà không cần tạo tài khoản mới.
+
+| Email                      | Mật khẩu    | Ghi chú                           |
+|----------------------------|-------------|-----------------------------------|
+| testuser0@gmail.com        | 123456789   | Hoàn toàn miễn phí sử dụng        |
+| testuser1@gmail.com        | 123456789   | Thử tất cả tính năng              |
+| testuser2@gmail.com        | 123456789   | Cứ thoải mái khám phá             |
+| testuser3@gmail.com        | 123456789   | An toàn khi sử dụng               |
+| testuser4@gmail.com        | 123456789   | Mọi thứ đều miễn phí              |
+| testuser5@gmail.com        | 123456789   | Sử dụng tự do                     |
+| testuser6@gmail.com        | 123456789   | Không có hạn chế                  |
+| testuser7@gmail.com        | 123456789   | Thử nghiệm thoải mái              |
+| testuser8@gmail.com        | 123456789   | Truy cập miễn phí đầy đủ          |
+| testuser9@gmail.com        | 123456789   | Tài khoản thử nghiệm miễn phí     |
+
+💡 **Cách sử dụng**: Đăng nhập bằng bất kỳ tài khoản nào trong số này trên trang đăng nhập và tự do khám phá các chức năng khách hàng như xem sản phẩm, mua hàng, chatbot, đổi ngôn ngữ.
 
 ## 🛠️ Hướng dẫn cài đặt / thiết lập <a id="install-vi"></a>
 

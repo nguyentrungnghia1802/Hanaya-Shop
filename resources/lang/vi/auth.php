@@ -126,4 +126,11 @@ Cảm ơn!',
     'reset_password_regards' => 'Trân trọng,',
     'reset_password_signature' => 'Hanaya Shop',
     'reset_password_trouble' => 'Nếu bạn gặp khó khăn khi nhấp vào nút "Đặt Lại Mật Khẩu", hãy sao chép và dán URL bên dưới vào trình duyệt web của bạn:',
+
+    // Trải nghiệm tài khoản test
+    'test_account_button' => 'Dùng thử với tài khoản test',
+    'test_account_experience_title' => 'Trải nghiệm website trước khi đăng ký',
+    'test_account_experience_description' => 'Sử dụng một trong những tài khoản test bên dưới để khám phá tất cả tính năng mà không cần tạo tài khoản mới',
+    'test_account_free_note' => 'Mọi thứ hoàn toàn miễn phí, cứ thoải mái sử dụng!',
+    'test_account_password_note' => 'Tất cả tài khoản test đều dùng chung mật khẩu: :password',
 ];
