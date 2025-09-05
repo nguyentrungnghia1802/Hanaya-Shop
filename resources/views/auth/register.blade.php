@@ -1,50 +1,7 @@
 <x-guest-layout>
     <div class="text-center mb-6">
-        <h1 class="text-2xl font-bold text-gray-900">{{ __('auth.create_account') }}</h1>
-        <p class="mt-2 text-sm text-gray-600">{{ __('auth.create_account_description') }}</p>
-    </div>
-
-    <!-- Gmail Requirement Notice -->
-    <div class="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg">
-        <div class="flex">
-            <div class="flex-shrink-0">
-                <svg class="h-5 w-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-            </div>
-            <div class="ml-3 flex-1">
-                <h3 class="text-sm font-medium text-blue-800">
-                    {{ __('auth.gmail_requirement_title') }}
-                </h3>
-                <div class="mt-2 text-sm text-blue-700">
-                    <p>{{ __('auth.gmail_requirement_description') }}</p>
-                    <ul class="mt-2 list-disc list-inside space-y-1 text-xs sm:text-sm">
-                        <li>{{ __('auth.gmail_for_order_updates') }}</li>
-                        <li>{{ __('auth.gmail_for_password_recovery') }}</li>
-                        {{-- <li>{{ __('auth.gmail_for_account_security') }}</li> --}}
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Password Requirement Notice -->
-    <div class="mb-6 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-lg">
-        <div class="flex">
-            <div class="flex-shrink-0">
-                <svg class="h-5 w-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0-1.104.896-2 2-2s2 .896 2 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                </svg>
-            </div>
-            <div class="ml-3 flex-1">
-                <h3 class="text-sm font-medium text-yellow-800">
-                    {{ __('auth.password_requirement_title') }}
-                </h3>
-                <div class="mt-2 text-sm text-yellow-700">
-                    <p>{{ __('auth.password_requirement_description') }}</p>
-                </div>
-            </div>
-        </div>
+        <h1 class="text-2xl font-bold text-indigo-700 drop-shadow">{{ __('auth.create_account') }}</h1>
+        <p class="mt-2 text-sm text-pink-500">{{ __('auth.create_account_description') }}</p>
     </div>
 
     <form method="POST" action="{{ route('register') }}">
@@ -101,4 +58,55 @@
             </x-primary-button>
         </div>
     </form>
+
+    <!-- Divider and Notice Section -->
+    <div class="mt-8 mb-2 flex items-center justify-center">
+        <span class="h-px w-1/4 bg-gray-300"></span>
+        <span class="mx-4 text-lg sm:text-xl text-gray-700 font-bold">{{ __('auth.notice') }}</span>
+        <span class="h-px w-1/4 bg-gray-300"></span>
+    </div>
+
+        <!-- Gmail Requirement Notice -->
+    <div class="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg">
+        <div class="flex">
+            <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </div>
+            <div class="ml-3 flex-1">
+                <h3 class="text-sm font-medium text-blue-800">
+                    {{ __('auth.gmail_requirement_title') }}
+                </h3>
+                <div class="mt-2 text-sm text-blue-700">
+                    <p>{{ __('auth.gmail_requirement_description') }}</p>
+                    <ul class="mt-2 list-disc list-inside space-y-1 text-xs sm:text-sm">
+                        <li>{{ __('auth.gmail_for_order_updates') }}</li>
+                        <li>{{ __('auth.gmail_for_password_recovery') }}</li>
+                        {{-- <li>{{ __('auth.gmail_for_account_security') }}</li> --}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Requirement Notice -->
+    <div class="mb-6 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-lg">
+        <div class="flex">
+            <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0-1.104.896-2 2-2s2 .896 2 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                </svg>
+            </div>
+            <div class="ml-3 flex-1">
+                <h3 class="text-sm font-medium text-yellow-800">
+                    {{ __('auth.password_requirement_title') }}
+                </h3>
+                <div class="mt-2 text-sm text-yellow-700">
+                    <p>{{ __('auth.password_requirement_description') }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </x-guest-layout>

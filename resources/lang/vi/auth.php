@@ -113,6 +113,7 @@ Cảm ơn!',
     'confirm_password_placeholder' => 'Nhập lại mật khẩu',
 
     //Notes
+    'notice' => 'Lưu ý',
     'password_requirement_title' => 'Yêu cầu mật khẩu',
     'password_requirement_description' => 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số, ký tự đặc biệt và không có khoảng trắng.',
 

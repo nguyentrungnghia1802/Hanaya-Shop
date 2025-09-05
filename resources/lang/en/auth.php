@@ -113,6 +113,7 @@ Thank you!',
     'confirm_password_placeholder' => 'Re-enter your password',
 
     // Notes
+    'notice' => 'Notice',
     'password_requirement_title' => 'Password Requirements',
     'password_requirement_description' => 'Password must contain at least 8 characters, including uppercase, lowercase, numbers, special characters, and no spaces.',
 
