@@ -113,6 +113,7 @@ return [
     'confirm_password_placeholder' => 'もう一度パスワードを入力してください',
 
     //Notes
+    'notice' => '注意',
     'password_requirement_title' => 'パスワード要件',
     'password_requirement_description' => 'パスワードは8文字以上で、大文字・小文字・数字・記号を含み、スペースを含まない必要があります。',
 
