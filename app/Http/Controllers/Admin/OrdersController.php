@@ -27,6 +27,11 @@ use App\Models\Order\Payment;
 class OrdersController extends Controller
 {
 
+    /**
+     * Display a paginated list of orders with optional search and status filtering.
+     * Eager loads user relationship to avoid N+1 queries.
+     * Returns the orders and payment data to the index view.
+     */
     public function index(Request $request)
     {
         $search = $request->input('search');
@@ -57,6 +62,11 @@ class OrdersController extends Controller
     }
 
 
+    /**
+     * Show detailed information for a specific order, including order details, user, and address.
+     * Also retrieves payment information for the order.
+     * Returns the data to the show view.
+     */
     public function show($orderId)
     {
         $order = Order::with('orderDetail.product', 'user', 'address')->findOrFail($orderId);
@@ -64,6 +74,11 @@ class OrdersController extends Controller
         return view('admin.orders.show', compact('order', 'payment'));
     }
 
+    /**
+     * Confirm an order and update its status to 'processing'.
+     * Sends notifications to all admins (in English) and the customer (in current locale).
+     * Redirects back with a success message.
+     */
     public function confirm(Order $order)
     {
         $order->status = 'processing';
@@ -87,6 +102,11 @@ class OrdersController extends Controller
         return redirect()->back()->with('success', __('admin.order_confirmed_successfully'));
     }
 
+    /**
+     * Mark an order as shipped and update its status.
+     * Sends notifications to all admins (in English) and the customer (in current locale).
+     * Redirects back with a success message.
+     */
     public function shipped(Order $order)
     {
         $order->status = 'shipped';
@@ -110,6 +130,13 @@ class OrdersController extends Controller
         return redirect()->back()->with('success', __('admin.order_shipped_successfully'));
     }
 
+    /**
+     * Mark payment as completed for an order and update payment status.
+     * Sends notifications to all admins and the customer.
+     * If payment is completed, may also mark order as completed (commented logic).
+     * Handles transaction and error rollback.
+     * Redirects back with a success or error message.
+     */
     public function paid(Order $order)
     {
         $payment = Payment::where('order_id', $order->id)->first();
@@ -180,6 +207,12 @@ class OrdersController extends Controller
         }
     }
 
+    /**
+     * Cancel an order, update payment status, restore product stock, and update order status.
+     * Sends notifications to all admins and the customer.
+     * Handles transaction and error rollback.
+     * Redirects back with a success or error message.
+     */
     public function cancel($orderId)
     {
         $order = Order::findOrFail($orderId);
