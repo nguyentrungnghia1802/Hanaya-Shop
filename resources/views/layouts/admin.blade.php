@@ -5,6 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -12,6 +15,23 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+    <!-- Loading Overlay Handler - Must load first -->
+    <script src="{{ asset('js/loading-overlay.js') }}"></script>
+    
+    <!-- Inline script for immediate overlay hiding -->
+    <script>
+        // Immediate hide on script load
+        (function() {
+            var overlay = document.getElementById('pageLoadingOverlay');
+            if (overlay) {
+                overlay.style.display = 'none';
+                overlay.style.visibility = 'hidden';
+                overlay.classList.add('hidden');
+                overlay.classList.remove('flex', 'items-center', 'justify-center');
+            }
+        })();
+    </script>
+    
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/components.js'])
 
@@ -156,8 +176,7 @@
     </div>
 
     <!-- Load TinyMCE từ CDN - Editor đầy đủ tính năng -->
-<script src="https://cdn.tiny.cloud/1/y1zo0i12q8i692ria3ibrw4baa79o7h6yaa1tgqpy03fwz1x/tinymce/6/tinymce.min.js"
-    referrerpolicy="origin"></script>
+<script src="https://cdn.tiny.cloud/1/y1zo0i12q8i692ria3ibrw4baa79o7h6yaa1tgqpy03fwz1x/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 
 <!-- Include our CSP-compliant components -->
 @vite('resources/js/components.js')
@@ -199,7 +218,17 @@
 </script>
 
     <script>
+        // Force hide loading overlay immediately when script loads
+        if (typeof window.hideLoadingOverlay === 'function') {
+            window.hideLoadingOverlay();
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
+            // Ensure loading overlay is hidden when DOM is ready
+            if (typeof window.hideLoadingOverlay === 'function') {
+                window.hideLoadingOverlay();
+            }
+            
             // Chặn click trên nav-link và delay chuyển trang
             document.querySelectorAll('nav a, .admin-nav a, .sidebar a').forEach(link => {
                 link.addEventListener('click', function(e) {
@@ -208,17 +237,41 @@
                         this.target === '_blank' ||
                         this.href.startsWith('javascript:') ||
                         this.href === '#' ||
-                        e.ctrlKey || e.shiftKey || e.metaKey || e.altKey
+                        e.ctrlKey || e.shiftKey || e.metaKey || e.altKey ||
+                        this.getAttribute('data-no-loading') === 'true'
                     ) return;
                     e.preventDefault();
-                    const overlay = document.getElementById('pageLoadingOverlay');
-                    overlay.classList.remove('hidden');
-                    overlay.classList.add('flex', 'items-center', 'justify-center');
+                    
+                    if (typeof window.showLoadingOverlay === 'function') {
+                        window.showLoadingOverlay();
+                    }
+                    
                     setTimeout(() => {
                         window.location.href = this.href;
                     }, 150);
                 });
             });
+        });
+
+        // Additional safety nets for production environment
+        window.addEventListener('load', function() {
+            if (typeof window.hideLoadingOverlay === 'function') {
+                window.hideLoadingOverlay();
+            }
+        });
+
+        // Handle when page becomes visible again
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden && typeof window.hideLoadingOverlay === 'function') {
+                window.hideLoadingOverlay();
+            }
+        });
+
+        // Handle window focus
+        window.addEventListener('focus', function() {
+            if (typeof window.hideLoadingOverlay === 'function') {
+                window.hideLoadingOverlay();
+            }
         });
     </script>
 

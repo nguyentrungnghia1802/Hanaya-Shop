@@ -8,104 +8,260 @@ use App\Models\Product\Category;
 use App\Models\Post;
 use App\Models\Order\Order;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Log;
 
+/**
+ * Enhanced AI Chatbot Controller
+ *
+ * This controller provides intelligent chatbot functionality for customer support
+ * in the Hanaya Shop e-commerce application. It features advanced intent detection,
+ * multilingual support, and integration with product, category, order, and post models
+ * to answer customer queries about products, orders, store info, and more.
+ *
+ * Key Features:
+ * - Multilingual intent detection (English, Vietnamese, Japanese)
+ * - Product, category, and order query handling
+ * - News/blog post integration
+ * - Price, shipping, payment, and store info responses
+ * - Gift suggestions and popular product recommendations
+ * - Error handling and logging for chatbot failures
+ * - UTF-8 encoding for international support
+ *
+ * @package App\Http\Controllers
+ * @author Hanaya Shop Development Team
+ * @version 1.0
+ */
 class ChatbotController extends Controller
 {
+    /**
+     * Main Chat Handler
+     *
+     * Handles incoming chat messages, detects intent, and returns appropriate responses.
+     * Integrates with product, category, order, and post models to answer customer queries.
+     * Includes error handling and UTF-8 encoding for international support.
+     *
+     * @param Request $request HTTP request containing chat message
+     * @return \Illuminate\Http\JsonResponse JSON response with chatbot reply
+     */
     public function chat(Request $request)
     {
-        $message = trim(strtolower($request->input('message', '')));
+        try {
+            $message = trim(strtolower($request->input('message', '')));
 
-        if (empty($message)) {
+            if (empty($message)) {
+                return response()->json([
+                    'response' => __('chatbot.greeting')
+                ], 200, [], JSON_UNESCAPED_UNICODE);
+            }
+
+            $response = $this->processMessage($message);
+            
+            // Ensure UTF-8 encoding
+            $response = mb_convert_encoding($response, 'UTF-8', 'UTF-8');
+
             return response()->json([
-                'response' => config('constants.chatbot_greeting')
+                'response' => $response
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } catch (\Exception $e) {
+            // Log the error for debugging
+            Log::error('Chatbot Error: ' . $e->getMessage(), [
+                'message' => $request->input('message'),
+                'trace' => $e->getTraceAsString()
             ]);
+
+            return response()->json([
+                'response' => __('chatbot.error', ['phone' => config('constants.shop_phone')])
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         }
-
-        $response = $this->processMessage($message);
-
-        return response()->json([
-            'response' => $response
-        ]);
     }
 
+    /**
+     * Enhanced Message Processing and Intent Detection
+     *
+     * Detects user intent from chat message and routes to appropriate handler.
+     * Supports product search, category browsing, order inquiry, news, pricing,
+     * store info, shipping, payment, help, popular products, gift suggestions,
+     * and availability queries. Returns fallback response if no intent detected.
+     *
+     * @param string $message Lowercased, trimmed chat message
+     * @return string Chatbot response text
+     */
     private function processMessage($message)
     {
-        // Greetings
-        if ($this->containsWords($message, ['xin chào', 'chào', 'hello', 'hi', 'hey'])) {
+
+        // Enhanced Greeting Detection
+        if ($this->containsWords($message, [
+            'hello', 'hi', 'hey', 'good morning', 'good afternoon', 'good evening',
+            'greetings', 'howdy', 'what\'s up', 'yo', 'hiya', 'morning', 'afternoon', 'evening',
+            'xin chào', 'chào',
+            'こんにちは', 'こんばんは', 'おはよう', 'やあ', 'もしもし', 'ごきげんよう', 'お疲れ様', 'おっす', 'お元気ですか', 'ご挨拶'
+        ])) {
             return $this->getGreetingResponse();
         }
 
-        // Product search
-        if ($this->containsWords($message, ['sản phẩm', 'tìm', 'tìm kiếm', 'product', 'hoa', 'quà', 'gift'])) {
+        // Enhanced Product Search Intent
+        if ($this->containsWords($message, [
+            'product', 'products', 'find', 'search', 'look', 'show', 'flower', 'flowers', 'soap', 'gift', 'gifts', 'present', 'presents',
+            'buy', 'purchase', 'item', 'items', 'browse', 'available', 'have', 'sell', 'offer', 'offers',
+            'recommendation', 'recommend', 'suggest', 'what do you', 'looking for', 'need',
+            'fresh flowers', 'artificial', 'handmade', 'custom', 'special', 'unique',
+            'birthday', 'anniversary', 'wedding', 'valentine', 'mothers day', 'christmas',
+            'sản phẩm', 'tìm', 'tìm kiếm', 'hoa', 'quà', 'quà tặng',
+            '花','はな','商品', '商品一覧', '探す', '検索', '見る', '表示', '花', '石鹸', 'ギフト', '贈り物', 'プレゼント', '購入', '買う', 'アイテム', '在庫', '販売', 'おすすめ', '提案', '新商品', '誕生日', '記念日', '結婚', 'バレンタイン', '母の日', 'クリスマス'
+        ])) {
             return $this->handleProductSearch($message);
         }
 
-        // Categories
-        if ($this->containsWords($message, ['danh mục', 'category', 'loại', 'phân loại'])) {
+        // Enhanced Category Browsing Intent
+        if ($this->containsWords($message, [
+            'category', 'categories', 'type', 'types', 'kind', 'kinds', 'collection', 'collections',
+            'section', 'sections', 'what do you sell', 'what\'s available', 'browse', 'explore',
+            'menu', 'catalog', 'range', 'variety', 'selection',
+            'danh mục', 'loại', 'phân loại',
+            'カテゴリ', 'カテゴリー', '種類', 'タイプ', 'コレクション', 'メニュー', 'カタログ', '分類', 'セクション', '一覧'
+        ])) {
             return $this->handleCategoryQuery();
         }
 
-        // Order inquiry
-        if ($this->containsWords($message, ['đơn hàng', 'order', 'mua', 'thanh toán', 'checkout'])) {
+        // Enhanced Order Inquiry Intent
+        if ($this->containsWords($message, [
+            'order', 'orders', 'purchase', 'purchases', 'buy', 'bought', 'checkout', 'cart',
+            'track', 'tracking', 'status', 'delivery', 'shipped', 'delivered',
+            'my order', 'order status', 'where is my', 'when will', 'receipt', 'confirmation',
+            'đơn hàng', 'mua', 'thanh toán',
+            '注文', '注文履歴', '購入', 'カート', 'チェックアウト', '追跡', '配送', '配達', '発送', 'ステータス', '領収書', '確認', '支払い'
+        ])) {
             return $this->handleOrderQuery();
         }
 
-        // Latest posts/news
-        if ($this->containsWords($message, ['tin tức', 'bài viết', 'news', 'post', 'blog'])) {
+        // Enhanced News and Content Intent
+        if ($this->containsWords($message, [
+            'news', 'blog', 'post', 'posts', 'article', 'articles', 'update', 'updates',
+            'latest', 'new', 'recent', 'what\'s new', 'announcements', 'events',
+            'tin tức', 'bài viết',
+            'ニュース', 'ブログ', '投稿', '記事', 'アップデート', '最新', '新着', 'イベント', 'お知らせ'
+        ])) {
             return $this->handleNewsQuery();
         }
 
-        // Pricing
-        if ($this->containsWords($message, ['giá', 'price', 'bao nhiêu', 'chi phí', 'cost'])) {
+        // Enhanced Pricing Intent
+        if ($this->containsWords($message, [
+            'price', 'prices', 'cost', 'costs', 'expensive', 'cheap', 'affordable',
+            'how much', 'pricing', 'budget', 'range', 'fee', 'charge', 'money',
+            'discount', 'sale', 'offer', 'promotion', 'deal', 'deals',
+            'giá', 'bao nhiêu', 'chi phí',
+            '値段', '価格', '費用', '高い', '安い', 'お得', '割引', 'セール', 'プロモーション', 'ディール', 'いくら', '料金', '金額', '予算'
+        ])) {
             return $this->handlePriceQuery($message);
         }
 
-        // Store information
-        if ($this->containsWords($message, ['cửa hàng', 'store', 'shop', 'địa chỉ', 'liên hệ', 'contact'])) {
+        // Enhanced Store Information Intent
+        if ($this->containsWords($message, [
+            'store', 'shop', 'location', 'address', 'contact', 'phone', 'email',
+            'hours', 'open', 'close', 'where', 'find you', 'visit', 'directions',
+            'about', 'information', 'details', 'business hours',
+            'cửa hàng', 'địa chỉ', 'liên hệ',
+            '店舗', 'ショップ', '場所', '住所', '連絡先', '電話', 'メール', '営業時間', '開店', '閉店', 'どこ', '案内', '訪問', '詳細', 'インフォメーション'
+        ])) {
             return $this->handleStoreInfo();
         }
 
-        // Shipping information
-        if ($this->containsWords($message, ['giao hàng', 'ship', 'delivery', 'vận chuyển'])) {
+        // Enhanced Shipping Information Intent
+        if ($this->containsWords($message, [
+            'ship', 'shipping', 'delivery', 'deliver', 'send', 'transport',
+            'freight', 'courier', 'post', 'mail', 'fast delivery', 'express',
+            'same day', 'overnight', 'free shipping', 'shipping cost', 'shipping fee',
+            'giao hàng', 'vận chuyển',
+            '配送', '配達', '発送', '送料', '宅配', '宅急便', '速達', '当日配送', '翌日配送', '無料配送', '運送', '運輸', '郵送', '郵便'
+        ])) {
             return $this->handleShippingInfo();
         }
 
-        // Payment methods
-        if ($this->containsWords($message, ['thanh toán', 'payment', 'pay', 'tiền'])) {
+        // Enhanced Payment Information Intent
+        if ($this->containsWords($message, [
+            'payment', 'pay', 'paying', 'card', 'cash', 'bank', 'transfer',
+            'method', 'methods', 'option', 'options', 'credit', 'debit',
+            'wallet', 'installment', 'secure', 'safe', 'payment methods',
+            'thanh toán', 'tiền',
+            '支払い', '決済', 'カード', '現金', '銀行', '振込', '方法', 'オプション', 'クレジット', 'デビット', 'ウォレット', '分割', '安全', 'セキュア'
+        ])) {
             return $this->handlePaymentInfo();
         }
 
-        // Help
-        if ($this->containsWords($message, ['help', 'giúp', 'hướng dẫn', 'hỗ trợ', 'support'])) {
+        // Enhanced Help Intent
+        if ($this->containsWords($message, [
+            'help', 'assist', 'support', 'guide', 'instruction', 'how to',
+            'tutorial', 'explain', 'confused', 'don\'t understand', 'stuck',
+            'problem', 'issue', 'trouble', 'difficulty', 'assistance',
+            'giúp', 'hướng dẫn', 'hỗ trợ',
+            '助けて', 'サポート', 'ガイド', '案内', '説明', '困った', '分からない', '問題', 'トラブル', '支援', '手伝い', '教えて'
+        ])) {
             return $this->getHelpResponse();
         }
 
-        // Popular products
-        if ($this->containsWords($message, ['bán chạy', 'popular', 'hot', 'bestseller', 'nổi bật'])) {
+        // Enhanced Popular Products Intent
+        if ($this->containsWords($message, [
+            'popular', 'bestseller', 'best selling', 'trending', 'hot', 'favorite', 'favorites',
+            'top', 'most', 'recommended', 'featured', 'highlighted', 'star', 'bestsellers',
+            'bán chạy', 'nổi bật',
+            '人気', '売れ筋', 'おすすめ', '注目', '話題', '特集', 'ランキング', 'トップ', 'ベストセラー', '人気商品'
+        ])) {
             return $this->handlePopularProducts();
         }
 
-        // Default response with suggestions
-        return $this->getDefaultResponse();
+        // Gift Suggestion Intent
+        if ($this->containsWords($message, [
+            'gift', 'present', 'surprise', 'for her', 'for him', 'for mom',
+            'for dad', 'for wife', 'for husband', 'for girlfriend', 'for boyfriend',
+            'romantic', 'love', 'special occasion', 'gift ideas',
+            'ギフト', 'プレゼント', '贈り物', 'サプライズ', '彼女', '彼氏', '母', '父', '妻', '夫', '恋人', 'ロマンチック', '愛', '特別な日', 'ギフトアイデア'
+        ])) {
+            return $this->handleGiftSuggestions($message);
+        }
+
+        // Availability Intent
+        if ($this->containsWords($message, [
+            'available', 'in stock', 'out of stock', 'when available',
+            'restock', 'inventory', 'quantity', 'left', 'remaining', 'stock',
+            '在庫', '入荷', '在庫あり', '在庫切れ', '残り', '数量', '再入荷', 'ストック', '販売中', '品切れ'
+        ])) {
+            return $this->handleAvailabilityQuery($message);
+        }
+
+        // Fallback Response
+        return $this->getEnhancedDefaultResponse();
     }
 
+    /**
+     * Generate Enhanced Greeting Response
+     *
+     * Returns a greeting message for recognized greeting intents.
+     *
+     * @return string Greeting response
+     */
     private function getGreetingResponse()
     {
-        $greetings = [
-            "🌸 **Chào mừng bạn đến với Hanaya Shop!**\n\nTôi là trợ lý ảo, sẵn sàng hỗ trợ bạn:\n\n✨ **Dịch vụ của tôi:**\n🔍 Tìm kiếm sản phẩm\n📦 Kiểm tra đơn hàng\n🏪 Thông tin cửa hàng\n📰 Tin tức & khuyến mãi\n💡 Tư vấn sản phẩm\n\n**Bạn muốn tôi giúp gì hôm nay?** 😊",
-
-            "🌺 **Xin chào! Rất vui được gặp bạn!**\n\n🎯 **Tôi có thể giúp bạn:**\n• Tìm hoa xà phòng đẹp nhất\n• Chọn quà tặng ý nghĩa\n• Kiểm tra tình trạng đơn hàng\n• Tư vấn sản phẩm phù hợp\n\n🔗 " . route('user.products.index') . "\n\n**Hãy cho tôi biết bạn đang quan tâm đến gì nhé!** 🌸",
-
-            "🌹 **Chào bạn! Welcome to Hanaya Shop!**\n\n🎊 **Hôm nay có gì đặc biệt:**\n• Bộ sưu tập hoa xà phòng mới\n• Quà tặng Valentine độc đáo\n• Miễn phí giao hàng đơn từ 100 USD\n\n💬 **Hỏi tôi bất cứ điều gì về:**\nSản phẩm, giá cả, giao hàng, khuyến mãi...\n\n**Bắt đầu cuộc trò chuyện nào!** ✨"
-        ];
-
-        return $greetings[array_rand($greetings)];
+        return __('chatbot.greeting');
     }
 
+    /**
+     * Enhanced Product Search Handler
+     *
+     * Handles product search queries by detecting keywords and returning
+     * top products with category, price, stock, and view count info.
+     *
+     * @param string $message Chat message containing product search intent
+     * @return string Product search results or fallback message
+     */
     private function handleProductSearch($message)
     {
-        // Extract keywords from message
-        $keywords = ['hoa', 'xà phòng', 'soap', 'flower', 'quà', 'gift', 'souvenir', 'tươi', 'fresh', 'đặc biệt', 'special'];
+        $keywords = [
+            'flower', 'flowers', 'soap', 'gift', 'gifts', 'souvenir', 'fresh', 'special', 
+            'romantic', 'love', 'birthday', 'anniversary', 'wedding', 'valentine', 
+            'christmas', 'mothers day', 'handmade', 'custom', 'unique', 'beautiful',
+            'hoa', 'sáp', 'quà', 'tươi', 'đặc biệt'
+        ];
         $foundKeywords = [];
 
         foreach ($keywords as $keyword) {
@@ -131,303 +287,372 @@ class ChatbotController extends Controller
         $products = $query->orderBy('view_count', 'desc')->get();
 
         if ($products->count() === 0) {
-            return "🔍 **Không tìm thấy sản phẩm phù hợp**\n\n"
-                . "Có thể bạn quan tâm đến:\n"
-                . "🌸 Hoa xà phòng: Bền đẹp, thơm nhẹ\n"
-                . "🌺 Hoa tươi: Tự nhiên, rực rỡ\n"
-                . "🎁 Quà lưu niệm: Ý nghĩa, độc đáo\n\n"
-                . "🔗 " . route('user.products.index') . "\n\n"
-                . "💡 **Gợi ý tìm kiếm:**\n"
-                . "• 'hoa xà phòng hồng'\n"
-                . "• 'quà tặng sinh nhật'\n"
-                . "• 'hoa tươi cưới'";
+            return __('chatbot.no_products_found', [
+                'products_url' => route('user.products.index'),
+                'phone' => config('constants.shop_phone')
+            ]);
         }
 
-        $response = "🌸 **Sản phẩm phù hợp với yêu cầu của bạn:**\n\n";
+        $response = __('chatbot.products_search_results') . "\n\n";
         foreach ($products as $product) {
-            $response .= "🌺 **{$product->name}**\n";
-            $response .= "💰 " . number_format($product->price, 0, ',', '.') . " USD\n";
-            $response .= "📂 {$product->category->name}\n";
-            $response .= "👁️ {$product->view_count} lượt xem\n";
-            $response .= "📦 Còn lại: {$product->stock_quantity} sản phẩm\n";
+            $response .= "💝 **{$product->name}**\n";
+            $response .= "📂 " . __('common.category') . ": {$product->category->name}\n";
+            $response .= "💰 " . __('common.price') . ": \${$product->price}\n";
+            $response .= "📦 " . __('common.stock') . ": {$product->stock_quantity} " . __('common.available') . "\n";
+            $response .= "👀 " . __('common.views') . ": {$product->view_count}\n";
             $response .= "🔗 " . route('user.products.show', $product->id) . "\n\n";
         }
 
-        $response .= "✨ **Xem thêm sản phẩm:**\n";
-        $response .= "🔗 " . route('user.products.index') . "\n\n";
-
-        $response .= "💡 **Mẹo mua sắm:**\n";
-        $response .= "• Kiểm tra số lượng tồn kho trước khi đặt hàng\n";
-        $response .= "• Đọc mô tả sản phẩm để chọn đúng kích thước\n";
-        $response .= "• Liên hệ hotline nếu cần tư vấn: " . config('constants.shop_phone');
+        $response .= __('chatbot.browse_more_products', [
+            'products_url' => route('user.products.index'),
+            'phone' => config('constants.shop_phone')
+        ]);
 
         return $response;
     }
 
+    /**
+     * Category Query Handler
+     *
+     * Handles category browsing queries and returns available product categories
+     * with product counts and links for further browsing.
+     *
+     * @return string Category list or fallback message
+     */
     private function handleCategoryQuery()
     {
         $categories = Category::withCount('product')->get();
 
         if ($categories->count() === 0) {
-            return "📂 **Hiện tại chưa có danh mục sản phẩm nào.**\n\nVui lòng quay lại sau!";
+            return __('chatbot.no_categories_found', [
+                'products_url' => route('user.products.index'),
+                'phone' => config('constants.shop_phone')
+            ]);
         }
 
-        $response = "📂 **Danh mục sản phẩm tại Hanaya Shop:**\n\n";
+        $response = __('chatbot.product_categories') . "\n\n";
         foreach ($categories as $category) {
-            $response .= "🌸 **{$category->name}**\n";
-            $response .= "📊 {$category->product_count} sản phẩm có sẵn\n";
+            $response .= "🌟 **{$category->name}**\n";
+            $response .= "📦 {$category->product_count} " . __('common.products_available') . "\n";
             $response .= "🔗 " . route('user.products.index', ['category' => $category->id]) . "\n\n";
         }
 
-        $response .= "🎯 **Danh mục phổ biến:**\n";
-        $response .= "🧼 Hoa xà phòng - Bền đẹp, thơm lâu\n";
-        $response .= "🌺 Hoa tươi - Tự nhiên, rực rỡ sắc màu\n";
-        $response .= "🎁 Quà lưu niệm - Ý nghĩa, đáng nhớ\n\n";
-        $response .= "💝 **Gợi ý:** Chọn theo dịp đặc biệt như sinh nhật, cưới hỏi, kỷ niệm...";
+        $response .= __('chatbot.popular_categories');
 
         return $response;
     }
 
+    /**
+     * Order Query Handler
+     *
+     * Handles order inquiry queries, returning recent orders for authenticated users
+     * or login prompt for guests. Includes error handling and support info.
+     *
+     * @return string Order info or support message
+     */
     private function handleOrderQuery()
     {
-        if (!Auth::check()) {
-            return "🔐 **Vui lòng đăng nhập để kiểm tra đơn hàng**\n\n"
-                . "🌟 **Lợi ích khi đăng nhập:**\n"
-                . "• Theo dõi đơn hàng realtime\n"
-                . "• Lưu địa chỉ giao hàng\n"
-                . "• Nhận thông báo khuyến mãi\n"
-                . "• Tích điểm thành viên\n\n"
-                . "🔗 " . route('login') . "\n\n"
-                . "📞 **Hỗ trợ:** " . config('constants.shop_phone') . "\n"
-                . "📧 **Email:** " . config('constants.shop_email');
-        }
-
-        $orders = Order::where('user_id', Auth::id())->latest()->take(3)->get();
-
-        if ($orders->count() === 0) {
-            return "📦 **Bạn chưa có đơn hàng nào**\n\n"
-                . "🛒 **Bắt đầu mua sắm ngay:**\n"
-                . "🔗 " . route('user.products.index') . "\n\n"
-                . "🎁 **Ưu đãi đặc biệt:**\n"
-                . "• Miễn phí ship đơn từ 100 USD\n"
-                . "• Tặng thiệp chúc mừng\n"
-                . "• Bao bì sang trọng miễn phí";
-        }
-
-        $response = "📦 **Đơn hàng gần đây của bạn:**\n\n";
-        foreach ($orders as $order) {
-            $response .= "🏷️ **#{$order->id}**\n";
-            $response .= "📅 " . $order->created_at->format('d/m/Y H:i') . "\n";
-            $response .= "💰 " . number_format($order->total_price, 0, ',', '.') . " USD\n";
-            $response .= "📊 Trạng thái: " . $this->translateStatus($order->status) . "\n";
-
-            if ($order->status === 'processing') {
-                $response .= "🚚 Đang chuẩn bị hàng cho bạn...\n";
-            } elseif ($order->status === 'completed') {
-                $response .= "✅ Giao hàng thành công!\n";
+        try {
+            if (!Auth::check()) {
+                return __('chatbot.login_required', [
+                    'login_url' => route('login'),
+                    'phone' => config('constants.shop_phone'),
+                    'email' => config('constants.shop_email')
+                ]);
             }
-            $response .= "\n";
+
+            $orders = Order::where('user_id', Auth::id())->latest()->take(3)->get();
+
+            if ($orders->count() === 0) {
+                return __('chatbot.no_orders_found', [
+                    'products_url' => route('user.products.index'),
+                    'phone' => config('constants.shop_phone')
+                ]);
+            }
+
+            $response = __('chatbot.recent_orders') . "\n\n";
+            foreach ($orders as $order) {
+                $response .= "🛍️ **" . __('common.order') . " #{$order->id}**\n";
+                $response .= "📅 " . __('common.date') . ": " . $order->created_at->format('M d, Y') . "\n";
+                $response .= "💰 " . __('common.total') . ": \${$order->total_amount}\n";
+                $response .= "📋 " . __('common.status') . ": " . $this->translateStatus($order->status) . "\n";
+                if (Route::has('order.show')) {
+                    $response .= "🔗 " . route('order.show', $order->id) . "\n\n";
+                } else {
+                    $response .= "\n";
+                }
+            }
+
+            $response .= __('chatbot.order_support', [
+                'phone' => config('constants.shop_phone'),
+                'email' => config('constants.shop_email')
+            ]);
+
+            return $response;
+        } catch (\Exception $e) {
+            Log::error('Order Query Error: ' . $e->getMessage(), [
+                'user_id' => Auth::id(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return __('chatbot.order_technical_error', [
+                'phone' => config('constants.shop_phone'),
+                'email' => config('constants.shop_email')
+            ]);
         }
-
-        $response .= "🔍 **Cần hỗ trợ thêm?**\n";
-        $response .= "📞 Hotline: " . config('constants.shop_phone') . "\n";
-        $response .= "📧 Email: " . config('constants.shop_email') . "\n";
-        $response .= "⏰ Thời gian hỗ trợ: 8:00 - 22:00 hàng ngày";
-
-        return $response;
     }
 
+    /**
+     * News Query Handler
+     *
+     * Handles news/blog queries, returning latest posts with title, date, and summary.
+     *
+     * @return string News summary or fallback message
+     */
     private function handleNewsQuery()
     {
-        $posts = Post::where('status', 'published')
+        $posts = Post::where('status', true)
             ->latest()
             ->take(3)
             ->get();
 
         if ($posts->count() === 0) {
-            return "📰 **Hiện tại chưa có tin tức mới**\n\n"
-                . "🌸 **Theo dõi chúng tôi để cập nhật:**\n"
-                . "• Xu hướng hoa trang trí mới nhất\n"
-                . "• Mẹo chăm sóc và bảo quản\n"
-                . "• Ý tưởng quà tặng độc đáo\n"
-                . "• Khuyến mãi đặc biệt\n\n"
-                . "🔔 **Đăng ký nhận thông báo để không bỏ lỡ!**";
+            return __('chatbot.no_news_found', [
+                'phone' => config('constants.shop_phone')
+            ]);
         }
 
-        $response = "📰 **Tin tức & Bài viết mới nhất:**\n\n";
+        $response = __('chatbot.latest_news') . "\n\n";
 
         foreach ($posts as $index => $post) {
-            $response .= "📝 **" . ($index + 1) . ". {$post->title}**\n";
-            $response .= "📅 " . $post->created_at->format('d/m/Y') . "\n";
-
-            // Truncate excerpt
-            $excerpt = strlen($post->excerpt) > 100 ? substr($post->excerpt, 0, 100) . '...' : $post->excerpt;
-            $response .= "📄 {$excerpt}\n";
-            $response .= "🔗 " . route('posts.show', $post->id) . "\n\n";
+            // Clean and ensure UTF-8 encoding
+            $title = mb_convert_encoding($post->title, 'UTF-8', 'UTF-8');
+            $content = html_entity_decode(strip_tags($post->content));
+            // Remove extra whitespace and carriage returns
+            $content = preg_replace('/\s+/', ' ', $content);
+            $content = trim($content);
+            $content = mb_convert_encoding($content, 'UTF-8', 'UTF-8');
+            
+            $response .= "📝 **{$title}**\n";
+            $response .= "📅 " . $post->created_at->format('M d, Y') . "\n";
+            $response .= "📖 " . mb_substr($content, 0, 100) . "...\n";
+            if (Route::has('posts.show')) {
+                $response .= "🔗 " . route('posts.show', $post->id) . "\n\n";
+            } else {
+                $response .= "\n";
+            }
         }
 
-        $response .= "🌸 **Chủ đề hot:**\n";
-        $response .= "• Cách chọn hoa phù hợp với từng dịp\n";
-        $response .= "• Bí quyết bảo quản hoa xà phòng\n";
-        $response .= "• Ý tưởng trang trí nhà cửa với hoa\n";
-        $response .= "• Xu hướng quà tặng 2025\n\n";
-        $response .= "💡 **Đọc thêm tại website để khám phá nhiều bài viết thú vị!**";
+        $response .= __('chatbot.hot_topics');
 
         return $response;
     }
 
+    /**
+     * Price Query Handler
+     *
+     * Handles price-related queries and returns price information or guidance.
+     *
+     * @param string $message Chat message containing price intent
+     * @return string Price info response
+     */
     private function handlePriceQuery($message)
     {
-        $priceRanges = [
-            'budget' => ['từ 5 USD', 'rẻ', 'tiết kiệm', 'budget'],
-            'mid' => ['từ 20 USD', 'trung bình', 'medium'],
-            'premium' => ['từ 50 USD', 'cao cấp', 'premium', 'sang trọng']
-        ];
-
-        $response = "💰 **Bảng giá sản phẩm Hanaya Shop:**\n\n";
-        $response .= "🌸 **Hoa xà phòng:**\n";
-        $response .= "• Cơ bản: 5 - 15 USD\n";
-        $response .= "• Cao cấp: 20 - 50 USD\n";
-        $response .= "• Đặc biệt: 60 - 200 USD\n\n";
-
-        $response .= "🎁 **Quà lưu niệm:**\n";
-        $response .= "• Nhỏ gọn: 5 - 20 USD\n";
-        $response .= "• Trung bình: 25 - 80 USD\n";
-        $response .= "• Cao cấp: 100 - 500 USD\n\n";
-
-        $response .= "💝 **Ưu đãi đặc biệt:**\n";
-        $response .= "• 🚚 Miễn phí ship đơn từ 100 USD\n";
-        $response .= "• 🎀 Tặng thiệp & bao bì sang trọng\n";
-        $response .= "• 🎊 Giảm 10% cho khách hàng thân thiết\n\n";
-
-        $response .= "🔗 " . route('user.products.index') . "\n\n";
-        $response .= "📞 **Tư vấn giá:** " . config('constants.shop_phone');
-
-        return $response;
+        return __('chatbot.price_info');
     }
 
+    /**
+     * Store Information Handler
+     *
+     * Handles store info queries and returns address, contact, and business hours.
+     *
+     * @return string Store info response
+     */
     private function handleStoreInfo()
     {
-        return "🏪 **Thông tin cửa hàng Hanaya Shop:**\n\n"
-            . "📍 **Địa chỉ:** " . config('constants.shop_address') . "\n"
-            . "📞 **Hotline:** " . config('constants.shop_phone') . "\n"
-            . "📧 **Email:** " . config('constants.shop_email') . "\n"
-            . "🕒 **Giờ làm việc:** 8:00 - 22:00 (Thứ 2 - Chủ nhật)\n\n"
-            . "🚚 **Dịch vụ:**\n"
-            . "• Giao hàng toàn quốc\n"
-            . "• Đóng gói sang trọng miễn phí\n"
-            . "• Tư vấn chọn quà 24/7\n"
-            . "• Thanh toán đa dạng\n\n"
-            . "💳 **Phương thức thanh toán:**\n"
-            . "• Tiền mặt khi nhận hàng\n"
-            . "• Chuyển khoản ngân hàng\n"
-            . "• Thẻ tín dụng/ghi nợ\n"
-            . "• Ví điện tử\n\n"
-            . "🌟 **Cam kết chất lượng 100%!**";
+        return __('chatbot.store_info');
     }
 
+    /**
+     * Shipping Information Handler
+     *
+     * Handles shipping/delivery queries and returns shipping options, costs, and details.
+     *
+     * @return string Shipping info response
+     */
     private function handleShippingInfo()
     {
-        return "🚚 **Thông tin giao hàng:**\n\n"
-            . "📦 **Phí giao hàng:**\n"
-            . "• Nội thành: " . number_format(config('checkout.shipping_fee'), 0, ',', '.') . " USD\n"
-            . "• Ngoại thành: 15 USD\n"
-            . "• Miễn phí với đơn từ 100 USD\n\n"
-            . "⏱️ **Thời gian giao hàng:**\n"
-            . "• Nội thành: 1-2 ngày\n"
-            . "• Ngoại thành: 2-3 ngày\n"
-            . "• Tỉnh khác: 3-5 ngày\n\n"
-            . "📞 **Liên hệ giao hàng:**\n"
-            . "• Hotline: " . config('constants.shop_phone') . "\n"
-            . "• Email: " . config('constants.shop_email') . "\n\n"
-            . "✅ **Đảm bảo:**\n"
-            . "• Đóng gói cẩn thận\n"
-            . "• Bảo hiểm hàng hóa\n"
-            . "• Theo dõi đơn hàng realtime";
+        return __('chatbot.shipping_info');
     }
 
+    /**
+     * Payment Information Handler
+     *
+     * Handles payment method queries and returns available payment options and details.
+     *
+     * @return string Payment info response
+     */
     private function handlePaymentInfo()
     {
-        return "💳 **Phương thức thanh toán:**\n\n"
-            . "🏪 **Thanh toán trực tiếp:**\n"
-            . "• Tiền mặt tại cửa hàng\n"
-            . "• COD khi nhận hàng\n\n"
-            . "🏦 **Chuyển khoản ngân hàng:**\n"
-            . "• Vietcombank, Techcombank\n"
-            . "• ACB, VPBank\n\n"
-            . "💳 **Thẻ tín dụng/ghi nợ:**\n"
-            . "• Visa, Mastercard\n"
-            . "• JCB, American Express\n\n"
-            . "📱 **Ví điện tử:**\n"
-            . "• Momo, ZaloPay\n"
-            . "• VNPay, ShopeePay\n\n"
-            . "🔒 **Bảo mật 100%**\n"
-            . "🎁 **Ưu đãi:** Giảm 5% khi thanh toán online\n\n"
-            . "📞 **Hỗ trợ:** " . config('constants.shop_phone');
+        return __('chatbot.payment_info');
     }
 
+    /**
+     * Popular Products Handler
+     *
+     * Handles queries for popular/bestselling products and returns top products
+     * with category, price, and view count info.
+     *
+     * @return string Popular products summary
+     */
     private function handlePopularProducts()
     {
         $popularProducts = Product::with('category')
             ->where('stock_quantity', '>', 0)
             ->orderBy('view_count', 'desc')
-            ->take(5)
+            ->take(3)
             ->get();
 
         if ($popularProducts->count() === 0) {
-            return "🔥 **Hiện tại chưa có dữ liệu sản phẩm phổ biến**\n\n"
-                . "🌟 **Khám phá bộ sưu tập mới nhất:**\n"
-                . "🔗 " . route('user.products.index');
+            return __('chatbot.no_popular_products', [
+                'products_url' => route('user.products.index'),
+                'phone' => config('constants.shop_phone')
+            ]);
         }
 
-        $response = "🔥 **Top sản phẩm bán chạy nhất:**\n\n";
+        $response = __('chatbot.top_bestselling') . "\n\n";
         foreach ($popularProducts as $index => $product) {
-            $response .= "🏆 **" . ($index + 1) . ". {$product->name}**\n";
-            $response .= "💰 " . number_format($product->price, 0, ',', '.') . " USD\n";
-            $response .= "👁️ {$product->view_count} lượt xem\n";
-            $response .= "📂 {$product->category->name}\n";
+            $medalEmoji = $index === 0 ? '🥇' : ($index === 1 ? '🥈' : '🥉');
+            $response .= "{$medalEmoji} **{$product->name}**\n";
+            $response .= "📂 " . __('common.category') . ": {$product->category->name}\n";
+            $response .= "💰 " . __('common.price') . ": \${$product->price}\n";
+            $response .= "👀 {$product->view_count} " . __('common.customers_viewed') . "\n";
             $response .= "🔗 " . route('user.products.show', $product->id) . "\n\n";
         }
 
-        $response .= "⭐ **Tại sao khách hàng yêu thích:**\n";
-        $response .= "• Chất lượng cao, bền đẹp\n";
-        $response .= "• Giá cả hợp lý\n";
-        $response .= "• Đóng gói sang trọng\n";
-        $response .= "• Dịch vụ tận tâm\n\n";
-        $response .= "🛒 **Đặt hàng ngay để nhận ưu đãi!**";
+        $response .= __('chatbot.why_customers_love');
 
         return $response;
     }
 
+    /**
+     * Help Response Handler
+     *
+     * Returns help/instruction message for users needing assistance.
+     *
+     * @return string Help response
+     */
     private function getHelpResponse()
     {
-        return "🤖 **Hướng dẫn sử dụng chatbot:**\n\n"
-            . "💬 **Cách đặt câu hỏi hiệu quả:**\n"
-            . "• 'Tìm hoa xà phòng màu hồng'\n"
-            . "• 'Quà tặng sinh nhật dưới 50 USD'\n"
-            . "• 'Kiểm tra đơn hàng #123'\n"
-            . "• 'Thông tin giao hàng'\n\n"
-            . "🔍 **Chủ đề tôi có thể hỗ trợ:**\n"
-            . "📦 Sản phẩm & Danh mục\n"
-            . "🛒 Đơn hàng & Thanh toán\n"
-            . "🚚 Giao hàng & Vận chuyển\n"
-            . "🏪 Thông tin cửa hàng\n"
-            . "📰 Tin tức & Khuyến mãi\n\n"
-            . "💡 **Mẹo:** Hãy mô tả cụ thể nhu cầu để tôi hỗ trợ tốt nhất!\n\n"
-            . "📞 **Hỗ trợ trực tiếp:** " . config('constants.shop_phone');
+        return __('chatbot.help');
     }
 
-    private function getDefaultResponse()
+    /**
+     * Enhanced Default Response
+     *
+     * Returns fallback/default response when no intent is detected.
+     *
+     * @return string Default chatbot response
+     */
+    private function getEnhancedDefaultResponse()
     {
-        $suggestions = [
-            "🤔 **Tôi chưa hiểu câu hỏi của bạn.**\n\n🌟 **Gợi ý tìm kiếm:**\n• 'Tìm hoa xà phòng'\n• 'Thông tin cửa hàng'\n• 'Kiểm tra đơn hàng'\n• 'Tin tức mới nhất'\n\n💬 **Hoặc gõ 'help' để được hướng dẫn chi tiết!**",
-
-            "😅 **Xin lỗi, tôi chưa hiểu ý bạn.**\n\n✨ **Bạn có thể hỏi tôi về:**\n🌸 Sản phẩm hoa & quà tặng\n📦 Tình trạng đơn hàng\n💰 Giá cả & khuyến mãi\n🚚 Giao hàng & thanh toán\n\n🎯 **Hãy thử câu hỏi cụ thể hơn nhé!**"
-        ];
-
-        return $suggestions[array_rand($suggestions)];
+        return __('chatbot.default');
     }
 
+    /**
+     * Gift Suggestions Handler
+     *
+     * Handles gift suggestion queries and returns recommended gift products
+     * with price, stock, and product links.
+     *
+     * @param string $message Chat message containing gift intent
+     * @return string Gift suggestions summary
+     */
+    private function handleGiftSuggestions($message)
+    {
+        $giftProducts = Product::with('category')
+            ->where('stock_quantity', '>', 0)
+            ->whereHas('category', function($q) {
+                $q->where('name', 'like', '%gift%')
+                  ->orWhere('name', 'like', '%souvenir%')
+                  ->orWhere('name', 'like', '%present%');
+            })
+            ->orderBy('view_count', 'desc')
+            ->take(3)
+            ->get();
+
+        if ($giftProducts->count() === 0) {
+            return __('chatbot.gift_suggestions', [
+                'products_url' => route('user.products.index'),
+                'phone' => config('constants.shop_phone')
+            ]);
+        }
+
+        $response = __('chatbot.perfect_gifts') . "\n\n";
+        foreach ($giftProducts as $product) {
+            $response .= "💝 **{$product->name}**\n";
+            $response .= "💰 " . __('common.price') . ": \${$product->price}\n";
+            $response .= "📦 " . __('common.in_stock') . ": {$product->stock_quantity} " . __('common.items') . "\n";
+            $response .= "🔗 " . route('user.products.show', $product->id) . "\n\n";
+        }
+
+        $response .= __('chatbot.why_gifts_special');
+
+        return $response;
+    }
+
+    /**
+     * Availability Query Handler
+     *
+     * Handles product availability queries and returns info about low stock
+     * and out-of-stock products, with updates and contact info.
+     *
+     * @param string $message Chat message containing availability intent
+     * @return string Availability info summary
+     */
+    private function handleAvailabilityQuery($message)
+    {
+        $lowStockProducts = Product::where('stock_quantity', '<=', 5)
+            ->where('stock_quantity', '>', 0)
+            ->take(3)
+            ->get();
+
+        $outOfStockProducts = Product::where('stock_quantity', 0)->take(3)->get();
+
+        $response = __('chatbot.availability_info') . "\n\n";
+
+        if ($lowStockProducts->count() > 0) {
+            $response .= "⚠️ **" . __('chatbot.limited_stock') . ":**\n";
+            foreach ($lowStockProducts as $product) {
+                $response .= "• {$product->name} - " . __('chatbot.only_left', ['count' => $product->stock_quantity]) . "\n";
+            }
+            $response .= "\n";
+        }
+
+        if ($outOfStockProducts->count() > 0) {
+            $response .= "❌ **" . __('chatbot.out_of_stock') . ":**\n";
+            foreach ($outOfStockProducts as $product) {
+                $response .= "• {$product->name} - " . __('chatbot.restock_soon') . "\n";
+            }
+            $response .= "\n";
+        }
+
+        $response .= __('chatbot.stock_updates', [
+            'phone' => config('constants.shop_phone')
+        ]);
+
+        return $response;
+    }
+
+    /**
+     * Helper method to check if message contains specific words
+     *
+     * Checks if the given text contains any of the specified words for intent detection.
+     *
+     * @param string $text Chat message text
+     * @param array $words List of words to check
+     * @return bool True if any word is found, false otherwise
+     */
     private function containsWords($text, $words)
     {
         foreach ($words as $word) {
@@ -438,9 +663,17 @@ class ChatbotController extends Controller
         return false;
     }
 
+    /**
+     * Translate order status to readable format
+     *
+     * Converts order status code to human-readable format using translation strings.
+     *
+     * @param string $status Order status code
+     * @return string Translated status
+     */
     private function translateStatus($status)
     {
-        $statuses = config('constants.chatbot_status');
-        return $statuses[$status] ?? ucfirst($status);
+        $statusKey = "chatbot.status.{$status}";
+        return __($statusKey, [], 'en');
     }
 }

@@ -11,8 +11,8 @@
                             </svg>
                         </a>
                         <div>
-                            <h1 class="text-3xl font-bold">📋 Order Details</h1>
-                            <p class="text-pink-100 mt-2">Order #{{ $order->id }} -
+                            <h1 class="text-3xl font-bold">📋 {{ __('orders.order_details') }}</h1>
+                            <p class="text-pink-400 mt-2">Order #{{ $order->id }} -
                                 {{ $order->created_at->format('M d, Y H:i') }}</p>
                         </div>
                     </div>
@@ -26,14 +26,15 @@
 
             <!-- Order Status Progress -->
             <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
-                <h3 class="text-xl font-bold text-gray-900 mb-6">Order Status</h3>
+                <h3 class="text-xl font-bold text-gray-900 mb-6">{{ __('orders.order_status') }}</h3>
 
                 <div class="flex items-center justify-between">
                     @php
                         $statuses = [
                             'pending' => ['label' => 'Processing', 'step' => 1],
                             'processing' => ['label' => 'Confirmed', 'step' => 2],
-                            'completed' => ['label' => 'Delivered', 'step' => 3],
+                            'shipped' => ['label' => 'Shipped', 'step' => 3],
+                            'completed' => ['label' => 'Delivered', 'step' => 4],
                         ];
                         $currentStep = $statuses[$order->status]['step'] ?? 0;
                     @endphp
@@ -54,7 +55,7 @@
                         </div>
                         <p
                             class="text-sm font-medium mt-2 text-center {{ $currentStep >= 1 ? 'text-blue-600' : 'text-gray-500' }}">
-                            Processing</p>
+                            {{ __('orders.processing') }}</p>
                     </div>
 
                     <!-- Connection Line 1-2 -->
@@ -76,7 +77,7 @@
                         </div>
                         <p
                             class="text-sm font-medium mt-2 text-center {{ $currentStep >= 2 ? 'text-green-600' : 'text-gray-500' }}">
-                            Confirmed</p>
+                            {{ __('orders.confirmed') }}</p>
                     </div>
 
                     <!-- Connection Line 2-3 -->
@@ -100,10 +101,33 @@
                             @endif
                         </div>
                         <p
-                            class="text-sm font-medium mt-2 text-center {{ $currentStep >= 3 ? 'text-purple-600' : 'text-gray-500' }}">
-                            Delivered</p>
+                            class="text-sm font-medium mt-2 text-center {{ $currentStep >= 4 ? 'text-purple-600' : 'text-gray-500' }}">
+                            {{ __('orders.shipped') }}</p>
                     </div>
-                </div>
+
+                    <!-- Connection Line 3-4 -->
+                    <div class="flex-1 h-0.5 {{ $currentStep >= 4 ? 'bg-purple-500' : 'bg-gray-200' }} mx-4"></div>
+
+                    <!-- Step 4: Delivered -->
+                    <div class="flex flex-col items-center flex-1">
+                        <div
+                            class="w-10 h-10 rounded-full flex items-center justify-center {{ $currentStep >= 4 ? 'bg-purple-500 text-white' : 'bg-gray-200 text-gray-400' }}">
+                            @if ($currentStep >= 4)
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                    clip-rule="evenodd"></path>
+                                </svg>
+                            @else
+                                <span>4</span>
+                            @endif
+                        </div>
+                            <p
+                                class="text-sm font-medium mt-2 text-center {{ $currentStep >= 4 ? 'text-purple-600' : 'text-gray-500' }}">
+                                {{ __('orders.delivered') }}</p>
+                        </div>
+
+                    </div>
 
                 @if($order->status === 'cancelled')
                     <div class="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
@@ -116,9 +140,9 @@
                                 </svg>
                             </div>
                             <div class="ml-3">
-                                <h3 class="text-sm font-medium text-red-800">Order Canceled</h3>
+                                <h3 class="text-sm font-medium text-red-800">{{ __('orders.order_canceled') }}</h3>
                                 <div class="mt-2 text-sm text-red-700">
-                                    <p>This order has been canceled and any payment has been refunded.</p>
+                                    <p>{{ __('orders.order_canceled_message') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -137,41 +161,45 @@
                                 d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
                             </path>
                         </svg>
-                        Order Information
+                        {{ __('orders.order_information') }}
                     </h3>
 
                     <div class="space-y-4">
                         <div class="flex justify-between items-center py-3 border-b border-gray-200">
-                            <span class="text-gray-600">Order ID:</span>
+                            <span class="text-gray-600">{{ __('orders.order_id') }}</span>
                             <span class="font-semibold text-gray-900">#{{ $order->id }}</span>
                         </div>
                         <div class="flex justify-between items-center py-3 border-b border-gray-200">
-                            <span class="text-gray-600">Order Date:</span>
+                            <span class="text-gray-600">{{ __('orders.order_date') }}</span>
                             <span
                                 class="font-semibold text-gray-900">{{ $order->created_at->format('M d, Y H:i') }}</span>
                         </div>
                         <div class="flex justify-between items-center py-3 border-b border-gray-200">
-                            <span class="text-gray-600">Total Amount:</span>
-                            <span class="font-semibold text-gray-900">${{ number_format($order->total_price) }}</span>
+                            <span class="text-gray-600">{{ __('orders.total_amount') }}</span>
+                            <span class="font-semibold text-gray-900">${{ number_format($order->total_price, 2, '.', ',') }}</span>
                         </div>
                         <div class="flex justify-between items-center py-3">
-                            <span class="text-gray-600">Status:</span>
+                            <span class="text-gray-600">{{ __('orders.status') }}: </span>
                             @if ($order->status === 'pending')
                                 <span
                                     class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                    Processing
+                                    {{ __('orders.processing') }}
+                                </span>
+                            @elseif($order->status === 'shipped')
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                     {{ __('orders.shipped') }}
                                 </span>
                             @elseif($order->status === 'processing')
                                 <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                    Confirmed
+                                     {{ __('orders.confirmed') }}
                                 </span>
                             @elseif($order->status === 'completed')
                                 <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                    Delivered
+                                     {{ __('orders.delivered') }}
                                 </span>
                             @elseif($order->status === 'cancelled')
                                 <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                    Canceled
+                                     {{ __('orders.cancelled') }}
                                 </span>
                             @endif
                         </div>
@@ -186,24 +214,24 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                         </svg>
-                        Customer Information
+                        {{ __('orders.customer_information') }}
                     </h3>
 
                     <div class="space-y-4">
                         <div class="flex justify-between items-center py-3 border-b border-gray-200">
-                            <span class="text-gray-600">Full Name:</span>
+                            <span class="text-gray-600">{{ __('orders.full_name') }}</span>
                             <span class="font-semibold text-gray-900">{{ $order->user->name ?? 'N/A' }}</span>
                         </div>
                         <div class="flex justify-between items-center py-3 border-b border-gray-200">
-                            <span class="text-gray-600">Email:</span>
+                            <span class="text-gray-600">{{ __('orders.email') }}</span>
                             <span class="font-semibold text-gray-900">{{ $order->user->email ?? 'N/A' }}</span>
                         </div>
                         <div class="flex justify-between items-center py-3 border-b border-gray-200">
-                            <span class="text-gray-600">Phone Number:</span>
+                            <span class="text-gray-600">{{ __('orders.phone_number') }}</span>
                             <span class="font-semibold text-gray-900">{{ $order->address->phone_number ?? 'N/A' }}</span>
                         </div>
                         <div class="flex justify-between items-start py-3">
-                            <span class="text-gray-600">Address:</span>
+                            <span class="text-gray-600">{{ __('orders.address') }}</span>
                             <span class="font-semibold text-gray-900 text-right max-w-xs">{{ $order->address->address ?? 'N/A' }}</span>
                         </div>
                     </div>
@@ -219,7 +247,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                         </svg>
-                        Product List
+                        {{ __('orders.products_list') }}
                     </h3>
                 </div>
 
@@ -258,12 +286,31 @@
                                             class="text-lg font-semibold text-gray-900 mb-1 group-hover:text-pink-600 transition-colors">
                                             {{ $detail->product->name ?? 'Product Not Found' }}</h4>
                                         <p class="text-sm text-gray-600 mb-2">
-                                            {{ $detail->product->description ?? 'No description available' }}</p>
+                                            {{ $detail->product->description ?? __('orders.no_description_available') }}</p>
                                     </a>
                                     <div class="flex items-center space-x-4 text-sm text-gray-500">
-                                        <span>Quantity: {{ $detail->quantity }}</span>
+                                        <span>{{ __('orders.quantity') }} {{ $detail->quantity }}</span>
                                         <span>•</span>
-                                        <span>Unit Price: ${{ number_format($detail->price) }}</span>
+                                        <span>
+                                            @php
+                                                $currentProduct = $detail->product;
+                                                $orderPrice = $detail->price; // Giá lúc đặt hàng
+                                                $currentPrice = $currentProduct ? $currentProduct->price : $orderPrice; // Giá hiện tại
+                                                $hasDiscount = $currentProduct && $currentProduct->discount_percent > 0;
+                                                $currentDiscountedPrice = $hasDiscount ? 
+                                                    $currentPrice * (1 - $currentProduct->discount_percent / 100) : $currentPrice;
+                                            @endphp
+                                            
+                                            {{ __('orders.unit_price') }}
+                                            @if ($hasDiscount && abs($orderPrice - $currentDiscountedPrice) < 0.01)
+                                                {{-- Nếu giá đặt hàng = giá khuyến mãi hiện tại --}}
+                                                <span class="text-pink-600 font-medium">${{ number_format($orderPrice, 2, '.', ',') }}</span>
+                                                <span class="text-gray-400 line-through text-xs ml-1">${{ number_format($currentPrice, 2, '.', ',') }}</span>
+                                            @else
+                                                {{-- Giá bình thường hoặc khác --}}
+                                                <span class="text-gray-900 font-medium">${{ number_format($orderPrice, 2, '.', ',') }}</span>
+                                            @endif
+                                        </span>
                                     </div>
                                 </div>
 
@@ -284,7 +331,7 @@
                                                         d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
                                                     </path>
                                                 </svg>
-                                                Write Review
+                                                {{ __('orders.write_review') }}
                                             </a>
                                         @elseif($detail->has_review)
                                             <div class="flex items-center text-xs text-green-600 mt-2">
@@ -293,7 +340,7 @@
                                                         d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                                                         clip-rule="evenodd"></path>
                                                 </svg>
-                                                <span>Reviewed</span>
+                                                <span>{{ __('orders.reviewed') }}</span>
                                             </div>
                                         @endif
                                     </div>
@@ -306,27 +353,65 @@
 
                 <!-- Order Total -->
                 <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                    @php
+                        $subtotal = $order->total_price - config('constants.checkout.shipping_fee', 8);
+                        $shippingFee = config('constants.checkout.shipping_fee', 8);
+                        $originalSubtotal = 0;
+                        $totalSavings = 0;
+                        
+                        // Tính tổng tiết kiệm
+                        foreach ($order->orderDetail as $detail) {
+                            $currentProduct = $detail->product;
+                            if ($currentProduct) {
+                                $currentPrice = $currentProduct->price;
+                                $originalItemTotal = $currentPrice * $detail->quantity;
+                                $orderItemTotal = $detail->price * $detail->quantity;
+                                
+                                $originalSubtotal += $originalItemTotal;
+                                
+                                // Nếu giá đặt hàng thấp hơn giá gốc hiện tại thì có tiết kiệm
+                                if ($orderItemTotal < $originalItemTotal) {
+                                    $totalSavings += ($originalItemTotal - $orderItemTotal);
+                                }
+                            }
+                        }
+                    @endphp
+                    
                     <div class="space-y-3">
+                        @if ($totalSavings > 0)
+                            <!-- Original Subtotal -->
+                            <div class="flex justify-between items-center">
+                                <span class="text-base text-gray-500">{{ __('orders.original_subtotal') }}</span>
+                                <span class="text-base text-gray-500 line-through">${{ number_format($originalSubtotal) }}</span>
+                            </div>
+                        @endif
+                        
                         <!-- Subtotal -->
                         <div class="flex justify-between items-center">
-                            <span class="text-base text-gray-700">Subtotal:</span>
-                            <span
-                                class="text-base font-medium text-gray-900">${{ number_format($order->total_price - config('constants.checkout.shipping_fee', 8)) }}</span>
+                            <span class="text-base text-gray-700">{{ __('orders.subtotal') }}</span>
+                            <span class="text-base font-medium text-gray-900">${{ number_format($subtotal) }}</span>
                         </div>
+                        
+                        @if ($totalSavings > 0)
+                            <!-- Savings -->
+                            <div class="flex justify-between items-center">
+                                <span class="text-base text-green-600">{{ __('orders.you_saved') }}</span>
+                                <span class="text-base font-medium text-green-600">-${{ number_format($totalSavings) }}</span>
+                            </div>
+                        @endif
 
                         <!-- Shipping Fee -->
                         <div class="flex justify-between items-center">
-                            <span class="text-base text-gray-700">Shipping Fee:</span>
-                            <span
-                                class="text-base font-medium text-gray-900">${{ number_format(config('constants.checkout.shipping_fee', 8)) }}</span>
+                            <span class="text-base text-gray-700">{{ __('orders.shipping_fee') }}</span>
+                            <span class="text-base font-medium text-gray-900">${{ number_format($shippingFee) }}</span>
                         </div>
 
                         <!-- Divider -->
                         <div class="border-t border-gray-300 pt-3">
                             <div class="flex justify-between items-center">
-                                <span class="text-lg font-semibold text-gray-900">Order Total:</span>
+                                <span class="text-lg font-semibold text-gray-900">{{ __('orders.order_total') }}</span>
                                 <span
-                                    class="text-2xl font-bold text-purple-600">${{ number_format($order->total_price) }}</span>
+                                    class="text-2xl font-bold text-purple-600">${{ number_format($order->total_price, 2, '.', ',') }}</span>
                             </div>
                         </div>
                     </div>
@@ -340,13 +425,13 @@
                         <svg class="w-6 h-6 mr-2 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                         </svg>
-                        Message
+                        {{ __('orders.message') }}
                     </h3>
                 </div>
 
                 <div class="divide-y divide-gray-200">
                     <div class="p-6">
-                        <p class="text-gray-700">{{ $order->message ?? 'No message provided' }}</p>
+                        <p class="text-gray-700">{{ $order->message ?? __('orders.no_message') }}</p>
                     </div>
                 </div>
                 
@@ -382,7 +467,7 @@
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
-                        Cancel Order
+                        {{ __('orders.cancel_order') }}
                     </a>
                 @else
                     <button type="button"
@@ -391,9 +476,30 @@
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
-                        Cancel Order
+                        {{ __('orders.cancel_order') }}
                     </button>
                 @endif
+
+                @if($order->status === 'shipped' && $payment_status === 'completed')
+                    <a href="{{ route('order.receive', $order->id) }}"
+                       data-confirm-cancel
+                       class="inline-flex items-center px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                       <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                       </svg>
+                        {{ __('orders.received') }}
+                    </a>
+                @else
+                    <button type="button"
+                        disabled
+                        class="inline-flex items-center px-6 py-3 bg-gray-200 text-gray-600 font-semibold rounded-lg cursor-not-allowed">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        {{ __('orders.received') }}
+                    </button>
+                @endif
+
 
                 <a href="{{ route('user.products.index') }}"
                     class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2">
@@ -401,7 +507,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                     </svg>
-                    Continue Shopping
+                    {{ __('orders.continue_shopping') }}
                 </a>
             </div>
 

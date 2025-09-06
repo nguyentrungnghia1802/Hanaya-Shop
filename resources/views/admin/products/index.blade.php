@@ -2,33 +2,69 @@
 
 @section('header')
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        {{ __('Products') }}
+        {{ __('admin.products') }}
     </h2>
 @endsection
 
 @section('content')
     {{-- Success message notification --}}
-    <div id="successMsg"
-        class="hidden fixed bottom-5 right-5 bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded mb-4">
-        Action completed successfully!
-    </div>
+    <x-alert />
 
     <div class="py-12 px-2 sm:px-4">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    {{-- Search input --}}
-                    <form id="productSearchForm" class="flex gap-2 mb-4 max-w-sm">
-                        <input type="text" id="searchProductInput" placeholder="Search product..."
-                            class="border px-3 py-2 rounded w-full" autocomplete="off">
-                        <button type="submit"
-                            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 rounded">Search</button>
-                    </form>
+                    {{-- Filter and Search Section --}}
+                    <div class="mb-6">
+                        <form id="productFilterForm" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            {{-- Search input --}}
+                            <div>
+                                <label for="searchProductInput" class="block text-gray-700 text-sm font-bold mb-2">{{ __('admin.search_products') }}</label>
+                                <input type="text" id="searchProductInput" placeholder="{{ __('admin.search_products') }}"
+                                    class="border px-3 py-2 rounded w-full" autocomplete="off">
+                            </div>
+                            
+                            {{-- Category filter --}}
+                            <div>
+                                <label for="categoryFilter" class="block text-gray-700 text-sm font-bold mb-2">{{ __('admin.filter_by_category') }}</label>
+                                <select id="categoryFilter" name="category_id" class="border px-3 py-2 rounded w-full">
+                                    <option value="">{{ __('admin.all_categories') }}</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}" {{ isset($selectedCategory) && $selectedCategory == $category->id ? 'selected' : '' }}>
+                                            {{ $category->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            
+                            {{-- Stock status filter --}}
+                            <div>
+                                <label for="stockFilter" class="block text-gray-700 text-sm font-bold mb-2">{{ __('admin.filter_by_stock') }}</label>
+                                <select id="stockFilter" name="stock_filter" class="border px-3 py-2 rounded w-full">
+                                    <option value="">{{ __('admin.all_stock_status') }}</option>
+                                    <option value="low_stock" {{ isset($selectedStockFilter) && $selectedStockFilter == 'low_stock' ? 'selected' : '' }}>
+                                        {{ __('admin.low_stock') }} (< 2)
+                                    </option>
+                                    <option value="out_of_stock" {{ isset($selectedStockFilter) && $selectedStockFilter == 'out_of_stock' ? 'selected' : '' }}>
+                                        {{ __('admin.out_of_stock') }}
+                                    </option>
+                                </select>
+                            </div>
+                            
+                            {{-- Filter buttons --}}
+                            <div class="self-end">
+                                <button type="submit" id="applyFilters"
+                                    class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded mb-2">{{ __('admin.apply_filters') }}</button>
+                                <button type="button" id="resetFilters" 
+                                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded">{{ __('admin.reset') }}</button>
+                            </div>
+                        </form>
+                    </div>
 
                     {{-- Add new product --}}
                     <a href="{{ route('admin.product.create') }}"
-                        class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded inline-block mb-10">
-                        Add
+                        class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded inline-block mb-6">
+                        {{ __('admin.add') }}
                     </a>
 
                     {{-- Product table --}}
@@ -37,26 +73,26 @@
                             <thead class="bg-gray-100 text-gray-700 uppercase text-left">
                                 <tr>
                                     <th class="px-2 sm:px-4 py-2 border-b">#</th>
-                                    <th class="px-2 sm:px-4 py-2 border-b">Name</th>
-                                    <th class="px-2 sm:px-4 py-2 border-b">Description</th>
-                                    <th class="px-2 sm:px-4 py-2 border-b">Price</th>
-                                    <th class="px-2 sm:px-4 py-2 border-b">Quantity</th>
-                                    <th class="px-2 sm:px-4 py-2 border-b">Discount</th>
-                                    <th class="px-2 sm:px-4 py-2 border-b">Views</th>
-                                    <th class="px-2 sm:px-4 py-2 border-b">Category</th>
-                                    <th class="px-2 sm:px-4 py-2 border-b">Action</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">{{ __('admin.name') }}</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">{{ __('admin.description') }}</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">{{ __('admin.price') }}</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">{{ __('admin.quantity') }}</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">{{ __('admin.discount') }}</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">{{ __('admin.view') }}</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">{{ __('admin.category') }}</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">{{ __('admin.action') }}</th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-800">
                                 @foreach ($products as $index => $item)
                                     <tr class="hover:bg-gray-50 transition">
                                         <td class="px-4 py-2 border-b">{{ $products->firstItem() + $index }}</td>
-                                        <td class="px-4 py-2 border-b">{{ $item->name }}</td>
+                                        <td class="px-4 py-2 border-b">{{ is_string($item->name) ? $item->name : (is_array($item->name) ? implode(', ', $item->name) : json_encode($item->name)) }}</td>
                                         <td class="px-2 py-2 border-b max-w-[120px] truncate text-xs"
-                                            title="{{ $item->descriptions }}">
-                                            {{ \Illuminate\Support\Str::limit($item->descriptions, 40) }}
+                                            title="{{ is_string($item->descriptions) ? $item->descriptions : (is_array($item->descriptions) ? implode(', ', $item->descriptions) : json_encode($item->descriptions)) }}">
+                                            {{ \Illuminate\Support\Str::limit(is_string($item->descriptions) ? $item->descriptions : (is_array($item->descriptions) ? implode(', ', $item->descriptions) : json_encode($item->descriptions)), 40) }}
                                         </td>
-                                        <td class="px-4 py-2 border-b">{{ number_format($item->price) }} USD</td>
+                                        <td class="px-4 py-2 border-b">${{ number_format($item->price, 2, '.', ',') }}</td>
                                         <td class="px-4 py-2 border-b">{{ $item->stock_quantity }}</td>
                                         <td class="px-4 py-2 border-b">
                                             @if ($item->discount_percent > 0)
@@ -69,13 +105,13 @@
                                         <td class="px-4 py-2 border-b">
                                             <span class="text-blue-600">{{ number_format($item->view_count ?? 0) }}</span>
                                         </td>
-                                        <td class="px-4 py-2 border-b">{{ $item->category->name }}</td>
+                                        <td class="px-4 py-2 border-b">{{ isset($item->category->name) && is_string($item->category->name) ? $item->category->name : (is_array($item->category->name ?? null) ? implode(', ', $item->category->name) : json_encode($item->category->name ?? '')) }}</td>
                                         <td class="px-4 py-2 border-b">
                                             <div class="flex flex-wrap gap-2">
                                                 {{-- Edit button --}}
                                                 <a href="{{ route('admin.product.edit', $item->id) }}"
                                                     class="px-4 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition">
-                                                    Edit
+                                                    {{ __('admin.edit') }}
                                                 </a>
                                                 {{-- Delete button --}}
                                                 <form action="{{ route('admin.product.destroy', $item->id) }}"
@@ -86,20 +122,20 @@
                                                     @method('DELETE')
                                                     <button type="submit"
                                                         class="px-4 py-1 bg-red-500 text-white text-xs font-medium rounded hover:bg-red-600 transition">
-                                                        Delete
+                                                        {{ __('admin.delete') }}
                                                     </button>
                                                 </form>
                                                 {{-- View Details button --}}
                                                 <a href="{{ route('admin.product.show', $item->id) }}"
                                                     class="px-4 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">
-                                                    View Details
+                                                    {{ __('admin.view_details') }}
                                                 </a>
                                                 {{-- Quick View button --}}
                                                 <button type="button"
                                                     class="px-4 py-1 bg-gray-500 text-white text-xs font-medium rounded hover:bg-gray-600 transition btn-view-product"
                                                     data-id="{{ $item->id }}"
                                                     data-url="{{ route('admin.product.show', $item->id) }}">
-                                                    Quick View
+                                                    {{ __('admin.quick_view') }}
                                                 </button>
                                             </div>
                                         </td>
@@ -118,18 +154,18 @@
     </div>
 
     {{-- Modal for product quick view --}}
-    <div id="productDetail" class="hidden fixed inset-0 flex items-center justify-center z-50">
+    <div id="productDetail" class="hidden fixed inset-0 items-center justify-center z-50">
         <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-xl relative">
-            <h2 class="text-xl font-bold mb-4">Product Details</h2>
+            <h2 class="text-xl font-bold mb-4">{{ __('admin.product_details') }}</h2>
             <p><strong>ID:</strong> <span id="product-view-id" class="text-gray-700"></span></p>
-            <p><strong>Name:</strong> <span id="product-view-name" class="text-gray-700"></span></p>
-            <p><strong>Description:</strong></p>
+            <p><strong>{{ __('admin.name') }}:</strong> <span id="product-view-name" class="text-gray-700"></span></p>
+            <p><strong>{{ __('admin.description') }}:</strong></p>
             <div id="product-view-description"
                 class="border p-3 rounded bg-gray-50 text-sm text-gray-800 max-h-[300px] overflow-y-auto"></div>
             <p class="mt-4"><strong>Price:</strong> <span id="product-view-price" class="text-gray-700"></span></p>
-            <p><strong>Quantity:</strong> <span id="product-view-quantity" class="text-gray-700"></span></p>
-            <p><strong>Category:</strong> <span id="product-view-category" class="text-gray-700"></span></p>
-            <p class="mt-4"><strong>Image:</strong></p>
+            <p><strong>{{ __('admin.quantity') }}:</strong> <span id="product-view-quantity" class="text-gray-700"></span></p>
+            <p><strong>{{ __('admin.category') }}:</strong> <span id="product-view-category" class="text-gray-700"></span></p>
+            <p class="mt-4"><strong>{{ __('admin.Image') }}</strong></p>
             <img id="product-view-image" src="" alt="Product Image" class="w-48 h-auto mt-2 border rounded">
             <button id="closeProductDetail"
                 class="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-lg">&times;</button>
@@ -141,6 +177,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Hide modal and overlay initially
             document.getElementById('productDetail').classList.add('hidden');
+            document.getElementById('productDetail').classList.remove('flex');
             document.getElementById('productOverlay').classList.add('hidden');
 
             // Hàm gán lại sự kiện cho các nút trong bảng
@@ -162,6 +199,7 @@
 
                         // Show modal and overlay
                         document.getElementById('productDetail').classList.remove('hidden');
+                        document.getElementById('productDetail').classList.add('flex');
                         document.getElementById('productOverlay').classList.remove('hidden');
 
                         // Fetch product data via AJAX
@@ -208,6 +246,8 @@
                                     error.message);
                                 document.getElementById('productDetail').classList.add(
                                     'hidden');
+                                document.getElementById('productDetail').classList.remove(
+                                    'flex');
                                 document.getElementById('productOverlay').classList.add(
                                     'hidden');
                             });
@@ -221,28 +261,71 @@
             // Close modal when clicking close button or overlay
             document.getElementById('closeProductDetail').addEventListener('click', function() {
                 document.getElementById('productDetail').classList.add('hidden');
+                document.getElementById('productDetail').classList.remove('flex');
                 document.getElementById('productOverlay').classList.add('hidden');
             });
             document.getElementById('productOverlay').addEventListener('click', function() {
                 document.getElementById('productDetail').classList.add('hidden');
+                document.getElementById('productDetail').classList.remove('flex');
                 document.getElementById('productOverlay').classList.add('hidden');
             });
 
-            // Filter sản phẩm
-            document.getElementById('productSearchForm').addEventListener('submit', function(e) {
-                e.preventDefault();
+            // Function to get all active filter parameters
+            function getFilterParameters() {
                 const keyword = document.getElementById('searchProductInput').value.trim();
-                fetch('{{ route('admin.product.search') }}?query=' + encodeURIComponent(keyword), {
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest'
-                        }
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        document.querySelector('table tbody').innerHTML = data.html;
-                        // Gán lại sự kiện cho các nút sau khi filter
-                        bindProductTableEvents();
-                    });
+                const categoryId = document.getElementById('categoryFilter').value;
+                const stockFilter = document.getElementById('stockFilter').value;
+                
+                let params = new URLSearchParams();
+                if (keyword) params.append('query', keyword);
+                if (categoryId) params.append('category_id', categoryId);
+                if (stockFilter) params.append('stock_filter', stockFilter);
+                
+                return params;
+            }
+
+            // Apply filters when form is submitted
+            document.getElementById('productFilterForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // If it's a search without form submission (just pressing enter in search input)
+                const params = getFilterParameters();
+                const url = '{{ route('admin.product.search') }}?' + params.toString();
+                
+                // Show loading state
+                document.querySelector('table tbody').innerHTML = '<tr><td colspan="9" class="text-center py-4">Loading...</td></tr>';
+                
+                fetch(url, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    document.querySelector('table tbody').innerHTML = data.html;
+                    
+                    // Update URL with current filters (without page reload)
+                    const newUrl = '{{ route('admin.product') }}?' + params.toString();
+                    window.history.pushState({path: newUrl}, '', newUrl);
+                    
+                    // Gán lại sự kiện cho các nút sau khi filter
+                    bindProductTableEvents();
+                })
+                .catch(error => {
+                    console.error('Error filtering products:', error);
+                    document.querySelector('table tbody').innerHTML = 
+                        '<tr><td colspan="9" class="text-center py-4 text-red-500">Error loading products</td></tr>';
+                });
+            });
+            
+            // Reset filters button
+            document.getElementById('resetFilters').addEventListener('click', function() {
+                document.getElementById('searchProductInput').value = '';
+                document.getElementById('categoryFilter').value = '';
+                document.getElementById('stockFilter').value = '';
+                
+                // Submit the form to reset filters
+                document.getElementById('productFilterForm').dispatchEvent(new Event('submit'));
             });
         });
     </script>

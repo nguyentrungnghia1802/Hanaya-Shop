@@ -5,7 +5,7 @@
 @endphp
 
 <div class="bg-white rounded-lg shadow-md p-4 mb-6">
-    <h3 class="text-lg font-semibold text-gray-800 mb-3 text-center">Select Category</h3>
+    <h3 class="text-lg font-semibold text-gray-800 mb-3 text-center">{{ __('product.select_category') }}</h3>
 
     <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
         <!-- All Products -->
@@ -23,7 +23,7 @@
                 </div>
                 <h4
                     class="text-sm font-semibold {{ !$currentCategoryName ? 'text-pink-700' : 'text-gray-700 group-hover:text-pink-600' }}">
-                    All Products
+                    {{ __('product.all_products') }}
                 </h4>
             </div>
         </a>
@@ -43,7 +43,7 @@
                 </div>
                 <h4
                     class="text-sm font-semibold {{ $currentCategoryName === 'soap-flower' ? 'text-pink-700' : 'text-gray-700 group-hover:text-pink-600' }}">
-                    Soap Flowers
+                    {{ __('product.soap_flower') }}
                 </h4>
             </div>
         </a>
@@ -63,7 +63,7 @@
                 </div>
                 <h4
                     class="text-sm font-semibold {{ $currentCategoryName === 'fresh-flower' ? 'text-pink-700' : 'text-gray-700 group-hover:text-pink-600' }}">
-                    Fresh Flowers
+                    {{ __('product.fresh_flower') }}
                 </h4>
             </div>
         </a>
@@ -83,7 +83,7 @@
                 </div>
                 <h4
                     class="text-sm font-semibold {{ $currentCategoryName === 'special-flower' ? 'text-pink-700' : 'text-gray-700 group-hover:text-pink-600' }}">
-                    Special Flowers
+                    {{ __('product.special_flower') }}
                 </h4>
             </div>
         </a>
@@ -103,7 +103,7 @@
                 </div>
                 <h4
                     class="text-sm font-semibold {{ $currentCategoryName === 'souvenir' ? 'text-pink-700' : 'text-gray-700 group-hover:text-pink-600' }}">
-                    Souvenirs
+                    {{ __('product.souvenir') }}
                 </h4>
             </div>
         </a>

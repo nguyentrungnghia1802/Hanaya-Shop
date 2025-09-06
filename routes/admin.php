@@ -4,15 +4,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\NotificationTestController;
 use App\Http\Controllers\Admin\OrdersController;
-use App\Http\Controllers\Admin\ReviewsController;
-use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\ImageUploadController;
-use App\Http\Controllers\AddressController;
 use App\Http\Controllers\NotificationController;
 
 Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->group(function () {
@@ -69,13 +67,13 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->gr
     Route::put('/orders/{order}/shipped', [OrdersController::class, 'shipped'])->name('order.shipped');
     Route::put('/orders/{order}/paid', [OrdersController::class, 'paid'])->name('order.paid');
 
-    Route::get('/reviews', [ReviewsController::class, 'index'])->name('reviews');
-
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::post('/notifications/mark-read', [NotificationController::class, 'markAsRead'])->name('notifications.markRead');
     
+    // Test route for notifications
+    Route::get('/test-notifications', [NotificationTestController::class, 'test'])->name('test.notifications');
 
 });

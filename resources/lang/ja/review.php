@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'home' => 'ホーム',
+    'orders' => '注文',
+    'write_review' => 'レビューを書く',
+    'order' => '注文',
+    'quantity' => '数量',
+    'your_rating' => 'あなたの評価',
+    'your_review' => 'あなたのレビュー',
+    'add_photo' => '写真を追加',
+    'optional' => '（任意）',
+    'preview' => 'プレビュー',
+    'submit_review' => 'レビューを送信',
+    'back_to_orders' => '注文一覧に戻る',
+    'guidelines' => 'レビューガイドライン',
+    'guideline_1' => '商品の体験について正直かつ具体的に記載してください',
+    'guideline_2' => '商品の品質、梱包、配送体験に焦点を当ててください',
+    'guideline_3' => '他のお客様に役立つ詳細を含めてください',
+    'guideline_4' => '不適切な言葉や個人情報は避けてください',
+    'poor_rating' => '悪い（星1つ）',
+    'fair_rating' => '普通（星2つ）',
+    'good_rating' => '良い（星3つ）',
+    'very_good_rating' => 'とても良い（星4つ）',
+    'excellent_rating' => '素晴らしい（星5つ）',
+];
