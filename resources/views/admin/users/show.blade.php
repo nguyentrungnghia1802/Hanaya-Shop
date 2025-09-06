@@ -2,7 +2,7 @@
 
 @section('header')
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        Account Details: {{ $user->name }}
+        {{ __('admin.account_details') }}: {{ $user->name }}
     </h2>
 @endsection
 
@@ -12,21 +12,21 @@
         <div>
             <h3 class="text-lg font-semibold mb-2">Basic Information</h3>
             <p><strong>ID:</strong> {{ $user->id }}</p>
-            <p><strong>Name:</strong> {{ $user->name }}</p>
-            <p><strong>Email:</strong> {{ $user->email }}</p>
-            <p><strong>Role:</strong> {{ $user->role }}</p>
+            <p><strong>{{ __('admin.name') }}:</strong> {{ $user->name }}</p>
+            <p><strong>{{ __('admin.email') }}:</strong> {{ $user->email }}</p>
+            <p><strong>{{ __('admin.role') }}:</strong> {{ $user->role }}</p>
         </div>
 
         <!-- Cart section -->
         <div>
-            <h3 class="text-lg font-semibold mb-2">Cart</h3>
+            <h3 class="text-lg font-semibold mb-2">{{ __('admin.cart') }}</h3>
             @if ($carts->count())
                 <table class="min-w-full bg-white rounded shadow mx-auto">
                     <thead>
                         <tr>
                             <th class="py-2 px-4 border-b text-center">#</th>
-                            <th class="py-2 px-4 border-b text-center">Product Name</th>
-                            <th class="py-2 px-4 border-b text-center">Quantity</th>
+                            <th class="py-2 px-4 border-b text-center">{{ __('admin.product_name') }}</th>
+                            <th class="py-2 px-4 border-b text-center">{{ __('admin.quantity') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,22 +40,40 @@
                     </tbody>
                 </table>
             @else
-                <p class="text-gray-500">No products in cart.</p>
+                <p class="text-gray-500">{{ __('admin.no_products_in_cart') }}.</p>
             @endif
         </div>
 
-        <!-- Orders section -->
-        <div>
-            <h3 class="text-lg font-semibold mb-2">Orders</h3>
-            @if ($orders->count())
-                <ul class="list-disc ml-6">
-                    @foreach ($orders as $order)
-                        <li>Order ID: {{ $order->id }} - Total: {{ number_format($order->total ?? 0, 0, ',', '.') }}₫</li>
-                    @endforeach
-                </ul>
-            @else
-                <p class="text-gray-500">No orders found.</p>
-            @endif
-        </div>
+   <!-- Orders section -->
+    <div>
+        <h3 class="text-lg font-semibold mb-4">{{ __('admin.orders') }}</h3>
+        @if ($orders->count())
+            <div class="max-h-64 overflow-y-auto pr-2 space-y-3"> {{-- Thêm scroll --}}
+                @foreach ($orders as $order)
+                    <div 
+                        onclick="window.location.href='{{ route('admin.order.show', $order->id) }}'" 
+                        class="p-4 border rounded-lg shadow-sm bg-white hover:bg-gray-100 cursor-pointer transition duration-200 flex justify-between items-center"
+                    >
+                        <div>
+                            <p class="font-medium text-gray-800">
+                                {{ __('Order ID') }}: {{ $order->id }}
+                            </p>
+                            <p class="text-sm text-gray-600">
+                                {{ __('admin.total') }}: 
+                                <span class="font-semibold text-green-600">
+                                    ${{ number_format($order->total_price ?? 0, 2, '.', ',') }}
+                                </span>
+                            </p>
+                        </div>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </div>
+                @endforeach
+            </div>
+        @else
+            <p class="text-gray-500 italic">{{ __('admin.no_categories_found') }}</p>
+        @endif
     </div>
+
 @endsection

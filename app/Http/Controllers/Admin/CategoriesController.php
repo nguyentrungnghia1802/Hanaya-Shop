@@ -12,7 +12,11 @@ class CategoriesController extends Controller
 {
     /**
      * Display a list of all categories.
-     * Data is cached for 60 minutes to reduce database load.
+     *
+     * Shows a paginated list of all product categories for administrators.
+     * Data is not cached for pagination. Each page displays 20 categories.
+     *
+     * @return \Illuminate\View\View Category list view
      */
     public function index()
     {
@@ -25,6 +29,10 @@ class CategoriesController extends Controller
 
     /**
      * Show the form for creating a new category.
+     *
+     * Displays the form for administrators to create a new product category.
+     *
+     * @return \Illuminate\View\View Category creation form view
      */
     public function create()
     {
@@ -33,6 +41,12 @@ class CategoriesController extends Controller
 
     /**
      * Store a newly created category in the database.
+     *
+     * Handles the creation of a new product category, including validation,
+     * image upload, and saving to the database. Clears category cache after creation.
+     *
+     * @param Request $request HTTP request with category data
+     * @return \Illuminate\Http\RedirectResponse Redirect to category list with success message
      */
     public function store(Request $request)
     {
@@ -53,7 +67,7 @@ class CategoriesController extends Controller
             $generatedFileName = $imageName;
         } else {
             // Default image if none is uploaded
-            $generatedFileName = 'base.jpg';
+            $generatedFileName = 'fixed_resources/not_found.jpg'; // Use a default image path
         }
 
         // Create and save the category
@@ -66,11 +80,16 @@ class CategoriesController extends Controller
         // Clear cache to refresh data
         Cache::forget('admin_categories_all');
 
-        return redirect()->route('admin.category')->with('success', 'Category created successfully!');
+        return redirect()->route('admin.category')->with('success', __('admin.category_created_successfully'));
     }
 
     /**
      * Show the form for editing the specified category.
+     *
+     * Displays the form for editing an existing product category.
+     *
+     * @param int $id Category ID
+     * @return \Illuminate\View\View Category edit form view
      */
     public function edit($id)
     {
@@ -83,6 +102,13 @@ class CategoriesController extends Controller
 
     /**
      * Update the specified category in the database.
+     *
+     * Handles updating an existing product category, including validation,
+     * image upload/replacement, and saving changes. Clears category cache after update.
+     *
+     * @param Request $request HTTP request with updated category data
+     * @param int $id Category ID
+     * @return \Illuminate\Http\RedirectResponse Redirect to category list with success message
      */
     public function update(Request $request, $id)
     {
@@ -115,12 +141,17 @@ class CategoriesController extends Controller
         // Clear cache to refresh data
         Cache::forget('admin_categories_all');
 
-        return redirect()->route('admin.category')->with('success', 'Category updated successfully!');
+        return redirect()->route('admin.category')->with('success', __('admin.category_updated_successfully'));
     }
 
     /**
      * Remove the specified category from the database.
-     * Also deletes the associated image file if it exists.
+     *
+     * Deletes a product category and its associated image file if it exists.
+     * Clears category cache after deletion. Returns JSON response for AJAX requests.
+     *
+     * @param int $id Category ID
+     * @return \Illuminate\Http\JsonResponse JSON response indicating success
      */
     public function destroy($id)
     {
@@ -130,9 +161,9 @@ class CategoriesController extends Controller
         // Delete image file if exists
         if ($category->image_path && file_exists($imagePath)) {
             if (unlink($imagePath)) {
-                Log::info("Image deleted successfully.");
+                Log::info(__('admin.image_deleted_successfully'));
             } else {
-                Log::error("Failed to delete image.");
+                Log::error(__('admin.failed_to_delete_image'));
             }
         }
 
@@ -146,6 +177,12 @@ class CategoriesController extends Controller
 
     /**
      * Search for categories by name or description.
+     *
+     * Searches product categories by name or description and returns HTML table rows
+     * for display in the admin interface. Used for AJAX search functionality.
+     *
+     * @param Request $request HTTP request with search query
+     * @return \Illuminate\Http\JsonResponse JSON response with HTML table rows
      */
     public function search(Request $request)
     {
@@ -162,7 +199,13 @@ class CategoriesController extends Controller
 
     /**
      * Display the specified category details.
-     * If request is AJAX/JSON, return JSON response.
+     *
+     * Shows details for a specific product category. Returns JSON response for AJAX/JSON
+     * requests, or renders the category details view for standard requests.
+     *
+     * @param int $id Category ID
+     * @param Request $request HTTP request
+     * @return \Illuminate\View\View|\Illuminate\Http\JsonResponse Category details view or JSON response
      */
     public function show($id, Request $request)
     {
@@ -182,7 +225,7 @@ class CategoriesController extends Controller
                 'id' => $category->id,
                 'name' => $category->name,
                 'description' => $category->description ?? '',
-                'image_path' => asset('images/categories/' . ($category->image_path ?? 'base.jpg')),
+                'image_path' => asset('images/categories/' . ($category->image_path ?? 'fixed_resources/not_found.jpg')),
             ]);
         }
 

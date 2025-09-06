@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="70" height="40" viewBox="0 0 70 40">
+  <defs>
+    <linearGradient id="a" x1="36.41" y1="0" x2="36.41" y2="73.87" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#007b40"/>
+      <stop offset=".23" stop-color="#55b330"/>
+      <stop offset=".42" stop-color="#80d82a"/>
+      <stop offset=".59" stop-color="#9de924"/>
+      <stop offset=".74" stop-color="#aef621"/>
+      <stop offset=".85" stop-color="#b3fa1f"/>
+    </linearGradient>
+    <linearGradient id="b" x1="38.28" y1="0" x2="38.28" y2="73.87" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1a1f71"/>
+      <stop offset=".38" stop-color="#192774"/>
+      <stop offset=".7" stop-color="#172e7a"/>
+      <stop offset=".99" stop-color="#112e87"/>
+    </linearGradient>
+  </defs>
+  <path fill="#fff" d="M0 0h70v40H0z"/>
+  <path d="M28.59 10.83h12.82v19.17H28.59V10.83z" fill="url(#a)"/>
+  <path d="M29.74 20.38a12.1 12.1 0 014.64-9.55 12.1 12.1 0 100 19.11 12.1 12.1 0 01-4.64-9.56z" fill="url(#b)"/>
+  <path d="M65.89 20.38c0-4.4-3.59-8-8-8a8 8 0 100 16 8 8 0 008-8zM24.83 12.4a.47.47 0 01.48-.48h2.13a.48.48 0 01.48.48v5.15h6.6v-5.15a.48.48 0 01.48-.48h2.13a.47.47 0 01.48.48v13.22a.47.47 0 01-.48.48h-2.13a.47.47 0 01-.48-.48v-5.59h-6.6v5.59a.47.47 0 01-.48.48h-2.13a.47.47 0 01-.48-.48V12.4zM52.92 12.4a.47.47 0 01.48-.48h2.13a.48.48 0 01.48.48v13.22a.47.47 0 01-.48.48h-2.13a.47.47 0 01-.48-.48V12.4zM8.58 12.4a.47.47 0 01.48-.48h2.13a.48.48 0 01.48.48v5.15h6.6v-5.15a.48.48 0 01.48-.48h2.13a.47.47 0 01.48.48v13.22a.47.47 0 01-.48.48h-2.13a.48.48 0 01-.48-.48v-5.59h-6.6v5.59a.47.47 0 01-.48.48h-2.13a.47.47 0 01-.48-.48V12.4zM4.11 25.62a.48.48 0 01-.48.48H1.48a.48.48 0 01-.48-.48V12.4a.47.47 0 01.48-.48H4a.47.47 0 01.48.48v13.22zM48.46 25.62a.48.48 0 01-.67.44l-2-.82a.47.47 0 01-.29-.44V12.4a.47.47 0 01.48-.48h2.13a.48.48 0 01.48.48v13.22z" fill="#1a1f71"/>
+</svg>

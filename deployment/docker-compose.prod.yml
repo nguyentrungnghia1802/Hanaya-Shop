@@ -1,39 +1,38 @@
+
 services:
   app:
-    build: ..
+    image: assassincreed2k1/hanaya-shop:latest
     container_name: hanaya-shop-app
     ports:
       - "80:80"
+    # Environment variables for the application. You can fill values here or mount from a .env file.
+    # APP_ENV: Application environment (production/development)
+    # APP_DEBUG: Enable/disable debug mode (true/false)
+    # APP_URL: Application URL
+    # DB_HOST: Database service name, use 'db' if running with Docker Compose
+    # DB_DATABASE: Database name, e.g. hanaya_shop
+    # DB_USERNAME: Database username
+    # DB_PASSWORD: Database password
+    # REDIS_HOST: Redis service name, use 'redis' if running with Docker Compose
+    # CACHE_DRIVER: Cache driver (e.g. redis)
+    # SESSION_DRIVER: Session driver (e.g. redis)
+    # QUEUE_CONNECTION: Queue driver (e.g. redis)
     environment:
-      - VIRTUAL_HOST=hanayashop.duckdns.org
       - APP_ENV=production
       - APP_DEBUG=false
-      - APP_KEY=${APP_KEY}
-      - DB_CONNECTION=mysql
+      - APP_URL=http://localhost
       - DB_HOST=db
-      - DB_PORT=3306
-      - DB_DATABASE=${DB_DATABASE:-hanaya_shop}
-      - DB_USERNAME=${DB_USERNAME:-hanaya_user}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=
+      - DB_USERNAME=
+      - DB_PASSWORD=
+      - REDIS_HOST=redis
       - CACHE_DRIVER=redis
       - SESSION_DRIVER=redis
       - QUEUE_CONNECTION=redis
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-
-      - MAIL_MAILER=smtp
-      - MAIL_HOST=smtp.gmail.com
-      - MAIL_PORT=587
-      - MAIL_USERNAME=assassincreed2k1@gmail.com
-      - MAIL_PASSWORD=tijrvguflmbctaba
-      - MAIL_ENCRYPTION=tls
-      - MAIL_FROM_ADDRESS=assassincreed2k1@gmail.com
-      - MAIL_FROM_NAME=hanaya_shop
     volumes:
       - storage_data:/var/www/html/storage/app
-      - ../public/images:/var/www/html/public/images
-      - ../deployment/.env:/var/www/html/.env  
-
+      - logs_data:/var/www/html/storage/logs
+      - images_data:/var/www/html/public/images
     depends_on:
       - db
       - redis
@@ -41,24 +40,29 @@ services:
       - hanaya-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/"]
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
       interval: 30s
       timeout: 10s
       retries: 3
+      start_period: 40s
 
   db:
     image: mysql:8.0
     container_name: hanaya-shop-db
+    # MySQL environment variables. Fill values here or mount from a .env file.
+    # MYSQL_ROOT_PASSWORD: MySQL root password (only for initial setup)
+    # MYSQL_DATABASE: Database name
+    # MYSQL_USER: Database username
+    # MYSQL_PASSWORD: Database password
     environment:
-      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${DB_DATABASE:-hanaya_shop}
-      - MYSQL_USER=${DB_USERNAME:-hanaya_user}
-      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DATABASE=
+      - MYSQL_USER=
+      - MYSQL_PASSWORD=
     volumes:
       - db_data:/var/lib/mysql
-      - ./mysql/mysql.conf:/etc/mysql/conf.d/custom.cnf
     ports:
-      - "3307:3306"
+      - "3306:3306"
     networks:
       - hanaya-network
     restart: unless-stopped
@@ -76,28 +80,16 @@ services:
     restart: unless-stopped
     command: redis-server --appendonly yes
 
-  nginx-proxy:
-    image: nginxproxy/nginx-proxy
-    container_name: hanaya-shop-proxy
-    ports:
-      - "443:443"
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./nginx/certs:/etc/nginx/certs
-    environment:
-      - DEFAULT_HOST=hanaya-shop.local
-    depends_on:
-      - app
-    networks:
-      - hanaya-network
-    restart: unless-stopped
-
 volumes:
   db_data:
     driver: local
   redis_data:
     driver: local
   storage_data:
+    driver: local
+  logs_data:
+    driver: local
+  images_data:
     driver: local
 
 networks:

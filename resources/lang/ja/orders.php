@@ -1,0 +1,65 @@
+<?php
+
+return [
+    // Page order index
+    'orders_title'         => '注文',
+    'total_orders'         => '合計注文数',
+    'delivered'            => '配達済み',
+    'processing'           => '処理中',
+    'total_value'          => '合計金額',
+    'order_id'             => '注文ID：',
+    'products'             => '商品：',
+    'total_amount'         => '合計金額',
+    'item'                 => 'アイテム',
+    'items'                => 'アイテム数',
+    'status'               => 'ステータス',
+    'confirmed'            => '確認済み',
+    'shipped'              => '発送済み',
+    'cancelled'            => 'キャンセル済み',
+    'view_details'         => '詳細を見る',
+    'no_orders_yet'        => 'まだ注文がありません',
+    'you_have_not'         => 'まだ注文をしていません。今すぐショッピングを始めましょう！',
+    'start_shopping'       => 'ショッピングを始める',
+    'no_description_available' => '説明はありません',
+
+
+    // Page order show
+    'order_details'        => '注文の詳細',
+    'order_status'         => '注文状況',
+    'order_canceled'       => '注文はキャンセルされました',
+    'order_canceled_message' => 'この注文はキャンセルされ、すべての支払いは処理されました',
+    'order_information'    => '注文情報',
+    'order_date'           => '注文日：',
+    'customer_information' => '顧客情報',
+    'full_name'            => '氏名：',
+    'email'                => 'メールアドレス：',
+    'phone_number'         => '電話番号：',
+    'address'              => '住所：',
+    'products_list'        => '商品一覧',
+    'quantity'             => '数量：',
+    'unit_price'           => '単価：',
+    'write_review'         => 'レビューを書く',
+    'reviewed'             => 'レビュー済み',
+    'original_subtotal'    => '元の小計：',
+    'subtotal'             => '小計：',
+    'you_saved'            => '割引額：',
+    'shipping_fee'         => '送料：',
+    'order_total'          => '注文合計：',
+    'message'              => 'メッセージ',
+    'no_message'           => 'メッセージはありません',
+    'cancel_order'         => '注文をキャンセル',
+    'received'             => '受け取り済み',
+    'continue_shopping'    => '買い物を続ける',
+
+    //order controller
+    'order_has_been_cancelled'            => '注文は正常にキャンセルされました。',
+    'order_has_been_marked_as_received'   => '注文は受け取り済みに設定されました。',
+
+    //review controller
+    'order_not_found'                     => '注文が見つからないか、アクセス権がありません。',
+    'can_only_review_shipped_orders'      => '発送済みの注文の商品にのみレビューできます。',
+    'product_not_found_in_order'          => 'この注文に商品が見つかりません。',
+    'already_reviewed'                    => 'この注文の商品はすでにレビュー済みです。',
+    'review_submitted_successfully'       => 'レビューが正常に送信されました！',
+    'product_not_found'                   => '商品が見つかりません。',
+];

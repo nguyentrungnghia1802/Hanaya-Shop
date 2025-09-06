@@ -42,6 +42,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/order', [OrderController::class, 'index'])->name('order.index');
     Route::get('/order/{id}', [OrderController::class, 'show'])->name('order.show');
     Route::get('/order/cancel/{id}', [OrderController::class, 'cancel'])->name('order.cancel');
+    Route::get('/order/receive/{id}', [OrderController::class, 'receive'])->name('order.receive');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -50,10 +51,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store');
 
     Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
-    Route::get('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
+    Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
 
     // Review routes
     Route::get('/review/create', [ReviewController::class, 'create'])->name('review.create');
     Route::post('/review', [ReviewController::class, 'store'])->name('review.store');
     Route::get('/product/{id}/reviews', [ReviewController::class, 'getProductReviews'])->name('product.reviews');
-});
+
+}); 

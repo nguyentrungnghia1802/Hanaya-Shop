@@ -3,6 +3,7 @@
 /node_modules/
 .env
 .env.*.local
+.env.production
 .phpunit.result.cache
 .phpstorm.meta.php
 /storage/
@@ -28,10 +29,8 @@ yarn-debug.log
 .DS_Store
 Thumbs.db
 
-#Copilot
-.github/
 # host address
 public/hot
 
-# Linux sh
-fix-permissions.sh
+# docker
+docker-compose.production.yml
