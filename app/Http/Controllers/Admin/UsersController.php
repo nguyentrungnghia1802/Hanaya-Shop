@@ -296,7 +296,27 @@ class UsersController extends Controller
         if (!is_array($ids)) $ids = [$ids];           // Normalize to array format
         $ids = array_diff($ids, [Auth::id()]);        // Remove admin's own ID for security
         
-        User::whereIn('id', $ids)->delete(); // Bulk delete selected users
+        $blockedUsers = [];
+        $deletableIds = [];
+        
+        foreach ($ids as $id) {
+            $user = User::find($id);
+            if (!$user) continue;
+
+            $orders = $user->order()
+                ->whereIn('status', ['pending', 'processing', 'shipped'])
+                ->count();
+
+            if ($orders > 0) {
+                $blockedUsers[] = $user->email;
+            } else {
+                $deletableIds[] = $id;
+            }
+        }
+
+        if (!empty($deletableIds)) {
+            User::whereIn('id', $deletableIds)->delete();
+        }
 
         // Cache Management
         /**
@@ -312,11 +332,21 @@ class UsersController extends Controller
          * JSON for AJAX requests (seamless UI updates)
          * Redirect for traditional form submissions
          */
-        if ($request->ajax() || $request->wantsJson()) {
-            return response()->json(['success' => true]); // AJAX success response
+
+        // Chỉ có JavaScript gửi request DELETE tới route 'admin.user'
+        // nên luôn trả về JSON response
+        if (!empty($blockedUsers)) {
+            return response()->json([
+                'success' => false,
+                'message' => __('admin.cannot_delete_user_with_active_orders'),
+                'blocked' => $blockedUsers
+            ]);
         }
 
-        return redirect()->route('admin.user')->with('success', __('admin.account_deleted_successfully'));
+        return response()->json([
+            'success' => true, 
+            'message' => __('admin.message_selected_account_delete')
+        ]);
     }
 
     /**
@@ -347,7 +377,16 @@ class UsersController extends Controller
         }
 
         $user = User::findOrFail($id); // Find user or return 404
-        $user->delete();               // Delete user account
+
+        $orders = $user->order()->whereIn('status', ['pending', 'processing', 'shipped'])->count();
+
+        if ($orders > 0) {
+            return response()->json([
+                'success' => false,
+                'message' => __('admin.cannot_delete_user_with_active_orders')
+            ]);
+        }
+        $user->delete();            // Delete user account
 
         // Cache Management
         /**

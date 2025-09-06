@@ -7,7 +7,8 @@ return [
     'welcome_to_hanaya' => 'Chào mừng đến với Hanaya Shop',
     'hero_description' => 'Khám phá nghệ thuật hoa sáp tuyệt đẹp - nơi sự thanh lịch gặp gỡ tính năng thực tiễn. Mỗi sản phẩm được chế tác thủ công cẩn thận để mang lại vẻ đẹp và hương thơm cho những khoảnh khắc đặc biệt của bạn.',
     'our_story' => 'Câu chuyện của chúng tôi',
-    
+    'watch_video_demo' => 'Xem video demo của chúng tôi',
+
     // Mission & Values Section
     'mission_values' => 'Sứ Mệnh & Giá Trị',
     'mission_values_description' => 'Những nguyên tắc định hướng mọi việc chúng tôi làm',
@@ -23,9 +24,9 @@ return [
     'our_values' => 'Giá trị của chúng tôi',
     
     // Story paragraphs  
-    'story_paragraph_1' => 'Được thành lập với niềm đam mê mang đến vẻ đẹp và niềm vui cho cuộc sống mọi người, Hanaya Shop bắt đầu như một giấc mơ nhỏ để tạo ra điều gì đó đặc biệt trong thế giới hoa và quà tặng. Hành trình của chúng tôi bắt đầu với một niềm tin đơn giản: hoa có sức mạnh để thể hiện những cảm xúc mà đôi khi lời nói không thể diễn tả.',
-    'story_paragraph_2' => 'Điều làm chúng tôi độc đáo là sự tận tâm trong việc chế tác hoa sáp - những bông hoa vĩnh cửu ghi lại vẻ đẹp của hoa tươi nhưng vẫn tồn tại mãi mãi. Những sáng tạo thủ công này kết hợp sức hấp dẫn thị giác của hoa tươi với tính thực dụng và độ bền mà khách hàng của chúng tôi yêu thích.',
-    'story_paragraph_3' => 'Ngày nay, Hanaya Shop đã trở thành điểm đến đáng tin cậy cho những ai tìm kiếm quà tặng ý nghĩa, đồ trang trí đẹp mắt và những biểu hiện chân thành của tình yêu và sự trân trọng.',
+    'story_paragraph_1' => 'Ở Việt Nam, đặc biệt vào các dịp lễ Tết, rất nhiều bông hoa bị bỏ đi do thời gian tươi ngắn và người bán không kịp tiếp cận đúng khách hàng. Sự lệch pha giữa cung và cầu gây lãng phí xã hội và thiệt hại cho người bán.',
+    'story_paragraph_2' => 'Hanaya Shop được xây dựng để giải quyết vấn đề thực tế đó. Nền tảng giúp mở rộng mức độ hiển thị của cửa hàng, tăng điểm chạm với khách hàng, và đưa mỗi bông hoa đến đúng người, đúng thời điểm. Ứng dụng có UI/UX hiện đại, backend Laravel tin cậy, SSR nhanh, và mô hình nghiệp vụ thực tế cho tồn kho, đơn hàng, thanh toán.',
+    'story_paragraph_3' => 'Tầm nhìn dài hạn của chúng tôi là tăng cường kết nối người bán–người mua, tiến tới giảm thiểu hoa bị lãng phí đến mức thấp nhất. Mỗi ngày, chúng tôi nỗ lực mang nhiều vẻ đẹp hơn vào cuộc sống của mọi người trong khi giảm thiểu lãng phí không cần thiết trong ngành hoa.',
     
     // Why choose us
     'why_choose_us' => 'Tại sao chọn chúng tôi?',
@@ -116,17 +117,16 @@ return [
     'customer_service' => 'Quản lý dịch vụ khách hàng',
     
     // Team members
-    'alex_johnson' => 'Alex Johnson',
-    'founder_creative_director' => 'Người sáng lập & Giám đốc sáng tạo',
-    'alex_description' => 'Với hơn 8 năm kinh nghiệm trong thiết kế hoa, Alex đã thành lập Hanaya Shop với tầm nhìn làm cho những bông hoa đẹp trở nên dễ tiếp cận với mọi người.',
+    'tan_van_quyen' => 'Tẩn Vần Quyên',
+    'team_leader' => 'Trưởng nhóm',
+    'team_member' => 'Thành viên',
+    'quyen_description' => 'Cẩn thận, tỉ mỉ trong công việc; có khả năng quan sát chi tiết và kiên nhẫn khi kiểm thử.',
     
     'nguyen_trung_nghia' => 'Nguyễn Trung Nghĩa',
-    'head_operations' => 'Trưởng phòng Vận hành',
-    'nghia_description' => 'Nghĩa đảm bảo mọi đơn hàng đều được chế tác hoàn hảo và giao hàng cẩn thận. Sự chú ý đến từng chi tiết của anh ấy làm cho mọi trải nghiệm khách hàng trở nên đặc biệt.',
+    'nghia_description' => 'Kỹ năng lập trình toàn diện, nhanh nhạy trong việc học công nghệ mới; chủ động, trách nhiệm cao và tinh thần dẫn dắt nhóm.',
     
-    'michael_rivera' => 'Michael Rivera',
-    'lead_artisan' => 'Nghệ nhân chính',
-    'michael_description' => 'Chuyên môn nghệ thuật của Michael mang lại sự sống cho những bông hoa sáp của chúng tôi. Những kỹ thuật sáng tạo của anh ấy tạo ra những tác phẩm tuyệt đẹp tồn tại mãi mãi.',
+    'le_duc_anh_tai' => 'Lê Đức Anh Tài',
+    'tai_description' => 'Có tư duy logic, nắm bắt nhanh về phát triển phần mềm; thái độ hợp tác tốt, sẵn sàng hỗ trợ đồng đội.',
 
     // Achievements
     'our_achievements' => 'Thành tựu của chúng tôi',
@@ -159,6 +159,7 @@ return [
     'phone' => 'Điện thoại',
     'email' => 'Email',
     'follow_social' => 'Theo dõi chúng tôi trên mạng xã hội',
+    'click_to_view_github' => 'Nhấn để xem GitHub',
     
     // FAQ
     'frequently_asked' => 'Câu hỏi thường gặp',

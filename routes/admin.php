@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\NotificationTestController;
 use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\ProfileController;
@@ -72,5 +73,7 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->gr
 
     Route::post('/notifications/mark-read', [NotificationController::class, 'markAsRead'])->name('notifications.markRead');
     
+    // Test route for notifications
+    Route::get('/test-notifications', [NotificationTestController::class, 'test'])->name('test.notifications');
 
 });

@@ -10,6 +10,11 @@ use Carbon\Carbon;
 
 class ImageUploadController extends Controller
 {
+    /**
+     * Handle image upload for CKEditor.
+     * Validates the image, saves it with a unique name, and returns the URL in JSON format.
+     * Response format is compatible with TinyMCE.
+     */
     public function uploadCKEditorImage(Request $request)
     {
         try {
@@ -54,6 +59,10 @@ class ImageUploadController extends Controller
         }
     }
     
+    /**
+     * Handle featured image upload for posts.
+     * Validates the image, saves it with a unique name, and returns the URL and filename in JSON format.
+     */
     public function uploadPostImage(Request $request)
     {
         $request->validate([
@@ -93,6 +102,11 @@ class ImageUploadController extends Controller
         ], 400);
     }
     
+    /**
+     * Handle image upload for TinyMCE editor.
+     * Validates the image, saves it with a unique name, and returns the location URL in JSON format.
+     * Response format includes 'location' key for TinyMCE compatibility.
+     */
     public function uploadTinyMCEImage(Request $request)
     {
         try {

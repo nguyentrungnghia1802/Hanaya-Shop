@@ -3,22 +3,27 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class NewOrderPending extends Notification implements ShouldQueue
 {
     use Queueable;
+    // Admin notifications sent immediately for reliability
 
     public $order;
+    public $locale;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($order) // <<< SỬA TẠI ĐÂY: Thêm $order vào tham số
+    public function __construct($order, $locale = 'en') // Admin notifications always use English
     {
         $this->order = $order;
+        // Admin notifications use fixed English locale
+        $this->locale = 'en';
     }
 
     /**
@@ -36,11 +41,14 @@ class NewOrderPending extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
+        // Admin notifications always use English
+        app()->setLocale('en');
+
         return (new MailMessage)
-                    ->subject(__('notifications.new_order_request_subject')) 
-                    ->line(__('notifications.new_order_request_line')) 
-                    ->line(__('notifications.order_code') . ' #' . $this->order->id) 
-                    ->action(__('notifications.view_order'), url('/admin/orders/' . $this->order->id)); 
+            ->subject(__('notifications.new_order_request_subject'))
+            ->line(__('notifications.new_order_request_line'))
+            ->line(__('notifications.order_code') . ' #' . $this->order->id)
+            ->action(__('notifications.view_order'), config('app.url') . '/admin/order/' . $this->order->id);
     }
 
     /**
@@ -50,13 +58,13 @@ class NewOrderPending extends Notification implements ShouldQueue
      */
     public function toArray(object $notifiable): array
     {
+        // Admin notifications always use English
+        app()->setLocale('en');
+
         return [
             'order_id'  => $this->order->id,
-            'user_name' => $this->order->user->name ?? __('notifications.guest'), 
+            'user_name' => $this->order->user->name ?? __('notifications.guest'),
             'message'   => __('notifications.order_waiting_confirmation', ['order_id' => $this->order->id]),
         ];
     }
-
-
-    
 }

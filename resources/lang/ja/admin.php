@@ -208,6 +208,7 @@ return [
   'customer_reviews' => 'カスタマーレビュー',
   'reviews' => 'レビュー',
   'order' => '注文する',
+  'order_id' => '注文ID',
   'no_reviews_yet' => 'まだレビューがありません。',
   'this_product_has_received_any_reviews' => 'この商品はまだレビューを受けていません。',
 
@@ -275,4 +276,6 @@ return [
   'post_details'          => '投稿の詳細',
   'back'                  => '戻る',
   'by'                    => '作成者',
+
+  'cannot_delete_user_with_active_orders' => 'アクティブな注文があるユーザーは削除できません',
 ];

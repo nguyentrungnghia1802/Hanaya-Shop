@@ -18,11 +18,20 @@ use App\Notifications\OrderShippedNotification;
 use App\Notifications\OrderCompletedNotification;
 use App\Notifications\OrderPaidNotification;
 use App\Notifications\OrderCancelledNotification;
+use App\Notifications\CustomerOrderConfirmedNotification;
+use App\Notifications\CustomerOrderShippedNotification;
+use App\Notifications\CustomerOrderCompletedNotification;
+use App\Notifications\CustomerOrderCancelledNotification;
 use App\Models\Order\Payment;
 
 class OrdersController extends Controller
 {
 
+    /**
+     * Display a paginated list of orders with optional search and status filtering.
+     * Eager loads user relationship to avoid N+1 queries.
+     * Returns the orders and payment data to the index view.
+     */
     public function index(Request $request)
     {
         $search = $request->input('search');
@@ -53,6 +62,11 @@ class OrdersController extends Controller
     }
 
 
+    /**
+     * Show detailed information for a specific order, including order details, user, and address.
+     * Also retrieves payment information for the order.
+     * Returns the data to the show view.
+     */
     public function show($orderId)
     {
         $order = Order::with('orderDetail.product', 'user', 'address')->findOrFail($orderId);
@@ -60,46 +74,69 @@ class OrdersController extends Controller
         return view('admin.orders.show', compact('order', 'payment'));
     }
 
+    /**
+     * Confirm an order and update its status to 'processing'.
+     * Sends notifications to all admins (in English) and the customer (in current locale).
+     * Redirects back with a success message.
+     */
     public function confirm(Order $order)
     {
         $order->status = 'processing';
         $order->save();
 
+        // Get current locale from session for customer notifications for customer notifications
+        $currentLocale = Session::get('locale', config('app.locale'));
+
+        // Gửi thông báo cho admin (admin uses English by default) (admin uses English by default)
         $admins = User::where('role', 'admin')->get();
         foreach ($admins as $admin) {
-            $admin->notify(new OrderConfirmedNotification($order));
+            $admin->notify(new OrderConfirmedNotification($order)); // Admin uses English by default
+        }
+
+        // Gửi thông báo cho khách hàng đã đặt hàng (với URL khác)
+        $customer = User::find($order->user_id);
+        if ($customer) {
+            $customer->notify(new CustomerOrderConfirmedNotification($order, $currentLocale));
         }
 
         return redirect()->back()->with('success', __('admin.order_confirmed_successfully'));
     }
 
+    /**
+     * Mark an order as shipped and update its status.
+     * Sends notifications to all admins (in English) and the customer (in current locale).
+     * Redirects back with a success message.
+     */
     public function shipped(Order $order)
     {
-        // $payment = Payment::where('order_id', $order->id)->first();
-        // if ($payment->payment_status === 'completed') {
-        //     $order->status = 'completed';
-        //     $order->save();
-        //     $admins = User::where('role', 'admin')->get();
-        //     foreach ($admins as $admin) {
-        //         $admin->notify(new OrderShippedNotification($order));
-        //     }
-        // } else {
-        //     $order->status = 'shipped';
-        //     $order->save();
-        //     $admins = User::where('role', 'admin')->get();
-        //     foreach ($admins as $admin) {
-        //         $admin->notify(new OrderShippedNotification($order));
-        //     }
-        // }
         $order->status = 'shipped';
         $order->save();
+        
+        // Get current locale from session for customer notifications
+        $currentLocale = Session::get('locale', config('app.locale'));
+        
+        // Gửi thông báo cho admin (admin uses English by default)
         $admins = User::where('role', 'admin')->get();
         foreach ($admins as $admin) {
-            $admin->notify(new OrderShippedNotification($order));
+            $admin->notify(new OrderShippedNotification($order)); // Admin uses English by default
         }
+
+        // Gửi thông báo cho khách hàng đã đặt hàng (với URL khác)
+        $customer = User::find($order->user_id);
+        if ($customer) {
+            $customer->notify(new CustomerOrderShippedNotification($order, $currentLocale));
+        }
+
         return redirect()->back()->with('success', __('admin.order_shipped_successfully'));
     }
 
+    /**
+     * Mark payment as completed for an order and update payment status.
+     * Sends notifications to all admins and the customer.
+     * If payment is completed, may also mark order as completed (commented logic).
+     * Handles transaction and error rollback.
+     * Redirects back with a success or error message.
+     */
     public function paid(Order $order)
     {
         $payment = Payment::where('order_id', $order->id)->first();
@@ -113,17 +150,21 @@ class OrdersController extends Controller
             $payment->payment_status = 'completed';
             $payment->save();
 
-            // Notify admins
+            // Get current locale from session for customer notifications
+            $currentLocale = Session::get('locale', config('app.locale'));
+
+            // Notify admins about payment completion
             $admins = User::where('role', 'admin')->get();
             $customer = User::find($order->user_id);
 
             foreach ($admins as $admin) {
-                $admin->notify(new OrderCompletedNotification($order));
+                $admin->notify(new OrderPaidNotification($order)); // Admin uses English by default
             }
 
-            // Notify customer
+            // Notify customer with specific customer notification
             if ($customer) {
-                $customer->notify(new OrderCompletedNotification($order));
+                // Create CustomerOrderPaidNotification if it doesn't exist, or use appropriate customer notification
+                $customer->notify(new CustomerOrderCompletedNotification($order, $currentLocale));
             }
 
             // If order is shipped and payment is now completed, mark order as completed
@@ -166,14 +207,23 @@ class OrdersController extends Controller
         }
     }
 
+    /**
+     * Cancel an order, update payment status, restore product stock, and update order status.
+     * Sends notifications to all admins and the customer.
+     * Handles transaction and error rollback.
+     * Redirects back with a success or error message.
+     */
     public function cancel($orderId)
     {
         $order = Order::findOrFail($orderId);
 
         DB::beginTransaction();
         try {
-            $payment = Payment::where('order_id', $order->id)->get();
-            $payment->payment_status = 'failed';
+            $payment = Payment::where('order_id', $order->id)->first();
+            if ($payment) {
+                $payment->payment_status = 'failed';
+                $payment->save();
+            }
             foreach ($order->orderDetail as $detail) {
                 $product = $detail->product;
                 $product->stock_quantity += $detail->quantity;
@@ -182,9 +232,19 @@ class OrdersController extends Controller
             $order->status = 'cancelled';
             $order->save();
 
+            // Get current locale from session for customer notifications
+            $currentLocale = Session::get('locale', config('app.locale'));
+
+            // Gửi thông báo cho admin (admin uses English by default)
             $admins = User::where('role', 'admin')->get();
             foreach ($admins as $admin) {
-                $admin->notify(new OrderCancelledNotification($order));
+                $admin->notify(new OrderCancelledNotification($order)); // Admin uses English by default
+            }
+
+            // Gửi thông báo cho khách hàng đã đặt hàng
+            $customer = User::find($order->user_id);
+            if ($customer) {
+                $customer->notify(new CustomerOrderCancelledNotification($order, $currentLocale));
             }
 
             DB::commit();

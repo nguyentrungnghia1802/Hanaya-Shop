@@ -24,20 +24,22 @@
             @endif
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 @forelse($posts as $post)
-                    <div class="bg-white rounded-lg shadow p-6 flex flex-col">
-                        <a href="{{ route('posts.show', $post->id) }}">
-                            @if ($post->image)
-                                <img src="{{ asset('images/posts/' . $post->image) }}" alt="{{ $post->title }}"
-                                    class="h-48 w-full object-cover rounded mb-4">
-                            @endif
-                            <h3 class="text-lg font-bold mb-2 text-pink-700">{{ $post->title }}</h3>
-                        </a>
-                        <div class="text-sm text-gray-600 mb-2">{{ $post->created_at->format('d/m/Y') }} by
-                            {{ $post->author->name ?? 'Admin' }}</div>
-                        <div class="text-gray-700 line-clamp-3">
-                            {{ Str::limit(html_entity_decode(strip_tags($post->content)), 120) }}</div>
+                    <div class="bg-white rounded-lg shadow p-6 flex flex-col h-full">
+                        <div class="flex-grow">
+                            <a href="{{ route('posts.show', $post->id) }}">
+                                @if ($post->image)
+                                    <img src="{{ asset('images/posts/' . $post->image) }}" alt="{{ $post->title }}"
+                                        class="h-48 w-full object-cover rounded mb-4">
+                                @endif
+                                <h3 class="text-lg font-bold mb-2 text-pink-700">{{ $post->title }}</h3>
+                            </a>
+                            <div class="text-sm text-gray-600 mb-2">{{ $post->created_at->format('d/m/Y') }} by
+                                {{ $post->author->name ?? 'Admin' }}</div>
+                            <div class="text-gray-700 line-clamp-3">
+                                {{ Str::limit(html_entity_decode(strip_tags($post->content)), 120) }}</div>
+                        </div>
                         <a href="{{ route('posts.show', $post->id) }}"
-                            class="mt-4 text-pink-600 hover:underline">{{ __('posts.read_more') }}</a>
+                            class="mt-4 text-pink-600 hover:underline block">{{ __('posts.read_more') }}</a>
                     </div>
                 @empty
                     <div class="col-span-2 text-center text-gray-500">{{ __('posts.no_posts_available') }}</div>

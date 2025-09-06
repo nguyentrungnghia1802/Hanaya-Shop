@@ -203,6 +203,7 @@ return [
     'customer_reviews' => 'Đánh giá của khách hàng',
     'reviews' => 'Đánh giá',
     'order' => 'Đặt hàng',
+    'order_id' => 'Mã đơn hàng',
     'no_reviews_yet' => 'Chưa có đánh giá nào.',
     'this_product_has_received_any_reviews' => 'Sản phẩm này chưa nhận được đánh giá nào.',
 
@@ -275,4 +276,6 @@ return [
     'post_details'          => 'Chi tiết bài viết',
     'back'                  => 'Quay lại',
     'by'                    => 'bởi',
+
+    'cannot_delete_user_with_active_orders' => 'Không thể xóa người dùng có đơn hàng đang hoạt động',
 ];
