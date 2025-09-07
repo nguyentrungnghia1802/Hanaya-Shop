@@ -20,7 +20,7 @@
 ## 🔗 リンク <a id="links-jp"></a>
 
 -   ウェブサイト: [Hanaya Shop](http://hanayashop.com)
--   デモ動画: [YouTube デモ](https://www.youtube.com/watch?v=Qgwq9ZHUbtQ)
+-   デモ動画: [YouTube デモ](https://youtu.be/MLeE64xe4O0)
 
 ## 🎯 テスト用アカウント <a id="test-accounts-jp"></a>
 
@@ -287,7 +287,7 @@ hanaya-shop/
 ## 🔗 Links <a id="links-en"></a>
 
 -   Website: [Hanaya Shop](http://hanayashop.com)
--   Demo video: [YouTube Demo](https://www.youtube.com/watch?v=Qgwq9ZHUbtQ)
+-   Demo video: [YouTube Demo](https://youtu.be/MLeE64xe4O0)
 
 ## 🎯 Test Accounts <a id="test-accounts-en"></a>
 
@@ -553,7 +553,7 @@ hanaya-shop/
 ## 🔗 Đường dẫn <a id="links-vi"></a>
 
 -   Trang web: [Hanaya Shop](http://hanayashop.com)
--   Video demo: [YouTube Demo](https://www.youtube.com/watch?v=Qgwq9ZHUbtQ)
+-   Video demo: [YouTube Demo](https://youtu.be/MLeE64xe4O0)
 
 ## 🎯 Tài khoản test <a id="test-accounts-vi"></a>
 
