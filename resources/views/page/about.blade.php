@@ -70,7 +70,7 @@
                         const storyVideo = document.querySelector('.story-video-wrapper');
                         
                         storyVideo.addEventListener('click', function() {
-                            window.open('https://www.youtube.com/watch?v=Qgwq9ZHUbtQ', '_blank');
+                            window.open('https://youtu.be/MLeE64xe4O0', '_blank');
                         });
                     });
                 </script>
