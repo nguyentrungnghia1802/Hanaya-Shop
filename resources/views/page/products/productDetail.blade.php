@@ -216,11 +216,9 @@
                                             </div>
                                         @endif
                                         <div class="flex justify-center md:justify-start">
-                                            <div class="w-full max-w-sm">
-                                                <img src="{{ asset('images/reviews/' . ($review->image_path ?? 'base.jpg')) }}"
-                                                    alt="{{ $review->user->name }}"
-                                                    class="w-full h-64 object-cover rounded-lg shadow-md border">
-                                            </div>
+                                            <img src="{{ asset('images/reviews/' . ($review->image_path ?? 'base.jpg')) }}"
+                                                alt="{{ $review->user->name }}"
+                                                style="max-width: 100%; max-height: 300px; width: auto; height: auto; object-fit: contain; border-radius: 0.5rem; box-shadow: 0 1px 6px rgba(0,0,0,0.08); border: 1px solid #e5e7eb; background: #fff; display: block;" />
                                         </div>
                                     </div>
                                 </div>
