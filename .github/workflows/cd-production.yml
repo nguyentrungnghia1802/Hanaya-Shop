@@ -64,11 +64,10 @@ jobs:
             echo "🔍 Verifying deployment..."
             docker ps --filter name=hanaya-shop
 
-      # Slack notification disabled for now
-      # - name: Notify deployment status
-      #   if: always()
-      #   uses: 8398a7/action-slack@v3
-      #   with:
-      #     status: ${{ job.status }}
-      #     channel: '#deployments'
-      #     webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+      # Deployment completed successfully
+      - name: Deployment Success
+        if: success()
+        run: |
+          echo "🎉 Deployment to production completed successfully!"
+          echo "✅ Docker image: assassincreed2k1/hanaya-shop:${{ github.sha }}"
+          echo "🌐 Application URL: http://www.hanayashop.com"
