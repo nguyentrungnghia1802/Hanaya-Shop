@@ -97,12 +97,44 @@ jobs:
               echo "✅ Deployment successful! Containers are running:"
               docker ps --filter name=hanaya --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
               
+              echo "🔧 Debugging application issues..."
+              echo "--- Container Logs (last 50 lines) ---"
+              docker logs hanaya_app --tail 50 || echo "Could not get app logs"
+              
+              echo "--- Nginx/Web Server Logs ---"
+              docker exec hanaya_app cat /var/log/nginx/error.log 2>/dev/null | tail -20 || echo "No nginx error logs found"
+              
+              echo "--- PHP Error Logs ---"
+              docker exec hanaya_app cat /var/log/php*.log 2>/dev/null | tail -20 || echo "No PHP error logs found"
+              
+              echo "--- Laravel Logs ---"
+              docker exec hanaya_app cat /var/www/html/storage/logs/laravel.log 2>/dev/null | tail -20 || echo "No Laravel logs found"
+              
+              echo "--- Environment Check ---"
+              docker exec hanaya_app php -v || echo "PHP not available"
+              docker exec hanaya_app ls -la /var/www/html || echo "Web root not accessible"
+              
+              echo "--- Database Connection Test ---"
+              docker exec hanaya_app php /var/www/html/artisan tinker --execute="DB::connection()->getPdo(); echo 'DB Connected';" 2>/dev/null || echo "Database connection failed"
+              
+              echo "--- Cache and Config ---"
+              docker exec hanaya_app php /var/www/html/artisan config:clear || echo "Config clear failed"
+              docker exec hanaya_app php /var/www/html/artisan cache:clear || echo "Cache clear failed"
+              docker exec hanaya_app php /var/www/html/artisan view:clear || echo "View clear failed"
+              
               echo "🏥 Performing health check..."
               if curl -f http://localhost > /dev/null 2>&1; then
                 echo "✅ Application health check passed!"
               else
-                echo "⚠️ Health check failed, checking container logs..."
-                docker logs hanaya_app --tail 20 || echo "Could not get app logs"
+                echo "⚠️ Health check failed - investigating..."
+                curl -I http://localhost 2>/dev/null || echo "Could not reach localhost"
+                
+                echo "--- Port Check ---"
+                netstat -tlnp | grep :80 || echo "Port 80 not bound"
+                
+                echo "--- Container Network ---"
+                docker network ls
+                docker inspect hanaya_app | grep -A 10 "NetworkSettings" || echo "Network info unavailable"
               fi
             else
               echo "❌ Deployment failed! No containers running."
