@@ -42,6 +42,9 @@ docker-compose.production.yml
 *_deploy_key*
 id_rsa*
 hanaya_deploy_key*
+putty_ssh_key*
+*.ppk
+production_ssh_key*
 
 # CI/CD Sensitive Files
 .env.production
