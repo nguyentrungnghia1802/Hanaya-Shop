@@ -796,7 +796,4 @@ hanaya-shop/
 
 ---
 
-</details>#   T e s t i n g   C I / C D   w i t h   n e w   s e r v e r   1 5 7 . 1 7 3 . 1 2 7 . 2 1 7  
- #   T e s t i n g   E D 2 5 5 1 9   S S H   k e y   f o r   d e p l o y m e n t  
- #   T e s t i n g   S S H   k e y   a u t h e n t i c a t i o n   a f t e r   s e r v e r   r e s e t  
- 
+</details>

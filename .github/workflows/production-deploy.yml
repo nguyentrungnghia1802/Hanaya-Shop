@@ -3,6 +3,16 @@ name: Production Deploy
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
+      - '*.md'
+      - '.gitignore'
+      - 'LICENSE'
+      - '#GUIDE/**'
+      - 'deployment/README.md'
+      - 'deployment/BRANCH_STRATEGY.md'
+      - 'deployment/CICD_SETUP.md'
   workflow_dispatch:
 
 jobs:
