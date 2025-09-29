@@ -13,7 +13,7 @@ class CreateOrdersTable extends Migration
             $table->decimal('total_price', 10, 2)->default(0.00); // tổng tiền đơn hàng
             $table->decimal('discount', 10, 2)->default(0.00); // số tiền giảm giá
             $table->enum('status', ['pending', 'processing', 'shipped', 'completed', 'cancelled'])->default('pending'); // trạng thái đơn hàng
-            // $table->string('message')->nullable(); // thông điệp từ người dùng
+            $table->string('message')->nullable(); // thông điệp từ người dùng
             $table->timestamps();
             $table->unsignedBigInteger('user_id'); // khóa ngoại liên kết tới bảng users
 
