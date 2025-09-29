@@ -62,10 +62,18 @@ jobs:
             cd /opt/hanaya-shop || { echo "❌ Project directory not found"; exit 1; }
             
             echo "🚀 Pulling latest Docker image..."
-            docker-compose pull hanaya-shop || { echo "❌ Failed to pull image"; exit 1; }
+            if command -v docker-compose > /dev/null 2>&1; then
+              docker-compose pull hanaya-shop || { echo "❌ Failed to pull image"; exit 1; }
+            else
+              docker compose pull hanaya-shop || { echo "❌ Failed to pull image"; exit 1; }
+            fi
             
             echo "📦 Restarting containers with zero downtime..."
-            docker-compose up -d hanaya-shop || { echo "❌ Failed to start containers"; exit 1; }
+            if command -v docker-compose > /dev/null 2>&1; then
+              docker-compose up -d hanaya-shop || { echo "❌ Failed to start containers"; exit 1; }
+            else
+              docker compose up -d hanaya-shop || { echo "❌ Failed to start containers"; exit 1; }
+            fi
             
             echo "🧹 Cleaning up old Docker images..."
             docker system prune -f || echo "⚠️  Cleanup failed but continuing..."
