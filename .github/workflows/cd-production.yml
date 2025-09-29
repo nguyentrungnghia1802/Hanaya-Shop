@@ -2,8 +2,21 @@ name: CD Production Deploy
 
 on:
   push:
-    branches: [main]
-  workflow_dispatch: # Cho phép chạy thủ công
+    branches: [main]            echo "🔗 Connected to production server successfully!"
+            cd /opt/hanaya-shop || { echo "❌ Project directory not found"; exit 1; }
+            
+            echo "📁 Current directory: $(pwd)"
+            
+            echo "🛑 Stopping nginx service to free port 80..."
+            sudo systemctl stop nginx || echo "⚠️ nginx service not running or already stopped"
+            sudo systemctl disable nginx || echo "⚠️ nginx service disable failed"
+            
+            echo "📋 Checking docker-compose services..."
+            if command -v docker-compose > /dev/null 2>&1; then
+              docker-compose config --services
+            else
+              docker compose config --services
+            fiw_dispatch: # Cho phép chạy thủ công
 
 jobs:
   build-and-deploy:
@@ -78,8 +91,10 @@ jobs:
             
             echo "📦 Restarting containers with zero downtime..."
             if command -v docker-compose > /dev/null 2>&1; then
+              docker-compose down --remove-orphans || echo "⚠️ Some containers were not running"
               docker-compose up -d || { echo "❌ Failed to start containers"; exit 1; }
             else
+              docker compose down --remove-orphans || echo "⚠️ Some containers were not running"
               docker compose up -d || { echo "❌ Failed to start containers"; exit 1; }
             fi
             
