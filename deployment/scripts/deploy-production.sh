@@ -1,14 +1,15 @@
 #!/bin/bash
 
 # Hanaya Shop - Production Deployment Script
-# This script should be placed on the production server
+# This script should be placed on the production server at /opt/hanaya-shop/scripts/
 
 set -e
 
 # Configuration
 PROJECT_DIR="/opt/hanaya-shop"
-BACKUP_DIR="/opt/hanaya-shop/backups"
+BACKUP_DIR="/opt/hanaya-shop/backups/db"
 LOG_FILE="/opt/hanaya-shop/logs/deploy.log"
+SCRIPTS_DIR="/opt/hanaya-shop/scripts"
 
 # Colors for output
 RED='\033[0;31m'
@@ -40,10 +41,11 @@ if [ "$EUID" -ne 0 ]; then
     error "Please run as root or with sudo"
 fi
 
-# Create necessary directories (using existing structure)
-mkdir -p "$BACKUP_DIR/db" "$BACKUP_DIR/containers" "/opt/hanaya-shop/logs"
-
+# Ensure we're in the project directory
 cd "$PROJECT_DIR" || error "Cannot access project directory: $PROJECT_DIR"
+
+# Create log file if not exists
+mkdir -p "$(dirname "$LOG_FILE")"
 
 log "🚀 Starting Hanaya Shop deployment..."
 
@@ -64,16 +66,15 @@ if ! docker compose ps | grep -q "Up"; then
     warning "Some containers are not running"
 fi
 
-# 2. Create backup
+# 2. Create backup (using existing backup script structure)
 log "💾 Creating backup..."
-BACKUP_DATE=$(date +%Y%m%d_%H%M%S)
+BACKUP_DATE=$(date +"%Y-%m-%d_%H-%M-%S")
 
-# Backup database
+# Backup database using the same method as update-image.sh
 log "Backing up database..."
-docker compose exec -T db mysqldump -u root -pTrungnghia2703 --all-databases > "$BACKUP_DIR/db/backup_$BACKUP_DATE.sql" || warning "Database backup failed"
-
-# Backup container states
-docker compose ps --format "table {{.Name}}\t{{.Status}}\t{{.Ports}}" > "$BACKUP_DIR/containers/containers_$BACKUP_DATE.log"
+BACKUP_FILE="$BACKUP_DIR/hanaya_shop_$BACKUP_DATE.sql.gz"
+docker compose exec db sh -c "mysqldump -u root -p'Trungnghia2703' --single-transaction hanaya_shop | gzip > /backups/hanaya_shop_$BACKUP_DATE.sql.gz" || warning "Database backup failed"
+log "Backup completed: $BACKUP_FILE"
 
 # 3. Pull latest images
 log "🔄 Pulling latest Docker images..."
@@ -94,34 +95,48 @@ docker compose up -d || error "Failed to start services"
 log "⏳ Waiting for services to be ready..."
 sleep 30
 
-# 5. Run Laravel optimizations
+# 5. Run Laravel optimizations (matching update-image.sh approach)
 log "🏗️ Running Laravel optimizations..."
-docker compose exec -T app php artisan config:cache || warning "Config cache failed"
-docker compose exec -T app php artisan route:cache || warning "Route cache failed"
-docker compose exec -T app php artisan view:cache || warning "View cache failed"
+docker compose exec app php artisan cache:clear || warning "Cache clear failed"
+docker compose exec app php artisan config:clear || warning "Config clear failed"
+docker compose exec app php artisan route:clear || warning "Route clear failed"
+docker compose exec app php artisan view:clear || warning "View clear failed"
+docker compose exec app php artisan optimize:clear || warning "Optimize clear failed"
+docker compose exec app php artisan optimize || warning "Optimize failed"
 
-# 6. Health checks
+# 6. Health checks (matching update-image.sh approach)
 log "🏥 Performing health checks..."
+sleep 5
 
-# Check web server
-if curl -f -s http://localhost/health > /dev/null; then
-    success "Web server is healthy"
+# Check web server health endpoint
+HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost/health)
+if [ "$HTTP_CODE" -eq 200 ]; then
+    success "Application is healthy! Response code: $HTTP_CODE"
 else
-    error "Web server health check failed"
+    warning "Application health check failed. Response code: $HTTP_CODE"
+    log "Showing recent app logs for debugging:"
+    docker compose logs app --tail=30
 fi
 
-# Check database connection
-if docker compose exec -T app php artisan tinker --execute="DB::connection()->getPdo(); echo 'Database OK';" | grep -q "Database OK"; then
-    success "Database connection is healthy"
-else
-    warning "Database connection check failed"
-fi
-
-# Check Redis connection
-if docker compose exec -T redis redis-cli ping | grep -q "PONG"; then
+# Check individual services
+if docker compose exec redis redis-cli ping | grep -q "PONG"; then
     success "Redis is healthy"
 else
     warning "Redis health check failed"
+fi
+
+# Check database
+if docker compose exec db mysqladmin ping -h localhost -u root -p'Trungnghia2703' > /dev/null 2>&1; then
+    success "Database is healthy"
+else
+    warning "Database health check failed"
+fi
+
+# Check queue worker
+if docker compose ps queue | grep -q "Up"; then
+    success "Queue worker is running"
+else
+    warning "Queue worker is not running"
 fi
 
 # 7. Clean up
@@ -136,6 +151,17 @@ docker compose ps
 success "🎉 Deployment completed successfully!"
 log "📝 Logs available at: $LOG_FILE"
 log "🔗 Application URL: http://www.hanayashop.com"
+
+# Display browser cache clearing instructions (matching update-image.sh)
+echo "============================================================"
+echo "Để đảm bảo dữ liệu mới nhất, hãy xóa cache trình duyệt:"
+echo "- Nhấn Ctrl+Shift+R hoặc Ctrl+F5 trên trình duyệt để reload cứng."
+echo "- Hoặc vào Cài đặt > Lịch sử > Xóa dữ liệu duyệt web."
+echo "============================================================"
+
+echo "===== DEPLOYMENT COMPLETE ====="
+echo "Hanaya Shop has been updated to the latest version."
+echo "Finished at $(date)"
 
 # Send notification (optional - requires setup)
 # curl -X POST -H 'Content-type: application/json' \

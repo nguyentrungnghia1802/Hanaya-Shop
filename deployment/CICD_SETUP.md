@@ -102,14 +102,19 @@ On your Ubuntu server, ensure:
 sudo mkdir -p /opt/hanaya-shop
 cd /opt/hanaya-shop
 
-# Create necessary directories
-sudo mkdir -p backups/db backups/logs logs/app logs/redis public/images
+# Create necessary directories (matching server structure)
+sudo mkdir -p backups/db logs/app logs/redis public/images scripts
 
 # Set permissions
 sudo chown -R $USER:$USER /opt/hanaya-shop
 
 # Create docker-compose.yml (copy your production compose file)
 # Make sure it uses the correct image: assassincreed2k1/hanaya-shop:latest
+
+# Copy deployment scripts to server
+# Place deploy-production.sh in /opt/hanaya-shop/scripts/
+# Make scripts executable
+chmod +x /opt/hanaya-shop/scripts/*.sh
 ```
 
 ## Testing the Pipeline
