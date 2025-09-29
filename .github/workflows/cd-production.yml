@@ -43,7 +43,7 @@ jobs:
         with:
           host: ${{ secrets.PRODUCTION_HOST }}
           username: ${{ secrets.PRODUCTION_USER }}
-          password: ${{ secrets.PRODUCTION_PASSWORD }}
+          key: ${{ secrets.PRODUCTION_SSH_KEY }}
           port: 22
           script: |
             cd /opt/hanaya-shop
