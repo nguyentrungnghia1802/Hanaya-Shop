@@ -796,10 +796,5 @@ hanaya-shop/
 
 ---
 
-</details>
-#   C I / C D   P i p e l i n e   T e s t   -   R e a d y   f o r   P r o d u c t i o n  
- #   C I / C D   T e s t   -   N e w   D o c k e r   T o k e n   W o r k i n g  
- #   F i x e d   S S H   a n d   S l a c k   i s s u e s  
- #   T e s t i n g   n e w   S S H   k e y   f o r   d e p l o y m e n t  
- #   T e s t i n g   n e w   S S H   k e y   f o r   d e p l o y m e n t  
+</details>#   T e s t i n g   C I / C D   w i t h   n e w   s e r v e r   1 5 7 . 1 7 3 . 1 2 7 . 2 1 7  
  
