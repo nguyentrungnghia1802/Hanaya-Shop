@@ -61,27 +61,45 @@ jobs:
             echo "🔗 Connected to production server successfully!"
             cd /opt/hanaya-shop || { echo "❌ Project directory not found"; exit 1; }
             
-            echo "🚀 Pulling latest Docker image..."
+            echo "� Current directory: $(pwd)"
+            echo "📋 Checking docker-compose services..."
             if command -v docker-compose > /dev/null 2>&1; then
-              docker-compose pull hanaya-shop || { echo "❌ Failed to pull image"; exit 1; }
+              docker-compose config --services
             else
-              docker compose pull hanaya-shop || { echo "❌ Failed to pull image"; exit 1; }
+              docker compose config --services
+            fi
+            
+            echo "�🚀 Pulling latest Docker images..."
+            if command -v docker-compose > /dev/null 2>&1; then
+              docker-compose pull || { echo "❌ Failed to pull images"; exit 1; }
+            else
+              docker compose pull || { echo "❌ Failed to pull images"; exit 1; }
             fi
             
             echo "📦 Restarting containers with zero downtime..."
             if command -v docker-compose > /dev/null 2>&1; then
-              docker-compose up -d hanaya-shop || { echo "❌ Failed to start containers"; exit 1; }
+              docker-compose up -d || { echo "❌ Failed to start containers"; exit 1; }
             else
-              docker compose up -d hanaya-shop || { echo "❌ Failed to start containers"; exit 1; }
+              docker compose up -d || { echo "❌ Failed to start containers"; exit 1; }
             fi
             
             echo "🧹 Cleaning up old Docker images..."
             docker system prune -f || echo "⚠️  Cleanup failed but continuing..."
             
             echo "🔍 Verifying deployment..."
-            if docker ps --filter name=hanaya-shop | grep -q "Up"; then
-              echo "✅ Deployment successful! Container is running."
-              docker ps --filter name=hanaya-shop --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+            if command -v docker-compose > /dev/null 2>&1; then
+              CONTAINERS=$(docker-compose ps --services --filter "status=running")
+            else
+              CONTAINERS=$(docker compose ps --services --filter "status=running")
+            fi
+            
+            if [ ! -z "$CONTAINERS" ]; then
+              echo "✅ Deployment successful! Running containers:"
+              if command -v docker-compose > /dev/null 2>&1; then
+                docker-compose ps
+              else
+                docker compose ps
+              fi
               
               # Health check the application
               echo "🏥 Performing health check..."
@@ -89,10 +107,10 @@ jobs:
               if curl -f http://localhost/health > /dev/null 2>&1 || curl -f http://localhost > /dev/null 2>&1; then
                 echo "✅ Application health check passed!"
               else
-                echo "⚠️  Health check failed, but container is running"
+                echo "⚠️  Health check failed, but containers are running"
               fi
             else
-              echo "❌ Deployment failed! Container not running."
+              echo "❌ Deployment failed! No containers running."
               exit 1
             fi
             
