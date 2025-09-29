@@ -49,7 +49,6 @@ RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoload
 
 # Copy source code
 COPY . .
-COPY .env.production .env
 
 # Copy built frontend assets from frontend-builder stage
 COPY --from=frontend-builder /app/public/build ./public/build
