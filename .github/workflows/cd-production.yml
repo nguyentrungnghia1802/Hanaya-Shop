@@ -40,25 +40,42 @@ jobs:
 
       - name: Deploy to Production Server
         run: |
-          # Install sshpass for password authentication
-          sudo apt-get update && sudo apt-get install -y sshpass
+          # Install expect for password authentication
+          sudo apt-get install -y expect
           
-          # Deploy via SSH with password
-          sshpass -p "${{ secrets.PRODUCTION_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.PRODUCTION_USER }}@${{ secrets.PRODUCTION_HOST }} << 'EOF'
-            cd /opt/hanaya-shop
-            
-            echo "🚀 Pulling latest Docker image..."
-            docker-compose pull hanaya-shop
-            
-            echo "📦 Restarting containers..."
-            docker-compose up -d hanaya-shop
-            
-            echo "🧹 Cleaning up old images..."
-            docker system prune -f
-            
-            echo "✅ Deployment completed!"
-            docker ps --filter name=hanaya-shop
-          EOF
+          # Create expect script for SSH authentication
+          cat > deploy_script.exp << 'EXPECTEOF'
+          #!/usr/bin/expect -f
+          set timeout 60
+          spawn ssh -o StrictHostKeyChecking=no ${{ secrets.PRODUCTION_USER }}@${{ secrets.PRODUCTION_HOST }}
+          expect "password:"
+          send "${{ secrets.PRODUCTION_PASSWORD }}\r"
+          expect "$ "
+          send "cd /opt/hanaya-shop\r"
+          expect "$ "
+          send "echo '🚀 Pulling latest Docker image...'\r"
+          expect "$ "
+          send "docker-compose pull hanaya-shop\r"
+          expect "$ "
+          send "echo '📦 Restarting containers...'\r"  
+          expect "$ "
+          send "docker-compose up -d hanaya-shop\r"
+          expect "$ "
+          send "echo '🧹 Cleaning up old images...'\r"
+          expect "$ "
+          send "docker system prune -f\r"
+          expect "$ "
+          send "echo '✅ Deployment completed!'\r"
+          expect "$ "
+          send "docker ps --filter name=hanaya-shop\r"
+          expect "$ "
+          send "exit\r"
+          expect eof
+          EXPECTEOF
+          
+          # Execute expect script
+          chmod +x deploy_script.exp
+          ./deploy_script.exp
 
       # Deployment completed successfully
       - name: Deployment Success
