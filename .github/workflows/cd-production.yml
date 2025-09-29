@@ -74,6 +74,15 @@ jobs:
             if docker ps --filter name=hanaya-shop | grep -q "Up"; then
               echo "✅ Deployment successful! Container is running."
               docker ps --filter name=hanaya-shop --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+              
+              # Health check the application
+              echo "🏥 Performing health check..."
+              sleep 10  # Wait for container to fully start
+              if curl -f http://localhost/health > /dev/null 2>&1 || curl -f http://localhost > /dev/null 2>&1; then
+                echo "✅ Application health check passed!"
+              else
+                echo "⚠️  Health check failed, but container is running"
+              fi
             else
               echo "❌ Deployment failed! Container not running."
               exit 1
