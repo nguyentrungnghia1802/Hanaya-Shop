@@ -1,0 +1,4 @@
+# This directory is used by Laravel to cache configuration and compiled views
+# It needs to exist for Docker build process
+*
+!.gitkeep
