@@ -34,3 +34,15 @@ public/hot
 
 # docker
 docker-compose.production.yml
+
+# SSH Keys - NEVER commit these!
+*.pem
+*.key
+*_rsa
+*_deploy_key*
+id_rsa*
+hanaya_deploy_key*
+
+# CI/CD Sensitive Files
+.env.production
+*.secret
