@@ -39,13 +39,28 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Deploy to Production Server
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.PRODUCTION_HOST }}
-          username: ${{ secrets.PRODUCTION_USER }}
-          key: ${{ secrets.PRODUCTION_SSH_KEY }}
-          port: 22
-          script_stop: true
+        run: |
+          # Setup SSH key
+          mkdir -p ~/.ssh
+          echo "${{ secrets.PRODUCTION_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          
+          # Deploy via SSH
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ${{ secrets.PRODUCTION_USER }}@${{ secrets.PRODUCTION_HOST }} << 'EOF'
+            cd /opt/hanaya-shop
+            
+            echo "🚀 Pulling latest Docker image..."
+            docker-compose pull hanaya-shop
+            
+            echo "📦 Restarting containers..."
+            docker-compose up -d hanaya-shop
+            
+            echo "🧹 Cleaning up old images..."
+            docker system prune -f
+            
+            echo "✅ Deployment completed!"
+            docker ps --filter name=hanaya-shop
+          EOF
           script: |
             # Navigate to project directory
             cd /opt/hanaya-shop
