@@ -113,6 +113,8 @@ jobs:
           echo "SESSION_DRIVER=array" >> .env
           echo "QUEUE_CONNECTION=sync" >> .env
           echo "MAIL_MAILER=array" >> .env
+          echo "MAIL_FROM_ADDRESS=test@example.com" >> .env
+          echo "MAIL_FROM_NAME=\"Test Application\"" >> .env
 
       - name: Create storage directories
         run: |
