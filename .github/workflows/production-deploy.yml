@@ -18,22 +18,7 @@ on:
   # Only validate PRs to main, don't deploy
   pull_request:
     branches: [main]
-    types: [opened, syn      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-                docker pull ${{ env.DOCKER_IMAGE }}:latest   uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.DOCKER_IMAGE }}
-          tags: |
-            type=raw,value=latest,enable={{is_default_branch}}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=ghaready_for_review]
+    types: [opened, synchronize, ready_for_review]
     paths-ignore:
       - 'README.md'
       - 'docs/**'
