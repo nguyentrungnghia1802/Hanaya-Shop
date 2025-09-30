@@ -19,13 +19,13 @@ class CategoryFactory extends Factory
             ['name' => 'Phụ kiện', 'description' => 'Các phụ kiện trang trí và làm đẹp'],
         ];
         static $index = 0;
-        
+
         $category = $categories[$index] ?? [
             'name' => $this->faker->unique()->words(2, true),
-            'description' => $this->faker->sentence
+            'description' => $this->faker->sentence,
         ];
         $index++;
-        
+
         return [
             'name' => $category['name'],
             'description' => $category['description'],

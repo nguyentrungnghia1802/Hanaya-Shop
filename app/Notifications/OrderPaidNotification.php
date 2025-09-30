@@ -4,10 +4,9 @@ namespace App\Notifications;
 
 use App\Models\Order\Order;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class OrderPaidNotification extends Notification implements ShouldQueue
 {
@@ -15,6 +14,7 @@ class OrderPaidNotification extends Notification implements ShouldQueue
     // Admin notifications sent immediately for reliability
 
     protected $order;
+
     public $locale;
 
     /**
@@ -50,7 +50,7 @@ class OrderPaidNotification extends Notification implements ShouldQueue
             ->greeting(__('notifications.payment_confirmed_greeting', ['name' => $notifiable->name]))
             ->line(__('notifications.payment_confirmed_line1', ['order_id' => $this->order->id]))
             ->line(__('notifications.payment_confirmed_line2', ['amount' => number_format($this->order->total_price, 2, '.', ',')]))
-            ->action(__('notifications.view_order_details'), config('app.url') . '/admin/order/' . $this->order->id)
+            ->action(__('notifications.view_order_details'), config('app.url').'/admin/order/'.$this->order->id)
             ->line(__('notifications.payment_confirmed_line3'));
     }
 
@@ -66,8 +66,8 @@ class OrderPaidNotification extends Notification implements ShouldQueue
 
         return [
             'order_id' => $this->order->id,
-            'amount'   => $this->order->total_price,
-            'message'  => __('notifications.payment_confirmed_message', ['order_id' => $this->order->id]),
+            'amount' => $this->order->total_price,
+            'message' => __('notifications.payment_confirmed_message', ['order_id' => $this->order->id]),
         ];
     }
 }

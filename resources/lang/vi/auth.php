@@ -49,7 +49,7 @@ return [
     'click_here_to_resend_verification_email' => 'Nhấn vào đây để gửi lại email xác thực.',
     'verification_link_sent_notification' => 'Một liên kết xác thực mới đã được gửi đến email của bạn.',
     'profile' => 'Hồ sơ',
-    
+
     // Hệ thống xác thực email mới
     'verify_email_title' => 'Xác Thực Địa Chỉ Email',
     'verify_email_sent' => 'Chúng tôi đã gửi liên kết xác thực đến địa chỉ email của bạn:',
@@ -58,7 +58,7 @@ return [
     'resend_verification_email' => 'Gửi Lại Email Xác Thực',
     'register_different_email' => 'Đăng ký với email khác',
     'verification_link_resent' => 'Liên kết xác thực đã được gửi thành công!',
-    
+
     // Xác thực email thành công
     'verification_success_title' => 'Email Đã Được Xác Thực Thành Công!',
     'verification_success_message' => 'Địa chỉ email của bạn đã được xác thực và tài khoản hiện đã hoạt động.',
@@ -67,7 +67,7 @@ return [
     'go_to_dashboard' => 'Đi Đến Bảng Điều Khiển',
     'continue_shopping' => 'Tiếp Tục Mua Sắm',
     'verification_completed_at' => 'Xác thực hoàn tất lúc:',
-    
+
     // Mẫu email
     'verify_email_subject' => 'Xác Thực Địa Chỉ Email - Hanaya Shop',
     'email_greeting' => 'Cảm ơn bạn đã đăng ký với Hanaya Shop!',
@@ -77,7 +77,7 @@ return [
     'email_manual_copy' => 'Nếu nút không hoạt động, bạn có thể sao chép và dán liên kết này vào trình duyệt:',
     'email_not_requested' => 'Nếu bạn không yêu cầu tài khoản này, vui lòng bỏ qua email này.',
     'email_footer' => 'Cảm ơn bạn đã chọn :shop',
-    
+
     // Liên hệ hỗ trợ
     'need_help' => 'Cần hỗ trợ xác thực?',
     'contact_support' => 'Liên Hệ Hỗ Trợ',
@@ -91,7 +91,7 @@ Email cần hỗ trợ xác thực: :email
 Xin vui lòng giúp tôi giải quyết vấn đề này.
 
 Cảm ơn!',
-    
+
     // Yêu cầu Gmail
     'create_account' => 'Tạo Tài Khoản',
     'create_account_description' => 'Tham gia Hanaya Shop và bắt đầu hành trình mua sắm của bạn',
@@ -101,7 +101,7 @@ Cảm ơn!',
     'gmail_for_password_recovery' => 'Khôi phục mật khẩu an toàn và truy cập tài khoản',
     // 'gmail_for_account_security' => 'Tăng cường bảo mật tài khoản và xác thực',
     'gmail_required_note' => 'Địa chỉ Gmail được yêu cầu cho thông báo và bảo mật',
-    
+
     // Thông báo lỗi
     'invalid_verification_token' => 'Mã xác thực không hợp lệ hoặc đã hết hạn.',
     'verification_token_expired' => 'Mã xác thực đã hết hạn. Vui lòng đăng ký lại.',
@@ -112,7 +112,7 @@ Cảm ơn!',
     'name_placeholder' => 'Nhập họ và tên',
     'confirm_password_placeholder' => 'Nhập lại mật khẩu',
 
-    //Notes
+    // Notes
     'notice' => 'Lưu ý',
     'password_requirement_title' => 'Yêu cầu mật khẩu',
     'password_requirement_description' => 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số, ký tự đặc biệt và không có khoảng trắng.',

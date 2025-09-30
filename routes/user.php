@@ -1,15 +1,15 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\User\DashboardController as UserDashboardController;
-use App\Http\Controllers\User\ProductController as ProductController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\CheckoutController;
+use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\User\OrderController;
 use App\Http\Controllers\User\PostController;
+use App\Http\Controllers\User\ProductController;
 use App\Http\Controllers\User\ReviewController;
-use App\Http\Controllers\AddressController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', [UserDashboardController::class, 'index'])->name('dashboard');
 
@@ -30,7 +30,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
     Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
-    Route::post('/cart', [CartController::class,'buyNow'])->name('cart.buyNow');
+    Route::post('/cart', [CartController::class, 'buyNow'])->name('cart.buyNow');
 
     // Checkout routes (authentication required)
     Route::post('/checkout-preview', [CheckoutController::class, 'preview'])->name('checkout.preview');
@@ -58,4 +58,4 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/review', [ReviewController::class, 'store'])->name('review.store');
     Route::get('/product/{id}/reviews', [ReviewController::class, 'getProductReviews'])->name('product.reviews');
 
-}); 
+});

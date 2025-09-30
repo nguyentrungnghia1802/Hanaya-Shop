@@ -14,6 +14,7 @@ class CustomerOrderCompletedNotification extends Notification implements ShouldQ
     use Queueable;
 
     protected $order;
+
     public $locale;
 
     /**
@@ -49,7 +50,7 @@ class CustomerOrderCompletedNotification extends Notification implements ShouldQ
             ->greeting(__('notifications.order_completed_greeting', ['name' => $notifiable->name]))
             ->line(__('notifications.order_completed_line1', ['order_id' => $this->order->id]))
             ->line(__('notifications.order_completed_line2'))
-            ->action(__('notifications.view_order_details'), config('app.url') . '/order/' . $this->order->id)
+            ->action(__('notifications.view_order_details'), config('app.url').'/order/'.$this->order->id)
             ->line(__('notifications.order_completed_line3'));
     }
 
@@ -62,7 +63,7 @@ class CustomerOrderCompletedNotification extends Notification implements ShouldQ
     {
         return [
             'order_id' => $this->order->id,
-            'message'  => __('notifications.order_completed_message', ['order_id' => $this->order->id]),
+            'message' => __('notifications.order_completed_message', ['order_id' => $this->order->id]),
         ];
     }
 }

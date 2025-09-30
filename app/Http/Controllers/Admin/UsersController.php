@@ -1,12 +1,13 @@
 <?php
+
 /**
  * Admin Users Controller
- * 
+ *
  * This controller handles user management functionality for the admin panel
  * in the Hanaya Shop e-commerce application. It provides comprehensive CRUD
  * operations for user accounts, including creation, editing, deletion, and
  * detailed user information viewing.
- * 
+ *
  * Key Features:
  * - User listing with pagination and search functionality
  * - Bulk user creation with validation
@@ -16,31 +17,31 @@
  * - Cache management for performance optimization
  * - Role-based access control and security
  * - AJAX support for seamless user experience
- * 
+ *
  * Security Features:
  * - Prevents admin self-modification/deletion
  * - Role validation and authorization
  * - Input sanitization and validation
  * - Password encryption for user security
- * 
- * @package App\Http\Controllers\Admin
+ *
  * @author Hanaya Shop Development Team
+ *
  * @version 1.0
  */
 
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;         // HTTP request handling
-use App\Models\User;                 // User model for database operations
-use Illuminate\Support\Facades\Cache; // Cache management for performance
-use App\Models\Order\Order;          // Order model for user statistics
-use App\Models\Cart\Cart;            // Cart model for user activity
-use Illuminate\Support\Facades\Auth; // Authentication services
+use App\Models\Cart\Cart;         // HTTP request handling
+use App\Models\Order\Order;                 // User model for database operations
+use App\Models\User; // Cache management for performance
+use Illuminate\Http\Request;          // Order model for user statistics
+use Illuminate\Support\Facades\Auth;            // Cart model for user activity
+use Illuminate\Support\Facades\Cache; // Authentication services
 
 /**
  * Users Controller Class
- * 
+ *
  * Manages all user-related administrative functions including account creation,
  * modification, deletion, and detailed user analytics. Implements security
  * measures to prevent unauthorized access and self-modification.
@@ -49,16 +50,16 @@ class UsersController extends Controller
 {
     /**
      * Display User List with Pagination
-     * 
+     *
      * Shows a paginated list of all users excluding the current admin.
      * This prevents the admin from accidentally modifying or deleting their own account.
      * Uses pagination instead of caching to ensure real-time data accuracy for admin operations.
-     * 
+     *
      * Performance Considerations:
      * - Pagination (20 users per page) for better page load times
      * - Excludes current admin for security and UX
      * - No caching for real-time admin data accuracy
-     * 
+     *
      * @return \Illuminate\View\View User index view with paginated users
      */
     public function index()
@@ -70,16 +71,17 @@ class UsersController extends Controller
          * Pagination improves performance for large user databases
          */
         $users = User::where('id', '!=', Auth::id())->paginate(20); // 20 users per page, exclude current admin
+
         return view('admin.users.index', compact('users'));
     }
 
     /**
      * Show User Creation Form
-     * 
+     *
      * Displays the form for creating new user accounts.
      * Supports both single and bulk user creation for administrative efficiency.
      * Form includes all necessary fields with proper validation rules.
-     * 
+     *
      * @return \Illuminate\View\View User creation form view
      */
     public function create()
@@ -89,24 +91,24 @@ class UsersController extends Controller
 
     /**
      * Store Multiple New Users
-     * 
+     *
      * Handles bulk user creation from the admin panel.
      * Validates all user data, encrypts passwords, and creates multiple accounts simultaneously.
      * Clears cache after creation to ensure fresh data on subsequent requests.
-     * 
+     *
      * Validation Rules:
      * - users: Required array with at least one user
      * - name: Required string, maximum 255 characters
      * - email: Required, valid email format, must be unique
      * - password: Required string, minimum 6 characters
      * - role: Required, must be either 'user' or 'admin'
-     * 
+     *
      * Security Features:
      * - Password encryption using bcrypt
      * - Email uniqueness validation
      * - Role validation to prevent unauthorized role assignment
-     * 
-     * @param \Illuminate\Http\Request $request HTTP request with user data array
+     *
+     * @param  \Illuminate\Http\Request  $request  HTTP request with user data array
      * @return \Illuminate\Http\RedirectResponse Redirect to user list with success message
      */
     public function store(Request $request)
@@ -153,17 +155,17 @@ class UsersController extends Controller
 
     /**
      * Show User Edit Form
-     * 
+     *
      * Displays the form for editing an existing user account.
      * Includes security check to prevent admin self-modification.
      * Pre-populates form with current user data for easy editing.
-     * 
+     *
      * Security Features:
      * - Prevents admin from editing their own account
      * - User existence validation
      * - Role-based access control
-     * 
-     * @param int $id User ID to edit
+     *
+     * @param  int  $id  User ID to edit
      * @return \Illuminate\View\View User edit form with current data
      */
     public function edit($id)
@@ -177,32 +179,33 @@ class UsersController extends Controller
         if ($id == Auth::id()) {
             abort(403, __('admin.you_cannot_edit_yourself'));
         }
-        
+
         $user = User::findOrFail($id); // Find user or throw 404 error
+
         return view('admin.users.edit', compact('user'));
     }
 
     /**
      * Update User Information
-     * 
+     *
      * Updates user account information with comprehensive validation.
      * Supports optional password updates and role changes.
      * Includes security measures and cache management.
-     * 
+     *
      * Update Features:
      * - Name and email modification
      * - Role changes with validation
      * - Optional password updates
      * - Email uniqueness validation (excluding current user)
-     * 
+     *
      * Security Features:
      * - Self-modification prevention
      * - Password encryption when updated
      * - Role validation
      * - Input sanitization
-     * 
-     * @param \Illuminate\Http\Request $request HTTP request with updated user data
-     * @param int $id User ID to update
+     *
+     * @param  \Illuminate\Http\Request  $request  HTTP request with updated user data
+     * @param  int  $id  User ID to update
      * @return \Illuminate\Http\RedirectResponse Redirect to user list with success message
      */
     public function update(Request $request, $id)
@@ -216,7 +219,7 @@ class UsersController extends Controller
         if ($id == Auth::id()) {
             abort(403, __('admin.you_cannot_edit_yourself'));
         }
-        
+
         $user = User::findOrFail($id);
 
         // Input Validation for User Updates
@@ -227,7 +230,7 @@ class UsersController extends Controller
          */
         $request->validate([
             'name' => 'required|string|max:255',                      // Name validation
-            'email' => 'required|email|unique:users,email,' . $user->getKey(), // Email with uniqueness exception
+            'email' => 'required|email|unique:users,email,'.$user->getKey(), // Email with uniqueness exception
             'role' => 'required|in:user,admin',                       // Role validation
             'password' => 'nullable|string|min:6',                    // Optional password update
         ]);
@@ -267,21 +270,21 @@ class UsersController extends Controller
 
     /**
      * Delete Multiple Users
-     * 
+     *
      * Handles bulk user deletion with security measures and AJAX support.
      * Prevents admin from deleting their own account and provides flexible response types.
      * Supports both regular form submissions and AJAX requests.
-     * 
+     *
      * Security Features:
      * - Admin self-deletion prevention
      * - ID validation and sanitization
      * - Role-based access control
-     * 
+     *
      * Response Types:
      * - JSON response for AJAX requests
      * - Redirect response for form submissions
-     * 
-     * @param \Illuminate\Http\Request $request HTTP request with user IDs to delete
+     *
+     * @param  \Illuminate\Http\Request  $request  HTTP request with user IDs to delete
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse Appropriate response based on request type
      */
     public function destroy(Request $request)
@@ -293,15 +296,19 @@ class UsersController extends Controller
          * Array normalization ensures consistent processing
          */
         $ids = $request->input('ids', []);
-        if (!is_array($ids)) $ids = [$ids];           // Normalize to array format
+        if (! is_array($ids)) {
+            $ids = [$ids];
+        }           // Normalize to array format
         $ids = array_diff($ids, [Auth::id()]);        // Remove admin's own ID for security
-        
+
         $blockedUsers = [];
         $deletableIds = [];
-        
+
         foreach ($ids as $id) {
             $user = User::find($id);
-            if (!$user) continue;
+            if (! $user) {
+                continue;
+            }
 
             $orders = $user->order()
                 ->whereIn('status', ['pending', 'processing', 'shipped'])
@@ -314,7 +321,7 @@ class UsersController extends Controller
             }
         }
 
-        if (!empty($deletableIds)) {
+        if (! empty($deletableIds)) {
             User::whereIn('id', $deletableIds)->delete();
         }
 
@@ -335,33 +342,33 @@ class UsersController extends Controller
 
         // Chỉ có JavaScript gửi request DELETE tới route 'admin.user'
         // nên luôn trả về JSON response
-        if (!empty($blockedUsers)) {
+        if (! empty($blockedUsers)) {
             return response()->json([
                 'success' => false,
                 'message' => __('admin.cannot_delete_user_with_active_orders'),
-                'blocked' => $blockedUsers
+                'blocked' => $blockedUsers,
             ]);
         }
 
         return response()->json([
-            'success' => true, 
-            'message' => __('admin.message_selected_account_delete')
+            'success' => true,
+            'message' => __('admin.message_selected_account_delete'),
         ]);
     }
 
     /**
      * Delete Single User by ID
-     * 
+     *
      * Deletes a specific user account using route parameter ID.
      * Includes security measures and supports both AJAX and traditional requests.
      * Complementary method to bulk deletion for single-user operations.
-     * 
+     *
      * Security Features:
      * - Self-deletion prevention
      * - User existence validation
      * - Role-based access control
-     * 
-     * @param int $id User ID to delete
+     *
+     * @param  int  $id  User ID to delete
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse Appropriate response based on request type
      */
     public function destroySingle($id)
@@ -383,7 +390,7 @@ class UsersController extends Controller
         if ($orders > 0) {
             return response()->json([
                 'success' => false,
-                'message' => __('admin.cannot_delete_user_with_active_orders')
+                'message' => __('admin.cannot_delete_user_with_active_orders'),
             ]);
         }
         $user->delete();            // Delete user account
@@ -411,17 +418,17 @@ class UsersController extends Controller
 
     /**
      * Show User Details with Related Data
-     * 
+     *
      * Displays comprehensive user information including orders and cart contents.
      * Provides admin insight into user activity and purchasing behavior.
      * Useful for customer service and user account analysis.
-     * 
+     *
      * Related Data:
      * - User orders with order details
      * - Cart contents with product information
      * - User account information
-     * 
-     * @param int $id User ID to display
+     *
+     * @param  int  $id  User ID to display
      * @return \Illuminate\View\View User detail view with related data
      */
     public function show($id)
@@ -449,18 +456,18 @@ class UsersController extends Controller
 
     /**
      * Search Users by Name or Email
-     * 
+     *
      * Provides AJAX-powered search functionality for the user management interface.
      * Searches across user names and email addresses for flexible user discovery.
      * Returns HTML table rows for seamless integration with existing interface.
-     * 
+     *
      * Search Features:
      * - Name and email search
      * - Partial match support with LIKE queries
      * - Excludes current admin from results
      * - HTML response for direct DOM insertion
-     * 
-     * @param \Illuminate\Http\Request $request HTTP request with search query
+     *
+     * @param  \Illuminate\Http\Request  $request  HTTP request with search query
      * @return \Illuminate\Http\JsonResponse JSON response with HTML table rows
      */
     public function search(Request $request)
@@ -491,16 +498,16 @@ class UsersController extends Controller
             // Generate HTML for each found user
             foreach ($users as $user) {
                 $html .= '<tr>
-                    <td class="px-4 py-2 border-b"><input type="checkbox" class="check-user" value="' . $user->getKey() . '"></td>
-                    <td class="px-4 py-2 border-b">' . $user->getKey() . '</td>
-                    <td class="px-4 py-2 border-b">' . e($user->name) . '</td>
-                    <td class="px-4 py-2 border-b">' . e($user->email) . '</td>
-                    <td class="px-4 py-2 border-b">' . e($user->role) . '</td>
+                    <td class="px-4 py-2 border-b"><input type="checkbox" class="check-user" value="'.$user->getKey().'"></td>
+                    <td class="px-4 py-2 border-b">'.$user->getKey().'</td>
+                    <td class="px-4 py-2 border-b">'.e($user->name).'</td>
+                    <td class="px-4 py-2 border-b">'.e($user->email).'</td>
+                    <td class="px-4 py-2 border-b">'.e($user->role).'</td>
                     <td class="px-4 py-2 border-b">
                         <div class="flex flex-wrap gap-2">
-                            <a href="' . route('admin.user.edit', $user->getKey()) . '" class="px-3 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition">' . __('admin.edit') . '</a>
-                            <button type="button" class="px-3 py-1 bg-red-500 text-white text-xs font-medium rounded hover:bg-red-600 transition btn-delete" data-id="' . $user->getKey() . '">' . __('admin.delete') . '</button>
-                            <a href="' . route('admin.user.show', $user->getKey()) . '" class="px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">' . __('admin.view_details') . '</a>
+                            <a href="'.route('admin.user.edit', $user->getKey()).'" class="px-3 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition">'.__('admin.edit').'</a>
+                            <button type="button" class="px-3 py-1 bg-red-500 text-white text-xs font-medium rounded hover:bg-red-600 transition btn-delete" data-id="'.$user->getKey().'">'.__('admin.delete').'</button>
+                            <a href="'.route('admin.user.show', $user->getKey()).'" class="px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">'.__('admin.view_details').'</a>
                         </div>
                     </td>
                 </tr>';

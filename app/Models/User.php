@@ -1,12 +1,13 @@
 <?php
+
 /**
  * User Model
- * 
+ *
  * This model represents users/customers in the Hanaya Shop e-commerce application.
  * It handles user authentication, authorization, and relationships with other entities
  * like orders, reviews, shopping cart, and addresses. The model extends Laravel's
  * Authenticatable class to provide full authentication functionality.
- * 
+ *
  * Key Features:
  * - User authentication and session management
  * - Role-based access control (admin, user)
@@ -18,35 +19,35 @@
  * - Address management for shipping
  * - Blog post authoring (for admin users)
  * - Notification system integration
- * 
+ *
  * Database Relationships:
  * - Has many Orders (one-to-many)
  * - Has many Reviews (one-to-many)
  * - Has many Cart Items (one-to-many)
  * - Has many Addresses (one-to-many)
  * - Has many Posts (one-to-many)
- * 
- * @package App\Models
+ *
  * @author Hanaya Shop Development Team
+ *
  * @version 1.0
  */
 
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail; // Email verification interface (commented out)
-use Illuminate\Database\Eloquent\Factories\HasFactory; // Factory support for testing
-use Illuminate\Foundation\Auth\User as Authenticatable; // Laravel's authentication base class
-use Illuminate\Notifications\Notifiable;               // Notification system support
-use Illuminate\Auth\Passwords\CanResetPassword;        // Password reset functionality
-use App\Models\Order\Order;      // Order model for purchase tracking
-use App\Models\Product\Review;   // Review model for product feedback
-use App\Models\Cart\Cart;        // Shopping cart model
-use App\Notifications\ResetPassword as ResetPasswordNotification;  // Custom password reset notification
+use App\Models\Cart\Cart; // Factory support for testing
+use App\Models\Order\Order; // Laravel's authentication base class
+use App\Models\Product\Review;               // Notification system support
+use App\Notifications\ResetPassword as ResetPasswordNotification;        // Password reset functionality
+use Illuminate\Auth\Passwords\CanResetPassword;      // Order model for purchase tracking
+use Illuminate\Database\Eloquent\Factories\HasFactory;   // Review model for product feedback
+use Illuminate\Foundation\Auth\User as Authenticatable;        // Shopping cart model
+use Illuminate\Notifications\Notifiable;  // Custom password reset notification
 use Illuminate\Support\Facades\Session; // Session support for locale
 
 /**
  * User Model Class
- * 
+ *
  * Eloquent model representing users in the authentication and authorization system.
  * Extends Laravel's Authenticatable class to provide complete user management
  * functionality including authentication, authorization, and business relationships.
@@ -54,11 +55,11 @@ use Illuminate\Support\Facades\Session; // Session support for locale
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, CanResetPassword; // Enable model factories, notifications, and password reset
+    use CanResetPassword, HasFactory, Notifiable; // Enable model factories, notifications, and password reset
 
     /**
      * Mass Assignable Attributes
-     * 
+     *
      * Defines which attributes can be mass-assigned using create() or fill() methods.
      * This provides security by preventing unauthorized attribute modification
      * while allowing convenient user registration and profile updates.
@@ -74,7 +75,7 @@ class User extends Authenticatable
 
     /**
      * Hidden Attributes for Serialization
-     * 
+     *
      * Specifies attributes that should be hidden when the model is converted
      * to an array or JSON. This is crucial for security to prevent sensitive
      * data like passwords from being exposed in API responses.
@@ -88,7 +89,7 @@ class User extends Authenticatable
 
     /**
      * Attribute Casting Configuration
-     * 
+     *
      * Defines how attributes should be cast when accessed from the database.
      * This ensures proper data types and automatic transformations for
      * enhanced developer experience and data consistency.
@@ -113,7 +114,7 @@ class User extends Authenticatable
     {
         // Lấy locale hiện tại từ session hoặc sử dụng locale mặc định
         $locale = Session::get('locale', config('app.locale'));
-        
+
         // Gửi notification với locale
         $this->notify(new ResetPasswordNotification($token, $locale));
     }
@@ -132,11 +133,11 @@ class User extends Authenticatable
 
     /**
      * Check if User is Administrator
-     * 
+     *
      * Determines whether the user has administrative privileges.
      * Administrators have full access to the admin panel, can manage
      * products, orders, users, and have complete system control.
-     * 
+     *
      * @return bool True if user is an administrator, false otherwise
      */
     public function isAdmin(): bool
@@ -146,11 +147,11 @@ class User extends Authenticatable
 
     // /**
     //  * Check if User is Manager (Currently Disabled)
-    //  * 
+    //  *
     //  * Manager role functionality is commented out but preserved for
     //  * future implementation. Managers would have intermediate privileges
     //  * between regular users and administrators.
-    //  * 
+    //  *
     //  * @return bool True if user is a manager, false otherwise
     //  */
     // public function isManager(): bool
@@ -160,11 +161,11 @@ class User extends Authenticatable
 
     /**
      * Check if User is Regular Customer
-     * 
+     *
      * Determines whether the user is a regular customer with standard
      * privileges. Regular users can browse products, place orders,
      * write reviews, and manage their personal account information.
-     * 
+     *
      * @return bool True if user is a regular customer, false otherwise
      */
     public function isUser(): bool
@@ -176,11 +177,11 @@ class User extends Authenticatable
 
     /**
      * Orders Relationship
-     * 
+     *
      * Defines the one-to-many relationship between users and orders.
      * Each user can have multiple orders, enabling order history tracking,
      * purchase analytics, and customer service functionality.
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function order()
@@ -190,11 +191,11 @@ class User extends Authenticatable
 
     /**
      * Reviews Relationship
-     * 
+     *
      * Defines the one-to-many relationship between users and product reviews.
      * Users can write multiple reviews for different products, supporting
      * the product feedback and rating system.
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function review()
@@ -204,11 +205,11 @@ class User extends Authenticatable
 
     /**
      * Shopping Cart Relationship
-     * 
+     *
      * Defines the one-to-many relationship between users and cart items.
      * Each user can have multiple items in their shopping cart, supporting
      * the e-commerce shopping experience and purchase flow.
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function cart()
@@ -218,11 +219,11 @@ class User extends Authenticatable
 
     /**
      * Blog Posts Relationship
-     * 
+     *
      * Defines the one-to-many relationship between users and blog posts.
      * Primarily used for admin users who can create and manage blog content
      * for the website's content management system.
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function posts()
@@ -232,11 +233,11 @@ class User extends Authenticatable
 
     /**
      * Addresses Relationship
-     * 
+     *
      * Defines the one-to-many relationship between users and addresses.
      * Users can have multiple saved addresses for shipping and billing
      * purposes, improving checkout experience and order management.
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function addresses()

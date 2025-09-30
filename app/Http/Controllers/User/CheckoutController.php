@@ -1,13 +1,14 @@
 <?php
+
 /**
  * User Checkout Controller
- * 
+ *
  * This controller handles the complete checkout process for customers in the Hanaya Shop
  * e-commerce application. It manages the transition from shopping cart to completed order,
  * including order preview, validation, payment processing, and order confirmation.
  * The controller ensures data integrity through database transactions and provides
  * comprehensive error handling for a smooth checkout experience.
- * 
+ *
  * Key Features:
  * - Cart item validation and stock verification
  * - Order preview and confirmation workflow
@@ -19,40 +20,40 @@
  * - Email notifications to admins
  * - Transaction rollback on failures
  * - Session management for checkout flow
- * 
+ *
  * Checkout Flow:
  * 1. Cart → preview() → Validation & Session Storage
  * 2. index() → Checkout Form Display
  * 3. store() → Order Processing & Payment
  * 4. success() → Order Confirmation Page
- * 
- * @package App\Http\Controllers\User
+ *
  * @author Hanaya Shop Development Team
+ *
  * @version 1.0
  */
 
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;                    // HTTP request handling
-use Illuminate\Support\Facades\Auth;           // User authentication
-use Illuminate\Support\Facades\DB;             // Database transactions
-use App\Models\Order\Order;                    // Order model for order creation
-use App\Models\Order\OrderDetail;              // Order detail model for line items
+use App\Models\Address;                    // HTTP request handling
+use App\Models\Cart\Cart;           // User authentication
+use App\Models\Order\Order;             // Database transactions
+use App\Models\Order\OrderDetail;                    // Order model for order creation
+use App\Models\Order\Payment;              // Order detail model for line items
 use App\Models\Product\Product;                // Product model for inventory management
-use App\Models\Cart\Cart;                      // Cart model for cart operations
-use Illuminate\Support\Facades\Session;        // Session management
+use App\Models\User;                      // Cart model for cart operations
+use App\Notifications\CustomerNewOrderPending;        // Session management
 use App\Notifications\NewOrderPending;         // Admin notification for new orders
-use App\Notifications\CustomerNewOrderPending; // Customer notification for new orders
-use App\Models\User;                          // User model for admin notifications
-use App\Notifications\OrderCancelledNotification; // Order cancellation notifications
-use App\Notifications\OrderConfirmedNotification; // Order confirmation notifications
-use App\Models\Order\Payment;                  // Payment model for payment processing
-use App\Models\Address;                        // Address model for shipping information
+use Illuminate\Http\Request; // Customer notification for new orders
+use Illuminate\Support\Facades\Auth;                          // User model for admin notifications
+// Order cancellation notifications
+// Order confirmation notifications
+use Illuminate\Support\Facades\DB;                  // Payment model for payment processing
+use Illuminate\Support\Facades\Session;                        // Address model for shipping information
 
 /**
  * Checkout Controller Class
- * 
+ *
  * Manages the complete customer checkout process from cart validation
  * to order completion, including payment processing and notification handling.
  */
@@ -60,13 +61,13 @@ class CheckoutController extends Controller
 {
     /**
      * Preview Selected Cart Items and Validate Stock
-     * 
+     *
      * This method handles the initial checkout step where customers select items
      * from their cart to proceed to checkout. It validates product availability,
      * checks stock quantities, and stores selected items in session for the
      * checkout process. This prevents customers from ordering out-of-stock items.
-     * 
-     * @param Request $request HTTP request containing selected items JSON
+     *
+     * @param  Request  $request  HTTP request containing selected items JSON
      * @return \Illuminate\Http\RedirectResponse Redirect to checkout or back with errors
      */
     public function preview(Request $request)
@@ -106,7 +107,7 @@ class CheckoutController extends Controller
          * If any items have insufficient stock, prevent checkout and show errors
          * This maintains data integrity and prevents order fulfillment issues
          */
-        if (!empty($errorMessages)) {
+        if (! empty($errorMessages)) {
             return redirect()->back()->withErrors($errorMessages);
         }
 
@@ -124,12 +125,12 @@ class CheckoutController extends Controller
 
     /**
      * Display Checkout Form with Order Summary
-     * 
+     *
      * This method renders the main checkout page where customers can review
      * their order, select shipping address, choose payment method, and add
      * special instructions. It retrieves all necessary data for the checkout
      * form and ensures selected items are available.
-     * 
+     *
      * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse Checkout view or redirect
      */
     public function index()
@@ -180,12 +181,12 @@ class CheckoutController extends Controller
 
     /**
      * Display Order Success Page
-     * 
+     *
      * This method renders the order confirmation page after successful
      * order placement. It shows order details and confirmation information
      * to provide customers with peace of mind about their purchase.
-     * 
-     * @param Request $request HTTP request containing order ID
+     *
+     * @param  Request  $request  HTTP request containing order ID
      * @return \Illuminate\View\View Order success confirmation page
      */
     public function success(Request $request)
@@ -203,13 +204,13 @@ class CheckoutController extends Controller
 
     /**
      * Process Order Creation and Payment
-     * 
+     *
      * This method handles the core checkout processing including order creation,
      * payment processing, inventory updates, and notification sending. It uses
      * database transactions to ensure data consistency and provides comprehensive
      * error handling for various failure scenarios.
-     * 
-     * @param Request $request HTTP request containing order and payment data
+     *
+     * @param  Request  $request  HTTP request containing order and payment data
      * @return \Illuminate\Http\RedirectResponse Redirect to success or back with errors
      */
     public function store(Request $request)
@@ -232,7 +233,7 @@ class CheckoutController extends Controller
          */
         $request->validate([
             'address_id' => 'required|exists:addresses,id',
-            'payment_method' => 'required|in:' . implode(',', Payment::getAvailableMethods()),
+            'payment_method' => 'required|in:'.implode(',', Payment::getAvailableMethods()),
         ], [
             'address_id.required' => ((__('checkout.please_select_address'))),
             'address_id.exists' => ((__('checkout.invalid_address'))),
@@ -248,33 +249,33 @@ class CheckoutController extends Controller
          */
         $paymentMethod = $request->input('payment_method');
         $allowedMethods = Payment::getAvailableMethods();
-        
+
         // Validate payment method format
-        if (!is_string($paymentMethod) || empty(trim($paymentMethod))) {
+        if (! is_string($paymentMethod) || empty(trim($paymentMethod))) {
             \Illuminate\Support\Facades\Log::error('Payment method is not a valid string', [
                 'user_id' => $user->id,
                 'payment_method' => $paymentMethod,
-                'payment_method_type' => gettype($paymentMethod)
+                'payment_method_type' => gettype($paymentMethod),
             ]);
-            
+
             return redirect()
                 ->route('checkout.index')
                 ->with('error', ((__('checkout.invalid_payment_method'))));
         }
-        
+
         // Validate payment method against allowed values
-        if (!in_array($paymentMethod, $allowedMethods)) {
+        if (! in_array($paymentMethod, $allowedMethods)) {
             \Illuminate\Support\Facades\Log::warning('Invalid payment method attempted', [
                 'user_id' => $user->id,
                 'payment_method' => $paymentMethod,
-                'allowed_methods' => $allowedMethods
+                'allowed_methods' => $allowedMethods,
             ]);
-            
+
             return redirect()
                 ->route('checkout.index')
                 ->with('error', ((__('checkout.invalid_payment_method'))));
         }
-        
+
         // Parse and Validate Payment Data
         /**
          * Payment Data Processing - Safely decode JSON payment data
@@ -283,11 +284,11 @@ class CheckoutController extends Controller
          */
         try {
             $paymentDataArray = json_decode($paymentData, true);
-            if (!is_array($paymentDataArray)) {
+            if (! is_array($paymentDataArray)) {
                 $paymentDataArray = [];
             }
         } catch (\Exception $e) {
-            \Illuminate\Support\Facades\Log::error('Payment data JSON decode error: ' . $e->getMessage());
+            \Illuminate\Support\Facades\Log::error('Payment data JSON decode error: '.$e->getMessage());
             $paymentDataArray = [];
         }
 
@@ -298,14 +299,15 @@ class CheckoutController extends Controller
          * Handles JSON parsing errors and invalid data gracefully
          */
         $itemsJson = $request->input('selected_items_json');
-        
+
         try {
             $selectedItems = json_decode($itemsJson, true);
-            if (!is_array($selectedItems) || empty($selectedItems)) {
+            if (! is_array($selectedItems) || empty($selectedItems)) {
                 throw new \Exception('No items selected for checkout');
             }
         } catch (\Exception $e) {
-            \Illuminate\Support\Facades\Log::error('Selected items JSON decode error: ' . $e->getMessage());
+            \Illuminate\Support\Facades\Log::error('Selected items JSON decode error: '.$e->getMessage());
+
             return redirect()
                 ->route('checkout.index')
                 ->with('error', ((__('checkout.cart_data_error'))));
@@ -327,11 +329,11 @@ class CheckoutController extends Controller
              * Links order to user and selected shipping address
              */
             $order = Order::create([
-                'user_id'     => $user->id,
+                'user_id' => $user->id,
                 'total_price' => array_sum(array_column($selectedItems, 'subtotal')) + config('constants.checkout.shipping_fee', 8),
-                'status'      => 'pending',
-                'address_id'  => $address,
-                'message'     => $message,
+                'status' => 'pending',
+                'address_id' => $address,
+                'message' => $message,
             ]);
 
             // Process Each Order Item
@@ -349,10 +351,10 @@ class CheckoutController extends Controller
 
                 // Create order detail record for this item
                 OrderDetail::create([
-                    'order_id'   => $order->id,
+                    'order_id' => $order->id,
                     'product_id' => $product->id,
-                    'quantity'   => $item['quantity'],
-                    'price'      => $item['price'], // Preserve price at time of order
+                    'quantity' => $item['quantity'],
+                    'price' => $item['price'], // Preserve price at time of order
                 ]);
             }
 
@@ -365,7 +367,7 @@ class CheckoutController extends Controller
             if ($order->status === 'pending') {
                 // Get current locale from session for customer notifications
                 $currentLocale = Session::get('locale', config('app.locale'));
-                
+
                 // Notify all admins (they will use English by default)
                 $adminUsers = User::where('role', 'admin')->get();
                 foreach ($adminUsers as $admin) {
@@ -387,9 +389,9 @@ class CheckoutController extends Controller
              */
             $paymentService = app()->make(\App\Services\PaymentService::class);
             $paymentResult = $paymentService->processPayment($paymentMethod, $order, $paymentDataArray);
-            
+
             // Check payment processing result
-            if (!$paymentResult['success']) {
+            if (! $paymentResult['success']) {
                 throw new \Exception($paymentResult['message']);
             }
 
@@ -421,11 +423,11 @@ class CheckoutController extends Controller
              * Provides positive feedback about successful order completion
              */
             $successMessage = $paymentResult['message'] ?? ((__('checkout.order_success')));
-            
+
             return redirect()
                 ->route('checkout.success', ['order_id' => $order->id])
                 ->with('success', $successMessage);
-                
+
         } catch (\Exception $e) {
             // Rollback Transaction on Any Error
             /**
@@ -434,16 +436,16 @@ class CheckoutController extends Controller
              * Returns user to checkout with error message and preserved form data
              */
             DB::rollBack();
-            \Illuminate\Support\Facades\Log::error('Order creation error: ' . $e->getMessage(), [
+            \Illuminate\Support\Facades\Log::error('Order creation error: '.$e->getMessage(), [
                 'user_id' => $user->id,
                 'payment_method' => $paymentMethod,
-                'trace' => $e->getTraceAsString()
+                'trace' => $e->getTraceAsString(),
             ]);
-            
+
             return redirect()
                 ->route('checkout.index')
                 ->withInput() // Preserve form data for user convenience
-                ->with('error', ((__('checkout.order_failed'))) . $e->getMessage());
+                ->with('error', ((__('checkout.order_failed'))).$e->getMessage());
         }
     }
 }

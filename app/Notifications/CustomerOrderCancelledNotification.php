@@ -13,6 +13,7 @@ class CustomerOrderCancelledNotification extends Notification implements ShouldQ
     use Queueable;
 
     public $order;
+
     public $locale;
 
     /**
@@ -46,7 +47,7 @@ class CustomerOrderCancelledNotification extends Notification implements ShouldQ
         return (new MailMessage)
             ->subject(__('notifications.order_cancelled_subject'))
             ->line(__('notifications.order_cancelled_line', ['order_id' => $this->order->id]))
-            ->action(__('notifications.view_order'), config('app.url') . '/order/' . $this->order->id);
+            ->action(__('notifications.view_order'), config('app.url').'/order/'.$this->order->id);
     }
 
     /**
@@ -58,7 +59,7 @@ class CustomerOrderCancelledNotification extends Notification implements ShouldQ
     {
         return [
             'order_id' => $this->order->id,
-            'message'  => __('notifications.order_cancelled_message', ['order_id' => $this->order->id]),
+            'message' => __('notifications.order_cancelled_message', ['order_id' => $this->order->id]),
         ];
     }
 }

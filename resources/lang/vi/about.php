@@ -22,12 +22,12 @@ return [
     'our_mission' => 'Sứ mệnh của chúng tôi',
     'our_vision' => 'Tầm nhìn của chúng tôi',
     'our_values' => 'Giá trị của chúng tôi',
-    
-    // Story paragraphs  
+
+    // Story paragraphs
     'story_paragraph_1' => 'Ở Việt Nam, đặc biệt vào các dịp lễ Tết, rất nhiều bông hoa bị bỏ đi do thời gian tươi ngắn và người bán không kịp tiếp cận đúng khách hàng. Sự lệch pha giữa cung và cầu gây lãng phí xã hội và thiệt hại cho người bán.',
     'story_paragraph_2' => 'Hanaya Shop được xây dựng để giải quyết vấn đề thực tế đó. Nền tảng giúp mở rộng mức độ hiển thị của cửa hàng, tăng điểm chạm với khách hàng, và đưa mỗi bông hoa đến đúng người, đúng thời điểm. Ứng dụng có UI/UX hiện đại, backend Laravel tin cậy, SSR nhanh, và mô hình nghiệp vụ thực tế cho tồn kho, đơn hàng, thanh toán.',
     'story_paragraph_3' => 'Tầm nhìn dài hạn của chúng tôi là tăng cường kết nối người bán–người mua, tiến tới giảm thiểu hoa bị lãng phí đến mức thấp nhất. Mỗi ngày, chúng tôi nỗ lực mang nhiều vẻ đẹp hơn vào cuộc sống của mọi người trong khi giảm thiểu lãng phí không cần thiết trong ngành hoa.',
-    
+
     // Why choose us
     'why_choose_us' => 'Tại sao chọn chúng tôi?',
     'artisan_crafted' => 'Thủ công nghệ nhân',
@@ -38,11 +38,11 @@ return [
     'unique_designs_desc' => 'Bộ sưu tập đa dạng với những thiết kế độc quyền không tìm thấy ở nơi khác.',
     'lasting_beauty' => 'Vẻ đẹp bền vững',
     'lasting_beauty_desc' => 'Hoa sáp của chúng tôi giữ nguyên vẻ đẹp trong nhiều năm.',
-    
+
     // Discover story
     'discover_story' => 'Khám phá câu chuyện của chúng tôi',
     'principles_guide' => 'Những nguyên tắc định hướng mọi việc chúng tôi làm',
-    
+
     // Additional content for about page
     'handcrafted_excellence' => 'Sự xuất sắc thủ công',
     'handcrafted_excellence_desc' => 'Mỗi bông hoa sáp được chế tác thủ công với sự chú ý tỉ mỉ đến từng chi tiết.',
@@ -50,15 +50,15 @@ return [
     'natural_ingredients_desc' => 'Chúng tôi sử dụng các thành phần tự nhiên, an toàn cho da và thân thiện với môi trường.',
     'perfect_gifts' => 'Quà tặng hoàn hảo',
     'perfect_gifts_desc' => 'Lý tưởng cho mọi dịp đặc biệt, từ sinh nhật đến kỷ niệm và lễ cưới.',
-    
+
     // What we offer
     'what_we_offer' => 'Chúng tôi cung cấp gì',
     'discover_collection' => 'Khám phá bộ sưu tập được tuyển chọn cẩn thận của chúng tôi',
-    
+
     // Our Beginning section
     'our_beginning' => 'Khởi đầu của chúng tôi',
     'our_beginning_description' => 'Từ một xưởng nhỏ đến một cửa hàng được yêu mến, mọi bước đều được dẫn dắt bởi cam kết của chúng tôi về chất lượng và vẻ đẹp.',
-    
+
     // Product categories
     'soap_flowers' => 'Hoa Sáp',
     'soap_flowers_description' => 'Những bông hoa vĩnh cửu được chế tác thủ công, kết hợp vẻ đẹp với tính năng thực tiễn. Hoàn hảo cho trang trí và những dịp đặc biệt.',
@@ -68,11 +68,11 @@ return [
     'special_flowers_description' => 'Những lựa chọn hoa thanh lịch và độc đáo được chế tác cho những khoảnh khắc đáng nhớ, hoàn hảo để thể hiện tình yêu, lòng biết ơn hoặc sự chia buồn.',
     'souvenirs' => 'Quà Lưu Niệm',
     'souvenirs_description' => 'Những món quà và quà lưu niệm được tuyển chọn chu đáo thể hiện sự quan tâm của bạn, hoàn hảo để thể hiện cảm xúc của bạn.',
-    
+
     // Contact section details
     'opening_hours' => 'Giờ mở cửa',
     'opening_hours_time' => 'Thứ Hai - Chủ Nhật: 8:00 - 22:00',
-    
+
     // Why choose us detailed
     'why_choose_hanaya_detailed' => 'Tại sao chọn Hanaya Shop?',
     'premium_quality' => 'Chất Lượng Cao Cấp',
@@ -90,7 +90,7 @@ return [
     'satisfied_customers' => 'Khách hàng hài lòng',
     'products_sold' => 'Sản phẩm đã bán',
     'countries_served' => 'Quốc gia phục vụ',
-    
+
     // Mission & Vision
     'mission_statement' => 'Mang đến vẻ đẹp và niềm vui cho cuộc sống hàng ngày thông qua những bông hoa sáp được chế tác cẩn thận, đồng thời cung cấp dịch vụ khách hàng tuyệt vời và sản phẩm bền vững.',
     'vision_statement' => 'Trở thành nhà cung cấp hoa sáp cao cấp hàng đầu toàn cầu, truyền cảm hứng sáng tạo và lan tỏa hạnh phúc qua những sản phẩm độc đáo.',
@@ -104,7 +104,7 @@ return [
     'creativity_value_desc' => 'Chúng tôi thúc đẩy sự đổi mới và biểu đạt nghệ thuật trong tất cả thiết kế.',
     'customer_focus_value' => 'Tập trung khách hàng',
     'customer_focus_value_desc' => 'Khách hàng là trung tâm của mọi việc chúng tôi làm.',
-    
+
     // Team
     'our_team' => 'Đội ngũ của chúng tôi',
     'meet_team' => 'Gặp gỡ đội ngũ',
@@ -115,16 +115,16 @@ return [
     'creative_director' => 'Giám đốc sáng tạo',
     'head_artisan' => 'Trưởng nghệ nhân',
     'customer_service' => 'Quản lý dịch vụ khách hàng',
-    
+
     // Team members
     'tan_van_quyen' => 'Tẩn Vần Quyên',
     'team_leader' => 'Trưởng nhóm',
     'team_member' => 'Thành viên',
     'quyen_description' => 'Cẩn thận, tỉ mỉ trong công việc; có khả năng quan sát chi tiết và kiên nhẫn khi kiểm thử.',
-    
+
     'nguyen_trung_nghia' => 'Nguyễn Trung Nghĩa',
     'nghia_description' => 'Kỹ năng lập trình toàn diện, nhanh nhạy trong việc học công nghệ mới; chủ động, trách nhiệm cao và tinh thần dẫn dắt nhóm.',
-    
+
     'le_duc_anh_tai' => 'Lê Đức Anh Tài',
     'tai_description' => 'Có tư duy logic, nắm bắt nhanh về phát triển phần mềm; thái độ hợp tác tốt, sẵn sàng hỗ trợ đồng đội.',
 
@@ -135,7 +135,7 @@ return [
     'eco_friendly_certification' => 'Chứng nhận sản phẩm thân thiện môi trường',
     'customer_choice_award' => 'Giải thưởng lựa chọn khách hàng',
     'innovation_award' => 'Giải thưởng đổi mới trong thủ công',
-    
+
     // Process
     'our_process' => 'Quy trình của chúng tôi',
     'how_we_work' => 'Cách chúng tôi làm việc',
@@ -147,7 +147,7 @@ return [
     'quality_check_desc' => 'Mọi sản phẩm đều trải qua kiểm soát chất lượng nghiêm ngặt trước khi đóng gói.',
     'packaging_shipping' => 'Đóng gói & Vận chuyển',
     'packaging_shipping_desc' => 'Sản phẩm được đóng gói cẩn thận và vận chuyển với tình yêu và sự chăm sóc.',
-    
+
     // Contact Information
     'get_in_touch' => 'Liên hệ với chúng tôi',
     'contact_us' => 'Liên hệ',
@@ -160,7 +160,7 @@ return [
     'email' => 'Email',
     'follow_social' => 'Theo dõi chúng tôi trên mạng xã hội',
     'click_to_view_github' => 'Nhấn để xem GitHub',
-    
+
     // FAQ
     'frequently_asked' => 'Câu hỏi thường gặp',
     'common_questions' => 'Câu hỏi phổ biến',
@@ -168,14 +168,14 @@ return [
     'shipping_faq' => 'Tùy chọn vận chuyển của bạn là gì?',
     'return_policy_faq' => 'Chính sách đổi trả của bạn là gì?',
     'custom_orders_faq' => 'Bạn có nhận đơn hàng tùy chỉnh không?',
-    
+
     // Testimonials
     'what_customers_say' => 'Khách hàng nói gì về chúng tôi',
     'customer_testimonials' => 'Lời chứng thực khách hàng',
     'testimonial_1' => '"Sản phẩm đẹp và dịch vụ tuyệt vời. Rất khuyến khích!"',
     'testimonial_2' => '"Hoa sáp tuyệt đẹp và có mùi hương tuyệt vời."',
     'testimonial_3' => '"Quà tặng hoàn hảo cho mọi dịp. Chất lượng vượt trội."',
-    
+
     // Call to Action
     'start_shopping' => 'Bắt đầu mua sắm',
     'browse_products' => 'Duyệt sản phẩm của chúng tôi',

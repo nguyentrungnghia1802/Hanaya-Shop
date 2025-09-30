@@ -18,10 +18,10 @@ Route::middleware('guest')->group(function () {
     // New email verification routes for guest users
     Route::get('verification-notice', [RegisteredUserController::class, 'verificationNotice'])
         ->name('verification.notice');
-    
+
     Route::post('verification-resend', [RegisteredUserController::class, 'resendVerification'])
         ->name('verification.resend');
-    
+
     Route::get('verify-email/{token}', [RegisteredUserController::class, 'verifyEmail'])
         ->name('verification.verify');
 

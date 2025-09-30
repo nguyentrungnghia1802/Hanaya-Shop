@@ -1,11 +1,12 @@
 <?php
+
 /**
  * User Review Controller
- * 
+ *
  * This controller handles customer review functionality for the Hanaya Shop e-commerce
  * application. It manages the complete review lifecycle including creation, validation,
  * image uploads, and display of product reviews with comprehensive security checks.
- * 
+ *
  * Key Features:
  * - Secure review creation with order verification
  * - Image upload support for visual reviews
@@ -14,40 +15,39 @@
  * - Product-order relationship verification
  * - Review display with pagination
  * - User authentication and authorization
- * 
+ *
  * Security Features:
  * - Order ownership verification
  * - Product-order relationship validation
  * - Duplicate review prevention
  * - Status-based review eligibility
  * - Image upload security and validation
- * 
+ *
  * Review Workflow:
  * 1. Customer completes order (status = completed/shipped)
  * 2. Customer accesses review form for ordered products
  * 3. System validates eligibility and prevents duplicates
  * 4. Customer submits review with optional image
  * 5. Review is stored and displayed on product pages
- * 
- * @package App\Http\Controllers\User
+ *
  * @author Hanaya Shop Development Team
+ *
  * @version 1.0
  */
 
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Product\Review;
-use App\Models\Product\Product;
 use App\Models\Order\Order;
 use App\Models\Order\OrderDetail;
+use App\Models\Product\Product;
+use App\Models\Product\Review;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 /**
  * Review Controller Class
- * 
+ *
  * Manages customer review operations including creation, validation,
  * and display with comprehensive security and business rule enforcement.
  */
@@ -55,26 +55,26 @@ class ReviewController extends Controller
 {
     /**
      * Store New Customer Review
-     * 
+     *
      * Handles the creation of new product reviews with comprehensive validation
      * including order verification, status checking, duplicate prevention, and
      * optional image upload. Ensures only legitimate customers can review
      * products they have actually purchased.
-     * 
+     *
      * Validation Rules:
      * - Product must exist in the system
      * - Order must exist and belong to current user
      * - Rating must be between 1-5 stars
      * - Comment is optional but limited to 10,000 characters
      * - Image is optional but must be valid image format under 2MB
-     * 
+     *
      * Security Checks:
      * - Order ownership verification
      * - Order status validation (must be eligible for reviews)
      * - Product-order relationship verification
      * - Duplicate review prevention
-     * 
-     * @param \Illuminate\Http\Request $request HTTP request with review data
+     *
+     * @param  \Illuminate\Http\Request  $request  HTTP request with review data
      * @return \Illuminate\Http\RedirectResponse Redirect back with success or error message
      */
     public function store(Request $request)
@@ -82,7 +82,7 @@ class ReviewController extends Controller
         // Input Validation
         /**
          * Review Data Validation - Comprehensive validation for review submission
-         * 
+         *
          * Validation Rules:
          * - product_id: Must exist in products table
          * - order_id: Must exist in orders table
@@ -112,7 +112,7 @@ class ReviewController extends Controller
         // Image Upload Processing
         /**
          * Review Image Upload - Handle optional image upload with security
-         * 
+         *
          * Image Processing:
          * - Generate unique filename with timestamp and uniqid for collision prevention
          * - Create reviews directory if it doesn't exist
@@ -121,14 +121,14 @@ class ReviewController extends Controller
          */
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension(); // Unique filename with timestamp
-            
+            $imageName = time().'_'.uniqid().'.'.$image->getClientOriginalExtension(); // Unique filename with timestamp
+
             // Create reviews directory if it doesn't exist
             $uploadPath = public_path('images/reviews');
-            if (!file_exists($uploadPath)) {
+            if (! file_exists($uploadPath)) {
                 mkdir($uploadPath, 0755, true);
             }
-            
+
             $image->move($uploadPath, $imageName);
             $generatedFileName = $imageName;
         } else {
@@ -146,7 +146,7 @@ class ReviewController extends Controller
             ->where('user_id', $userId)
             ->first();
 
-        if (!$order) {
+        if (! $order) {
             return back()->with('error', ((__('orders.order_not_found'))));
         }
 
@@ -172,7 +172,7 @@ class ReviewController extends Controller
             ->where('product_id', $productId)
             ->first();
 
-        if (!$orderDetail) {
+        if (! $orderDetail) {
             return back()->with('error', ((__('orders.product_not_found_in_order'))));
         }
 
@@ -211,18 +211,18 @@ class ReviewController extends Controller
 
     /**
      * Get Paginated Product Reviews
-     * 
+     *
      * Retrieves all reviews for a specific product with user information
      * and pagination. Used for AJAX requests to load reviews dynamically
      * on product pages without full page refresh.
-     * 
+     *
      * Features:
      * - User information included for displaying reviewer names
      * - Newest reviews first for relevance
      * - Pagination for performance (10 reviews per page)
      * - JSON response for AJAX integration
-     * 
-     * @param int $productId Product ID to get reviews for
+     *
+     * @param  int  $productId  Product ID to get reviews for
      * @return \Illuminate\Http\JsonResponse JSON response with paginated reviews
      */
     public function getProductReviews($productId)
@@ -244,19 +244,19 @@ class ReviewController extends Controller
 
     /**
      * Show Review Creation Form
-     * 
+     *
      * Displays the review creation form for a specific product and order
      * combination. Includes comprehensive validation to ensure only eligible
      * customers can access the review form.
-     * 
+     *
      * Validation Process:
      * - Order ownership verification
      * - Product existence validation
      * - Product-order relationship checking
      * - Duplicate review prevention
      * - Review eligibility confirmation
-     * 
-     * @param \Illuminate\Http\Request $request HTTP request with product and order IDs
+     *
+     * @param  \Illuminate\Http\Request  $request  HTTP request with product and order IDs
      * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse Review form or redirect with error
      */
     public function create(Request $request)
@@ -281,7 +281,7 @@ class ReviewController extends Controller
             ->where('user_id', $userId)
             ->first();
 
-        if (!$order) {
+        if (! $order) {
             return redirect()->route('order.index')->with('error', ((__('orders.order_not_found'))));
         }
 
@@ -292,7 +292,7 @@ class ReviewController extends Controller
          * Maintains data integrity and prevents errors
          */
         $product = Product::find($productId);
-        if (!$product) {
+        if (! $product) {
             return redirect()->route('order.index')->with('error', ((__('orders.product_not_found'))));
         }
 
@@ -306,7 +306,7 @@ class ReviewController extends Controller
             ->where('product_id', $productId)
             ->first();
 
-        if (!$orderDetail) {
+        if (! $orderDetail) {
             return redirect()->route('order.index')->with('error', ((__('orders.product_not_found_in_order'))));
         }
 

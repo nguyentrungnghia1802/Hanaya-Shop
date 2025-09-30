@@ -2,7 +2,7 @@
 
 return [
     // Page order index
-    'orders_title'=> 'Orders',
+    'orders_title' => 'Orders',
     'total_orders' => 'Total Orders',
     'delivered' => 'Delivered',
     'processing' => 'Processing',
@@ -20,7 +20,7 @@ return [
     'no_orders_yet' => 'No orders yet',
     'you_have_not' => 'You have not placed any orders yet. Start shopping now!',
     'start_shopping' => 'Start Shopping',
-    
+
     // Page order show
     'order_details' => 'Order Details',
     'order_status' => 'Order Status',
@@ -50,11 +50,11 @@ return [
     'continue_shopping' => 'Continue Shopping',
     'no_description_available' => 'No description available',
 
-    //order controller
+    // order controller
     'order_has_been_cancelled' => 'Order has been cancelled successfully.',
     'order_has_been_marked_as_received' => 'Order has been marked as received successfully.',
 
-    //review controller
+    // review controller
     'order_not_found' => 'Order not found or you do not have permission.',
     'can_only_review_shipped_orders' => 'You can only review products from shipped orders',
     'product_not_found_in_order' => 'Product not found in this order.',

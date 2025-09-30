@@ -3,10 +3,9 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class NewOrderPending extends Notification implements ShouldQueue
 {
@@ -14,6 +13,7 @@ class NewOrderPending extends Notification implements ShouldQueue
     // Admin notifications sent immediately for reliability
 
     public $order;
+
     public $locale;
 
     /**
@@ -47,8 +47,8 @@ class NewOrderPending extends Notification implements ShouldQueue
         return (new MailMessage)
             ->subject(__('notifications.new_order_request_subject'))
             ->line(__('notifications.new_order_request_line'))
-            ->line(__('notifications.order_code') . ' #' . $this->order->id)
-            ->action(__('notifications.view_order'), config('app.url') . '/admin/order/' . $this->order->id);
+            ->line(__('notifications.order_code').' #'.$this->order->id)
+            ->action(__('notifications.view_order'), config('app.url').'/admin/order/'.$this->order->id);
     }
 
     /**
@@ -62,9 +62,9 @@ class NewOrderPending extends Notification implements ShouldQueue
         app()->setLocale('en');
 
         return [
-            'order_id'  => $this->order->id,
+            'order_id' => $this->order->id,
             'user_name' => $this->order->user->name ?? __('notifications.guest'),
-            'message'   => __('notifications.order_waiting_confirmation', ['order_id' => $this->order->id]),
+            'message' => __('notifications.order_waiting_confirmation', ['order_id' => $this->order->id]),
         ];
     }
 }

@@ -4,9 +4,11 @@
 .env
 .env.*.local
 .env.production
+.env.testing
 .phpunit.result.cache
 .phpstorm.meta.php
-/storage/
+/storage/logs/
+/storage/framework/
 bootstrap/cache/
 /public/images/*
 

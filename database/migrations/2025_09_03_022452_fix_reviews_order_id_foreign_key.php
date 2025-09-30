@@ -2,33 +2,34 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
     /**
      * Run the migrations.
-     * Sửa lỗi khóa ngoại từ reviews.order_id sang order.id thay vì products.id
+     * Fix duplicate foreign key constraint issue for CI/CD
      */
     public function up(): void
     {
-        // Xóa khóa ngoại hiện tại nếu có
-        Schema::table('reviews', function (Blueprint $table) {
-            // Kiểm tra nếu tồn tại khóa ngoại
-            if (Schema::hasColumn('reviews', 'order_id') && 
-                DB::select("SELECT * FROM information_schema.KEY_COLUMN_USAGE
-                    WHERE TABLE_NAME = 'reviews' AND COLUMN_NAME = 'order_id'
-                    AND REFERENCED_TABLE_NAME = 'products'")) {
-                
-                $table->dropForeign(['order_id']);
-            }
-        });
+        // Check if foreign key constraint already exists before creating
+        $constraintExists = DB::select("
+            SELECT COUNT(*) as count
+            FROM information_schema.TABLE_CONSTRAINTS 
+            WHERE TABLE_SCHEMA = DATABASE() 
+            AND TABLE_NAME = 'reviews' 
+            AND CONSTRAINT_NAME = 'reviews_order_id_foreign'
+            AND CONSTRAINT_TYPE = 'FOREIGN KEY'
+        ");
 
-        // Tạo khóa ngoại đúng tới bảng orders thay vì products
-        Schema::table('reviews', function (Blueprint $table) {
-            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
-        });
+        if ($constraintExists[0]->count == 0) {
+            // Only create foreign key if it doesn't exist
+            Schema::table('reviews', function (Blueprint $table) {
+                $table->foreign('order_id', 'reviews_order_id_foreign')
+                    ->references('id')->on('orders')->onDelete('cascade');
+            });
+        }
     }
 
     /**
@@ -36,10 +37,11 @@ return new class extends Migration
      */
     public function down(): void
     {
+        // Check if foreign key exists before dropping
         Schema::table('reviews', function (Blueprint $table) {
-            $table->dropForeign(['order_id']);
-            // Khôi phục lại khóa ngoại cũ (tuy không đúng)
-            $table->foreign('order_id')->references('id')->on('products')->onDelete('cascade');
+            if (Schema::hasColumn('reviews', 'order_id')) {
+                $table->dropForeign(['order_id']);
+            }
         });
     }
 };

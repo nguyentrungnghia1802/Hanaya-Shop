@@ -49,7 +49,7 @@ return [
     'click_here_to_resend_verification_email' => '確認メールを再送するにはこちらをクリックしてください。',
     'verification_link_sent_notification' => '新しい確認リンクがあなたのメールアドレスに送信されました。',
     'profile' => 'プロフィール',
-    
+
     // 新しいメール確認システム
     'verify_email_title' => 'メールアドレスを確認してください',
     'verify_email_sent' => '確認リンクを以下のメールアドレスに送信いたしました：',
@@ -58,7 +58,7 @@ return [
     'resend_verification_email' => '確認メールを再送信',
     'register_different_email' => '別のメールで登録する',
     'verification_link_resent' => '確認リンクが正常に送信されました！',
-    
+
     // メール確認成功
     'verification_success_title' => 'メール確認が完了しました！',
     'verification_success_message' => 'メールアドレスが確認され、アカウントが有効になりました。',
@@ -67,7 +67,7 @@ return [
     'go_to_dashboard' => 'ダッシュボードへ',
     'continue_shopping' => 'お買い物を続ける',
     'verification_completed_at' => '確認完了時刻：',
-    
+
     // メールテンプレート
     'verify_email_subject' => 'メールアドレスの確認 - Hanaya Shop',
     'email_greeting' => 'Hanaya Shopにご登録いただき、ありがとうございます！',
@@ -77,7 +77,7 @@ return [
     'email_manual_copy' => 'ボタンが機能しない場合は、このリンクをコピーしてブラウザに貼り付けてください：',
     'email_not_requested' => 'このアカウントをリクエストしていない場合は、このメールを無視してください。',
     'email_footer' => ':shopをお選びいただき、ありがとうございます',
-    
+
     // サポート連絡
     'need_help' => '認証でお困りですか？',
     'contact_support' => 'サポートに連絡',
@@ -91,7 +91,7 @@ return [
 この問題の解決をお手伝いください。
 
 ありがとうございます！',
-    
+
     // Gmail要件
     'create_account' => 'アカウント作成',
     'create_account_description' => 'Hanaya Shopに参加して、ショッピングの旅を始めましょう',
@@ -101,7 +101,7 @@ return [
     'gmail_for_password_recovery' => '安全なパスワード回復とアカウントアクセス',
     // 'gmail_for_account_security' => 'アカウントセキュリティと認証の強化',
     'gmail_required_note' => '通知とセキュリティのためGmailアドレスが必要です',
-    
+
     // エラーメッセージ
     'invalid_verification_token' => '無効または期限切れの確認トークンです。',
     'verification_token_expired' => '確認トークンの有効期限が切れました。再度登録してください。',
@@ -112,7 +112,7 @@ return [
     'name_placeholder' => '氏名を入力してください',
     'confirm_password_placeholder' => 'もう一度パスワードを入力してください',
 
-    //Notes
+    // Notes
     'notice' => '注意',
     'password_requirement_title' => 'パスワード要件',
     'password_requirement_description' => 'パスワードは8文字以上で、大文字・小文字・数字・記号を含み、スペースを含まない必要があります。',

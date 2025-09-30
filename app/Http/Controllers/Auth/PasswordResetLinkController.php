@@ -1,12 +1,13 @@
 <?php
+
 /**
  * Password Reset Link Controller
- * 
+ *
  * This controller handles password reset link generation and sending for the Hanaya Shop
  * e-commerce application. It manages the initial step of the password reset process by
  * validating email addresses, generating secure reset tokens, and sending reset emails
  * with comprehensive error handling and logging for security and debugging.
- * 
+ *
  * Key Features:
  * - Password reset request form display
  * - Email validation and user existence checking
@@ -14,7 +15,7 @@
  * - Comprehensive error handling and logging
  * - Locale preservation for multilingual support
  * - Security measures against invalid requests
- * 
+ *
  * Password Reset Flow:
  * 1. User visits forgot password page
  * 2. User enters email address
@@ -22,16 +23,16 @@
  * 4. System generates secure reset token
  * 5. System sends email with reset link
  * 6. User receives email and can proceed to reset
- * 
+ *
  * Security Features:
  * - Email existence verification
  * - Secure token generation
  * - Rate limiting protection
  * - Comprehensive logging for security monitoring
  * - Error handling prevents information leakage
- * 
- * @package App\Http\Controllers\Auth
+ *
  * @author Hanaya Shop Development Team
+ *
  * @version 1.0
  */
 
@@ -40,14 +41,14 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 /**
  * Password Reset Link Controller Class
- * 
+ *
  * Manages password reset link requests with comprehensive validation,
  * security checks, and error handling for secure password recovery.
  */
@@ -55,11 +56,11 @@ class PasswordResetLinkController extends Controller
 {
     /**
      * Display Password Reset Request Form
-     * 
+     *
      * Shows the forgot password view where users can enter their email
      * address to request a password reset link. This is the entry point
      * for the password recovery process.
-     * 
+     *
      * @return \Illuminate\View\View Forgot password form view
      */
     public function create(): View
@@ -69,12 +70,12 @@ class PasswordResetLinkController extends Controller
 
     /**
      * Handle Password Reset Link Request
-     * 
+     *
      * Processes password reset requests with comprehensive validation,
      * security checks, error handling, and logging. Ensures only valid
      * users can receive reset links while providing appropriate feedback
      * and maintaining security through comprehensive error handling.
-     * 
+     *
      * Request Process:
      * 1. Validate email format and requirement
      * 2. Check if email exists in user database
@@ -82,16 +83,17 @@ class PasswordResetLinkController extends Controller
      * 4. Generate and send secure reset link
      * 5. Log all activities for security monitoring
      * 6. Provide appropriate user feedback
-     * 
+     *
      * Security Features:
      * - Email existence verification prevents enumeration
      * - Comprehensive logging for security monitoring
      * - Error handling prevents information disclosure
      * - Rate limiting through Laravel's password reset system
      * - Secure token generation and delivery
-     * 
-     * @param \Illuminate\Http\Request $request HTTP request with email
+     *
+     * @param  \Illuminate\Http\Request  $request  HTTP request with email
      * @return \Illuminate\Http\RedirectResponse Redirect with status or error
+     *
      * @throws \Illuminate\Validation\ValidationException If validation fails
      */
     public function store(Request $request): RedirectResponse
@@ -114,7 +116,7 @@ class PasswordResetLinkController extends Controller
          * Protects against email enumeration attacks
          */
         $user = \App\Models\User::where('email', $request->email)->first();
-        if (!$user) {
+        if (! $user) {
             return back()->withInput($request->only('email'))
                 ->withErrors(['email' => 'We can\'t find a user with that email address.']);
         }
@@ -122,7 +124,7 @@ class PasswordResetLinkController extends Controller
         // Password Reset Processing with Error Handling
         /**
          * Secure Reset Link Processing - Generate and send reset email with comprehensive logging
-         * 
+         *
          * Process Features:
          * - Detailed logging for security monitoring and debugging
          * - Locale preservation for multilingual email support
@@ -136,8 +138,8 @@ class PasswordResetLinkController extends Controller
              * Essential for security monitoring and audit trails
              * Helps identify potential security threats or system issues
              */
-            Log::info('Attempting to send password reset email to: ' . $request->email);
-            
+            Log::info('Attempting to send password reset email to: '.$request->email);
+
             // Preserve Locale for Email
             /**
              * Multilingual Support - Preserve current locale for email notifications
@@ -146,12 +148,12 @@ class PasswordResetLinkController extends Controller
              */
             $currentLocale = app()->getLocale();
             Session::put('locale', $currentLocale);
-            Log::info('Current locale for password reset: ' . $currentLocale);
-            
+            Log::info('Current locale for password reset: '.$currentLocale);
+
             // Send Reset Link
             /**
              * Reset Link Generation - Send secure password reset link via email
-             * 
+             *
              * Security Features:
              * - Secure token generation with expiration
              * - Email delivery through configured mail system
@@ -168,7 +170,7 @@ class PasswordResetLinkController extends Controller
              * Helps with debugging email delivery issues
              * Monitors success rates for system health
              */
-            Log::info('Password reset status: ' . $status);
+            Log::info('Password reset status: '.$status);
 
             // Handle Success Case
             /**
@@ -177,7 +179,8 @@ class PasswordResetLinkController extends Controller
              * Logs success for monitoring and audit purposes
              */
             if ($status == Password::RESET_LINK_SENT) {
-                Log::info('Password reset email sent successfully to: ' . $request->email);
+                Log::info('Password reset email sent successfully to: '.$request->email);
+
                 return back()->with('status', 'We have emailed your password reset link!');
             }
 
@@ -187,7 +190,8 @@ class PasswordResetLinkController extends Controller
              * Logs failure details for debugging and monitoring
              * Provides localized error message to user
              */
-            Log::warning('Password reset failed with status: ' . $status . ' for email: ' . $request->email);
+            Log::warning('Password reset failed with status: '.$status.' for email: '.$request->email);
+
             return back()->withInput($request->only('email'))
                 ->withErrors(['email' => __($status)]);
 
@@ -195,7 +199,7 @@ class PasswordResetLinkController extends Controller
             // Exception Handling
             /**
              * Exception Processing - Handle unexpected errors during reset process
-             * 
+             *
              * Error Handling Features:
              * - Detailed error logging for debugging
              * - Stack trace logging for development
@@ -203,9 +207,9 @@ class PasswordResetLinkController extends Controller
              * - Input preservation for better user experience
              * - Graceful degradation for system reliability
              */
-            Log::error('Password reset email failed: ' . $e->getMessage());
-            Log::error('Password reset error trace: ' . $e->getTraceAsString());
-            
+            Log::error('Password reset email failed: '.$e->getMessage());
+            Log::error('Password reset error trace: '.$e->getTraceAsString());
+
             return back()->withInput($request->only('email'))
                 ->withErrors(['email' => 'Unable to send password reset email. Please try again later or contact support.']);
         }

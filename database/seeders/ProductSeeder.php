@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ProductSeeder extends Seeder
@@ -14,10 +13,10 @@ class ProductSeeder extends Seeder
     {
         // Tạo 1 category trước
         $category = \App\Models\Product\Category::firstOrCreate([
-            'name' => 'Test Category'
+            'name' => 'Test Category',
         ], [
             'description' => 'Category for testing',
-            'image_path' => 'base.jpg'
+            'image_path' => 'base.jpg',
         ]);
 
         // Tạo một số products test
@@ -30,7 +29,7 @@ class ProductSeeder extends Seeder
                 'discount_percent' => 0,
                 'view_count' => 0,
                 'category_id' => $category->id,
-                'image_url' => 'default-product.jpg'
+                'image_url' => 'default-product.jpg',
             ],
             [
                 'name' => 'Test Product 2',
@@ -40,13 +39,13 @@ class ProductSeeder extends Seeder
                 'discount_percent' => 10,
                 'view_count' => 0,
                 'category_id' => $category->id,
-                'image_url' => 'default-product.jpg'
-            ]
+                'image_url' => 'default-product.jpg',
+            ],
         ];
 
         foreach ($products as $productData) {
             \App\Models\Product\Product::firstOrCreate([
-                'name' => $productData['name']
+                'name' => $productData['name'],
             ], $productData);
         }
     }
