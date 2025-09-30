@@ -191,7 +191,7 @@ class ImageUploadControllerFeatureTest extends TestCase
         $response->assertStatus(200);
         $responseData = $response->json();
         
-        $this->assertStringContains('post_content_20240115103045_abc12345.jpg', $responseData['url']);
+        $this->assertStringContainsString('post_content_20240115103045_abc12345.jpg', $responseData['url']);
 
         // Cleanup
         Carbon::setTestNow();
@@ -322,8 +322,8 @@ class ImageUploadControllerFeatureTest extends TestCase
         $ckeditorData = $ckeditorResponse->json();
         $postData = $postResponse->json();
 
-        $this->assertStringContains('post_content_', $ckeditorData['url']);
-        $this->assertStringContains('post_featured_', $postData['filename']);
+        $this->assertStringContainsString('post_content_', $ckeditorData['url']);
+        $this->assertStringContainsString('post_featured_', $postData['filename']);
     }
 
     

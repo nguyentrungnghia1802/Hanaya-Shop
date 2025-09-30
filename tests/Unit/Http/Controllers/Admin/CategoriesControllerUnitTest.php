@@ -51,6 +51,10 @@ class CategoriesControllerUnitTest extends TestCase
 
     public function test_store_creates_category_with_image()
     {
+        if (!function_exists('imagecreatetruecolor')) {
+            $this->markTestSkipped('GD extension is not installed.');
+        }
+
         Cache::shouldReceive('forget')->once()->with('admin_categories_all');
         
         $uploadedFile = UploadedFile::fake()->image('test.jpg', 100, 100);
@@ -86,7 +90,7 @@ class CategoriesControllerUnitTest extends TestCase
 
         $this->assertDatabaseHas('categories', [
             'name' => 'Test Category No Image',
-            'image_path' => 'base.jpg'
+            'image_path' => 'fixed_resources/not_found.jpg'
         ]);
     }
 
@@ -109,6 +113,10 @@ class CategoriesControllerUnitTest extends TestCase
 
     public function test_update_category_with_new_image()
     {
+        if (!function_exists('imagecreatetruecolor')) {
+            $this->markTestSkipped('GD extension is not installed.');
+        }
+
         Cache::shouldReceive('forget')->once()->with('admin_categories_all');
         
         $category = Category::factory()->create([
