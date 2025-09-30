@@ -288,8 +288,11 @@ class UsersControllerFeatureTest extends TestCase
         $response = $this->actingAs($this->adminUser)
                          ->delete(route('admin.user.destroy.multiple'), $deleteData);
 
-        $response->assertRedirect(route('admin.user'));
-        $response->assertSessionHas('success', 'Xóa tài khoản thành công!');
+        $response->assertStatus(200);
+        $response->assertJson([
+            'success' => true,
+            'message' => 'Selected accounts deleted successfully!'
+        ]);
 
         // Verify users deleted
         $this->assertDatabaseMissing('users', ['id' => $user1->id]);
