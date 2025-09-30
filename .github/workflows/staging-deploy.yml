@@ -2,7 +2,14 @@ name: Staging Deploy
 
 on:
   push:
-    branches: [develop, staging]
+    branches: [develop]
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
+      - '*.md'
+      - '.gitignore'
+      - 'LICENSE'
+      - '#GUIDE/**'
   pull_request:
     branches: [main]
   workflow_dispatch:
