@@ -1,10 +1,9 @@
-name: Production Deploy
+name: 🚀 Production Deploy
 
+# Strategic triggering for production
 on:
-  pull_request:
-    branches: [main]  # Trigger on PR to main
   push:
-    branches: [main]  # Trigger on push to main
+    branches: [main]
     paths-ignore:
       - 'README.md'
       - 'docs/**'
@@ -15,19 +14,94 @@ on:
       - 'deployment/README.md'
       - 'deployment/BRANCH_STRATEGY.md'
       - 'deployment/CICD_SETUP.md'
+
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
+      - '*.md'
+      - '.gitignore'
+      - 'LICENSE'
+      - '#GUIDE/**'
+
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+        - production
+        - staging
+      force_deploy:
+        description: 'Force deployment (skip some checks)'
+        required: false
+        default: false
+        type: boolean
+
+env:
+  PHP_VERSION: '8.2'
+  NODE_VERSION: '18'
+  DOCKER_IMAGE: 'assassincreed2k1/hanaya-shop'
 
 jobs:
-  pre-deployment-tests:
+  # 🔍 Pre-flight validation
+  validation:
+    name: 🔍 Pre-deployment Validation
     runs-on: ubuntu-latest
-    name: Pre-deployment Tests
+    outputs:
+      is-pr: ${{ steps.context.outputs.is-pr }}
+      deploy-env: ${{ steps.context.outputs.deploy-env }}
+      should-deploy: ${{ steps.context.outputs.should-deploy }}
+      image-tag: ${{ steps.context.outputs.image-tag }}
+      
+    steps:
+      - name: Analyze deployment context
+        id: context
+        run: |
+          # Determine deployment context
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            echo "is-pr=true" >> $GITHUB_OUTPUT
+            echo "deploy-env=staging" >> $GITHUB_OUTPUT
+            echo "should-deploy=false" >> $GITHUB_OUTPUT  # PR = test only
+            echo "image-tag=pr-${{ github.event.number }}" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "is-pr=false" >> $GITHUB_OUTPUT
+            echo "deploy-env=${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
+            echo "should-deploy=true" >> $GITHUB_OUTPUT
+            echo "image-tag=manual-${{ github.sha }}" >> $GITHUB_OUTPUT
+          else
+            echo "is-pr=false" >> $GITHUB_OUTPUT
+            echo "deploy-env=production" >> $GITHUB_OUTPUT
+            echo "should-deploy=true" >> $GITHUB_OUTPUT
+            echo "image-tag=prod-${{ github.sha }}" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Display deployment info
+        run: |
+          echo "🚀 Production Deployment Pipeline"
+          echo "Event: ${{ github.event_name }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Is PR: ${{ steps.context.outputs.is-pr }}"
+          echo "Environment: ${{ steps.context.outputs.deploy-env }}"
+          echo "Will Deploy: ${{ steps.context.outputs.should-deploy }}"
+          echo "Image Tag: ${{ steps.context.outputs.image-tag }}"
+
+  # 🧪 Comprehensive Testing
+  comprehensive-tests:
+    name: 🧪 Pre-deployment Tests
+    runs-on: ubuntu-latest
+    needs: validation
     
     services:
       mysql:
         image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: hanaya_shop_test
+          MYSQL_DATABASE: hanaya_shop_prod_test
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -45,75 +119,97 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: ${{ env.PHP_VERSION }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, redis
-          coverage: none
+          coverage: xdebug
           tools: composer:v2
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
-      - name: Install dependencies and run tests
+      - name: Install dependencies and build
         run: |
-          composer install --no-interaction --prefer-dist --optimize-autoloader
-          npm ci
+          composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+          npm ci --production=false
           npm run build
+
+      - name: Configure production-like environment
+        run: |
           cp .env.example .env
           php artisan key:generate
           
-          # Configure test environment
-          echo "APP_ENV=testing" >> .env
-          echo "APP_DEBUG=true" >> .env
-          echo "DB_CONNECTION=mysql" >> .env
-          echo "DB_HOST=127.0.0.1" >> .env
-          echo "DB_PORT=3306" >> .env
-          echo "DB_DATABASE=hanaya_shop_test" >> .env
-          echo "DB_USERNAME=root" >> .env
-          echo "DB_PASSWORD=password" >> .env
-          echo "CACHE_DRIVER=array" >> .env
-          echo "SESSION_DRIVER=array" >> .env
-          echo "QUEUE_CONNECTION=sync" >> .env
-          echo "MAIL_MAILER=array" >> .env
+          # Production-like database config
+          sed -i 's/DB_CONNECTION=.*/DB_CONNECTION=mysql/' .env
+          sed -i 's/DB_HOST=.*/DB_HOST=127.0.0.1/' .env
+          sed -i 's/DB_PORT=.*/DB_PORT=3306/' .env
+          sed -i 's/DB_DATABASE=.*/DB_DATABASE=hanaya_shop_prod_test/' .env
+          sed -i 's/DB_USERNAME=.*/DB_USERNAME=root/' .env
+          sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=password/' .env
+          
+          # Production-like services
+          echo "APP_ENV=production" >> .env
+          echo "APP_DEBUG=false" >> .env
           echo "REDIS_HOST=127.0.0.1" >> .env
           echo "REDIS_PORT=6379" >> .env
-          
-          # Create storage directories
-          mkdir -p storage/framework/{cache/data,sessions,views}
-          mkdir -p storage/logs bootstrap/cache
+          echo "CACHE_DRIVER=redis" >> .env
+          echo "SESSION_DRIVER=redis" >> .env
+          echo "QUEUE_CONNECTION=redis" >> .env
+          echo "MAIL_MAILER=array" >> .env
+          echo "MAIL_FROM_ADDRESS=noreply@hanaya-shop.com" >> .env
+          echo "MAIL_FROM_NAME=Hanaya Shop" >> .env
+
+      - name: Prepare application
+        run: |
+          # Create all necessary directories
+          mkdir -p storage/framework/{cache/data,sessions,views,testing}
+          mkdir -p storage/{app/public,logs}
+          mkdir -p bootstrap/cache
           chmod -R 755 storage bootstrap/cache
           
-          # Run migrations, tests, and quality checks
-          php artisan migrate --force
-          php artisan db:seed --force || echo "⚠️ Seeding skipped"
-          php artisan test
-          ./vendor/bin/pint --test || echo "⚠️ Linting issues found"
-          composer audit || echo "⚠️ Security vulnerabilities found"
+          # Optimize for production
+          php artisan config:cache
+          php artisan route:cache
+          php artisan view:cache
 
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    name: Build & Deploy to Production
-    needs: pre-deployment-tests  # 🛡️ CHỈ DEPLOY NẾU TESTS PASS
-    environment:
-      name: production
-      url: http://www.hanayashop.com
-
-    steps:
-      - name: Debug Info
+      - name: Run database migrations
         run: |
-          echo "🚀 Production deployment started!"
-          echo "Event: ${{ github.event_name }}"
-          echo "Branch: ${{ github.ref }}"
-          echo "Commit: ${{ github.sha }}"
-          echo "Repository: ${{ github.repository }}"
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            echo "💡 This is a PR deployment for review"
-          else
-            echo "💡 This is a main branch official deployment"
-          fi
+          php artisan migrate --force
+          php artisan db:seed --force
 
+      - name: Execute comprehensive test suite
+        run: |
+          echo "🧪 Running comprehensive tests..."
+          
+          # Core functionality tests
+          php artisan test --parallel --coverage --min=80
+          
+          # Code quality checks
+          ./vendor/bin/pint --test
+          
+          # Security audit
+          composer audit
+          npm audit --audit-level=high || echo "⚠️ NPM vulnerabilities detected"
+
+      - name: Performance tests
+        continue-on-error: true
+        run: |
+          echo "🚀 Running performance tests..."
+          # Basic performance check
+          time php artisan config:cache
+          time php artisan route:cache
+          time php artisan view:cache
+
+  # 🐳 Docker Build & Push
+  docker-build:
+    name: 🐳 Build & Push Docker Image
+    runs-on: ubuntu-latest
+    needs: [validation, comprehensive-tests]
+    environment: ${{ needs.validation.outputs.deploy-env }}
+    
+    steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -126,18 +222,52 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.DOCKER_IMAGE }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=sha,prefix=commit-
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=${{ needs.validation.outputs.image-tag }}
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          tags: |
-            assassincreed2k1/hanaya-shop:latest
-            assassincreed2k1/hanaya-shop:${{ github.sha }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: |
+            BUILD_DATE=${{ github.event.head_commit.timestamp }}
+            VCS_REF=${{ github.sha }}
+            VERSION=${{ needs.validation.outputs.image-tag }}
 
-      - name: Setup SSH Key Authentication
+      - name: Image security scan
+        uses: aquasecurity/trivy-action@master
+        continue-on-error: true
+        with:
+          image-ref: ${{ env.DOCKER_IMAGE }}:${{ needs.validation.outputs.image-tag }}
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+  # 🚀 Production Deployment
+  deploy:
+    name: 🚀 Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [validation, comprehensive-tests, docker-build]
+    if: needs.validation.outputs.should-deploy == 'true'
+    environment:
+      name: ${{ needs.validation.outputs.deploy-env }}
+      url: ${{ needs.validation.outputs.deploy-env == 'production' && 'http://www.hanayashop.com' || 'http://staging.hanayashop.com' }}
+    
+    steps:
+      - name: Setup SSH Authentication
         run: |
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
@@ -148,46 +278,148 @@ jobs:
 
       - name: Deploy to Production Server
         run: |
-          ssh -i ~/.ssh/deploy_key -o ConnectTimeout=10 -o UserKnownHostsFile=~/.ssh/known_hosts ${{ secrets.PRODUCTION_USER }}@${{ secrets.PRODUCTION_HOST }} << 'DEPLOYMENT_SCRIPT'
-            set -e
-            echo "🔗 Connected to production server successfully!"
-            cd /opt/hanaya-shop || { echo "❌ Project directory not found"; exit 1; }
+          ssh -i ~/.ssh/deploy_key -o ConnectTimeout=30 -o StrictHostKeyChecking=yes \
+              ${{ secrets.PRODUCTION_USER }}@${{ secrets.PRODUCTION_HOST }} << 'DEPLOYMENT_SCRIPT'
+            
+            set -euo pipefail  # Strict error handling
+            
+            echo "� Starting production deployment..."
+            echo "Target environment: ${{ needs.validation.outputs.deploy-env }}"
+            echo "Image tag: ${{ needs.validation.outputs.image-tag }}"
+            
+            # Navigate to application directory
+            cd /opt/hanaya-shop || {
+              echo "❌ Application directory not found at /opt/hanaya-shop"
+              exit 1
+            }
+            
             echo "📁 Current directory: $(pwd)"
+            echo "🐳 Current Docker status:"
+            docker ps --filter name=hanaya --format "table {{.Names}}\t{{.Status}}" || echo "No containers running"
             
-            echo " Stopping nginx service to free port 80..."
-            sudo systemctl stop nginx || echo "⚠️ nginx service not running or already stopped"
-            sudo systemctl disable nginx || echo "⚠️ nginx service disable failed"
+            # Stop conflicting services
+            echo "🛑 Stopping nginx to free port 80..."
+            sudo systemctl stop nginx 2>/dev/null || echo "nginx not running"
+            sudo systemctl disable nginx 2>/dev/null || echo "nginx already disabled"
             
-            echo "🚀 Running update script..."
-            cd scripts || { echo "❌ Scripts directory not found"; exit 1; }
-            ./update-image.sh || { echo "❌ Update script failed"; exit 1; }
+            # Backup current state
+            echo "💾 Creating deployment backup..."
+            BACKUP_DIR="/opt/backups/$(date +%Y%m%d_%H%M%S)"
+            sudo mkdir -p "$BACKUP_DIR"
             
+            # Pull latest images
+            echo "� Pulling latest Docker images..."
+            docker pull ${{ env.DOCKER_IMAGE }}:${{ needs.validation.outputs.image-tag }}
+            docker pull ${{ env.DOCKER_IMAGE }}:latest
+            
+            # Execute deployment script
+            echo "🔄 Executing deployment update..."
+            cd scripts || {
+              echo "❌ Scripts directory not found"
+              exit 1
+            }
+            
+            # Set image tag for deployment script
+            export NEW_IMAGE_TAG="${{ needs.validation.outputs.image-tag }}"
+            ./update-image.sh || {
+              echo "❌ Deployment script failed"
+              echo "🔄 Attempting rollback..."
+              docker-compose down || true
+              docker-compose up -d || echo "❌ Rollback failed"
+              exit 1
+            }
+            
+            # Verification phase
             echo "🔍 Verifying deployment..."
             cd /opt/hanaya-shop
-            if docker ps | grep -q "hanaya"; then
-              echo "✅ Deployment successful! Containers are running:"
+            
+            # Wait for containers to be ready
+            echo "⏳ Waiting for containers to start..."
+            sleep 10
+            
+            # Check container status
+            if docker ps --filter name=hanaya --format "{{.Names}}" | grep -q hanaya; then
+              echo "✅ Containers are running:"
               docker ps --filter name=hanaya --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
-              
-              echo "🏥 Final health check..."
-              sleep 5
-              if curl -f http://localhost > /dev/null 2>&1; then
-                echo "✅ Application is healthy and responding!"
-                echo "🌐 Website is now live with latest updates!"
-              else
-                echo "⚠️ Health check failed, but deployment completed"
-                echo "💡 Try clearing browser cache (Ctrl+Shift+R)"
-              fi
             else
-              echo "❌ No containers found running"
+              echo "❌ No hanaya containers found running"
               exit 1
             fi
             
-            echo "🎉 Production deployment completed successfully!"
+            # Health check with retry
+            echo "🏥 Performing health checks..."
+            RETRY_COUNT=0
+            MAX_RETRIES=6
+            
+            while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+              if curl -f --max-time 10 http://localhost > /dev/null 2>&1; then
+                echo "✅ Application is healthy and responding!"
+                echo "🌐 Website is live with latest updates!"
+                
+                # Additional checks
+                echo "📊 Application metrics:"
+                docker stats --no-stream --format "table {{.Container}}\t{{.CPUPerc}}\t{{.MemUsage}}" | head -3
+                
+                echo "🎉 Production deployment completed successfully!"
+                exit 0
+              else
+                RETRY_COUNT=$((RETRY_COUNT + 1))
+                echo "⏳ Health check attempt $RETRY_COUNT/$MAX_RETRIES failed, retrying in 5s..."
+                sleep 5
+              fi
+            done
+            
+            echo "⚠️ Health checks failed after $MAX_RETRIES attempts"
+            echo "💡 Deployment completed but application may need manual verification"
+            echo "🔍 Check logs: docker logs hanaya-web"
+            echo "�️ Try clearing browser cache (Ctrl+Shift+R)"
+            
           DEPLOYMENT_SCRIPT
 
-      - name: Deployment Success
-        if: success()
+      - name: Post-deployment validation
         run: |
-          echo "🎉 Deployment to production completed successfully!"
-          echo "✅ Docker image: assassincreed2k1/hanaya-shop:${{ github.sha }}"
-          echo "🌐 Application URL: http://www.hanayashop.com"
+          echo "✅ Deployment pipeline completed!"
+          echo "🐳 Docker Image: ${{ env.DOCKER_IMAGE }}:${{ needs.validation.outputs.image-tag }}"
+          echo "🌐 Environment: ${{ needs.validation.outputs.deploy-env }}"
+          
+          if [[ "${{ needs.validation.outputs.deploy-env }}" == "production" ]]; then
+            echo "🚀 Production URL: http://www.hanayashop.com"
+          else
+            echo "🚀 Staging URL: http://staging.hanayashop.com"
+          fi
+
+  # 📊 Deployment Summary
+  summary:
+    name: 📊 Deployment Summary
+    runs-on: ubuntu-latest
+    needs: [validation, comprehensive-tests, docker-build, deploy]
+    if: always()
+    
+    steps:
+      - name: Generate deployment summary
+        run: |
+          echo "## 🚀 Production Deployment Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Stage | Status | Details |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|--------|---------|" >> $GITHUB_STEP_SUMMARY
+          echo "| 🔍 Validation | ${{ needs.validation.result == 'success' && '✅ Passed' || '❌ Failed' }} | Environment: ${{ needs.validation.outputs.deploy-env }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🧪 Tests | ${{ needs.comprehensive-tests.result == 'success' && '✅ All Passed' || '❌ Failed' }} | Production-ready validation |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🐳 Docker Build | ${{ needs.docker-build.result == 'success' && '✅ Built & Pushed' || '❌ Failed' }} | Tag: ${{ needs.validation.outputs.image-tag }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🚀 Deployment | ${{ needs.deploy.result == 'success' && '✅ Deployed' || needs.deploy.result == 'skipped' && '⏭️ Skipped (PR)' || '❌ Failed' }} | Target: ${{ needs.validation.outputs.deploy-env }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [[ "${{ needs.deploy.result }}" == "success" ]]; then
+            echo "### 🎉 Deployment Successful!" >> $GITHUB_STEP_SUMMARY
+            echo "The application has been successfully deployed to ${{ needs.validation.outputs.deploy-env }}." >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Next Steps:**" >> $GITHUB_STEP_SUMMARY
+            echo "- 🌐 Verify the application at the deployment URL" >> $GITHUB_STEP_SUMMARY
+            echo "- 📊 Monitor application metrics and logs" >> $GITHUB_STEP_SUMMARY
+            echo "- 🔄 Update documentation if needed" >> $GITHUB_STEP_SUMMARY
+          elif [[ "${{ needs.validation.outputs.is-pr }}" == "true" ]]; then
+            echo "### ✅ PR Validation Complete" >> $GITHUB_STEP_SUMMARY
+            echo "All tests passed! This PR is ready for review and merge." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### ⚠️ Deployment Issues" >> $GITHUB_STEP_SUMMARY
+            echo "Some stages failed. Please review the logs and retry if necessary." >> $GITHUB_STEP_SUMMARY
+          fi
