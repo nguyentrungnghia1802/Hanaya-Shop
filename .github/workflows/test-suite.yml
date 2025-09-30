@@ -1,6 +1,6 @@
 name: 🧪 Test Suite
 
-# Smart triggering strategy
+# Smart triggering strategy - focus on develop branch and feature branches
 on:
   push:
     branches: 
