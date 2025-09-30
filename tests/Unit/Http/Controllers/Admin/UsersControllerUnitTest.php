@@ -27,6 +27,10 @@ class UsersControllerUnitTest extends TestCase
     {
         parent::setUp();
         $this->controller = new UsersController;
+        
+        // Set up cache for testing
+        $this->app['config']->set('cache.default', 'array');
+        $this->app['config']->set('session.driver', 'array');
 
         $this->currentUser = User::factory()->create([
             'id' => 1,
