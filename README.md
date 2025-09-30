@@ -142,6 +142,36 @@ _花の廃棄問題の実態_
 -   チャットボット: 購入前の疑問解消を自動化し、カゴ落ちを削減。
 -   TinyMCE: 記事/販促の表現力向上で集客を強化。
 -   複数決済（代金引換・カード・PayPal）: 決済ハードルを下げ、成約率を向上。
+-   **CI/CD with GitHub Actions**: 自動テスト・品質チェック・デプロイで開発効率とコード品質を大幅向上。
+
+### 🔄 CI/CD パイプライン（GitHub Actions） <a id="cicd-jp"></a>
+
+プロフェッショナルな開発・運用フローを確立するため、GitHub Actionsによる自動化パイプラインを導入：
+
+#### 📊 **開発ブランチ（develop/feature/hotfix）**
+```yaml
+✅ Laravel テスト（PHPUnit）193件 + 543アサーション
+✅ コード品質チェック（Laravel Pint）
+✅ セキュリティ脆弱性スキャン（Composer Audit）
+✅ Dockerビルドテスト（本番環境シミュレーション）
+⚡ 高速フィードバック（1-2分）で開発効率向上
+```
+
+#### 🎯 **本番リリース（main branch / Pull Request）**
+```yaml
+✅ 本番前テスト（production-like environment）
+✅ ストレージ・権限・キャッシュ動作検証
+✅ Dockerイメージ自動ビルド・プッシュ
+✅ 本番サーバーへの安全な自動デプロイ
+🛡️ テスト成功時のみデプロイ実行（フェイルセーフ）
+```
+
+#### 💡 **CI/CDの効果**
+- **品質保証**: 全コード変更が自動テストを通過
+- **リスク軽減**: 本番デプロイ前の徹底検証
+- **効率化**: 手動作業をほぼゼロに削減
+- **可視性**: GitHub上でテスト結果・デプロイ状況が一目瞭然
+- **安全性**: 失敗時の自動ロールバック機能
 
 <div align="center">
 <img src=".github/images/all/performance.png" alt="pagespeed.web.dev" width="850"/>
@@ -408,6 +438,36 @@ _Real-world image of flower waste problem_
 -   Chatbot: Automates pre-purchase Q&A; reduces cart abandonment.
 -   TinyMCE: Better, richer promotional content; improves engagement.
 -   Multiple payments (COD, bank card, PayPal): Lowers checkout friction; increases successful payments.
+-   **CI/CD with GitHub Actions**: Automated testing, quality checks, and deployment significantly boost development efficiency and code quality.
+
+### 🔄 CI/CD Pipeline (GitHub Actions) <a id="cicd-en"></a>
+
+Established professional development and operations workflow through GitHub Actions automation pipeline:
+
+#### 📊 **Development Branches (develop/feature/hotfix)**
+```yaml
+✅ Laravel Tests (PHPUnit) - 193 tests + 543 assertions
+✅ Code Quality Checks (Laravel Pint)
+✅ Security Vulnerability Scanning (Composer Audit)
+✅ Docker Build Testing (production environment simulation)
+⚡ Fast Feedback (1-2 minutes) improves development efficiency
+```
+
+#### 🎯 **Production Release (main branch / Pull Request)**
+```yaml
+✅ Pre-deployment Testing (production-like environment)
+✅ Storage, Permissions & Cache Operations Verification
+✅ Automated Docker Image Build & Push
+✅ Safe Automated Deployment to Production Server
+🛡️ Deploy Only on Test Success (fail-safe mechanism)
+```
+
+#### 💡 **CI/CD Benefits**
+- **Quality Assurance**: All code changes pass automated testing
+- **Risk Mitigation**: Thorough verification before production deployment
+- **Efficiency**: Manual work reduced to near zero
+- **Visibility**: Test results and deployment status clear on GitHub
+- **Safety**: Automatic rollback on failure
 
 <div align="center">
 <img src=".github/images/all/performance.png" alt="pagespeed.web.dev" width="850"/>
@@ -673,6 +733,36 @@ _Hình ảnh thực tế cho vấn đề hoa bị lãng phí_
 -   Chatbot: Tự động giải đáp trước khi mua; giảm tỷ lệ bỏ giỏ hàng.
 -   TinyMCE: Nội dung tiếp thị giàu hình ảnh; tăng tương tác.
 -   Thanh toán đa dạng (COD, thẻ ngân hàng, PayPal): Giảm ma sát khi checkout; tăng tỉ lệ thanh toán thành công.
+-   **CI/CD với GitHub Actions**: Tự động hóa kiểm thử, kiểm tra chất lượng và triển khai, nâng cao đáng kể hiệu quả phát triển và chất lượng code.
+
+### 🔄 Quy trình CI/CD (GitHub Actions) <a id="cicd-vi"></a>
+
+Thiết lập quy trình phát triển và vận hành chuyên nghiệp thông qua pipeline tự động hóa GitHub Actions:
+
+#### 📊 **Nhánh phát triển (develop/feature/hotfix)**
+```yaml
+✅ Kiểm thử Laravel (PHPUnit) - 193 tests + 543 assertions
+✅ Kiểm tra chất lượng code (Laravel Pint)
+✅ Quét lỗ hổng bảo mật (Composer Audit)
+✅ Test Docker Build (mô phỏng môi trường production)
+⚡ Phản hồi nhanh (1-2 phút) cải thiện hiệu quả phát triển
+```
+
+#### 🎯 **Phát hành production (main branch / Pull Request)**
+```yaml
+✅ Kiểm thử trước triển khai (môi trường giống production)
+✅ Xác minh Storage, Permissions & Cache Operations
+✅ Tự động Build & Push Docker Image
+✅ Triển khai tự động an toàn lên Production Server
+🛡️ Chỉ triển khai khi test thành công (cơ chế fail-safe)
+```
+
+#### 💡 **Lợi ích của CI/CD**
+- **Đảm bảo chất lượng**: Mọi thay đổi code đều qua kiểm thử tự động
+- **Giảm thiểu rủi ro**: Xác minh kỹ lưỡng trước khi triển khai production
+- **Tăng hiệu quả**: Giảm công việc thủ công xuống gần như bằng 0
+- **Tính minh bạch**: Kết quả test và trạng thái triển khai rõ ràng trên GitHub
+- **An toàn**: Tự động rollback khi có lỗi xảy ra
 
 <div align="center">
 <img src=".github/images/all/performance.png" alt="pagespeed.web.dev" width="850"/>
