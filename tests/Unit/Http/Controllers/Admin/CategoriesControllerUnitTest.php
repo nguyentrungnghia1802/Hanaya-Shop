@@ -27,7 +27,7 @@ class CategoriesControllerUnitTest extends TestCase
 
         // Mock filesystem
         Storage::fake('public');
-        
+
         // Set up cache for testing
         $this->app['config']->set('cache.default', 'array');
         $this->app['config']->set('session.driver', 'array');
@@ -116,7 +116,6 @@ class CategoriesControllerUnitTest extends TestCase
         if (! function_exists('imagecreatetruecolor')) {
             $this->markTestSkipped('GD extension is not installed.');
         }
-
 
         $category = Category::factory()->create([
             'image_path' => 'old_image.jpg',
