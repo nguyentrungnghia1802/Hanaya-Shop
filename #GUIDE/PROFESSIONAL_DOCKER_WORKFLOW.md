@@ -98,6 +98,9 @@ develop push → Quality Gates → Docker Build → Staging Deploy
 - **Deployment Confidence**: Every staging deploy đã qua full testing
 - **Security Compliance**: Vulnerability scanning integrated
 - **Audit Trail**: Complete traceability từ code → image → deployment
+- **Storage Efficiency**: Single staging tag prevents registry bloat (~90% reduction)
+- **Cost Optimization**: Minimal DockerHub storage usage
+- **Simple Deployment**: Always deploy from predictable `staging` tag
 
 ## 🔧 Implementation Strategy
 
@@ -118,18 +121,34 @@ develop branch:
 
 ### 2. Docker Registry Strategy:
 ```yaml
-# Professional image tagging strategy
+# OPTIMIZED: Registry efficiency strategy
 production images:
   - myapp:v1.2.3 (semantic versioning)
   - myapp:latest (only tested releases)
 
 staging images:
-  - myapp:staging-latest (latest tested develop)
-  - myapp:staging-{sha} (specific tested commits)
+  - myapp:staging (single overwriting tag - EFFICIENT!)
+  # ✅ NO SHA tags to prevent registry bloat
+  # ✅ Each deploy overwrites previous staging image
+  # ✅ ~90% storage reduction vs SHA-based tagging
 
-testing images:
-  - myapp:test-{sha} (short-lived testing images)
-  - Auto-cleanup after 7 days
+development images:
+  - myapp:dev (development testing)
+  # Auto-cleanup after 7 days
+```
+
+### 📊 Registry Efficiency Benefits:
+```bash
+# ❌ OLD APPROACH (Registry Bloat):
+myapp:staging-abc123  # 500MB
+myapp:staging-def456  # 500MB  
+myapp:staging-ghi789  # 500MB
+# Total: 1.5GB+ for 3 staging deploys
+
+# ✅ NEW APPROACH (Single Tag):
+myapp:staging         # 500MB (overwrites previous)
+# Total: 500MB for unlimited staging deploys
+# 🎯 Result: ~90% storage reduction!
 ```
 
 ### 3. Environment Strategy:
@@ -139,6 +158,24 @@ develop → staging → production
    ↓        ↓          ↓
 Quality   Staging    Production
  Gates     Tests      Ready
+```
+
+### 4. Rollback Strategy for Single-Tag Approach:
+```yaml
+# 🔄 Staging Rollback Options:
+Option 1: Git-based rollback
+  - git revert <problematic-commit>
+  - git push origin develop
+  - Triggers new staging deploy with reverted code
+
+Option 2: Manual previous version deploy
+  - Keep backup of last known good commit SHA
+  - Manually trigger deploy from that commit
+  - Use GitHub Actions re-run functionality
+
+Option 3: Production tag emergency rollback
+  - docker tag myapp:latest myapp:staging
+  - Quick rollback to last production version
 ```
 
 ## 📈 Monitoring & Observability
