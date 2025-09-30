@@ -263,7 +263,40 @@ Hanaya Shop — Docker イメージで本番運用可能
 <details>
 <summary><strong>🇺🇸 English</strong></summary>
 
-# Hanaya Shop — Production Installation Guide (Docker Images)
+# 🚀 Deployment Guide - Updated for Enhanced Professional System
+
+## 📋 Overview
+
+This guide has been **SUPERSEDED** by the new enhanced professional deployment system. Please refer to:
+
+**📁 Primary Guide:** `#GUIDE/ENHANCED_PROFESSIONAL_DEPLOYMENT.md`
+
+## 🎯 Current Workflow Status
+
+### ✅ **Active Workflows:**
+- `enhanced-production-deploy.yml` - Smart production deployment with change detection
+- `staging-deploy.yml` - Pre-production testing environment  
+- `production-deploy.yml` - Legacy production deployment (backup)
+- `test-suite.yml` - Comprehensive testing pipeline
+- `status-monitor.yml` - System monitoring
+- `block-invalid-pr.yml` - PR validation
+
+### ❌ **Removed/Deprecated:**
+- `develop-deploy.yml` - Replaced by `staging-deploy.yml`
+- Multiple duplicate documentation files
+- Outdated deployment strategies
+
+## 🔄 Migration Completed
+
+**All deployment workflows have been upgraded to enterprise-grade with:**
+- ✅ Smart change detection - only deploy when necessary
+- ✅ Comprehensive health checks and rollback safety
+- ✅ Customer-first deployment approach
+- ✅ Professional monitoring and reporting
+
+---
+
+**📖 For complete documentation, see: `ENHANCED_PROFESSIONAL_DEPLOYMENT.md`**
 
 ## Table of Contents
 
