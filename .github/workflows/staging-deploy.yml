@@ -87,26 +87,26 @@ jobs:
       - name: Create storage directories and set permissions (Production-like)
         run: |
           echo "📁 Creating storage directories with production-like permissions..."
-          # Create directories as they would be on production
-          sudo mkdir -p storage/framework/cache/data
-          sudo mkdir -p storage/framework/sessions
-          sudo mkdir -p storage/framework/views
-          sudo mkdir -p storage/logs
-          sudo mkdir -p bootstrap/cache
+          # Create directories first
+          mkdir -p storage/framework/cache/data
+          mkdir -p storage/framework/sessions
+          mkdir -p storage/framework/views
+          mkdir -p storage/logs
+          mkdir -p bootstrap/cache
           
-          # Set ownership to current user (simulating www-data)
-          sudo chown -R $USER:$USER storage bootstrap/cache
-          
-          # Set production-like permissions
-          sudo chmod -R 755 storage
-          sudo chmod -R 755 bootstrap/cache
-          sudo chmod -R 644 storage/logs
-          
-          # Create .gitkeep files like production
+          # Create .gitkeep files first (before changing permissions)
           touch storage/framework/cache/data/.gitkeep
           touch storage/framework/sessions/.gitkeep
           touch storage/framework/views/.gitkeep
           touch storage/logs/.gitkeep
+          touch bootstrap/cache/.gitkeep
+          
+          # Now set production-like permissions using sudo
+          sudo chown -R $USER:$USER storage bootstrap/cache
+          sudo chmod -R 755 storage
+          sudo chmod -R 755 bootstrap/cache
+          
+          echo "✅ Storage directories created with proper permissions"
 
       - name: Verify PHP configuration (Production-like)
         run: |
