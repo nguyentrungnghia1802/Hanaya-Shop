@@ -1,0 +1,51 @@
+name: 📊 Workflow Status Monitor
+
+# Monitor all workflows and send notifications
+on:
+  workflow_run:
+    workflows: ["🧪 Test Suite", "🚀 Production Deploy"]
+    types: [completed]
+
+jobs:
+  monitor:
+    name: 📊 Monitor Workflow Status
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion != 'cancelled' }}
+    
+    steps:
+      - name: Check workflow status
+        run: |
+          echo "📊 Workflow Status Monitor"
+          echo "Workflow: ${{ github.event.workflow_run.name }}"
+          echo "Status: ${{ github.event.workflow_run.conclusion }}"
+          echo "Branch: ${{ github.event.workflow_run.head_branch }}"
+          echo "Commit: ${{ github.event.workflow_run.head_sha }}"
+          echo "Actor: ${{ github.event.workflow_run.actor.login }}"
+          echo "Run ID: ${{ github.event.workflow_run.id }}"
+          echo "Run URL: ${{ github.event.workflow_run.html_url }}"
+          
+      - name: Success notification
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        run: |
+          echo "✅ Workflow '${{ github.event.workflow_run.name }}' completed successfully!"
+          
+          if [[ "${{ github.event.workflow_run.name }}" == "🚀 Production Deploy" ]]; then
+            echo "🎉 Production deployment successful!"
+            echo "🌐 Application is live: http://www.hanayashop.com"
+          fi
+          
+      - name: Failure notification  
+        if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+        run: |
+          echo "❌ Workflow '${{ github.event.workflow_run.name }}' failed!"
+          echo "🔍 Check logs: ${{ github.event.workflow_run.html_url }}"
+          
+          # Could integrate with Slack/Discord/Email here
+          # Example: curl webhook notification
+          
+      - name: Update status badge data
+        run: |
+          echo "📊 Updating workflow status data..."
+          echo "Last run: $(date)"
+          echo "Status: ${{ github.event.workflow_run.conclusion }}"
+          echo "Workflow: ${{ github.event.workflow_run.name }}"
