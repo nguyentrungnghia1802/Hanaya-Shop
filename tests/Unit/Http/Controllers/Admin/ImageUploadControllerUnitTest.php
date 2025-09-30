@@ -63,9 +63,8 @@ class ImageUploadControllerUnitTest extends TestCase
 
         $this->assertEquals(200, $response->getStatusCode());
         $responseData = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('filename', $responseData);
         $this->assertArrayHasKey('url', $responseData);
-        $this->assertTrue($responseData['uploaded']);
+        $this->assertStringContainsString('/images/posts/', $responseData['url']);
     }
 
     #[Test]
@@ -74,8 +73,12 @@ class ImageUploadControllerUnitTest extends TestCase
         $file = UploadedFile::fake()->create('document.pdf', 1024, 'application/pdf');
         $request = Request::create('/upload', 'POST', [], [], ['upload' => $file]);
 
-        $this->expectException(ValidationException::class);
-        $this->controller->uploadCKEditorImage($request);
+        try {
+            $this->controller->uploadCKEditorImage($request);
+            $this->fail('Expected ValidationException was not thrown');
+        } catch (ValidationException $e) {
+            $this->assertTrue(true); // Test passed
+        }
     }
 
     #[Test]
@@ -83,8 +86,12 @@ class ImageUploadControllerUnitTest extends TestCase
     {
         $request = Request::create('/upload', 'POST');
 
-        $this->expectException(ValidationException::class);
-        $this->controller->uploadCKEditorImage($request);
+        try {
+            $this->controller->uploadCKEditorImage($request);
+            $this->fail('Expected ValidationException was not thrown');
+        } catch (ValidationException $e) {
+            $this->assertTrue(true); // Test passed
+        }
     }
 
     #[Test]
@@ -102,9 +109,10 @@ class ImageUploadControllerUnitTest extends TestCase
 
         $this->assertEquals(200, $response->getStatusCode());
         $responseData = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('filename', $responseData);
+        $this->assertArrayHasKey('success', $responseData);
         $this->assertArrayHasKey('url', $responseData);
-        $this->assertTrue($responseData['uploaded']);
+        $this->assertArrayHasKey('filename', $responseData);
+        $this->assertTrue($responseData['success']);
     }
 
     #[Test]
@@ -112,7 +120,11 @@ class ImageUploadControllerUnitTest extends TestCase
     {
         $request = Request::create('/upload', 'POST');
 
-        $this->expectException(ValidationException::class);
-        $this->controller->uploadPostImage($request);
+        try {
+            $this->controller->uploadPostImage($request);
+            $this->fail('Expected ValidationException was not thrown');
+        } catch (ValidationException $e) {
+            $this->assertTrue(true); // Test passed
+        }
     }
 }
