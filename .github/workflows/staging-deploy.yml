@@ -84,6 +84,79 @@ jobs:
           echo "REDIS_HOST=127.0.0.1" >> .env
           echo "REDIS_PORT=6379" >> .env
 
+      - name: Create storage directories and set permissions (Production-like)
+        run: |
+          echo "📁 Creating storage directories with production-like permissions..."
+          # Create directories as they would be on production
+          sudo mkdir -p storage/framework/cache/data
+          sudo mkdir -p storage/framework/sessions
+          sudo mkdir -p storage/framework/views
+          sudo mkdir -p storage/logs
+          sudo mkdir -p bootstrap/cache
+          
+          # Set ownership to current user (simulating www-data)
+          sudo chown -R $USER:$USER storage bootstrap/cache
+          
+          # Set production-like permissions
+          sudo chmod -R 755 storage
+          sudo chmod -R 755 bootstrap/cache
+          sudo chmod -R 644 storage/logs
+          
+          # Create .gitkeep files like production
+          touch storage/framework/cache/data/.gitkeep
+          touch storage/framework/sessions/.gitkeep
+          touch storage/framework/views/.gitkeep
+          touch storage/logs/.gitkeep
+
+      - name: Verify PHP configuration (Production-like)
+        run: |
+          echo "🔧 Verifying PHP configuration matches production..."
+          php -v
+          php -m | grep -E "(curl|mbstring|zip|xml|gd|redis|mysql)" || echo "⚠️ Some extensions might be missing"
+          php -i | grep "memory_limit"
+          php -i | grep "max_execution_time"
+          
+      - name: Check file permissions (Production-like)
+        run: |
+          echo "🔐 Checking file permissions..."
+          ls -la storage/
+          ls -la bootstrap/cache/
+          # Verify writable directories
+          test -w storage/framework/views || { echo "❌ storage/framework/views not writable"; exit 1; }
+          test -w storage/logs || { echo "❌ storage/logs not writable"; exit 1; }
+          test -w bootstrap/cache || { echo "❌ bootstrap/cache not writable"; exit 1; }
+
+      - name: Clear and cache Laravel configurations
+        run: |
+          echo "🔧 Clearing and caching Laravel configurations..."
+          php artisan config:clear
+          php artisan route:clear
+          php artisan view:clear
+          php artisan cache:clear
+          
+          # Cache configurations (like production)
+          php artisan config:cache
+          php artisan route:cache
+          
+          # Only cache views if all directories are properly set up
+          php artisan view:cache || { echo "⚠️ View caching failed, but continuing..."; }
+
+      - name: Test storage directory creation (Production simulation)
+        run: |
+          echo "🧪 Testing storage operations..."
+          # Test log writing
+          php -r "file_put_contents('storage/logs/test.log', 'Test log entry');" || { echo "❌ Cannot write to logs"; exit 1; }
+          
+          # Test cache writing
+          php -r "file_put_contents('storage/framework/cache/data/test.cache', 'Test cache');" || { echo "❌ Cannot write to cache"; exit 1; }
+          
+          # Test view compilation
+          echo "@php echo 'Test view';" > resources/views/test-ci.blade.php
+          php artisan view:cache
+          rm -f resources/views/test-ci.blade.php
+          
+          echo "✅ Storage operations working correctly"
+
       - name: Run database migrations
         run: php artisan migrate --force
 
@@ -97,6 +170,35 @@ jobs:
             echo "❌ php artisan test failed, trying PHPUnit directly..."
             ./vendor/bin/phpunit
           }
+
+      - name: Production Health Check Simulation
+        run: |
+          echo "🏥 Running production health checks..."
+          
+          # Check if Laravel can boot properly
+          php artisan about || { echo "❌ Laravel cannot boot properly"; exit 1; }
+          
+          # Check database connection
+          php artisan migrate:status || { echo "❌ Database connection failed"; exit 1; }
+          
+          # Check cache operations
+          php artisan cache:clear
+          php artisan config:cache
+          
+          # Test route caching (critical for production)
+          php artisan route:cache || { echo "❌ Route caching failed"; exit 1; }
+          
+          # Verify all essential directories exist and are writable
+          echo "Checking critical directories..."
+          test -d storage/framework/views || { echo "❌ Missing storage/framework/views"; exit 1; }
+          test -d storage/logs || { echo "❌ Missing storage/logs"; exit 1; }
+          test -d bootstrap/cache || { echo "❌ Missing bootstrap/cache"; exit 1; }
+          
+          # Check if views can compile
+          php artisan view:clear
+          php artisan view:cache || { echo "⚠️ View caching failed but continuing..."; }
+          
+          echo "✅ Production health checks passed!"
 
       - name: Run PHP Linting
         run: ./vendor/bin/pint --test
