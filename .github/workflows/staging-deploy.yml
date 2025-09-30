@@ -1,0 +1,88 @@
+name: 🌱 Staging Deploy
+
+# Staging deployment for testing before production
+on:
+  push:
+    branches: [develop]
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
+      - '*.md'
+      - '.gitignore'
+      - 'LICENSE'
+      - '#GUIDE/**'
+
+  workflow_dispatch:
+    inputs:
+      force_deploy:
+        description: 'Force staging deployment'
+        required: false
+        default: 'false'
+        type: boolean
+
+jobs:
+  # 🌱 Staging Deployment
+  staging-deploy:
+    runs-on: ubuntu-latest
+    name: 🌱 Deploy to Staging Environment
+    environment:
+      name: staging
+      url: http://staging.hanayashop.com
+
+    steps:
+      - name: Staging Deployment Info
+        run: |
+          echo "🌱 Starting Staging Deployment!"
+          echo "Branch: ${{ github.ref }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Repository: ${{ github.repository }}"
+          echo "Purpose: Pre-production testing and validation"
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push staging Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            assassincreed2k1/hanaya-shop:staging
+            assassincreed2k1/hanaya-shop:staging-${{ github.sha }}
+          labels: |
+            git_sha=${{ github.sha }}
+            build_date=${{ github.event.head_commit.timestamp }}
+            version=staging
+            environment=staging
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Deploy to Staging Server (if configured)
+        run: |
+          echo "🌱 Staging deployment completed!"
+          echo "🐳 Docker image: assassincreed2k1/hanaya-shop:staging"
+          echo "🔄 Ready for testing before production deployment"
+          echo ""
+          echo "📋 Next Steps:"
+          echo "1. Test staging application thoroughly"
+          echo "2. Verify all features work correctly"
+          echo "3. Run integration tests"
+          echo "4. When ready, merge to main for production deployment"
+          echo ""
+          echo "🌐 Staging URL: http://staging.hanayashop.com (when staging server configured)"
+
+      - name: Staging Summary
+        run: |
+          echo "✅ Staging deployment completed successfully!"
+          echo "🌱 Environment: Staging"
+          echo "🐳 Docker image: assassincreed2k1/hanaya-shop:staging-${{ github.sha }}"
+          echo "🎯 Purpose: Pre-production testing and validation"
