@@ -25,7 +25,7 @@ class ProductsControllerFeatureTest extends TestCase
         parent::setUp();
 
         // Skip setup if GD extension not available
-        if (!extension_loaded('gd')) {
+        if (! extension_loaded('gd')) {
             $this->markTestSkipped('GD extension is not installed.');
         }
 

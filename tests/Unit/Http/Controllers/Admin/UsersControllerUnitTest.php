@@ -542,7 +542,7 @@ class UsersControllerUnitTest extends TestCase
         $user2 = User::factory()->create(['id' => 11]);
         $this->app->instance('request', Request::create('/admin/users/11', 'DELETE'));
         $this->controller->destroySingle(11);
-        
+
         // Assert that cache methods were called as expected
         $this->assertTrue(true, 'Cache forget methods were called successfully');
     }
