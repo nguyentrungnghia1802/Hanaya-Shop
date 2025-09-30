@@ -36,7 +36,7 @@ class PostControllerUnitTest extends TestCase
         $this->user = User::factory()->create();
         $this->testUploadPath = public_path('images/posts');
 
-        if (! file_exists($this->testUploadPath)) {
+        if (!file_exists($this->testUploadPath)) {
             mkdir($this->testUploadPath, 0755, true);
         }
     }
@@ -55,7 +55,7 @@ class PostControllerUnitTest extends TestCase
     }
 
     #[Test]
-    public function index_returns_all_posts_with_author()
+    public function test_index_returns_all_posts_with_author()
     {
         // Arrange
         $posts = Post::factory()->count(3)->create(['user_id' => $this->user->id]);
@@ -71,7 +71,7 @@ class PostControllerUnitTest extends TestCase
     }
 
     #[Test]
-    public function index_filters_posts_by_search_term_in_title()
+    public function test_index_filters_posts_by_search_term_in_title()
     {
         // Arrange
         Post::factory()->create(['title' => 'Laravel Tutorial', 'user_id' => $this->user->id]);
@@ -90,7 +90,7 @@ class PostControllerUnitTest extends TestCase
     }
 
     #[Test]
-    public function index_filters_posts_by_search_term_in_content()
+    public function test_index_filters_posts_by_search_term_in_content()
     {
         // Arrange
         Post::factory()->create([
@@ -116,7 +116,7 @@ class PostControllerUnitTest extends TestCase
     }
 
     #[Test]
-    public function index_preserves_search_parameters_in_pagination()
+    public function test_index_preserves_search_parameters_in_pagination()
     {
         // Arrange
         Post::factory()->count(15)->create(['user_id' => $this->user->id]);
@@ -131,7 +131,7 @@ class PostControllerUnitTest extends TestCase
     }
 
     #[Test]
-    public function index_orders_posts_by_created_at_desc()
+    public function test_index_orders_posts_by_created_at_desc()
     {
         // Arrange
         $oldPost = Post::factory()->create([
@@ -154,7 +154,7 @@ class PostControllerUnitTest extends TestCase
     }
 
     #[Test]
-    public function show_returns_post_with_author()
+    public function test_show_returns_post_with_author()
     {
         // Arrange
         $post = Post::factory()->create(['user_id' => $this->user->id]);
@@ -169,7 +169,7 @@ class PostControllerUnitTest extends TestCase
     }
 
     #[Test]
-    public function show_throws_exception_when_post_not_found()
+    public function test_show_throws_exception_when_post_not_found()
     {
         // Act & Assert
         $this->expectException(ModelNotFoundException::class);
@@ -177,7 +177,7 @@ class PostControllerUnitTest extends TestCase
     }
 
     #[Test]
-    public function create_returns_create_view()
+    public function test_create_returns_create_view()
     {
         // Act
         $response = $this->controller->create();
@@ -189,7 +189,7 @@ class PostControllerUnitTest extends TestCase
     }
 
     #[Test]
-    public function store_creates_post_successfully_without_image()
+    public function test_store_creates_post_successfully_without_image()
     {
         // Arrange
         Auth::shouldReceive('id')->andReturn($this->user->id);
@@ -219,10 +219,10 @@ class PostControllerUnitTest extends TestCase
     }
 
     #[Test]
-    public function store_creates_post_with_image_upload()
+    public function test_store_creates_post_with_image_upload()
     {
         // Skip if GD extension not available
-        if (! extension_loaded('gd')) {
+        if (!extension_loaded('gd')) {
             $this->markTestSkipped('GD extension is not installed.');
         }
 
@@ -260,7 +260,7 @@ class PostControllerUnitTest extends TestCase
     }
 
     #[Test]
-    public function store_validates_required_fields()
+    public function test_store_validates_required_fields()
     {
         // Arrange
         $request = Request::create('/admin/posts', 'POST', []);
@@ -271,7 +271,7 @@ class PostControllerUnitTest extends TestCase
     }
 
     #[Test]
-    public function store_validates_image_file_type()
+    public function test_store_validates_image_file_type()
     {
         // Arrange
         $file = UploadedFile::fake()->create('document.pdf', 1024);
@@ -287,10 +287,10 @@ class PostControllerUnitTest extends TestCase
     }
 
     #[Test]
-    public function store_creates_upload_directory_if_not_exists()
+    public function test_store_creates_upload_directory_if_not_exists()
     {
         // Skip if GD extension not available
-        if (! extension_loaded('gd')) {
+        if (!extension_loaded('gd')) {
             $this->markTestSkipped('GD extension is not installed.');
         }
 
@@ -322,7 +322,7 @@ class PostControllerUnitTest extends TestCase
     }
 
     #[Test]
-    public function store_sets_default_status_to_true()
+    public function test_store_sets_default_status_to_true()
     {
         // Arrange
         Auth::shouldReceive('id')->andReturn($this->user->id);
@@ -344,7 +344,7 @@ class PostControllerUnitTest extends TestCase
     }
 
     #[Test]
-    public function edit_returns_edit_view_with_post()
+    public function test_edit_returns_edit_view_with_post()
     {
         // Arrange
         $post = Post::factory()->create(['user_id' => $this->user->id]);
@@ -360,7 +360,7 @@ class PostControllerUnitTest extends TestCase
     }
 
     #[Test]
-    public function edit_throws_exception_when_post_not_found()
+    public function test_edit_throws_exception_when_post_not_found()
     {
         // Act & Assert
         $this->expectException(ModelNotFoundException::class);
@@ -368,7 +368,7 @@ class PostControllerUnitTest extends TestCase
     }
 
     #[Test]
-    public function update_updates_post_without_image()
+    public function test_update_updates_post_without_image()
     {
         // Arrange
         $post = Post::factory()->create(['user_id' => $this->user->id]);
@@ -394,10 +394,10 @@ class PostControllerUnitTest extends TestCase
     }
 
     #[Test]
-    public function update_replaces_old_image_with_new_one()
+    public function test_update_replaces_old_image_with_new_one()
     {
         // Skip if GD extension not available
-        if (! extension_loaded('gd')) {
+        if (!extension_loaded('gd')) {
             $this->markTestSkipped('GD extension is not installed.');
         }
 
@@ -408,6 +408,7 @@ class PostControllerUnitTest extends TestCase
         // Mock filesystem for translation loading
         $this->mock('files', function ($mock) {
             $mock->shouldReceive('get')->andReturn('[]');
+            $mock->shouldReceive('exists')->andReturn(true);
         });
 
         $post = Post::factory()->create([
@@ -440,10 +441,10 @@ class PostControllerUnitTest extends TestCase
     }
 
     #[Test]
-    public function update_skips_old_image_deletion_if_file_not_exists()
+    public function test_update_skips_old_image_deletion_if_file_not_exists()
     {
         // Skip if GD extension not available
-        if (! extension_loaded('gd')) {
+        if (!extension_loaded('gd')) {
             $this->markTestSkipped('GD extension is not installed.');
         }
 
@@ -470,7 +471,7 @@ class PostControllerUnitTest extends TestCase
     }
 
     #[Test]
-    public function update_validates_required_fields()
+    public function test_update_validates_required_fields()
     {
         // Arrange
         $post = Post::factory()->create(['user_id' => $this->user->id]);
@@ -482,7 +483,7 @@ class PostControllerUnitTest extends TestCase
     }
 
     #[Test]
-    public function update_validates_image_file_type()
+    public function test_update_validates_image_file_type()
     {
         // Arrange
         $post = Post::factory()->create(['user_id' => $this->user->id]);
@@ -499,7 +500,7 @@ class PostControllerUnitTest extends TestCase
     }
 
     #[Test]
-    public function update_throws_exception_when_post_not_found()
+    public function test_update_throws_exception_when_post_not_found()
     {
         // Arrange
         $requestData = [
@@ -514,7 +515,7 @@ class PostControllerUnitTest extends TestCase
     }
 
     #[Test]
-    public function update_sets_default_status_to_true()
+    public function test_update_sets_default_status_to_true()
     {
         // Arrange
         $post = Post::factory()->create(['user_id' => $this->user->id, 'status' => false]);
@@ -530,14 +531,14 @@ class PostControllerUnitTest extends TestCase
 
         // Assert
         $post->refresh();
-        $this->assertEquals(1, $post->status); // Fixed: Compare with 1 instead of true
+        $this->assertTrue((bool) $post->status);
     }
 
     #[Test]
-    public function update_creates_upload_directory_if_not_exists()
+    public function test_update_creates_upload_directory_if_not_exists()
     {
         // Skip if GD extension not available
-        if (! extension_loaded('gd')) {
+        if (!extension_loaded('gd')) {
             $this->markTestSkipped('GD extension is not installed.');
         }
 
@@ -570,7 +571,7 @@ class PostControllerUnitTest extends TestCase
     }
 
     #[Test]
-    public function destroy_deletes_post_successfully()
+    public function test_destroy_deletes_post_successfully()
     {
         // Arrange
         $post = Post::factory()->create(['user_id' => $this->user->id]);
@@ -585,7 +586,7 @@ class PostControllerUnitTest extends TestCase
     }
 
     #[Test]
-    public function destroy_throws_exception_when_post_not_found()
+    public function test_destroy_throws_exception_when_post_not_found()
     {
         // Act & Assert
         $this->expectException(ModelNotFoundException::class);
@@ -593,7 +594,7 @@ class PostControllerUnitTest extends TestCase
     }
 
     #[Test]
-    public function slug_is_generated_correctly_from_title()
+    public function test_slug_is_generated_correctly_from_title()
     {
         // Arrange
         Auth::shouldReceive('id')->andReturn($this->user->id);
@@ -608,7 +609,6 @@ class PostControllerUnitTest extends TestCase
         $this->controller->store($request);
 
         // Assert
-        // Fixed: Str::slug()
         $this->assertDatabaseHas('posts', [
             'title' => 'This is a Test Post with Special Characters!@#',
             'slug' => 'this-is-a-test-post-with-special-characters-at',
@@ -616,7 +616,7 @@ class PostControllerUnitTest extends TestCase
     }
 
     #[Test]
-    public function image_upload_supports_all_valid_formats()
+    public function test_image_upload_supports_all_valid_formats()
     {
         // Skip if GD extension not available
         if (! extension_loaded('gd')) {
