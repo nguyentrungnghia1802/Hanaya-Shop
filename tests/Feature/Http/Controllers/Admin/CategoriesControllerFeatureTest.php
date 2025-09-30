@@ -517,7 +517,7 @@ class CategoriesControllerFeatureTest extends TestCase
             ->get(route('admin.category.show', $category->id));
 
         $showResponse->assertStatus(200);
-        $showResponse->assertSee('Lifecycle Test Category');
+            $showResponse->assertSee('Lifecycle Test Category', false);
 
         $updateResponse = $this->actingAs($this->user)
             ->put(route('admin.category.update', $category->id), [
