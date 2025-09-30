@@ -63,18 +63,27 @@ jobs:
       - name: Set conditions
         id: conditions
         run: |
+          echo "🔍 Debug branch info:"
+          echo "github.ref: ${{ github.ref }}"
+          echo "github.ref_name: ${{ github.ref_name }}"
+          echo "github.event_name: ${{ github.event_name }}"
+          
           # Run security scan on develop or manual trigger
           if [[ "${{ github.ref }}" == "refs/heads/develop" || "${{ github.event.inputs.run_security_scan }}" == "true" ]]; then
             echo "security=true" >> $GITHUB_OUTPUT
+            echo "✅ Security scan will run"
           else
             echo "security=false" >> $GITHUB_OUTPUT
+            echo "⏭️ Security scan skipped"
           fi
           
-          # Run Docker build test only on develop
-          if [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
+          # Run Docker build test on develop or any push event
+          if [[ "${{ github.ref }}" == "refs/heads/develop" || ("${{ github.event_name }}" == "push" && "${{ github.ref_name }}" == "develop") ]]; then
             echo "docker=true" >> $GITHUB_OUTPUT
+            echo "✅ Docker build will run"
           else
             echo "docker=false" >> $GITHUB_OUTPUT
+            echo "⏭️ Docker build skipped"
           fi
           
       - name: Debug info
@@ -224,7 +233,7 @@ jobs:
           
       - name: Upload coverage reports
         if: github.ref == 'refs/heads/develop'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: coverage.xml
@@ -257,7 +266,7 @@ jobs:
 
       - name: Run PHP Linting (Laravel Pint)
         run: |
-          ./vendor/bin/pint --test --format=compact
+          ./vendor/bin/pint --test
           
       - name: Run static analysis (optional)
         continue-on-error: true
