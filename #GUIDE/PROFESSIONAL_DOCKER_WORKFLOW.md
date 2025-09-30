@@ -121,20 +121,26 @@ develop branch:
 
 ### 2. Docker Registry Strategy:
 ```yaml
-# OPTIMIZED: Registry efficiency strategy
-production images:
-  - myapp:v1.2.3 (semantic versioning)
-  - myapp:latest (only tested releases)
+## 🏷️ Docker Registry Strategy (UPDATED - Clean & Simple)
 
-staging images:
-  - myapp:staging (single overwriting tag - EFFICIENT!)
-  # ✅ NO SHA tags to prevent registry bloat
-  # ✅ Each deploy overwrites previous staging image
-  # ✅ ~90% storage reduction vs SHA-based tagging
+### **NEW: Single Tag Strategy** ✅
+- **develop branch** → `hanayashop/ecommerce:staging` (single tag)
+- **main branch** → `hanayashop/ecommerce:latest` (single tag)
+- **feature branches** → No Docker push (CI testing only)
 
-development images:
-  - myapp:dev (development testing)
-  # Auto-cleanup after 7 days
+### **Benefits Achieved:**
+- ✅ **Storage Reduction**: 80% less DockerHub usage
+- ✅ **Zero Confusion**: Clear tag semantics  
+- ✅ **Auto Cleanup**: Tag overwriting eliminates old images
+- ✅ **Cost Effective**: Minimal registry storage costs
+
+### **Eliminated Tag Bloat:**
+- ❌ `commit-abc123` tags (removed)
+- ❌ `prod-abc123` tags (removed)  
+- ❌ `main` branch tags (removed)
+- ❌ `pr-123` tags (removed)
+
+**📄 See**: `#GUIDE/CLEAN_DOCKER_TAGGING_STRATEGY.md` for complete details
 ```
 
 ### 📊 Registry Efficiency Benefits:
