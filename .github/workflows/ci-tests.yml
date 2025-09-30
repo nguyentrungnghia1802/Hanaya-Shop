@@ -4,6 +4,7 @@ on:
   push:
     branches: 
       - develop
+      - main
       - 'feature/**'
       - 'hotfix/**'
   pull_request:
@@ -12,6 +13,34 @@ on:
       - main
 
 jobs:
+  debug-info:
+    runs-on: ubuntu-latest
+    name: Environment Debug
+    steps:
+      - name: Debug Info
+        run: |
+          echo "🔍 Workflow Debug Information"
+          echo "Branch: ${{ github.ref }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Repository: ${{ github.repository }}"
+          echo "Event: ${{ github.event_name }}"
+          echo "Actor: ${{ github.actor }}"
+          
+      - name: Check Secrets (Production only)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "🔑 Checking production secrets availability..."
+          if [ -z "${{ secrets.DOCKERHUB_USERNAME }}" ]; then
+            echo "❌ DOCKERHUB_USERNAME secret is missing"
+          else
+            echo "✅ DOCKERHUB_USERNAME secret is available"
+          fi
+          
+          if [ -z "${{ secrets.PRODUCTION_SSH_KEY }}" ]; then
+            echo "❌ PRODUCTION_SSH_KEY secret is missing"
+          else
+            echo "✅ PRODUCTION_SSH_KEY secret is available"
+          fi
   tests:
     runs-on: ubuntu-latest
     name: Laravel Tests
