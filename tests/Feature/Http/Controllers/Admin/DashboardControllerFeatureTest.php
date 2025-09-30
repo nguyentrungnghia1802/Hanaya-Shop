@@ -8,10 +8,12 @@ use App\Models\User;
 use App\Models\Post;
 use App\Models\Order\Order;
 use App\Models\Order\OrderDetail;
+use App\Models\Address;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class DashboardControllerFeatureTest extends TestCase
 {
@@ -39,30 +41,29 @@ class DashboardControllerFeatureTest extends TestCase
 
     public function test_dashboard_displays_basic_statistics_correctly()
     {
+        // Create test data with specific counts
         Category::factory(3)->create();
-        Product::factory(5)->create();
-        User::factory(7)->create();
-        Post::factory(4)->create();
-        Order::factory(6)->create();
+        
+        $category = Category::factory()->create();
+        Product::factory(5)->create(['category_id' => $category->id]);
+        
+        // Create users and ensure they're used in posts (not creating new ones)
+        $users = User::factory(7)->create();
+        Post::factory(4)->create(['user_id' => $users[0]->id]);
+        
+        Order::factory(6)->create([
+            'user_id' => $users[1]->id,
+            'address_id' => Address::factory()->create(['user_id' => $users[1]->id])->id
+        ]);
 
         $response = $this->actingAs($this->adminUser)
             ->get(route('admin.dashboard'));
 
-        $response->assertStatus(200);
-        $response->assertViewHasAll([
-            'categoryCount',
-            'productCount',
-            'userCount',
-            'postCount',
-            'orderCount'
-        ]);
-
-        $viewData = $response->viewData();
-        $this->assertEquals(3, $viewData['categoryCount']);
-        $this->assertEquals(5, $viewData['productCount']);
-        $this->assertEquals(8, $viewData['userCount']); // 7 + 1 admin user
-        $this->assertEquals(4, $viewData['postCount']);
-        $this->assertEquals(6, $viewData['orderCount']);
+        $this->assertEquals(4, $response->viewData('categoryCount')); // 3 + 1 extra category
+        $this->assertEquals(5, $response->viewData('productCount'));
+        $this->assertEquals(8, $response->viewData('userCount')); // 7 + 1 admin user
+        $this->assertEquals(4, $response->viewData('postCount'));
+        $this->assertEquals(6, $response->viewData('orderCount'));
     }
 
     public function test_dashboard_calculates_revenue_correctly()
@@ -94,42 +95,39 @@ class DashboardControllerFeatureTest extends TestCase
         $response = $this->actingAs($this->adminUser)
             ->get(route('admin.dashboard'));
 
-        $viewData = $response->viewData();
-
         // Total revenue: 100000 + 200000 + 75000 = 375000 
-        $this->assertEquals(375000, $viewData['totalRevenue']);
+        $this->assertEquals(375000, $response->viewData('totalRevenue'));
 
         // Monthly revenue = 300000
-        $this->assertEquals(300000, $viewData['monthlyRevenue']);
+        $this->assertEquals(300000, $response->viewData('monthlyRevenue'));
     }
 
     public function test_dashboard_calculates_product_statistics_correctly()
     {
-        Product::factory(3)->create(['stock_quantity' => 10]);
-        Product::factory(2)->create(['stock_quantity' => 0]);
-        Product::factory(1)->create(['stock_quantity' => -1]);
+        $categories = Category::factory(2)->create();
+        Product::factory(3)->create(['stock_quantity' => 10, 'category_id' => $categories->first()->id]);
+        Product::factory(2)->create(['stock_quantity' => 0, 'category_id' => $categories->last()->id]);
+        Product::factory(1)->create(['stock_quantity' => -1, 'category_id' => $categories->first()->id]);
 
         $response = $this->actingAs($this->adminUser)
             ->get(route('admin.dashboard'));
 
-        $viewData = $response->viewData();
-
-        $this->assertEquals(3, $viewData['activeProducts']);
-        $this->assertEquals(3, $viewData['outOfStockProducts']);
+        $this->assertEquals(3, $response->viewData('activeProducts'));
+        $this->assertEquals(3, $response->viewData('outOfStockProducts'));
     }
 
     public function test_dashboard_shows_best_selling_products()
     {
-        $product1 = Product::factory()->create(['view_count' => 100]);
-        $product2 = Product::factory()->create(['view_count' => 200]);
-        $product3 = Product::factory()->create(['view_count' => 50]);
-        Product::factory(3)->create(['view_count' => 10]);
+        $category = Category::factory()->create();
+        $product1 = Product::factory()->create(['view_count' => 100, 'category_id' => $category->id]);
+        $product2 = Product::factory()->create(['view_count' => 200, 'category_id' => $category->id]);
+        $product3 = Product::factory()->create(['view_count' => 50, 'category_id' => $category->id]);
+        Product::factory(2)->create(['view_count' => 10, 'category_id' => $category->id]);
 
         $response = $this->actingAs($this->adminUser)
             ->get(route('admin.dashboard'));
 
-        $viewData = $response->viewData();
-        $bestSellingProducts = $viewData['bestSellingProducts'];
+        $bestSellingProducts = $response->viewData('bestSellingProducts');
 
         $this->assertCount(5, $bestSellingProducts);
         $this->assertEquals($product2->id, $bestSellingProducts->first()->id);
@@ -155,8 +153,7 @@ class DashboardControllerFeatureTest extends TestCase
         $response = $this->actingAs($this->adminUser)
             ->get(route('admin.dashboard'));
 
-        $viewData = $response->viewData();
-        $recentOrders = $viewData['recentOrders'];
+        $recentOrders = $response->viewData('recentOrders');
 
         $this->assertCount(2, $recentOrders);
         $this->assertEquals($recentOrder->id, $recentOrders->first()->id);
@@ -172,9 +169,7 @@ class DashboardControllerFeatureTest extends TestCase
         $response = $this->actingAs($this->adminUser)
             ->get(route('admin.dashboard'));
 
-        $viewData = $response->viewData();
-
-        $this->assertEquals(3, $viewData['newUsersThisMonth']);
+        $this->assertEquals(4, $response->viewData('newUsersThisMonth')); // 3 + 1 admin user
     }
 
     public function test_dashboard_shows_order_status_distribution()
@@ -186,8 +181,7 @@ class DashboardControllerFeatureTest extends TestCase
         $response = $this->actingAs($this->adminUser)
             ->get(route('admin.dashboard'));
 
-        $viewData = $response->viewData();
-        $orderStatusStats = $viewData['orderStatusStats'];
+        $orderStatusStats = $response->viewData('orderStatusStats');
 
         $this->assertEquals(2, $orderStatusStats['pending']);
         $this->assertEquals(3, $orderStatusStats['completed']);
@@ -211,8 +205,7 @@ class DashboardControllerFeatureTest extends TestCase
         $response = $this->actingAs($this->adminUser)
             ->get(route('admin.dashboard'));
 
-        $viewData = $response->viewData();
-        $monthlyRevenueChart = $viewData['monthlyRevenueChart'];
+        $monthlyRevenueChart = $response->viewData('monthlyRevenueChart');
 
         $this->assertCount(6, $monthlyRevenueChart);
         $this->assertArrayHasKey('month', $monthlyRevenueChart[0]);
@@ -221,16 +214,16 @@ class DashboardControllerFeatureTest extends TestCase
 
     public function test_dashboard_shows_low_stock_products()
     {
-        $lowStock1 = Product::factory()->create(['stock_quantity' => 5]);
-        $lowStock2 = Product::factory()->create(['stock_quantity' => 10]);
-        Product::factory()->create(['stock_quantity' => 15]);
-        Product::factory()->create(['stock_quantity' => 0]);
+        $category = Category::factory()->create();
+        $lowStock1 = Product::factory()->create(['stock_quantity' => 5, 'category_id' => $category->id]);
+        $lowStock2 = Product::factory()->create(['stock_quantity' => 10, 'category_id' => $category->id]);
+        Product::factory()->create(['stock_quantity' => 15, 'category_id' => $category->id]);
+        Product::factory()->create(['stock_quantity' => 0, 'category_id' => $category->id]);
 
         $response = $this->actingAs($this->adminUser)
             ->get(route('admin.dashboard'));
 
-        $viewData = $response->viewData();
-        $lowStockProducts = $viewData['lowStockProducts'];
+        $lowStockProducts = $response->viewData('lowStockProducts');
 
         $this->assertCount(2, $lowStockProducts);
         $this->assertEquals($lowStock1->id, $lowStockProducts->first()->id);
@@ -238,7 +231,7 @@ class DashboardControllerFeatureTest extends TestCase
 
     public function test_dashboard_handles_database_exceptions_gracefully()
     {
-        \DB::statement('DROP TABLE IF EXISTS temp_categories');
+        DB::statement('DROP TABLE IF EXISTS temp_categories');
 
         $this->mock(\App\Models\Product\Category::class, function ($mock) {
             $mock->shouldReceive('count')->andThrow(new \Exception('Database error'));
@@ -248,11 +241,9 @@ class DashboardControllerFeatureTest extends TestCase
             ->get(route('admin.dashboard'));
 
         $response->assertStatus(200);
-        $viewData = $response->viewData();
-
-        $this->assertEquals(0, $viewData['categoryCount']);
-        $this->assertEquals(0, $viewData['totalRevenue']);
-        $this->assertInstanceOf(\Illuminate\Support\Collection::class, $viewData['bestSellingProducts']);
+        $this->assertEquals(0, $response->viewData('categoryCount'));
+        $this->assertEquals(0, $response->viewData('totalRevenue'));
+        $this->assertInstanceOf(\Illuminate\Support\Collection::class, $response->viewData('bestSellingProducts'));
     }
 
     public function test_dashboard_requires_authentication()
@@ -301,10 +292,9 @@ class DashboardControllerFeatureTest extends TestCase
         $response = $this->actingAs($this->adminUser)
             ->get(route('admin.dashboard'));
 
-        $viewData = $response->viewData();
-        $monthlyRevenueChart = $viewData['monthlyRevenueChart'];
+        $monthlyRevenueChart = $response->viewData('monthlyRevenueChart');
 
         $currentMonthRevenue = end($monthlyRevenueChart)['revenue'];
-        $this->assertStringContains('.', $currentMonthRevenue);
+        $this->assertStringContainsString('.', $currentMonthRevenue);
     }
 }

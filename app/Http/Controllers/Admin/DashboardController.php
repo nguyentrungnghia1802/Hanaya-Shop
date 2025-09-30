@@ -136,7 +136,7 @@ class DashboardController extends Controller
              * Includes essential product information for dashboard display
              * Limited to 5 items for optimal dashboard performance and readability
              */
-            $bestSellingProducts = Product::select('id', 'name', 'price', 'image_url', 'stock_quantity')
+            $bestSellingProducts = Product::select('id', 'name', 'price', 'image_url', 'stock_quantity', 'view_count')
                 ->orderBy('view_count', 'desc')
                 ->limit(5)
                 ->get();
@@ -152,6 +152,7 @@ class DashboardController extends Controller
             $recentOrders = Order::select('id', 'user_id', 'total_price', 'status', 'created_at')
                 ->with('user:id,name') // Eager load only necessary user fields
                 ->latest() // Order by created_at descending
+                ->latest('id') // Then by id descending for consistent ordering
                 ->limit(5)
                 ->get();
 

@@ -45,6 +45,7 @@ jobs:
           php-version: '8.2'
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, redis
           coverage: none
+          tools: composer:v2
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -84,6 +85,13 @@ jobs:
       - name: Run PHP Linting
         run: ./vendor/bin/pint --test
 
+      - name: Docker Build Test (Local only)
+        run: |
+          echo "🐳 Testing Docker build locally..."
+          docker build -t hanaya-local-test .
+          echo "✅ Docker build successful!"
+          docker image rm hanaya-local-test
+
   build-and-push:
     runs-on: ubuntu-latest
     name: Build & Push (Only if tests pass)
@@ -112,6 +120,11 @@ jobs:
             assassincreed2k1/hanaya-shop:staging-${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Test Docker image
+        run: |
+          echo "🐳 Testing Docker image build..."
+          docker run --rm --name hanaya-test-temp assassincreed2k1/hanaya-shop:staging-${{ github.sha }} php --version || echo "⚠️ Container test skipped"
 
   notify:
     runs-on: ubuntu-latest

@@ -88,7 +88,7 @@ class UsersControllerFeatureTest extends TestCase
                          ->post(route('admin.user.store'), $usersData);
 
         $response->assertRedirect(route('admin.user'));
-        $response->assertSessionHas('success', 'Tạo tài khoản thành công!');
+        $response->assertSessionHas('success', 'Account created successfully!');
 
         $this->assertDatabaseHas('users', [
             'name' => 'User One',
@@ -213,7 +213,7 @@ class UsersControllerFeatureTest extends TestCase
                          ->put(route('admin.user.update', $this->regularUser->id), $updateData);
 
         $response->assertRedirect(route('admin.user'));
-        $response->assertSessionHas('success', 'Cập nhật tài khoản thành công!');
+        $response->assertSessionHas('success', 'Account updated successfully!');
 
         // Verify database updated
         $this->assertDatabaseHas('users', [
@@ -331,7 +331,7 @@ class UsersControllerFeatureTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($this->adminUser)
-                         ->delete(route('admin.user.destroySingle', $user->id));
+                         ->delete(route('admin.user.destroy', $user->id));
 
         $response->assertRedirect(route('admin.user'));
         $response->assertSessionHas('success', 'Xóa tài khoản thành công!');
@@ -341,7 +341,7 @@ class UsersControllerFeatureTest extends TestCase
     public function test_destroy_single_prevents_self_deletion()
     {
         $response = $this->actingAs($this->adminUser)
-                         ->delete(route('admin.user.destroySingle', $this->adminUser->id));
+                         ->delete(route('admin.user.destroy', $this->adminUser->id));
 
         $response->assertStatus(403);
         $this->assertDatabaseHas('users', ['id' => $this->adminUser->id]);
@@ -352,7 +352,7 @@ class UsersControllerFeatureTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($this->adminUser)
-                         ->deleteJson(route('admin.user.destroySingle', $user->id));
+                         ->deleteJson(route('admin.user.destroy', $user->id));
 
         $response->assertStatus(200);
         $response->assertJson(['success' => true]);
@@ -375,10 +375,9 @@ class UsersControllerFeatureTest extends TestCase
         $response->assertViewIs('admin.users.show');
         $response->assertViewHasAll(['user', 'orders', 'carts']);
 
-        $viewData = $response->viewData();
-        $this->assertEquals($this->regularUser->id, $viewData['user']->id);
-        $this->assertCount(1, $viewData['orders']);
-        $this->assertCount(1, $viewData['carts']);
+        $this->assertEquals($this->regularUser->id, $response->viewData('user')->id);
+        $this->assertCount(1, $response->viewData('orders'));
+        $this->assertCount(1, $response->viewData('carts'));
     }
 
     public function test_search_finds_users_by_name_and_email()
@@ -398,18 +397,18 @@ class UsersControllerFeatureTest extends TestCase
                          ->get(route('admin.user.search', ['query' => 'John']));
 
         $response->assertStatus(200);
-        $response->assertJson([
-            'html' => $this->stringContains('John Doe')
-        ]);
+        $responseData = $response->json();
+        $this->assertArrayHasKey('html', $responseData);
+        $this->assertStringContainsString('John Doe', $responseData['html']);
 
         // Search by email
         $response = $this->actingAs($this->adminUser)
                          ->get(route('admin.user.search', ['query' => 'jane@example.com']));
 
         $response->assertStatus(200);
-        $response->assertJson([
-            'html' => $this->stringContains('Jane Smith')
-        ]);
+        $responseData = $response->json();
+        $this->assertArrayHasKey('html', $responseData);
+        $this->assertStringContainsString('Jane Smith', $responseData['html']);
     }
 
     public function test_search_excludes_current_admin()
@@ -428,9 +427,9 @@ class UsersControllerFeatureTest extends TestCase
                          ->get(route('admin.user.search', ['query' => 'nonexistentuser']));
 
         $response->assertStatus(200);
-        $response->assertJson([
-            'html' => $this->stringContains('No users found.')
-        ]);
+        $responseData = $response->json();
+        $this->assertArrayHasKey('html', $responseData);
+        $this->assertStringContainsString('No users found.', $responseData['html']);
     }
 
     public function test_search_returns_properly_formatted_html()
@@ -502,7 +501,7 @@ class UsersControllerFeatureTest extends TestCase
         $user2 = User::factory()->create();
         
         $this->actingAs($this->adminUser)
-             ->delete(route('admin.user.destroySingle', $user2->id));
+             ->delete(route('admin.user.destroy', $user2->id));
         
         $this->assertFalse(Cache::has('admin_users_all'));
     }
@@ -518,7 +517,7 @@ class UsersControllerFeatureTest extends TestCase
             ['GET', route('admin.user.edit', $user->id)],
             ['PUT', route('admin.user.update', $user->id)],
             ['DELETE', route('admin.user.destroy')],
-            ['DELETE', route('admin.user.destroySingle', $user->id)],
+            ['DELETE', route('admin.user.destroy', $user->id)],
             ['GET', route('admin.user.show', $user->id)],
             ['GET', route('admin.user.search')]
         ];
