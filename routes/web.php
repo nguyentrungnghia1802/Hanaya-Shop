@@ -111,7 +111,7 @@ Route::get('/locale/{locale}', [LocaleController::class, 'setLocale'])
 
 /**
  * Application Health Check Endpoint
- * 
+ *
  * Provides basic application health status for monitoring and deployment verification.
  * Used by load balancers, monitoring systems, and deployment automation.
  */
@@ -121,7 +121,7 @@ Route::get('/health', function () {
 
 /**
  * Application Version & Deployment Information API
- * 
+ *
  * Critical endpoint for smart deployment change detection.
  * Returns current application version, build info, and deployment metadata.
  * Used by CI/CD pipeline to determine if deployment is necessary.
@@ -131,7 +131,7 @@ Route::get('/api/version', function () {
         $gitSha = env('GIT_SHA', 'unknown');
         $buildDate = env('BUILD_DATE', 'unknown');
         $appVersion = config('app.version', '1.0.0');
-        
+
         // Try to get Git SHA from various sources
         if ($gitSha === 'unknown') {
             // Try to read from deployment info file
@@ -142,7 +142,7 @@ Route::get('/api/version', function () {
                 $buildDate = $deploymentInfo['build_date'] ?? 'unknown';
             }
         }
-        
+
         return response()->json([
             'status' => 'healthy',
             'git_sha' => $gitSha,
