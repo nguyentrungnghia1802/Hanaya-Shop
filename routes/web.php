@@ -109,6 +109,57 @@ Route::get('/locale/{locale}', [LocaleController::class, 'setLocale'])
     ->name('locale.set')
     ->where('locale', '[a-z]{2}');
 
+/**
+ * Application Health Check Endpoint
+ * 
+ * Provides basic application health status for monitoring and deployment verification.
+ * Used by load balancers, monitoring systems, and deployment automation.
+ */
 Route::get('/health', function () {
     return response('ok', 200)->header('Content-Type', 'text/plain');
+});
+
+/**
+ * Application Version & Deployment Information API
+ * 
+ * Critical endpoint for smart deployment change detection.
+ * Returns current application version, build info, and deployment metadata.
+ * Used by CI/CD pipeline to determine if deployment is necessary.
+ */
+Route::get('/api/version', function () {
+    try {
+        $gitSha = env('GIT_SHA', 'unknown');
+        $buildDate = env('BUILD_DATE', 'unknown');
+        $appVersion = config('app.version', '1.0.0');
+        
+        // Try to get Git SHA from various sources
+        if ($gitSha === 'unknown') {
+            // Try to read from deployment info file
+            $deploymentFile = base_path('.deployment_info');
+            if (file_exists($deploymentFile)) {
+                $deploymentInfo = json_decode(file_get_contents($deploymentFile), true);
+                $gitSha = $deploymentInfo['git_sha'] ?? 'unknown';
+                $buildDate = $deploymentInfo['build_date'] ?? 'unknown';
+            }
+        }
+        
+        return response()->json([
+            'status' => 'healthy',
+            'git_sha' => $gitSha,
+            'build_date' => $buildDate,
+            'app_version' => $appVersion,
+            'environment' => app()->environment(),
+            'laravel_version' => app()->version(),
+            'php_version' => PHP_VERSION,
+            'timestamp' => now()->toISOString(),
+            'uptime' => null, // Could add server uptime if needed
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Version endpoint error',
+            'git_sha' => 'unknown',
+            'timestamp' => now()->toISOString(),
+        ], 500);
+    }
 });

@@ -1,6 +1,6 @@
 name: 🚀 Production Deploy
 
-# Strategic triggering for production
+# Smart triggering for production deployment
 on:
   push:
     branches: [main]
@@ -15,32 +15,12 @@ on:
       - 'deployment/BRANCH_STRATEGY.md'
       - 'deployment/CICD_SETUP.md'
 
-  # Only validate PRs to main, don't deploy
-  pull_request:
-    branches: [main]
-    types: [opened, synchronize, ready_for_review]
-    paths-ignore:
-      - 'README.md'
-      - 'docs/**'
-      - '*.md'
-      - '.gitignore'
-      - 'LICENSE'
-      - '#GUIDE/**'
-
   workflow_dispatch:
     inputs:
-      environment:
-        description: 'Deployment environment'
-        required: true
-        default: 'production'
-        type: choice
-        options:
-        - production
-        - staging
       force_deploy:
-        description: 'Force deployment (skip some checks)'
+        description: 'Force deployment even if no code changes detected'
         required: false
-        default: false
+        default: 'false'
         type: boolean
 
 env:
