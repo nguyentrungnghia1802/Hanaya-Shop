@@ -22,7 +22,7 @@ return [
     'minutes_read' => ':minutes分で読める',
     'posted_in' => '投稿カテゴリー',
     'tagged_with' => 'タグ付け',
-    
+
     // Post Categories
     'categories' => 'カテゴリー',
     'post_categories' => '投稿カテゴリー',
@@ -33,13 +33,13 @@ return [
     'company_news' => '会社ニュース',
     'tutorials' => 'チュートリアル',
     'announcements' => 'お知らせ',
-    
+
     // Post Tags
     'tags' => 'タグ',
     'related_tags' => '関連タグ',
     'popular_tags' => '人気のタグ',
     'tag_cloud' => 'タグクラウド',
-    
+
     // Comments
     'comments' => 'コメント',
     'leave_comment' => 'コメントを残す',
@@ -66,7 +66,7 @@ return [
     'sort_by_popularity' => '人気順で並び替え',
     'newest_first' => '新しい順',
     'oldest_first' => '古い順',
-    
+
     // Post Navigation
     'previous_post' => '前の投稿',
     'next_post' => '次の投稿',
@@ -74,7 +74,7 @@ return [
     'you_might_also_like' => 'お気に入りいただけるかもしれません',
     'similar_articles' => '類似記事',
     'more_from_author' => 'この著者の他の記事',
-    
+
     // Social Sharing
     'share_post' => 'この投稿を共有',
     'share_on_facebook' => 'Facebookで共有',
@@ -82,39 +82,39 @@ return [
     'share_on_linkedin' => 'LinkedInで共有',
     'copy_link' => 'リンクをコピー',
     'link_copied' => 'リンクがクリップボードにコピーされました！',
-    
+
     // Post Archive
     'archive' => 'アーカイブ',
     'monthly_archive' => '月別アーカイブ',
     'yearly_archive' => '年別アーカイブ',
     'view_archive' => 'アーカイブを表示',
     'posts_from' => '投稿期間',
-    
+
     // Authors
     'author' => '著者',
     'about_author' => '著者について',
     'author_bio' => '著者の略歴',
     'posts_by_author' => ':authorの投稿',
     'view_author_profile' => '著者プロフィールを表示',
-    
+
     // Newsletter
     'subscribe_newsletter' => 'ニュースレター登録',
     'get_latest_posts' => '最新の投稿をメールで受け取る',
     'newsletter_signup' => 'ニュースレター登録',
-    
+
     // Messages
     'no_posts_found' => '投稿が見つかりません',
     'no_search_results' => '検索に一致する投稿が見つかりません',
     'post_not_found' => '投稿が見つかりません',
     'loading_posts' => '投稿を読み込み中...',
     'end_of_posts' => '表示する投稿がもうありません',
-    
+
     // Post Status
     'published' => '公開済み',
     'draft' => '下書き',
     'scheduled' => '予約投稿',
     'private' => '非公開',
-    
+
     // Post Types
     'article' => '記事',
     'news' => 'ニュース',

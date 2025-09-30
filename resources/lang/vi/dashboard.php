@@ -5,12 +5,12 @@ return [
     'dashboard' => 'Bảng điều khiển',
     'welcome' => 'Chào mừng',
     'home' => 'Trang chủ',
-    
+
     // Danh mục
     'categories' => 'Danh mục',
     'all_categories' => 'Tất cả danh mục',
     'view_all_categories' => 'Xem tất cả danh mục',
-    
+
     // Sản phẩm
     'products' => 'Sản phẩm',
     'latest_products' => 'Sản phẩm mới nhất',
@@ -35,7 +35,7 @@ return [
     'views' => 'lượt xem',
     'sale_products' => 'Sản phẩm khuyến mãi',
     'most_viewed_products' => 'Sản phẩm được xem nhiều nhất',
-    
+
     // Tính năng đặc biệt
     'why_choose_hanaya' => 'Tại sao chọn Hanaya Shop?',
     'quality_commitment' => 'Chúng tôi cam kết mang đến cho bạn những sản phẩm chất lượng cao nhất',
@@ -52,14 +52,14 @@ return [
     'satisfaction_guarantee_desc' => 'Hoàn tiền trong 30 ngày cho tất cả các giao dịch mua',
     'eco_friendly' => 'Thân thiện với môi trường',
     'eco_friendly_desc' => 'Được làm từ vật liệu bền vững và an toàn với môi trường',
-    
+
     // Bài viết/Tin tức
     'latest_posts' => 'Bài viết mới nhất',
     'blog' => 'Blog',
     'news' => 'Tin tức',
     'read_more' => 'Đọc thêm',
     'view_all_posts' => 'Xem tất cả bài viết',
-    
+
     // Mua sắm
     'cart' => 'Giỏ hàng',
     'checkout' => 'Thanh toán',
@@ -73,7 +73,7 @@ return [
     'subtotal' => 'Tạm tính',
     'shipping' => 'Phí vận chuyển',
     'tax' => 'Thuế',
-    
+
     // Tài khoản người dùng
     'my_account' => 'Tài khoản của tôi',
     'profile' => 'Hồ sơ',
@@ -83,7 +83,7 @@ return [
     'personal_information' => 'Thông tin cá nhân',
     'address_book' => 'Sổ địa chỉ',
     'wishlist' => 'Danh sách yêu thích',
-    
+
     // Hành động chung
     'view' => 'Xem',
     'edit' => 'Chỉnh sửa',
@@ -99,7 +99,7 @@ return [
     'search_results' => 'Kết quả tìm kiếm',
     'no_results' => 'Không tìm thấy kết quả',
     'loading' => 'Đang tải...',
-    
+
     // Thông báo
     'success' => 'Thành công!',
     'error' => 'Lỗi!',

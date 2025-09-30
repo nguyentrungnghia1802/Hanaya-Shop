@@ -4,10 +4,9 @@ namespace App\Notifications;
 
 use App\Models\Order\Order;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class OrderCompletedNotification extends Notification implements ShouldQueue
 {
@@ -15,6 +14,7 @@ class OrderCompletedNotification extends Notification implements ShouldQueue
     // Admin notifications sent immediately for reliability
 
     protected $order;
+
     public $locale;
 
     /**
@@ -51,7 +51,7 @@ class OrderCompletedNotification extends Notification implements ShouldQueue
             ->greeting(__('notifications.order_completed_greeting', ['name' => $notifiable->name]))
             ->line(__('notifications.order_completed_line1', ['order_id' => $this->order->id]))
             ->line(__('notifications.order_completed_line2'))
-            ->action(__('notifications.view_order_details'), config('app.url') . '/admin/order/' . $this->order->id)
+            ->action(__('notifications.view_order_details'), config('app.url').'/admin/order/'.$this->order->id)
             ->line(__('notifications.order_completed_line3'));
     }
 
@@ -67,7 +67,7 @@ class OrderCompletedNotification extends Notification implements ShouldQueue
 
         return [
             'order_id' => $this->order->id,
-            'message'  => __('notifications.order_completed_message', ['order_id' => $this->order->id]),
+            'message' => __('notifications.order_completed_message', ['order_id' => $this->order->id]),
         ];
     }
 }

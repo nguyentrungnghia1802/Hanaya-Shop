@@ -22,7 +22,7 @@ class CreateReviewsTable extends Migration
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            
+
             // Đảm bảo mỗi user chỉ có thể review 1 lần cho 1 product trong 1 order
             $table->unique(['user_id', 'product_id', 'order_id']);
         });

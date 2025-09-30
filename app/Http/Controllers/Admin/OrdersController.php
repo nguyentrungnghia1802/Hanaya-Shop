@@ -3,30 +3,25 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Order\Order;
-use App\Models\Order\OrderDetail;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use App\Models\Order\Payment;
 use App\Models\Product\Product;
-use App\Models\Cart\Cart;
-use Illuminate\Support\Facades\Session;
-use App\Notifications\NewOrderPending;
-use App\Notifications\OrderConfirmedNotification;
-use App\Notifications\OrderShippedNotification;
-use App\Notifications\OrderCompletedNotification;
-use App\Notifications\OrderPaidNotification;
-use App\Notifications\OrderCancelledNotification;
+use App\Models\User;
+use App\Notifications\CustomerOrderCancelledNotification;
+use App\Notifications\CustomerOrderCompletedNotification;
 use App\Notifications\CustomerOrderConfirmedNotification;
 use App\Notifications\CustomerOrderShippedNotification;
-use App\Notifications\CustomerOrderCompletedNotification;
-use App\Notifications\CustomerOrderCancelledNotification;
-use App\Models\Order\Payment;
+use App\Notifications\OrderCancelledNotification;
+use App\Notifications\OrderCompletedNotification;
+use App\Notifications\OrderConfirmedNotification;
+use App\Notifications\OrderPaidNotification;
+use App\Notifications\OrderShippedNotification;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class OrdersController extends Controller
 {
-
     /**
      * Display a paginated list of orders with optional search and status filtering.
      * Eager loads user relationship to avoid N+1 queries.
@@ -61,7 +56,6 @@ class OrdersController extends Controller
         return view('admin.orders.index', compact('order', 'payment'));
     }
 
-
     /**
      * Show detailed information for a specific order, including order details, user, and address.
      * Also retrieves payment information for the order.
@@ -71,6 +65,7 @@ class OrdersController extends Controller
     {
         $order = Order::with('orderDetail.product', 'user', 'address')->findOrFail($orderId);
         $payment = Payment::where('order_id', $order->id)->get();
+
         return view('admin.orders.show', compact('order', 'payment'));
     }
 
@@ -111,10 +106,10 @@ class OrdersController extends Controller
     {
         $order->status = 'shipped';
         $order->save();
-        
+
         // Get current locale from session for customer notifications
         $currentLocale = Session::get('locale', config('app.locale'));
-        
+
         // Gửi thông báo cho admin (admin uses English by default)
         $admins = User::where('role', 'admin')->get();
         foreach ($admins as $admin) {
@@ -141,7 +136,7 @@ class OrdersController extends Controller
     {
         $payment = Payment::where('order_id', $order->id)->first();
 
-        if (!$payment) {
+        if (! $payment) {
             return redirect()->back()->with('error', __('admin.payment_info_not_found'));
         }
 
@@ -200,10 +195,12 @@ class OrdersController extends Controller
             // }
 
             DB::commit();
+
             return redirect()->back()->with('success', __('admin.payment_confirmed_successfully'));
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', __('admin.payment_update_error') . ': ' . $e->getMessage());
+
+            return redirect()->back()->with('error', __('admin.payment_update_error').': '.$e->getMessage());
         }
     }
 
@@ -252,7 +249,8 @@ class OrdersController extends Controller
             return redirect()->back()->with('success', __('admin.order_cancelled_successfully'));
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', __('admin.order_cancel_error') . ': ' . $e->getMessage());
+
+            return redirect()->back()->with('error', __('admin.order_cancel_error').': '.$e->getMessage());
         }
     }
 }

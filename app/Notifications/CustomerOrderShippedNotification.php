@@ -13,6 +13,7 @@ class CustomerOrderShippedNotification extends Notification implements ShouldQue
     use Queueable;
 
     public $order;
+
     public $locale;
 
     /**
@@ -46,7 +47,7 @@ class CustomerOrderShippedNotification extends Notification implements ShouldQue
         return (new MailMessage)
             ->subject(__('notifications.order_shipped_subject', ['order_id' => $this->order->id]))
             ->line(__('notifications.order_shipped_line', ['order_id' => $this->order->id]))
-            ->action(__('notifications.view_order'), config('app.url') . '/order/' . $this->order->id)
+            ->action(__('notifications.view_order'), config('app.url').'/order/'.$this->order->id)
             ->line(__('notifications.order_shipped_thank_you'));
     }
 
@@ -59,7 +60,7 @@ class CustomerOrderShippedNotification extends Notification implements ShouldQue
     {
         return [
             'order_id' => $this->order->id,
-            'message'  => __('notifications.order_shipped_message', ['order_id' => $this->order->id]),
+            'message' => __('notifications.order_shipped_message', ['order_id' => $this->order->id]),
         ];
     }
 }

@@ -1,12 +1,13 @@
 <?php
+
 /**
  * User Cart Controller
- * 
+ *
  * This controller handles shopping cart functionality for customers
  * in the Hanaya Shop e-commerce application. It manages cart operations
  * including adding products, viewing cart contents, removing items,
  * and quick purchase functionality.
- * 
+ *
  * Key Features:
  * - Product addition to cart with stock validation
  * - Shopping cart display with pricing calculations
@@ -15,29 +16,29 @@
  * - Session-based cart for guests and user-based cart for authenticated users
  * - Stock quantity validation and error handling
  * - Discount price calculations and display
- * 
+ *
  * Session Management:
  * - Guest users: Cart tied to session ID
  * - Authenticated users: Cart tied to user ID
  * - Seamless transition between guest and authenticated states
- * 
- * @package App\Http\Controllers\User
+ *
  * @author Hanaya Shop Development Team
+ *
  * @version 1.0
  */
 
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;             // HTTP request handling
-use App\Models\Cart\Cart;                // Cart model for database operations
-use App\Models\Product\Product;          // Product model for product data
-use Illuminate\Support\Facades\Session;  // Session management for guest carts
-use Illuminate\Support\Facades\Auth;     // Authentication services
+use App\Models\Cart\Cart;             // HTTP request handling
+use App\Models\Product\Product;                // Cart model for database operations
+use Illuminate\Http\Request;          // Product model for product data
+use Illuminate\Support\Facades\Auth;  // Session management for guest carts
+use Illuminate\Support\Facades\Session;     // Authentication services
 
 /**
  * Cart Controller Class
- * 
+ *
  * Manages all shopping cart operations including product addition,
  * cart viewing, item removal, and quick purchase functionality.
  * Handles both guest and authenticated user cart management.
@@ -46,19 +47,19 @@ class CartController extends Controller
 {
     /**
      * Add Product to Cart
-     * 
+     *
      * Adds a product to the shopping cart with comprehensive validation.
      * Handles both new additions and quantity updates for existing items.
      * Includes stock validation and prevents overselling.
-     * 
+     *
      * Validation Features:
      * - Stock availability checking
      * - Quantity limit enforcement
      * - Duplicate item handling (quantity update)
      * - User/session association
-     * 
-     * @param \Illuminate\Http\Request $request HTTP request with quantity parameter
-     * @param int $productId Product ID to add to cart
+     *
+     * @param  \Illuminate\Http\Request  $request  HTTP request with quantity parameter
+     * @param  int  $productId  Product ID to add to cart
      * @return \Illuminate\Http\RedirectResponse Redirect back with success or error message
      */
     public function add(Request $request, $productId)
@@ -131,17 +132,17 @@ class CartController extends Controller
 
     /**
      * Display Shopping Cart
-     * 
+     *
      * Retrieves and displays all items in the user's shopping cart.
      * Calculates pricing including discounts and formats data for display.
      * Handles both authenticated and guest user carts.
-     * 
+     *
      * Display Features:
      * - Product information with images
      * - Original and discounted pricing
      * - Quantity controls and totals
      * - Stock availability information
-     * 
+     *
      * @return \Illuminate\View\View Cart index view with cart items and pricing
      */
     public function index()
@@ -163,13 +164,13 @@ class CartController extends Controller
          * Includes product relationship for complete cart data
          */
         $query = Cart::with('product');
-        
+
         if ($userId) {
             $query->where('user_id', $userId);         // Authenticated user cart
         } else {
             $query->where('session_id', $sessionId);   // Guest user cart
         }
-        
+
         $cartItems = $query->get(); // Execute cart query
 
         // Cart Data Processing
@@ -198,15 +199,15 @@ class CartController extends Controller
              * Product data, pricing, quantities, and metadata
              */
             $cart[$item->id] = [
-                'id'         => $item->id,                          // Cart item ID
+                'id' => $item->id,                          // Cart item ID
                 'product_id' => $item->product->id,                 // Product reference
                 'product_quantity' => $item->product->stock_quantity, // Available stock
-                'name'       => $item->product->name,               // Product name
-                'image_url'  => $item->product->image_url,          // Product image
-                'price'      => $price,                             // Original price
+                'name' => $item->product->name,               // Product name
+                'image_url' => $item->product->image_url,          // Product image
+                'price' => $price,                             // Original price
                 'discounted_price' => $discountedPrice,             // Discounted price
                 'discount_percent' => $discountPercent,             // Discount percentage
-                'quantity'   => $item->quantity,                    // Cart quantity
+                'quantity' => $item->quantity,                    // Cart quantity
             ];
         }
 
@@ -215,17 +216,17 @@ class CartController extends Controller
 
     /**
      * Remove Item from Cart
-     * 
+     *
      * Removes a specific item from the shopping cart.
      * Includes security validation to ensure users can only remove their own items.
      * Supports both authenticated and guest user cart management.
-     * 
+     *
      * Security Features:
      * - User/session ownership validation
      * - Item existence verification
      * - Proper authorization checks
-     * 
-     * @param int $id Cart item ID to remove
+     *
+     * @param  int  $id  Cart item ID to remove
      * @return \Illuminate\Http\RedirectResponse Redirect back with success message
      */
     public function remove($id)
@@ -261,18 +262,18 @@ class CartController extends Controller
 
     /**
      * Quick Buy Now Functionality
-     * 
+     *
      * Provides immediate purchase capability by adding product to cart
      * and redirecting to cart page. Handles stock validation and cart management.
      * Enables streamlined purchase flow for impatient customers.
-     * 
+     *
      * Features:
      * - Immediate cart addition
      * - Stock validation
      * - Quantity handling for existing items
      * - Direct cart redirection with product highlighting
-     * 
-     * @param \Illuminate\Http\Request $request HTTP request with product and quantity data
+     *
+     * @param  \Illuminate\Http\Request  $request  HTTP request with product and quantity data
      * @return \Illuminate\Http\RedirectResponse Redirect to cart with product reference
      */
     public function buyNow(Request $request)
@@ -289,7 +290,7 @@ class CartController extends Controller
         $quantity = intval($request->input('quantity', 1)); // Purchase quantity
 
         $product = Product::findOrFail($productId); // Find product or return 404
-        
+
         // Stock Validation
         /**
          * Purchase Stock Validation - Ensure sufficient stock for immediate purchase
@@ -299,7 +300,7 @@ class CartController extends Controller
         if ($quantity > $product->stock_quantity) {
             return redirect()->back()->with('error', ((__('cart.out_of_stock_alert'))));
         }
-        
+
         // Existing Cart Item Check
         /**
          * Quick Purchase Cart Management - Handle existing cart items
@@ -319,7 +320,7 @@ class CartController extends Controller
             Cart::create([
                 'product_id' => $product->id,       // Product reference
                 'user_id' => Auth::id(),            // User ID (null for guests)
-                'quantity'   => $quantity,          // Purchase quantity
+                'quantity' => $quantity,          // Purchase quantity
                 'session_id' => $sessionId,         // Session tracking
             ]);
         }

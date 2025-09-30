@@ -19,18 +19,18 @@ class SetLocale
     {
         // Get locale from URL parameter, session, or default
         $locale = $request->get('locale', Session::get('locale', config('app.locale')));
-        
+
         // Validate locale
-        if (!in_array($locale, array_keys(config('app.available_locales')))) {
+        if (! in_array($locale, array_keys(config('app.available_locales')))) {
             $locale = config('app.locale');
         }
-        
+
         // Set application locale
         App::setLocale($locale);
-        
+
         // Store locale in session
         Session::put('locale', $locale);
-        
+
         return $next($request);
     }
 }

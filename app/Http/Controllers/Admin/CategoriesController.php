@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Product\Category;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class CategoriesController extends Controller
 {
@@ -22,6 +22,7 @@ class CategoriesController extends Controller
     {
         // Không dùng cache cho phân trang
         $categories = Category::paginate(20); // 20 category mỗi trang
+
         return view('admin.categories.index', [
             'categories' => $categories,
         ]);
@@ -45,7 +46,7 @@ class CategoriesController extends Controller
      * Handles the creation of a new product category, including validation,
      * image upload, and saving to the database. Clears category cache after creation.
      *
-     * @param Request $request HTTP request with category data
+     * @param  Request  $request  HTTP request with category data
      * @return \Illuminate\Http\RedirectResponse Redirect to category list with success message
      */
     public function store(Request $request)
@@ -62,7 +63,7 @@ class CategoriesController extends Controller
         // Handle image upload if available
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension(); // Unique filename with timestamp
+            $imageName = time().'.'.$image->getClientOriginalExtension(); // Unique filename with timestamp
             $image->move(public_path('images/categories'), $imageName);
             $generatedFileName = $imageName;
         } else {
@@ -71,7 +72,7 @@ class CategoriesController extends Controller
         }
 
         // Create and save the category
-        $category = new Category();
+        $category = new Category;
         $category->name = $request->input('name');
         $category->description = $request->input('description');
         $category->image_path = $generatedFileName;
@@ -88,7 +89,7 @@ class CategoriesController extends Controller
      *
      * Displays the form for editing an existing product category.
      *
-     * @param int $id Category ID
+     * @param  int  $id  Category ID
      * @return \Illuminate\View\View Category edit form view
      */
     public function edit($id)
@@ -106,15 +107,15 @@ class CategoriesController extends Controller
      * Handles updating an existing product category, including validation,
      * image upload/replacement, and saving changes. Clears category cache after update.
      *
-     * @param Request $request HTTP request with updated category data
-     * @param int $id Category ID
+     * @param  Request  $request  HTTP request with updated category data
+     * @param  int  $id  Category ID
      * @return \Illuminate\Http\RedirectResponse Redirect to category list with success message
      */
     public function update(Request $request, $id)
     {
         // Validate the input data
         $request->validate([
-            'name' => 'required|string|max:255|unique:categories,name,' . $id,
+            'name' => 'required|string|max:255|unique:categories,name,'.$id,
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
@@ -126,12 +127,12 @@ class CategoriesController extends Controller
         // Handle image upload and replace old image if needed
         if ($request->hasFile('image')) {
             // Delete old image if it exists
-            if ($category->image_path && file_exists(public_path('images/categories/' . $category->image_path))) {
-                unlink(public_path('images/categories/' . $category->image_path));
+            if ($category->image_path && file_exists(public_path('images/categories/'.$category->image_path))) {
+                unlink(public_path('images/categories/'.$category->image_path));
             }
 
             $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $imageName = time().'.'.$image->getClientOriginalExtension();
             $image->move(public_path('images/categories'), $imageName);
             $category->image_path = $imageName;
         }
@@ -150,13 +151,13 @@ class CategoriesController extends Controller
      * Deletes a product category and its associated image file if it exists.
      * Clears category cache after deletion. Returns JSON response for AJAX requests.
      *
-     * @param int $id Category ID
+     * @param  int  $id  Category ID
      * @return \Illuminate\Http\JsonResponse JSON response indicating success
      */
     public function destroy($id)
     {
         $category = Category::findOrFail($id);
-        $imagePath = public_path('images/categories/' . $category->image_path);
+        $imagePath = public_path('images/categories/'.$category->image_path);
 
         // Delete image file if exists
         if ($category->image_path && file_exists($imagePath)) {
@@ -181,7 +182,7 @@ class CategoriesController extends Controller
      * Searches product categories by name or description and returns HTML table rows
      * for display in the admin interface. Used for AJAX search functionality.
      *
-     * @param Request $request HTTP request with search query
+     * @param  Request  $request  HTTP request with search query
      * @return \Illuminate\Http\JsonResponse JSON response with HTML table rows
      */
     public function search(Request $request)
@@ -203,8 +204,8 @@ class CategoriesController extends Controller
      * Shows details for a specific product category. Returns JSON response for AJAX/JSON
      * requests, or renders the category details view for standard requests.
      *
-     * @param int $id Category ID
-     * @param Request $request HTTP request
+     * @param  int  $id  Category ID
+     * @param  Request  $request  HTTP request
      * @return \Illuminate\View\View|\Illuminate\Http\JsonResponse Category details view or JSON response
      */
     public function show($id, Request $request)
@@ -225,7 +226,7 @@ class CategoriesController extends Controller
                 'id' => $category->id,
                 'name' => $category->name,
                 'description' => $category->description ?? '',
-                'image_path' => asset('images/categories/' . ($category->image_path ?? 'fixed_resources/not_found.jpg')),
+                'image_path' => asset('images/categories/'.($category->image_path ?? 'fixed_resources/not_found.jpg')),
             ]);
         }
 

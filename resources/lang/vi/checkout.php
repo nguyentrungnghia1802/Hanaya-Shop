@@ -77,15 +77,14 @@ return [
     'view_order' => 'Xem đơn hàng',
     'no_products_selected' => 'Không có sản phẩm nào được chọn để thanh toán.',
 
-    //checkout alerts
-    'unknown_product'               => 'Sản phẩm không xác định',
-    'please_select_address'         => 'Vui lòng chọn địa chỉ giao hàng.',
-    'invalid_address'               => 'Địa chỉ không hợp lệ. Vui lòng kiểm tra lại thông tin và thử lại.',
-    'please_select_payment_method'  => 'Vui lòng chọn phương thức thanh toán.',
-    'invalid_payment_method'        => 'Phương thức thanh toán không hợp lệ. Vui lòng chọn lại.',
-    'cart_data_error'               => 'Lỗi dữ liệu giỏ hàng. Vui lòng kiểm tra giỏ hàng và thử lại.',
-    'order_success'                 => 'Đặt hàng thành công.',
-    'order_failed'                  => 'Đặt hàng thất bại. Vui lòng thử lại sau.',
-
+    // checkout alerts
+    'unknown_product' => 'Sản phẩm không xác định',
+    'please_select_address' => 'Vui lòng chọn địa chỉ giao hàng.',
+    'invalid_address' => 'Địa chỉ không hợp lệ. Vui lòng kiểm tra lại thông tin và thử lại.',
+    'please_select_payment_method' => 'Vui lòng chọn phương thức thanh toán.',
+    'invalid_payment_method' => 'Phương thức thanh toán không hợp lệ. Vui lòng chọn lại.',
+    'cart_data_error' => 'Lỗi dữ liệu giỏ hàng. Vui lòng kiểm tra giỏ hàng và thử lại.',
+    'order_success' => 'Đặt hàng thành công.',
+    'order_failed' => 'Đặt hàng thất bại. Vui lòng thử lại sau.',
 
 ];

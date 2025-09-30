@@ -20,7 +20,7 @@ return [
     'search_results_for' => 'Search results for',
     'clear' => 'Clear',
     'no_posts_available' => 'No posts available.',
-    
+
     // Post Details
     'read_more' => 'Read More',
     'read_full_post' => 'Read Full Post',
@@ -32,7 +32,7 @@ return [
     'minutes_read' => ':minutes min read',
     'posted_in' => 'Posted in',
     'tagged_with' => 'Tagged with',
-    
+
     // Post Categories
     'categories' => 'Categories',
     'post_categories' => 'Post Categories',
@@ -43,13 +43,13 @@ return [
     'company_news' => 'Company News',
     'tutorials' => 'Tutorials',
     'announcements' => 'Announcements',
-    
+
     // Post Tags
     'tags' => 'Tags',
     'related_tags' => 'Related Tags',
     'popular_tags' => 'Popular Tags',
     'tag_cloud' => 'Tag Cloud',
-    
+
     // Comments
     'comments' => 'Comments',
     'leave_comment' => 'Leave a Comment',
@@ -64,7 +64,7 @@ return [
     'your_email' => 'Your Email',
     'your_comment' => 'Your Comment',
     'required_fields' => 'Required fields are marked *',
-    
+
     // Search & Filter
     'search_posts_placeholder' => 'Search posts...',
     'search_results' => 'Search Results',
@@ -75,7 +75,7 @@ return [
     'sort_by_popularity' => 'Sort by Popularity',
     'newest_first' => 'Newest First',
     'oldest_first' => 'Oldest First',
-    
+
     // Post Navigation
     'previous_post' => 'Previous Post',
     'next_post' => 'Next Post',
@@ -83,7 +83,7 @@ return [
     'you_might_also_like' => 'You Might Also Like',
     'similar_articles' => 'Similar Articles',
     'more_from_author' => 'More from this Author',
-    
+
     // Social Sharing
     'share_post' => 'Share this Post',
     'share_on_facebook' => 'Share on Facebook',
@@ -91,39 +91,39 @@ return [
     'share_on_linkedin' => 'Share on LinkedIn',
     'copy_link' => 'Copy Link',
     'link_copied' => 'Link copied to clipboard!',
-    
+
     // Post Archive
     'archive' => 'Archive',
     'monthly_archive' => 'Monthly Archive',
     'yearly_archive' => 'Yearly Archive',
     'view_archive' => 'View Archive',
     'posts_from' => 'Posts from',
-    
+
     // Authors
     'author' => 'Author',
     'about_author' => 'About the Author',
     'author_bio' => 'Author Bio',
     'posts_by_author' => 'Posts by :author',
     'view_author_profile' => 'View Author Profile',
-    
+
     // Newsletter
     'subscribe_newsletter' => 'Subscribe to Newsletter',
     'get_latest_posts' => 'Get the latest posts delivered to your inbox',
     'newsletter_signup' => 'Newsletter Signup',
-    
+
     // Messages
     'no_posts_found' => 'No posts found',
     'no_search_results' => 'No posts found matching your search',
     'post_not_found' => 'Post not found',
     'loading_posts' => 'Loading posts...',
     'end_of_posts' => 'No more posts to show',
-    
+
     // Post Status
     'published' => 'Published',
     'draft' => 'Draft',
     'scheduled' => 'Scheduled',
     'private' => 'Private',
-    
+
     // Post Types
     'article' => 'Article',
     'news_type' => 'News',

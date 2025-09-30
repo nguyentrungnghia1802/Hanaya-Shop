@@ -1,11 +1,12 @@
 <?php
+
 /**
  * User Product Controller
- * 
+ *
  * This controller handles product-related functionality for customer-facing pages
  * in the Hanaya Shop e-commerce application. It manages product browsing, searching,
  * filtering, and detailed product views with reviews and related products.
- * 
+ *
  * Key Features:
  * - Product listing with advanced filtering and sorting options
  * - Search functionality across multiple product attributes
@@ -15,9 +16,9 @@
  * - View count tracking for analytics
  * - Performance optimization through caching
  * - Pagination for large product catalogs
- * 
- * @package App\Http\Controllers\User
+ *
  * @author Hanaya Shop Development Team
+ *
  * @version 1.0
  */
 
@@ -25,14 +26,14 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product\Product;  // Product model for product data
-use Illuminate\Http\Request;     // HTTP request handling
-use Illuminate\Support\Facades\DB;    // Database query builder
+use App\Models\Product\Review;     // HTTP request handling
+use Illuminate\Http\Request;    // Database query builder
 use Illuminate\Support\Facades\Cache; // Laravel caching for performance
-use App\Models\Product\Review;   // Review model for product ratings
+use Illuminate\Support\Facades\DB;   // Review model for product ratings
 
 /**
  * Product Controller Class
- * 
+ *
  * Manages all product-related operations for customer-facing pages including
  * product listing, filtering, searching, and detailed product views.
  */
@@ -40,42 +41,42 @@ class ProductController extends Controller
 {
     /**
      * Display a paginated listing of products with filtering and sorting options.
-     * 
+     *
      * This method handles the main product catalog page with comprehensive
      * filtering, searching, and sorting capabilities. It includes category
      * filtering, keyword search across multiple fields, and various sorting
      * options including best sellers and price ranges.
-     * 
+     *
      * Performance is optimized through intelligent caching based on query parameters.
      * The method supports both category ID and category name filtering for
      * SEO-friendly URLs and multilingual support.
-     * 
-     * @param Request $request HTTP request containing query parameters for filtering/sorting
+     *
+     * @param  Request  $request  HTTP request containing query parameters for filtering/sorting
      * @return \Illuminate\View\View Product listing view with filtered results
      */
     public function index(Request $request)
     {
         // Extract Query Parameters
         // These parameters control filtering, sorting, and searching behavior
-        
+
         /**
          * Sort Parameter - Controls product ordering
          * Possible values: 'asc', 'desc', 'sale', 'views', 'bestseller', 'latest'
          */
         $sort = $request->query('sort');
-        
+
         /**
          * Keyword Parameter - Search term for product search functionality
          * Searches across product name, description, price, and category information
          */
         $keyword = $request->query('q');
-        
+
         /**
          * Category ID Parameter - Numeric category filter
          * Direct category filtering by database ID
          */
         $categoryId = $request->query('category');
-        
+
         /**
          * Category Name Parameter - SEO-friendly category filter
          * Human-readable category names for better URLs and user experience
@@ -88,12 +89,12 @@ class ProductController extends Controller
          * MD5 hash ensures consistent key length while capturing all parameter variations
          * This approach provides efficient caching while maintaining data freshness
          */
-        $cacheKey = 'products_index_' . app()->getLocale() . '_' . md5(serialize([
+        $cacheKey = 'products_index_'.app()->getLocale().'_'.md5(serialize([
             'sort' => $sort,
             'keyword' => $keyword,
             'categoryId' => $categoryId,
             'categoryName' => $categoryName,
-            'page' => $request->query('page', 1)
+            'page' => $request->query('page', 1),
         ]));
 
         // Cached Query Execution
@@ -102,8 +103,8 @@ class ProductController extends Controller
          * Balances performance improvements with data freshness requirements
          * Cache invalidation occurs automatically after timeout period
          */
-        $result = Cache::remember($cacheKey, 900, function () use ($sort, $keyword, $categoryId, $categoryName, $request) {
-            
+        $result = Cache::remember($cacheKey, 900, function () use ($sort, $keyword, $categoryId, $categoryName) {
+
             // Base Query Construction
             /**
              * Product Query Builder - Start with optimized base query
@@ -111,7 +112,7 @@ class ProductController extends Controller
              * withAvg() calculates average rating efficiently at database level
              */
             $query = Product::with('category')->withAvg('reviews', 'rating');
-            
+
             // Category Name Filtering Section
             /**
              * Multilingual Category Mapping - Support for different language variants
@@ -123,7 +124,7 @@ class ProductController extends Controller
                     'soap-flower' => ['Soap Flower', 'Hoa sáp', 'soap flower'],     // Soap flower variants
                     'fresh-flower' => ['Fresh Flower', 'Hoa tươi', 'fresh flower'],      // Fresh flower variants
                     'special-flower' => ['Special Flower', 'Hoa đặc biệt', 'special flower'], // Special flower variants
-                    'souvenir' => ['Souvenir', 'Quà lưu niệm', 'souvenir']               // Souvenir variants
+                    'souvenir' => ['Souvenir', 'Quà lưu niệm', 'souvenir'],               // Souvenir variants
                 ];
 
                 // Apply Category Name Filter
@@ -227,7 +228,7 @@ class ProductController extends Controller
                 'sort' => $sort,
                 'q' => $keyword,
                 'category' => $categoryId,
-                'category_name' => $categoryName
+                'category_name' => $categoryName,
             ]);
 
             // Category Data for Filter Dropdown
@@ -250,7 +251,7 @@ class ProductController extends Controller
                     'soap-flower' => __('product.soap_flower'),
                     'fresh-flower' => __('product.fresh_flower'),
                     'special-flower' => __('product.special_flower'),
-                    'souvenir' => __('product.souvenir')
+                    'souvenir' => __('product.souvenir'),
                 ];
                 $pageTitle = $categoryTitles[$categoryName] ?? $pageTitle;
             }
@@ -283,12 +284,12 @@ class ProductController extends Controller
 
     /**
      * Display detailed view of a specific product with reviews and related products.
-     * 
+     *
      * This method handles individual product detail pages including product information,
      * customer reviews with ratings, related products recommendations, and view tracking.
      * The method optimizes performance through strategic caching while ensuring view
      * counts are accurately tracked for analytics.
-     * 
+     *
      * Features include:
      * - Comprehensive product details with category information
      * - Paginated customer reviews with user information
@@ -296,9 +297,10 @@ class ProductController extends Controller
      * - Related products from the same category
      * - View count tracking for popularity metrics
      * - Efficient caching for improved performance
-     * 
-     * @param int $id Product ID to display
+     *
+     * @param  int  $id  Product ID to display
      * @return \Illuminate\View\View Product detail view with related data
+     *
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException If product not found
      */
     public function show($id)
@@ -343,7 +345,7 @@ class ProductController extends Controller
          * Defaults to 5 stars if no reviews exist (optimistic default)
          */
         $averageRating = $product->reviews()->avg('rating') ?? 5;
-        
+
         /**
          * Total Review Count - Count of all reviews for this product
          * Used for displaying review statistics and social proof
