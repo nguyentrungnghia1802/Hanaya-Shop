@@ -13,11 +13,14 @@
         <!-- Safe Unit Tests - No database dependencies -->
         <testsuite name="SafeUnit">
             <directory>tests/Unit/Service</directory>
-            <exclude>tests/Unit/Http</exclude>
-            <exclude>tests/Unit/Models</exclude>
         </testsuite>
         
-        <!-- Integration Tests - Require database -->
+        <!-- Standard Unit testsuite (alias for SafeUnit) -->
+        <testsuite name="Unit">
+            <directory>tests/Unit/Service</directory>
+        </testsuite>
+        
+        <!-- Integration Tests - Require database (excluded from CI) -->
         <testsuite name="Integration">
             <directory>tests/Unit/Http</directory>
             <directory>tests/Unit/Models</directory>

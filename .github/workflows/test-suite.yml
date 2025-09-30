@@ -226,13 +226,13 @@ jobs:
       - name: Run CI-Safe Tests
         run: |
           echo "🧪 Running CI-safe unit tests only..."
-          ./vendor/bin/phpunit --testsuite=Unit --configuration=phpunit.ci.safe.xml --testdox --colors=always
+          ./vendor/bin/phpunit --testsuite=SafeUnit --testdox --colors=always
           
       - name: Generate test coverage (on develop)
         if: github.ref == 'refs/heads/develop'
         run: |
           echo "📊 Generating test coverage for unit tests..."
-          ./vendor/bin/phpunit --testsuite=Unit --configuration=phpunit.ci.safe.xml --coverage-text --coverage-clover=coverage.xml --testdox || echo "⚠️ Coverage generation completed with warnings"
+          ./vendor/bin/phpunit --testsuite=SafeUnit --coverage-text --coverage-clover=coverage.xml --testdox || echo "⚠️ Coverage generation completed with warnings"
           
       - name: Upload coverage reports
         if: github.ref == 'refs/heads/develop'
