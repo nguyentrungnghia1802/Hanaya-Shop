@@ -220,7 +220,8 @@ jobs:
       - name: Run database setup
         run: |
           php artisan migrate --force
-          php artisan db:seed --force
+          # Skip seeding in testing - unit/feature tests should create their own test data
+          echo "✅ Database migrated for testing (seeding skipped)"
 
       - name: Run PHPUnit tests
         run: |

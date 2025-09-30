@@ -242,8 +242,8 @@ jobs:
           
           php artisan migrate --force --database=mysql
           
-          # Seed basic data for feature tests
-          php artisan db:seed --force --class=DatabaseSeeder --database=mysql || echo "⚠️ Seeding failed or not needed"
+          # Skip seeding in CI - only needed for local development with test data
+          echo "✅ Database migrated successfully (seeding skipped for production CI)"
 
       - name: Debug test environment
         run: |

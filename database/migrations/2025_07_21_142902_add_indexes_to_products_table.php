@@ -53,7 +53,7 @@ return new class extends Migration
             $table->dropIndex(['created_at']);
             $table->dropIndex(['category_id', 'price']);
             $table->dropIndex(['discount_percent', 'price']);
-            
+
             // Drop fulltext index only for MySQL
             if (config('database.default') === 'mysql') {
                 $table->dropFullText(['name', 'descriptions']);
