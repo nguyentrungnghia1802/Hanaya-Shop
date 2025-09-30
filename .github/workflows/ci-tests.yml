@@ -4,12 +4,9 @@ on:
   push:
     branches: 
       - develop
-      - main  # CI tests cho push main
       - 'feature/**'
       - 'hotfix/**'
-  pull_request:
-    branches: 
-      - main  # CI tests cho PR to main
+    # Remove main and PR to main to avoid duplicate testing
 
 jobs:
   debug-info:

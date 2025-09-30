@@ -16,43 +16,86 @@ on:
       - 'deployment/BRANCH_STRATEGY.md'
       - 'deployment/CICD_SETUP.md'
   workflow_dispatch:
-  workflow_run:
-    workflows: ["CI Tests"]  # Wait for CI Tests to complete
-    types: [completed]
-    branches: [main]
 
 jobs:
-  check-ci-success:
+  pre-deployment-tests:
     runs-on: ubuntu-latest
-    name: Check CI Tests Success
-    if: |
-      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') ||
-      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
-      (github.event_name == 'pull_request' && github.base_ref == 'main')
-    outputs:
-      deploy: ${{ steps.check.outputs.deploy }}
+    name: Pre-deployment Tests
+    
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: hanaya_shop_test
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    
     steps:
-      - name: Check CI completion
-        id: check
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, redis
+          coverage: none
+          tools: composer:v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies and run tests
         run: |
-          if [ "${{ github.event_name }}" = "workflow_run" ]; then
-            if [ "${{ github.event.workflow_run.conclusion }}" = "success" ]; then
-              echo "deploy=true" >> $GITHUB_OUTPUT
-              echo "✅ CI Tests passed - proceeding with deployment"
-            else
-              echo "deploy=false" >> $GITHUB_OUTPUT
-              echo "❌ CI Tests failed - skipping deployment"
-            fi
-          else
-            echo "deploy=true" >> $GITHUB_OUTPUT
-            echo "✅ Direct trigger - proceeding with deployment"
-          fi
+          composer install --no-interaction --prefer-dist --optimize-autoloader
+          npm ci
+          npm run build
+          cp .env.example .env
+          php artisan key:generate
+          
+          # Configure test environment
+          echo "APP_ENV=testing" >> .env
+          echo "APP_DEBUG=true" >> .env
+          echo "DB_CONNECTION=mysql" >> .env
+          echo "DB_HOST=127.0.0.1" >> .env
+          echo "DB_PORT=3306" >> .env
+          echo "DB_DATABASE=hanaya_shop_test" >> .env
+          echo "DB_USERNAME=root" >> .env
+          echo "DB_PASSWORD=password" >> .env
+          echo "CACHE_DRIVER=array" >> .env
+          echo "SESSION_DRIVER=array" >> .env
+          echo "QUEUE_CONNECTION=sync" >> .env
+          echo "MAIL_MAILER=array" >> .env
+          echo "REDIS_HOST=127.0.0.1" >> .env
+          echo "REDIS_PORT=6379" >> .env
+          
+          # Create storage directories
+          mkdir -p storage/framework/{cache/data,sessions,views}
+          mkdir -p storage/logs bootstrap/cache
+          chmod -R 755 storage bootstrap/cache
+          
+          # Run migrations, tests, and quality checks
+          php artisan migrate --force
+          php artisan db:seed --force || echo "⚠️ Seeding skipped"
+          php artisan test
+          ./vendor/bin/pint --test || echo "⚠️ Linting issues found"
+          composer audit || echo "⚠️ Security vulnerabilities found"
 
   build-and-deploy:
     runs-on: ubuntu-latest
     name: Build & Deploy to Production
-    needs: check-ci-success
-    if: needs.check-ci-success.outputs.deploy == 'true'
+    needs: pre-deployment-tests  # 🛡️ CHỈ DEPLOY NẾU TESTS PASS
     environment:
       name: production
       url: http://www.hanayashop.com
@@ -65,6 +108,11 @@ jobs:
           echo "Branch: ${{ github.ref }}"
           echo "Commit: ${{ github.sha }}"
           echo "Repository: ${{ github.repository }}"
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "💡 This is a PR deployment for review"
+          else
+            echo "💡 This is a main branch official deployment"
+          fi
 
       - name: Checkout code
         uses: actions/checkout@v4
