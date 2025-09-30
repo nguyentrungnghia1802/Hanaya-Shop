@@ -181,12 +181,56 @@ jobs:
           php artisan migrate --force
 
       - name: Execute comprehensive test suite
+        id: test-execution
+        continue-on-error: true
         run: |
           echo "🧪 Running comprehensive tests..."
           
+          # Set test status tracking
+          echo "test-status=success" >> $GITHUB_OUTPUT
+          
           # Core functionality tests (without parallel to avoid race conditions)
-          php artisan test --testsuite=Unit --stop-on-failure
-          php artisan test --testsuite=Feature --filter="ExampleTest|AuthenticationTest|PasswordConfirmationTest|PasswordUpdateTest|RegistrationTest" --stop-on-failure
+          if ! php artisan test --testsuite=Unit --stop-on-failure; then
+            echo "❌ Unit tests failed!"
+            echo "test-status=unit-failed" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+          
+          echo "✅ Unit tests passed"
+          
+          # Essential feature tests only to avoid complex mocking issues
+          if ! php artisan test --testsuite=Feature --filter="ExampleTest|AuthenticationTest|PasswordConfirmationTest|PasswordUpdateTest|RegistrationTest" --stop-on-failure; then
+            echo "❌ Essential feature tests failed!"
+            echo "test-status=feature-failed" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+          
+          echo "✅ All tests passed successfully"
+      
+      - name: Handle test failures
+        if: steps.test-execution.outcome == 'failure'
+        run: |
+          echo "⚠️ Tests failed in production deploy pipeline"
+          echo "Test Status: ${{ steps.test-execution.outputs.test-status }}"
+          
+          if [[ "${{ steps.test-execution.outputs.test-status }}" == "unit-failed" ]]; then
+            echo "❌ Unit test failures indicate code quality issues"
+            echo "🔴 Blocking deployment due to unit test failures"
+            exit 1
+          elif [[ "${{ steps.test-execution.outputs.test-status }}" == "feature-failed" ]]; then
+            echo "❌ Feature test failures indicate integration issues"
+            echo "🔴 Blocking deployment due to feature test failures"
+            exit 1
+          fi
+          
+      - name: Test coverage and quality report
+        if: steps.test-execution.outcome == 'success'
+        run: |
+          echo "📊 Test Summary:"
+          echo "✅ Unit Tests: Passed"
+          echo "✅ Feature Tests: Passed"
+          echo "🎯 Quality Gate: Met"
+          echo "🚀 Ready for deployment"
           
           # Code quality checks
           ./vendor/bin/pint --test
