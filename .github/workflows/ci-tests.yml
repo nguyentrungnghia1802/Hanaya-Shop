@@ -86,7 +86,7 @@ jobs:
           key: dependencies-composer-${{ hashFiles('composer.lock') }}
 
       - name: Install PHP dependencies
-        run: composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
       - name: Install NPM dependencies
         run: npm ci
@@ -109,9 +109,10 @@ jobs:
           echo "DB_PASSWORD=password" >> .env
           echo "REDIS_HOST=127.0.0.1" >> .env
           echo "REDIS_PORT=6379" >> .env
-          echo "CACHE_DRIVER=redis" >> .env
-          echo "SESSION_DRIVER=redis" >> .env
-          echo "QUEUE_CONNECTION=redis" >> .env
+          echo "CACHE_DRIVER=array" >> .env
+          echo "SESSION_DRIVER=array" >> .env
+          echo "QUEUE_CONNECTION=sync" >> .env
+          echo "MAIL_MAILER=array" >> .env
 
       - name: Run database migrations
         run: php artisan migrate --force
@@ -123,7 +124,7 @@ jobs:
         run: ./vendor/bin/pint --test
 
       - name: Run PHP Tests
-        run: php artisan test
+        run: ./vendor/bin/phpunit --testdox
 
       - name: Check for security vulnerabilities
         run: composer audit
