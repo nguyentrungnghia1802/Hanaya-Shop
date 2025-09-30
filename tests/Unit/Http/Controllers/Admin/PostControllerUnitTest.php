@@ -220,6 +220,11 @@ class PostControllerUnitTest extends TestCase
     #[Test]
     public function store_creates_post_with_image_upload()
     {
+        // Skip if GD extension not available
+        if (!extension_loaded('gd')) {
+            $this->markTestSkipped('GD extension is not installed.');
+        }
+        
         // Arrange
         Auth::shouldReceive('id')->andReturn($this->user->id);
         Carbon::setTestNow(Carbon::parse('2024-01-15 10:30:45'));
@@ -283,9 +288,21 @@ class PostControllerUnitTest extends TestCase
     #[Test]
     public function store_creates_upload_directory_if_not_exists()
     {
+        // Skip if GD extension not available
+        if (!extension_loaded('gd')) {
+            $this->markTestSkipped('GD extension is not installed.');
+        }
+        
         // Arrange
         Auth::shouldReceive('id')->andReturn($this->user->id);
         if (file_exists($this->testUploadPath)) {
+            // Remove all files first, then directory
+            $files = glob($this->testUploadPath . '/*');
+            foreach ($files as $file) {
+                if (is_file($file)) {
+                    unlink($file);
+                }
+            }
             rmdir($this->testUploadPath);
         }
 
@@ -378,6 +395,11 @@ class PostControllerUnitTest extends TestCase
     #[Test]
     public function update_replaces_old_image_with_new_one()
     {
+        // Skip if GD extension not available
+        if (!extension_loaded('gd')) {
+            $this->markTestSkipped('GD extension is not installed.');
+        }
+        
         // Arrange
         File::shouldReceive('exists')->andReturn(true);
         File::shouldReceive('delete')->once();
@@ -414,6 +436,11 @@ class PostControllerUnitTest extends TestCase
     #[Test]
     public function update_skips_old_image_deletion_if_file_not_exists()
     {
+        // Skip if GD extension not available
+        if (!extension_loaded('gd')) {
+            $this->markTestSkipped('GD extension is not installed.');
+        }
+        
         // Arrange
         File::shouldReceive('exists')->andReturn(false);
         File::shouldReceive('delete')->never();
@@ -503,10 +530,22 @@ class PostControllerUnitTest extends TestCase
     #[Test]
     public function update_creates_upload_directory_if_not_exists()
     {
+        // Skip if GD extension not available
+        if (!extension_loaded('gd')) {
+            $this->markTestSkipped('GD extension is not installed.');
+        }
+        
         // Arrange
         $post = Post::factory()->create(['user_id' => $this->user->id]);
         
         if (file_exists($this->testUploadPath)) {
+            // Remove all files first, then directory
+            $files = glob($this->testUploadPath . '/*');
+            foreach ($files as $file) {
+                if (is_file($file)) {
+                    unlink($file);
+                }
+            }
             rmdir($this->testUploadPath);
         }
 
@@ -573,6 +612,11 @@ class PostControllerUnitTest extends TestCase
     #[Test]
     public function image_upload_supports_all_valid_formats()
     {
+        // Skip if GD extension not available
+        if (!extension_loaded('gd')) {
+            $this->markTestSkipped('GD extension is not installed.');
+        }
+        
         Auth::shouldReceive('id')->andReturn($this->user->id);
         $validFormats = ['jpeg', 'png', 'jpg', 'gif'];
         
