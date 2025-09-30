@@ -208,7 +208,7 @@ jobs:
           echo "QUEUE_CONNECTION=sync" >> .env
           echo "MAIL_MAILER=array" >> .env
           echo "MAIL_FROM_ADDRESS=test@hanaya-shop.com" >> .env
-          echo "MAIL_FROM_NAME=Hanaya Shop Test" >> .env
+          echo 'MAIL_FROM_NAME="Hanaya Shop Test"' >> .env
 
       - name: Create storage directories
         run: |

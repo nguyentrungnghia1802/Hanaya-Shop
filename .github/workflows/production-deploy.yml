@@ -159,7 +159,7 @@ jobs:
           echo "QUEUE_CONNECTION=redis" >> .env
           echo "MAIL_MAILER=array" >> .env
           echo "MAIL_FROM_ADDRESS=noreply@hanaya-shop.com" >> .env
-          echo "MAIL_FROM_NAME=Hanaya Shop" >> .env
+          echo 'MAIL_FROM_NAME="Hanaya Shop"' >> .env
 
       - name: Prepare application
         run: |
