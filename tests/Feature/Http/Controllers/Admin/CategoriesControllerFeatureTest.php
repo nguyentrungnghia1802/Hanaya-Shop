@@ -73,10 +73,11 @@ class CategoriesControllerFeatureTest extends TestCase
 
     public function test_store_creates_category_with_valid_data_and_image()
     {
-        if (! function_exists('imagecreatetruecolor')) {
+        if (!function_exists('imagecreatetruecolor')) {
             $this->markTestSkipped('GD extension is not installed.');
         }
 
+        Storage::fake('public');
         Cache::shouldReceive('forget')->once();
 
         $categoryData = [
@@ -84,8 +85,6 @@ class CategoriesControllerFeatureTest extends TestCase
             'description' => 'Electronic devices and gadgets',
             'image' => UploadedFile::fake()->image('category.jpg', 500, 500),
         ];
-
-        Storage::fake('public');
 
         $response = $this->actingAs($this->user)
             ->post(route('admin.category.store'), $categoryData);
@@ -101,8 +100,6 @@ class CategoriesControllerFeatureTest extends TestCase
         // Check that image was stored
         $category = Category::where('name', 'Electronics')->first();
         $this->assertNotNull($category->image_path);
-        
-        // Since we're using Storage::fake(), check the fake storage
         Storage::assertExists('images/categories/'.$category->image_path);
     }
 
@@ -496,7 +493,7 @@ class CategoriesControllerFeatureTest extends TestCase
 
     public function test_complete_category_lifecycle()
     {
-        if (! function_exists('imagecreatetruecolor')) {
+        if (!function_exists('imagecreatetruecolor')) {
             $this->markTestSkipped('GD extension is not installed.');
         }
 

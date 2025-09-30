@@ -46,7 +46,7 @@ class PostControllerUnitTest extends TestCase
         if (file_exists($this->testUploadPath)) {
             $files = glob($this->testUploadPath.'/*');
             foreach ($files as $file) {
-                if (is_file($file) && strpos(basename($file), 'post_featured_') === 0) {
+                if (is_file($file) && strpos(basename($file), 'post_featured_')===0) {
                     unlink($file);
                 }
             }
@@ -404,12 +404,6 @@ class PostControllerUnitTest extends TestCase
         // Arrange
         File::shouldReceive('exists')->andReturn(true);
         File::shouldReceive('delete')->once();
-        
-        // Mock filesystem for translation loading
-        $this->mock('files', function ($mock) {
-            $mock->shouldReceive('get')->andReturn('[]');
-            $mock->shouldReceive('exists')->andReturn(true);
-        });
 
         $post = Post::factory()->create([
             'user_id' => $this->user->id,
