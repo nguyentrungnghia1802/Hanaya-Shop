@@ -619,7 +619,7 @@ class PostControllerUnitTest extends TestCase
     public function test_image_upload_supports_all_valid_formats()
     {
         // Skip if GD extension not available
-        if (! extension_loaded('gd')) {
+        if (!extension_loaded('gd')) {
             $this->markTestSkipped('GD extension is not installed.');
         }
 
