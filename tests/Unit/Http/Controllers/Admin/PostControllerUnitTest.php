@@ -402,8 +402,9 @@ class PostControllerUnitTest extends TestCase
         }
 
         // Arrange
-        File::shouldReceive('exists')->andReturn(true);
-        File::shouldReceive('delete')->once();
+    File::shouldReceive('exists')->andReturn(true);
+    File::shouldReceive('delete')->once();
+    File::shouldReceive('get')->andReturn('fake image content');
 
         $post = Post::factory()->create([
             'user_id' => $this->user->id,
