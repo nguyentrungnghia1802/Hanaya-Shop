@@ -91,7 +91,7 @@ class CategoriesControllerFeatureTest extends TestCase
             ->post(route('admin.category.store'), $categoryData);
 
         $response->assertRedirect(route('admin.category'));
-        $response->assertSessionHas('success', 'Category created successfully.');
+        $response->assertSessionHas('success', 'Category created successfully!');
 
         $this->assertDatabaseHas('categories', [
             'name' => 'Electronics',
