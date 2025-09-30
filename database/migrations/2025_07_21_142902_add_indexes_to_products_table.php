@@ -33,8 +33,10 @@ return new class extends Migration
             // Composite index for discount + price (sale products)
             $table->index(['discount_percent', 'price']);
 
-            // Full text search index for name and descriptions
-            $table->fullText(['name', 'descriptions']);
+            // Full text search index for name and descriptions (only for MySQL)
+            if (config('database.default') === 'mysql') {
+                $table->fullText(['name', 'descriptions']);
+            }
         });
     }
 
@@ -51,7 +53,11 @@ return new class extends Migration
             $table->dropIndex(['created_at']);
             $table->dropIndex(['category_id', 'price']);
             $table->dropIndex(['discount_percent', 'price']);
-            $table->dropFullText(['name', 'descriptions']);
+            
+            // Drop fulltext index only for MySQL
+            if (config('database.default') === 'mysql') {
+                $table->dropFullText(['name', 'descriptions']);
+            }
         });
     }
 };
