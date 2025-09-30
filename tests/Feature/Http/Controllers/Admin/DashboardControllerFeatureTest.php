@@ -2,18 +2,17 @@
 
 namespace Tests\Feature\Admin;
 
+use App\Models\Address;
+use App\Models\Order\Order;
+use App\Models\Post;
 use App\Models\Product\Category;
 use App\Models\Product\Product;
 use App\Models\User;
-use App\Models\Post;
-use App\Models\Order\Order;
-use App\Models\Order\OrderDetail;
-use App\Models\Address;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Tests\TestCase;
 
 class DashboardControllerFeatureTest extends TestCase
 {
@@ -26,7 +25,7 @@ class DashboardControllerFeatureTest extends TestCase
         parent::setUp();
 
         $this->adminUser = User::factory()->create([
-            'role' => 'admin'
+            'role' => 'admin',
         ]);
     }
 
@@ -43,17 +42,17 @@ class DashboardControllerFeatureTest extends TestCase
     {
         // Create test data with specific counts
         Category::factory(3)->create();
-        
+
         $category = Category::factory()->create();
         Product::factory(5)->create(['category_id' => $category->id]);
-        
+
         // Create users and ensure they're used in posts (not creating new ones)
         $users = User::factory(7)->create();
         Post::factory(4)->create(['user_id' => $users[0]->id]);
-        
+
         Order::factory(6)->create([
             'user_id' => $users[1]->id,
-            'address_id' => Address::factory()->create(['user_id' => $users[1]->id])->id
+            'address_id' => Address::factory()->create(['user_id' => $users[1]->id])->id,
         ]);
 
         $response = $this->actingAs($this->adminUser)
@@ -71,31 +70,31 @@ class DashboardControllerFeatureTest extends TestCase
         Order::factory()->create([
             'status' => 'completed',
             'total_price' => 100000,
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now(),
         ]);
 
         Order::factory()->create([
             'status' => 'completed',
             'total_price' => 200000,
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now(),
         ]);
 
         Order::factory()->create([
             'status' => 'pending',
             'total_price' => 50000,
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now(),
         ]);
 
         Order::factory()->create([
             'status' => 'completed',
             'total_price' => 75000,
-            'created_at' => Carbon::now()->subMonth()
+            'created_at' => Carbon::now()->subMonth(),
         ]);
 
         $response = $this->actingAs($this->adminUser)
             ->get(route('admin.dashboard'));
 
-        // Total revenue: 100000 + 200000 + 75000 = 375000 
+        // Total revenue: 100000 + 200000 + 75000 = 375000
         $this->assertEquals(375000, $response->viewData('totalRevenue'));
 
         // Monthly revenue = 300000
@@ -141,13 +140,13 @@ class DashboardControllerFeatureTest extends TestCase
         $recentOrder = Order::factory()->create([
             'user_id' => $user->id,
             'total_price' => 100000,
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now(),
         ]);
 
         $olderOrder = Order::factory()->create([
             'user_id' => $user->id,
             'total_price' => 50000,
-            'created_at' => Carbon::now()->subDays(5)
+            'created_at' => Carbon::now()->subDays(5),
         ]);
 
         $response = $this->actingAs($this->adminUser)
@@ -193,13 +192,13 @@ class DashboardControllerFeatureTest extends TestCase
         Order::factory()->create([
             'status' => 'completed',
             'total_price' => 100000,
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now(),
         ]);
 
         Order::factory()->create([
             'status' => 'completed',
             'total_price' => 200000,
-            'created_at' => Carbon::now()->subMonth()
+            'created_at' => Carbon::now()->subMonth(),
         ]);
 
         $response = $this->actingAs($this->adminUser)
@@ -286,7 +285,7 @@ class DashboardControllerFeatureTest extends TestCase
         Order::factory()->create([
             'status' => 'completed',
             'total_price' => 1234567,
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now(),
         ]);
 
         $response = $this->actingAs($this->adminUser)

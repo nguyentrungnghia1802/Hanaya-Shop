@@ -21,7 +21,7 @@ return [
     'english' => 'English',
     'vietnamese' => 'Tiếng Việt',
     'japanese' => '日本語',
-    
+
     // Common actions
     'add' => 'Add',
     'edit' => 'Edit',
@@ -41,7 +41,7 @@ return [
     'continue' => 'Continue',
     'confirm' => 'Confirm',
     'loading' => 'Loading...',
-    
+
     // Status
     'pending' => 'Pending',
     'processing' => 'Processing',
@@ -50,7 +50,7 @@ return [
     'cancelled' => 'Cancelled',
     'active' => 'Active',
     'inactive' => 'Inactive',
-    
+
     // Messages
     'success' => 'Success',
     'error' => 'Error',
@@ -58,18 +58,18 @@ return [
     'info' => 'Information',
     'no_data' => 'No data available',
     'no_results' => 'No results found',
-    
+
     // Footer
     'footer_description' => 'Specializing in premium flowers, meaningful gifts and decorative accessories.',
     'quick_links' => 'Quick Links',
     'copyright' => 'All rights reserved.',
-    
+
     // Shop info
     'shop_name' => 'HANAYA SHOP',
     'address' => 'Address',
     'phone' => 'Phone',
     'email' => 'Email',
-    
+
     // Product related
     'category' => 'Category',
     'price' => 'Price',

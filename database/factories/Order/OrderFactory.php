@@ -2,9 +2,9 @@
 
 namespace Database\Factories\Order;
 
+use App\Models\Address;
 use App\Models\Order\Order;
 use App\Models\User;
-use App\Models\Address;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

@@ -77,14 +77,14 @@ return [
     'view_order' => '注文を見る',
     'no_products_selected' => 'チェックアウト用の商品が選択されていません。',
 
-    //checkout alerts
-    'unknown_product'               => '不明な商品です',
-    'please_select_address'         => '配送先住所を選択してください。',
-    'invalid_address'               => '無効な住所です。住所の詳細を確認して再度お試しください。',
-    'please_select_payment_method'  => 'お支払い方法を選択してください。',
-    'invalid_payment_method'        => '無効なお支払い方法です。正しい方法を選択してください。',
-    'cart_data_error'               => 'カートデータのエラーです。カートを確認して再度お試しください。',
-    'order_success'                 => '注文が正常に完了しました。',
-    'order_failed'                  => '注文に失敗しました。後でもう一度お試しください。',
+    // checkout alerts
+    'unknown_product' => '不明な商品です',
+    'please_select_address' => '配送先住所を選択してください。',
+    'invalid_address' => '無効な住所です。住所の詳細を確認して再度お試しください。',
+    'please_select_payment_method' => 'お支払い方法を選択してください。',
+    'invalid_payment_method' => '無効なお支払い方法です。正しい方法を選択してください。',
+    'cart_data_error' => 'カートデータのエラーです。カートを確認して再度お試しください。',
+    'order_success' => '注文が正常に完了しました。',
+    'order_failed' => '注文に失敗しました。後でもう一度お試しください。',
 
 ];

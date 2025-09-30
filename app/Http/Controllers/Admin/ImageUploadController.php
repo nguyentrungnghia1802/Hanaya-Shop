@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ImageUploadController extends Controller
 {
@@ -24,41 +23,41 @@ class ImageUploadController extends Controller
 
             if ($request->hasFile('upload')) {
                 $file = $request->file('upload');
-                
+
                 // Tạo tên file unique với timestamp
                 $timestamp = Carbon::now()->format('YmdHis');
                 $randomString = Str::random(8);
                 $extension = $file->getClientOriginalExtension();
                 $filename = "post_content_{$timestamp}_{$randomString}.{$extension}";
-                
+
                 // Tạo thư mục nếu chưa có
                 $uploadPath = public_path('images/posts');
-                if (!file_exists($uploadPath)) {
+                if (! file_exists($uploadPath)) {
                     mkdir($uploadPath, 0755, true);
                 }
-                
+
                 // Di chuyển file
                 $file->move($uploadPath, $filename);
-                
+
                 $url = asset("images/posts/{$filename}");
-                
+
                 // Response format cho TinyMCE
                 return response()->json([
-                    'url' => $url
+                    'url' => $url,
                 ]);
             }
-            
+
             return response()->json([
-                'error' => __('admin.no_file_uploaded')
+                'error' => __('admin.no_file_uploaded'),
             ], 400);
-            
+
         } catch (\Exception $e) {
             return response()->json([
-                'error' => __('admin.upload_failed') . ': ' . $e->getMessage()
+                'error' => __('admin.upload_failed').': '.$e->getMessage(),
             ], 500);
         }
     }
-    
+
     /**
      * Handle featured image upload for posts.
      * Validates the image, saves it with a unique name, and returns the URL and filename in JSON format.
@@ -71,37 +70,37 @@ class ImageUploadController extends Controller
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            
+
             // Tạo tên file unique với timestamp
             $timestamp = Carbon::now()->format('YmdHis');
             $randomString = Str::random(8);
             $extension = $file->getClientOriginalExtension();
             $filename = "post_featured_{$timestamp}_{$randomString}.{$extension}";
-            
+
             // Tạo thư mục nếu chưa có
             $uploadPath = public_path('images/posts');
-            if (!file_exists($uploadPath)) {
+            if (! file_exists($uploadPath)) {
                 mkdir($uploadPath, 0755, true);
             }
-            
+
             // Di chuyển file
             $file->move($uploadPath, $filename);
-            
+
             $url = asset("images/posts/{$filename}");
-            
+
             return response()->json([
                 'success' => true,
                 'url' => $url,
-                'filename' => $filename
+                'filename' => $filename,
             ]);
         }
-        
+
         return response()->json([
             'success' => false,
-            'message' => __('admin.upload_failed')
+            'message' => __('admin.upload_failed'),
         ], 400);
     }
-    
+
     /**
      * Handle image upload for TinyMCE editor.
      * Validates the image, saves it with a unique name, and returns the location URL in JSON format.
@@ -116,37 +115,37 @@ class ImageUploadController extends Controller
 
             if ($request->hasFile('file')) {
                 $file = $request->file('file');
-                
+
                 // Tạo tên file unique với timestamp
                 $timestamp = Carbon::now()->format('YmdHis');
                 $randomString = Str::random(8);
                 $extension = $file->getClientOriginalExtension();
                 $filename = "tinymce_content_{$timestamp}_{$randomString}.{$extension}";
-                
+
                 // Tạo thư mục nếu chưa có
                 $uploadPath = public_path('images/posts');
-                if (!file_exists($uploadPath)) {
+                if (! file_exists($uploadPath)) {
                     mkdir($uploadPath, 0755, true);
                 }
-                
+
                 // Di chuyển file
                 $file->move($uploadPath, $filename);
-                
+
                 $url = asset("images/posts/{$filename}");
-                
+
                 // Response format cho TinyMCE (cần 'location' key)
                 return response()->json([
-                    'location' => $url
+                    'location' => $url,
                 ]);
             }
-            
+
             return response()->json([
-                'error' => 'No file uploaded'
+                'error' => 'No file uploaded',
             ], 400);
-            
+
         } catch (\Exception $e) {
             return response()->json([
-                'error' => 'Upload failed: ' . $e->getMessage()
+                'error' => 'Upload failed: '.$e->getMessage(),
             ], 500);
         }
     }

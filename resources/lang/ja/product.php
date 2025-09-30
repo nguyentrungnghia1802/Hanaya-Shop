@@ -42,14 +42,14 @@ return [
     'product_images' => '商品画像',
     'description' => '説明',
     'stock' => '在庫',
-    
+
     // Categories
     'soap_flower' => 'ソープフラワー',
     'souvenir' => 'お土産',
     'fresh_flower' => '生花',
     'gift_set' => 'ギフトセット',
     'special_flower' => '特別な花',
-    
+
     // Price & Stock
     'regular_price' => '通常価格',
     'sale_price' => 'セール価格',
@@ -87,14 +87,14 @@ return [
     'style' => 'スタイル',
     'pattern' => 'パターン',
     'finish' => '仕上げ',
-    
+
     // Quantity
     'quantity' => '数量',
     'qty' => '数量',
     'min_quantity' => '最小数量: :min',
     'max_quantity' => '最大数量: :max',
     'quantity_available' => '残り:count個のみ',
-    
+
     // Reviews & Ratings
     'customer_reviews' => 'お客様レビュー',
     'write_review' => 'レビューを書く',
@@ -106,7 +106,7 @@ return [
     'be_first_review' => 'この商品の最初のレビューを投稿してください',
     'helpful_review' => 'このレビューは役に立ちましたか？',
     'verified_purchase' => '購入済み',
-    
+
     // Related Products
     'related_products' => '関連商品',
     'similar_products' => '類似商品',
@@ -114,7 +114,7 @@ return [
     'customers_also_bought' => 'お客様が購入した商品',
     'recommended_for_you' => 'あなたへのおすすめ',
     'you_might_like' => 'お気に入りいただけるかもしれません',
-    
+
     // Product Categories
     'browse_categories' => 'カテゴリーを閲覧',
     'product_categories' => '商品カテゴリー',
@@ -123,7 +123,7 @@ return [
     'brand' => 'ブランド',
     'collection' => 'コレクション',
     'series' => 'シリーズ',
-    
+
     // Search & Filter
     'search_products' => '商品を検索',
     'filter_by_brand' => 'ブランドでフィルター',
@@ -156,7 +156,7 @@ return [
     'eco_friendly' => 'エコフレンドリー',
     'handmade' => 'ハンドメイド',
     'premium' => 'プレミアム',
-    
+
     // Messages
     'added_to_cart' => 'カートに追加されました！',
     'added_to_wishlist' => 'ウィッシュリストに追加されました！',
@@ -166,7 +166,7 @@ return [
     'max_quantity_reached' => '最大数量に達しました',
     'insufficient_stock' => '在庫が不足しています',
     'error_adding_to_cart' => '商品をカートに追加する際にエラーが発生しました。',
-    
+
     // Cart translations
     'cart' => 'カート',
     'cart_title' => '🛒 カート',
@@ -185,7 +185,7 @@ return [
     'cart_empty_message' => 'カートは現在空です。',
     'start_shopping' => 'ショッピングを開始',
 
-    //Product Detail
+    // Product Detail
     'views' => '閲覧数',
     'choose_quantity' => '数量を選択',
     'sign_in_required' => 'サインインが必要です',

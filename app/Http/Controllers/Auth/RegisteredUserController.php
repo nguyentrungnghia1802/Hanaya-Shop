@@ -1,12 +1,13 @@
 <?php
+
 /**
  * Registered User Controller
- * 
+ *
  * This controller handles user registration functionality for the Hanaya Shop e-commerce
  * application. It manages the complete registration process including form display,
  * validation, email verification, and account creation with comprehensive security
  * measures and user experience optimizations.
- * 
+ *
  * Key Features:
  * - Secure user registration with comprehensive validation
  * - Email verification before account activation
@@ -15,7 +16,7 @@
  * - Email verification token system with expiration
  * - Verification email resending capability
  * - Automatic login after successful verification
- * 
+ *
  * Registration Flow:
  * 1. User fills out registration form
  * 2. System validates input and stores in session
@@ -23,7 +24,7 @@
  * 4. User clicks verification link in email
  * 5. System validates token and creates account
  * 6. User automatically logged in and redirected
- * 
+ *
  * Security Features:
  * - Enhanced password complexity validation
  * - Email uniqueness verification
@@ -31,9 +32,9 @@
  * - Token expiration (24 hours)
  * - Session-based pending registration storage
  * - Email verification before account activation
- * 
- * @package App\Http\Controllers\Auth
+ *
  * @author Hanaya Shop Development Team
+ *
  * @version 1.0
  */
 
@@ -54,7 +55,7 @@ use Illuminate\View\View;
 
 /**
  * Registered User Controller Class
- * 
+ *
  * Manages user registration with email verification, comprehensive
  * validation, and secure account creation for the e-commerce platform.
  */
@@ -62,10 +63,10 @@ class RegisteredUserController extends Controller
 {
     /**
      * Display Registration Form
-     * 
+     *
      * Shows the user registration view where new customers can create
      * accounts for the Hanaya Shop e-commerce platform.
-     * 
+     *
      * @return \Illuminate\View\View Registration form view
      */
     public function create(): View
@@ -75,32 +76,33 @@ class RegisteredUserController extends Controller
 
     /**
      * Handle Registration Request
-     * 
+     *
      * Processes user registration with comprehensive validation, stores
      * registration data in session for verification, and sends email
      * verification link. Implements secure registration flow with
      * email verification before account activation.
-     * 
+     *
      * Registration Process:
      * 1. Validate user input with enhanced security rules
      * 2. Store registration data in session (not database yet)
      * 3. Generate secure verification token
      * 4. Send verification email with token
      * 5. Redirect to verification notice page
-     * 
+     *
      * Validation Rules:
      * - Name: Required string, max 255 characters
      * - Email: Required, valid format, lowercase, unique
      * - Password: Enhanced complexity requirements with confirmation
-     * 
+     *
      * Security Features:
      * - Session-based pending registration (prevents unverified accounts)
      * - Secure password hashing before storage
      * - Unique verification token generation
      * - Email verification before account creation
-     * 
-     * @param \Illuminate\Http\Request $request HTTP request with registration data
+     *
+     * @param  \Illuminate\Http\Request  $request  HTTP request with registration data
      * @return \Illuminate\Http\RedirectResponse Redirect to verification notice
+     *
      * @throws \Illuminate\Validation\ValidationException If validation fails
      */
     public function store(Request $request): RedirectResponse
@@ -108,7 +110,7 @@ class RegisteredUserController extends Controller
         // Registration Data Validation
         /**
          * Comprehensive Registration Validation - Enhanced security and data integrity
-         * 
+         *
          * Validation Rules:
          * - name: Required string up to 255 characters
          * - email: Required, valid email format, lowercase, unique in users table
@@ -140,13 +142,13 @@ class RegisteredUserController extends Controller
         // Store Pending Registration in Session
         /**
          * Session-Based Pending Registration - Secure temporary storage
-         * 
+         *
          * Security Features:
          * - Data stored in session, not database (prevents unverified accounts)
          * - Password hashed immediately for security
          * - Unique verification token generated
          * - Timestamp recorded for expiration tracking
-         * 
+         *
          * Session Data Structure:
          * - name: User's full name
          * - email: User's email address
@@ -161,7 +163,7 @@ class RegisteredUserController extends Controller
                 'password' => Hash::make($request->password),
                 'verification_token' => Str::random(60),
                 'created_at' => now(),
-            ]
+            ],
         ]);
 
         // Send Verification Email
@@ -177,13 +179,13 @@ class RegisteredUserController extends Controller
 
     /**
      * Send Verification Email
-     * 
+     *
      * Sends email verification message to user with secure verification
      * link containing unique token. Uses configured mail system to
      * deliver registration verification emails.
-     * 
-     * @param string $email User's email address
-     * @param string $token Unique verification token
+     *
+     * @param  string  $email  User's email address
+     * @param  string  $token  Unique verification token
      */
     private function sendVerificationEmail($email, $token)
     {
@@ -194,11 +196,11 @@ class RegisteredUserController extends Controller
          * Route leads to verification validation method
          */
         $verificationUrl = route('verification.verify', ['token' => $token]);
-        
+
         // Send Verification Email
         /**
          * Email Delivery - Send verification email using mail template
-         * 
+         *
          * Email Features:
          * - Custom verification email template
          * - Verification URL included for user action
@@ -207,20 +209,20 @@ class RegisteredUserController extends Controller
          */
         Mail::send('emails.verify-registration', [
             'verificationUrl' => $verificationUrl,
-            'email' => $email
+            'email' => $email,
         ], function ($message) use ($email) {
             $message->to($email)
-                    ->subject(__('auth.verify_email_subject'));
+                ->subject(__('auth.verify_email_subject'));
         });
     }
 
     /**
      * Show Email Verification Notice
-     * 
+     *
      * Displays verification notice page informing user to check email
      * for verification link. Includes security check to ensure valid
      * pending registration exists in session.
-     * 
+     *
      * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse Verification notice or redirect
      */
     public function verificationNotice(): View|RedirectResponse
@@ -231,7 +233,7 @@ class RegisteredUserController extends Controller
          * Prevents access to verification notice without valid registration
          * Redirects to registration form if no pending registration found
          */
-        if (!session('pending_registration')) {
+        if (! session('pending_registration')) {
             return redirect()->route('register');
         }
 
@@ -240,11 +242,11 @@ class RegisteredUserController extends Controller
 
     /**
      * Verify Email Token and Create Account
-     * 
+     *
      * Validates email verification token and creates user account upon
      * successful verification. Includes comprehensive security checks
      * for token validation, expiration, and account creation.
-     * 
+     *
      * Verification Process:
      * 1. Validate token against session data
      * 2. Check token expiration (24 hours)
@@ -252,9 +254,9 @@ class RegisteredUserController extends Controller
      * 4. Clear session data
      * 5. Automatically log in user
      * 6. Redirect to success page
-     * 
-     * @param \Illuminate\Http\Request $request HTTP request
-     * @param string $token Verification token from email link
+     *
+     * @param  \Illuminate\Http\Request  $request  HTTP request
+     * @param  string  $token  Verification token from email link
      * @return \Illuminate\Http\RedirectResponse Redirect to success or error
      */
     public function verifyEmail(Request $request, $token): RedirectResponse
@@ -265,14 +267,14 @@ class RegisteredUserController extends Controller
          * Contains user data and verification token for validation
          */
         $pendingRegistration = session('pending_registration');
-        
+
         // Token Validation
         /**
          * Security Validation - Verify token matches session token
          * Prevents unauthorized account creation attempts
          * Ensures only legitimate verification requests are processed
          */
-        if (!$pendingRegistration || $pendingRegistration['verification_token'] !== $token) {
+        if (! $pendingRegistration || $pendingRegistration['verification_token'] !== $token) {
             return redirect()->route('register')->with('error', __('auth.invalid_verification_token'));
         }
 
@@ -285,13 +287,14 @@ class RegisteredUserController extends Controller
         $createdAt = \Carbon\Carbon::parse($pendingRegistration['created_at']);
         if ($createdAt->addHours(24)->isPast()) {
             session()->forget('pending_registration');
+
             return redirect()->route('register')->with('error', __('auth.verification_token_expired'));
         }
 
         // Create User Account
         /**
          * Account Creation - Create verified user account in database
-         * 
+         *
          * Account Features:
          * - Pre-hashed password from session
          * - Email marked as verified immediately
@@ -326,10 +329,10 @@ class RegisteredUserController extends Controller
 
     /**
      * Show Verification Success Page
-     * 
+     *
      * Displays success page after account verification and creation.
      * Includes authentication check to ensure user is properly logged in.
-     * 
+     *
      * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse Success page or redirect
      */
     public function verificationSuccess(): View|RedirectResponse
@@ -340,7 +343,7 @@ class RegisteredUserController extends Controller
          * Prevents access to success page without proper authentication
          * Redirects to login if user not authenticated
          */
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             return redirect()->route('login');
         }
 
@@ -349,12 +352,12 @@ class RegisteredUserController extends Controller
 
     /**
      * Resend Verification Email
-     * 
+     *
      * Resends verification email to users who didn't receive the original
      * or need a new verification link. Validates pending registration
      * exists before sending email.
-     * 
-     * @param \Illuminate\Http\Request $request HTTP request
+     *
+     * @param  \Illuminate\Http\Request  $request  HTTP request
      * @return \Illuminate\Http\RedirectResponse Redirect with status message
      */
     public function resendVerification(Request $request): RedirectResponse
@@ -366,8 +369,8 @@ class RegisteredUserController extends Controller
          * Redirects to registration if no pending data found
          */
         $pendingRegistration = session('pending_registration');
-        
-        if (!$pendingRegistration) {
+
+        if (! $pendingRegistration) {
             return redirect()->route('register');
         }
 

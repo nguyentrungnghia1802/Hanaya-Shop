@@ -26,9 +26,9 @@ return [
     'select_all' => 'Chọn tất cả',
     'delete' => 'Xóa',
 
-    //alerts
-    'out_of_stock_alert'    => 'Hết hàng',
-    'added_to_cart'         => 'Đã thêm sản phẩm vào giỏ hàng thành công',
-    'removed_from_cart'     => 'Đã xóa sản phẩm khỏi giỏ hàng thành công',
+    // alerts
+    'out_of_stock_alert' => 'Hết hàng',
+    'added_to_cart' => 'Đã thêm sản phẩm vào giỏ hàng thành công',
+    'removed_from_cart' => 'Đã xóa sản phẩm khỏi giỏ hàng thành công',
 
 ];

@@ -22,12 +22,12 @@ return [
     'our_mission' => '私たちの使命',
     'our_vision' => '私たちのビジョン',
     'our_values' => '私たちの価値観',
-    
-    // Story paragraphs  
+
+    // Story paragraphs
     'story_paragraph_1' => 'ベトナムでは、特に祝祭日や休日の時期に、花の寿命が短く、販売者が適切な時間に適切な顧客にリーチできないため、数え切れないほどの花が廃棄されています。この需要と供給のミスマッチは、社会的な無駄と販売者の損失をもたらします。',
     'story_paragraph_2' => 'ハナヤショップはこの現実世界の問題に対処するために作られました。私たちのプラットフォームは、店舗の可視性を拡大し、顧客との接点を増やし、それぞれの花が適切なタイミングで適切な人に届くようにします。モダンなUI/UX、信頼性の高いLaravelバックエンド、高速SSR、そして在庫、注文、支払いのための実用的なビジネスモデルで、私たちは違いを生み出しています。',
     'story_paragraph_3' => '私たちの長期的なビジョンは、販売者と購入者の間のつながりを強化し、無駄になる花を絶対的な最小限にすることです。毎日、私たちは花産業の不必要な廃棄物を減らしながら、人々の生活にもっと美しさをもたらすよう努力しています。',
-    
+
     // Why choose us
     'why_choose_us' => 'なぜ私たちを選ぶのか？',
     'artisan_crafted' => '職人による手作り',
@@ -38,11 +38,11 @@ return [
     'unique_designs_desc' => '他では見つけることのできない独占的なデザインの多様なコレクション。',
     'lasting_beauty' => '永続する美しさ',
     'lasting_beauty_desc' => '私たちのソープフラワーは何年にもわたってその美しさを保ちます。',
-    
+
     // Discover story
     'discover_story' => '私たちのストーリーを発見',
     'principles_guide' => '私たちのすべての行動を導く原則',
-    
+
     // Additional content for about page
     'handcrafted_excellence' => '手作りの優秀性',
     'handcrafted_excellence_desc' => '各ソープフラワーは細部への細心の注意を払って手作りされています。',
@@ -50,15 +50,15 @@ return [
     'natural_ingredients_desc' => '肌に安全で環境に優しい天然成分を使用しています。',
     'perfect_gifts' => '完璧なギフト',
     'perfect_gifts_desc' => '誕生日から記念日、結婚式まで、あらゆる特別な機会に理想的です。',
-    
+
     // What we offer
     'what_we_offer' => '私たちが提供するもの',
     'discover_collection' => '厳選されたコレクションを発見',
-    
+
     // Our Beginning section
     'our_beginning' => '私たちの始まり',
     'our_beginning_description' => '小さな工房から愛される店まで、すべてのステップは品質と美しさへの私たちのコミットメントによって導かれてきました。',
-    
+
     // Product categories
     'soap_flowers' => 'ソープフラワー',
     'soap_flowers_description' => '美しさと機能性を組み合わせた手作りの永遠の花。装飾や特別な機会に最適です。',
@@ -68,30 +68,30 @@ return [
     'special_flowers_description' => '記憶に残る瞬間のために作られたエレガントでユニークな花の選択、愛、感謝、または同情を表現するのに最適です。',
     'souvenirs' => 'お土産',
     'souvenirs_description' => 'あなたが気にかけていることを示す思慮深く厳選されたギフトとお土産、あなたの気持ちを表現するのに最適です。',
-    
+
     // Meet Our Team
     'meet_our_team' => 'チームに会う',
     'team_description' => 'ハナヤショップの背後にある情熱的な個人',
     'team_group_description' => '最高のものをお届けするために協力している素晴らしいチーム',
-    
+
     // Team members
     'tan_van_quyen' => 'タン・ヴァン・クエン',
     'team_leader' => 'チームリーダー',
     'team_member' => 'チームメンバー',
     'quyen_description' => '仕事において慎重で細心；詳細を観察する能力があり、テスト時に忍耐強い。',
-    
+
     'nguyen_trung_nghia' => 'グエン・チュン・ギア',
     'nghia_description' => '包括的なプログラミングスキル、新しい技術の習得が早い；積極的で責任感が強く、チーム指導精神を持つ。',
-    
+
     'le_duc_anh_tai' => 'レ・ドゥク・アン・タイ',
     'tai_description' => '論理的思考力があり、ソフトウェア開発を素早く理解；協力的な態度が良く、チームメイトをサポートする準備ができている。',
-    
+
     // Contact section
     'get_in_touch' => 'お問い合わせ',
     'opening_hours' => '営業時間',
     'opening_hours_time' => '月曜日 - 日曜日: 8:00 - 22:00',
     'click_to_view_github' => 'GitHubを見るためにクリック',
-    
+
     // Why choose us detailed
     'why_choose_hanaya_detailed' => 'なぜハナヤショップを選ぶのか？',
     'premium_quality' => 'プレミアム品質',
@@ -103,7 +103,7 @@ return [
     'custom_orders' => 'カスタムオーダー',
     'custom_orders_desc' => '特別な機会のためのパーソナライズされたギフトを作成します',
     'start_shopping_now' => '今すぐショッピングを開始',
-    
+
     // Company Description
     'company_description' => 'ハナヤショップは、美しいソープフラワーと心のこもったギフトの最高の目的地です。私たちは芸術性と機能性を組み合わせた手作りソープフラワーを専門としています。',
     'established_year' => '2020年設立',
@@ -111,11 +111,11 @@ return [
     'satisfied_customers' => '満足した顧客',
     'products_sold' => '販売された商品',
     'countries_served' => 'サービス提供国',
-    
+
     // Mission & Vision
     'mission_statement' => '丁寧に作られたソープフラワーを通じて日常生活に美しさと喜びをもたらし、優れた顧客サービスと持続可能な製品を提供します。',
     'vision_statement' => 'グローバルなプレミアムソープフラワーの主要プロバイダーとなり、独自の製品を通じて創造性を刺激し、幸福を広めます。',
-    
+
     // Values
     'quality_value' => '品質',
     'quality_value_desc' => '私たちが作成するすべての製品で最高品質基準にコミットしています。',
@@ -125,7 +125,7 @@ return [
     'creativity_value_desc' => 'すべてのデザインにおいて革新と芸術的表現を促進します。',
     'customer_focus_value' => '顧客フォーカス',
     'customer_focus_value_desc' => '顧客は私たちが行うすべての中心です。',
-    
+
     // Team
     'our_team' => '私たちのチーム',
     'meet_team' => 'チームに会う',
@@ -133,7 +133,7 @@ return [
     'creative_director' => 'クリエイティブディレクター',
     'head_artisan' => 'ヘッドアルチザン',
     'customer_service' => 'カスタマーサービスマネージャー',
-    
+
     // Achievements
     'our_achievements' => '私たちの成果',
     'awards_recognition' => '賞と認定',
@@ -141,7 +141,7 @@ return [
     'eco_friendly_certification' => 'エコフレンドリー製品認証',
     'customer_choice_award' => 'カスタマーチョイス賞',
     'innovation_award' => 'クラフトイノベーション賞',
-    
+
     // Process
     'our_process' => '私たちのプロセス',
     'how_we_work' => '私たちの働き方',
@@ -153,7 +153,7 @@ return [
     'quality_check_desc' => 'すべての製品はパッケージング前に厳格な品質管理を受けます。',
     'packaging_shipping' => 'パッケージング＆配送',
     'packaging_shipping_desc' => '製品は愛情とケアを込めて慎重にパッケージし配送されます。',
-    
+
     // Contact Information
     'contact_us' => 'お問い合わせ',
     'visit_store' => '店舗を訪問',
@@ -164,7 +164,7 @@ return [
     'phone' => '電話',
     'email' => 'メール',
     'follow_social' => 'ソーシャルメディアでフォロー',
-    
+
     // FAQ
     'frequently_asked' => 'よくある質問',
     'common_questions' => '一般的な質問',
@@ -172,14 +172,14 @@ return [
     'shipping_faq' => '配送オプションは何ですか？',
     'return_policy_faq' => '返品ポリシーは何ですか？',
     'custom_orders_faq' => 'カスタムオーダーは受け付けていますか？',
-    
+
     // Testimonials
     'what_customers_say' => 'お客様の声',
     'customer_testimonials' => '顧客の声',
     'testimonial_1' => '"美しい製品と優れたサービス。強くお勧めします！"',
     'testimonial_2' => '"ソープフラワーは本当に美しく、素晴らしい香りです。"',
     'testimonial_3' => '"どんな機会にも完璧なギフト。品質は優秀です。"',
-    
+
     // Call to Action
     'start_shopping' => 'ショッピングを始める',
     'browse_products' => '商品を閲覧',

@@ -26,7 +26,7 @@ return [
     'select_all' => 'Select All',
     'delete' => 'Delete',
 
-    //alerts
+    // alerts
     'out_of_stock_alert' => 'Out of Stock',
     'added_to_cart' => 'Item added to cart successfully',
     'removed_from_cart' => 'Item removed from cart successfully',

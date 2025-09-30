@@ -37,8 +37,6 @@ class CartFactory extends Factory
 
     /**
      * Indicate that the cart item is for a guest user (session-based).
-     *
-     * @return static
      */
     public function guest(): static
     {
@@ -50,8 +48,6 @@ class CartFactory extends Factory
 
     /**
      * Indicate that the cart item is for an authenticated user.
-     *
-     * @return static
      */
     public function forUser(?User $user = null): static
     {
@@ -63,9 +59,6 @@ class CartFactory extends Factory
 
     /**
      * Set a specific quantity for the cart item.
-     *
-     * @param int $quantity
-     * @return static
      */
     public function withQuantity(int $quantity): static
     {
@@ -76,9 +69,6 @@ class CartFactory extends Factory
 
     /**
      * Set a specific product for the cart item.
-     *
-     * @param Product $product
-     * @return static
      */
     public function forProduct(Product $product): static
     {

@@ -16,7 +16,6 @@ class CreateOrderDetailsTable extends Migration
             $table->unsignedBigInteger('order_id');   // khóa ngoại đến bảng orders
             $table->timestamps();
 
-
             // Khóa ngoại
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
@@ -30,4 +29,4 @@ class CreateOrderDetailsTable extends Migration
     {
         Schema::dropIfExists('order_details');
     }
-};
+}

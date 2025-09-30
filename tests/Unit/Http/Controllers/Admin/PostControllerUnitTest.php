@@ -5,37 +5,38 @@ namespace Tests\Unit\Admin;
 use App\Http\Controllers\Admin\PostController;
 use App\Models\Post;
 use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
-use League\Flysystem\UrlGeneration\PublicUrlGenerator;
-use Tests\TestCase;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Mockery;
 use PHPUnit\Framework\Attributes\Test;
+use Tests\TestCase;
 
 class PostControllerUnitTest extends TestCase
 {
     use RefreshDatabase;
 
     protected $controller;
+
     protected $user;
+
     protected $testUploadPath;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->controller = new PostController();
+        $this->controller = new PostController;
         $this->user = User::factory()->create();
         $this->testUploadPath = public_path('images/posts');
-        
-        if (!file_exists($this->testUploadPath)) {
+
+        if (! file_exists($this->testUploadPath)) {
             mkdir($this->testUploadPath, 0755, true);
         }
     }
@@ -43,7 +44,7 @@ class PostControllerUnitTest extends TestCase
     protected function tearDown(): void
     {
         if (file_exists($this->testUploadPath)) {
-            $files = glob($this->testUploadPath . '/*');
+            $files = glob($this->testUploadPath.'/*');
             foreach ($files as $file) {
                 if (is_file($file) && strpos(basename($file), 'post_featured_') === 0) {
                     unlink($file);
@@ -76,7 +77,7 @@ class PostControllerUnitTest extends TestCase
         Post::factory()->create(['title' => 'Laravel Tutorial', 'user_id' => $this->user->id]);
         Post::factory()->create(['title' => 'PHP Guide', 'user_id' => $this->user->id]);
         Post::factory()->create(['title' => 'JavaScript Basics', 'user_id' => $this->user->id]);
-        
+
         $request = Request::create('/admin/posts', 'GET', ['search' => 'Laravel']);
 
         // Act
@@ -95,14 +96,14 @@ class PostControllerUnitTest extends TestCase
         Post::factory()->create([
             'title' => 'Web Development',
             'content' => 'This is about Laravel framework',
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
         Post::factory()->create([
             'title' => 'Mobile Development',
             'content' => 'This is about React Native',
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
-        
+
         $request = Request::create('/admin/posts', 'GET', ['search' => 'Laravel']);
 
         // Act
@@ -135,13 +136,13 @@ class PostControllerUnitTest extends TestCase
         // Arrange
         $oldPost = Post::factory()->create([
             'created_at' => Carbon::now()->subDays(2),
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
         $newPost = Post::factory()->create([
             'created_at' => Carbon::now(),
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
-        
+
         $request = Request::create('/admin/posts', 'GET');
 
         // Act
@@ -192,11 +193,11 @@ class PostControllerUnitTest extends TestCase
     {
         // Arrange
         Auth::shouldReceive('id')->andReturn($this->user->id);
-        
+
         $requestData = [
             'title' => 'Test Post Title',
             'content' => 'This is test content',
-            'status' => true
+            'status' => true,
         ];
         $request = Request::create('/admin/posts', 'POST', $requestData);
 
@@ -206,14 +207,14 @@ class PostControllerUnitTest extends TestCase
         // Assert
         $this->assertEquals(302, $response->getStatusCode());
         $this->assertStringContainsString('/admin/post', $response->getTargetUrl());
-        
+
         $this->assertDatabaseHas('posts', [
             'title' => 'Test Post Title',
             'slug' => 'test-post-title',
             'content' => 'This is test content',
             'status' => true,
             'user_id' => $this->user->id,
-            'image' => null
+            'image' => null,
         ]);
     }
 
@@ -221,10 +222,10 @@ class PostControllerUnitTest extends TestCase
     public function store_creates_post_with_image_upload()
     {
         // Skip if GD extension not available
-        if (!extension_loaded('gd')) {
+        if (! extension_loaded('gd')) {
             $this->markTestSkipped('GD extension is not installed.');
         }
-        
+
         // Arrange
         Auth::shouldReceive('id')->andReturn($this->user->id);
         Carbon::setTestNow(Carbon::parse('2024-01-15 10:30:45'));
@@ -236,7 +237,7 @@ class PostControllerUnitTest extends TestCase
         $requestData = [
             'title' => 'Post with Image',
             'content' => 'Content with image',
-            'status' => true
+            'status' => true,
         ];
         $request = Request::create('/admin/posts', 'POST', $requestData, [], ['image' => $file]);
 
@@ -245,13 +246,13 @@ class PostControllerUnitTest extends TestCase
 
         // Assert
         $this->assertEquals(302, $response->getStatusCode());
-        
+
         $this->assertDatabaseHas('posts', [
             'title' => 'Post with Image',
-            'image' => 'post_featured_20240115103045_abc12345.jpg'
+            'image' => 'post_featured_20240115103045_abc12345.jpg',
         ]);
 
-        $this->assertFileExists($this->testUploadPath . '/post_featured_20240115103045_abc12345.jpg');
+        $this->assertFileExists($this->testUploadPath.'/post_featured_20240115103045_abc12345.jpg');
 
         // Cleanup
         Carbon::setTestNow();
@@ -276,7 +277,7 @@ class PostControllerUnitTest extends TestCase
         $file = UploadedFile::fake()->create('document.pdf', 1024);
         $requestData = [
             'title' => 'Test Post',
-            'content' => 'Test content'
+            'content' => 'Test content',
         ];
         $request = Request::create('/admin/posts', 'POST', $requestData, [], ['image' => $file]);
 
@@ -289,15 +290,15 @@ class PostControllerUnitTest extends TestCase
     public function store_creates_upload_directory_if_not_exists()
     {
         // Skip if GD extension not available
-        if (!extension_loaded('gd')) {
+        if (! extension_loaded('gd')) {
             $this->markTestSkipped('GD extension is not installed.');
         }
-        
+
         // Arrange
         Auth::shouldReceive('id')->andReturn($this->user->id);
         if (file_exists($this->testUploadPath)) {
             // Remove all files first, then directory
-            $files = glob($this->testUploadPath . '/*');
+            $files = glob($this->testUploadPath.'/*');
             foreach ($files as $file) {
                 if (is_file($file)) {
                     unlink($file);
@@ -309,7 +310,7 @@ class PostControllerUnitTest extends TestCase
         $file = UploadedFile::fake()->image('test.jpg');
         $requestData = [
             'title' => 'Test Post',
-            'content' => 'Test content'
+            'content' => 'Test content',
         ];
         $request = Request::create('/admin/posts', 'POST', $requestData, [], ['image' => $file]);
 
@@ -325,10 +326,10 @@ class PostControllerUnitTest extends TestCase
     {
         // Arrange
         Auth::shouldReceive('id')->andReturn($this->user->id);
-        
+
         $requestData = [
             'title' => 'Test Post',
-            'content' => 'Test content'
+            'content' => 'Test content',
         ];
         $request = Request::create('/admin/posts', 'POST', $requestData);
 
@@ -338,7 +339,7 @@ class PostControllerUnitTest extends TestCase
         // Assert
         $this->assertDatabaseHas('posts', [
             'title' => 'Test Post',
-            'status' => true
+            'status' => true,
         ]);
     }
 
@@ -371,20 +372,20 @@ class PostControllerUnitTest extends TestCase
     {
         // Arrange
         $post = Post::factory()->create(['user_id' => $this->user->id]);
-        
+
         $requestData = [
             'title' => 'Updated Title',
             'content' => 'Updated content',
-            'status' => 0  
+            'status' => 0,
         ];
-        $request = Request::create('/admin/posts/' . $post->id, 'PUT', $requestData);
+        $request = Request::create('/admin/posts/'.$post->id, 'PUT', $requestData);
 
         // Act
         $response = $this->controller->update($request, $post->id);
 
         // Assert
         $this->assertEquals(302, $response->getStatusCode());
-        
+
         $post->refresh();
         $this->assertEquals('Updated Title', $post->title);
         $this->assertEquals('updated-title', $post->slug);
@@ -396,17 +397,17 @@ class PostControllerUnitTest extends TestCase
     public function update_replaces_old_image_with_new_one()
     {
         // Skip if GD extension not available
-        if (!extension_loaded('gd')) {
+        if (! extension_loaded('gd')) {
             $this->markTestSkipped('GD extension is not installed.');
         }
-        
+
         // Arrange
         File::shouldReceive('exists')->andReturn(true);
         File::shouldReceive('delete')->once();
-        
+
         $post = Post::factory()->create([
             'user_id' => $this->user->id,
-            'image' => 'old_image.jpg'
+            'image' => 'old_image.jpg',
         ]);
 
         Carbon::setTestNow(Carbon::parse('2024-01-15 14:25:30'));
@@ -417,9 +418,9 @@ class PostControllerUnitTest extends TestCase
         $newFile = UploadedFile::fake()->image('new-image.jpg');
         $requestData = [
             'title' => 'Updated Post',
-            'content' => 'Updated content'
+            'content' => 'Updated content',
         ];
-        $request = Request::create('/admin/posts/' . $post->id, 'PUT', $requestData, [], ['image' => $newFile]);
+        $request = Request::create('/admin/posts/'.$post->id, 'PUT', $requestData, [], ['image' => $newFile]);
 
         // Act
         $this->controller->update($request, $post->id);
@@ -437,25 +438,25 @@ class PostControllerUnitTest extends TestCase
     public function update_skips_old_image_deletion_if_file_not_exists()
     {
         // Skip if GD extension not available
-        if (!extension_loaded('gd')) {
+        if (! extension_loaded('gd')) {
             $this->markTestSkipped('GD extension is not installed.');
         }
-        
+
         // Arrange
         File::shouldReceive('exists')->andReturn(false);
         File::shouldReceive('delete')->never();
-        
+
         $post = Post::factory()->create([
             'user_id' => $this->user->id,
-            'image' => 'non_existing_image.jpg'
+            'image' => 'non_existing_image.jpg',
         ]);
 
         $newFile = UploadedFile::fake()->image('new-image.jpg');
         $requestData = [
             'title' => 'Updated Post',
-            'content' => 'Updated content'
+            'content' => 'Updated content',
         ];
-        $request = Request::create('/admin/posts/' . $post->id, 'PUT', $requestData, [], ['image' => $newFile]);
+        $request = Request::create('/admin/posts/'.$post->id, 'PUT', $requestData, [], ['image' => $newFile]);
 
         // Act
         $this->controller->update($request, $post->id);
@@ -468,7 +469,7 @@ class PostControllerUnitTest extends TestCase
     {
         // Arrange
         $post = Post::factory()->create(['user_id' => $this->user->id]);
-        $request = Request::create('/admin/posts/' . $post->id, 'PUT', []);
+        $request = Request::create('/admin/posts/'.$post->id, 'PUT', []);
 
         // Act & Assert
         $this->expectException(ValidationException::class);
@@ -483,9 +484,9 @@ class PostControllerUnitTest extends TestCase
         $file = UploadedFile::fake()->create('document.txt', 1024);
         $requestData = [
             'title' => 'Updated Post',
-            'content' => 'Updated content'
+            'content' => 'Updated content',
         ];
-        $request = Request::create('/admin/posts/' . $post->id, 'PUT', $requestData, [], ['image' => $file]);
+        $request = Request::create('/admin/posts/'.$post->id, 'PUT', $requestData, [], ['image' => $file]);
 
         // Act & Assert
         $this->expectException(ValidationException::class);
@@ -498,7 +499,7 @@ class PostControllerUnitTest extends TestCase
         // Arrange
         $requestData = [
             'title' => 'Updated Title',
-            'content' => 'Updated content'
+            'content' => 'Updated content',
         ];
         $request = Request::create('/admin/posts/999', 'PUT', $requestData);
 
@@ -512,12 +513,12 @@ class PostControllerUnitTest extends TestCase
     {
         // Arrange
         $post = Post::factory()->create(['user_id' => $this->user->id, 'status' => false]);
-        
+
         $requestData = [
             'title' => 'Updated Post',
-            'content' => 'Updated content'
+            'content' => 'Updated content',
         ];
-        $request = Request::create('/admin/posts/' . $post->id, 'PUT', $requestData);
+        $request = Request::create('/admin/posts/'.$post->id, 'PUT', $requestData);
 
         // Act
         $this->controller->update($request, $post->id);
@@ -531,16 +532,16 @@ class PostControllerUnitTest extends TestCase
     public function update_creates_upload_directory_if_not_exists()
     {
         // Skip if GD extension not available
-        if (!extension_loaded('gd')) {
+        if (! extension_loaded('gd')) {
             $this->markTestSkipped('GD extension is not installed.');
         }
-        
+
         // Arrange
         $post = Post::factory()->create(['user_id' => $this->user->id]);
-        
+
         if (file_exists($this->testUploadPath)) {
             // Remove all files first, then directory
-            $files = glob($this->testUploadPath . '/*');
+            $files = glob($this->testUploadPath.'/*');
             foreach ($files as $file) {
                 if (is_file($file)) {
                     unlink($file);
@@ -552,9 +553,9 @@ class PostControllerUnitTest extends TestCase
         $file = UploadedFile::fake()->image('test.jpg');
         $requestData = [
             'title' => 'Updated Post',
-            'content' => 'Updated content'
+            'content' => 'Updated content',
         ];
-        $request = Request::create('/admin/posts/' . $post->id, 'PUT', $requestData, [], ['image' => $file]);
+        $request = Request::create('/admin/posts/'.$post->id, 'PUT', $requestData, [], ['image' => $file]);
 
         // Act
         $this->controller->update($request, $post->id);
@@ -591,10 +592,10 @@ class PostControllerUnitTest extends TestCase
     {
         // Arrange
         Auth::shouldReceive('id')->andReturn($this->user->id);
-        
+
         $requestData = [
             'title' => 'This is a Test Post with Special Characters!@#',
-            'content' => 'Test content'
+            'content' => 'Test content',
         ];
         $request = Request::create('/admin/posts', 'POST', $requestData);
 
@@ -602,10 +603,10 @@ class PostControllerUnitTest extends TestCase
         $this->controller->store($request);
 
         // Assert
-        // Fixed: Str::slug() 
+        // Fixed: Str::slug()
         $this->assertDatabaseHas('posts', [
             'title' => 'This is a Test Post with Special Characters!@#',
-            'slug' => 'this-is-a-test-post-with-special-characters-at'
+            'slug' => 'this-is-a-test-post-with-special-characters-at',
         ]);
     }
 
@@ -613,19 +614,19 @@ class PostControllerUnitTest extends TestCase
     public function image_upload_supports_all_valid_formats()
     {
         // Skip if GD extension not available
-        if (!extension_loaded('gd')) {
+        if (! extension_loaded('gd')) {
             $this->markTestSkipped('GD extension is not installed.');
         }
-        
+
         Auth::shouldReceive('id')->andReturn($this->user->id);
         $validFormats = ['jpeg', 'png', 'jpg', 'gif'];
-        
+
         foreach ($validFormats as $format) {
             // Arrange
             $file = UploadedFile::fake()->image("test.{$format}");
             $requestData = [
                 'title' => "Test Post {$format}",
-                'content' => 'Test content'
+                'content' => 'Test content',
             ];
             $request = Request::create('/admin/posts', 'POST', $requestData, [], ['image' => $file]);
 
@@ -634,7 +635,7 @@ class PostControllerUnitTest extends TestCase
 
             // Assert
             $this->assertDatabaseHas('posts', [
-                'title' => "Test Post {$format}"
+                'title' => "Test Post {$format}",
             ]);
         }
     }

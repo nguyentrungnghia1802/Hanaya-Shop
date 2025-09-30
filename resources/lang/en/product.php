@@ -42,14 +42,14 @@ return [
     'product_images' => 'Product Images',
     'description' => 'Description',
     'stock' => 'Stock',
-    
+
     // Categories
     'soap_flower' => 'Soap Flowers',
     'souvenir' => 'Souvenirs',
     'fresh_flower' => 'Fresh Flowers',
     'gift_set' => 'Gift Sets',
     'special_flower' => 'Special Flowers',
-    
+
     // Price & Stock
     'regular_price' => 'Regular Price',
     'sale_price' => 'Sale Price',
@@ -62,8 +62,8 @@ return [
     'availability' => 'Availability',
     'sku' => 'SKU',
     'barcode' => 'Barcode',
-    'sold' => 'Sold', 
-    
+    'sold' => 'Sold',
+
     // Product Actions
     'add_to_cart' => 'Add to Cart',
     'buy_now' => 'Buy Now',
@@ -76,7 +76,7 @@ return [
     'view_all' => 'View All',
     'view_now' => 'View Now',
     'sign_in_to_buy' => 'Sign In to Buy',
-    
+
     // Product Variants
     'select_color' => 'Select Color',
     'select_size' => 'Select Size',
@@ -87,14 +87,14 @@ return [
     'style' => 'Style',
     'pattern' => 'Pattern',
     'finish' => 'Finish',
-    
+
     // Quantity
     'quantity' => 'Quantity',
     'qty' => 'Qty',
     'min_quantity' => 'Minimum quantity: :min',
     'max_quantity' => 'Maximum quantity: :max',
     'quantity_available' => 'Only :count available',
-    
+
     // Reviews & Ratings
     'customer_reviews' => 'Customer Reviews',
     'write_review' => 'Write a Review',
@@ -106,7 +106,7 @@ return [
     'be_first_review' => 'Be the first to review this product',
     'helpful_review' => 'Was this review helpful?',
     'verified_purchase' => 'Verified Purchase',
-    
+
     // Related Products
     'related_products' => 'Related Products',
     'similar_products' => 'Similar Products',
@@ -114,7 +114,7 @@ return [
     'customers_also_bought' => 'Customers Also Bought',
     'recommended_for_you' => 'Recommended for You',
     'you_might_like' => 'You Might Also Like',
-    
+
     // Product Categories
     'browse_categories' => 'Browse Categories',
     'product_categories' => 'Product Categories',
@@ -123,7 +123,7 @@ return [
     'brand' => 'Brand',
     'collection' => 'Collection',
     'series' => 'Series',
-    
+
     // Search & Filter
     'search_products' => 'Search Products',
     'filter_by_brand' => 'Filter by Brand',
@@ -156,7 +156,7 @@ return [
     'eco_friendly' => 'Eco-Friendly',
     'handmade' => 'Handmade',
     'premium' => 'Premium',
-    
+
     // Messages
     'added_to_cart' => 'Added to cart successfully!',
     'added_to_wishlist' => 'Added to wishlist!',
@@ -166,7 +166,7 @@ return [
     'max_quantity_reached' => 'Maximum quantity reached',
     'insufficient_stock' => 'Insufficient stock available',
     'error_adding_to_cart' => 'Error adding product to cart.',
-    
+
     // Cart translations
     'cart' => 'Cart',
     'cart_title' => '🛒 Cart',
@@ -185,7 +185,7 @@ return [
     'cart_empty_message' => 'Your cart is currently empty.',
     'start_shopping' => 'Start Shopping',
 
-    //Product Detail
+    // Product Detail
     'views' => 'Views',
     'choose_quantity' => 'Choose Number of Products',
     'sign_in_required' => 'Sign in required',
