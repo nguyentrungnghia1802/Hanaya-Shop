@@ -21,7 +21,7 @@ return [
     'english' => 'English',
     'vietnamese' => 'Tiếng Việt',
     'japanese' => '日本語',
-    
+
     // Common actions
     'add' => 'Thêm',
     'edit' => 'Chỉnh sửa',
@@ -41,7 +41,7 @@ return [
     'continue' => 'Tiếp tục',
     'confirm' => 'Xác nhận',
     'loading' => 'Đang tải...',
-    
+
     // Status
     'pending' => 'Chờ xử lý',
     'processing' => 'Đang xử lý',
@@ -50,7 +50,7 @@ return [
     'cancelled' => 'Đã hủy',
     'active' => 'Hoạt động',
     'inactive' => 'Không hoạt động',
-    
+
     // Messages
     'success' => 'Thành công',
     'error' => 'Lỗi',
@@ -58,12 +58,12 @@ return [
     'info' => 'Thông tin',
     'no_data' => 'Không có dữ liệu',
     'no_results' => 'Không tìm thấy kết quả',
-    
+
     // Footer
     'footer_description' => 'Chuyên cung cấp hoa cao cấp, quà tặng ý nghĩa và phụ kiện trang trí.',
     'quick_links' => 'Liên kết nhanh',
     'copyright' => 'Bảo lưu mọi quyền.',
-    
+
     // Shop info
     'shop_name' => 'HANAYA SHOP',
     'address' => 'Địa chỉ',

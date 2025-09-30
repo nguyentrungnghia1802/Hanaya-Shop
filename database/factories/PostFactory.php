@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\User;
 
 class PostFactory extends Factory
 {
@@ -13,6 +13,7 @@ class PostFactory extends Factory
     public function definition()
     {
         $title = $this->faker->sentence;
+
         return [
             'title' => $title,
             'slug' => Str::slug($title),

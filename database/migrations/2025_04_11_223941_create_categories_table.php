@@ -8,7 +8,7 @@ class CreateCategoriesTable extends Migration
 {
     public function up()
     {
-        if (!Schema::hasTable('categories')) {
+        if (! Schema::hasTable('categories')) {
             Schema::create('categories', function (Blueprint $table) {
                 $table->id(); // id: int, primary key, auto increment
                 $table->string('name')->unique(); // name: varchar(255), unique, not null
@@ -23,4 +23,4 @@ class CreateCategoriesTable extends Migration
     {
         Schema::dropIfExists('categories');
     }
-};
+}

@@ -1,32 +1,33 @@
 <?php
+
 /**
  * Profile Management Controller
- * 
+ *
  * This controller handles user profile management functionality in the Hanaya Shop
  * e-commerce application. It provides comprehensive profile management including
  * viewing, editing, updating, and deleting user accounts with role-based interfaces.
- * 
+ *
  * Key Features:
  * - Role-based profile interface (User vs Admin)
  * - Profile information editing and updating
  * - Email verification handling during profile updates
  * - Secure account deletion with password confirmation
  * - Session management during account operations
- * 
+ *
  * Security Features:
  * - Password confirmation for sensitive operations
  * - Email verification reset on email changes
  * - Session invalidation during account deletion
  * - CSRF token regeneration for security
- * 
+ *
  * User Experience:
  * - Different interfaces for different user roles
  * - Validation feedback and error handling
  * - Redirect management with status messages
  * - Seamless authentication flow
- * 
- * @package App\Http\Controllers
+ *
  * @author Hanaya Shop Development Team
+ *
  * @version 1.0
  */
 
@@ -41,7 +42,7 @@ use Illuminate\View\View;                   // View response handling
 
 /**
  * Profile Controller Class
- * 
+ *
  * Manages user profile operations including display, editing, updating,
  * and deletion. Provides role-based interfaces and secure account management.
  */
@@ -49,21 +50,21 @@ class ProfileController extends Controller
 {
     /**
      * Display User Profile Edit Form
-     * 
+     *
      * Shows the appropriate profile editing interface based on user role.
      * Provides different views for regular users and administrators with
      * role-specific features and interface elements.
-     * 
+     *
      * Role-Based Interface Logic:
      * - Regular users: Standard profile editing interface
      * - Admin users: Enhanced admin profile interface with additional features
-     * 
+     *
      * Interface Features:
      * - User information display and editing
      * - Role-appropriate form fields and options
      * - Consistent user experience across roles
-     * 
-     * @param \Illuminate\Http\Request $request HTTP request with user data
+     *
+     * @param  \Illuminate\Http\Request  $request  HTTP request with user data
      * @return \Illuminate\View\View Profile edit view based on user role
      */
     public function edit(Request $request): View
@@ -100,23 +101,23 @@ class ProfileController extends Controller
 
     /**
      * Update User Profile Information
-     * 
+     *
      * Processes profile update requests with comprehensive validation and
      * email verification handling. Updates user information and manages
      * email verification status appropriately.
-     * 
+     *
      * Update Process:
      * - Validates submitted profile data
      * - Updates user information
      * - Handles email verification reset if email changed
      * - Saves changes and provides user feedback
-     * 
+     *
      * Security Features:
      * - Form request validation
      * - Email verification reset on email changes
      * - Safe data filling with validated input only
-     * 
-     * @param \App\Http\Requests\ProfileUpdateRequest $request Validated profile update request
+     *
+     * @param  \App\Http\Requests\ProfileUpdateRequest  $request  Validated profile update request
      * @return \Illuminate\Http\RedirectResponse Redirect back with success status
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
@@ -159,24 +160,24 @@ class ProfileController extends Controller
 
     /**
      * Delete User Account
-     * 
+     *
      * Permanently deletes the user's account with comprehensive security measures.
      * Requires password confirmation and handles complete account cleanup including
      * session invalidation and authentication logout.
-     * 
+     *
      * Security Process:
      * - Password confirmation validation
      * - User logout and session invalidation
      * - Account deletion from database
      * - CSRF token regeneration
-     * 
+     *
      * Cleanup Features:
      * - Complete user data removal
      * - Session cleanup and invalidation
      * - Authentication state reset
      * - Security token regeneration
-     * 
-     * @param \Illuminate\Http\Request $request HTTP request with password confirmation
+     *
+     * @param  \Illuminate\Http\Request  $request  HTTP request with password confirmation
      * @return \Illuminate\Http\RedirectResponse Redirect to home page after deletion
      */
     public function destroy(Request $request): RedirectResponse

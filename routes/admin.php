@@ -1,17 +1,17 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
-use App\Http\Controllers\Admin\ProductsController;
-use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\ImageUploadController;
 use App\Http\Controllers\Admin\NotificationTestController;
 use App\Http\Controllers\Admin\OrdersController;
-use App\Http\Controllers\Admin\CategoriesController;
+use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\ProductsController;
+use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\IsAdmin;
-use App\Http\Controllers\Admin\PostController;
-use App\Http\Controllers\Admin\ImageUploadController;
-use App\Http\Controllers\NotificationController;
+use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->group(function () {
     Route::redirect('/', '/admin/dashboard');
@@ -44,14 +44,14 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->gr
     Route::get('/post/{id}/edit', [PostController::class, 'edit'])->name('post.edit');
     Route::put('/post/{id}', [PostController::class, 'update'])->name('post.update');
     Route::delete('/post/{id}', [PostController::class, 'destroy'])->name('post.destroy');
-    
+
     // IMAGE UPLOAD ROUTES
     Route::post('/upload/ckeditor-image', [ImageUploadController::class, 'uploadCKEditorImage'])->name('upload.ckeditor.image');
     Route::post('/upload/post-image', [ImageUploadController::class, 'uploadPostImage'])->name('upload.post.image');
     Route::post('/posts/upload-image', [ImageUploadController::class, 'uploadTinyMCEImage'])->name('upload.tinymce.image');
 
     Route::get('/user', [UsersController::class, 'index'])->name('user');
-    Route::get('/user/search', [UsersController::class, 'search'])->name('user.search');    
+    Route::get('/user/search', [UsersController::class, 'search'])->name('user.search');
     Route::get('/user/create', [UsersController::class, 'create'])->name('user.create');
     Route::post('/user', [UsersController::class, 'store'])->name('user.store');
     Route::get('/user/{id}/edit', [UsersController::class, 'edit'])->name('user.edit');
@@ -72,7 +72,7 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->gr
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::post('/notifications/mark-read', [NotificationController::class, 'markAsRead'])->name('notifications.markRead');
-    
+
     // Test route for notifications
     Route::get('/test-notifications', [NotificationTestController::class, 'test'])->name('test.notifications');
 

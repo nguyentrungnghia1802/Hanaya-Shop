@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 
 class Post extends Model
@@ -11,7 +11,7 @@ class Post extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title', 'slug', 'content', 'image', 'status', 'user_id'
+        'title', 'slug', 'content', 'image', 'status', 'user_id',
     ];
 
     public function author()
@@ -40,8 +40,8 @@ class Post extends Model
         if ($this->content) {
             // Tìm tất cả ảnh trong content
             preg_match_all('/src="[^"]*images\/posts\/([^"]*)"/', $this->content, $matches);
-            
-            if (!empty($matches[1])) {
+
+            if (! empty($matches[1])) {
                 foreach ($matches[1] as $imageName) {
                     $imagePath = public_path("images/posts/{$imageName}");
                     if (File::exists($imagePath)) {

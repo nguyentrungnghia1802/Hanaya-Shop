@@ -7,30 +7,31 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Validation\ValidationException;
-use Tests\TestCase;
-use Carbon\Carbon;
 use PHPUnit\Framework\Attributes\Test;
+use Tests\TestCase;
 
 class ImageUploadControllerUnitTest extends TestCase
 {
     use RefreshDatabase;
 
     protected $controller;
+
     protected $testUploadPath;
+
     protected $testPostPath;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->controller = new ImageUploadController();
+        $this->controller = new ImageUploadController;
         $this->testUploadPath = public_path('images/posts');
         $this->testPostPath = public_path('images/post_featured');
 
-        if (!file_exists($this->testUploadPath)) {
+        if (! file_exists($this->testUploadPath)) {
             mkdir($this->testUploadPath, 0755, true);
         }
-        
-        if (!file_exists($this->testPostPath)) {
+
+        if (! file_exists($this->testPostPath)) {
             mkdir($this->testPostPath, 0755, true);
         }
     }
@@ -38,24 +39,24 @@ class ImageUploadControllerUnitTest extends TestCase
     protected function tearDown(): void
     {
         if (file_exists($this->testUploadPath)) {
-            array_map('unlink', glob($this->testUploadPath . '/*'));
+            array_map('unlink', glob($this->testUploadPath.'/*'));
         }
-        
+
         if (file_exists($this->testPostPath)) {
-            array_map('unlink', glob($this->testPostPath . '/*'));
+            array_map('unlink', glob($this->testPostPath.'/*'));
         }
-        
+
         parent::tearDown();
     }
 
     #[Test]
-    public function uploadCKEditorImage_success_with_valid_image()
+    public function upload_ck_editor_image_success_with_valid_image()
     {
         // Skip if GD extension not available
-        if (!extension_loaded('gd')) {
+        if (! extension_loaded('gd')) {
             $this->markTestSkipped('GD extension is not installed.');
         }
-        
+
         $file = UploadedFile::fake()->image('test-image.jpg', 800, 600);
         $request = Request::create('/upload', 'POST', [], [], ['upload' => $file]);
 
@@ -68,44 +69,44 @@ class ImageUploadControllerUnitTest extends TestCase
     }
 
     #[Test]
-    public function uploadCKEditorImage_validates_file_type()
+    public function upload_ck_editor_image_validates_file_type()
     {
         $file = UploadedFile::fake()->create('document.pdf', 1024, 'application/pdf');
         $request = Request::create('/upload', 'POST', [], [], ['upload' => $file]);
 
         $response = $this->controller->uploadCKEditorImage($request);
-        
+
         // Check if it returns error response (status 500 or has error key)
         $this->assertTrue(
-            $response->getStatusCode() >= 400 || 
-            (json_decode($response->getContent(), true) !== null && 
+            $response->getStatusCode() >= 400 ||
+            (json_decode($response->getContent(), true) !== null &&
              array_key_exists('error', json_decode($response->getContent(), true)))
         );
     }
 
     #[Test]
-    public function uploadCKEditorImage_handles_missing_file()
+    public function upload_ck_editor_image_handles_missing_file()
     {
         $request = Request::create('/upload', 'POST');
 
         $response = $this->controller->uploadCKEditorImage($request);
-        
+
         // Check if it returns error response (status 400 or has error key)
         $this->assertTrue(
-            $response->getStatusCode() >= 400 || 
-            (json_decode($response->getContent(), true) !== null && 
+            $response->getStatusCode() >= 400 ||
+            (json_decode($response->getContent(), true) !== null &&
              array_key_exists('error', json_decode($response->getContent(), true)))
         );
     }
 
     #[Test]
-    public function uploadPostImage_success_with_valid_image()
+    public function upload_post_image_success_with_valid_image()
     {
         // Skip if GD extension not available
-        if (!extension_loaded('gd')) {
+        if (! extension_loaded('gd')) {
             $this->markTestSkipped('GD extension is not installed.');
         }
-        
+
         $file = UploadedFile::fake()->image('featured-image.jpg', 1200, 800);
         $request = Request::create('/upload', 'POST', [], [], ['image' => $file]);
 
@@ -120,7 +121,7 @@ class ImageUploadControllerUnitTest extends TestCase
     }
 
     #[Test]
-    public function uploadPostImage_returns_error_when_no_image_file_in_request()
+    public function upload_post_image_returns_error_when_no_image_file_in_request()
     {
         $request = Request::create('/upload', 'POST');
 

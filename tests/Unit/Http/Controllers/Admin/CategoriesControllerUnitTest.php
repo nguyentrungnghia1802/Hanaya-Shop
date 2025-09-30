@@ -2,17 +2,17 @@
 
 namespace Tests\Unit\Http\Controllers\Admin;
 
-use Tests\TestCase;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Models\Product\Category;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Mockery;
+use Tests\TestCase;
 
 class CategoriesControllerUnitTest extends TestCase
 {
@@ -23,8 +23,8 @@ class CategoriesControllerUnitTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->controller = new CategoriesController();
-        
+        $this->controller = new CategoriesController;
+
         // Mock filesystem
         Storage::fake('public');
     }
@@ -36,7 +36,7 @@ class CategoriesControllerUnitTest extends TestCase
         $response = $this->controller->index();
 
         $this->assertEquals('admin.categories.index', $response->getName());
-        
+
         $categories = $response->getData()['categories'];
         $this->assertEquals(20, $categories->perPage());
         $this->assertEquals(25, $categories->total());
@@ -51,27 +51,27 @@ class CategoriesControllerUnitTest extends TestCase
 
     public function test_store_creates_category_with_image()
     {
-        if (!function_exists('imagecreatetruecolor')) {
+        if (! function_exists('imagecreatetruecolor')) {
             $this->markTestSkipped('GD extension is not installed.');
         }
 
         Cache::shouldReceive('forget')->once()->with('admin_categories_all');
-        
+
         $uploadedFile = UploadedFile::fake()->image('test.jpg', 100, 100);
-        
+
         $request = Request::create('/admin/categories', 'POST', [
             'name' => 'Test Category',
-            'description' => 'Test Description'
+            'description' => 'Test Description',
         ]);
         $request->files->set('image', $uploadedFile);
 
-        $expectedFileName = time() . '.jpg';
-        
+        $expectedFileName = time().'.jpg';
+
         $response = $this->controller->store($request);
 
         $this->assertDatabaseHas('categories', [
             'name' => 'Test Category',
-            'description' => 'Test Description'
+            'description' => 'Test Description',
         ]);
 
         $this->assertEquals(302, $response->getStatusCode());
@@ -80,17 +80,17 @@ class CategoriesControllerUnitTest extends TestCase
     public function test_store_creates_category_without_image_uses_default()
     {
         Cache::shouldReceive('forget')->once()->with('admin_categories_all');
-        
+
         $request = Request::create('/admin/categories', 'POST', [
             'name' => 'Test Category No Image',
-            'description' => 'Test Description'
+            'description' => 'Test Description',
         ]);
 
         $response = $this->controller->store($request);
 
         $this->assertDatabaseHas('categories', [
             'name' => 'Test Category No Image',
-            'image_path' => 'fixed_resources/not_found.jpg'
+            'image_path' => 'fixed_resources/not_found.jpg',
         ]);
     }
 
@@ -107,27 +107,27 @@ class CategoriesControllerUnitTest extends TestCase
     public function test_edit_with_invalid_id_throws_exception()
     {
         $this->expectException(ModelNotFoundException::class);
-        
+
         $this->controller->edit(999);
     }
 
     public function test_update_category_with_new_image()
     {
-        if (!function_exists('imagecreatetruecolor')) {
+        if (! function_exists('imagecreatetruecolor')) {
             $this->markTestSkipped('GD extension is not installed.');
         }
 
         Cache::shouldReceive('forget')->once()->with('admin_categories_all');
-        
+
         $category = Category::factory()->create([
-            'image_path' => 'old_image.jpg'
+            'image_path' => 'old_image.jpg',
         ]);
 
         $uploadedFile = UploadedFile::fake()->image('new_test.jpg', 100, 100);
-        
-        $request = Request::create('/admin/categories/' . $category->id, 'PUT', [
+
+        $request = Request::create('/admin/categories/'.$category->id, 'PUT', [
             'name' => 'Updated Category',
-            'description' => 'Updated Description'
+            'description' => 'Updated Description',
         ]);
         $request->files->set('image', $uploadedFile);
 
@@ -136,7 +136,7 @@ class CategoriesControllerUnitTest extends TestCase
         $this->assertDatabaseHas('categories', [
             'id' => $category->id,
             'name' => 'Updated Category',
-            'description' => 'Updated Description'
+            'description' => 'Updated Description',
         ]);
 
         $this->assertEquals(302, $response->getStatusCode());
@@ -145,14 +145,14 @@ class CategoriesControllerUnitTest extends TestCase
     public function test_update_category_without_new_image()
     {
         Cache::shouldReceive('forget')->once()->with('admin_categories_all');
-        
+
         $category = Category::factory()->create([
-            'image_path' => 'existing.jpg'
+            'image_path' => 'existing.jpg',
         ]);
 
-        $request = Request::create('/admin/categories/' . $category->id, 'PUT', [
+        $request = Request::create('/admin/categories/'.$category->id, 'PUT', [
             'name' => 'Updated Name Only',
-            'description' => 'Updated Description Only'
+            'description' => 'Updated Description Only',
         ]);
 
         $response = $this->controller->update($request, $category->id);
@@ -160,7 +160,7 @@ class CategoriesControllerUnitTest extends TestCase
         $this->assertDatabaseHas('categories', [
             'id' => $category->id,
             'name' => 'Updated Name Only',
-            'image_path' => 'existing.jpg' 
+            'image_path' => 'existing.jpg',
         ]);
     }
 
@@ -168,9 +168,9 @@ class CategoriesControllerUnitTest extends TestCase
     {
         Cache::shouldReceive('forget')->once()->with('admin_categories_all');
         // Log::shouldReceive('info')->once()->with('Image deleted successfully.');
-        
+
         $category = Category::factory()->create([
-            'image_path' => 'test_image.jpg'
+            'image_path' => 'test_image.jpg',
         ]);
 
         $this->mock('alias:File', function ($mock) {
@@ -181,7 +181,7 @@ class CategoriesControllerUnitTest extends TestCase
         $response = $this->controller->destroy($category->id);
 
         $this->assertDatabaseMissing('categories', [
-            'id' => $category->id
+            'id' => $category->id,
         ]);
 
         $this->assertEquals(200, $response->getStatusCode());
@@ -192,14 +192,14 @@ class CategoriesControllerUnitTest extends TestCase
     {
         Cache::shouldReceive('forget')->once()->with('admin_categories_all');
         // Log::shouldReceive('error')->once()->with('Failed to delete image.');
-        
+
         $category = Category::factory()->create([
-            'image_path' => 'test_image.jpg'
+            'image_path' => 'test_image.jpg',
         ]);
         $response = $this->controller->destroy($category->id);
 
         $this->assertDatabaseMissing('categories', [
-            'id' => $category->id
+            'id' => $category->id,
         ]);
     }
 
@@ -210,7 +210,7 @@ class CategoriesControllerUnitTest extends TestCase
         Category::factory()->create(['name' => 'Clothing', 'description' => 'Fashion items']);
 
         $request = Request::create('/admin/categories/search', 'GET', [
-            'query' => 'Tech'
+            'query' => 'Tech',
         ]);
 
         $this->mock('Illuminate\View\View', function ($mock) {
@@ -244,17 +244,17 @@ class CategoriesControllerUnitTest extends TestCase
         $category = Category::factory()->create([
             'name' => 'Test Category',
             'description' => 'Test Description',
-            'image_path' => 'test.jpg'
+            'image_path' => 'test.jpg',
         ]);
 
-        $request = Request::create('/admin/categories/' . $category->id, 'GET');
+        $request = Request::create('/admin/categories/'.$category->id, 'GET');
         $request->headers->set('X-Requested-With', 'XMLHttpRequest');
 
         $response = $this->controller->show($category->id, $request);
 
         $this->assertEquals(200, $response->getStatusCode());
         $responseData = $response->getData(true);
-        
+
         $this->assertEquals(true, $responseData['success']);
         $this->assertEquals($category->id, $responseData['id']);
         $this->assertEquals('Test Category', $responseData['name']);
@@ -265,7 +265,7 @@ class CategoriesControllerUnitTest extends TestCase
     {
         $category = Category::factory()->create();
 
-        $request = Request::create('/admin/categories/' . $category->id, 'GET');
+        $request = Request::create('/admin/categories/'.$category->id, 'GET');
 
         $response = $this->controller->show($category->id, $request);
 
@@ -277,13 +277,13 @@ class CategoriesControllerUnitTest extends TestCase
     {
         $category = Category::factory()->create();
 
-        $request1 = Request::create('/admin/categories/' . $category->id, 'GET');
+        $request1 = Request::create('/admin/categories/'.$category->id, 'GET');
         $request1->headers->set('Accept', 'application/json');
         $response1 = $this->controller->show($category->id, $request1);
         $this->assertEquals(200, $response1->getStatusCode());
         $this->assertJson($response1->getContent());
 
-        $request2 = Request::create('/admin/categories/' . $category->id . '?ajax=1', 'GET');
+        $request2 = Request::create('/admin/categories/'.$category->id.'?ajax=1', 'GET');
         $response2 = $this->controller->show($category->id, $request2);
         $this->assertEquals(200, $response2->getStatusCode());
         $this->assertJson($response2->getContent());
@@ -292,7 +292,7 @@ class CategoriesControllerUnitTest extends TestCase
     public function test_show_with_invalid_id_throws_exception()
     {
         $this->expectException(ModelNotFoundException::class);
-        
+
         $request = Request::create('/admin/categories/999', 'GET');
         $this->controller->show(999, $request);
     }

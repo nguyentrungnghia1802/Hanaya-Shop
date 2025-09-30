@@ -5,12 +5,12 @@ return [
     'dashboard' => 'ダッシュボード',
     'welcome' => 'ようこそ',
     'home' => 'ホーム',
-    
+
     // カテゴリー
     'categories' => 'カテゴリー',
     'all_categories' => 'すべてのカテゴリー',
     'view_all_categories' => 'すべてのカテゴリーを見る',
-    
+
     // 商品
     'products' => '商品',
     'latest_products' => '最新商品',
@@ -35,7 +35,7 @@ return [
     'views' => '回の閲覧',
     'sale_products' => 'セール商品',
     'most_viewed_products' => '最も閲覧された商品',
-    
+
     // 特徴セクション
     'why_choose_hanaya' => 'なぜHanaya Shopを選ぶのか？',
     'quality_commitment' => '私たちは最高品質の商品を提供することをお約束します',
@@ -52,14 +52,14 @@ return [
     'satisfaction_guarantee_desc' => 'すべての購入に30日間の返金保証',
     'eco_friendly' => 'エコフレンドリー',
     'eco_friendly_desc' => '持続可能で環境に優しい素材で作られています',
-    
+
     // 投稿/ニュース
     'latest_posts' => '最新投稿',
     'blog' => 'ブログ',
     'news' => 'ニュース',
     'read_more' => '続きを読む',
     'view_all_posts' => 'すべての投稿を見る',
-    
+
     // ショッピング
     'cart' => 'カート',
     'checkout' => 'チェックアウト',
@@ -73,7 +73,7 @@ return [
     'subtotal' => '小計',
     'shipping' => '配送料',
     'tax' => '税金',
-    
+
     // ユーザーアカウント
     'my_account' => 'マイアカウント',
     'profile' => 'プロフィール',
@@ -83,7 +83,7 @@ return [
     'personal_information' => '個人情報',
     'address_book' => 'アドレス帳',
     'wishlist' => 'ウィッシュリスト',
-    
+
     // 共通アクション
     'view' => '表示',
     'edit' => '編集',
@@ -99,7 +99,7 @@ return [
     'search_results' => '検索結果',
     'no_results' => '結果が見つかりません',
     'loading' => '読み込み中...',
-    
+
     // メッセージ
     'success' => '成功！',
     'error' => 'エラー！',

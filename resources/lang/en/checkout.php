@@ -63,7 +63,7 @@ return [
     'view_order' => 'View Order',
     'no_products_selected' => 'No products selected for checkout.',
 
-    //checkout alerts
+    // checkout alerts
     'unknown_product' => 'Unknown product',
     'please_select_address' => 'Please select a delivery address.',
     'invalid_address' => 'Invalid address. Please check the address details and try again.',

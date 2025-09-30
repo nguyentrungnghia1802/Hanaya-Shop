@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -27,7 +27,7 @@ return new class extends Migration
             // Only create foreign key if it doesn't exist
             Schema::table('reviews', function (Blueprint $table) {
                 $table->foreign('order_id', 'reviews_order_id_foreign')
-                      ->references('id')->on('orders')->onDelete('cascade');
+                    ->references('id')->on('orders')->onDelete('cascade');
             });
         }
     }
