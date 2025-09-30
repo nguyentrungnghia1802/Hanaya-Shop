@@ -404,6 +404,11 @@ class PostControllerUnitTest extends TestCase
         // Arrange
         File::shouldReceive('exists')->andReturn(true);
         File::shouldReceive('delete')->once();
+        
+        // Mock filesystem for translation loading
+        $this->mock('files', function ($mock) {
+            $mock->shouldReceive('get')->andReturn('[]');
+        });
 
         $post = Post::factory()->create([
             'user_id' => $this->user->id,
