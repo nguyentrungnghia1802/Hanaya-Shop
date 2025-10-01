@@ -10,13 +10,13 @@ abstract class TestCase extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         // Ensure we're using testing storage disk to avoid deleting demo images
         $this->app['config']->set('filesystems.default', 'testing');
-        
+
         // Create testing directories if they don't exist
         $testingDisk = Storage::disk('testing');
-        if (!$testingDisk->exists('images')) {
+        if (! $testingDisk->exists('images')) {
             $testingDisk->makeDirectory('images');
             $testingDisk->makeDirectory('images/products');
             $testingDisk->makeDirectory('images/categories');
@@ -24,7 +24,7 @@ abstract class TestCase extends BaseTestCase
             $testingDisk->makeDirectory('images/reviews');
         }
     }
-    
+
     protected function tearDown(): void
     {
         // Clean up testing storage after each test to keep it clean
@@ -32,7 +32,7 @@ abstract class TestCase extends BaseTestCase
         if ($testingDisk->exists('images')) {
             $testingDisk->deleteDirectory('images');
         }
-        
+
         parent::tearDown();
     }
 }
