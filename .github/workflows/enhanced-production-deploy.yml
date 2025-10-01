@@ -61,8 +61,8 @@ jobs:
           CURRENT_SHA=""
           
           # Try to get version from health endpoint
-          if curl -f -s --max-time 10 "http://www.hanayashop.com/api/version" > /dev/null 2>&1; then
-            CURRENT_SHA=$(curl -s --max-time 10 "http://www.hanayashop.com/api/version" | jq -r '.git_sha // empty' 2>/dev/null || echo "")
+          if curl -f -s --max-time 10 "https://www.hanayashop.com/api/version" > /dev/null 2>&1; then
+            CURRENT_SHA=$(curl -s --max-time 10 "https://www.hanayashop.com/api/version" | jq -r '.git_sha // empty' 2>/dev/null || echo "")
             echo "🌐 Retrieved current SHA from production: ${CURRENT_SHA}"
           else
             echo "⚠️ Cannot reach version endpoint - assuming first deployment or update needed"
@@ -126,7 +126,7 @@ jobs:
     if: needs.pre-deployment-validation.outputs.should-deploy == 'true'
     environment:
       name: production
-      url: http://www.hanayashop.com
+      url: https://www.hanayashop.com
 
     steps:
       - name: Deployment Info
@@ -325,7 +325,7 @@ jobs:
               echo "⚠️ Deployment completed but application may not be fully healthy"
               echo "🔍 Manual verification recommended"
               echo "💡 Check application logs: docker logs hanaya-web"
-              echo "🌐 Try accessing: http://www.hanayashop.com"
+              echo "🌐 Try accessing: https://www.hanayashop.com"
               echo "🔄 Browser cache clear may be needed (Ctrl+Shift+R)"
               
               # Don't fail the deployment - let manual verification happen
@@ -334,7 +334,7 @@ jobs:
             
             echo "🎉 Enhanced production deployment completed!"
             echo "📅 Deployment time: $(date)"
-            echo "🔗 Application URL: http://www.hanayashop.com"
+            echo "🔗 Application URL: https://www.hanayashop.com"
             
           DEPLOYMENT_SCRIPT
 
@@ -344,7 +344,7 @@ jobs:
           echo "🎉 Enhanced Production Deployment Completed Successfully!"
           echo "✅ Smart change detection: ${{ needs.pre-deployment-validation.outputs.deployment-reason }}"
           echo "🐳 Docker image: assassincreed2k1/hanaya-shop:${{ github.sha }}"
-          echo "🌐 Application URL: http://www.hanayashop.com"
+          echo "🌐 Application URL: https://www.hanayashop.com"
           echo "⚡ Enhanced features: Health checks, rollback safety, comprehensive verification"
 
   # ⏭️ Deployment Skip Summary
@@ -381,7 +381,7 @@ jobs:
             echo "**Reason:** ${{ needs.pre-deployment-validation.outputs.deployment-reason }}" >> $GITHUB_STEP_SUMMARY
             echo "**Status:** ${{ needs.build-and-deploy.result == 'success' && '🎉 SUCCESS' || '❌ FAILED' }}" >> $GITHUB_STEP_SUMMARY
             echo "**Docker Image:** \`assassincreed2k1/hanaya-shop:${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
-            echo "**Application URL:** http://www.hanayashop.com" >> $GITHUB_STEP_SUMMARY
+            echo "**Application URL:** https://www.hanayashop.com" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             
             if [[ "${{ needs.build-and-deploy.result }}" == "success" ]]; then

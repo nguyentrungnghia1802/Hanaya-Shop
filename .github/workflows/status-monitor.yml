@@ -31,7 +31,7 @@ jobs:
           
           if [[ "${{ github.event.workflow_run.name }}" == "🚀 Production Deploy" ]]; then
             echo "🎉 Production deployment successful!"
-            echo "🌐 Application is live: http://www.hanayashop.com"
+            echo "🌐 Application is live: https://www.hanayashop.com"
           fi
           
       - name: Failure notification  

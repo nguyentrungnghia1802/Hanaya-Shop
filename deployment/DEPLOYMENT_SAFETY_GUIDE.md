@@ -83,7 +83,7 @@ docker-compose up -d
 ## 📊 **MONITORING**
 
 ### **After Each Deployment**:
-1. Check application health: `curl http://www.hanayashop.com`
+1. Check application health: `curl https://www.hanayashop.com`
 2. Monitor logs: `docker logs hanaya_app`
 3. Database connectivity: `docker exec hanaya_app php artisan migrate:status`
 4. Queue status: `docker logs hanaya_queue`

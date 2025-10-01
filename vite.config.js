@@ -21,12 +21,12 @@ export default defineConfig({
         host: "0.0.0.0", // ip host
         port: 5174,
         strictPort: true,
-        https: false,
+        https: false, // Set to true for HTTPS development
         hmr: {
             host: localIP, // ip may
-            protocol: "ws", // 'wss' nếu dùng HTTPS
+            protocol: "ws", // 'wss' when using HTTPS
         },
-        cors: true, // <-- Bắt buộc thêm dòng này
+        cors: true, // Required for cross-origin requests
     },
 
     plugins: [

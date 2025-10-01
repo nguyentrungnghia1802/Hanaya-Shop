@@ -436,7 +436,7 @@ jobs:
       (needs.docker-build.result == 'success' || needs.docker-build.result == 'skipped')
     environment:
       name: ${{ needs.validation.outputs.deploy-env }}
-      url: ${{ needs.validation.outputs.deploy-env == 'production' && 'http://www.hanayashop.com' || 'http://staging.hanayashop.com' }}
+      url: ${{ needs.validation.outputs.deploy-env == 'production' && 'https://www.hanayashop.com' || 'http://staging.hanayashop.com' }}
     
     steps:
       - name: Setup SSH Authentication
@@ -555,7 +555,7 @@ jobs:
           echo "🌐 Environment: ${{ needs.validation.outputs.deploy-env }}"
           
           if [[ "${{ needs.validation.outputs.deploy-env }}" == "production" ]]; then
-            echo "🚀 Production URL: http://www.hanayashop.com"
+            echo "🚀 Production URL: https://www.hanayashop.com"
           else
             echo "🚀 Staging URL: http://staging.hanayashop.com"
           fi

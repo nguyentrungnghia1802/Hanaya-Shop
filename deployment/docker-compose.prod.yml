@@ -20,7 +20,7 @@ services:
     environment:
       - APP_ENV=production
       - APP_DEBUG=false
-      - APP_URL=http://localhost
+      - APP_URL=https://www.hanayashop.com
       - DB_HOST=db
       - DB_DATABASE=
       - DB_USERNAME=

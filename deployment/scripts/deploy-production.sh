@@ -150,7 +150,7 @@ docker compose ps
 
 success "🎉 Deployment completed successfully!"
 log "📝 Logs available at: $LOG_FILE"
-log "🔗 Application URL: http://www.hanayashop.com"
+log "🔗 Application URL: https://www.hanayashop.com"
 
 # Display browser cache clearing instructions (matching update-image.sh)
 echo "============================================================"
