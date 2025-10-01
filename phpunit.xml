@@ -51,7 +51,7 @@
         <env name="DB_PORT" value="3306"/>
         <env name="DB_DATABASE" value="hanaya_shop_test"/>
         <env name="DB_USERNAME" value="root"/>
-        <env name="DB_PASSWORD" value="Trungnghia2703"/>
+        <env name="DB_PASSWORD" value="test_password"/>
         <!-- Use separate storage for testing to avoid deleting demo images -->
         <env name="FILESYSTEM_DISK" value="testing"/>
         <env name="MAIL_MAILER" value="array"/>

@@ -156,9 +156,12 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: test_password
           MYSQL_DATABASE: hanaya_shop_test
+          MYSQL_USER: test_user
+          MYSQL_PASSWORD: test_password
+          MYSQL_ALLOW_EMPTY_PASSWORD: no
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping --host=localhost --user=root --password=test_password --silent" --health-interval=10s --health-timeout=5s --health-retries=10 --health-start-period=15s
+        options: --health-cmd="mysqladmin ping --host=127.0.0.1 --port=3306 --user=root --password=test_password --silent" --health-interval=15s --health-timeout=10s --health-retries=15 --health-start-period=60s
 
       redis:
         image: redis:7-alpine
@@ -246,30 +249,58 @@ jobs:
           echo "Checking network connectivity..."
           nc -zv 127.0.0.1 3306 || echo "Port 3306 not accessible yet"
           
+          echo "Testing various connection methods..."
+          # Test without password
+          mysql --host=127.0.0.1 --port=3306 --user=root --execute="SELECT 'Test without password works' as status;" 2>/dev/null || echo "Without password: Failed (expected)"
+          
+          # Test with empty password
+          mysql --host=127.0.0.1 --port=3306 --user=root --password="" --execute="SELECT 'Test with empty password works' as status;" 2>/dev/null || echo "With empty password: Failed"
+          
+          # Test with our password
+          mysql --host=127.0.0.1 --port=3306 --user=root --password=test_password --execute="SELECT 'Test with test_password works' as status;" 2>/dev/null || echo "With test_password: Failed"
+          
           echo "Recent MySQL logs:"
-          docker logs $(docker ps -q --filter "ancestor=mysql:8.0") | tail -10 || echo "Cannot get MySQL logs"
+          docker logs $(docker ps -q --filter "ancestor=mysql:8.0") | tail -20 || echo "Cannot get MySQL logs"
 
       - name: Verify MySQL Environment
         run: |
           echo "🔍 Verifying MySQL container environment..."
-          docker exec $(docker ps -q --filter "ancestor=mysql:8.0") env | grep MYSQL || echo "No MYSQL env vars found"
+          mysql_container=$(docker ps -q --filter "ancestor=mysql:8.0")
+          echo "MySQL container ID: $mysql_container"
+          
+          echo "Environment variables in MySQL container:"
+          docker exec $mysql_container env | grep MYSQL || echo "No MYSQL env vars found"
+          
+          echo "MySQL initialization status:"
+          docker exec $mysql_container ls -la /var/lib/mysql/ || echo "Cannot access MySQL data directory"
+          
+          echo "Checking MySQL process:"
+          docker exec $mysql_container ps aux | grep mysql || echo "MySQL process info not available"
           
       - name: Wait for MySQL to be ready
         run: |
           echo "⏳ Waiting for MySQL to be ready..."
           attempt=0
-          max_attempts=30
+          max_attempts=60
           
           # Wait for MySQL service to be healthy first
           while [ $attempt -lt $max_attempts ]; do
-            # Use service health check status
-            if docker ps --filter "health=healthy" --filter "ancestor=mysql:8.0" | grep -q mysql; then
-              echo "✅ MySQL service is healthy after $attempt attempts!"
-              break
+            # Check if MySQL container is running and healthy
+            mysql_container=$(docker ps -q --filter "ancestor=mysql:8.0")
+            if [ -n "$mysql_container" ]; then
+              health_status=$(docker inspect $mysql_container --format='{{.State.Health.Status}}' 2>/dev/null || echo "starting")
+              echo "MySQL container health status: $health_status (attempt $attempt/$max_attempts)"
+              
+              if [ "$health_status" = "healthy" ]; then
+                echo "✅ MySQL service is healthy after $attempt attempts!"
+                break
+              fi
+            else
+              echo "❌ MySQL container not found (attempt $attempt/$max_attempts)"
             fi
+            
             attempt=$((attempt + 1))
-            echo "Waiting for MySQL health check... ($attempt/$max_attempts)"
-            sleep 3
+            sleep 5
           done
           
           if [ $attempt -eq $max_attempts ]; then
@@ -277,13 +308,31 @@ jobs:
             echo "MySQL container status:"
             docker ps -a | grep mysql
             echo "MySQL logs:"
-            docker logs $(docker ps -aq --filter "ancestor=mysql:8.0") | tail -50
+            docker logs $(docker ps -aq --filter "ancestor=mysql:8.0") | tail -100
             exit 1
           fi
           
-          # Test actual connection
-          echo "🔗 Testing MySQL connection..."
-          mysql --host=127.0.0.1 --port=3306 --user=root --password=test_password --execute="SELECT 'Connection successful!' as status;"
+          # Additional connection test with retries
+          echo "🔗 Testing MySQL connection with retries..."
+          connection_attempt=0
+          max_connection_attempts=10
+          
+          while [ $connection_attempt -lt $max_connection_attempts ]; do
+            if mysql --host=127.0.0.1 --port=3306 --user=root --password=test_password --execute="SELECT 'Connection successful!' as status, VERSION() as mysql_version;" 2>/dev/null; then
+              echo "✅ MySQL connection successful after $connection_attempt attempts!"
+              break
+            fi
+            connection_attempt=$((connection_attempt + 1))
+            echo "MySQL connection attempt $connection_attempt/$max_connection_attempts failed, retrying..."
+            sleep 3
+          done
+          
+          if [ $connection_attempt -eq $max_connection_attempts ]; then
+            echo "❌ MySQL connection failed after $max_connection_attempts attempts"
+            echo "Final MySQL logs:"
+            docker logs $(docker ps -q --filter "ancestor=mysql:8.0") | tail -50
+            exit 1
+          fi
           
       - name: Run database setup
         run: |
@@ -291,11 +340,16 @@ jobs:
           
           # Test connection first
           echo "Testing connection to MySQL..."
-          mysql --host=127.0.0.1 --port=3306 --user=root --password=test_password --execute="SELECT 'Database connection OK' as status;"
+          mysql --host=127.0.0.1 --port=3306 --user=root --password=test_password --execute="SELECT 'Database connection OK' as status, DATABASE() as current_db;"
           
           # Verify database exists
           echo "Checking if database exists..."
           mysql --host=127.0.0.1 --port=3306 --user=root --password=test_password --execute="SHOW DATABASES LIKE 'hanaya_shop_test';"
+          
+          # Test Laravel database connection
+          echo "Testing Laravel database configuration..."
+          php artisan config:cache --env=testing
+          php artisan db:show --env=testing || echo "⚠️ Laravel DB connection test failed"
           
           # Run migrations
           echo "Running migrations..."
@@ -304,7 +358,16 @@ jobs:
           
           # Verify tables were created
           echo "Verifying tables..."
-          mysql --host=127.0.0.1 --port=3306 --user=root --password=test_password hanaya_shop_test --execute="SHOW TABLES;" | head -10
+          table_count=$(mysql --host=127.0.0.1 --port=3306 --user=root --password=test_password hanaya_shop_test --execute="SELECT COUNT(*) as table_count FROM information_schema.tables WHERE table_schema = 'hanaya_shop_test';" --skip-column-names --silent)
+          echo "Created $table_count tables in database"
+          
+          if [ "$table_count" -gt 0 ]; then
+            echo "Sample tables:"
+            mysql --host=127.0.0.1 --port=3306 --user=root --password=test_password hanaya_shop_test --execute="SHOW TABLES;" | head -10
+          else
+            echo "❌ No tables created - migration may have failed"
+            exit 1
+          fi
 
       - name: Run Unit Tests (Core - Must Pass)
         run: |
