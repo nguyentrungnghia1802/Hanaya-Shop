@@ -45,9 +45,15 @@
         <env name="APP_MAINTENANCE_DRIVER" value="file"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_STORE" value="array"/>
-        <!-- Use SQLite for CI testing to avoid MySQL dependency -->
-        <env name="DB_CONNECTION" value="sqlite"/>
-        <env name="DB_DATABASE" value=":memory:"/>
+        <!-- Use MySQL for testing -->
+        <env name="DB_CONNECTION" value="mysql"/>
+        <env name="DB_HOST" value="127.0.0.1"/>
+        <env name="DB_PORT" value="3306"/>
+        <env name="DB_DATABASE" value="hanaya_shop_test"/>
+        <env name="DB_USERNAME" value="root"/>
+        <env name="DB_PASSWORD" value="Trungnghia2703"/>
+        <!-- Use separate storage for testing to avoid deleting demo images -->
+        <env name="FILESYSTEM_DISK" value="testing"/>
         <env name="MAIL_MAILER" value="array"/>
         <env name="MAIL_FROM_ADDRESS" value="test@hanaya-shop.com"/>
         <env name="MAIL_FROM_NAME" value="Hanaya Shop Test"/>
