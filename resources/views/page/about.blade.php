@@ -170,7 +170,7 @@
                         onclick="redirectToProducts('soap-flowers')">
                         <div class="relative overflow-hidden">
                             <img src="{{ asset('fixed_resources/about/soap_flower.jpg') }}" alt="Soap Flowers"
-                                class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300">
+                                class="w-full h-72 object-cover object-center group-hover:scale-105 transition-transform duration-300">
                             <div
                                 class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                             </div>
@@ -199,7 +199,7 @@
                         onclick="redirectToProducts('fresh-flowers')">
                         <div class="relative overflow-hidden">
                             <img src="{{ asset('fixed_resources/about/fresh_flower.jpg') }}" alt="Fresh Flowers"
-                                class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300">
+                                class="w-full h-72 object-cover object-center group-hover:scale-105 transition-transform duration-300">
                             <div
                                 class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                             </div>
@@ -228,7 +228,7 @@
                         onclick="redirectToProducts('special-flowers')">
                         <div class="relative overflow-hidden">
                             <img src="{{ asset('fixed_resources/about/special_flower.jpg') }}" alt="Special Flowers"
-                                class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300">
+                                class="w-full h-72 object-cover object-center group-hover:scale-105 transition-transform duration-300">
                             <div
                                 class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                             </div>
@@ -257,7 +257,7 @@
                         onclick="redirectToProducts('souvenirs')">
                         <div class="relative overflow-hidden">
                             <img src="{{ asset('fixed_resources/about/souvenir.jpg') }}" alt="Souvenirs"
-                                class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300">
+                                class="w-full h-72 object-cover object-center group-hover:scale-105 transition-transform duration-300">
                             <div
                                 class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                             </div>
