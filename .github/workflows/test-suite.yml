@@ -158,7 +158,7 @@ jobs:
           MYSQL_DATABASE: hanaya_shop_test
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping --user=root --password=test_password --silent" --health-interval=10s --health-timeout=5s --health-retries=10 --health-start-period=15s
+        options: --health-cmd="mysqladmin ping --host=localhost --user=root --password=test_password --silent" --health-interval=10s --health-timeout=5s --health-retries=10 --health-start-period=15s
 
       redis:
         image: redis:7-alpine
@@ -205,7 +205,7 @@ jobs:
           cat >> .env.testing << 'EOF'
           APP_ENV=testing
           DB_CONNECTION=mysql
-          DB_HOST=mysql
+          DB_HOST=127.0.0.1
           DB_PORT=3306
           DB_DATABASE=hanaya_shop_test
           DB_USERNAME=root
@@ -244,7 +244,7 @@ jobs:
           docker inspect $(docker ps -q --filter "ancestor=mysql:8.0") --format='{{.State.Health.Status}}' || echo "No health info"
           
           echo "Checking network connectivity..."
-          nc -zv mysql 3306 || echo "Port 3306 not accessible yet"
+          nc -zv 127.0.0.1 3306 || echo "Port 3306 not accessible yet"
           
           echo "Recent MySQL logs:"
           docker logs $(docker ps -q --filter "ancestor=mysql:8.0") | tail -10 || echo "Cannot get MySQL logs"
@@ -283,7 +283,7 @@ jobs:
           
           # Test actual connection
           echo "🔗 Testing MySQL connection..."
-          mysql --host=mysql --user=root --password=test_password --execute="SELECT 'Connection successful!' as status;"
+          mysql --host=127.0.0.1 --port=3306 --user=root --password=test_password --execute="SELECT 'Connection successful!' as status;"
           
       - name: Run database setup
         run: |
@@ -291,11 +291,11 @@ jobs:
           
           # Test connection first
           echo "Testing connection to MySQL..."
-          mysql --host=mysql --user=root --password=test_password --execute="SELECT 'Database connection OK' as status;"
+          mysql --host=127.0.0.1 --port=3306 --user=root --password=test_password --execute="SELECT 'Database connection OK' as status;"
           
           # Verify database exists
           echo "Checking if database exists..."
-          mysql --host=mysql --user=root --password=test_password --execute="SHOW DATABASES LIKE 'hanaya_shop_test';"
+          mysql --host=127.0.0.1 --port=3306 --user=root --password=test_password --execute="SHOW DATABASES LIKE 'hanaya_shop_test';"
           
           # Run migrations
           echo "Running migrations..."
@@ -304,7 +304,7 @@ jobs:
           
           # Verify tables were created
           echo "Verifying tables..."
-          mysql --host=mysql --user=root --password=test_password hanaya_shop_test --execute="SHOW TABLES;" | head -10
+          mysql --host=127.0.0.1 --port=3306 --user=root --password=test_password hanaya_shop_test --execute="SHOW TABLES;" | head -10
 
       - name: Run Unit Tests (Core - Must Pass)
         run: |
