@@ -160,7 +160,7 @@ jobs:
           MYSQL_RANDOM_ROOT_PASSWORD: false
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping --host=127.0.0.1 --port=3306 --user=root --password=test_password --silent" --health-interval=10s --health-timeout=5s --health-retries=10 --health-start-period=10s
+        options: --health-cmd="mysqladmin ping --user=root --password=test_password --silent" --health-interval=10s --health-timeout=5s --health-retries=10 --health-start-period=10s
 
       redis:
         image: redis:7-alpine
@@ -207,7 +207,7 @@ jobs:
           cat >> .env.testing << 'EOF'
           APP_ENV=testing
           DB_CONNECTION=mysql
-          DB_HOST=127.0.0.1
+          DB_HOST=mysql
           DB_PORT=3306
           DB_DATABASE=hanaya_shop_test
           DB_USERNAME=root
@@ -240,7 +240,7 @@ jobs:
         run: |
           echo "🔍 Debugging MySQL connection..."
           echo "Checking if MySQL port is accessible..."
-          nc -zv 127.0.0.1 3306 || echo "Port 3306 not accessible yet"
+          nc -zv mysql 3306 || echo "Port 3306 not accessible yet"
           
           echo "Checking MySQL service status..."
           docker ps -a | grep mysql || echo "No MySQL container found"
@@ -255,9 +255,9 @@ jobs:
           max_attempts=60
           
           while [ $attempt -lt $max_attempts ]; do
-            if mysqladmin ping --host=127.0.0.1 --port=3306 --user=root --password=test_password --silent; then
+            if mysqladmin ping --host=mysql --user=root --password=test_password --silent; then
               echo "✅ MySQL is ready after $attempt attempts!"
-              mysql --host=127.0.0.1 --port=3306 --user=root --password=test_password --execute="SELECT 'MySQL Connection Test' as status;"
+              mysql --host=mysql --user=root --password=test_password --execute="SELECT 'MySQL Connection Test' as status;"
               break
             fi
             attempt=$((attempt + 1))
@@ -277,14 +277,14 @@ jobs:
           echo "🗄️ Setting up test database..."
           
           # Verify database exists
-          mysql --host=127.0.0.1 --port=3306 --user=root --password=test_password --execute="SHOW DATABASES LIKE 'hanaya_shop_test';"
+          mysql --host=mysql --user=root --password=test_password --execute="SHOW DATABASES LIKE 'hanaya_shop_test';"
           
           # Run migrations
           php artisan migrate --env=testing --force
           echo "✅ Database migrated for testing"
           
           # Verify tables were created
-          mysql --host=127.0.0.1 --port=3306 --user=root --password=test_password hanaya_shop_test --execute="SHOW TABLES;" || echo "⚠️ No tables found yet"
+          mysql --host=mysql --user=root --password=test_password hanaya_shop_test --execute="SHOW TABLES;" || echo "⚠️ No tables found yet"
 
       - name: Run Unit Tests (Core - Must Pass)
         run: |
