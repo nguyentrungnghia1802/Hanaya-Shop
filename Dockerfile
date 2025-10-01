@@ -76,9 +76,21 @@ RUN composer dump-autoload --optimize \
 # Expose ports
 EXPOSE 80 443
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost/health || exit 1
+# Health check - Flexible for both app and queue containers
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+  CMD if [ -f "/var/www/html/artisan" ]; then \
+    # For queue worker containers, check if queue:work process is running
+    if ps aux | grep -v grep | grep "queue:work" > /dev/null; then \
+      exit 0; \
+    # For app containers, check HTTP health endpoint
+    elif curl -f http://localhost/health > /dev/null 2>&1; then \
+      exit 0; \
+    else \
+      exit 1; \
+    fi; \
+  else \
+    exit 1; \
+  fi
 
 # Start Supervisor (manages Nginx + PHP-FPM)
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
