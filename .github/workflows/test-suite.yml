@@ -375,23 +375,23 @@ jobs:
           ./vendor/bin/phpunit --testsuite=Unit --testdox --colors=always --stop-on-failure
           echo "✅ Unit tests completed successfully"
           
-      - name: Run Integration Tests (Database Dependent)
+      - name: Run Database Unit Tests (Fast DB Operations)
         run: |
-          echo "🔗 Running Integration tests (database dependent)..."
-          ./vendor/bin/phpunit --testsuite=Integration --testdox --colors=always
-          echo "✅ Integration tests completed"
+          echo "🔗 Running Database Unit tests (fast DB operations)..."
+          ./vendor/bin/phpunit --testsuite=UnitDB --testdox --colors=always
+          echo "✅ Database Unit tests completed"
           
-      - name: Run Safe Feature Tests (End-to-End)
+      - name: Run Feature Tests (End-to-End)
         run: |
-          echo "🎭 Running Safe Feature tests (end-to-end)..."
-          ./vendor/bin/phpunit --testsuite=SafeFeature --testdox --colors=always
-          echo "✅ Safe Feature tests completed"
+          echo "🎭 Running Feature tests (end-to-end)..."
+          ./vendor/bin/phpunit --testsuite=Feature --testdox --colors=always
+          echo "✅ Feature tests completed"
           
       - name: Generate test coverage (on develop)
         if: github.ref == 'refs/heads/develop'
         run: |
           echo "📊 Generating test coverage for all test suites..."
-          ./vendor/bin/phpunit --testsuite=Unit --coverage-text --coverage-clover=coverage.xml --testdox || echo "⚠️ Coverage generation completed with warnings"
+          ./vendor/bin/phpunit --testsuite=All --coverage-text --coverage-clover=coverage.xml --testdox || echo "⚠️ Coverage generation completed with warnings"
           
       - name: Upload coverage reports
         if: github.ref == 'refs/heads/develop'
