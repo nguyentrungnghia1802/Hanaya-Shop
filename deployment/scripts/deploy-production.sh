@@ -1,5 +1,22 @@
 #!/bin/bash
 
+echo "Deploying to production..."
+docker compose pull
+docker compose up -d
+echo "Production deployment complete."
+
+echo "Application is now running at: http://localhost"
+
+echo "Deployment completed successfully!"
+
+echo "Use the following commands to manage your application:"
+echo "docker compose logs -f"
+echo "docker compose down"
+echo "docker compose restart"
+
+echo "Finished at $(date)"
+#!/bin/bash
+
 # Hanaya Shop - Production Deployment Script
 # This script should be placed on the production server at /opt/hanaya-shop/scripts/
 

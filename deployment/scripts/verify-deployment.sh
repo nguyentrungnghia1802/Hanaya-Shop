@@ -1,5 +1,16 @@
 #!/bin/bash
 
+echo "=== Hanaya Shop Deployment Verification ==="
+echo "Starting comprehensive system check..."
+
+docker compose ps
+
+echo "Health check..."
+curl -f http://localhost/health || echo "Health check failed!"
+
+echo "Deployment verification completed!"
+#!/bin/bash
+
 # Comprehensive server deployment verification script
 # Usage: ./verify-deployment.sh
 

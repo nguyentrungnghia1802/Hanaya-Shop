@@ -8,14 +8,14 @@
                 <div class="shrink-0 flex items-center">
                     <img src="{{ asset(config('constants.logo_path')) }}" alt="Logo" class="h-9 w-auto" loading="lazy"
                         fetchpriority="high">
-                    <a href="{{ route('user.dashboard') }}">
+                    <a href="{{ route('dashboard') }}">
                         <p class="ml-2.5 font-semibold"> HANAYA SHOP </p>
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('user.dashboard')" :active="request()->routeIs('user.dashboard')">
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('common.home') }}
                     </x-nav-link>
                     <x-nav-link :href="route('product.index')" :active="request()->routeIs('product*')">
@@ -136,7 +136,7 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('user.dashboard')" :active="request()->routeIs('user.dashboard')">
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('common.home') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('product.index')" :active="request()->routeIs('product*')">

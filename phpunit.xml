@@ -10,24 +10,33 @@
          stopOnIncomplete="false"
 >
     <testsuites>
-        <!-- Safe Unit Tests - No database dependencies -->
-        <testsuite name="SafeUnit">
-            <directory>tests/Unit/Service</directory>
-        </testsuite>
-        
-        <!-- Standard Unit testsuite (alias for SafeUnit) -->
+        <!-- Fast Unit Tests - No database dependencies -->
         <testsuite name="Unit">
             <directory>tests/Unit/Service</directory>
         </testsuite>
         
-        <!-- Integration Tests - Require database (excluded from CI) -->
-        <testsuite name="Integration">
+        <!-- Database Unit Tests - Fast database operations -->
+        <testsuite name="UnitDB">
             <directory>tests/Unit/Http</directory>
             <directory>tests/Unit/Models</directory>
         </testsuite>
         
-        <!-- Skip problematic feature tests for CI -->
-        <testsuite name="SafeFeature">
+        <!-- Feature Tests - Full integration tests -->
+        <testsuite name="Feature">
+            <directory>tests/Feature</directory>
+            <exclude>tests/Feature/ExampleTest.php</exclude>
+            <exclude>tests/Feature/Auth</exclude>
+        </testsuite>
+        
+        <!-- Fast Tests - Unit + lightweight database tests -->
+        <testsuite name="Fast">
+            <directory>tests/Unit/Service</directory>
+            <directory>tests/Unit/Models</directory>
+        </testsuite>
+        
+        <!-- All Tests -->
+        <testsuite name="All">
+            <directory>tests/Unit</directory>
             <directory>tests/Feature</directory>
             <exclude>tests/Feature/ExampleTest.php</exclude>
             <exclude>tests/Feature/Auth</exclude>
