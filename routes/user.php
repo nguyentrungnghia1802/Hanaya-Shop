@@ -22,6 +22,11 @@ Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.s
 Route::get('/about', function () {
     return view('page.about');
 })->name('user.about');
+
+// Posts routes available for both guests and authenticated users
+Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
+
 // Cart and order routes require authentication
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
@@ -49,9 +54,6 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store');
-
-    Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
-    Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
 
     // Review routes
     Route::get('/review/create', [ReviewController::class, 'create'])->name('review.create');
