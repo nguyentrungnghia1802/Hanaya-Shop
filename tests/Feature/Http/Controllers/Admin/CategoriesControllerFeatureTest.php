@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-
 class CategoriesControllerFeatureTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
@@ -30,7 +29,6 @@ class CategoriesControllerFeatureTest extends TestCase
         // Disable CSRF for these tests
         $this->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class);
     }
-
 
     public function test_index_displays_paginated_categories()
     {
@@ -126,7 +124,7 @@ class CategoriesControllerFeatureTest extends TestCase
             'name' => 'Books & Literature',
             'image_path' => 'fixed_resources/not_found.jpg',
         ]);
-        
+
         // Verify cache was cleared
         $this->assertFalse(Cache::has('admin_categories_all'));
     }
