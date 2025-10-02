@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
+
 class CategoriesControllerFeatureTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
@@ -25,10 +26,11 @@ class CategoriesControllerFeatureTest extends TestCase
             'role' => 'admin',
         ]);
         Storage::fake('public');
-        
+
         // Disable CSRF for these tests
         $this->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class);
     }
+
 
     public function test_index_displays_paginated_categories()
     {
