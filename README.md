@@ -3,19 +3,22 @@
 <details>
 <summary><strong>🇯🇵 日本語</strong></summary>
 
+
 ## 目次
 
--   [🔗 リンク](#links-jp)
--   [🛠️ インストール/セットアップのご案内](#install-jp)
--   [概要](#overview-jp)
--   [🎯 プロジェクト目的](#goals-jp)
--   [🌟 機能](#features-jp)
-    -   [👤 顧客向け](#customers-jp)
-    -   [🛠️ 管理者向け](#admin-section)
--   [🛠️ 技術スタック](#tech-jp)
-    -   [💡 ハイライトと実運用効果](#highlights-jp)
--   [🗂️ ディレクトリ構成](#structure-jp)
--   [🚀 今後の改善点](#future-jp)
+- [🔗 リンク](#links-jp)
+- [🛠️ インストール/セットアップのご案内](#install-jp)
+- [概要](#overview-jp)
+- [🎯 プロジェクト目的](#goals-jp)
+- [🌟 機能](#features-jp)
+   - [👤 顧客向け](#customers-jp)
+   - [🛠️ 管理者向け](#admin-section)
+- [🛠️ 技術スタック](#tech-jp)
+   - [💡 ハイライトと実運用効果](#highlights-jp)
+- [🔄 CI/CD パイプライン](#cicd-jp)
+- [📊 パフォーマンス測定結果](#パフォーマンス測定結果)
+- [🗂️ ディレクトリ構成](#structure-jp)
+- [🚀 今後の改善点](#future-jp)
 
 ## 🔗 リンク <a id="links-jp"></a>
 
@@ -92,13 +95,50 @@ _花の廃棄問題の実態_
 -   多様な決済手段（代金引換、銀行カード、PayPal）
 
 <div align="center">
-
-<img src=".github/images/jp/customer-features.png" alt="Customer Features Screenshot" width="850"/>
-
-<img src=".github/images/jp/customer-features2.png" alt="Customer Features Screenshot" width="850"/>
-<img src=".github/images/jp/customer-features3.png" alt="Customer Features Screenshot" width="850"/>
-
+<table>
+<tr>
+<td align="center" width="33%">
+<a href=".github/images/jp/customer-features.png" target="_blank">
+<img src=".github/images/jp/customer-features.png" alt="Customer Features" width="300"/>
+</a>
+<br><i>商品一覧・フィルタリング機能</i>
+</td>
+<td align="center" width="33%">
+<a href=".github/images/jp/customer-features2.png" target="_blank">
+<img src=".github/images/jp/customer-features2.png" alt="Product Details" width="300"/>
+</a>
+<br><i>商品詳細・レビュー機能</i>
+</td>
+<td align="center" width="33%">
+<a href=".github/images/jp/customer-features3.png" target="_blank">
+<img src=".github/images/jp/customer-features3.png" alt="Cart & Checkout" width="300"/>
+</a>
+<br><i>カート・チェックアウト</i>
+</td>
+</tr>
+<tr>
+<td align="center" width="33%">
+<a href=".github/images/jp/chat-bot.png" target="_blank">
+<img src=".github/images/jp/chat-bot.png" alt="Chatbot" width="300"/>
+</a>
+<br><i>AIチャットボットサポート</i>
+</td>
+<td align="center" width="33%">
+<a href=".github/images/jp/email.png" target="_blank">
+<img src=".github/images/jp/email.png" alt="Email Notifications" width="300"/>
+</a>
+<br><i>メール通知システム</i>
+</td>
+<td align="center" width="33%">
+<a href=".github/images/jp/multi-lang.png" target="_blank">
+<img src=".github/images/jp/multi-lang.png" alt="Multi-language" width="300"/>
+</a>
+<br><i>多言語切り替え機能</i>
+</td>
+</tr>
+</table>
 </div>
+
 
 ### 🛠️ 管理者向け <a id="admin-section"></a>
 
@@ -109,11 +149,22 @@ _花の廃棄問題の実態_
 -   顧客管理、購入傾向の把握
 
 <div align="center">
-
-<img src=".github/images/jp/admin-dashboard.png" alt="Admin Dashboard Screenshot" width="850"/>
-
-<img src=".github/images/jp/order.png" alt="Admin Dashboard Screenshot" width="850"/>
-
+<table>
+<tr>
+<td align="center" width="50%">
+<a href=".github/images/jp/admin-dashboard.png" target="_blank">
+<img src=".github/images/jp/admin-dashboard.png" alt="Admin Dashboard" width="400"/>
+</a>
+<br><i>管理者ダッシュボード・統計</i>
+</td>
+<td align="center" width="50%">
+<a href=".github/images/jp/order.png" target="_blank">
+<img src=".github/images/jp/order.png" alt="Order Management" width="400"/>
+</a>
+<br><i>注文管理・処理画面</i>
+</td>
+</tr>
+</table>
 </div>
 
 ---
@@ -132,11 +183,12 @@ _花の廃棄問題の実態_
 | MySQL          | データベース                   |
 | Redis          | キャッシュ・キュー             |
 | nginx          | Web サーバー                   |
-| Docker Compose | パッケージ化・デプロイ         |
+| Docker         | パッケージ化・デプロイ         |
+| GitHub Actions | CI/CD 自動化                   |
 
 ### 💡 ハイライトと実運用効果（Highlights & Impact） <a id="highlights-jp"></a>
 
--   Docker Compose: 環境差異を排除し、1コマンドで導入。本番更新はイメージ差し替えで安全・迅速。
+-   Docker: 環境差異を排除し、1コマンドで導入。本番更新はイメージ差し替えで安全・迅速。
 -   SSR + Tailwind: 初期表示が速くSEOに有利。離脱率を抑制し、コンバージョン改善。
 -   キュー（Redis）: メール通知や重い処理を非同期化し、応答速度を安定化。
 -   チャットボット: 購入前の疑問解消を自動化し、カゴ落ちを削減。
@@ -176,6 +228,8 @@ _花の廃棄問題の実態_
 - **📊 可視性**: リアルタイム状況とサマリーダッシュボード
 - **⚡ 効率化**: スマートトリガーでリソース無駄遣いゼロ
 - **🔄 継続改善**: ワークフロー品質監視システム
+
+#### 📊 パフォーマンス測定結果
 
 <div align="center">
 <img src=".github/images/all/performance.png" alt="pagespeed.web.dev" width="850"/>
@@ -267,27 +321,27 @@ hanaya-shop/
    - **目的**: AWSまたはAzureサービスを使用してプロジェクトを展開し、スケーラビリティと統合サービスを活用する
    - **現状**: 現在はContaboサービスを使用しており、スケーラビリティが限られている
 
-2. **CI/CDの自動化**
+2. **✅ CI/CDの自動化** ✅
    - **目的**: ソースコード変更時に自動的にデプロイするCI/CDプロセスを強化し、展開時間を短縮
-   - **現状**: 基本的なデプロイスクリプトはあるが、自動化されたパイプラインはない
+   - **現状**: **完成** - GitHub Actionsを使用した完全自動化パイプラインが導入済み
 
-3. **セキュリティ強化**
+3. **🔄 セキュリティ強化** 🔄
    - **目的**: SSL証明書を追加し、HTTPSを実装してユーザーセキュリティを向上
-   - **現状**: 証明書の基本的な構造は存在するが完全には実装されていない
+   - **現状**: **進行中** - 証明書の基本的な構造は存在するが完全には実装されていない
 
 ### II. ユーザーエクスペリエンスの向上
 
-4. **AI強化型チャットボット**
+4. **🔄 AI強化型チャットボット** 🔄
    - **目的**: ChatGPT APIを使用してチャットボットを改良し、よりスマートな応答とユーザーの説明から商品を推薦する機能を実現
-   - **現状**: 事前定義されたシナリオに基づく基本的なチャットボットが存在
+   - **現状**: **進行中** - 事前定義されたシナリオに基づく基本的なチャットボットが存在
 
 5. **地図APIの統合**
    - **目的**: Maps APIを追加して、顧客と配送スタッフが正確に位置を特定できるようにする
    - **現状**: 地図連携は実装されていない
 
-6. **インタラクティブ機能**
+6. **🔄 インタラクティブ機能** 🔄
    - **目的**: ショート動画、ミニゲーム、クーポンを追加して、買い物中のエンゲージメントを高める
-   - **現状**: これらのインタラクティブ機能はまだ実装されていない
+   - **現状**: **進行中** - これらのインタラクティブ機能はまだ実装されていない
 
 7. **注文追跡の強化**
    - **目的**: 注文追跡機能と配送スタッフ向け追跡ページを追加
@@ -412,12 +466,48 @@ _Real-world image of flower waste problem_
 -   Multiple payment options: Cash on Delivery (COD), bank card, PayPal
 
 <div align="center">
-
-<img src=".github/images/en/customer-features.png" alt="Customer Features Screenshot" width="850"/>
-
-<img src=".github/images/en/customer-features2.png" alt="Customer Features Screenshot" width="850"/>
-<img src=".github/images/en/customer-features3.png" alt="Customer Features Screenshot" width="850"/>
-
+<table>
+<tr>
+<td align="center" width="33%">
+<a href=".github/images/en/customer-features.png" target="_blank">
+<img src=".github/images/en/customer-features.png" alt="Customer Features" width="300"/>
+</a>
+<br><i>Product catalog & filtering features</i>
+</td>
+<td align="center" width="33%">
+<a href=".github/images/en/customer-features2.png" target="_blank">
+<img src=".github/images/en/customer-features2.png" alt="Product Details" width="300"/>
+</a>
+<br><i>Product details & review system</i>
+</td>
+<td align="center" width="33%">
+<a href=".github/images/en/customer-features3.png" target="_blank">
+<img src=".github/images/en/customer-features3.png" alt="Cart & Checkout" width="300"/>
+</a>
+<br><i>Cart & Checkout</i>
+</td>
+</tr>
+<tr>
+<td align="center" width="33%">
+<a href=".github/images/en/chat-bot.png" target="_blank">
+<img src=".github/images/en/chat-bot.png" alt="Chatbot" width="300"/>
+</a>
+<br><i>AI Chatbot Support</i>
+</td>
+<td align="center" width="33%">
+<a href=".github/images/en/email.png" target="_blank">
+<img src=".github/images/en/email.png" alt="Email Notifications" width="300"/>
+</a>
+<br><i>Email Notification System</i>
+</td>
+<td align="center" width="33%">
+<a href=".github/images/en/multi-lang.png" target="_blank">
+<img src=".github/images/en/multi-lang.png" alt="Multi-language" width="300"/>
+</a>
+<br><i>Multi-language Switching</i>
+</td>
+</tr>
+</table>
 </div>
 
 ### 🛠️ For Admins <a id="admin-en"></a>
@@ -429,11 +519,22 @@ _Real-world image of flower waste problem_
 -   Customer management and purchasing insights
 
 <div align="center">
-
-<img src=".github/images/en/admin-dashboard.png" alt="Admin Dashboard Screenshot" width="850"/>
-
-<img src=".github/images/en/order.png" alt="Admin Dashboard Screenshot" width="850"/>
-
+<table>
+<tr>
+<td align="center" width="50%">
+<a href=".github/images/en/admin-dashboard.png" target="_blank">
+<img src=".github/images/en/admin-dashboard.png" alt="Admin Dashboard" width="400"/>
+</a>
+<br><i>Admin dashboard & analytics</i>
+</td>
+<td align="center" width="50%">
+<a href=".github/images/en/order.png" target="_blank">
+<img src=".github/images/en/order.png" alt="Order Management" width="400"/>
+</a>
+<br><i>Order management & processing</i>
+</td>
+</tr>
+</table>
 </div>
 
 ---
@@ -453,10 +554,11 @@ _Real-world image of flower waste problem_
 | Redis          | Cache & queue            |
 | nginx          | Web server               |
 | Docker Compose | Packaging & deployment   |
+| GitHub Actions | CI/CD automation         |
 
 ### 💡 Highlights & Real-world Impact <a id="highlights-en"></a>
 
--   Docker Compose: One-command installs and safe, image-based production updates; eliminates environment drift.
+-   Docker: One-command installs and safe, image-based production updates; eliminates environment drift.
 -   SSR + Tailwind: Faster first paint and better SEO; reduces bounce and improves conversion.
 -   Queues (Redis): Offloads email and heavy tasks; keeps requests fast and stable.
 -   Chatbot: Automates pre-purchase Q&A; reduces cart abandonment.
@@ -494,9 +596,8 @@ Established professional development and operations workflow through advanced Gi
 - **🎯 Accuracy**: Complete production environment simulation testing
 - **🛡️ Security**: Multi-layer defense with automated rollback
 - **📊 Visibility**: Real-time status and summary dashboard
-- **⚡ Efficiency**: Smart triggering eliminates resource waste
-- **🔄 Continuous Improvement**: Workflow quality monitoring system
-- **Safety**: Automatic rollback on failure
+
+#### 📊 Performance Measurement Results
 
 <div align="center">
 <img src=".github/images/all/performance.png" alt="pagespeed.web.dev" width="850"/>
@@ -588,27 +689,27 @@ hanaya-shop/
    - **Purpose**: Utilize AWS or Azure services for project deployment, leveraging scalability and integrated services
    - **Current Status**: Currently using Contabo services with limited scalability options
 
-2. **Automated CI/CD**
+2. **✅ Automated CI/CD** ✅
    - **Purpose**: Enhance CI/CD process to automate deployment when source code changes, reducing deployment time
-   - **Current Status**: Basic deployment scripts exist but without an automated pipeline
+   - **Current Status**: **Completed** - Full automation pipeline implemented using GitHub Actions
 
-3. **Enhanced Security**
+3. **🔄 Enhanced Security** 🔄
    - **Purpose**: Add SSL certificates and implement HTTPS for increased user security
-   - **Current Status**: Basic structure for certificates exists but not fully implemented
+   - **Current Status**: **In Progress** - Basic structure for certificates exists but not fully implemented
 
 ### II. User Experience Improvements
 
-4. **AI-Enhanced Chatbot**
+4. **🔄 AI-Enhanced Chatbot** 🔄
    - **Purpose**: Improve the chatbot using ChatGPT API for smarter responses and product recommendations from user descriptions
-   - **Current Status**: A basic chatbot exists that works on predefined scenarios
+   - **Current Status**: **In Progress** - A basic chatbot exists that works on predefined scenarios
 
 5. **Maps Integration**
    - **Purpose**: Add Maps API to help customers and delivery personnel accurately locate addresses
    - **Current Status**: No map integration implemented
 
-6. **Interactive Features**
+6. **🔄 Interactive Features** 🔄
    - **Purpose**: Add short videos, mini-games, and vouchers to increase engagement during shopping
-   - **Current Status**: These interactive features are not yet implemented
+   - **Current Status**: **In Progress** - These interactive features are not yet implemented
 
 7. **Order Tracking Enhancement**
    - **Purpose**: Add order tracking functionality and a tracking page for delivery personnel
@@ -731,13 +832,50 @@ _Hình ảnh thực tế cho vấn đề hoa bị lãng phí_
 -   Thông báo qua email theo trạng thái đơn hàng
 -   Chatbot hỗ trợ tư vấn
 -   Thanh toán đa dạng: Thanh toán khi nhận hàng (COD), thẻ ngân hàng, PayPal
+
 <div align="center">
-
-<img src=".github/images/vi/customer-features.png" alt="Customer Features Screenshot" width="850"/>
-
-<img src=".github/images/vi/customer-features2.png" alt="Customer Features Screenshot" width="850"/>
-<img src=".github/images/vi/customer-features3.png" alt="Customer Features Screenshot" width="850"/>
-
+<table>
+<tr>
+<td align="center" width="33%">
+<a href=".github/images/vi/customer-features.png" target="_blank">
+<img src=".github/images/vi/customer-features.png" alt="Customer Features" width="300"/>
+</a>
+<br><i>Danh mục sản phẩm & tính năng lọc</i>
+</td>
+<td align="center" width="33%">
+<a href=".github/images/vi/customer-features2.png" target="_blank">
+<img src=".github/images/vi/customer-features2.png" alt="Product Details" width="300"/>
+</a>
+<br><i>Chi tiết sản phẩm & hệ thống đánh giá</i>
+</td>
+<td align="center" width="33%">
+<a href=".github/images/vi/customer-features3.png" target="_blank">
+<img src=".github/images/vi/customer-features3.png" alt="Cart & Checkout" width="300"/>
+</a>
+<br><i>Giỏ hàng & Thanh toán</i>
+</td>
+</tr>
+<tr>
+<td align="center" width="33%">
+<a href=".github/images/vi/chat-bot.png" target="_blank">
+<img src=".github/images/vi/chat-bot.png" alt="Chatbot" width="300"/>
+</a>
+<br><i>Hỗ trợ Chatbot AI</i>
+</td>
+<td align="center" width="33%">
+<a href=".github/images/vi/email.png" target="_blank">
+<img src=".github/images/vi/email.png" alt="Email Notifications" width="300"/>
+</a>
+<br><i>Hệ thống thông báo qua email</i>
+</td>
+<td align="center" width="33%">
+<a href=".github/images/vi/multi-lang.png" target="_blank">
+<img src=".github/images/vi/multi-lang.png" alt="Multi-language" width="300"/>
+</a>
+<br><i>Chuyển đổi ngôn ngữ</i>
+</td>
+</tr>
+</table>
 </div>
 
 ### 🛠️ Trang quản trị <a id="admin-vi"></a>
@@ -749,11 +887,22 @@ _Hình ảnh thực tế cho vấn đề hoa bị lãng phí_
 -   Quản lý khách hàng, phân tích hành vi mua
 
 <div align="center">
-
-<img src=".github/images/vi/admin-dashboard.png" alt="Admin Dashboard Screenshot" width="850"/>
-
-<img src=".github/images/vi/order.png" alt="Admin Dashboard Screenshot" width="850"/>
-
+<table>
+<tr>
+<td align="center" width="50%">
+<a href=".github/images/vi/admin-dashboard.png" target="_blank">
+<img src=".github/images/vi/admin-dashboard.png" alt="Admin Dashboard" width="400"/>
+</a>
+<br><i>Dashboard quản trị & thống kê</i>
+</td>
+<td align="center" width="50%">
+<a href=".github/images/vi/order.png" target="_blank">
+<img src=".github/images/vi/order.png" alt="Order Management" width="400"/>
+</a>
+<br><i>Quản lý & xử lý đơn hàng</i>
+</td>
+</tr>
+</table>
 </div>
 
 ---
@@ -772,11 +921,11 @@ _Hình ảnh thực tế cho vấn đề hoa bị lãng phí_
 | MySQL          | Cơ sở dữ liệu              |
 | Redis          | Cache & queue              |
 | nginx          | Web server                 |
-| Docker Compose | Đóng gói & triển khai      |
+| Docker         | Đóng gói & triển khai      |
 
 ### 💡 Điểm nổi bật & Hiệu quả thực tế <a id="highlights-vi"></a>
 
--   Docker Compose: Cài đặt 1 lệnh, cập nhật an toàn bằng cách thay image; loại bỏ sai lệch môi trường.
+-   Docker: Cài đặt 1 lệnh, cập nhật an toàn bằng cách thay image; loại bỏ sai lệch môi trường.
 -   SSR + Tailwind: Hiển thị đầu nhanh, tốt cho SEO; giảm bounce và tăng chuyển đổi.
 -   Hàng đợi (Redis): Đẩy email và tác vụ nặng sang nền; giữ request nhanh và ổn định.
 -   Chatbot: Tự động giải đáp trước khi mua; giảm tỷ lệ bỏ giỏ hàng.
@@ -814,15 +963,8 @@ Thiết lập quy trình phát triển và vận hành chuyên nghiệp thông q
 - **🎯 Độ chính xác**: Kiểm thử mô phỏng hoàn chỉnh môi trường production
 - **🛡️ Bảo mật**: Phòng thủ đa tầng với rollback tự động
 - **📊 Khả năng quan sát**: Dashboard trạng thái và tóm tắt real-time
-- **⚡ Hiệu quả**: Smart triggering loại bỏ lãng phí tài nguyên
-- **🔄 Cải tiến liên tục**: Hệ thống giám sát chất lượng workflow
 
-#### 💡 **Lợi ích của CI/CD**
-- **Đảm bảo chất lượng**: Mọi thay đổi code đều qua kiểm thử tự động
-- **Giảm thiểu rủi ro**: Xác minh kỹ lưỡng trước khi triển khai production
-- **Tăng hiệu quả**: Giảm công việc thủ công xuống gần như bằng 0
-- **Tính minh bạch**: Kết quả test và trạng thái triển khai rõ ràng trên GitHub
-- **An toàn**: Tự động rollback khi có lỗi xảy ra
+### 📊 Kết quả đo hiệu suất
 
 <div align="center">
 <img src=".github/images/all/performance.png" alt="pagespeed.web.dev" width="850"/>
@@ -843,6 +985,7 @@ _webpagetest.org_
 
 ```bash
 hanaya-shop/
+├── #GUIDE/            # 📆 Hướng dẫn triển khai & phát triển
 ├── app/                # Controller, model, service
 │   ├── Console/        # Artisan command
 │   ├── Http/           # Controller, middleware, request
@@ -859,6 +1002,13 @@ hanaya-shop/
 │   ├── migrations/
 │   ├── seeders/
 │   └── sql/
+├── deployment/         # 🚀 Cấu hình & script triển khai
+│   ├── nginx/          # 🌐 Cấu hình Nginx
+│   ├── mysql/          # 🗄️ Cấu hình MySQL
+│   ├── php/            # 🐘 Cấu hình PHP
+│   ├── supervisor/     # 👷 Quản lý tiến trình
+│   └── docker-compose.prod.yml # 🐳 Thiết lập Docker production
+├── docker/             # 🐳 Các file cấu hình Docker
 ├── public/             # Hình ảnh, entry point
 │   ├── build/
 │   ├── fixed_resources/
@@ -881,8 +1031,10 @@ hanaya-shop/
 ├── tests/              # Unit test & feature test
 │   ├── Feature/
 │   └── Unit/
-├── Dockerfile          # Docker config
-├── docker-compose.yml  # Docker setup
+├── .github/            # 🔄 GitHub Actions CI/CD
+│   └── workflows/      # ⚙️ Quy trình tự động hóa
+├── Dockerfile          # Cấu hình Docker
+├── docker-compose.yml  # Thiết lập Docker
 └── README.md           # Tài liệu dự án
 ```
 
@@ -894,27 +1046,27 @@ hanaya-shop/
    - **Mục đích**: Sử dụng dịch vụ của AWS hoặc Azure để triển khai dự án, tận dụng khả năng mở rộng và các dịch vụ tích hợp
    - **Hiện trạng**: Hiện đang sử dụng dịch vụ của Contabo với hạn chế về khả năng mở rộng
 
-2. **CI/CD tự động hóa**
+2. **✅ CI/CD tự động hóa** ✅
    - **Mục đích**: Cải tiến quy trình CI/CD để tự động hóa khi có thay đổi mã nguồn, giúp giảm thời gian triển khai
-   - **Hiện trạng**: Đã có các script triển khai cơ bản nhưng chưa có pipeline tự động
+   - **Hiện trạng**: **Hoàn thành** - Đã triển khai pipeline tự động hóa hoàn chỉnh sử dụng GitHub Actions
 
-3. **Bảo mật nâng cao**
+3. **🔄 Bảo mật nâng cao** 🔄
    - **Mục đích**: Thêm chứng chỉ SSL và áp dụng HTTPS để tăng tính bảo mật cho người dùng
-   - **Hiện trạng**: Đã có cấu trúc cơ bản cho chứng chỉ nhưng chưa triển khai đầy đủ
+   - **Hiện trạng**: **Đang tiến hành** - Đã có cấu trúc cơ bản cho chứng chỉ nhưng chưa triển khai đầy đủ
 
 ### II. Cải tiến trải nghiệm người dùng
 
-4. **Nâng cao Chatbot với AI**
+4. **🔄 Nâng cao Chatbot với AI** 🔄
    - **Mục đích**: Cải tiến Chatbot sử dụng API của ChatGPT để trả lời thông minh hơn, có khả năng đề xuất sản phẩm từ mô tả của người dùng
-   - **Hiện trạng**: Đã có chatbot đơn giản hoạt động dựa trên kịch bản cố định
+   - **Hiện trạng**: **Đang tiến hành** - Đã có chatbot đơn giản hoạt động dựa trên kịch bản cố định
 
 5. **Tích hợp bản đồ**
    - **Mục đích**: Thêm API Maps giúp khách hàng và người giao dễ dàng xác định vị trí chính xác
    - **Hiện trạng**: Chưa triển khai tích hợp bản đồ
 
-6. **Tăng tính tương tác**
+6. **🔄 Tăng tính tương tác** 🔄
    - **Mục đích**: Thêm short video, mini game, voucher để tăng sự hứng thú khi mua hàng
-   - **Hiện trạng**: Chưa triển khai các tính năng tương tác này
+   - **Hiện trạng**: **Đang tiến hành** - Chưa triển khai các tính năng tương tác này
 
 7. **Cải tiến theo dõi đơn hàng**
    - **Mục đích**: Thêm chức năng theo dõi đơn hàng và trang theo dõi cho người giao hàng
