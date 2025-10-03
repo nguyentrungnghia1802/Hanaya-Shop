@@ -22,15 +22,11 @@
 
 ## 🔗 リンク <a id="links-jp"></a>
 
-<div align="center" style="margin: 1em 0;">
-   <a href="http://hanayashop.com" style="text-decoration:none;">
-      <span style="font-size:2em; font-weight:bold; color:#e91e63;">🌐 Hanaya Shop</span>
-   </a>
-</div>
-<div align="center" style="margin-bottom:2em;">
-   <a href="https://youtu.be/MLeE64xe4O0" style="text-decoration:none;">
-      <span style="font-size:2em; font-weight:bold; color:#2196f3;">🎬 YouTube デモ</span>
-   </a>
+<div align="center">
+<table><tr>
+<td align="center">🌐 <strong><a href="http://hanayashop.com">Hanaya Shop</a></strong></td>
+<td align="center">🎬 <strong><a href="https://youtu.be/MLeE64xe4O0">YouTube デモ</a></strong></td>
+</tr></table>
 </div>
 
 ## 🎯 テスト用アカウント <a id="test-accounts-jp"></a>
@@ -402,15 +398,11 @@ hanaya-shop/
 
 ## 🔗 Links <a id="links-en"></a>
 
-<div align="center" style="margin: 1em 0;">
-   <a href="http://hanayashop.com" style="text-decoration:none;">
-      <span style="font-size:2em; font-weight:bold; color:#e91e63;">🌐 Hanaya Shop</span>
-   </a>
-</div>
-<div align="center" style="margin-bottom:2em;">
-   <a href="https://youtu.be/MLeE64xe4O0" style="text-decoration:none;">
-      <span style="font-size:2em; font-weight:bold; color:#2196f3;">🎬 YouTube Demo</span>
-   </a>
+<div align="center">
+<table><tr>
+<td align="center">🌐 <strong><a href="http://hanayashop.com">Hanaya Shop</a></strong></td>
+<td align="center">🎬 <strong><a href="https://youtu.be/MLeE64xe4O0">YouTube Demo</a></strong></td>
+</tr></table>
 </div>
 
 ## 🎯 Test Accounts <a id="test-accounts-en"></a>
@@ -778,15 +770,11 @@ hanaya-shop/
 
 ## 🔗 Đường dẫn <a id="links-vi"></a>
 
-<div align="center" style="margin: 1em 0;">
-   <a href="http://hanayashop.com" style="text-decoration:none;">
-      <span style="font-size:2em; font-weight:bold; color:#e91e63;">🌐 Hanaya Shop</span>
-   </a>
-</div>
-<div align="center" style="margin-bottom:2em;">
-   <a href="https://youtu.be/MLeE64xe4O0" style="text-decoration:none;">
-      <span style="font-size:2em; font-weight:bold; color:#2196f3;">🎬 YouTube Demo</span>
-   </a>
+<div align="center">
+<table><tr>
+<td align="center">🌐 <strong><a href="http://hanayashop.com">Hanaya Shop</a></strong></td>
+<td align="center">🎬 <strong><a href="https://youtu.be/MLeE64xe4O0">YouTube Demo</a></strong></td>
+</tr></table>
 </div>
 
 ## 🎯 Tài khoản test <a id="test-accounts-vi"></a>
