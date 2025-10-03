@@ -22,8 +22,16 @@
 
 ## 🔗 リンク <a id="links-jp"></a>
 
--   ウェブサイト: [Hanaya Shop](http://hanayashop.com)
--   デモ動画: [YouTube デモ](https://youtu.be/MLeE64xe4O0)
+<div align="center" style="margin: 1em 0;">
+   <a href="http://hanayashop.com" style="text-decoration:none;">
+      <span style="font-size:2em; font-weight:bold; color:#e91e63;">🌐 Hanaya Shop</span>
+   </a>
+</div>
+<div align="center" style="margin-bottom:2em;">
+   <a href="https://youtu.be/MLeE64xe4O0" style="text-decoration:none;">
+      <span style="font-size:2em; font-weight:bold; color:#2196f3;">🎬 YouTube デモ</span>
+   </a>
+</div>
 
 ## 🎯 テスト用アカウント <a id="test-accounts-jp"></a>
 
@@ -394,8 +402,16 @@ hanaya-shop/
 
 ## 🔗 Links <a id="links-en"></a>
 
--   Website: [Hanaya Shop](http://hanayashop.com)
--   Demo video: [YouTube Demo](https://youtu.be/MLeE64xe4O0)
+<div align="center" style="margin: 1em 0;">
+   <a href="http://hanayashop.com" style="text-decoration:none;">
+      <span style="font-size:2em; font-weight:bold; color:#e91e63;">🌐 Hanaya Shop</span>
+   </a>
+</div>
+<div align="center" style="margin-bottom:2em;">
+   <a href="https://youtu.be/MLeE64xe4O0" style="text-decoration:none;">
+      <span style="font-size:2em; font-weight:bold; color:#2196f3;">🎬 YouTube Demo</span>
+   </a>
+</div>
 
 ## 🎯 Test Accounts <a id="test-accounts-en"></a>
 
@@ -762,8 +778,16 @@ hanaya-shop/
 
 ## 🔗 Đường dẫn <a id="links-vi"></a>
 
--   Trang web: [Hanaya Shop](http://hanayashop.com)
--   Video demo: [YouTube Demo](https://youtu.be/MLeE64xe4O0)
+<div align="center" style="margin: 1em 0;">
+   <a href="http://hanayashop.com" style="text-decoration:none;">
+      <span style="font-size:2em; font-weight:bold; color:#e91e63;">🌐 Hanaya Shop</span>
+   </a>
+</div>
+<div align="center" style="margin-bottom:2em;">
+   <a href="https://youtu.be/MLeE64xe4O0" style="text-decoration:none;">
+      <span style="font-size:2em; font-weight:bold; color:#2196f3;">🎬 YouTube Demo</span>
+   </a>
+</div>
 
 ## 🎯 Tài khoản test <a id="test-accounts-vi"></a>
 
@@ -932,6 +956,142 @@ _Hình ảnh thực tế cho vấn đề hoa bị lãng phí_
 -   TinyMCE: Nội dung tiếp thị giàu hình ảnh; tăng tương tác.
 -   Thanh toán đa dạng (COD, thẻ ngân hàng, PayPal): Giảm ma sát khi checkout; tăng tỉ lệ thanh toán thành công.
 -   **CI/CD với GitHub Actions**: Tự động hóa kiểm thử, kiểm tra chất lượng và triển khai, nâng cao đáng kể hiệu quả phát triển và chất lượng code.
+
+### 🔄 Quy trình CI/CD (GitHub Actions) <a id="cicd-vi"></a>
+
+Thiết lập quy trình phát triển và vận hành chuyên nghiệp thông qua pipeline tự động hóa GitHub Actions tiên tiến:
+
+#### 🧪 **Bộ kiểm thử (🧪 Test Suite)**
+```yaml
+📦 Smart Caching: Tối ưu hóa dependencies Composer & NPM
+🧪 Kiểm thử toàn diện: Laravel PHPUnit (193 tests + 543 assertions)
+🎨 Chất lượng code: Laravel Pint (xác minh format tự động)
+🔒 Quét bảo mật: Kiểm tra lỗ hổng Composer & NPM
+🐳 Test Docker Build: Mô phỏng hoàn chỉnh môi trường production
+📊 Báo cáo tự động: Tạo coverage và tóm tắt test
+⚡ Thực thi song song giảm thời gian phản hồi xuống 1-2 phút
+```
+
+#### 🚀 **Triển khai Production (🚀 Production Deploy)**
+```yaml
+🔍 Xác thực trước: Kiểm thử đầy đủ trong môi trường production-level
+🎯 Kiểm thử phân tầng: unit→feature→integration→performance
+🐳 Build tự động: multi-stage Docker với quét bảo mật
+📦 Quản lý Image: Tagging, versioning & tối ưu cache
+🛡️ Zero Downtime: Health checks với rollback tự động
+📊 Giám sát triển khai: Báo cáo trạng thái real-time
+```
+
+#### 💡 **Lợi ích CI/CD tiên tiến**
+- **🚀 Tốc độ**: Xử lý song song & cache giảm 50% thời gian
+- **🎯 Độ chính xác**: Kiểm thử mô phỏng hoàn chỉnh môi trường production
+- **🛡️ Bảo mật**: Phòng thủ đa tầng với rollback tự động
+- **📊 Khả năng quan sát**: Dashboard trạng thái và tóm tắt real-time
+
+### 📊 Kết quả đo hiệu suất
+
+<div align="center">
+<img src=".github/images/all/performance.png" alt="pagespeed.web.dev" width="850"/>
+
+_pagespeed.web.dev_
+
+<img src=".github/images/all/performance2.png" alt="webpagetest.org" width="850"/>
+
+_webpagetest.org_
+
+**_Chỉ số hiệu suất hệ thống_**
+
+</div>
+
+---
+
+## 🗂️ Cấu trúc dự án <a id="structure-vi"></a>
+
+```bash
+hanaya-shop/
+├── #GUIDE/            # 📆 Hướng dẫn triển khai & phát triển
+├── app/                # Controller, model, service
+│   ├── Console/        # Artisan command
+│   ├── Http/           # Controller, middleware, request
+│   ├── Models/         # Model
+│   ├── Notifications/  # Notification
+│   ├── Providers/      # Service provider
+│   ├── Services/       # Service class
+│   └── View/           # Blade component
+├── bootstrap/          # Khởi tạo Laravel
+│   └── cache/          # Cache
+├── config/             # Cấu hình hệ thống
+├── database/           # Migration, seeder, factory
+│   ├── factories/
+│   ├── migrations/
+│   ├── seeders/
+│   └── sql/
+├── deployment/         # 🚀 Cấu hình & script triển khai
+│   ├── nginx/          # 🌐 Cấu hình Nginx
+│   ├── mysql/          # 🗄️ Cấu hình MySQL
+│   ├── php/            # 🐘 Cấu hình PHP
+│   ├── supervisor/     # 👷 Quản lý tiến trình
+│   └── docker-compose.prod.yml # 🐳 Thiết lập Docker production
+├── docker/             # 🐳 Các file cấu hình Docker
+├── public/             # Hình ảnh, entry point
+│   ├── build/
+│   ├── fixed_resources/
+│   ├── images/
+│   └── js/
+├── resources/          # CSS, JS, Blade template, ngôn ngữ
+│   ├── css/
+│   ├── js/
+│   ├── lang/
+│   └── views/
+├── routes/             # Tuyến web/API
+│   ├── admin.php
+│   ├── auth.php
+│   ├── console.php
+│   ├── user.php
+│   └── web.php
+├── storage/            # Upload, log
+│   ├── framework/
+│   └── logs/
+├── tests/              # Unit test & feature test
+│   ├── Feature/
+│   └── Unit/
+├── .github/            # 🔄 GitHub Actions CI/CD
+│   └── workflows/      # ⚙️ Quy trình tự động hóa
+├── Dockerfile          # Cấu hình Docker
+├── docker-compose.yml  # Thiết lập Docker
+└── README.md           # Tài liệu dự án
+```
+
+## 🚀 Cải tiến trong tương lai <a id="future-vi"></a>
+
+### I. Cải tiến hạ tầng và triển khai
+
+1. **Nâng cấp hạ tầng đám mây**
+   - **Mục đích**: Sử dụng dịch vụ của AWS hoặc Azure để triển khai dự án, tận dụng khả năng mở rộng và các dịch vụ tích hợp
+   - **Hiện trạng**: Hiện đang sử dụng dịch vụ của Contabo với hạn chế về khả năng mở rộng
+
+2. **✅ CI/CD tự động hóa** ✅
+   - **Mục đích**: Cải tiến quy trình CI/CD để tự động hóa khi có thay đổi mã nguồn, giúp giảm thời gian triển khai
+   - **Hiện trạng**: **Hoàn thành** - Đã triển khai pipeline tự động hóa hoàn chỉnh sử dụng GitHub Actions
+
+3. **🔄 Bảo mật nâng cao** 🔄
+   - **Mục đích**: Thêm chứng chỉ SSL và áp dụng HTTPS để tăng tính bảo mật cho người dùng
+   - **Hiện trạng**: **Đang tiến hành** - Đã có cấu trúc cơ bản cho chứng chỉ nhưng chưa triển khai đầy đủ
+
+### II. Cải tiến trải nghiệm người dùng
+
+4. **🔄 Nâng cao Chatbot với AI** 🔄
+   - **Mục đích**: Cải tiến Chatbot sử dụng API của ChatGPT để trả lời thông minh hơn, có khả năng đề xuất sản phẩm từ mô tả của người dùng
+   - **Hiện trạng**: **Đang tiến hành** - Đã có chatbot đơn giản hoạt động dựa trên kịch bản cố định
+
+5. **Tích hợp bản đồ**
+   - **Mục đích**: Thêm API Maps giúp khách hàng và người giao dễ dàng xác định vị trí chính xác
+   - **Hiện trạng**: Chưa triển khai tích hợp bản đồ
+
+6. **🔄 Tăng tính tương tác** 🔄
+   - **Mục đích**: Thêm short video, mini game, voucher để tăng sự hứng thú khi mua hàng
+   - **Hiện trạng**: **Đang tiến hành** - Chưa triển khai các tính năng tương tác này
+ cao đáng kể hiệu quả phát triển và chất lượng code.
 
 ### 🔄 Quy trình CI/CD (GitHub Actions) <a id="cicd-vi"></a>
 
