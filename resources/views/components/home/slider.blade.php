@@ -37,7 +37,7 @@
 
     @media (max-width: 768px) {
         .slider-image {
-            height: 250px;
+            height: 500px;
             /* Chiều cao nhỏ hơn trên điện thoại */
         }
     }
