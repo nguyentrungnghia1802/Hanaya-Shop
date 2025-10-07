@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User;
 
-class Orders extends Model
+class Order extends Model
 {
     use HasFactory;
 
@@ -24,21 +24,23 @@ class Orders extends Model
 
     public $timestamps = true;
 
-    public function user(){
-        return $this->belongsTo(Users::class);
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
-    public function appliedCoupon(){
-        return $this->hasMany(AppliedCoupons::class);
+    public function appliedCoupon()
+    {
+        return $this->hasMany(AppliedCoupon::class);
     }
 
     public function orderDetail()
     {
-        return $this->hasMany(OrderDetails::class);
+        return $this->hasMany(OrderDetail::class);
     }
 
     public function payment()
     {
-        return $this->hasMany(Payments::class);
+        return $this->hasMany(Payment::class);
     }
 }
