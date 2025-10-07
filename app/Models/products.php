@@ -45,4 +45,9 @@ class Products extends Model
     {
         return $this->price - ($this->price * $discountPercentage / 100);
     }
+
+    public function orderDetail()
+    {
+        return $this->hasMany(OrderDetails::class);
+    }
 }
