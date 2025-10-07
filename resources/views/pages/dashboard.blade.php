@@ -8,7 +8,7 @@
     <div class="py-12">
         <!-- Slider: sử dụng component slider đã tạo -->
         <section class="mb-8">
-            <x-home.slider />
+            <x-home.slider :images="['hoa_1.jpg', 'hoa_2.jpg', 'hoa_3.jpg']"/>
         </section>
 
         <!-- Nội dung Dashboard chính -->
