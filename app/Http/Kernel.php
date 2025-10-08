@@ -37,5 +37,8 @@ class Kernel extends HttpKernel
         'role' => \App\Http\Middleware\CheckRole::class, // <-- middleware của bạn
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         // thêm các middleware khác ở đây
+        'is_admin' => \App\Http\Middleware\IsAdmin::class,
+
+
     ];
 }

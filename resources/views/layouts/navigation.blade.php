@@ -15,9 +15,15 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    @auth
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @else
+                    <x-nav-link :href="url('/')" :active="request()->is('/')">
+                        {{ __('Dashboard') }}
+                    </x-nav-link>
+                    @endauth
                     <x-nav-link :href="route('soapFlower')" :active="request()->routeIs('soapFlower')">
                         {{ __('Soap Flower') }}
                     </x-nav-link>
