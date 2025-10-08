@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+
     ];
 
     /**
@@ -44,5 +46,32 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // Phương thức kiểm tra vai trò
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isManager(): bool
+    {
+        return $this->role === 'manager';
+    }
+
+    public function isUser(): bool
+    {
+        return $this->role === 'user';
+    }
+
+    //Foreign key
+    public function order()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function review()
+    {
+        return $this->hasMany(Review::class);
     }
 }
