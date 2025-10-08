@@ -42,9 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         </td>`;
                     tbody.appendChild(row);
                 });
-
-                // Rebind lại sự kiện edit nếu cần
-                bindEditButtons(); // bạn cần định nghĩa lại bindEditButtons()
             }
         } catch (err) {
             console.error("Lỗi tìm kiếm:", err);
