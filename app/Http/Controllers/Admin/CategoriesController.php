@@ -49,7 +49,7 @@ class CategoriesController extends Controller
 
         return response()->json($category);
     }
-    
+
     public function destroy($id)
     {
         // Find the category by ID and delete it
@@ -58,4 +58,16 @@ class CategoriesController extends Controller
 
         return response()->json(['success' => true]);
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        $categories = Category::where('name', 'LIKE', "%{$query}%")
+                          ->orWhere('description', 'LIKE', "%{$query}%")
+                          ->get();
+
+        return response()->json($categories);
+    }
+
 }
