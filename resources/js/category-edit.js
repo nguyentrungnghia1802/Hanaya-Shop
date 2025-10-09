@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             document.getElementById("category_id").value = id;
             document.getElementById("name-edit").value = name;
-            document.getElementById("description-edit").value = description;
+            editorInstance.setData(description);
 
             form.classList.remove("hidden");
             overlay.classList.remove("hidden");
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const id = document.getElementById("category_id").value;
         const name = document.getElementById("name-edit").value;
-        const description = document.getElementById("description-edit").value;
+        const description = editorInstance.getData();
 
         const urlTemplate = form.getAttribute("data-url");
         const url = urlTemplate.replace("__ID__", id);
@@ -72,8 +72,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (row) {
                     row.querySelector("td:nth-child(2)").textContent =
                         data.name;
-                    row.querySelector("td:nth-child(3)").textContent =
-                        data.description ?? "";
                 }
 
                 // Ẩn form và overlay
