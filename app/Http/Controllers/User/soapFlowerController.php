@@ -14,7 +14,7 @@ class soapFlowerController extends Controller
         $products = Product::orderBy('created_at', 'desc')->paginate(12);
 
         // Trả về view với biến $products
-        return view('user.soapFlower', compact('products'));
+        return view('page.soapFlower', compact('products'));
     }
 
     public function show($id)
@@ -26,6 +26,6 @@ class soapFlowerController extends Controller
         $products = Product::orderBy('created_at', 'desc')->paginate(12);
 
         // Trả về cùng view nhưng có thêm biến $product
-        return view('user.soapFlower', compact('products', 'product'));
+        return view('page.soapFlower', compact('products', 'product'));
     }
 }
