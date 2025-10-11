@@ -1,66 +1,96 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🌸 Hanaya Shop - Website Bán Hoa Online
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**Hanaya Shop** là một ứng dụng web bán hoa online được xây dựng nhằm hỗ trợ người dùng dễ dàng lựa chọn, đặt mua và thanh toán các sản phẩm hoa tươi thông qua giao diện web hiện đại, tiện lợi và tối ưu trải nghiệm người dùng.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🎯 Mục Tiêu Dự Án
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Xây dựng nền tảng thương mại điện tử đơn giản cho các cửa hàng hoa.
+- Quản lý sản phẩm (hoa), giỏ hàng và đơn hàng hiệu quả.
+- Tích hợp giao diện quản trị cho admin.
+- Triển khai hoàn toàn bằng **Docker**, không cần chỉnh `.env`, giúp dễ dàng cấu hình môi trường.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 🌟 Tính Năng Chính
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 👤 Dành cho Khách hàng
+- Xem danh sách sản phẩm hoa, lọc theo loại hoa / dịp / giá.
+- Xem chi tiết sản phẩm, hình ảnh, giá cả.
+- Thêm sản phẩm vào giỏ hàng và tạo đơn hàng.
+- Xem lịch sử mua hàng *(nếu đã đăng ký tài khoản)*.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 🛠️ Dành cho Quản trị viên (Admin)
+- Quản lý danh mục hoa.
+- CRUD sản phẩm: thêm, sửa, xóa, bật/tắt hiển thị.
+- Quản lý đơn hàng: xác nhận, huỷ, cập nhật trạng thái.
+- Quản lý khách hàng.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## 🛠️ Công Nghệ Sử Dụng
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- **PHP 8.2**, **Laravel 12.2** – Backend API và hệ thống quản lý.
+- **MySQL** – Lưu trữ dữ liệu sản phẩm, người dùng, đơn hàng.
+- **Blade template** Dùng giao diện server-side
+- **Docker Compose** – Triển khai môi trường Laravel + MySQL nhanh chóng.
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## 🗂️ Cấu Trúc Dự Án
+hanaya-shop/
+├── app/
+│   ├── Http/                   # Controller, Middleware, Request
+│   ├── Models/                 # Các model chia theo module nghiệp vụ
+│   │   ├── Cart/               # Mô hình giỏ hàng
+│   │   ├── Offer/              # Mô hình ưu đãi, giảm giá
+│   │   ├── Order/              # Mô hình đơn hàng
+│   │   ├── Product/            # Mô hình sản phẩm (hoa)
+│   │   └── User.php            # Mô hình người dùng (authentication)
+│   └── Providers/              # Service providers của Laravel
+│
+├── bootstrap/                  # Khởi tạo ứng dụng Laravel
+│   └── cache/                  # Cache bootstrap
+│
+├── config/                     # Các file cấu hình hệ thống
+│   ├── app.php                 # Thông tin app, timezone, locale
+│   ├── auth.php                # Xác thực người dùng
+│   ├── database.php            # Kết nối CSDL
+│   └── ...                     # Các cấu hình khác (mail, queue, session,...)
+│
+├── database/
+│   ├── factories/              # Tạo dữ liệu mẫu tự động
+│   ├── migrations/             # Quản lý cấu trúc bảng dữ liệu
+│   └── seeders/                # Thêm dữ liệu mẫu (sản phẩm, user, đơn hàng...)
+│
+├── public/
+│   ├── build/                  # Asset frontend (nếu có Vite/build)
+│   ├── images/                 # Hình ảnh tĩnh (hoa, banner)
+│   ├── .htaccess               # Rewrite cho Apache
+│   ├── favicon.ico             # Icon trình duyệt
+│   ├── hot                     # (dev) HMR indicator
+│   ├── index.php               # Entry point chính
+│   └── robots.txt              # SEO config
+│
+├── resources/
+│   ├── css/                    # File CSS thuần
+│   ├── js/                     # JavaScript (nếu không dùng frontend tách riêng)
+│   └── views/                  # Giao diện Blade (nếu dùng server-side rendering)
+│
+├── routes/
+│   ├── web.php                 # Tuyến web (giao diện)
+│   └── api.php                 # API (cho frontend hoặc app mobile)
+│
+├── storage/                    # File upload, logs, cache,...
+│
+├── tests/                      # Unit test và feature test
+│
+├── .env                        # Cấu hình môi trường (Docker override)
+├── artisan                     # CLI của Laravel
+├── composer.json              # Quản lý package PHP
+├── Dockerfile                 # Docker build Laravel app
+├── docker-compose.yml         # Docker setup Laravel + MySQL
+├── database.sqlite            # Tùy chọn: SQLite cho phát triển nhanh
+└── README.md                  # Tài liệu mô tả dự án
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

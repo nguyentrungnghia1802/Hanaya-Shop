@@ -5,6 +5,8 @@ namespace App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Order\OrderDetail;
+use App\Models\Product\Category;
+use App\Models\Cart\Cart;
 
 
 class Product extends Model
