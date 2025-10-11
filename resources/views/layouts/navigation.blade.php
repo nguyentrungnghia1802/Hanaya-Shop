@@ -33,6 +33,9 @@
                     <x-nav-link :href="route('souvenir')" :active="request()->routeIs('souvenir')">
                         {{ __('Souvenir Gift') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('cart.index')" :active="request()->routeIs('cart')">
+                        {{ __('Cart') }}
+                    </x-nav-link>
                 </div>
             </div>
 

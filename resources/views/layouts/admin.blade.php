@@ -32,4 +32,39 @@
         </main>
     </div>
 </body>
+
+<!-- Load TinyMCE từ CDN -->
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+
+
+<script>
+    ClassicEditor
+    .create(document.querySelector('.description'), {
+      toolbar: [
+        'undo', 'redo',
+        '|', 'bold', 'italic', 'underline',
+        '|', 'bulletedList', 'numberedList',
+        '|', 'alignment',
+        '|', 'link',
+        '|', 'removeFormat'
+      ]
+    }).then(editor => {
+      editorInstance = editor;
+    })
+    .catch(error => {
+      console.error(error);
+    });
+    
+    // xử lí khi chọn ảnh
+    document.getElementById('imageInput').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('previewImage').src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
 </html>
