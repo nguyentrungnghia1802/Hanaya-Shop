@@ -38,10 +38,12 @@
                                 <td class="px-4 py-2 border-b">{{ $item->stock_quantity }}</td>
                                 <td class="px-4 py-2 border-b">{{ $item->category->name }}</td>
                                 <td class="px-4 py-2 border-b space-x-2">
-                                    <button
-                                       class="inline-block px-3 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition">
-                                       Edit
-                                    </button>
+                                    <a
+                                    id="btn-edit"
+                                    href="{{ route('admin.product.edit', $item->id) }}"
+                                    class="inline-block px-3 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition btn-edit">
+                                    Edit
+                                 </a>
                                     <button
                                         class="inline-block px-3 py-1 bg-red-500 text-white text-xs font-medium rounded hover:bg-red-600 transition">                                 
                                         Delete

@@ -13,7 +13,7 @@ class ProductsController extends Controller
     public function index()
     {
         $products = Product::all(); // Assuming you have a Product model
-        return view('admin.products.index',[
+        return view('admin.products.index', [
             'products' => $products,
 
         ]);
@@ -26,7 +26,7 @@ class ProductsController extends Controller
             'categories' => $categories,
         ]);
     }
-    public function store(Request $request) 
+    public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -58,5 +58,48 @@ class ProductsController extends Controller
         } else {
             return back()->with('error', 'Lưu sản phẩm thất bại!');
         }
+    }
+    public function edit($id)
+    {
+        $product = Product::findOrFail($id);
+        $categories = Category::all();
+        return view('admin.products.edit', [
+            'product' => $product,
+            'categories' => $categories,
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'descriptions' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'stock_quantity' => 'required|integer|min:0',
+            'image_url' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'category_id' => 'required|exists:categories,id',
+        ]);
+
+        $product = Product::findOrFail($id);
+        $product->name = $request->input('name');
+        $product->descriptions = $request->input('descriptions');
+        $product->price = $request->input('price');
+        $product->stock_quantity = $request->input('stock_quantity');
+        $product->category_id = $request->input('category_id');
+
+        if ($request->hasFile('image_url')) {
+            // Xóa ảnh cũ nếu không phải ảnh mặc định
+            if ($product->image_url && $product->image_url !== 'base.jpg' && file_exists(public_path('images/' . $product->image_url))) {
+                unlink(public_path('images/' . $product->image_url));
+            }
+            $image = $request->file('image_url');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+            $product->image_url = $imageName;
+        }
+
+        $product->save();
+
+        return redirect()->route('admin.product')->with('success', 'Product updated successfully!');
     }
 }
