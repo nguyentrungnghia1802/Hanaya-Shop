@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product\Category; // Assuming you have a Category model
+use Illuminate\Support\Facades\Log;
 
 class CategoriesController extends Controller
 {
