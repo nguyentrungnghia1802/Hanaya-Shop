@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
 use App\Models\Order\Order;
 use App\Models\Cart\Cart;
 
@@ -12,9 +13,12 @@ class UsersController extends Controller
 {
     public function index()
     {
-        $users = User::where('role', 'user')->get();
+        $users = Cache::remember('admin_users_all', 600, function () {
+            return User::where('role', 'user')->get();
+        });
         return view('admin.users.index', compact('users'));
     }
+
 
     public function create()
     {
@@ -37,6 +41,7 @@ class UsersController extends Controller
                 'role' => 'user',
             ]);
         }
+        Cache::forget('admin_users_all');
         return redirect()->route('admin.user')->with('success', 'Tạo tài khoản thành công!');
     }
 
@@ -60,6 +65,7 @@ class UsersController extends Controller
             $user->password = bcrypt($request->password);
         }
         $user->save();
+        Cache::forget('admin_users_all');
         return redirect()->route('admin.user')->with('success', 'Cập nhật tài khoản thành công!');
     }
 
@@ -68,7 +74,11 @@ class UsersController extends Controller
         $ids = $request->input('ids', []);
         if (!is_array($ids)) $ids = [$ids];
         User::where('role', 'user')->whereIn('id', $ids)->delete();
-        return response()->json(['success' => true]);
+        Cache::forget('admin_users_all');
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json(['success' => true]);
+        }
+        return redirect()->route('admin.user')->with('success', 'Xóa tài khoản thành công!');
     }
 
     public function show($id)

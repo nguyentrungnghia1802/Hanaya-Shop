@@ -22,4 +22,9 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+
+    ExpiresActive On
+    <FilesMatch "^fixed_resources/.*\.(jpg|jpeg|png|svg|webp)$">
+        ExpiresDefault "access plus 1 year"
+    </FilesMatch>
 </IfModule>
