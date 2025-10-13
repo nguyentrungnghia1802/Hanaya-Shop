@@ -75,7 +75,6 @@ Route::middleware(['auth', IsAdmin::class])->prefix(prefix: 'admin')->name('admi
     
     Route::get('/category/{id}', [CategoriesController::class, 'show'])->name('category.show');
     Route::delete('/category/{id}', [CategoriesController::class, 'destroy'])->name('category.destroy');
-    Route::put('/category/{id}', [CategoriesController::class, 'update'])->name('category.update');
     Route::get('/category/search', [CategoriesController::class, 'search'])->name('category.search');
 
 
