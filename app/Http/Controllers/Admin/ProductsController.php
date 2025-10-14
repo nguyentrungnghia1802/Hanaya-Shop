@@ -200,4 +200,28 @@ class ProductsController extends Controller
             'product' => $product,
         ]);
     }
+
+    public function search(Request $request)
+    {
+        $query = trim($request->input('query', ''));
+
+        $products = Product::with('category')
+            ->where(function ($q) use ($query) {
+                // Tìm chính xác cụm từ trong name hoặc descriptions (không tách từ)
+                $q->where('name', 'LIKE', "%{$query}%")
+                    ->orWhere('descriptions', 'LIKE', "%{$query}%");
+            })
+            ->get();
+
+        // Nếu nhập nhiều từ, chỉ trả về sản phẩm chứa đúng cụm từ
+        if (str_word_count($query) > 1) {
+            $products = $products->filter(function ($item) use ($query) {
+                return stripos($item->name, $query) !== false || stripos($item->descriptions, $query) !== false;
+            });
+        }
+
+        $html = view('admin.products.partials.table_rows', compact('products'))->render();
+
+        return response()->json(['html' => $html]);
+    }
 }

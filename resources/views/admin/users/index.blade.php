@@ -111,7 +111,7 @@
             // Delete multiple selected users
             document.getElementById('btn-delete-multi').addEventListener('click', function() {
                 const ids = Array.from(document.querySelectorAll('.check-user:checked')).map(cb => cb
-                .value);
+                    .value);
                 if (ids.length === 0) return alert('Please select at least one account to delete!');
                 if (confirm('Are you sure you want to delete the selected accounts?')) {
                     fetch('{{ route('admin.user.destroy') }}', {
@@ -131,30 +131,18 @@
 
             // Search filter: show/hide rows based on input
             document.getElementById('searchInput').addEventListener('input', function() {
-    const keyword = this.value.trim().toLowerCase();
-    const rows = document.querySelectorAll('table tbody tr');
-
-    rows.forEach(row => {
-        const tds = row.querySelectorAll('td');
-        if (tds.length < 5) {
-            row.style.display = 'none';
-            return;
-        }
-        const id = (tds[1].innerText || '').trim().toLowerCase();
-        const name = (tds[2].innerText || '').trim().toLowerCase();
-        const email = (tds[3].innerText || '').trim().toLowerCase();
-
-        if (
-            id.includes(keyword) ||
-            name.includes(keyword) ||
-            email.includes(keyword)
-        ) {
-            row.style.display = '';
-        } else {
-            row.style.display = 'none';
-        }
-    });
-});
+                const keyword = this.value.trim();
+                fetch('{{ route('admin.user.search') }}?query=' + encodeURIComponent(keyword), {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        document.querySelector('table tbody').innerHTML = data.html;
+                        bindDeleteButtons(); // Re-bind delete buttons after table update
+                    });
+            });
         });
     </script>
 @endsection
