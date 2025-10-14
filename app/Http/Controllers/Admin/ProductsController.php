@@ -205,19 +205,22 @@ class ProductsController extends Controller
     {
         $query = trim($request->input('query', ''));
 
-        $products = Product::with('category')
-            ->where(function ($q) use ($query) {
-                // Tìm chính xác cụm từ trong name hoặc descriptions (không tách từ)
-                $q->where('name', 'LIKE', "%{$query}%")
-                    ->orWhere('descriptions', 'LIKE', "%{$query}%");
-            })
-            ->get();
+        if (empty($query)) {
+            $products = Product::with('category')->get();
+        } else {
+            // Tách từ khóa thành các từ riêng biệt
+            $keywords = preg_split('/\s+/', $query);
 
-        // Nếu nhập nhiều từ, chỉ trả về sản phẩm chứa đúng cụm từ
-        if (str_word_count($query) > 1) {
-            $products = $products->filter(function ($item) use ($query) {
-                return stripos($item->name, $query) !== false || stripos($item->descriptions, $query) !== false;
-            });
+            $products = Product::with('category')
+                ->where(function ($q) use ($keywords) {
+                    foreach ($keywords as $keyword) {
+                        $q->where(function ($subQuery) use ($keyword) {
+                            $subQuery->where('name', 'LIKE', "%{$keyword}%")
+                                ->orWhere('descriptions', 'LIKE', "%{$keyword}%");
+                        });
+                    }
+                })
+                ->get();
         }
 
         $html = view('admin.products.partials.table_rows', compact('products'))->render();
