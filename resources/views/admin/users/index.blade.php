@@ -17,8 +17,12 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <!-- Search input field -->
-                    <input type="text" id="searchInput" placeholder="Search for a user..."
-                        class="border px-3 py-2 rounded mb-4 w-full max-w-sm">
+                    <form id="userSearchForm" class="flex gap-2 mb-4 max-w-sm">
+                        <input type="text" id="searchInput" placeholder="Search for a user..."
+                            class="border px-3 py-2 rounded w-full" autocomplete="off">
+                        <button type="submit"
+                            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 rounded">Search</button>
+                    </form>
 
                     <!-- Action buttons -->
                     <div class="mb-4 flex flex-wrap gap-2">
@@ -80,16 +84,40 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Toggle all checkboxes
-            document.getElementById('checkAll').addEventListener('change', function() {
-                document.querySelectorAll('.check-user').forEach(cb => cb.checked = this.checked);
-            });
+                    // Toggle all checkboxes
+                    document.getElementById('checkAll').addEventListener('change', function() {
+                        document.querySelectorAll('.check-user').forEach(cb => cb.checked = this.checked);
+                    });
 
-            // Delete a single user
-            function bindDeleteButtons() {
-                document.querySelectorAll('.btn-delete').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        if (confirm('Are you sure you want to delete this account?')) {
+                    // Delete a single user
+                    function bindDeleteButtons() {
+                        document.querySelectorAll('.btn-delete').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                if (confirm('Are you sure you want to delete this account?')) {
+                                    fetch('{{ route('admin.user.destroy') }}', {
+                                        method: 'DELETE',
+                                        headers: {
+                                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({
+                                            ids: [this.dataset.id]
+                                        })
+                                    }).then(res => res.json()).then(data => {
+                                        if (data.success) location.reload();
+                                    });
+                                }
+                            });
+                        });
+                    }
+                    bindDeleteButtons();
+
+                    // Delete multiple selected users
+                    document.getElementById('btn-delete-multi').addEventListener('click', function() {
+                        const ids = Array.from(document.querySelectorAll('.check-user:checked')).map(cb => cb
+                        .value);
+                        if (ids.length === 0) return alert('Please select at least one account to delete!');
+                        if (confirm('Are you sure you want to delete the selected accounts?')) {
                             fetch('{{ route('admin.user.destroy') }}', {
                                 method: 'DELETE',
                                 headers: {
@@ -97,52 +125,28 @@
                                     'Content-Type': 'application/json'
                                 },
                                 body: JSON.stringify({
-                                    ids: [this.dataset.id]
+                                    ids
                                 })
                             }).then(res => res.json()).then(data => {
                                 if (data.success) location.reload();
                             });
                         }
                     });
-                });
-            }
-            bindDeleteButtons();
 
-            // Delete multiple selected users
-            document.getElementById('btn-delete-multi').addEventListener('click', function() {
-                const ids = Array.from(document.querySelectorAll('.check-user:checked')).map(cb => cb
-                    .value);
-                if (ids.length === 0) return alert('Please select at least one account to delete!');
-                if (confirm('Are you sure you want to delete the selected accounts?')) {
-                    fetch('{{ route('admin.user.destroy') }}', {
-                        method: 'DELETE',
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            ids
-                        })
-                    }).then(res => res.json()).then(data => {
-                        if (data.success) location.reload();
+                    // Search filter: AJAX search users
+                    document.getElementById('userSearchForm').addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        const keyword = document.getElementById('searchInput').value.trim();
+                        fetch('{{ route('admin.user.search') }}?query=' + encodeURIComponent(keyword), {
+                                headers: {
+                                    'X-Requested-With': 'XMLHttpRequest'
+                                }
+                            })
+                            .then(res => res.json())
+                            .then(data => {
+                                document.querySelector('table tbody').innerHTML = data.html;
+                                bindDeleteButtons();
+                            });
                     });
-                }
-            });
-
-            // Search filter: show/hide rows based on input
-            document.getElementById('searchInput').addEventListener('input', function() {
-                const keyword = this.value.trim();
-                fetch('{{ route('admin.user.search') }}?query=' + encodeURIComponent(keyword), {
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest'
-                        }
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        document.querySelector('table tbody').innerHTML = data.html;
-                        bindDeleteButtons(); // Re-bind delete buttons after table update
-                    });
-            });
-        });
     </script>
 @endsection
