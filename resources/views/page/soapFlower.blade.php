@@ -41,7 +41,7 @@
             @foreach ($products as $productItem)
                 <div class="bg-white rounded shadow hover:shadow-xl overflow-hidden transition">
                     <div class="relative">
-                        <img src="{{ $productItem->image_url }}" class="w-full h-48 object-cover"
+                        <img src="{{ asset('images/' . $productItem->image_url) }}" class="w-full h-48 object-cover"
                             alt="{{ $productItem->name }}">
                         <span class="absolute top-2 left-2 bg-red-600 text-white text-xs px-2 py-1 rounded">
                             Giảm {{ rand(5, 20) }}%
