@@ -25,3 +25,6 @@ yarn-debug.log
 # OS Specific
 .DS_Store
 Thumbs.db
+
+# host address
+public/hot
