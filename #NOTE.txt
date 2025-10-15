@@ -5,8 +5,12 @@ php artisan serve --host=0.0.0.0 --port=8000
 3, Tạo file mới:
 php artisan make:view layouts.slider
 
+# CMD
+4. Reset Migrations
+php artisan migrate:reset
 
-
+5. Run seeder
+php artisan db:seed
 
 *************************
 
