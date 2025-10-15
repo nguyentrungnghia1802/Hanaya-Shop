@@ -63,7 +63,7 @@
                                         id="viewBtn"
                                         class="inline-block px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition btn-view"
                                         data-id="{{ $item->id }}"
-                                         data-url="{{ route('admin.category.show', $item->id) }}">
+                                        data-url="{{ route('admin.category.show', $item->id) }}">
                                         view
                                     </button>
                                 </td>
@@ -76,58 +76,116 @@
         </div>
     </div>
 
-<div id="categoryDetail" class="hidden fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
-    bg-white shadow-lg rounded-lg p-6 z-50 w-full max-w-xl">
-    <h2 class="text-xl font-bold mb-4">Thông tin loại hoa</h2>
-    <p><strong>ID:</strong> <span id="view-id"></span></p>
-    <p><strong>Tên:</strong> <span id="view-name"></span></p>
-    <p><strong>Mô tả:</strong></p>
-    <div id="view-description" class="border p-2 rounded bg-gray-50 mb-4"></div>
-    <p><strong>Ảnh:</strong></p>
-    <img id="view-image" src="" alt="Ảnh loại hoa" class="w-48 h-auto border rounded">
-    <div class="mt-4 text-right">
-        <button id="closeDetail" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
-            Đóng
-        </button>
+    <!-- Modal hiển thị thông tin loại hoa -->
+<div id="categoryDetail" class="hidden fixed inset-0 flex items-center justify-center z-50">
+    <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-xl relative">
+        <h2 class="text-xl font-bold mb-4">Thông tin loại hoa</h2>
+        
+        <p><strong>ID:</strong> <span id="view-id" class="text-gray-700"></span></p>
+        <p><strong>Tên:</strong> <span id="view-name" class="text-gray-700"></span></p>
+        
+        <p class="mt-2"><strong>Mô tả:</strong></p>
+        <div id="view-description" class="border p-3 rounded bg-gray-50 text-sm text-gray-800 max-h-[300px] overflow-y-auto"></div>
+        
+        <p class="mt-4"><strong>Ảnh:</strong></p>
+        <img id="view-image" src="" alt="Ảnh loại hoa" class="w-48 h-auto mt-2 border rounded">
+
+        <!-- Nút đóng -->
+        <button id="closeDetail" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-lg">&times;</button>
     </div>
 </div>
 
 <!-- Nền mờ -->
 <div id="overlay" class="fixed inset-0 bg-black bg-opacity-40 z-40 hidden"></div>
-    
+
 <script>
 document.querySelectorAll('.btn-view').forEach(button => {
     button.addEventListener('click', function () {
-        const categoryId = this.getAttribute('data-id');
+        const id = this.dataset.id;
 
-        fetch(`/admin/category/${id}`) // Route cần trả về JSON
+        fetch(`/admin/category/${id}`)
             .then(response => response.json())
             .then(data => {
-                // Hiển thị dữ liệu vào form
                 document.getElementById('view-id').textContent = data.id;
                 document.getElementById('view-name').textContent = data.name;
-
-                // CHÚ Ý: sử dụng innerHTML để render thẻ HTML trong description
-                document.getElementById('view-description').innerHTML = data.description || '(Không có mô tả)';
-
-                document.getElementById('view-image').src = data.image_path 
-                    ? `/images/${data.image_path}` 
-                    : '/images/base.jpg';
+                document.getElementById('view-description').innerHTML = data.description || '<em>Không có mô tả</em>';
+                document.getElementById('view-image').src = data.image_path;
 
                 document.getElementById('categoryDetail').classList.remove('hidden');
                 document.getElementById('overlay').classList.remove('hidden');
             })
             .catch(error => {
-                console.error('Lỗi khi fetch category:', error);
+                console.error('Lỗi khi tải thông tin:', error);
             });
     });
 });
 
-// Đóng form
 document.getElementById('closeDetail').addEventListener('click', function () {
     document.getElementById('categoryDetail').classList.add('hidden');
     document.getElementById('overlay').classList.add('hidden');
 });
+
+document.getElementById('searchInput').addEventListener('input', function () {
+    const keyword = this.value.toLowerCase();
+    const rows = document.querySelectorAll('table tbody tr');
+
+    rows.forEach(row => {
+        const id = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+        const name = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+
+        if (id.includes(keyword) || name.includes(keyword)) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const tableBody = document.querySelector("table tbody");
+
+    tableBody.addEventListener("click", async function (e) {
+        const deleteBtn = e.target.closest(".btn-delete");
+
+        if (deleteBtn) {
+            e.preventDefault();
+
+            const id = deleteBtn.dataset.id;
+            const url = deleteBtn.dataset.url;
+
+            if (confirm("Bạn có chắc chắn muốn xóa?")) {
+                try {
+                    const response = await fetch(url, {
+                        method: "DELETE",
+                        headers: {
+                            "X-CSRF-TOKEN": document.querySelector(
+                                'meta[name="csrf-token"]'
+                            ).content,
+                            Accept: "application/json",
+                        },
+                    });
+
+                    if (response.ok) {
+                        const row = deleteBtn.closest("tr");
+                        row.remove();
+
+                        const successMsg =
+                            document.getElementById("successMsg-delete");
+                        successMsg.classList.remove("hidden");
+                        setTimeout(() => {
+                            successMsg.classList.add("hidden");
+                        }, 3000);
+                    } else {
+                        console.error("Xóa thất bại");
+                    }
+                } catch (err) {
+                    console.error("Lỗi khi xóa danh mục:", err);
+                }
+            }
+        }
+    });
+});
+
 </script>
 
 @endsection
