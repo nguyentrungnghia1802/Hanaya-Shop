@@ -1,14 +1,12 @@
 @extends('layouts.admin')
 
 @section('header')
-    <!-- Page header -->
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
         {{ __('Users') }}
     </h2>
 @endsection
 
 @section('content')
-    <!-- Success message alert -->
     <div id="successMsg"
         class="hidden fixed bottom-5 right-5 bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded mb-4">
         Operation successful!
@@ -18,6 +16,14 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
+                    <!-- Search input field -->
+                    <form id="userSearchForm" class="flex gap-2 mb-4 max-w-sm">
+                        <input type="text" id="searchUserInput" placeholder="Search for a user..."
+                            class="border px-3 py-2 rounded w-full" autocomplete="off">
+                        <button type="submit"
+                            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 rounded">Search</button>
+                    </form>
+
                     <!-- Action buttons -->
                     <div class="mb-4 flex flex-wrap gap-2">
                         <a href="{{ route('admin.user.create') }}"
@@ -76,33 +82,38 @@
         </div>
     </div>
 
-    <!-- JavaScript for delete actions -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Function to bind all user table events
+            function bindUserTableEvents() {
+                // Bind delete buttons
+                document.querySelectorAll('.btn-delete').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        if (confirm('Are you sure you want to delete this account?')) {
+                            fetch('{{ route('admin.user.destroy') }}', {
+                                method: 'DELETE',
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    ids: [this.dataset.id]
+                                })
+                            }).then(res => res.json()).then(data => {
+                                if (data.success) location.reload();
+                            });
+                        }
+                    });
+                });
+            }
+
             // Toggle all checkboxes
             document.getElementById('checkAll').addEventListener('change', function() {
                 document.querySelectorAll('.check-user').forEach(cb => cb.checked = this.checked);
             });
 
-            // Delete a single user
-            document.querySelectorAll('.btn-delete').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    if (confirm('Are you sure you want to delete this account?')) {
-                        fetch('{{ route('admin.user.destroy') }}', {
-                            method: 'DELETE',
-                            headers: {
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                ids: [this.dataset.id]
-                            })
-                        }).then(res => res.json()).then(data => {
-                            if (data.success) location.reload();
-                        });
-                    }
-                });
-            });
+            // Bind events on initial load
+            bindUserTableEvents();
 
             // Delete multiple selected users
             document.getElementById('btn-delete-multi').addEventListener('click', function() {
@@ -115,11 +126,32 @@
                             'X-CSRF-TOKEN': '{{ csrf_token() }}',
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({ ids })
+                        body: JSON.stringify({
+                            ids
+                        })
                     }).then(res => res.json()).then(data => {
                         if (data.success) location.reload();
                     });
                 }
+            });
+
+            // Search filter: AJAX search users
+            document.getElementById('userSearchForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const keyword = document.getElementById('searchUserInput').value.trim();
+                fetch('{{ route('admin.user.search') }}?query=' + encodeURIComponent(keyword), {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        document.querySelector('table tbody').innerHTML = data.html;
+                        bindUserTableEvents(); // Rebind events after search
+                    })
+                    .catch(error => {
+                        console.error('Error searching users:', error);
+                    });
             });
         });
     </script>

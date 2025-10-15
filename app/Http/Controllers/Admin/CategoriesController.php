@@ -12,11 +12,11 @@ class CategoriesController extends Controller
 {
     /**
      * Display a list of all categories.
-     * Data is cached for 10 minutes to reduce database load.
+     * Data is cached for 60 minutes to reduce database load.
      */
     public function index()
     {
-        $categories = Cache::remember('admin_categories_all', 600, function () {
+        $categories = Cache::remember('admin_categories_all', 3600, function () {
             return Category::all();
         });
 
@@ -151,13 +151,15 @@ class CategoriesController extends Controller
      */
     public function search(Request $request)
     {
-        $query = $request->input('query');
+        $query = $request->input('query', '');
 
         $categories = Category::where('name', 'LIKE', "%{$query}%")
             ->orWhere('description', 'LIKE', "%{$query}%")
             ->get();
 
-        return response()->json($categories);
+        $html = view('admin.categories.partials.table_rows', compact('categories'))->render();
+
+        return response()->json(['html' => $html]);
     }
 
     /**

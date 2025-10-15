@@ -28,3 +28,8 @@ yarn-debug.log
 # OS Specific
 .DS_Store
 Thumbs.db
+
+#Copilot
+.github/
+# host address
+public/hot
