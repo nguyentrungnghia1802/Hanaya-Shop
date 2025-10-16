@@ -16,10 +16,8 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        $categories = Cache::remember('admin_categories_all', 3600, function () {
-            return Category::all();
-        });
-
+        // Không dùng cache cho phân trang
+        $categories = Category::paginate(20); // 20 category mỗi trang
         return view('admin.categories.index', [
             'categories' => $categories,
         ]);
