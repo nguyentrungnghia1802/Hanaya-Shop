@@ -4,6 +4,7 @@ namespace Database\Factories\Product;
 
 use App\Models\Product\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Nette\Utils\Random;
 
 class ProductFactory extends Factory
 {
@@ -19,7 +20,7 @@ class ProductFactory extends Factory
             'image_url' => $this->faker->imageUrl(640, 480, 'flowers', true, 'Soap Flower'),
             'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
             'updated_at' => now(), // Thêm dòng này
-            'category_id' => 1, // hoặc random nếu có nhiều category
+            'category_id' => $this->faker->numberBetween(10, 16), // random category_id between 1 and 10
         ];
     }
 }
