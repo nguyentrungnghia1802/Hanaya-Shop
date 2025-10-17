@@ -24,6 +24,9 @@
                     <x-nav-link :href="route('souvenir')" :active="request()->routeIs('souvenir*')">
                         {{ __('Souvenir Gift') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts*')">
+                        {{ __('Bài viết') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('cart.index')" :active="request()->routeIs('cart*')">
                         {{ __('Cart') }}
                     </x-nav-link>
@@ -137,6 +140,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('souvenir')" :active="request()->routeIs('souvenir*')">
                 {{ __('Souvenir Gift') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('posts.index')" :active="request()->routeIs('posts*')">
+                {{ __('Bài viết') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('cart.index')" :active="request()->routeIs('cart*')">
                 {{ __('Cart') }}
