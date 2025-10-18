@@ -20,7 +20,7 @@ class UsersController extends Controller
     public function index()
     {
         // Không dùng cache cho phân trang
-        $users = User::where('role', 'user')->paginate(20); // 20 user mỗi trang
+        $users = User::paginate(20); // 20 user mỗi trang
         return view('admin.users.index', compact('users'));
     }
 
@@ -50,15 +50,16 @@ class UsersController extends Controller
             'users.*.name' => 'required|string|max:255',
             'users.*.email' => 'required|email|unique:users,email',
             'users.*.password' => 'required|string|min:6',
+            'users.*.role' => 'required|in:user,admin,manager',
         ]);
 
         // Lặp qua từng người dùng và tạo tài khoản
-        foreach ($request->users as $userData) {
+        foreach ($request->input('users') as $userData) {
             User::create([
                 'name' => $userData['name'],
                 'email' => $userData['email'],
                 'password' => bcrypt($userData['password']),
-                'role' => 'user',
+                'role' => $userData['role'],
             ]);
         }
 
@@ -96,17 +97,19 @@ class UsersController extends Controller
         // Xác thực dữ liệu đầu vào
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            'email' => 'required|email|unique:users,email,' . $user->getKey(),
+            'role' => 'required|in:user,admin,manager',
             'password' => 'nullable|string|min:6',
         ]);
 
         // Cập nhật thông tin người dùng
-        $user->name = $request->name;
-        $user->email = $request->email;
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->role = $request->input('role');
 
         // Nếu có nhập mật khẩu mới thì cập nhật
-        if ($request->password) {
-            $user->password = bcrypt($request->password);
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->input('password'));
         }
 
         $user->save();
@@ -180,21 +183,22 @@ class UsersController extends Controller
         if ($users->count() > 0) {
             foreach ($users as $user) {
                 $html .= '<tr>
-                    <td class="px-4 py-2 border-b"><input type="checkbox" class="check-user" value="' . $user->id . '"></td>
-                    <td class="px-4 py-2 border-b">' . $user->id . '</td>
+                    <td class="px-4 py-2 border-b"><input type="checkbox" class="check-user" value="' . $user->getKey() . '"></td>
+                    <td class="px-4 py-2 border-b">' . $user->getKey() . '</td>
                     <td class="px-4 py-2 border-b">' . e($user->name) . '</td>
                     <td class="px-4 py-2 border-b">' . e($user->email) . '</td>
+                    <td class="px-4 py-2 border-b">' . e($user->role) . '</td>
                     <td class="px-4 py-2 border-b">
                         <div class="flex flex-wrap gap-2">
-                            <a href="' . route('admin.user.edit', $user->id) . '" class="px-3 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition">Edit</a>
-                            <button type="button" class="px-3 py-1 bg-red-500 text-white text-xs font-medium rounded hover:bg-red-600 transition btn-delete" data-id="' . $user->id . '">Delete</button>
-                            <a href="' . route('admin.user.show', $user->id) . '" class="px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">View Details</a>
+                            <a href="' . route('admin.user.edit', $user->getKey()) . '" class="px-3 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition">Edit</a>
+                            <button type="button" class="px-3 py-1 bg-red-500 text-white text-xs font-medium rounded hover:bg-red-600 transition btn-delete" data-id="' . $user->getKey() . '">Delete</button>
+                            <a href="' . route('admin.user.show', $user->getKey()) . '" class="px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">View Details</a>
                         </div>
                     </td>
                 </tr>';
             }
         } else {
-            $html = '<tr><td colspan="5" class="text-center py-4 text-gray-500">No users found.</td></tr>';
+            $html = '<tr><td colspan="6" class="text-center py-4 text-gray-500">No users found.</td></tr>';
         }
 
         return response()->json(['html' => $html]);
