@@ -23,7 +23,7 @@
                     <label class="block text-gray-700 font-bold mb-2">Ảnh</label>
                     <input type="file" name="image" id="imageInput" class="w-full px-4 py-2 border rounded">
                     @if($post->image)
-                        <img id="previewImage" src="{{ asset('storage/' . $post->image) }}" alt="Ảnh hiện tại" class="h-32 mt-2 rounded">
+                        <img id="previewImage" src="{{ asset('images/posts/' . $post->image) }}" alt="Ảnh hiện tại" class="h-32 mt-2 rounded">
                     @else
                         <img id="previewImage" src="#" alt="Preview" class="h-32 mt-2 rounded" style="display:none;">
                     @endif
