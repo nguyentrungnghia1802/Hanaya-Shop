@@ -60,7 +60,7 @@
                         <div class="p-4">
                             <h4 class="text-sm font-semibold">{{ $item->name }}</h4>
                             <p class="text-pink-600 font-bold">{{ number_format($item->price, 0, ',', '.') }}₫</p>
-                            <a href="{{ route('soapFlower.show', $item->id) }}" class="text-sm text-pink-500 hover:underline mt-2 inline-block">Xem chi tiết</a>
+                            <a href="{{ route('product.show', $item->id) }}" class="text-sm text-pink-500 hover:underline mt-2 inline-block">Xem chi tiết</a>
                         </div>
                     </div>
                 @endforeach
