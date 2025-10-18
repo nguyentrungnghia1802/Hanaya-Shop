@@ -13,7 +13,7 @@
         Action completed successfully!
     </div>
 
-    <div class="py-12">
+    <div class="py-12 px-2 sm:px-4">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
@@ -32,16 +32,17 @@
                     </a>
 
                     {{-- Product table --}}
+                    <div class="overflow-x-auto">
                     <table class="min-w-full table-auto border border-gray-300 text-sm">
                         <thead class="bg-gray-100 text-gray-700 uppercase text-left">
                             <tr>
-                                <th class="px-4 py-2 border-b">#</th>
-                                <th class="px-4 py-2 border-b">Name</th>
-                                <th class="px-4 py-2 border-b">Description</th>
-                                <th class="px-4 py-2 border-b">Price</th>
-                                <th class="px-4 py-2 border-b">Quantity</th>
-                                <th class="px-4 py-2 border-b">Category</th>
-                                <th class="px-4 py-2 border-b">Action</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">#</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">Name</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">Description</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">Price</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">Quantity</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">Category</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">Action</th>
                             </tr>
                         </thead>
                         <tbody class="text-gray-800">
@@ -90,6 +91,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>
