@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 use App\Models\Order\Order;
 use App\Models\Cart\Cart;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
@@ -20,7 +21,7 @@ class UsersController extends Controller
     public function index()
     {
         // Không dùng cache cho phân trang
-        $users = User::paginate(20); // 20 user mỗi trang
+        $users = User::where('id', '!=', Auth::id())->paginate(20); // 20 user mỗi trang, loại bỏ chính mình
         return view('admin.users.index', compact('users'));
     }
 
@@ -50,7 +51,7 @@ class UsersController extends Controller
             'users.*.name' => 'required|string|max:255',
             'users.*.email' => 'required|email|unique:users,email',
             'users.*.password' => 'required|string|min:6',
-            'users.*.role' => 'required|in:user,admin,manager',
+            'users.*.role' => 'required|in:user,admin',
         ]);
 
         // Lặp qua từng người dùng và tạo tài khoản
@@ -77,7 +78,10 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        $user = User::where('role', 'user')->findOrFail($id);
+        if ($id == Auth::id()) {
+            abort(403, 'Bạn không thể sửa chính mình.');
+        }
+        $user = User::findOrFail($id);
         return view('admin.users.edit', compact('user'));
     }
 
@@ -92,13 +96,16 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::where('role', 'user')->findOrFail($id);
+        if ($id == Auth::id()) {
+            abort(403, 'Bạn không thể cập nhật chính mình.');
+        }
+        $user = User::findOrFail($id);
 
         // Xác thực dữ liệu đầu vào
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->getKey(),
-            'role' => 'required|in:user,admin,manager',
+            'role' => 'required|in:user,admin',
             'password' => 'nullable|string|min:6',
         ]);
 
@@ -131,12 +138,10 @@ class UsersController extends Controller
     public function destroy(Request $request)
     {
         $ids = $request->input('ids', []);
-
-        // Đảm bảo $ids luôn là mảng
         if (!is_array($ids)) $ids = [$ids];
-
-        // Xóa người dùng với role = 'user' theo danh sách ID
-        User::where('role', 'user')->whereIn('id', $ids)->delete();
+        // Loại bỏ id của admin đang đăng nhập khỏi danh sách xóa
+        $ids = array_diff($ids, [Auth::id()]);
+        User::whereIn('id', $ids)->delete();
 
         // Làm mới cache
         Cache::forget('admin_users_all');
@@ -157,7 +162,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $user = User::where('role', 'user')->findOrFail($id);
+        $user = User::findOrFail($id);
 
         // Lấy danh sách đơn hàng
         $orders = $user->order()->get();
@@ -172,7 +177,7 @@ class UsersController extends Controller
     {
         $query = $request->input('query', '');
 
-        $users = User::where('role', 'user')
+        $users = User::where('id', '!=', Auth::id())
             ->where(function ($q) use ($query) {
                 $q->where('name', 'LIKE', "%{$query}%")
                     ->orWhere('email', 'LIKE', "%{$query}%");
