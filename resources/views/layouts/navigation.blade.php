@@ -6,11 +6,10 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <img src="{{ asset('fixed_resources/logo.jpg') }}" alt="Logo" class="h-9 w-auto" loading="lazy"
+                    <img src="{{ asset('fixed_resources/logo.png') }}" alt="Logo" class="h-9 w-auto" loading="lazy"
                         fetchpriority="high">
                     <a href="{{ route('dashboard') }}">
                         <p style="margin-left: 10px"> HANAYA SHOP </p>
-
                     </a>
                 </div>
 
@@ -94,7 +93,6 @@
                                 </div>
                             </button>
                         </x-slot>
-
                         <x-slot name="content">
                             <x-dropdown-link :href="route('register')">
                                 {{ __('Register') }}
