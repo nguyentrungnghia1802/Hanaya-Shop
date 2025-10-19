@@ -166,6 +166,9 @@
         });
     });
     </script>
+
+    <!-- Chatbot Component -->
+    <x-chatbot />
 </body>
 
 </html>

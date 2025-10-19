@@ -79,7 +79,21 @@
                         {{-- Stock quantity input --}}
                         <div>
                             <label for="stock_quantity" class="block text-sm font-medium text-gray-700 mb-1">Stock Quantity</label>
-                            <input type="number" name="stock_quantity" id="stock_quantity" required
+                            <input type="number" name="stock_quantity" id="stock_quantity" required min="0"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none">
+                        </div>
+
+                        {{-- Discount Percent --}}
+                        <div>
+                            <label for="discount_percent" class="block text-sm font-medium text-gray-700 mb-1">Discount Percent (%)</label>
+                            <input type="number" name="discount_percent" id="discount_percent" min="0" max="100" step="0.01" value="0"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none">
+                        </div>
+
+                        {{-- View Count --}}
+                        <div>
+                            <label for="view_count" class="block text-sm font-medium text-gray-700 mb-1">View Count</label>
+                            <input type="number" name="view_count" id="view_count" min="0" value="0"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none">
                         </div>
 
