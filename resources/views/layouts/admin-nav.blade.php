@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="h-9 w-auto">
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-9 w-auto">
 
                     <a href="{{ route('admin.dashboard') }}">
                         <p style="margin-left: 10px"> HANAYA SHOP </p>

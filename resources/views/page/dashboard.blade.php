@@ -15,21 +15,6 @@
             <p class="text-2xl font-semibold mb-4">Sản phẩm bán chạy</p>
             <x-home.slider :products="$topSeller" />
         </section>
-
-        <section class="p-6 m-8 rounded-xl bg-gray-300">
-            <p class="text-2xl font-semibold mb-4">Soap Flower</p>
-            <x-home.slider :products="$topSeller" /> <!--  -->
-        </section>
-
-        <section class="p-6 m-8 rounded-xl bg-gray-300">
-            <p class="text-2xl font-semibold mb-4">Paper Flower</p>
-            <x-home.slider :products="$topSeller" />
-        </section>
-
-        <section class="p-6 m-8 rounded-xl bg-gray-300">
-            <p class="text-2xl font-semibold mb-4">Souvenir Gift</p>
-            <x-home.slider :products="$topSeller" />
-        </section>
         
     </div>
 </x-app-layout>

@@ -10,7 +10,7 @@
             @endphp
 
             <div class="flex flex-wrap items-center gap-4">
-                <h1 class="text-xl font-bold text-white">Sắp xếp theo:</h1>
+                <h1 class="text-xl font-bold text-black">Sắp xếp theo:</h1>
 
                 <div class="flex flex-wrap gap-2">
                     <x-nav-link :href="route('soapFlower', ['sort' => 'desc'])" :active="$currentSort === 'desc'"
