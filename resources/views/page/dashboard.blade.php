@@ -27,7 +27,7 @@
             <!-- Products by Category Section -->
             @if(isset($latestByCategory) && count($latestByCategory) > 0)
             <section>
-                <x-category-products :categoryData="$latestByCategory" title="Sản phẩm mới nhất theo danh mục" />
+                <x-category-products :categoryData="$latestByCategory" title="Latest Products by Category" />
             </section>
             @endif
 
@@ -39,12 +39,12 @@
                             <svg class="w-8 h-8 mr-3 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                             </svg>
-                            Sản phẩm bán chạy nhất
+                            Best Selling Products
                         </h3>
-                        <p class="text-gray-600 mt-1">Top sản phẩm được yêu thích nhất</p>
+                        <p class="text-gray-600 mt-1">Top most loved products</p>
                     </div>
                     <a href="{{ route('user.products.index', ['sort' => 'bestseller']) }}" class="text-red-600 hover:text-red-800 font-medium flex items-center">
-                        Xem tất cả 
+                        View All 
                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                         </svg>
@@ -53,13 +53,13 @@
                 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     @foreach($topSeller as $product)
-                    <div class="bg-gray-50 rounded-lg p-4 hover:shadow-lg transition-shadow duration-300">
-                        <div class="relative mb-4">
-                            <div class="aspect-square w-full bg-white rounded-lg overflow-hidden">
+                    <div class="bg-gray-50 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 group">
+                        <div class="relative">
+                            <div class="aspect-square w-full bg-white overflow-hidden">
                                 <img 
-                                    src="{{ $product->image_url ? asset('storage/' . $product->image_url) : asset('images/no-image.png') }}" 
+                                    src="{{ asset('images/products/' . ($product->image_url ?? 'default-product.jpg')) }}" 
                                     alt="{{ $product->name }}"
-                                    class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                 >
                             </div>
                             @if($product->discount_percent > 0)
@@ -72,34 +72,54 @@
                                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                                 </svg>
                             </div>
+
+                            <!-- Quick Action Overlay -->
+                            <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <div class="flex gap-2">
+                                    <a href="{{ route('user.products.show', $product->id) }}" 
+                                       class="bg-white text-gray-800 p-2 rounded-full hover:bg-gray-100 transition-colors"
+                                       title="Quick View">
+                                        <i class="fas fa-eye w-4 h-4"></i>
+                                    </a>
+                                    <form id="add-to-cart-form" action="{{ route('cart.add', $product->id) }}" method="POST" class="w-full">
+                                        @csrf
+                                        <input type="hidden" name="quantity" id="form-quantity" value="1">
+                                        <button type="submit" class="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-colors duration-300 flex items-center justify-center" title="Add to Cart">
+                                            <i class="fas fa-shopping-cart mr-2"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                         
-                        <h4 class="font-semibold text-lg mb-2 line-clamp-2">{{ $product->name }}</h4>
-                        
-                        @if($product->discount_percent > 0)
-                        <div class="flex items-center mb-2">
-                            <span class="text-lg font-bold text-red-600">
-                                ${{ number_format($product->discounted_price, 2) }}
-                            </span>
-                            <span class="text-sm text-gray-500 line-through ml-2">
+                        <div class="p-4">
+                            <h4 class="font-semibold text-lg mb-2 line-clamp-2">{{ $product->name }}</h4>
+                            
+                            @if($product->discount_percent > 0)
+                            <div class="flex items-center mb-2">
+                                <span class="text-lg font-bold text-red-600">
+                                    ${{ number_format($product->discounted_price ?? $product->price, 2) }}
+                                </span>
+                                <span class="text-sm text-gray-500 line-through ml-2">
+                                    ${{ number_format($product->price, 2) }}
+                                </span>
+                            </div>
+                            @else
+                            <span class="text-lg font-bold text-gray-900 mb-2 block">
                                 ${{ number_format($product->price, 2) }}
                             </span>
+                            @endif
+                            
+                            <div class="flex items-center justify-between text-sm text-gray-500 mb-3">
+                                <span><i class="fas fa-shopping-cart mr-1"></i>{{ $product->total_sold ?? 0 }} sold</span>
+                                <span><i class="fas fa-eye mr-1"></i>{{ $product->view_count ?? 0 }}</span>
+                            </div>
+                            
+                            <a href="{{ route('user.products.show', $product->id) }}" 
+                               class="w-full bg-red-500 hover:bg-red-600 text-white text-center py-2 px-4 rounded-lg transition-colors flex items-center justify-center">
+                                <i class="fas fa-eye mr-2"></i>View Now
+                            </a>
                         </div>
-                        @else
-                        <span class="text-lg font-bold text-gray-900 mb-2 block">
-                            ${{ number_format($product->price, 2) }}
-                        </span>
-                        @endif
-                        
-                        <div class="flex items-center justify-between text-sm text-gray-500 mb-3">
-                            <span><i class="fas fa-shopping-cart mr-1"></i>{{ $product->total_sold ?? 0 }} đã bán</span>
-                            <span><i class="fas fa-eye mr-1"></i>{{ $product->view_count ?? 0 }}</span>
-                        </div>
-                        
-                        <a href="{{ route('user.products.show', $product->id) }}" 
-                           class="w-full bg-red-500 hover:bg-red-600 text-white text-center py-2 px-4 rounded-lg transition-colors flex items-center justify-center">
-                            <i class="fas fa-eye mr-2"></i>Xem ngay
-                        </a>
                     </div>
                     @endforeach
                 </div>
@@ -123,7 +143,69 @@
                             </svg>
                         </a>
                     </div>
-                    <x-home.slider :products="$onSale" />
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        @foreach($onSale->take(4) as $product)
+                        <div class="bg-gray-50 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 group">
+                            <div class="relative">
+                                <div class="aspect-w-4 aspect-h-3 w-full bg-white overflow-hidden">
+                                    <img 
+                                        src="{{ asset('images/products/' . ($product->image_url ?? 'default-product.jpg')) }}" 
+                                        alt="{{ $product->name }}"
+                                        class="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-300"
+                                    >
+                                </div>
+                                @if($product->discount_percent > 0)
+                                <div class="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded text-xs font-bold">
+                                    -{{ $product->discount_percent }}%
+                                </div>
+                                @endif
+
+                                <!-- Quick Action Overlay -->
+                                <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <div class="flex gap-2">
+                                        <a href="{{ route('user.products.show', $product->id) }}" 
+                                           class="bg-white text-gray-800 p-2 rounded-full hover:bg-gray-100 transition-colors"
+                                           title="Quick View">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <form id="add-to-cart-form" action="{{ route('cart.add', $product->id) }}" method="POST" class="w-full">
+                                            @csrf
+                                            <input type="hidden" name="quantity" id="form-quantity" value="1">
+                                            <button type="submit" class="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-colors duration-300 flex items-center justify-center" title="Add to Cart">
+                                                <i class="fas fa-shopping-cart mr-2"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="p-3">
+                                <h4 class="font-semibold text-sm line-clamp-2 mb-2">{{ $product->name }}</h4>
+                                
+                                @if($product->discount_percent > 0)
+                                <div class="flex items-center mb-2">
+                                    <span class="text-sm font-bold text-red-600">
+                                        ${{ number_format($product->discounted_price ?? $product->price, 2) }}
+                                    </span>
+                                    <span class="text-xs text-gray-500 line-through ml-2">
+                                        ${{ number_format($product->price, 2) }}
+                                    </span>
+                                </div>
+                                @else
+                                <span class="text-sm font-bold text-gray-900 mb-2 block">
+                                    ${{ number_format($product->price, 2) }}
+                                </span>
+                                @endif
+                                
+                                <div class="flex items-center justify-between text-xs text-gray-500">
+                                    <span><i class="fas fa-eye mr-1"></i>{{ $product->view_count ?? 0 }}</span>
+                                    <span><i class="fas fa-box mr-1"></i>{{ $product->stock_quantity }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
                 </section>
 
                 <!-- Latest Products -->
@@ -142,7 +224,69 @@
                             </svg>
                         </a>
                     </div>
-                    <x-home.slider :products="$latest" />
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        @foreach($latest->take(4) as $product)
+                        <div class="bg-gray-50 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 group">
+                            <div class="relative">
+                                <div class="aspect-w-4 aspect-h-3 w-full bg-white overflow-hidden">
+                                    <img 
+                                        src="{{ asset('images/products/' . ($product->image_url ?? 'default-product.jpg')) }}" 
+                                        alt="{{ $product->name }}"
+                                        class="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-300"
+                                    >
+                                </div>
+                                @if($product->discount_percent > 0)
+                                <div class="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded text-xs font-bold">
+                                    -{{ $product->discount_percent }}%
+                                </div>
+                                @endif
+
+                                <!-- Quick Action Overlay -->
+                                <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <div class="flex gap-2">
+                                        <a href="{{ route('user.products.show', $product->id) }}" 
+                                           class="bg-white text-gray-800 p-2 rounded-full hover:bg-gray-100 transition-colors"
+                                           title="Quick View">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <form id="add-to-cart-form" action="{{ route('cart.add', $product->id) }}" method="POST" class="w-full">
+                                            @csrf
+                                            <input type="hidden" name="quantity" id="form-quantity" value="1">
+                                            <button type="submit" class="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-colors duration-300 flex items-center justify-center" title="Add to Cart">
+                                                <i class="fas fa-shopping-cart mr-2"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="p-3">
+                                <h4 class="font-semibold text-sm line-clamp-2 mb-2">{{ $product->name }}</h4>
+                                
+                                @if($product->discount_percent > 0)
+                                <div class="flex items-center mb-2">
+                                    <span class="text-sm font-bold text-red-600">
+                                        ${{ number_format($product->discounted_price ?? $product->price, 2) }}
+                                    </span>
+                                    <span class="text-xs text-gray-500 line-through ml-2">
+                                        ${{ number_format($product->price, 2) }}
+                                    </span>
+                                </div>
+                                @else
+                                <span class="text-sm font-bold text-gray-900 mb-2 block">
+                                    ${{ number_format($product->price, 2) }}
+                                </span>
+                                @endif
+                                
+                                <div class="flex items-center justify-between text-xs text-gray-500">
+                                    <span><i class="fas fa-eye mr-1"></i>{{ $product->view_count ?? 0 }}</span>
+                                    <span><i class="fas fa-box mr-1"></i>{{ $product->stock_quantity }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
                 </section>
             </div>
 
@@ -163,7 +307,74 @@
                         </svg>
                     </a>
                 </div>
-                <x-home.slider :products="$mostViewed" />
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    @foreach($mostViewed->take(4) as $product)
+                    <div class="bg-gray-50 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 group">
+                        <div class="relative">
+                            <div class="aspect-square w-full bg-white overflow-hidden">
+                                <img 
+                                    src="{{ asset('images/products/' . ($product->image_url ?? 'default-product.jpg')) }}" 
+                                    alt="{{ $product->name }}"
+                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                >
+                            </div>
+                            @if($product->discount_percent > 0)
+                            <div class="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded-lg text-sm font-bold">
+                                -{{ $product->discount_percent }}%
+                            </div>
+                            @endif
+
+                            <!-- Quick Action Overlay -->
+                            <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <div class="flex gap-2">
+                                    <a href="{{ route('user.products.show', $product->id) }}" 
+                                       class="bg-white text-gray-800 p-2 rounded-full hover:bg-gray-100 transition-colors"
+                                       title="Quick View">
+                                        <i class="fas fa-eye w-4 h-4"></i>
+                                    </a>
+                                    <form id="add-to-cart-form" action="{{ route('cart.add', $product->id) }}" method="POST" class="w-full">
+                                        @csrf
+                                        <input type="hidden" name="quantity" id="form-quantity" value="1">
+                                        <button type="submit" class="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-colors duration-300 flex items-center justify-center" title="Add to Cart">
+                                            <i class="fas fa-shopping-cart mr-2"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="p-4">
+                            <h4 class="font-semibold text-lg mb-2 line-clamp-2">{{ $product->name }}</h4>
+                            
+                            @if($product->discount_percent > 0)
+                            <div class="flex items-center mb-2">
+                                <span class="text-lg font-bold text-red-600">
+                                    ${{ number_format($product->discounted_price ?? $product->price, 2) }}
+                                </span>
+                                <span class="text-sm text-gray-500 line-through ml-2">
+                                    ${{ number_format($product->price, 2) }}
+                                </span>
+                            </div>
+                            @else
+                            <span class="text-lg font-bold text-gray-900 mb-2 block">
+                                ${{ number_format($product->price, 2) }}
+                            </span>
+                            @endif
+                            
+                            <div class="flex items-center justify-between text-sm text-gray-500 mb-3">
+                                <span><i class="fas fa-eye mr-1"></i>{{ $product->view_count ?? 0 }} views</span>
+                                <span><i class="fas fa-box mr-1"></i>{{ $product->stock_quantity }}</span>
+                            </div>
+                            
+                            <a href="{{ route('user.products.show', $product->id) }}" 
+                               class="w-full bg-purple-500 hover:bg-purple-600 text-white text-center py-2 px-4 rounded-lg transition-colors flex items-center justify-center">
+                                <i class="fas fa-eye mr-2"></i>View Details
+                            </a>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
             </section>
 
             <!-- Features Section -->
@@ -207,4 +418,56 @@
             </section>
         </div>
     </div>
+
+    <script>
+    function addToCart(productId) {
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.add-to-cart-form').forEach(function(form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const action = form.getAttribute('action');
+            const quantity = form.querySelector('input[name="quantity"]').value || 1;
+            fetch(action, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ quantity })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Find overlay in this product card
+                    const overlay = form.closest('.group').querySelector('.absolute.inset-0');
+                    let modal = overlay.querySelector('.success-modal');
+                    if (!modal) {
+                        modal = document.createElement('div');
+                        modal.className = 'success-modal bg-white text-green-700 font-bold rounded-lg shadow-lg px-6 py-4 flex flex-col items-center justify-center';
+                        modal.style.position = 'absolute';
+                        modal.style.top = '50%';
+                        modal.style.left = '50%';
+                        modal.style.transform = 'translate(-50%, -50%)';
+                        modal.style.zIndex = '50';
+                        modal.innerHTML = '<span>✔️ Product added to cart!</span><button class="mt-2 px-4 py-1 bg-green-600 text-white rounded" onclick="this.parentElement.remove()">OK</button>';
+                        overlay.appendChild(modal);
+                    }
+                    // Remove after 2s if not dismissed
+                    setTimeout(() => { if (modal && modal.parentElement) modal.remove(); }, 2000);
+                    // Update cart count
+                    const cartCount = document.querySelector('.cart-count');
+                    if (cartCount && data.cart_count) {
+                        cartCount.textContent = data.cart_count;
+                    }
+                } else {
+                    alert(data.message || 'An error occurred while adding the product');
+                }
+            })
+            .catch(() => {
+                alert('An error occurred while adding the product');
+            });
+        });
+    });
+});
+    </script>
 </x-app-layout>
