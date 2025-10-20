@@ -9,12 +9,13 @@
 @section('content')
 
 {{-- Product Edit Form --}}
-<form id="productForm-edit"
-      class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
-      bg-white p-6 rounded-lg shadow-lg z-50 w-full max-w-3xl space-y-4"
-      action="{{ route('admin.product.update', $product->id) }}"
-      method="POST"
-      enctype="multipart/form-data">
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+        <form id="productForm-edit"
+              class="p-6 space-y-4"
+              action="{{ route('admin.product.update', $product->id) }}"
+              method="POST"
+              enctype="multipart/form-data">
 
     @csrf {{-- CSRF protection --}}
     @method('PUT') {{-- Use PUT method for resource update --}}
@@ -51,13 +52,6 @@
     <div>
         <label for="discount_percent" class="block text-sm font-medium text-gray-700 mb-1">Discount Percent (%)</label>
         <input type="number" name="discount_percent" id="discount_percent-edit" value="{{ old('discount_percent', $product->discount_percent) }}" min="0" max="100" step="0.01"
-               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none">
-    </div>
-
-    {{-- View Count --}}
-    <div>
-        <label for="view_count" class="block text-sm font-medium text-gray-700 mb-1">View Count</label>
-        <input type="number" name="view_count" id="view_count-edit" value="{{ old('view_count', $product->view_count) }}" min="0"
                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none">
     </div>
 
@@ -103,7 +97,9 @@
             Save
         </button>
     </div>
-</form>
+        </form>
+    </div>
+</div>
 
 @endsection
 
