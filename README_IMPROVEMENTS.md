@@ -126,3 +126,13 @@ Routes cũ vẫn hoạt động:
 3. Chạy `php artisan route:cache` để cache routes
 4. Chạy `php artisan view:cache` để cache views
 5. Đảm bảo Redis/Memcached cho cache hiệu quả
+
+
+## Refresh Backend
+php artisan cache:clear
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+
+php artisan clear-compiled
+composer dump-autoload
