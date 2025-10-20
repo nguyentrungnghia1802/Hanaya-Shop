@@ -1,4 +1,4 @@
-props(['banners' => []])
+@props(['banners' => []])
 
 <!-- Banner Slider -->
 <div class="banner-swiper-container relative w-full h-64 md:h-96 lg:h-[500px] overflow-hidden rounded-lg shadow-lg">
