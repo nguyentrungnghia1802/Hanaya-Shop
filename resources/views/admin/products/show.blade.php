@@ -54,7 +54,7 @@
 
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Price</label>
-                                    <p class="text-gray-900">{{ number_format($product->price, 0, ',', '.') }} đ</p>
+                                    <p class="text-gray-900">{{ number_format($product->price, 0, ',', '.') }} USD</p>
                                 </div>
 
                                 <div>
