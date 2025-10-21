@@ -45,6 +45,38 @@ npm run dev
 #### 3. Quy trình phát triển
 - Phát triển theo mô hình **Incremental Development + Agile**
 
+## 🛠️ Yêu cầu phần mềm & thư viện ngoài Composer
+
+Để chạy đầy đủ project Hanaya Shop, ngoài các package PHP/NPM, bạn cần cài thêm:
+
+### 1. Redis Server cho Windows
+- **Redis-x64-5.0.14.1**  
+  Tải tại: [https://github.com/tporadowski/redis/releases](https://github.com/tporadowski/redis/releases)
+- Giải nén và chạy `redis-server.exe` trước khi khởi động Laravel.
+
+### 2. PHP Redis Extension
+- **php_redis.dll**  
+  Tải đúng phiên bản PHP tại: [https://pecl.php.net/package/redis](https://pecl.php.net/package/redis)
+- Copy vào thư mục `C:\xampp\php\ext\`
+- Thêm dòng `extension=php_redis.dll` vào file `php.ini`
+- Khởi động lại Apache
+
+### 3. Node.js & NPM
+- Tải tại: [https://nodejs.org/](https://nodejs.org/)
+- Đảm bảo đã cài Node.js để chạy `npm install` và `npm run dev`
+
+### 4. MySQL Server
+- Đã cài đặt MySQL (XAMPP hoặc MariaDB)
+- Đảm bảo cấu hình kết nối đúng trong `.env`
+
+### 5. Mailpit (Local SMTP Testing)
+- Tải tại: [https://github.com/axllent/mailpit/releases](https://github.com/axllent/mailpit/releases)
+- Chạy `mailpit` để test email gửi từ Laravel
+
+---
+
+> **Lưu ý:** Nếu thiếu Redis hoặc extension, các tính năng cache, queue, session sẽ không hoạt động!
+
 ---
 
 ## 📈 Lịch sử cập nhật
