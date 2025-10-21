@@ -146,7 +146,7 @@
                 @foreach ($relatedProducts as $item)
                     <div class="bg-white rounded-lg shadow-md hover:shadow-xl overflow-hidden transition-all duration-300 transform hover:scale-105">
                         <div class="aspect-square bg-gray-100 overflow-hidden">
-                            <img src="{{ $item->image_url ? asset('storage/' . $item->image_url) : asset('images/no-image.png') }}" 
+                            <img src="{{ $item->image_url ? asset('images/products/' . $item->image_url) : asset('images/no-image.png') }}" 
                                  class="w-full h-full object-cover hover:scale-110 transition-transform duration-300" 
                                  alt="{{ $item->name }}"
                                  loading="lazy">
