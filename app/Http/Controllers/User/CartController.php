@@ -73,10 +73,17 @@ class CartController extends Controller
     public function remove($id)
     {
         $sessionId = Session::getId();
+        $userId = Auth::id();
 
-        Cart::where('id', $id)
-            ->where('session_id', $sessionId)
-            ->delete();
+        $query = Cart::where('id', $id);
+
+        if ($userId) {
+            $query->where('user_id', $userId);
+        } else {
+            $query->where('session_id', $sessionId);
+        }
+
+        $query->delete();
 
         return redirect()->back()->with('success', 'Đã xoá sản phẩm khỏi giỏ hàng.');
     }
