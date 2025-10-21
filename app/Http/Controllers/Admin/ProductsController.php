@@ -42,22 +42,21 @@ class ProductsController extends Controller
         // Validate form data
         $request->validate([
             'name' => 'required|string|max:255',
-            'descriptions' => 'nullable|string',
+            'descriptions' => 'required|string',
             'price' => 'required|numeric|min:0',
             'stock_quantity' => 'required|integer|min:0',
-            'image_url' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'category_id' => 'required|exists:categories,id',
+            'discount_percent' => 'nullable|numeric|min:0|max:100',
+            'view_count' => 'nullable|integer|min:0',
+            'image_url' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
         // Handle image upload or fallback to default
-        $generatedFileName = null;
+        $generatedFileName = 'default-product.jpg'; // Default image
         if ($request->hasFile('image_url')) {
-            $image = $request->file('image_url');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images'), $imageName);
+            $imageName = time() . '.' . $request->file('image_url')->extension();
+            $request->file('image_url')->move(public_path('images/products'), $imageName);
             $generatedFileName = $imageName;
-        } else {
-            $generatedFileName = 'base.jpg'; // Default placeholder image
         }
 
         // Create and save product
@@ -68,12 +67,14 @@ class ProductsController extends Controller
         $product->stock_quantity = $request->input('stock_quantity');
         $product->image_url = $generatedFileName;
         $product->category_id = $request->input('category_id');
+        $product->discount_percent = $request->input('discount_percent', 0);
+        $product->view_count = $request->input('view_count', 0);
 
         if ($product->save()) {
-            Cache::forget('admin_products_all'); // Invalidate product cache
+            Cache::forget('admin_products_all'); // Invalidate cache
             return redirect()->route('admin.product')->with('success', 'Product created successfully!');
         } else {
-            return back()->with('error', 'Failed to save the product!');
+            return redirect()->back()->with('error', 'Failed to create product.');
         }
     }
 
@@ -91,7 +92,7 @@ class ProductsController extends Controller
         ]);
     }
 
-    /**
+        /**
      * Update the specified product in the database.
      */
     public function update(Request $request, $id)
@@ -99,11 +100,13 @@ class ProductsController extends Controller
         // Validate incoming request data
         $request->validate([
             'name' => 'required|string|max:255',
-            'descriptions' => 'nullable|string',
+            'descriptions' => 'required|string',
             'price' => 'required|numeric|min:0',
             'stock_quantity' => 'required|integer|min:0',
-            'image_url' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'category_id' => 'required|exists:categories,id',
+            'discount_percent' => 'nullable|numeric|min:0|max:100',
+            'view_count' => 'nullable|integer|min:0',
+            'image_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $product = Product::findOrFail($id);
@@ -112,28 +115,28 @@ class ProductsController extends Controller
         $product->price = $request->input('price');
         $product->stock_quantity = $request->input('stock_quantity');
         $product->category_id = $request->input('category_id');
+        $product->discount_percent = $request->input('discount_percent', 0);
+        $product->view_count = $request->input('view_count', $product->view_count ?? 0);
 
         // Handle image replacement
         if ($request->hasFile('image_url')) {
-            // Delete old image if it exists and is not the default
-            if (
-                $product->image_url &&
-                $product->image_url !== 'base.jpg' &&
-                file_exists(public_path('images/' . $product->image_url))
-            ) {
-                unlink(public_path('images/' . $product->image_url));
+            // Delete old image if it exists and is not default
+            if ($product->image_url && $product->image_url !== 'default-product.jpg') {
+                $oldImagePath = public_path('images/products/' . $product->image_url);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
             }
-
+            
             // Upload new image
-            $image = $request->file('image_url');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images'), $imageName);
+            $imageName = time() . '.' . $request->file('image_url')->extension();
+            $request->file('image_url')->move(public_path('images/products'), $imageName);
             $product->image_url = $imageName;
         }
 
         $product->save();
         Cache::forget('admin_products_all'); // Invalidate cache
-
+        
         return redirect()->route('admin.product')->with('success', 'Product updated successfully!');
     }
 
@@ -148,9 +151,9 @@ class ProductsController extends Controller
         if (
             $product->image_url &&
             $product->image_url !== 'base.jpg' &&
-            file_exists(public_path('images/' . $product->image_url))
+            file_exists(public_path('images/products/' . $product->image_url))
         ) {
-            unlink(public_path('images/' . $product->image_url));
+            unlink(public_path('images/products/' . $product->image_url));
         }
 
         $product->delete();
@@ -189,7 +192,7 @@ class ProductsController extends Controller
                 'price' => $product->price,
                 'stock_quantity' => $product->stock_quantity,
                 'category_name' => $product->category ? $product->category->name : '',
-                'image_url' => asset('images/' . ($product->image_url ?? 'base.jpg')),
+                'image_url' => asset('images/products/' . ($product->image_url ?? 'base.jpg')),
             ]);
         }
 

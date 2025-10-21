@@ -155,6 +155,33 @@ class UsersController extends Controller
     }
 
     /**
+     * Xóa một người dùng theo ID từ route parameter.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
+    public function destroySingle($id)
+    {
+        // Không cho phép xóa chính mình
+        if ($id == Auth::id()) {
+            abort(403, 'Bạn không thể xóa chính mình.');
+        }
+
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        // Làm mới cache
+        Cache::forget('admin_users_all');
+
+        // Trả về JSON nếu là Ajax
+        if (request()->ajax() || request()->wantsJson()) {
+            return response()->json(['success' => true]);
+        }
+
+        return redirect()->route('admin.user')->with('success', 'Xóa tài khoản thành công!');
+    }
+
+    /**
      * Hiển thị thông tin chi tiết người dùng kèm đơn hàng và giỏ hàng.
      *
      * @param  int  $id

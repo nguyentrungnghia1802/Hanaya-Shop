@@ -19,6 +19,18 @@ class Order extends Model
         'status',
     ];
 
+    // Accessor for total_amount (if used in views)
+    public function getTotalAmountAttribute()
+    {
+        return $this->total_price;
+    }
+
+    // Mutator for total_amount
+    public function setTotalAmountAttribute($value)
+    {
+        $this->attributes['total_price'] = $value;
+    }
+
     protected $date = [
         'created_at',
     ];
@@ -28,11 +40,6 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function appliedCoupon()
-    {
-        return $this->hasMany(AppliedCoupon::class);
     }
 
     public function orderDetail()

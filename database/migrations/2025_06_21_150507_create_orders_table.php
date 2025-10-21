@@ -11,7 +11,8 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id(); // id: khóa chính, auto_increment
             $table->decimal('total_price', 10, 2)->default(0.00); // tổng tiền đơn hàng
-            $table->enum('status', ['pending', 'processing', 'shipped'])->default('pending'); // trạng thái đơn hàng
+            $table->decimal('discount', 10, 2)->default(0.00); // số tiền giảm giá
+            $table->enum('status', ['pending', 'processing', 'shipped', 'completed', 'cancelled'])->default('pending'); // trạng thái đơn hàng
             $table->timestamps();
             $table->unsignedBigInteger('user_id'); // khóa ngoại liên kết tới bảng users
 
