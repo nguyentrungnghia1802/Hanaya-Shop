@@ -1,37 +1,66 @@
-# Sử dụng image PHP chính thức với Apache
-FROM php:8.2-apache
+# Multi-stage build for production deployment
+# Stage 1: Build dependencies
+FROM php:8.2-fpm as base
 
-# Cài các extension cần thiết cho Laravel
+# Install system dependencies and PHP extensions
 RUN apt-get update && apt-get install -y \
     git unzip zip curl libpng-dev libonig-dev libxml2-dev libzip-dev \
-    && docker-php-ext-install pdo_mysql mbstring zip exif pcntl bcmath
+    libfreetype6-dev libjpeg62-turbo-dev nginx supervisor \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo_mysql mbstring zip exif pcntl bcmath gd opcache \
+    && rm -rf /var/lib/apt/lists/*
 
-# Cài Composer
+# Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Sao chép toàn bộ mã nguồn vào thư mục làm việc của Apache
-COPY . /var/www/html
+# Configure PHP-FPM
+COPY deployment/php/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
+COPY deployment/php/php.ini /usr/local/etc/php/conf.d/laravel.ini
 
-# Chuyển vào thư mục chứa mã nguồn
+# Configure Nginx
+COPY deployment/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY deployment/nginx/default.conf /etc/nginx/sites-available/default
+
+# Configure Supervisor
+COPY deployment/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
 WORKDIR /var/www/html
 
-# Tạo các thư mục cần thiết và phân quyền
+# Copy dependency files first for better caching
+COPY composer.json composer.lock ./
+
+# Install PHP dependencies
+RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-scripts
+
+# Copy source code
+COPY . .
+
+# Create required directories and set permissions
 RUN mkdir -p \
-    storage/framework/views \
     storage/framework/cache/data \
+    storage/framework/sessions \
+    storage/framework/views \
     storage/logs \
     bootstrap/cache \
- && chown -R www-data:www-data storage bootstrap/cache \
- && chmod -R 775 storage bootstrap/cache
+    /var/log/nginx \
+    /var/log/supervisor \
+    && chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html \
+    && chmod -R 775 storage bootstrap/cache \
+    && chown -R www-data:www-data /var/log/nginx
 
-# Cài đặt Laravel dependencies bằng Composer
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+# Run Laravel optimizations
+RUN php artisan config:cache \
+    && php artisan route:cache \
+    && php artisan view:cache \
+    && composer dump-autoload --optimize
 
-# Mở cổng 8000 (nếu chạy php artisan serve), tùy Render yêu cầu
-EXPOSE 8000
+# Expose ports
+EXPOSE 80 443
 
-# Lệnh mặc định khi container khởi động
-CMD php artisan config:cache \
- && php artisan route:cache \
- && php artisan view:cache \
- && php artisan serve --host=0.0.0.0 --port=8000
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost/health || exit 1
+
+# Start Supervisor (manages Nginx + PHP-FPM)
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

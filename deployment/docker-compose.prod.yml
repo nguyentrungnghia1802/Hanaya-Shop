@@ -1,0 +1,95 @@
+version: '3.8'
+
+services:
+  app:
+    build: ..
+    container_name: hanaya-shop-app
+    ports:
+      - "80:80"
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - APP_KEY=${APP_KEY}
+      - DB_CONNECTION=mysql
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=${DB_DATABASE:-hanaya_shop}
+      - DB_USERNAME=${DB_USERNAME:-hanaya_user}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - CACHE_DRIVER=redis
+      - SESSION_DRIVER=redis
+      - QUEUE_CONNECTION=redis
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    volumes:
+      - storage_data:/var/www/html/storage/app
+      - ../public/images:/var/www/html/public/images
+    depends_on:
+      - db
+      - redis
+    networks:
+      - hanaya-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  db:
+    image: mysql:8.0
+    container_name: hanaya-shop-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_DATABASE:-hanaya_shop}
+      - MYSQL_USER=${DB_USERNAME:-hanaya_user}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./mysql/mysql.conf:/etc/mysql/conf.d/custom.cnf
+    ports:
+      - "3307:3306"
+    networks:
+      - hanaya-network
+    restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
+
+  redis:
+    image: redis:7-alpine
+    container_name: hanaya-shop-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - hanaya-network
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy
+    container_name: hanaya-shop-proxy
+    ports:
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./nginx/certs:/etc/nginx/certs
+    environment:
+      - DEFAULT_HOST=hanaya-shop.local
+    depends_on:
+      - app
+    networks:
+      - hanaya-network
+    restart: unless-stopped
+
+volumes:
+  db_data:
+    driver: local
+  redis_data:
+    driver: local
+  storage_data:
+    driver: local
+
+networks:
+  hanaya-network:
+    driver: bridge
