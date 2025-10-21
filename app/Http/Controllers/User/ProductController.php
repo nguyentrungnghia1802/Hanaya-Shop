@@ -112,8 +112,8 @@ class ProductController extends Controller
             if ($categoryName) {
                 $categoryTitles = [
                     'soap-flower' => 'Soap Flower',
-                    'special-flower' => 'Special Flower',
                     'fresh-flower' => 'Fresh Flower',
+                    'special-flower' => 'Special Flower',
                     'souvenir' => 'Souvenir'
                 ];
                 $pageTitle = $categoryTitles[$categoryName] ?? $pageTitle;
