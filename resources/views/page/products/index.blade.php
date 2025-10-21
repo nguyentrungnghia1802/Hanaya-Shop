@@ -10,15 +10,15 @@
                 $keyword = request()->get('q');
             @endphp
 
-            <form method="GET" action="{{ route('soapFlower') }}" class="flex flex-wrap items-center gap-4">
+            <form method="GET" action="{{ route('product.index') }}" class="flex flex-wrap items-center gap-4">
                 <input type="text" name="q" value="{{ $keyword }}" placeholder="Tìm sản phẩm..." class="px-4 py-2 rounded border focus:outline-none focus:ring w-64">
                 <button type="submit" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700">Tìm kiếm</button>
                 <span class="text-xl font-bold text-white">Sắp xếp theo:</span>
                 <div class="flex flex-wrap gap-2">
-                    <a href="{{ route('soapFlower', array_merge(request()->except('sort'), ['sort' => 'desc', 'q' => $keyword])) }}" class="bg-gray-700 text-white px-4 py-2 rounded hover:bg-pink-600 {{ $currentSort === 'desc' ? 'font-bold' : '' }}">Giá Cao - Thấp</a>
-                    <a href="{{ route('soapFlower', array_merge(request()->except('sort'), ['sort' => 'asc', 'q' => $keyword])) }}" class="bg-gray-700 text-white px-4 py-2 rounded hover:bg-pink-600 {{ $currentSort === 'asc' ? 'font-bold' : '' }}">Giá Thấp - Cao</a>
-                    <a href="{{ route('soapFlower', array_merge(request()->except('sort'), ['sort' => 'sale', 'q' => $keyword])) }}" class="bg-gray-700 text-white px-4 py-2 rounded hover:bg-pink-600 {{ $currentSort === 'sale' ? 'font-bold' : '' }}">Khuyến Mãi Hot</a>
-                    <a href="{{ route('soapFlower', array_merge(request()->except('sort'), ['sort' => 'views', 'q' => $keyword])) }}" class="bg-gray-700 text-white px-4 py-2 rounded hover:bg-pink-600 {{ $currentSort === 'views' ? 'font-bold' : '' }}">Xem nhiều</a>
+                    <a href="{{ route('product.index', array_merge(request()->except('sort'), ['sort' => 'desc', 'q' => $keyword])) }}" class="bg-gray-700 text-white px-4 py-2 rounded hover:bg-pink-600 {{ $currentSort === 'desc' ? 'font-bold' : '' }}">Giá Cao - Thấp</a>
+                    <a href="{{ route('product.index', array_merge(request()->except('sort'), ['sort' => 'asc', 'q' => $keyword])) }}" class="bg-gray-700 text-white px-4 py-2 rounded hover:bg-pink-600 {{ $currentSort === 'asc' ? 'font-bold' : '' }}">Giá Thấp - Cao</a>
+                    <a href="{{ route('product.index', array_merge(request()->except('sort'), ['sort' => 'sale', 'q' => $keyword])) }}" class="bg-gray-700 text-white px-4 py-2 rounded hover:bg-pink-600 {{ $currentSort === 'sale' ? 'font-bold' : '' }}">Khuyến Mãi Hot</a>
+                    <a href="{{ route('product.index', array_merge(request()->except('sort'), ['sort' => 'views', 'q' => $keyword])) }}" class="bg-gray-700 text-white px-4 py-2 rounded hover:bg-pink-600 {{ $currentSort === 'views' ? 'font-bold' : '' }}">Xem nhiều</a>
                 </div>
             </form>
         </div>
@@ -29,8 +29,9 @@
                 @foreach ($products as $productItem)
                     <div class="bg-white rounded shadow hover:shadow-xl overflow-hidden transition flex flex-col">
                         <div class="relative">
-                            <img src="{{ asset('images/' . $productItem->image_url) }}" class="w-full h-32 sm:h-48 object-cover"
-                                alt="{{ $productItem->name }}">
+                            <div class="aspect-[3/4] w-full bg-gray-100 overflow-hidden">
+                                <img src="{{ asset('images/' . $productItem->image_url) }}" class="w-full h-full object-cover" alt="{{ $productItem->name }}">
+                            </div>
                             <span class="absolute top-2 left-2 bg-red-600 text-white text-xs px-2 py-1 rounded">
                                 Giảm {{ rand(5, 20) }}%
                             </span>
@@ -54,7 +55,7 @@
                                     <i class="far fa-heart"></i>
                                 </button>
                             </div>
-                            <a href="{{ route('soapFlower.show', $productItem->id) }}"
+                            <a href="{{ route('product.show', $productItem->id) }}"
                                 class="mt-2 sm:mt-4 block text-center bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 rounded w-full">
                                 Xem chi tiết
                             </a>

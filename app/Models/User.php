@@ -57,10 +57,10 @@ class User extends Authenticatable
         return $this->role === 'admin';
     }
 
-    public function isManager(): bool
-    {
-        return $this->role === 'manager';
-    }
+    // public function isManager(): bool
+    // {
+    //     return $this->role === 'manager';
+    // }
 
     public function isUser(): bool
     {
@@ -81,5 +81,11 @@ class User extends Authenticatable
     public function cart()
     {
         return $this->hasMany(Cart::class);
+    }
+
+    // Quan hệ với bài viết (posts)
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'user_id');
     }
 }
