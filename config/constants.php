@@ -40,6 +40,7 @@ return [
             'button_link' => '/products?category_name=souvenir'
         ]
     ],
+    
     // Chatbot messages
     'chatbot_greeting' =>
         "Hello! I'm Hanaya Shop's chatbot. I can help you with:\n"
