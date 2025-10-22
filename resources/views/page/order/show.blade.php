@@ -55,5 +55,27 @@
                 @endforeach
             </div>
         </div>
+
+        <div class="flex justify-end mt-6">
+    @if ($order->status === 'shipped')
+        <button type="button"
+            class="bg-gray-400 text-black font-semibold py-2 px-6 rounded-lg shadow cursor-not-allowed"
+            disabled>
+            Đã giao
+        </button>
+    @elseif ($order->status === 'canceled')
+        <button type="button"
+            class="bg-gray-400 text-black font-semibold py-2 px-6 rounded-lg shadow cursor-not-allowed"
+            disabled>
+            Đã Hủy
+        </button>
+    @else
+        <a href="{{ route('order.cancel', $order->id) }}"
+           class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-6 rounded-lg shadow transition">
+            Hủy đơn hàng
+        </a>
+    @endif
+</div>
+
     </div>
 </x-app-layout>

@@ -17,20 +17,38 @@ use App\Models\User;
 class CheckoutController extends Controller
 {
     public function preview(Request $request)
-    {
-        $json = $request->input('selected_items_json');
-        $selectedItems = json_decode($json, true) ?? [];
+{
+    $json = $request->input('selected_items_json');
+    $selectedItems = json_decode($json, true) ?? [];
 
-        // Lưu vào session để hiển thị lại ở bước sau
-        session(['selectedItems' => $selectedItems]);
+    $errorMessages = [];
 
-        // Sau khi POST → redirect tới route GET để hiển thị
-        return redirect()->route('checkout.index');
+    foreach ($selectedItems as $item) {
+        $name = $item['name'] ?? 'Sản phẩm không xác định';
+        $quantity = $item['quantity'] ?? 0;
+        $stock = $item['stock_quantity'] ?? 0;
+
+        if ($quantity > $stock) {
+            $errorMessages[] = "Sản phẩm \"{$name}\" chỉ còn {$stock} sản phẩm trong kho.";
+        }
     }
+
+    if (!empty($errorMessages)) {
+        return redirect()->back()->withErrors($errorMessages);
+    }
+
+    // Nếu hợp lệ thì lưu session và chuyển hướng
+    session(['selectedItems' => $selectedItems]);
+
+    return redirect()->route('checkout.index');
+}
 
     public function index()
     {
         $selectedItems = session('selectedItems', []);
+        if (empty($selectedItems)) {
+        return redirect()->back()->with('error', 'Không có sản phẩm nào được chọn để đặt hàng.');
+    }
         return view('page.checkout', compact('selectedItems'));
     }
 
@@ -46,8 +64,8 @@ class CheckoutController extends Controller
     $user = Auth::user();
     $itemsJson = $request->input('selected_items_json');
     $selectedItems = json_decode($itemsJson, true);
-
     DB::beginTransaction();
+
 
     try {
         $order = Order::create([
@@ -57,13 +75,19 @@ class CheckoutController extends Controller
         ]);
 
         foreach ($selectedItems as $item) {
-            OrderDetail::create([
-                'order_id'   => $order->id,
-                'product_id' => $item['id'],
-                'quantity'   => $item['quantity'],
-                'price'      => $item['price'],
-            ]);
-        }
+    $product = Product::find($item['id']);
+
+    $product->stock_quantity -= $item['quantity'];
+    $product->save();
+
+    OrderDetail::create([
+        'order_id'   => $order->id,
+        'product_id' => $product->id,
+        'quantity'   => $item['quantity'],
+        'price'      => $item['price'],
+    ]);
+}
+
 
         if ($order->status === 'pending') {
             $adminUsers = User::where('role', 'admin')->get();

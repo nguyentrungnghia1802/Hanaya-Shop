@@ -2,6 +2,8 @@
 <x-app-layout>
     <div class="max-w-4xl mx-auto py-10 px-4">
         <h2 class="text-2xl font-bold mb-6">Giỏ hàng của bạn</h2>
+        <x-alert />
+
         @if(session('success'))
         <div class="mb-4 p-3 bg-green-100 text-green-700 rounded">{{ session('success') }}</div>
         @endif
@@ -47,7 +49,8 @@
                                 <input type="number" min="1" class="quantity-input w-[80px] text-center border rounded" value="{{ $item['quantity'] }}" 
                                     data-id="{{ $id }}" 
                                     data-price="{{ $item['price'] }}"
-                                    data-total="{{ $item['price'] * $item['quantity'] }}">
+                                    data-total="{{ $item['price'] * $item['quantity'] }}"
+                                    data-stock="{{ $item['product_quantity'] }}">                                
                                     <button type="button" class="btn-increase bg-gray-200 px-2 rounded" data-id="{{ $id }}">+</button>
                                 </div>
                             </td>
@@ -244,18 +247,11 @@ document.addEventListener("DOMContentLoaded", function () {
     // Gửi form
     checkoutForm.addEventListener('submit', function (e) {
         const checkedCheckboxes = document.querySelectorAll('.cart-checkbox:checked');
-
-
-        if (checkedCheckboxes.length === 0) {
-            e.preventDefault();
-            alert('Vui lòng chọn ít nhất một sản phẩm để thanh toán!');
-            return;
-        }
-
         const selectedItems = [];
         const checkedIds = new Set();
         document.querySelectorAll('.cart-checkbox:checked').forEach(cb => {
             const id = cb.dataset.id;
+
             if (checkedIds.has(id)) return; // Nếu đã lấy rồi thì bỏ qua
             checkedIds.add(id);
             // Tìm row cho desktop hoặc card cho mobile
@@ -276,13 +272,16 @@ document.addEventListener("DOMContentLoaded", function () {
             const price = parseFloat(row.querySelector('.quantity-input').dataset.price);
             const quantity = parseInt(row.querySelector('.quantity-input').value);
             const subtotal = price * quantity;
+            const stock_quantity = parseInt(row.querySelector('.quantity-input').dataset.stock);
+
             selectedItems.push({
                 id,
                 image,
                 name,
                 price,
                 quantity,
-                subtotal
+                subtotal,
+                stock_quantity
             });
         });
         document.getElementById('selected_items_json').value = JSON.stringify(selectedItems);

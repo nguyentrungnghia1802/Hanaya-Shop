@@ -63,12 +63,14 @@ class CartController extends Controller
         foreach ($cartItems as $item) {
             $cart[$item->id] = [
                 'product_id' => $item->product->id,
+                'product_quantity' => $item->product->stock_quantity,
                 'name'       => $item->product->name,
                 'image_url'  => $item->product->image_url,
                 'price'      => $item->product->price,
                 'quantity'   => $item->quantity,
             ];
         }
+
 
         return view('page.cart.index', compact('cart'));
     }
