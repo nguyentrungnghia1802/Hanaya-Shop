@@ -243,6 +243,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Gửi form
     checkoutForm.addEventListener('submit', function (e) {
+        const checkedCheckboxes = document.querySelectorAll('.cart-checkbox:checked');
+
+
+        if (checkedCheckboxes.length === 0) {
+            e.preventDefault();
+            alert('Vui lòng chọn ít nhất một sản phẩm để thanh toán!');
+            return;
+        }
+
         const selectedItems = [];
         const checkedIds = new Set();
         document.querySelectorAll('.cart-checkbox:checked').forEach(cb => {
