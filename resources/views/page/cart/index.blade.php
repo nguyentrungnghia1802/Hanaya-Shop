@@ -83,7 +83,8 @@
                             <input type="checkbox" name="cart_ids[]" value="{{ $id }}"
                                 class="cart-checkbox"
                                 data-price="{{ $item['price'] * $item['quantity'] }}"
-                                data-id="{{ $id }}">
+                                data-id="{{ $id }}"
+                                data-product-id="{{ $item['product_id'] }}">
                             <img src="{{ $item['image_url'] }}" alt="{{ $item['name'] }}" class="w-20 h-20 object-cover rounded">
                             <div class="flex-1">
                                 <div class="font-semibold">{{ $item['name'] }}</div>

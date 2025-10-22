@@ -25,8 +25,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/checkout-preview', [CheckoutController::class, 'preview'])->name('checkout.preview');
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 
-    Route::post('/checkout', [OrderController::class, 'store'])->name('checkout.store');
+    Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
     Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
+
+    Route::get('/order', [OrderController::class, 'index'])->name('order.index');
+    Route::get('/order/{id}', [OrderController::class, 'show'])->name('order.show');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
