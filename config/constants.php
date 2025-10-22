@@ -84,8 +84,8 @@ return [
     ],
     'chatbot_price_info' =>
         "About our product prices:\n\n"
-        . "🌸 Soap flowers: From 50,000₫ - 500,000₫\n"
-        . "🎁 Souvenirs: From 30,000₫ - 300,000₫\n\n"
+        . "🌸 Soap flowers: From 15 USD - 500 USD\n"
+        . "🎁 Souvenirs: From 5 USD - 800 USD\n\n"
         . "Specific prices depend on size, materials, and design.\n"
         . "See detailed prices at: /products",
     'chatbot_default' =>
