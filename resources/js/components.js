@@ -178,13 +178,11 @@ window.initTinyMCE = function(selector = '.description') {
                 input.click();
             },
             setup: function(editor) {
-                editor.on('init', function() {
-                    console.log('TinyMCE initialized successfully with image upload');
-                });
+                // TinyMCE initialized successfully with image upload
             }
         });
     } else {
-        console.error('TinyMCE is not loaded');
+        // TinyMCE is not loaded
     }
 };
 

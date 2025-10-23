@@ -186,9 +186,7 @@
                 allow_script_urls: false,
                 convert_urls: false,
                 setup: function(editor) {
-                    editor.on('init', function() {
-                        console.log('TinyMCE initialized successfully');
-                    });
+                    // TinyMCE initialized successfully
                 }
             });
         }

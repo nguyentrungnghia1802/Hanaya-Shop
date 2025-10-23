@@ -17,6 +17,9 @@ Route::get('/products/{id}', [ProductController::class, 'show'])->name('user.pro
 Route::get('/product', [ProductController::class, 'index'])->name('product.index');
 Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');
 
+Route::get('/about', function () {
+    return view('page.about');
+})->name('user.about');
 // Cart and order routes require authentication
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
