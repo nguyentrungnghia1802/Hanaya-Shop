@@ -40,5 +40,10 @@ return [
             'button_link' => '/products?category_name=souvenir'
         ]
     ],
+
+    //Checkout
+    'checkout' => [
+        'shipping_fee' => 8, // Fixed shipping fee
+    ]
         
 ];

@@ -1,145 +1,231 @@
 {{-- filepath: resources/views/cart/index.blade.php --}}
 <x-app-layout>
-    <div class="max-w-4xl mx-auto py-10 px-4">
-        <h2 class="text-2xl font-bold mb-6">Giỏ hàng của bạn</h2>
-        <x-alert />
-
-        @if(session('success'))
-        <div class="mb-4 p-3 bg-green-100 text-green-700 rounded">{{ session('success') }}</div>
-        @endif
-        @if(count($cart) > 0)
-        <form id="checkout-form" method="POST" action="{{ route('checkout.preview') }}">
-            @csrf
-            <input type="hidden" name="selected_items_json" id="selected_items_json">
-            <div class="overflow-x-auto">
-                <!-- Desktop Table -->
-                <table class="min-w-full bg-white rounded shadow hidden md:table">
-                    <thead>
-                        <tr>
-                            <th class="py-2 px-4 border-b text-center">
-                                <input type="checkbox" id="select-all" title="Chọn tất cả">
-                            </th>
-                            <th class="py-2 px-4 border-b">Ảnh</th>
-                            <th class="py-2 px-4 border-b">Tên sản phẩm</th>
-                            <th class="py-2 px-4 border-b">Giá</th>
-                            <th class="py-2 px-4 border-b">Số lượng</th>
-                            <th class="py-2 px-4 border-b">Thành tiền</th>
-                            <th class="py-2 px-4 border-b"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php $total = 0; @endphp
-                        @foreach($cart as $id => $item)
-                        @php $total += $item['price'] * $item['quantity']; @endphp
-                        <tr>
-                            <td class="py-2 px-4 border-b text-center">
-                                 <input type="checkbox" name="cart_ids[]" value="{{ $id }}" 
-                                     class="cart-checkbox" 
-                                    data-price="{{ $item['price'] * $item['quantity'] }}"
-                                    data-id="{{ $id }}"
-                                    data-product-id="{{ $item['product_id'] }}">
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                                <img src="{{ $item['image_url'] && file_exists(public_path('images/products/' . $item['image_url']))
-                                    ? asset('images/products/' . $item['image_url'])
-                                    : asset('images/no-image.png') }}" alt="{{ $item['name'] }}" class="w-16 h-16 object-cover rounded">
-                            </td>
-                            <td class="py-2 px-4 border-b">{{ $item['name'] }}</td>
-                            <td class="py-2 px-4 border-b">{{ number_format($item['price'], 0, ',', '.') }} USD</td>
-                            <td class="py-2 px-4 border-b text-center">
-                                <div class="flex items-center justify-center gap-2">
-                                <button type="button" class="btn-decrease bg-gray-200 px-2 rounded" data-id="{{ $id }}">−</button>
-                                <input type="number" min="1" class="quantity-input w-[80px] text-center border rounded" value="{{ $item['quantity'] }}" 
-                                    data-id="{{ $id }}" 
-                                    data-price="{{ $item['price'] }}"
-                                    data-total="{{ $item['price'] * $item['quantity'] }}"
-                                    data-stock="{{ $item['product_quantity'] }}">                                
-                                    <button type="button" class="btn-increase bg-gray-200 px-2 rounded" data-id="{{ $id }}">+</button>
-                                </div>
-                            </td>
-                            <td class="py-2 px-4 border-b item-total" data-id="{{ $id }}">
-                                {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }} USD
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                                <a href="{{ route('cart.remove', $id) }}" class="text-red-600 hover:underline">Xóa</a>
-                            </td>
-                        </tr>
-                        @endforeach
-                        <tr>
-                            <td colspan="4" class="text-right font-bold py-2 px-4">Tổng cộng:</td>
-                            <td colspan="2" class="font-bold py-2 px-4" id="totalPrice">0 USD</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <!-- Desktop Checkout Button -->
-                <div class="mt-6 text-right hidden md:block">
-                    <button type="submit" class="bg-pink-600 hover:bg-pink-700 text-white px-6 py-2 rounded shadow">
-                        Thanh toán
-                    </button>
-                </div>
-                <!-- Mobile Card List -->
-                <div class="md:hidden space-y-4">
-                    <div class="bg-white rounded shadow p-4 flex items-center gap-3">
-                        <input type="checkbox" id="select-all-mobile" title="Chọn tất cả">
-                        <span class="font-semibold">Chọn tất cả</span>
-                    </div>
-                    @foreach($cart as $id => $item)
-                    <div class="bg-white rounded shadow p-4 flex flex-col gap-3">
-                        <div class="flex items-center gap-3">
-                            <input type="checkbox" name="cart_ids[]" value="{{ $id }}"
-                                class="cart-checkbox"
-                                data-price="{{ $item['price'] * $item['quantity'] }}"
-                                data-id="{{ $id }}"
-                                data-product-id="{{ $item['product_id'] }}">
-                            <img src="{{ $item['image_url'] && file_exists(public_path('images/products/' . $item['image_url']))
-                                ? asset('images/products/' . $item['image_url'])
-                                : asset('images/no-image.png') }}" alt="{{ $item['name'] }}" class="w-20 h-20 object-cover rounded">
-                            <div class="flex-1">
-                                <div class="font-semibold">{{ $item['name'] }}</div>
-                                <div class="text-pink-600 font-bold">{{ number_format($item['price'], 0, ',', '.') }} USD</div>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2">
-                                <button type="button" class="btn-decrease bg-gray-200 px-2 rounded" data-id="{{ $id }}">−</button>
-                                <input type="number" min="1" class="quantity-input w-[60px] text-center border rounded" value="{{ $item['quantity'] }}"
-                                    data-id="{{ $id }}"
-                                    data-price="{{ $item['price'] }}"
-                                    data-total="{{ $item['price'] * $item['quantity'] }}">
-                                <button type="button" class="btn-increase bg-gray-200 px-2 rounded" data-id="{{ $id }}">+</button>
-                            </div>
-                            <div class="item-total font-bold text-gray-700" data-id="{{ $id }}">
-                                {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }} USD
-                            </div>
-                            <a href="{{ route('cart.remove', $id) }}" class="text-red-600 hover:underline">Xóa</a>
-                        </div>
-                    </div>
-                    @endforeach
-                    <div class="bg-white rounded shadow p-4 flex justify-between items-center font-bold">
-                        <span>Tổng cộng:</span>
-                        <span id="totalPrice">0 USD</span>
-                    </div>
-                    <div class="text-right mt-4">
-                        <button type="submit" class="bg-pink-600 hover:bg-pink-700 text-white px-6 py-2 rounded shadow">
-                            Thanh toán
-                        </button>
-                    </div>
+    <x-slot name="header">
+        <div class="bg-gradient-to-r from-pink-500 to-purple-600 text-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="py-6">
+                    <h1 class="text-3xl font-bold">🛒 Shopping Cart</h1>
+                    <p class="text-pink-100 mt-2">Review your items and proceed to checkout</p>
                 </div>
             </div>
-        </form>
-        @else
-        <p>Giỏ hàng của bạn đang trống.</p>
-        @endif
+        </div>
+    </x-slot>
+
+    <div class="min-h-screen bg-gray-50 py-8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <x-alert />
+
+            @if(session('success'))
+            <div class="mb-6 p-4 bg-green-100 border border-green-300 text-green-700 rounded-lg flex items-center">
+                <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                {{ session('success') }}
+            </div>
+            @endif
+            
+            @if(count($cart) > 0)
+                <!-- Cart Summary -->
+                <div class="bg-white rounded-xl shadow-lg p-6 mb-8 border border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-gradient-to-r from-pink-500 to-purple-600 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13v6a2 2 0 002 2h6a2 2 0 002-2v-6m-6 0v-4m0-4v4m0-4h4m-4 0a2 2 0 00-2 2"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900">Cart Summary</h3>
+                                <p class="text-gray-600">{{ count($cart) }} item{{ count($cart) > 1 ? 's' : '' }} in your cart</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="flex items-center space-x-3">
+                                <input type="checkbox" id="select-all" class="w-4 h-4 text-pink-600 bg-gray-100 border-gray-300 rounded focus:ring-pink-500" title="Select all items">
+                                <label for="select-all" class="text-sm font-medium text-gray-700">Select All</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="checkout-form" method="POST" action="{{ route('checkout.preview') }}">
+                    @csrf
+                    <input type="hidden" name="selected_items_json" id="selected_items_json">
+                    
+                    <!-- Cart Items -->
+                    <div class="space-y-4 mb-8">
+                        @foreach($cart as $id => $item)
+                        <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow duration-200">
+                            <div class="p-6">
+                                <div class="flex items-start space-x-4">
+                                    <!-- Checkbox -->
+                                    <div class="flex items-center pt-2">
+                                        <input type="checkbox" 
+                                               name="cart_ids[]" 
+                                               value="{{ $id }}" 
+                                               class="cart-checkbox w-4 h-4 text-pink-600 bg-gray-100 border-gray-300 rounded focus:ring-pink-500" 
+                                               data-price="{{ $item['price'] * $item['quantity'] }}"
+                                               data-id="{{ $id }}"
+                                               data-product-id="{{ $item['product_id'] }}">
+                                    </div>
+
+                                    <!-- Product Image -->
+                                    <div class="flex-shrink-0">
+                                        <img src="{{ $item['image_url'] && file_exists(public_path('images/products/' . $item['image_url']))
+                                            ? asset('images/products/' . $item['image_url'])
+                                            : asset('images/no-image.png') }}" 
+                                             alt="{{ $item['name'] }}" 
+                                             class="w-20 h-20 object-cover rounded-lg border border-gray-200">
+                                    </div>
+
+                                    <!-- Product Details -->
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-start justify-between">
+                                            <div class="flex-1">
+                                                <h3 class="text-lg font-semibold text-gray-900 mb-1">{{ $item['name'] }}</h3>
+                                                <p class="text-2xl font-bold text-pink-600">${{ number_format($item['price'], 0, ',', '.') }}</p>
+                                                
+                                                <!-- Mobile quantity controls -->
+                                                <div class="flex items-center space-x-3 mt-4 sm:hidden">
+                                                    <span class="text-sm font-medium text-gray-700">Quantity:</span>
+                                                    <div class="flex items-center space-x-2">
+                                                        <button type="button" class="btn-decrease w-8 h-8 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center transition-colors" data-id="{{ $id }}">
+                                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                                                            </svg>
+                                                        </button>
+                                                        <input type="number" 
+                                                               min="1" 
+                                                               class="quantity-input w-16 text-center border border-gray-300 rounded-lg py-1 focus:ring-2 focus:ring-pink-500 focus:border-transparent" 
+                                                               value="{{ $item['quantity'] }}" 
+                                                               data-id="{{ $id }}" 
+                                                               data-price="{{ $item['price'] }}"
+                                                               data-total="{{ $item['price'] * $item['quantity'] }}"
+                                                               data-stock="{{ $item['product_quantity'] }}">
+                                                        <button type="button" class="btn-increase w-8 h-8 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center transition-colors" data-id="{{ $id }}">
+                                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Desktop Controls -->
+                                            <div class="hidden sm:flex items-center space-x-6">
+                                                <!-- Quantity Controls -->
+                                                <div class="flex items-center space-x-3">
+                                                    <span class="text-sm font-medium text-gray-700">Qty:</span>
+                                                    <div class="flex items-center space-x-2">
+                                                        <button type="button" class="btn-decrease w-8 h-8 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center transition-colors" data-id="{{ $id }}">
+                                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                                                            </svg>
+                                                        </button>
+                                                        <input type="number" 
+                                                               min="1" 
+                                                               class="quantity-input w-16 text-center border border-gray-300 rounded-lg py-2 focus:ring-2 focus:ring-pink-500 focus:border-transparent" 
+                                                               value="{{ $item['quantity'] }}" 
+                                                               data-id="{{ $id }}" 
+                                                               data-price="{{ $item['price'] }}"
+                                                               data-total="{{ $item['price'] * $item['quantity'] }}"
+                                                               data-stock="{{ $item['product_quantity'] }}">
+                                                        <button type="button" class="btn-increase w-8 h-8 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center transition-colors" data-id="{{ $id }}">
+                                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Subtotal -->
+                                                <div class="text-right">
+                                                    <p class="text-sm text-gray-600">Subtotal</p>
+                                                    <p class="item-total text-xl font-bold text-gray-900" data-id="{{ $id }}">
+                                                        ${{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}
+                                                    </p>
+                                                </div>
+
+                                                <!-- Remove Button -->
+                                                <a href="{{ route('cart.remove', $id) }}" 
+                                                   class="p-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-full transition-colors">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <!-- Mobile Subtotal and Remove -->
+                                        <div class="flex items-center justify-between mt-4 sm:hidden">
+                                            <div class="item-total text-xl font-bold text-gray-900" data-id="{{ $id }}">
+                                                ${{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}
+                                            </div>
+                                            <a href="{{ route('cart.remove', $id) }}" 
+                                               class="flex items-center space-x-1 text-red-600 hover:text-red-800 transition-colors">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                                </svg>
+                                                <span class="text-sm">Remove</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+
+                    <!-- Cart Total & Checkout -->
+                    <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+                        <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-900">Order Summary</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-6">
+                                <span class="text-xl font-semibold text-gray-900">Total Amount:</span>
+                                <span id="totalPrice" class="text-3xl font-bold text-pink-600">$0</span>
+                            </div>
+                            
+                            <div class="flex flex-col sm:flex-row gap-4">
+                                <a href="{{ route('user.products.index') }}" 
+                                   class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 text-center py-3 px-6 rounded-lg font-semibold transition-colors duration-200">
+                                    Continue Shopping
+                                </a>
+                                <button type="submit" 
+                                        class="flex-1 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white text-center py-3 px-6 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105">
+                                    Proceed to Checkout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            @else
+                <!-- Empty Cart State -->
+                <div class="text-center py-16">
+                    <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13v6a2 2 0 002 2h6a2 2 0 002-2v-6m-6 0v-4m0-4v4m0-4h4m-4 0a2 2 0 00-2 2"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">Your cart is empty</h3>
+                    <p class="text-gray-500 mb-6">Add some beautiful flowers and gifts to get started!</p>
+                    <a href="{{ route('user.products.index') }}" 
+                       class="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105">
+                        Start Shopping
+                    </a>
+                </div>
+            @endif
+        </div>
     </div>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const totalPriceEl = document.getElementById('totalPrice');
     const selectAllCheckbox = document.getElementById('select-all');
-    const selectAllMobile = document.getElementById('select-all-mobile');
     const checkoutForm = document.getElementById('checkout-form');
 
     function formatCurrency(value) {
-        return new Intl.NumberFormat('vi-VN').format(value) + ' USD';
+        return '$' + new Intl.NumberFormat('en-US').format(value);
     }
 
     function updateTotal() {
@@ -154,10 +240,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const quantity = parseInt(qtyInput.value);
             total += price * quantity;
         });
-        // Cập nhật cả tổng desktop và mobile
-        document.querySelectorAll('#totalPrice').forEach(el => {
-            el.textContent = formatCurrency(total);
-        });
+        totalPriceEl.textContent = formatCurrency(total);
     }
 
     function updateCheckboxPrice(id, newTotal) {
@@ -175,17 +258,29 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Tăng giảm số lượng
+    // Increase/Decrease quantity
     document.querySelectorAll('.btn-increase').forEach(btn => {
         btn.addEventListener('click', function () {
             const id = this.dataset.id;
             const input = document.querySelector(`.quantity-input[data-id="${id}"]`);
             let quantity = parseInt(input.value);
-            quantity++;
-            input.value = quantity;
-            updateCheckboxPrice(id, quantity * parseFloat(input.dataset.price));
-            updateItemTotal(id, quantity, parseFloat(input.dataset.price));
-            updateTotal();
+            const stock = parseInt(input.dataset.stock);
+            
+            if (quantity < stock) {
+                quantity++;
+                input.value = quantity;
+                
+                const price = parseFloat(input.dataset.price);
+                const newTotal = quantity * price;
+                updateItemTotal(id, quantity, price);
+                updateCheckboxPrice(id, newTotal);
+                updateTotal();
+                
+                // Update cart in backend
+                updateCartQuantity(id, quantity);
+            } else {
+                alert('Sorry, we only have ' + stock + ' items in stock.');
+            }
         });
     });
 
@@ -194,108 +289,116 @@ document.addEventListener("DOMContentLoaded", function () {
             const id = this.dataset.id;
             const input = document.querySelector(`.quantity-input[data-id="${id}"]`);
             let quantity = parseInt(input.value);
+            
             if (quantity > 1) {
                 quantity--;
                 input.value = quantity;
-                updateCheckboxPrice(id, quantity * parseFloat(input.dataset.price));
-                updateItemTotal(id, quantity, parseFloat(input.dataset.price));
+                
+                const price = parseFloat(input.dataset.price);
+                const newTotal = quantity * price;
+                updateItemTotal(id, quantity, price);
+                updateCheckboxPrice(id, newTotal);
                 updateTotal();
+                
+                // Update cart in backend
+                updateCartQuantity(id, quantity);
             }
         });
     });
 
     document.querySelectorAll('.quantity-input').forEach(input => {
-        input.addEventListener('input', function () {
+        input.addEventListener('change', function () {
             const id = this.dataset.id;
-            const quantity = parseInt(this.value);
-            if (quantity >= 1) {
-                updateCheckboxPrice(id, quantity * parseFloat(this.dataset.price));
-                updateItemTotal(id, quantity, parseFloat(this.dataset.price));
-                updateTotal();
+            let quantity = parseInt(this.value);
+            const stock = parseInt(this.dataset.stock);
+            
+            if (quantity < 1) {
+                quantity = 1;
+                this.value = quantity;
             }
+            
+            if (quantity > stock) {
+                quantity = stock;
+                this.value = quantity;
+                alert('Sorry, we only have ' + stock + ' items in stock.');
+            }
+            
+            const price = parseFloat(this.dataset.price);
+            const newTotal = quantity * price;
+            updateItemTotal(id, quantity, price);
+            updateCheckboxPrice(id, newTotal);
+            updateTotal();
+            
+            // Update cart in backend
+            updateCartQuantity(id, quantity);
         });
     });
 
-    // Checkbox chọn tất cả
+    // Select all checkbox
     if (selectAllCheckbox) {
         selectAllCheckbox.addEventListener('change', function () {
             const isChecked = this.checked;
             document.querySelectorAll('.cart-checkbox').forEach(cb => {
                 cb.checked = isChecked;
             });
-            if (selectAllMobile) selectAllMobile.checked = isChecked;
-            updateTotal();
-        });
-    }
-    if (selectAllMobile) {
-        selectAllMobile.addEventListener('change', function () {
-            const isChecked = this.checked;
-            document.querySelectorAll('.cart-checkbox').forEach(cb => {
-                cb.checked = isChecked;
-            });
-            if (selectAllCheckbox) selectAllCheckbox.checked = isChecked;
             updateTotal();
         });
     }
 
-    // Khi chọn 1 checkbox thì kiểm tra lại trạng thái chọn tất cả
+    // Individual checkbox change
     document.querySelectorAll('.cart-checkbox').forEach(cb => {
         cb.addEventListener('change', function () {
-            const allCheckboxes = document.querySelectorAll('.cart-checkbox');
-            const allChecked = [...allCheckboxes].every(c => c.checked);
-            if (selectAllCheckbox) selectAllCheckbox.checked = allChecked;
-            if (selectAllMobile) selectAllMobile.checked = allChecked;
             updateTotal();
+            
+            // Check if all checkboxes are selected
+            const allCheckboxes = document.querySelectorAll('.cart-checkbox');
+            const checkedCheckboxes = document.querySelectorAll('.cart-checkbox:checked');
+            if (selectAllCheckbox) {
+                selectAllCheckbox.checked = allCheckboxes.length === checkedCheckboxes.length;
+            }
         });
     });
 
-    // Gửi form
+    // Form submission
     checkoutForm.addEventListener('submit', function (e) {
-        const checkedCheckboxes = document.querySelectorAll('.cart-checkbox:checked');
         const selectedItems = [];
-        const checkedIds = new Set();
         document.querySelectorAll('.cart-checkbox:checked').forEach(cb => {
             const id = cb.dataset.id;
-
-            if (checkedIds.has(id)) return; // Nếu đã lấy rồi thì bỏ qua
-            checkedIds.add(id);
-            // Tìm row cho desktop hoặc card cho mobile
-            let row = cb.closest('tr');
-            if (!row) {
-                row = cb.closest('.bg-white');
-            }
-            const image = row.querySelector('img').getAttribute('src');
-            // Desktop: tên ở td thứ 3, Mobile: lấy .font-semibold
-            let name = '';
-            const nameTd = row.querySelector('td:nth-child(3)');
-            if (nameTd) {
-                name = nameTd.textContent.trim();
-            } else {
-                const nameDiv = row.querySelector('.font-semibold');
-                name = nameDiv ? nameDiv.textContent.trim() : '';
-            }
-            const price = parseFloat(row.querySelector('.quantity-input').dataset.price);
-            const quantity = parseInt(row.querySelector('.quantity-input').value);
-            const subtotal = price * quantity;
-            const stock_quantity = parseInt(row.querySelector('.quantity-input').dataset.stock);
-
+            const qtyInput = document.querySelector(`.quantity-input[data-id="${id}"]`);
             selectedItems.push({
-                id: cb.dataset.productId, // Lấy đúng product_id từ checkbox
-                image,
-                name,
-                price,
-                quantity,
-                subtotal,
-                stock_quantity
+                cart_id: id,
+                product_id: cb.dataset.productId,
+                quantity: parseInt(qtyInput.value)
             });
         });
+
+        if (selectedItems.length === 0) {
+            e.preventDefault();
+            alert('Please select at least one item to checkout.');
+            return;
+        }
+
         document.getElementById('selected_items_json').value = JSON.stringify(selectedItems);
     });
 
+    // Update cart quantity in backend
+    function updateCartQuantity(cartId, quantity) {
+        fetch(`/cart/update/${cartId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({ quantity: quantity })
+        })
+        .catch(error => {
+            console.error('Error updating cart:', error);
+        });
+    }
+
+    // Initialize total calculation
     updateTotal();
 });
-
 </script>
-
 
 </x-app-layout>
