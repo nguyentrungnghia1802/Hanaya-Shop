@@ -53,7 +53,7 @@
                 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     @foreach($topSeller as $product)
-                    <div class="bg-gray-50 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 group">
+                    <div class="bg-gray-50 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 group flex flex-col h-full">
                         <div class="relative">
                             <div class="aspect-square w-full bg-white overflow-hidden">
                                 <img 
@@ -92,33 +92,42 @@
                             </div>
                         </div>
                         
-                        <div class="p-4">
-                            <h4 class="font-semibold text-lg mb-2 line-clamp-2">{{ $product->name }}</h4>
+                        <div class="p-4 flex flex-col flex-1">
+                            <!-- Fixed height title area -->
+                            <div class="h-14 mb-2">
+                                <h4 class="font-semibold text-lg line-clamp-2">{{ $product->name }}</h4>
+                            </div>
                             
-                            @if($product->discount_percent > 0)
-                            <div class="flex items-center mb-2">
-                                <span class="text-lg font-bold text-red-600">
-                                    ${{ number_format($product->discounted_price ?? $product->price, 2) }}
-                                </span>
-                                <span class="text-sm text-gray-500 line-through ml-2">
+                            <!-- Fixed height price area -->
+                            <div class="h-10 mb-2">
+                                @if($product->discount_percent > 0)
+                                <div class="flex items-center">
+                                    <span class="text-lg font-bold text-red-600">
+                                        ${{ number_format($product->discounted_price ?? $product->price, 2) }}
+                                    </span>
+                                    <span class="text-sm text-gray-500 line-through ml-2">
+                                        ${{ number_format($product->price, 2) }}
+                                    </span>
+                                </div>
+                                @else
+                                <span class="text-lg font-bold text-gray-900 block">
                                     ${{ number_format($product->price, 2) }}
                                 </span>
+                                @endif
                             </div>
-                            @else
-                            <span class="text-lg font-bold text-gray-900 mb-2 block">
-                                ${{ number_format($product->price, 2) }}
-                            </span>
-                            @endif
                             
                             <div class="flex items-center justify-between text-sm text-gray-500 mb-3">
                                 <span><i class="fas fa-shopping-cart mr-1"></i>{{ $product->total_sold ?? 0 }} sold</span>
                                 <span><i class="fas fa-eye mr-1"></i>{{ $product->view_count ?? 0 }}</span>
                             </div>
                             
-                            <a href="{{ route('user.products.show', $product->id) }}" 
-                               class="w-full bg-red-500 hover:bg-red-600 text-white text-center py-2 px-4 rounded-lg transition-colors flex items-center justify-center">
-                                <i class="fas fa-eye mr-2"></i>View Now
-                            </a>
+                            <!-- Button pushes to bottom -->
+                            <div class="mt-auto">
+                                <a href="{{ route('user.products.show', $product->id) }}" 
+                                   class="w-full bg-red-500 hover:bg-red-600 text-white text-center py-2 px-4 rounded-lg transition-colors flex items-center justify-center">
+                                    <i class="fas fa-eye mr-2"></i>View Now
+                                </a>
+                            </div>
                         </div>
                     </div>
                     @endforeach
@@ -146,7 +155,7 @@
                     
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         @foreach($onSale->take(4) as $product)
-                        <div class="bg-gray-50 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 group">
+                        <div class="bg-gray-50 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 group flex flex-col h-full">
                             <div class="relative">
                                 <div class="aspect-w-4 aspect-h-3 w-full bg-white overflow-hidden">
                                     <img 
@@ -180,27 +189,36 @@
                                 </div>
                             </div>
                             
-                            <div class="p-3">
-                                <h4 class="font-semibold text-sm line-clamp-2 mb-2">{{ $product->name }}</h4>
+                            <div class="p-3 flex flex-col flex-1">
+                                <!-- Fixed height title area -->
+                                <div class="h-10 mb-2">
+                                    <h4 class="font-semibold text-sm line-clamp-2">{{ $product->name }}</h4>
+                                </div>
                                 
-                                @if($product->discount_percent > 0)
-                                <div class="flex items-center mb-2">
-                                    <span class="text-sm font-bold text-red-600">
-                                        ${{ number_format($product->discounted_price ?? $product->price, 2) }}
-                                    </span>
-                                    <span class="text-xs text-gray-500 line-through ml-2">
+                                <!-- Fixed height price area -->
+                                <div class="h-8 mb-2">
+                                    @if($product->discount_percent > 0)
+                                    <div class="flex items-center">
+                                        <span class="text-sm font-bold text-red-600">
+                                            ${{ number_format($product->discounted_price ?? $product->price, 2) }}
+                                        </span>
+                                        <span class="text-xs text-gray-500 line-through ml-2">
+                                            ${{ number_format($product->price, 2) }}
+                                        </span>
+                                    </div>
+                                    @else
+                                    <span class="text-sm font-bold text-gray-900 block">
                                         ${{ number_format($product->price, 2) }}
                                     </span>
+                                    @endif
                                 </div>
-                                @else
-                                <span class="text-sm font-bold text-gray-900 mb-2 block">
-                                    ${{ number_format($product->price, 2) }}
-                                </span>
-                                @endif
                                 
-                                <div class="flex items-center justify-between text-xs text-gray-500">
-                                    <span><i class="fas fa-eye mr-1"></i>{{ $product->view_count ?? 0 }}</span>
-                                    <span><i class="fas fa-box mr-1"></i>{{ $product->stock_quantity }}</span>
+                                <!-- Stats and button at bottom -->
+                                <div class="mt-auto">
+                                    <div class="flex items-center justify-between text-xs text-gray-500">
+                                        <span><i class="fas fa-eye mr-1"></i>{{ $product->view_count ?? 0 }}</span>
+                                        <span><i class="fas fa-box mr-1"></i>{{ $product->stock_quantity }}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -227,7 +245,7 @@
                     
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         @foreach($latest->take(4) as $product)
-                        <div class="bg-gray-50 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 group">
+                        <div class="bg-gray-50 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 group flex flex-col h-full">
                             <div class="relative">
                                 <div class="aspect-w-4 aspect-h-3 w-full bg-white overflow-hidden">
                                     <img 
@@ -261,27 +279,36 @@
                                 </div>
                             </div>
                             
-                            <div class="p-3">
-                                <h4 class="font-semibold text-sm line-clamp-2 mb-2">{{ $product->name }}</h4>
+                            <div class="p-3 flex flex-col flex-1">
+                                <!-- Fixed height title area -->
+                                <div class="h-10 mb-2">
+                                    <h4 class="font-semibold text-sm line-clamp-2">{{ $product->name }}</h4>
+                                </div>
                                 
-                                @if($product->discount_percent > 0)
-                                <div class="flex items-center mb-2">
-                                    <span class="text-sm font-bold text-red-600">
-                                        ${{ number_format($product->discounted_price ?? $product->price, 2) }}
-                                    </span>
-                                    <span class="text-xs text-gray-500 line-through ml-2">
+                                <!-- Fixed height price area -->
+                                <div class="h-8 mb-2">
+                                    @if($product->discount_percent > 0)
+                                    <div class="flex items-center">
+                                        <span class="text-sm font-bold text-red-600">
+                                            ${{ number_format($product->discounted_price ?? $product->price, 2) }}
+                                        </span>
+                                        <span class="text-xs text-gray-500 line-through ml-2">
+                                            ${{ number_format($product->price, 2) }}
+                                        </span>
+                                    </div>
+                                    @else
+                                    <span class="text-sm font-bold text-gray-900 block">
                                         ${{ number_format($product->price, 2) }}
                                     </span>
+                                    @endif
                                 </div>
-                                @else
-                                <span class="text-sm font-bold text-gray-900 mb-2 block">
-                                    ${{ number_format($product->price, 2) }}
-                                </span>
-                                @endif
                                 
-                                <div class="flex items-center justify-between text-xs text-gray-500">
-                                    <span><i class="fas fa-eye mr-1"></i>{{ $product->view_count ?? 0 }}</span>
-                                    <span><i class="fas fa-box mr-1"></i>{{ $product->stock_quantity }}</span>
+                                <!-- Stats at bottom -->
+                                <div class="mt-auto">
+                                    <div class="flex items-center justify-between text-xs text-gray-500">
+                                        <span><i class="fas fa-eye mr-1"></i>{{ $product->view_count ?? 0 }}</span>
+                                        <span><i class="fas fa-box mr-1"></i>{{ $product->stock_quantity }}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -310,7 +337,7 @@
                 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     @foreach($mostViewed->take(4) as $product)
-                    <div class="bg-gray-50 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 group">
+                    <div class="bg-gray-50 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 group flex flex-col h-full">
                         <div class="relative">
                             <div class="aspect-square w-full bg-white overflow-hidden">
                                 <img 
@@ -344,33 +371,42 @@
                             </div>
                         </div>
                         
-                        <div class="p-4">
-                            <h4 class="font-semibold text-lg mb-2 line-clamp-2">{{ $product->name }}</h4>
+                        <div class="p-4 flex flex-col flex-1">
+                            <!-- Fixed height title area -->
+                            <div class="h-14 mb-2">
+                                <h4 class="font-semibold text-lg line-clamp-2">{{ $product->name }}</h4>
+                            </div>
                             
-                            @if($product->discount_percent > 0)
-                            <div class="flex items-center mb-2">
-                                <span class="text-lg font-bold text-red-600">
-                                    ${{ number_format($product->discounted_price ?? $product->price, 2) }}
-                                </span>
-                                <span class="text-sm text-gray-500 line-through ml-2">
+                            <!-- Fixed height price area -->
+                            <div class="h-10 mb-2">
+                                @if($product->discount_percent > 0)
+                                <div class="flex items-center">
+                                    <span class="text-lg font-bold text-red-600">
+                                        ${{ number_format($product->discounted_price ?? $product->price, 2) }}
+                                    </span>
+                                    <span class="text-sm text-gray-500 line-through ml-2">
+                                        ${{ number_format($product->price, 2) }}
+                                    </span>
+                                </div>
+                                @else
+                                <span class="text-lg font-bold text-gray-900 block">
                                     ${{ number_format($product->price, 2) }}
                                 </span>
+                                @endif
                             </div>
-                            @else
-                            <span class="text-lg font-bold text-gray-900 mb-2 block">
-                                ${{ number_format($product->price, 2) }}
-                            </span>
-                            @endif
                             
                             <div class="flex items-center justify-between text-sm text-gray-500 mb-3">
                                 <span><i class="fas fa-eye mr-1"></i>{{ $product->view_count ?? 0 }} views</span>
                                 <span><i class="fas fa-box mr-1"></i>{{ $product->stock_quantity }}</span>
                             </div>
                             
-                            <a href="{{ route('user.products.show', $product->id) }}" 
-                               class="w-full bg-purple-500 hover:bg-purple-600 text-white text-center py-2 px-4 rounded-lg transition-colors flex items-center justify-center">
-                                <i class="fas fa-eye mr-2"></i>View Details
-                            </a>
+                            <!-- Button pushes to bottom -->
+                            <div class="mt-auto">
+                                <a href="{{ route('user.products.show', $product->id) }}" 
+                                   class="w-full bg-purple-500 hover:bg-purple-600 text-white text-center py-2 px-4 rounded-lg transition-colors flex items-center justify-center">
+                                    <i class="fas fa-eye mr-2"></i>View Details
+                                </a>
+                            </div>
                         </div>
                     </div>
                     @endforeach
@@ -442,7 +478,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     const popup = document.getElementById('success-popup');
                     if (popup) {
                         popup.classList.remove('hidden');
-                        setTimeout(() => popup.classList.add('hidden'), 2500);
+                        popup.classList.add('flex');
+                        setTimeout(() => {
+                            popup.classList.add('hidden');
+                            popup.classList.remove('flex');
+                        }, 2500);
                     }
 
                     // Update cart count
@@ -463,11 +503,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!-- Success Popup -->
-<div id="success-popup" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
+<div id="success-popup" class="fixed inset-0 z-50 items-center justify-center bg-black bg-opacity-40 hidden">
     <div class="bg-white rounded-lg shadow-lg p-6 text-center w-80">
         <h3 class="text-lg font-semibold text-green-600 mb-2">Success</h3>
         <p class="text-gray-700">Success to add to cart!</p>
-        <button onclick="document.getElementById('success-popup').classList.add('hidden')" class="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+        <button onclick="document.getElementById('success-popup').classList.add('hidden'); document.getElementById('success-popup').classList.remove('flex');" class="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
             OK
         </button>
     </div>
