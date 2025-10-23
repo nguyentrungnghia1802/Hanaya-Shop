@@ -500,48 +500,8 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Cart functionality
-            document.querySelectorAll('.add-to-cart-form').forEach(function(form) {
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    const action = form.getAttribute('action');
-                    const quantity = form.querySelector('input[name="quantity"]').value || 1;
-
-                    fetch(action, {
-                            method: 'POST',
-                            headers: {
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            },
-                            body: JSON.stringify({
-                                quantity
-                            })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {} else {
-                                …}
-                        })
-                        .catch(() => {
-                            alert('An error occurred while adding the product');
-                        });
-                });
-            });
-        });
-    </script>
-
-    <!-- Success Popup -->
-    <div id="success-popup" class="fixed inset-0 z-50 items-center justify-center bg-black bg-opacity-40 hidden">
-        <div class="bg-white rounded-lg shadow-lg p-6 text-center w-80">
-            <h3 class="text-lg font-semibold text-green-600 mb-2">Success</h3>
-            <p class="text-gray-700">Success to add to cart!</p>
-            <button
-                onclick="document.getElementById('success-popup').classList.add('hidden'); document.getElementById('success-popup').classList.remove('flex');"
-                class="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
-                OK
-            </button>
-        </div>
-    </div>
-
 </x-app-layout>
+
+@push('scripts')
+<script src="{{ asset('js/dashboard.js') }}" defer></script>
+@endpush

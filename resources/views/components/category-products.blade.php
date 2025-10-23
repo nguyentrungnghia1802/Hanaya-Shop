@@ -152,63 +152,8 @@
     </div>
 </div>
 
-<script>
-function addToCart(productId) {
-    fetch('/cart/add/' + productId, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-        },
-        body: JSON.stringify({
-            quantity: 1
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Show success message
-            if (typeof Swal !== 'undefined') {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success!',
-                    text: 'Product added to cart successfully',
-                    timer: 2000,
-                    showConfirmButton: false
-                });
-            } else {
-                alert('Product added to cart successfully!');
-            }
-            
-            // Update cart count if element exists
-            const cartCount = document.querySelector('.cart-count');
-            if (cartCount && data.cart_count) {
-                cartCount.textContent = data.cart_count;
-            }
-        } else {
-            if (typeof Swal !== 'undefined') {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error!',
-                    text: data.message || 'An error occurred while adding the product'
-                });
-            } else {
-                alert(data.message || 'An error occurred while adding the product');
-            }
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        if (typeof Swal !== 'undefined') {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error!',
-                text: 'An error occurred while adding the product'
-            });
-        } else {
-            alert('An error occurred while adding the product');
-        }
-    });
-}
-</script>
+@push('scripts')
+<script src="{{ asset('js/category-products.js') }}" defer></script>
+@endpush
+
 @endif

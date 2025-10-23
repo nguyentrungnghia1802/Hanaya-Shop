@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    {{-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.bunny.net; font-src 'self' https://fonts.bunny.net; img-src 'self' data: https:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';"> --}}
 
     <title>{{ config('app.name', 'Hanaya') }}</title>
 
@@ -15,6 +14,15 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/components.js'])
+    
+    <!-- CSP Compliant Scripts -->
+    <script src="{{ asset('js/chatbot.js') }}" defer></script>
+    <script src="{{ asset('js/app-main.js') }}" defer></script>
+    <script src="{{ asset('js/category-products.js') }}" defer></script>
+    <script src="{{ asset('js/navigation.js') }}" defer></script>
+    
+    <!-- Page-specific scripts -->
+    @stack('scripts')
     
     <!-- CSS cho prose content - giống admin -->
     <style>
@@ -141,34 +149,7 @@
             </div>
         </footer>
     </div>
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Block clicks on nav-link and delay page change
-        document.querySelectorAll('nav a,button[type="submit"]').forEach(link => {
-            link.addEventListener('click', function(e) {
-                // Only handle internal links (no target _blank, not anchor, no modifier key)
-                if (
-                    this.target === '_blank' ||
-                    this.href && this.href.startsWith('javascript:') ||
-                    this.href === '#' ||
-                    e.ctrlKey || e.shiftKey || e.metaKey || e.altKey
-                ) return;
-                document.getElementById('pageLoadingOverlay').style.display = 'flex';
-            });
-        });
-        // When clicking Delete Account button in modal, turn off loading overlay immediately
-        document.querySelectorAll('button').forEach(btn => {
-            if (btn.textContent.trim() === 'Delete Account') {
-                btn.addEventListener('click', function() {
-                    document.getElementById('pageLoadingOverlay').style.display = 'none';
-                });
-            }
-        });
-    });
-    </script>
 
-    <!-- Chatbot Component -->
-    <x-chatbot/>
 </body>
 
 </html>
