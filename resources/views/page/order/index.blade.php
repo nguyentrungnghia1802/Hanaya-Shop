@@ -98,7 +98,7 @@
                                                 </div>
                                             </div>
                                             <div>
-                                                <h3 class="text-lg font-bold text-gray-900">Order #{{ $order->id }}</h3>
+                                                <h3 class="text-lg font-bold text-gray-900">Order ID: #{{ $order->id }}</h3>
                                                 <p class="text-sm text-gray-500">{{ $order->created_at->format('M d, Y H:i') }}</p>
                                             </div>
                                         </div>
