@@ -53,12 +53,12 @@
                 width="150">
         @endif
 
-        <!-- Input for category description -->
+        <!-- Input for category description (plain textarea) -->
         <div>
             <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
             <textarea 
                 name="description" 
-                id="myeditorinstance" 
+                id="description" 
                 cols="30" 
                 rows="10"
                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none">{{ old('description', $category->description) }}</textarea>
@@ -80,17 +80,8 @@
         </div>
     </form>
 
-    <!-- Add JavaScript for Cancel button -->
     <script>
-        // Set global variable for TinyMCE upload URL
-        window.tinymceUploadUrl = "{{ route('admin.upload.tinymce.image') }}";
-        
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize TinyMCE
-            if (typeof window.initTinyMCE === 'function') {
-                window.initTinyMCE();
-            }
-            
             // Handle Cancel button click
             document.getElementById('cancelBtn').addEventListener('click', function() {
                 if (confirm('Are you sure you want to cancel? Any unsaved changes will be lost.')) {
@@ -122,5 +113,4 @@
             });
         });
     </script>
-    <x-head.tinymce-config />
 @endsection
