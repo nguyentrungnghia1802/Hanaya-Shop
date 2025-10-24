@@ -19,7 +19,11 @@
     @if($categories->count() > 0)
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             @foreach($categories as $category)
-                <a href="{{ route('user.products.index', ['category' => $category->id]) }}" 
+                @php
+                    // Generate slug for category_name param
+                    $slug = Str::slug($category->name, '-');
+                @endphp
+                <a href="{{ route('user.products.index', ['category_name' => $slug]) }}" 
                    class="group block">
                     <div class="bg-white bg-opacity-20 hover:bg-opacity-30 backdrop-blur-sm rounded-xl p-6 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-lg">
                         <div class="flex items-center space-x-4">
