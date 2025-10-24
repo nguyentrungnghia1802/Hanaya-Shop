@@ -7,6 +7,7 @@ services:
     ports:
       - "80:80"
     environment:
+      - VIRTUAL_HOST=hanayashop.duckdns.org
       - APP_ENV=production
       - APP_DEBUG=false
       - APP_KEY=${APP_KEY}
@@ -21,9 +22,20 @@ services:
       - QUEUE_CONNECTION=redis
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+
+      - MAIL_MAILER=smtp
+      - MAIL_HOST=smtp.gmail.com
+      - MAIL_PORT=587
+      - MAIL_USERNAME=assassincreed2k1@gmail.com
+      - MAIL_PASSWORD=tijrvguflmbctaba
+      - MAIL_ENCRYPTION=tls
+      - MAIL_FROM_ADDRESS=assassincreed2k1@gmail.com
+      - MAIL_FROM_NAME=hanaya_shop
     volumes:
       - storage_data:/var/www/html/storage/app
       - ../public/images:/var/www/html/public/images
+      - ../deployment/.env:/var/www/html/.env  
+
     depends_on:
       - db
       - redis

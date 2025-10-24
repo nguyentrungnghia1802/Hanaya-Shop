@@ -1,6 +1,6 @@
 @props(['posts'])
 
-<div class="bg-white rounded-lg shadow-lg p-6">
+<div class="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl shadow-lg p-6 border border-blue-200">
     <div class="flex items-center justify-between mb-6">
         <h3 class="text-2xl font-bold text-gray-800 flex items-center">
             <svg class="w-6 h-6 mr-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -8,7 +8,7 @@
             </svg>
             Tin tức mới nhất
         </h3>
-        <a href="{{ route('posts.index') }}" class="text-blue-600 hover:text-blue-800 font-medium flex items-center">
+        <a href="{{ route('posts.index') }}" class="text-blue-600 hover:text-blue-800 font-medium flex items-center transition-colors duration-300">
             Xem tất cả 
             <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -19,25 +19,25 @@
     @if($posts->count() > 0)
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($posts as $post)
-                <article class="group cursor-pointer">
-                    <div class="relative overflow-hidden rounded-lg mb-3">
+                <article class="group cursor-pointer bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden">
+                    <div class="relative overflow-hidden rounded-t-xl mb-3">
                         <img src="{{ $post->image ? asset('images/posts/' . $post->image) : asset('fixed_resources/default-post.jpg') }}" 
                              alt="{{ $post->title }}" 
                              class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
                         <div class="absolute top-3 left-3">
-                            <span class="bg-blue-600 text-white text-xs px-2 py-1 rounded-full">
+                            <span class="bg-blue-600 text-white text-xs px-2 py-1 rounded-full shadow-lg">
                                 {{ $post->created_at->format('d/m/Y') }}
                             </span>
                         </div>
                     </div>
                     
-                    <div class="space-y-2">
+                    <div class="space-y-2 p-4">
                         <h4 class="font-semibold text-gray-800 group-hover:text-blue-600 transition-colors line-clamp-2">
                             {{ $post->title }}
                         </h4>
                         
                         <p class="text-gray-600 text-sm line-clamp-3">
-                            {{ Str::limit(strip_tags($post->content), 100) }}
+                            {{ Str::limit(html_entity_decode(strip_tags($post->content)), 100) }}
                         </p>
                         
                         <div class="flex items-center text-xs text-gray-500 space-x-4">
@@ -56,7 +56,7 @@
                         </div>
                         
                         <a href="{{ route('posts.show', $post->slug) }}" 
-                           class="inline-flex items-center text-blue-600 hover:text-blue-800 text-sm font-medium mt-2">
+                           class="inline-flex items-center text-blue-600 hover:text-blue-800 text-sm font-medium mt-2 transition-colors duration-300">
                             Đọc thêm
                             <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
