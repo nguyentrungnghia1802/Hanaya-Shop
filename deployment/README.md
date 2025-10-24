@@ -32,6 +32,9 @@ docker compose -f docker-compose.prod.yml up -d --build   #Dùng để cập nh�
 docker compose -f docker-compose.prod.yml build
 docker compose -f docker-compose.prod.yml exec app php artisan migrate --force   #Dùng để chạy migration, cập nhật database
 
+docker exec -it hanaya-shop-app bash       #Truy cập bash của Server, có thể dùng lệnh php
+Sau đó: php artisan tinker                 #Kiểm tra thông tin
+
 ## 4. Truy cập
 - Website: http://localhost
 - Admin: http://localhost/admin
