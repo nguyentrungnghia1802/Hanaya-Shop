@@ -31,7 +31,7 @@
             </div>
 
             <!-- Review Form -->
-            <form action="{{ route('review.store') }}" method="POST" class="space-y-6">
+            <form action="{{ route('review.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                 @csrf
                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                 <input type="hidden" name="order_id" value="{{ $order->id }}">
@@ -68,12 +68,34 @@
 
                 <!-- Input for review image -->
                 <div>
-                    <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Image:</label>
-                    <input type="file" name="image" id="imageInput" accept="image/*" class="block mt-1">
-
-                    <!-- Placeholder or current image preview -->
-                    <p class="mt-2 text-sm text-gray-600">Current Image:</p>
-                    <img id="previewImage" src="{{ asset('images/base.jpg') }}" alt="Review Image" width="150">
+                    <label for="image" class="block text-sm font-medium text-gray-700 mb-2">
+                        Add Photo <span class="text-sm text-gray-500">(Optional)</span>
+                    </label>
+                    <input type="file" 
+                           name="image" 
+                           id="imageInput" 
+                           accept="image/jpeg,image/png,image/jpg,image/gif,image/webp" 
+                           class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-pink-50 file:text-pink-700 hover:file:bg-pink-100 focus:outline-none">
+                    
+                    <!-- Image preview container -->
+                    <div id="imagePreviewContainer" class="mt-4 hidden">
+                        <p class="text-sm font-medium text-gray-700 mb-2">Preview:</p>
+                        <div class="relative inline-block">
+                            <img id="previewImage" 
+                                 src="" 
+                                 alt="Review Image Preview" 
+                                 class="w-32 h-32 sm:w-40 sm:h-40 object-cover rounded-lg border border-gray-200">
+                            <button type="button" 
+                                    id="removeImage"
+                                    class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                                ×
+                            </button>
+                        </div>
+                    </div>
+                    
+                    @error('image')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <!-- Action Buttons -->
@@ -125,6 +147,10 @@
                 const stars = document.querySelectorAll('.star');
                 const ratingInput = document.getElementById('rating');
                 const ratingText = document.querySelector('.rating-text');
+                const imageInput = document.getElementById('imageInput');
+                const previewImage = document.getElementById('previewImage');
+                const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+                const removeImageBtn = document.getElementById('removeImage');
 
                 const ratingTexts = {
                     1: 'Poor (1 star)',
@@ -135,11 +161,14 @@
                 };
 
                 // Initialize with 5 stars
-                updateStars(5);
+                let currentRating = 5;
+                updateStars(currentRating);
 
+                // Star rating functionality
                 stars.forEach(star => {
                     star.addEventListener('click', function() {
                         const rating = parseInt(this.dataset.value);
+                        currentRating = rating;
                         updateStars(rating);
                         ratingInput.value = rating;
                         ratingText.textContent = ratingTexts[rating];
@@ -152,8 +181,43 @@
                 });
 
                 document.querySelector('.star-rating').addEventListener('mouseleave', function() {
-                    const currentRating = parseInt(ratingInput.value);
                     updateStars(currentRating);
+                });
+
+                // Image preview functionality
+                imageInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    
+                    if (file) {
+                        // Validate file type
+                        const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/webp'];
+                        if (!allowedTypes.includes(file.type)) {
+                            alert('Please select a valid image file (JPEG, PNG, JPG, GIF, WEBP)');
+                            this.value = '';
+                            return;
+                        }
+                        
+                        // Validate file size (2MB = 2048KB)
+                        if (file.size > 2048 * 1024) {
+                            alert('File size must be less than 2MB');
+                            this.value = '';
+                            return;
+                        }
+                        
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            previewImage.src = e.target.result;
+                            imagePreviewContainer.classList.remove('hidden');
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+
+                // Remove image functionality
+                removeImageBtn.addEventListener('click', function() {
+                    imageInput.value = '';
+                    imagePreviewContainer.classList.add('hidden');
+                    previewImage.src = '';
                 });
 
                 function updateStars(rating) {

@@ -243,8 +243,17 @@ class ProductsController extends Controller
     public function deleteReview($reviewId)
     {
         $review = Review::findOrFail($reviewId);
+        
+        // Delete associated image if exists
+        if ($review->image_path && $review->image_path !== 'base.jpg') {
+            $imagePath = public_path('images/reviews/' . $review->image_path);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+        }
+        
         $review->delete();
 
-        return back()->with('success', 'Review deleted successfully.');
+        return back()->with('success', 'Review and associated image deleted successfully.');
     }
 }

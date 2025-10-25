@@ -9,7 +9,7 @@
                     <img src="{{ asset(config('constants.logo_path')) }}" alt="Logo" class="h-9 w-auto" loading="lazy"
                         fetchpriority="high">
                     <a href="{{ route('dashboard') }}">
-                        <p style="margin-left: 10px"> HANAYA SHOP </p>
+                        <p class="ml-2.5 font-semibold"> HANAYA SHOP </p>
                     </a>
                 </div>
 
