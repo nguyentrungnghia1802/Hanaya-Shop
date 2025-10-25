@@ -60,7 +60,7 @@ class ProductController extends Controller
                 $query->where(function ($q) use ($keyword) {
                     $q->where('name', 'like', "%$keyword%")
                         ->orWhere('descriptions', 'like', "%$keyword%")
-                        ->orWhere('price', 'like', "%$keyword%")
+                        ->orWhere('products.price', 'like', "%$keyword%")
                         ->orWhere('image_url', 'like', "%$keyword%")
                         ->orWhere('category_id', 'like', "%$keyword%")
                         ->orWhereHas('category', function ($catQ) use ($keyword) {
