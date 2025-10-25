@@ -12,6 +12,7 @@ class CreateReviewsTable extends Migration
             $table->id(); // ID tự tăng
             $table->tinyInteger('rating')->default(5); // điểm đánh giá từ 1-5, mặc định 5
             $table->longText('comment')->nullable();   // nội dung đánh giá
+            $table->string('image_path')->nullable(); // image: varchar(255), nullable
             $table->timestamps();
             $table->unsignedBigInteger('product_id');  // liên kết đến bảng products
             $table->unsignedBigInteger('order_id');    // liên kết đến bảng orders
