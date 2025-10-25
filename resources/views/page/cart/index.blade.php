@@ -45,17 +45,21 @@
                                                         data-product-id="{{ $item['product_id'] }}">
                                                 </td>
                                                 <td class="py-3 px-4 align-middle">
-                                                    <div
-                                                        class="w-16 h-16 rounded-lg overflow-hidden border-2 border-pink-200 bg-gray-100 flex items-center justify-center">
-                                                        <img src="{{ $item['image_url'] && file_exists(public_path('images/products/' . $item['image_url']))
-                                                            ? asset('images/products/' . $item['image_url'])
-                                                            : asset('images/no-image.png') }}"
-                                                            alt="{{ $item['name'] }}"
-                                                            class="w-full h-full object-cover">
-                                                    </div>
+                                                    <a href="{{ route('user.products.show', $item['product_id']) }}" title="Xem chi tiết sản phẩm">
+                                                        <div class="w-16 h-16 rounded-lg overflow-hidden border-2 border-pink-200 bg-gray-100 flex items-center justify-center">
+                                                            <img src="{{ $item['image_url'] && file_exists(public_path('images/products/' . $item['image_url']))
+                                                                ? asset('images/products/' . $item['image_url'])
+                                                                : asset('images/no-image.png') }}"
+                                                                alt="{{ $item['name'] }}"
+                                                                class="w-full h-full object-cover">
+                                                        </div>
+                                                    </a>
                                                 </td>
                                                 <td class="py-3 px-4 align-middle font-semibold text-gray-900">
-                                                    {{ $item['name'] }}</td>
+                                                    <a href="{{ route('user.products.show', $item['product_id']) }}" class="hover:text-pink-600 transition-colors" title="Xem chi tiết sản phẩm">
+                                                        {{ $item['name'] }}
+                                                    </a>
+                                                </td>
                                                 <td class="py-3 px-4 align-middle text-pink-600 font-bold">
                                                     {{ number_format($item['price'], 0, ',', '.') }} USD</td>
                                                 <td class="py-3 px-4 align-middle text-center">
@@ -123,18 +127,20 @@
                                             class="cart-checkbox accent-pink-500 w-5 h-5"
                                             data-price="{{ $item['price'] * $item['quantity'] }}"
                                             data-id="{{ $id }}" data-product-id="{{ $item['product_id'] }}">
-                                        <div
-                                            class="w-20 h-20 rounded-lg overflow-hidden border-2 border-pink-200 bg-gray-100 flex items-center justify-center">
-                                            <img src="{{ $item['image_url'] && file_exists(public_path('images/products/' . $item['image_url']))
-                                                ? asset('images/products/' . $item['image_url'])
-                                                : asset('images/no-image.png') }}"
-                                                alt="{{ $item['name'] }}" class="w-full h-full object-cover">
-                                        </div>
-                                        <div class="flex-1">
-                                            <div class="font-semibold text-gray-900">{{ $item['name'] }}</div>
-                                            <div class="text-pink-600 font-bold">
-                                                {{ number_format($item['price'], 0, ',', '.') }} USD</div>
-                                        </div>
+                                        <a href="{{ route('user.products.show', $item['product_id']) }}" class="flex items-center gap-3 group" title="Xem chi tiết sản phẩm">
+                                            <div class="w-20 h-20 rounded-lg overflow-hidden border-2 border-pink-200 bg-gray-100 flex items-center justify-center">
+                                                <img src="{{ $item['image_url'] && file_exists(public_path('images/products/' . $item['image_url']))
+                                                    ? asset('images/products/' . $item['image_url'])
+                                                    : asset('images/no-image.png') }}"
+                                                    alt="{{ $item['name'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200">
+                                            </div>
+                                            <div class="flex-1">
+                                                <div class="font-semibold text-gray-900 group-hover:text-pink-600 transition-colors">{{ $item['name'] }}</div>
+                                                <div class="text-pink-600 font-bold">
+                                                    {{ number_format($item['price'], 0, ',', '.') }} USD
+                                                </div>
+                                            </div>
+                                        </a>
                                     </div>
                                     <div class="flex items-center justify-between">
                                         <div class="flex items-center gap-2">
