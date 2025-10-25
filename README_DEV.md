@@ -38,6 +38,7 @@ php artisan route:clear
 php artisan view:clear
 
 php artisan clear-compiled
+php artisan serve --host=0.0.0.0 --port=8080
 composer dump-autoload
 ```
 
