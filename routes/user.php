@@ -8,6 +8,7 @@ use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\OrderController;
 use App\Http\Controllers\User\PostController;
+use App\Http\Controllers\User\ReviewController;
 
 Route::get('/', [UserDashboardController::class, 'index'])->name('dashboard');
 
@@ -47,4 +48,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
     Route::get('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
+
+    // Review routes
+    Route::get('/review/create', [ReviewController::class, 'create'])->name('review.create');
+    Route::post('/review', [ReviewController::class, 'store'])->name('review.store');
 });
