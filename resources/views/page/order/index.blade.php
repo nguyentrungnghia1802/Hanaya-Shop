@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="max-w-7xl mx-auto px-2 sm:px-4 py-6 sm:py-12">
         <!-- Page Title -->
-        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">{{ $pageTitle ?? '📃Orders' }}</h2>
+        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">📃Orders</h2>
 
         <div class="min-h-screen bg-gray-50 py-8">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
