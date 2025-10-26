@@ -66,12 +66,19 @@
                                                     <button type="button"
                                                         class="btn-decrease bg-gray-200 hover:bg-pink-100 text-pink-600 px-2 rounded transition"
                                                         data-id="{{ $id }}">−</button>
-                                                    <input type="number" min="1"
+                                                    {{-- <input name="quantities[{{ $id }}]" type="number" min="1"
                                                         class="quantity-input w-[80px] text-center border rounded focus:ring-pink-500"
                                                         value="{{ $item['quantity'] }}" data-id="{{ $id }}"
                                                         data-price="{{ $item['price'] }}"
                                                         data-total="{{ $item['price'] * $item['quantity'] }}"
-                                                        data-stock="{{ $item['product_quantity'] }}">
+                                                        data-stock="{{ $item['product_quantity'] }}"> --}}
+                                                         <input name="quantities[{{ $id }}]" type="number" min="1"
+    class="quantity-input w-[80px] text-center border rounded focus:ring-pink-500"
+    value="{{ $item['quantity'] }}" data-id="{{ $id }}"
+    data-price="{{ $item['price'] }}"
+    data-total="{{ $item['price'] * $item['quantity'] }}"
+    data-stock="{{ $item['product_quantity'] }}">
+
                                                     <button type="button"
                                                         class="btn-increase bg-gray-200 hover:bg-pink-100 text-pink-600 px-2 rounded transition"
                                                         data-id="{{ $id }}">+</button>
@@ -349,6 +356,7 @@
                         .stock);
 
                     selectedItems.push({
+                        cart_id: cb.dataset.id,
                         id: cb.dataset.productId, // Lấy đúng product_id từ checkbox
                         image,
                         name,
