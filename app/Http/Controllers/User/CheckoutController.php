@@ -118,6 +118,7 @@ class CheckoutController extends Controller
                     'payment_method' => $paymentMethod,
                     'payment_status' => 'completed',
                 ]);
+                
             }
 
             $cartIds = array_column($selectedItems, 'cart_id');
