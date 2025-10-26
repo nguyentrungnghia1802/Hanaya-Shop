@@ -19,7 +19,7 @@ quick-deploy.bat --seed
 ```bash`
 cd deployment
 docker compose -f docker-compose.prod.yml up -d      # Khởi động
-docker compose -f docker-compose.prod.yml down        # Dừng
+docker compose -f docker-compose.prod.yml down --rmi all        # Dừng
 docker compose -f docker-compose.prod.yml restart     # Restart
 docker compose -f docker-compose.prod.yml logs -f     # Xem logs
 docker compose -f docker-compose.prod.yml up -d --build  #Sửa lớn, thay đổi Dockerfile, cài thêm package
