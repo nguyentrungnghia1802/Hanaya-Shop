@@ -59,14 +59,14 @@ class CheckoutController extends Controller
 
         $paymentMethods = Payment::getAvailableMethods();
 
-        return view('page.checkout', compact('selectedItems', 'paymentMethods', 'addresses', 'userName', 'firstAddress'));
+        return view('page.checkout.checkout', compact('selectedItems', 'paymentMethods', 'addresses', 'userName', 'firstAddress'));
     }
 
     public function success(Request $request)
     {
         $orderId = $request->get('order_id');
 
-        return view('page.checkout_success', compact('orderId'));
+        return view('page.checkout.checkout_success', compact('orderId'));
     }
 
     public function store(Request $request)
