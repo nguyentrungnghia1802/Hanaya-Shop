@@ -86,7 +86,7 @@
                     </div>
                 </div>
 
-                @if($order->status === 'canceled')
+                @if($order->status === 'cancelled')
                     <div class="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
@@ -172,11 +172,11 @@
                         </div>
                         <div class="flex justify-between items-center py-3 border-b border-gray-200">
                             <span class="text-gray-600">Phone Number:</span>
-                            <span class="font-semibold text-gray-900">{{ $order->phone ?? 'N/A' }}</span>
+                            <span class="font-semibold text-gray-900">{{ $order->address->phone_number ?? 'N/A' }}</span>
                         </div>
                         <div class="flex justify-between items-start py-3">
                             <span class="text-gray-600">Address:</span>
-                            <span class="font-semibold text-gray-900 text-right max-w-xs">{{ $order->address ?? 'N/A' }}</span>
+                            <span class="font-semibold text-gray-900 text-right max-w-xs">{{ $order->address->address ?? 'N/A' }}</span>
                         </div>
                     </div>
                 </div>
@@ -235,6 +235,7 @@
                         </div>
                     @endforeach
                 </div>
+                
 
                 <!-- Order Total -->
                 <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
@@ -260,6 +261,26 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Message -->
+            <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+                    <h3 class="text-xl font-bold text-gray-900 flex items-center">
+                        <svg class="w-6 h-6 mr-2 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                        </svg>
+                        Message
+                    </h3>
+                </div>
+
+                <div class="divide-y divide-gray-200">
+                    <div class="p-6">
+                        <p class="text-gray-700">{{ $order->message ?? 'No message provided' }}</p>
+                    </div>
+                </div>
+                
+
             </div>
 
             <!-- Action Buttons -->

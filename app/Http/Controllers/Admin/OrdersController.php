@@ -31,8 +31,9 @@ class OrdersController extends Controller
 
     public function show($orderId)
     {
-        $order = Order::with('orderDetail.product', 'user')->findOrFail($orderId);
-        return view('admin.orders.show', compact('order'));
+        $order = Order::with('orderDetail.product', 'user', 'address')->findOrFail($orderId);
+        $payment = Payment::where('order_id', $order->id)->get();
+        return view('admin.orders.show', compact('order', 'payment'));
     }
 
     public function confirm(Order $order)
