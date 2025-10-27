@@ -21,12 +21,12 @@ class DashboardController extends Controller
             return [
                 'topSeller' => $this->getTopSellerProducts(),
                 'latestByCategory' => $this->getLatestByCategory(),
-                'latest' => Product::latest()->take(8)->get(),
-                'onSale' => Product::where('discount_percent', '>', 0)
+                'latest' => Product::with('reviews')->latest()->take(8)->get(),
+                'onSale' => Product::with('reviews')->where('discount_percent', '>', 0)
                     ->orderByDesc('discount_percent')
                     ->take(8)
                     ->get(),
-                'mostViewed' => Product::orderByDesc('view_count')
+                'mostViewed' => Product::with('reviews')->orderByDesc('view_count')
                     ->take(8)
                     ->get(),
                 'categories' => Category::withCount('product')->get(),
@@ -45,7 +45,8 @@ class DashboardController extends Controller
 
     private function getTopSellerProducts()
     {
-        return Product::select('products.*', DB::raw('COALESCE(SUM(order_details.quantity), 0) as total_sold'))
+        return Product::with('reviews')
+            ->select('products.*', DB::raw('COALESCE(SUM(order_details.quantity), 0) as total_sold'))
             ->leftJoin('order_details', 'products.id', '=', 'order_details.product_id')
             ->groupBy(
                 'products.id', 'products.name', 'products.price', 'products.image_url', 
@@ -68,7 +69,7 @@ class DashboardController extends Controller
 
         $latestByCategory = [];
         foreach ($categoryMapping as $key => $names) {
-            $products = Product::whereHas('category', function($q) use ($names) {
+            $products = Product::with('reviews')->whereHas('category', function($q) use ($names) {
                 $q->where(function($subQ) use ($names) {
                     foreach ($names as $name) {
                         $subQ->orWhere('name', 'like', "%$name%");

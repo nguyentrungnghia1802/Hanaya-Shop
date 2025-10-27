@@ -90,44 +90,91 @@
 <!-- Swiper JS initialization -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const bannerSwiper = new Swiper('.bannerSwiper', {
-        loop: true,
-        autoplay: {
-            delay: 5000,
-            disableOnInteraction: false,
-        },
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-        effect: 'fade',
-        fadeEffect: {
-            crossFade: true
-        },
-    });
+    // Wait for Swiper to load then initialize
+    if (typeof Swiper !== 'undefined' && typeof initBannerSwiper === 'function') {
+        initBannerSwiper();
+    } else {
+        // If Swiper or function is not loaded yet, wait for it
+        const checkSwiper = setInterval(() => {
+            if (typeof Swiper !== 'undefined' && typeof initBannerSwiper === 'function') {
+                clearInterval(checkSwiper);
+                initBannerSwiper();
+            }
+        }, 100);
+        
+        // Fallback: if initBannerSwiper not available, create a basic swiper
+        setTimeout(() => {
+            if (typeof Swiper !== 'undefined' && typeof initBannerSwiper !== 'function') {
+                clearInterval(checkSwiper);
+                const bannerSwiper = new Swiper('.bannerSwiper', {
+                    loop: true,
+                    autoplay: {
+                        delay: 5000,
+                        disableOnInteraction: false,
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                    effect: 'fade',
+                    fadeEffect: {
+                        crossFade: true
+                    },
+                });
+            }
+        }, 1000);
+    }
 });
 </script>
 
 <style>
 .banner-swiper-container .swiper-button-next,
 .banner-swiper-container .swiper-button-prev {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.8) !important;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    width: 40px !important;
+    height: 40px !important;
+    margin-top: -20px !important;
 }
 
 .banner-swiper-container .swiper-button-next:hover,
 .banner-swiper-container .swiper-button-prev:hover {
-    color: rgba(255, 255, 255, 1);
+    color: rgba(255, 255, 255, 1) !important;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.banner-swiper-container .swiper-button-next:after,
+.banner-swiper-container .swiper-button-prev:after {
+    font-size: 18px !important;
+    font-weight: bold;
 }
 
 .banner-swiper-container .swiper-pagination-bullet {
     background: rgba(255, 255, 255, 0.6);
+    opacity: 1;
 }
 
 .banner-swiper-container .swiper-pagination-bullet-active {
     background: rgba(255, 255, 255, 1);
+}
+
+/* Mobile responsiveness for navigation */
+@media (max-width: 768px) {
+    .banner-swiper-container .swiper-button-next,
+    .banner-swiper-container .swiper-button-prev {
+        width: 35px !important;
+        height: 35px !important;
+        margin-top: -17px !important;
+    }
+    
+    .banner-swiper-container .swiper-button-next:after,
+    .banner-swiper-container .swiper-button-prev:after {
+        font-size: 16px !important;
+    }
 }
 </style>
