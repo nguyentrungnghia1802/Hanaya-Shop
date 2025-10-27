@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Mockery;
 
@@ -163,7 +164,7 @@ class UsersControllerUnitTest extends TestCase
 
     public function test_edit_prevents_editing_current_user()
     {
-        $this->expectException(HttpResponseException::class);
+        $this->expectException(HttpException::class);
 
         // Try to edit current user (ID = 1)
         $this->controller->edit($this->currentUser->id);
@@ -234,7 +235,7 @@ class UsersControllerUnitTest extends TestCase
 
     public function test_update_prevents_updating_current_user()
     {
-        $this->expectException(HttpResponseException::class);
+        $this->expectException(HttpException::class);
 
         $request = Request::create('/admin/users/1', 'PUT', [
             'name' => 'New Name',
@@ -361,7 +362,7 @@ class UsersControllerUnitTest extends TestCase
 
     public function test_destroy_single_prevents_deleting_current_user()
     {
-        $this->expectException(HttpResponseException::class);
+        $this->expectException(HttpException::class);
 
         $this->controller->destroySingle($this->currentUser->id);
     }
@@ -396,24 +397,27 @@ class UsersControllerUnitTest extends TestCase
             (object)['id' => 2, 'product' => (object)['name' => 'Product 2']]
         ]);
 
-        $userMock = Mockery::mock($user);
-        $userMock->shouldReceive('order')->andReturn(
-            Mockery::mock()->shouldReceive('get')->andReturn($orders)->getMock()
-        );
-        $userMock->shouldReceive('cart')->andReturn(
-            Mockery::mock()->shouldReceive('with')->with('product')->andReturn(
-                Mockery::mock()->shouldReceive('get')->andReturn($carts)->getMock()
-            )->getMock()
-        );
-
-        User::shouldReceive('findOrFail')->with(10)->andReturn($userMock);
+        // Mock the User model's static methods
+        $userMock = Mockery::mock('alias:' . User::class);
+        $userMock->shouldReceive('findOrFail')->with(10)->andReturn($user);
+        
+        // Mock the relationships
+        $orderMock = Mockery::mock();
+        $orderMock->shouldReceive('get')->andReturn($orders);
+        
+        $cartMock = Mockery::mock();
+        $cartMock->shouldReceive('with')->with('product')->andReturnSelf();
+        $cartMock->shouldReceive('get')->andReturn($carts);
+        
+        $user->shouldReceive('order')->andReturn($orderMock);
+        $user->shouldReceive('cart')->andReturn($cartMock);
 
         $response = $this->controller->show(10);
 
         $this->assertEquals('admin.users.show', $response->getName());
         
         $viewData = $response->getData();
-        $this->assertEquals($userMock, $viewData['user']);
+        $this->assertEquals($user, $viewData['user']);
         $this->assertEquals($orders, $viewData['orders']);
         $this->assertEquals($carts, $viewData['carts']);
     }
@@ -445,9 +449,9 @@ class UsersControllerUnitTest extends TestCase
         $this->assertArrayHasKey('html', $responseData);
 
         $html = $responseData['html'];
-        $this->assertStringContains('John Doe', $html);
-        $this->assertStringContains('john@example.com', $html);
-        $this->assertStringNotContains('Jane Smith', $html); 
+        $this->assertStringContainsString('John Doe', $html);
+        $this->assertStringContainsString('john@example.com', $html);
+        $this->assertStringNotContainsString('Jane Smith', $html); 
     }
 
     public function test_search_with_empty_query_returns_all_users()
@@ -461,7 +465,7 @@ class UsersControllerUnitTest extends TestCase
         $responseData = $response->getData(true);
         $html = $responseData['html'];
         
-        $this->assertStringContains('<tr>', $html); 
+        $this->assertStringContainsString('<tr>', $html); 
     }
 
     public function test_search_returns_no_results_message()
@@ -476,8 +480,8 @@ class UsersControllerUnitTest extends TestCase
         $responseData = $response->getData(true);
         $html = $responseData['html'];
 
-        $this->assertStringContains('No users found', $html);
-        $this->assertStringContains('colspan="6"', $html);
+        $this->assertStringContainsString('No users found', $html);
+        $this->assertStringContainsString('colspan="6"', $html);
     }
 
     public function test_search_html_escapes_user_data()
@@ -498,10 +502,10 @@ class UsersControllerUnitTest extends TestCase
         $responseData = $response->getData(true);
         $html = $responseData['html'];
 
-        $this->assertStringNotContains('<script>', $html);
-        $this->assertStringContains('&lt;script&gt;', $html);
-        $this->assertStringNotContains('<b>test@example.com</b>', $html);
-        $this->assertStringContains('&lt;b&gt;test@example.com&lt;/b&gt;', $html);
+        $this->assertStringNotContainsString('<script>', $html);
+        $this->assertStringContainsString('&lt;script&gt;', $html);
+        $this->assertStringNotContainsString('<b>test@example.com</b>', $html);
+        $this->assertStringContainsString('&lt;b&gt;test@example.com&lt;/b&gt;', $html);
     }
 
     public function test_search_excludes_current_user()
@@ -520,8 +524,8 @@ class UsersControllerUnitTest extends TestCase
         $responseData = $response->getData(true);
         $html = $responseData['html'];
 
-        $this->assertStringContains('Other Admin User', $html);
-        $this->assertStringNotContains($this->currentUser->name, $html);
+        $this->assertStringContainsString('Other Admin User', $html);
+        $this->assertStringNotContainsString($this->currentUser->name, $html);
     }
 
     public function test_cache_is_cleared_after_modifications()
