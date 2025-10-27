@@ -41,12 +41,13 @@
                     </a>
 
                     <!-- Category list table -->
+                    <div class="overflow-x-auto">
                     <table class="min-w-full table-auto border border-gray-300 text-sm">
                         <thead class="bg-gray-100 text-gray-700 uppercase text-left">
                             <tr>
-                                <th class="px-4 py-2 border-b">#</th>
-                                <th class="px-4 py-2 border-b">Name</th>
-                                <th class="px-4 py-2 border-b">Action</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">#</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">Name</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">Action</th>
                             </tr>
                         </thead>
                         <tbody class="text-gray-800">
@@ -87,6 +88,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    </div>
                     {{-- Pagination links --}}
                     <div class="mt-6 flex justify-center">
                         {{ $categories->links() }}
