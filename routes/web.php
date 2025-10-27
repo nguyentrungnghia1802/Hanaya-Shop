@@ -11,7 +11,7 @@ require __DIR__.'/auth.php';
 Route::post('/chatbot', [App\Http\Controllers\ChatbotController::class, 'chat'])
     ->name('chatbot.chat');
 
-// TinyMCE Demo Route
-Route::get('/tinymce-demo', function () {
-    return view('tinymce-demo');
-})->name('tinymce.demo');
+// // TinyMCE Demo Route
+// Route::get('/tinymce-demo', function () {
+//     return view('tinymce-demo');
+// })->name('tinymce.demo');
