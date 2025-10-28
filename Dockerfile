@@ -1,13 +1,15 @@
 # Multi-stage build for production deployment
 # Stage 1: Build frontend assets
-    FROM node:18-alpine AS frontend-builder
-    WORKDIR /app
+FROM node:18-alpine AS frontend-builder
+WORKDIR /app
 
-    COPY package*.json ./
-    RUN npm ci
+# Copy package files
+COPY package*.json ./
+RUN npm ci
 
-    COPY . .
-    RUN npm run build
+# Copy source code and build
+COPY . .
+RUN npm run build
 
 # Stage 2: Build PHP application
 FROM php:8.2-fpm
@@ -34,7 +36,7 @@ COPY deployment/php/php.ini /usr/local/etc/php/conf.d/laravel.ini
 COPY deployment/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY deployment/nginx/default.conf /etc/nginx/sites-available/default
 
-# Configure Supervisor
+# Configure Supervisor (với queue worker)
 COPY deployment/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 WORKDIR /var/www/html
@@ -47,6 +49,7 @@ RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoload
 
 # Copy source code
 COPY . .
+COPY .env.production .env
 
 # Copy built frontend assets from frontend-builder stage
 COPY --from=frontend-builder /app/public/build ./public/build
@@ -66,7 +69,10 @@ RUN mkdir -p \
     && chown -R www-data:www-data /var/log/nginx
 
 # Run Laravel optimizations (avoid config cache to prevent .env conflicts)
-RUN composer dump-autoload --optimize
+RUN composer dump-autoload --optimize \
+    && php artisan storage:link \
+    && php artisan view:cache \
+    && php artisan route:cache
 
 # Expose ports
 EXPOSE 80 443
