@@ -28,7 +28,7 @@
                     <div class="mb-4 flex flex-wrap gap-2">
                         <a href="{{ route('admin.user.create') }}"
                             class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded transition">
-                            Add User
+                            Add
                         </a>
                         <button id="btn-delete-multi"
                             class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded transition">
