@@ -10,8 +10,36 @@
     <!-- Thông báo lỗi -->
     <x-alert />
 
+
+
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+             
+    {{-- Status navigation --}}
+            <div class="flex flex-wrap border-b border-gray-200">
+        @php
+            $statuses = [
+                '' => 'All',
+                'pending' => 'Pending',
+                'processing' => 'Processing',
+                'shipped' => 'Shipped',
+                'cancelled' => 'Cancelled',
+                'completed' => 'Completed'
+            ];
+            $currentStatus = request('status');
+        @endphp
+
+        @foreach ($statuses as $key => $label)
+            <a href="{{ route('admin.order', ['status' => $key]) }}"
+                class="px-4 py-2 text-sm font-medium transition border-b-2
+                    {{ $currentStatus === $key || ($key === '' && $currentStatus === null)
+                        ? 'border-blue-500 text-blue-600'
+                        : 'border-transparent text-gray-500 hover:text-blue-600 hover:border-blue-300' }}">
+                {{ $label }}
+            </a>
+        @endforeach
+    </div>
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
 
@@ -43,6 +71,8 @@
                                         if($matchedPayment && !$matchedPayment->payment_status) {
                                             $matchedPayment->payment_status = 'N/A';
                                         }
+
+                                         $isAllFilter = request('status') === null || request('status') === '';
                                     @endphp
                                     <tr class="hover:bg-gray-50 transition">
                                         <td class="px-4 py-2 border-b">{{ $item->id }}</td>
@@ -55,7 +85,7 @@
                                         </td>
                                         <td class="px-4 py-2 border-b space-x-2">
 
-                                            @if ($item->status === 'pending')
+                                            {{-- @if ($item->status === 'pending')
                                                 <!-- Cancel button -->
                                                 <form action="{{ route('admin.orders.cancel', $item->id) }}" method="POST"
                                                     class="inline">
@@ -73,10 +103,10 @@
                                                     disabled>
                                                     Cancel
                                                 </button>
-                                            @endif
+                                            @endif --}}
 
                                             <!-- View full detail button -->
-                                            <a href="{{ route('admin.order.show', $item->id) }}"
+                                            {{-- <a href="{{ route('admin.order.show', $item->id) }}"
                                                 class="inline-block px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">
                                                 View Details
                                             </a>
@@ -98,10 +128,10 @@
                                                     disabled>
                                                     Confirm
                                                 </button>
-                                            @endif
+                                            @endif --}}
 
                                             <!-- Shipped button -->
-                                            @if ($item->status === 'processing')
+                                            {{-- @if ($item->status === 'processing')
                                                 <form action="{{ route('admin.order.shipped', $item->id) }}" method="POST"
                                                     class="inline">
                                                     @csrf
@@ -117,13 +147,13 @@
                                                     disabled>
                                                     Shipped
                                                 </button>
-                                            @endif
+                                            @endif --}}
 
                                             <!-- Paid button -->
                                             {{-- @php
                                                 $matchedPayment = $payment->firstWhere('order_id', $item->id);
                                             @endphp --}}
-                                            @if (($item->status === 'processing' || $item->status === 'shipped') && $matchedPayment && $matchedPayment->payment_status === 'pending')
+                                            {{-- @if (($item->status === 'processing' || $item->status === 'shipped') && $matchedPayment && $matchedPayment->payment_status === 'pending')
                                                 <form action="{{ route('admin.order.paid', $item->id) }}" method="POST"
                                                     class="inline">
                                                     @csrf
@@ -139,8 +169,95 @@
                                                     disabled>
                                                     Paid
                                                 </button>
-                                            @endif
+                                            @endif --}}
+                                        @if ($isAllFilter)
+                                    
+                                            <a href="{{ route('admin.order.show', $item->id) }}"
+                                                class="inline-block px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">
+                                                View Details
+                                            </a>
+                                        @else
+                                            @if($item->status === 'pending')
+                                                <a href="{{ route('admin.order.show', $item->id) }}"
+                                                    class="inline-block px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">
+                                                    View Details
+                                                </a>
 
+                                                <form action="{{ route('admin.order.confirm', $item->id) }}" method="POST"
+                                                    class="inline">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <button type="submit"
+                                                        class="inline-block px-3 py-1 bg-gray-500 text-white text-xs font-medium rounded hover:bg-gray-600 transition">
+                                                        Confirm
+                                                    </button>
+                                                </form>
+
+                                                <form action="{{ route('admin.orders.cancel', $item->id) }}" method="POST"
+                                                    class="inline">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <button type="submit"
+                                                        class="inline-block px-3 py-1 bg-red-500 text-white text-xs font-medium rounded hover:bg-gray-600 transition">
+                                                        Cancel
+                                                    </button>
+                                                </form>
+                                            @elseif($item->status === 'processing')
+                                                <a href="{{ route('admin.order.show', $item->id) }}"
+                                                    class="inline-block px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">
+                                                    View Details
+                                                </a>
+
+                                                <form action="{{ route('admin.order.shipped', $item->id) }}" method="POST"
+                                                    class="inline">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <button type="submit"
+                                                        class="inline-block px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-gray-600 transition">
+                                                        Shipped
+                                                    </button>
+                                                </form>
+
+                                                @if ($matchedPayment && $matchedPayment->payment_status === 'pending')
+                                                    <form action="{{ route('admin.order.paid', $item->id) }}" method="POST"
+                                                        class="inline">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="submit"
+                                                            class="inline-block px-3 py-1 bg-pink-500 text-white text-xs font-medium rounded hover:bg-gray-600 transition">
+                                                            Paid
+                                                        </button>
+                                                    </form>
+                                                @else
+                                                    <button type="button"
+                                                        class="inline-block px-3 py-1 bg-gray-300 text-white text-xs font-medium rounded cursor-not-allowed"
+                                                        disabled>
+                                                        Paid
+                                                    </button>
+                                                @endif
+                                            @elseif($item->status === 'shipped')
+                                                <form action="{{ route('admin.order.paid', $item->id) }}" method="POST"
+                                                    class="inline">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <button type="submit"
+                                                        class="inline-block px-3 py-1 bg-pink-500 text-white text-xs font-medium rounded hover:bg-gray-600 transition">
+                                                        Paid
+                                                    </button>
+                                                </form>
+                                            @elseif($item->status === 'completed')
+                                                <a href="{{ route('admin.order.show', $item->id) }}"
+                                                    class="inline-block px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">
+                                                    View Details
+                                                </a>
+                                            @elseif($item->status === 'cancelled')
+                                                <a href="{{ route('admin.order.show', $item->id) }}"
+                                                    class="inline-block px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">
+                                                    View Details
+                                                </a>
+                                            @endif
+                                                
+                                        @endif
                                         </td>
                                     </tr>
                                 @endforeach
