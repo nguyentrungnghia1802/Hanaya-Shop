@@ -44,7 +44,7 @@
                                     <th class="px-2 sm:px-4 py-2 border-b">
                                         <input type="checkbox" id="checkAll">
                                     </th>
-                                    <th class="px-2 sm:px-4 py-2 border-b">STT</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">#</th>
                                     <th class="px-2 sm:px-4 py-2 border-b">Name</th>
                                     <th class="px-2 sm:px-4 py-2 border-b">Email</th>
                                     <th class="px-2 sm:px-4 py-2 border-b">Role</th>

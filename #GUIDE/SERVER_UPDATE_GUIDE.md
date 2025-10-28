@@ -44,9 +44,15 @@ sudo docker-compose exec app php artisan migrate --force
 
 ### Bước 8: Xóa cache và tối ưu hóa ứng dụng
 ```bash
+# Xóa tất cả các loại cache
 sudo docker-compose exec app php artisan cache:clear
+sudo docker-compose exec app php artisan config:clear
+sudo docker-compose exec app php artisan route:clear
+sudo docker-compose exec app php artisan view:clear
+
+# Tạo cache cần thiết - bỏ qua route:cache vì có thể gây lỗi với CompiledRouteCollection
 sudo docker-compose exec app php artisan config:cache
-sudo docker-compose exec app php artisan route:cache
+# Không chạy route:cache vì có thể gặp lỗi: "Argument #1 ($routes) must be of type Illuminate\Routing\RouteCollection"
 sudo docker-compose exec app php artisan view:cache
 ```
 
@@ -77,6 +83,27 @@ sudo docker-compose restart
 
 # Trong trường hợp cần thiết, quay lại phiên bản cũ
 # (Cần liên hệ với team phát triển)
+```
+
+### Xử lý lỗi khi chạy `route:cache`
+Nếu bạn gặp lỗi:
+```
+Illuminate\Foundation\Console\RouteCacheCommand::buildRouteCacheFile(): Argument #1 ($routes) must be of type Illuminate\Routing\RouteCollection, Illuminate\Routing\CompiledRouteCollection given
+```
+
+Đây là lỗi phổ biến trong một số phiên bản Laravel. Để khắc phục:
+
+1. Bỏ qua bước `route:cache` và chỉ chạy các lệnh cache khác:
+```bash
+sudo docker-compose exec app php artisan cache:clear
+sudo docker-compose exec app php artisan config:cache
+sudo docker-compose exec app php artisan view:cache
+```
+
+2. Hoặc xóa route cache hiện tại rồi khởi động lại ứng dụng:
+```bash
+sudo docker-compose exec app php artisan route:clear
+sudo docker-compose restart
 ```
 
 ### Nếu cần restore database
