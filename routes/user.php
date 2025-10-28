@@ -9,6 +9,7 @@ use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\OrderController;
 use App\Http\Controllers\User\PostController;
 use App\Http\Controllers\User\ReviewController;
+use App\Http\Controllers\AddressController;
 
 Route::get('/', [UserDashboardController::class, 'index'])->name('dashboard');
 
