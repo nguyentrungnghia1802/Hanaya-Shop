@@ -1,10 +1,19 @@
 @php
     $total = 0;
+    $originalTotal = 0;
+    $totalSavings = 0;
+    
     if (isset($selectedItems) && is_array($selectedItems)) {
         foreach ($selectedItems as $item) {
-            $total += $item['subtotal'] ?? 0;
+            $discountedSubtotal = ($item['discounted_price'] ?? $item['price']) * ($item['quantity'] ?? 0);
+            $originalSubtotal = ($item['price'] ?? 0) * ($item['quantity'] ?? 0);
+            
+            $total += $discountedSubtotal;
+            $originalTotal += $originalSubtotal;
         }
+        $totalSavings = $originalTotal - $total;
     }
+    
     $defaultMethod =
         isset($paymentMethods) && count($paymentMethods) > 0
             ? ucfirst(str_replace('_', ' ', $paymentMethods[0]))
@@ -67,16 +76,34 @@
                     <tbody>
                         @php $total = 0; @endphp
                         @foreach ($selectedItems as $item)
-                            @php $total += $item['subtotal']; @endphp
+                            @php 
+                                $total += ($item['discounted_price'] ?? $item['price']) * $item['quantity']; 
+                                $hasDiscount = ($item['discount_percent'] ?? 0) > 0;
+                            @endphp
                             <tr>
                                 <td class="py-2 px-4 border-b">
                                     <img src="{{ $item['image'] }}"
                                         class="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded">
                                 </td>
                                 <td class="py-2 px-4 border-b">{{ $item['name'] }}</td>
-                                <td class="py-2 px-4 border-b">{{ number_format($item['price'], 0, ',', '.') }} USD</td>
+                                <td class="py-2 px-4 border-b">
+                                    @if ($hasDiscount)
+                                        <div class="space-y-1">
+                                            <div class="text-pink-600 font-bold">
+                                                {{ number_format($item['discounted_price'] ?? $item['price'], 0, ',', '.') }} USD
+                                            </div>
+                                            <div class="text-xs text-gray-500 line-through">
+                                                {{ number_format($item['price'], 0, ',', '.') }} USD
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div class="text-pink-600 font-bold">
+                                            {{ number_format($item['price'], 0, ',', '.') }} USD
+                                        </div>
+                                    @endif
+                                </td>
                                 <td class="py-2 px-4 border-b">{{ $item['quantity'] }}</td>
-                                <td class="py-2 px-4 border-b">{{ number_format($item['subtotal'], 0, ',', '.') }} USD
+                                <td class="py-2 px-4 border-b">{{ number_format(($item['discounted_price'] ?? $item['price']) * $item['quantity'], 0, ',', '.') }} USD
                                 </td>
                             </tr>
                         @endforeach
@@ -105,16 +132,34 @@
             </div>
 
             <div>
+                <!-- Subtotal before discount -->
+                @if ($totalSavings > 0)
+                    <div class="flex items-center justify-between flex-wrap gap-2 mb-2 text-xs sm:text-base">
+                        <h3 class="text-lg font-medium text-gray-600">Original Subtotal:</h3>
+                        <p class="text-lg text-gray-500 line-through">{{ number_format($originalTotal, 0, ',', '.') }} USD</p>
+                    </div>
+                @endif
+                
+                <!-- Subtotal after discount -->
                 <div class="flex items-center justify-between flex-wrap gap-2 mb-4 text-xs sm:text-base">
-                    <h3 class="text-lg font-semibold text-gray-800 mt-6 mb-2">Subtotal:</h3>
-                    <p class="text-xl font-bold text-pink-600">{{ number_format($total, 0, ',', '.') }}₫</p>
+                    <h3 class="text-lg font-semibold text-gray-800">Subtotal:</h3>
+                    <p class="text-xl font-bold text-pink-600">{{ number_format($total, 0, ',', '.') }} USD</p>
                 </div>
+                
+                <!-- Savings -->
+                @if ($totalSavings > 0)
+                    <div class="flex items-center justify-between flex-wrap gap-2 mb-4 text-xs sm:text-base">
+                        <h3 class="text-lg font-medium text-green-600">You Save:</h3>
+                        <p class="text-lg font-bold text-green-600">-{{ number_format($totalSavings, 0, ',', '.') }} USD</p>
+                    </div>
+                @endif
+                
                 <div class="flex items-center justify-between flex-wrap gap-2 mb-4 text-xs sm:text-base">
-                    <h3 class="text-lg font-semibold text-gray-800 mt-6 mb-2">Shipping Fee:</h3>
+                    <h3 class="text-lg font-semibold text-gray-800">Shipping Fee:</h3>
                     <p class="text-xl font-bold text-pink-600">8 USD</p>
                 </div>
-                <div class="flex items-center justify-between flex-wrap gap-2 mb-4 text-xs sm:text-base">
-                    <h3 class="text-lg font-semibold text-gray-800 mt-6 mb-2">Total Payment:</h3>
+                <div class="flex items-center justify-between flex-wrap gap-2 mb-4 text-xs sm:text-base border-t pt-4">
+                    <h3 class="text-lg font-semibold text-gray-800">Total Payment:</h3>
                     <p class="text-xl font-bold text-pink-800">{{ number_format($total + 8, 0, ',', '.') }} USD</p>
                 </div>
             </div>
@@ -327,22 +372,63 @@
                 e.preventDefault();
                 const selectedMethod = document.getElementById('payment_method_input').value;
 
-                // If no form is visible or COD is selected, submit the form directly
+                // Check if payment is required and not completed for certain methods
+                if (selectedMethod === 'credit_card' || selectedMethod === 'paypal') {
+                    // Check if payment has been completed (you can add specific checks here)
+                    const paymentCompleted = checkPaymentStatus(selectedMethod);
+                    
+                    if (!paymentCompleted) {
+                        alert('Please complete your payment before placing the order.');
+                        showPaymentForm(selectedMethod);
+                        document.querySelector(`#${selectedMethod.replace(/_/g, '-')}-form`).scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center'
+                        });
+                        return;
+                    }
+                }
+
+                // If COD or payment completed, submit the form
                 if (selectedMethod === 'cash_on_delivery') {
                     document.getElementById('payment_data').value = JSON.stringify({
                         terms_accepted: true
                     });
-                    document.getElementById('checkout-form').submit();
-                } else {
-                    // Otherwise show the appropriate payment form
-                    showPaymentForm(selectedMethod);
-                    // Scroll to the payment form
-                    document.querySelector(`#${selectedMethod.replace(/_/g, '-')}-form`).scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'center'
-                    });
                 }
+                
+                document.getElementById('checkout-form').submit();
             });
+            
+            // Function to check payment status
+            function checkPaymentStatus(method) {
+                // For credit card, check if card details are filled and validated
+                if (method === 'credit_card') {
+                    const form = document.getElementById('credit-card-form');
+                    if (form) {
+                        const cardNumber = form.querySelector('input[name="card_number"]');
+                        const expiryDate = form.querySelector('input[name="expiry_date"]');
+                        const cvv = form.querySelector('input[name="cvv"]');
+                        
+                        return cardNumber && cardNumber.value && 
+                               expiryDate && expiryDate.value && 
+                               cvv && cvv.value;
+                    }
+                    return false;
+                }
+                
+                // For PayPal, check if PayPal payment is completed
+                if (method === 'paypal') {
+                    // You can add specific PayPal completion check here
+                    // For now, just check if PayPal form is visible and email is provided
+                    const form = document.getElementById('paypal-form');
+                    if (form) {
+                        const email = form.querySelector('input[name="paypal_email"]');
+                        return email && email.value;
+                    }
+                    return false;
+                }
+                
+                return true; // For other methods like COD
+            }
 
             // Show payment method selection modal
             btnChangeMethod.addEventListener('click', function() {

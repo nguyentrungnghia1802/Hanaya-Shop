@@ -74,15 +74,17 @@ class CartController extends Controller
 
         foreach ($cartItems as $item) {
             $price = $item->product->price;
-            $discountPercent = $item->product->discount_percent;
-            $newPrice = $price * (1 - $discountPercent / 100);
+            $discountPercent = $item->product->discount_percent ?? 0;
+            $discountedPrice = $price * (1 - $discountPercent / 100);
             $cart[$item->id] = [
                 'id'         => $item->id,
                 'product_id' => $item->product->id,
                 'product_quantity' => $item->product->stock_quantity,
                 'name'       => $item->product->name,
                 'image_url'  => $item->product->image_url,
-                'price'      => $newPrice,
+                'price'      => $price, // Giá gốc
+                'discounted_price' => $discountedPrice, // Giá sau giảm
+                'discount_percent' => $discountPercent, // Phần trăm giảm giá
                 'quantity'   => $item->quantity,
             ];
         }
