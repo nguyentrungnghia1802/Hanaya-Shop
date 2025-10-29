@@ -7,6 +7,7 @@ use App\Models\Product\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
+use App\Models\Product\Review;
 
 class ProductController extends Controller
 {
@@ -28,8 +29,7 @@ class ProductController extends Controller
 
         // Cache the results for 15 minutes
         $result = Cache::remember($cacheKey, 900, function () use ($sort, $keyword, $categoryId, $categoryName, $request) {
-            $query = Product::with(['category', 'reviews']);
-
+            $query = Product::with('category')->withAvg('reviews', 'rating');
             // Filter by category_name if provided
             if ($categoryName) {
                 $categoryMapping = [
