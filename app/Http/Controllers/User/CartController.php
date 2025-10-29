@@ -110,19 +110,27 @@ class CartController extends Controller
     {
         $productId = $request->input('product_id');
         $sessionId = Session::getId();
+        $quantity = intval($request->input('quantity', 1));
 
         $product = Product::findOrFail($productId);
+        
+        // Check stock availability first
+        if ($quantity > $product->stock_quantity) {
+            return redirect()->back()->with('error', 'Số lượng vượt quá số lượng tồn kho.');
+        }
+        
         $existing = Cart::where('session_id', $sessionId)
             ->where('product_id', $product->id)
             ->first();
 
         if ($existing) {
-            $existing->quantity += $request->input('quantity', 1);
+            $existing->quantity += $quantity;
             $existing->save();
         } else {
             Cart::create([
                 'product_id' => $product->id,
-                'quantity'   => $request->input('quantity', 1),
+                'user_id' => Auth::id(),
+                'quantity'   => $quantity,
                 'session_id' => $sessionId,
             ]);
         }
