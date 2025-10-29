@@ -33,12 +33,12 @@ class OrdersController extends Controller
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('id', 'like', "%{$search}%")
-                  ->orWhere('user_id', 'like', "%{$search}%")
-                  ->orWhereHas('user', function ($q2) use ($search) {
-                       $q2->where('name', 'like', "%{$search}%");
-                   })
-                  ->orWhere('total_price', 'like', "%{$search}%")
-                  ->orWhereDate('created_at', $search);
+                    ->orWhere('user_id', 'like', "%{$search}%")
+                    ->orWhereHas('user', function ($q2) use ($search) {
+                        $q2->where('name', 'like', "%{$search}%");
+                    })
+                    ->orWhere('total_price', 'like', "%{$search}%")
+                    ->orWhereDate('created_at', $search);
             });
         }
 
@@ -103,11 +103,11 @@ class OrdersController extends Controller
     public function paid(Order $order)
     {
         $payment = Payment::where('order_id', $order->id)->first();
-        
+
         if (!$payment) {
             return redirect()->back()->with('error', 'Không tìm thấy thông tin thanh toán cho đơn hàng này');
         }
-        
+
         DB::beginTransaction();
         try {
             $payment->payment_status = 'completed';
@@ -116,29 +116,29 @@ class OrdersController extends Controller
             // Notify admins
             $admins = User::where('role', 'admin')->get();
             $customer = User::find($order->user_id);
-                
+
             foreach ($admins as $admin) {
                 $admin->notify(new OrderCompletedNotification($order));
             }
-                
+
             // Notify customer
             if ($customer) {
                 $customer->notify(new OrderCompletedNotification($order));
             }
-            
+
             // If order is shipped and payment is now completed, mark order as completed
             // if ($order->status === 'shipped') {
             //     $order->status = 'completed';
             //     $order->save();
-                
+
             //     // Notify admins
             //     $admins = User::where('role', 'admin')->get();
             //     $customer = User::find($order->user_id);
-                
+
             //     foreach ($admins as $admin) {
             //         $admin->notify(new OrderCompletedNotification($order));
             //     }
-                
+
             //     // Notify customer
             //     if ($customer) {
             //         $customer->notify(new OrderCompletedNotification($order));
@@ -147,17 +147,17 @@ class OrdersController extends Controller
             //     // Just notify about payment
             //     $admins = User::where('role', 'admin')->get();
             //     $customer = User::find($order->user_id);
-                
+
             //     foreach ($admins as $admin) {
             //         $admin->notify(new OrderPaidNotification($order));
             //     }
-                
+
             //     // Notify customer
             //     if ($customer) {
             //         $customer->notify(new OrderPaidNotification($order));
             //     }
             // }
-            
+
             DB::commit();
             return redirect()->back()->with('success', 'Xác nhận thanh toán thành công');
         } catch (\Exception $e) {
