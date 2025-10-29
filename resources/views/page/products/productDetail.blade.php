@@ -125,10 +125,7 @@
                                     
                                     <i class="fas fa-shopping-cart mr-2"></i>Out of stock
                                 </button>
-
                             @endif
-
-
 
                         @else
                             <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-center">
