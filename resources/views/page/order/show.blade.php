@@ -33,7 +33,8 @@
                         $statuses = [
                             'pending' => ['label' => 'Processing', 'step' => 1],
                             'processing' => ['label' => 'Confirmed', 'step' => 2],
-                            'completed' => ['label' => 'Delivered', 'step' => 3],
+                            'shipped' => ['label' => 'Shipped', 'step' => 3],
+                            'completed' => ['label' => 'Delivered', 'step' => 4],
                         ];
                         $currentStep = $statuses[$order->status]['step'] ?? 0;
                     @endphp
@@ -100,10 +101,33 @@
                             @endif
                         </div>
                         <p
-                            class="text-sm font-medium mt-2 text-center {{ $currentStep >= 3 ? 'text-purple-600' : 'text-gray-500' }}">
-                            Delivered</p>
+                            class="text-sm font-medium mt-2 text-center {{ $currentStep >= 4 ? 'text-purple-600' : 'text-gray-500' }}">
+                            Shipped</p>
                     </div>
-                </div>
+
+                    <!-- Connection Line 3-4 -->
+                    <div class="flex-1 h-0.5 {{ $currentStep >= 4 ? 'bg-purple-500' : 'bg-gray-200' }} mx-4"></div>
+
+                    <!-- Step 4: Delivered -->
+                    <div class="flex flex-col items-center flex-1">
+                        <div
+                            class="w-10 h-10 rounded-full flex items-center justify-center {{ $currentStep >= 4 ? 'bg-purple-500 text-white' : 'bg-gray-200 text-gray-400' }}">
+                            @if ($currentStep >= 4)
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                    clip-rule="evenodd"></path>
+                                </svg>
+                            @else
+                                <span>4</span>
+                            @endif
+                        </div>
+                            <p
+                                class="text-sm font-medium mt-2 text-center {{ $currentStep >= 4 ? 'text-purple-600' : 'text-gray-500' }}">
+                                Delivered</p>
+                        </div>
+
+                    </div>
 
                 @if($order->status === 'cancelled')
                     <div class="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">

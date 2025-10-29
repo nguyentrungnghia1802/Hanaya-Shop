@@ -215,10 +215,21 @@
                             </div>
 
                             <div class="flex items-center text-yellow-400 text-sm mb-3">
-                                @for ($i = 1; $i <= 5; $i++)
-                                    <i class="fas fa-star{{ $i <= 4 ? '' : ' text-gray-300' }}"></i>
-                                @endfor
-                                <span class="text-gray-500 text-xs ml-1">(4.0)</span>
+                               @php
+    $avgRating = round($productItem->reviews_avg_rating ?? 0, 1); // trung bình rating
+@endphp
+
+<div class="flex items-center text-yellow-400 text-sm mb-3">
+    @for ($i = 1; $i <= 5; $i++)
+        <i class="fas fa-star{{ $i <= floor($avgRating) ? '' : ' text-gray-300' }}"></i>
+    @endfor
+    <span class="text-gray-500 text-xs ml-1">
+        ({{ $avgRating }})
+        {{-- hoặc nếu có dùng withCount: --}}
+        {{-- ({{ $avgRating }} / {{ $productItem->reviews_count }} đánh giá) --}}
+    </span>
+</div>
+
                             </div>
 
                             <!-- Button pushes to bottom -->
