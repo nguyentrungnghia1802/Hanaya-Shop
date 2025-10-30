@@ -32,9 +32,3 @@ Thumbs.db
 .github/
 # host address
 public/hot
-
-#package files
-package-lock.json
-
-#test files
-/tests/
