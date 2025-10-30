@@ -57,19 +57,19 @@
                             <div class="space-y-2">
                                 <div class="flex items-center space-x-3">
                                     <span class="text-3xl sm:text-4xl font-bold text-red-600">
-                                        ${{ number_format($product->discounted_price, 0, ',', '.') }}
+                                        ${{ number_format($product->discounted_price, 2, '.', ',') }}
                                     </span>
                                     <span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-sm font-medium">
                                         -{{ $product->discount_percent }}%
                                     </span>
                                 </div>
                                 <p class="text-lg text-gray-500 line-through">
-                                    ${{ number_format($product->price, 0, ',', '.') }}
+                                    ${{ number_format($product->price, 2, '.', ',') }}
                                 </p>
                             </div>
                         @else
                             <p class="text-3xl sm:text-4xl font-bold text-pink-600">
-                                ${{ number_format($product->price, 0, ',', '.') }}
+                                ${{ number_format($product->price, 2, '.', ',') }}
                             </p>
                         @endif
                     </div>
@@ -271,15 +271,15 @@
                                 @if ($item->discount_percent > 0)
                                     <div class="space-y-1">
                                         <p class="text-pink-600 font-bold text-lg">
-                                            ${{ number_format($item->discounted_price, 0, ',', '.') }}
+                                            ${{ number_format($item->discounted_price, 2, '.', ',') }}
                                         </p>
                                         <p class="text-sm text-gray-500 line-through">
-                                            ${{ number_format($item->price, 0, ',', '.') }}
+                                            ${{ number_format($item->price, 2, '.', ',') }}
                                         </p>
                                     </div>
                                 @else
                                     <p class="text-pink-600 font-bold text-lg">
-                                        ${{ number_format($item->price, 0, ',', '.') }}</p>
+                                        ${{ number_format($item->price, 2, '.', ',') }}</p>
                                 @endif
                             </div>
 
