@@ -17,17 +17,56 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    {{-- Search input --}}
-                    <form id="productSearchForm" class="flex gap-2 mb-4 max-w-sm">
-                        <input type="text" id="searchProductInput" placeholder="Search product..."
-                            class="border px-3 py-2 rounded w-full" autocomplete="off">
-                        <button type="submit"
-                            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 rounded">Search</button>
-                    </form>
+                    {{-- Filter and Search Section --}}
+                    <div class="mb-6">
+                        <form id="productFilterForm" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            {{-- Search input --}}
+                            <div>
+                                <label for="searchProductInput" class="block text-gray-700 text-sm font-bold mb-2">Search Product</label>
+                                <input type="text" id="searchProductInput" placeholder="Search product..."
+                                    class="border px-3 py-2 rounded w-full" autocomplete="off">
+                            </div>
+                            
+                            {{-- Category filter --}}
+                            <div>
+                                <label for="categoryFilter" class="block text-gray-700 text-sm font-bold mb-2">Filter by Category</label>
+                                <select id="categoryFilter" name="category_id" class="border px-3 py-2 rounded w-full">
+                                    <option value="">All Categories</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}" {{ isset($selectedCategory) && $selectedCategory == $category->id ? 'selected' : '' }}>
+                                            {{ $category->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            
+                            {{-- Stock status filter --}}
+                            <div>
+                                <label for="stockFilter" class="block text-gray-700 text-sm font-bold mb-2">Filter by Stock</label>
+                                <select id="stockFilter" name="stock_filter" class="border px-3 py-2 rounded w-full">
+                                    <option value="">All Stock Status</option>
+                                    <option value="low_stock" {{ isset($selectedStockFilter) && $selectedStockFilter == 'low_stock' ? 'selected' : '' }}>
+                                        Low Stock (< 2)
+                                    </option>
+                                    <option value="out_of_stock" {{ isset($selectedStockFilter) && $selectedStockFilter == 'out_of_stock' ? 'selected' : '' }}>
+                                        Out of Stock
+                                    </option>
+                                </select>
+                            </div>
+                            
+                            {{-- Filter buttons --}}
+                            <div class="self-end">
+                                <button type="submit" id="applyFilters"
+                                    class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded mb-2">Apply Filters</button>
+                                <button type="button" id="resetFilters" 
+                                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded">Reset</button>
+                            </div>
+                        </form>
+                    </div>
 
                     {{-- Add new product --}}
                     <a href="{{ route('admin.product.create') }}"
-                        class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded inline-block mb-10">
+                        class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded inline-block mb-6">
                         Add
                     </a>
 
@@ -56,7 +95,7 @@
                                             title="{{ $item->descriptions }}">
                                             {{ \Illuminate\Support\Str::limit($item->descriptions, 40) }}
                                         </td>
-                                        <td class="px-4 py-2 border-b">{{ number_format($item->price) }} USD</td>
+                                        <td class="px-4 py-2 border-b">${{ number_format($item->price, 2, '.', ',') }}</td>
                                         <td class="px-4 py-2 border-b">{{ $item->stock_quantity }}</td>
                                         <td class="px-4 py-2 border-b">
                                             @if ($item->discount_percent > 0)
@@ -118,7 +157,7 @@
     </div>
 
     {{-- Modal for product quick view --}}
-    <div id="productDetail" class="hidden fixed inset-0 flex items-center justify-center z-50">
+    <div id="productDetail" class="hidden fixed inset-0 items-center justify-center z-50">
         <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-xl relative">
             <h2 class="text-xl font-bold mb-4">Product Details</h2>
             <p><strong>ID:</strong> <span id="product-view-id" class="text-gray-700"></span></p>
@@ -141,6 +180,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Hide modal and overlay initially
             document.getElementById('productDetail').classList.add('hidden');
+            document.getElementById('productDetail').classList.remove('flex');
             document.getElementById('productOverlay').classList.add('hidden');
 
             // Hàm gán lại sự kiện cho các nút trong bảng
@@ -162,6 +202,7 @@
 
                         // Show modal and overlay
                         document.getElementById('productDetail').classList.remove('hidden');
+                        document.getElementById('productDetail').classList.add('flex');
                         document.getElementById('productOverlay').classList.remove('hidden');
 
                         // Fetch product data via AJAX
@@ -208,6 +249,8 @@
                                     error.message);
                                 document.getElementById('productDetail').classList.add(
                                     'hidden');
+                                document.getElementById('productDetail').classList.remove(
+                                    'flex');
                                 document.getElementById('productOverlay').classList.add(
                                     'hidden');
                             });
@@ -221,28 +264,71 @@
             // Close modal when clicking close button or overlay
             document.getElementById('closeProductDetail').addEventListener('click', function() {
                 document.getElementById('productDetail').classList.add('hidden');
+                document.getElementById('productDetail').classList.remove('flex');
                 document.getElementById('productOverlay').classList.add('hidden');
             });
             document.getElementById('productOverlay').addEventListener('click', function() {
                 document.getElementById('productDetail').classList.add('hidden');
+                document.getElementById('productDetail').classList.remove('flex');
                 document.getElementById('productOverlay').classList.add('hidden');
             });
 
-            // Filter sản phẩm
-            document.getElementById('productSearchForm').addEventListener('submit', function(e) {
-                e.preventDefault();
+            // Function to get all active filter parameters
+            function getFilterParameters() {
                 const keyword = document.getElementById('searchProductInput').value.trim();
-                fetch('{{ route('admin.product.search') }}?query=' + encodeURIComponent(keyword), {
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest'
-                        }
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        document.querySelector('table tbody').innerHTML = data.html;
-                        // Gán lại sự kiện cho các nút sau khi filter
-                        bindProductTableEvents();
-                    });
+                const categoryId = document.getElementById('categoryFilter').value;
+                const stockFilter = document.getElementById('stockFilter').value;
+                
+                let params = new URLSearchParams();
+                if (keyword) params.append('query', keyword);
+                if (categoryId) params.append('category_id', categoryId);
+                if (stockFilter) params.append('stock_filter', stockFilter);
+                
+                return params;
+            }
+
+            // Apply filters when form is submitted
+            document.getElementById('productFilterForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // If it's a search without form submission (just pressing enter in search input)
+                const params = getFilterParameters();
+                const url = '{{ route('admin.product.search') }}?' + params.toString();
+                
+                // Show loading state
+                document.querySelector('table tbody').innerHTML = '<tr><td colspan="9" class="text-center py-4">Loading...</td></tr>';
+                
+                fetch(url, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    document.querySelector('table tbody').innerHTML = data.html;
+                    
+                    // Update URL with current filters (without page reload)
+                    const newUrl = '{{ route('admin.product') }}?' + params.toString();
+                    window.history.pushState({path: newUrl}, '', newUrl);
+                    
+                    // Gán lại sự kiện cho các nút sau khi filter
+                    bindProductTableEvents();
+                })
+                .catch(error => {
+                    console.error('Error filtering products:', error);
+                    document.querySelector('table tbody').innerHTML = 
+                        '<tr><td colspan="9" class="text-center py-4 text-red-500">Error loading products</td></tr>';
+                });
+            });
+            
+            // Reset filters button
+            document.getElementById('resetFilters').addEventListener('click', function() {
+                document.getElementById('searchProductInput').value = '';
+                document.getElementById('categoryFilter').value = '';
+                document.getElementById('stockFilter').value = '';
+                
+                // Submit the form to reset filters
+                document.getElementById('productFilterForm').dispatchEvent(new Event('submit'));
             });
         });
     </script>

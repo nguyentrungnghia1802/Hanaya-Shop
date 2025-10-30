@@ -47,14 +47,14 @@
             @if($product->discount_percent > 0)
             <div class="space-y-1">
                 <p class="text-pink-600 font-bold text-lg">
-                    {{ number_format($product->discounted_price, 0, ',', '.') }} USD
+                    ${{ number_format($product->discounted_price, 2, '.', ',') }}
                 </p>
                 <p class="text-sm text-gray-500 line-through">
-                    {{ number_format($product->price, 0, ',', '.') }} USD
+                    ${{ number_format($product->price, 2, '.', ',') }}
                 </p>
             </div>
             @else
-            <p class="text-pink-600 font-bold text-lg">{{ number_format($product->price, 0, ',', '.') }} USD</p>
+            <p class="text-pink-600 font-bold text-lg">${{ number_format($product->price, 2, '.', ',') }}</p>
             @endif
         </div>
         

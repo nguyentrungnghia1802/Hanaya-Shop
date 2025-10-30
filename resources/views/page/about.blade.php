@@ -118,7 +118,7 @@
                     <!-- Soap Flowers -->
                     <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 group">
                         <div class="relative overflow-hidden">
-                            <img src="{{ asset('fixed_resources/product_soap_flowers.jpg') }}" 
+                            <img src="{{ asset('fixed_resources/about/soap_flower.jpg') }}" 
                                  alt="Soap Flowers" 
                                  class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -141,7 +141,7 @@
                     <!-- Fresh Flowers -->
                     <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 group">
                         <div class="relative overflow-hidden">
-                            <img src="{{ asset('fixed_resources/product_fresh_flowers.jpg') }}" 
+                            <img src="{{ asset('fixed_resources/about/fresh_flower.jpg') }}" 
                                  alt="Fresh Flowers" 
                                  class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -164,7 +164,7 @@
                     <!-- Special Flowers -->
                     <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 group">
                         <div class="relative overflow-hidden">
-                            <img src="{{ asset('fixed_resources/product_fresh_flowers.jpg') }}" 
+                            <img src="{{ asset('fixed_resources/about/special_flower.jpg') }}" 
                                  alt="Special Flowers" 
                                  class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -184,11 +184,11 @@
                         </div>
                     </div>
 
-                    <!-- Special Gifts -->
+                    <!-- Souvenirs -->
                     <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 group">
                         <div class="relative overflow-hidden">
-                            <img src="{{ asset('fixed_resources/product_gifts.jpg') }}" 
-                                 alt="Special Gifts" 
+                            <img src="{{ asset('fixed_resources/about/souvenir.jpg') }}" 
+                                 alt="Souvenirs" 
                                  class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                         </div>
@@ -199,7 +199,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path>
                                     </svg>
                                 </div>
-                                <h4 class="text-xl font-semibold text-gray-900">Special Gifts</h4>
+                                <h4 class="text-xl font-semibold text-gray-900">Souvenirs</h4>
                             </div>
                             <p class="text-gray-600">
                                 Thoughtfully curated gifts and souvenirs that show you care, perfect for expressing your feelings.
@@ -246,15 +246,15 @@
                     <!-- Team Member 2 -->
                     <div class="text-center">
                         <div class="relative mb-6">
-                            <img src="{{ asset('fixed_resources/author_2.jpg') }}" 
+                            <img src="{{ asset('fixed_resources/about/nghia.jpg') }}" 
                                  alt="Team Member 2" 
                                  class="w-32 h-32 rounded-full mx-auto object-cover shadow-lg">
                             <div class="absolute inset-0 w-32 h-32 rounded-full mx-auto bg-gradient-to-r from-pink-500 to-purple-600 opacity-0 hover:opacity-20 transition-opacity duration-300"></div>
                         </div>
-                        <h4 class="text-xl font-semibold text-gray-900 mb-2">Sarah Chen</h4>
+                        <h4 class="text-xl font-semibold text-gray-900 mb-2">Nguyen Trung Nghia</h4>
                         <p class="text-pink-600 font-medium mb-3">Head of Operations</p>
                         <p class="text-gray-600 text-sm">
-                            Sarah ensures every order is perfectly crafted and delivered with care. Her attention to detail makes every customer experience exceptional.
+                            Nghia ensures every order is perfectly crafted and delivered with care. His attention to detail makes every customer experience exceptional.
                         </p>
                     </div>
 
