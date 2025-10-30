@@ -86,17 +86,17 @@
                                                     <div class="space-y-1">
                                                         {{-- Discounted Price - Highlighted in pink color --}}
                                                         <div class="text-pink-600 font-bold">
-                                                            {{ number_format($item['discounted_price'], 0, ',', '.') }} USD
+                                                            ${{ number_format($item['discounted_price'], 0, ',', '.') }}
                                                         </div>
                                                         {{-- Original Price - Strikethrough to show savings --}}
                                                         <div class="text-xs text-gray-500 line-through">
-                                                            {{ number_format($item['price'], 0, ',', '.') }} USD
+                                                            ${{ number_format($item['price'], 0, ',', '.') }}
                                                         </div>
                                                     </div>
                                                 @else
                                                     {{-- Regular Price Display - No discount available --}}
                                                     <div class="text-pink-600 font-bold">
-                                                        {{ number_format($item['price'], 0, ',', '.') }} USD
+                                                        ${{ number_format($item['price'], 0, ',', '.') }}
                                                     </div>
                                                 @endif
                                             </td>
@@ -127,8 +127,7 @@
                                             {{-- Line Total Cell - Displays total price for this item (price × quantity) --}}
                                             <td class="py-3 px-4 align-middle item-total font-bold text-purple-700"
                                                 data-id="{{ $id }}">
-                                                {{ number_format($item['discounted_price'] * $item['quantity'], 0, ',', '.') }}
-                                                USD
+                                                ${{ number_format($item['discounted_price'] * $item['quantity'], 0, ',', '.') }}
                                             </td>
                                             {{-- Delete Action Cell - Link to remove item from cart --}}
                                             <td class="py-3 px-4 align-middle">
@@ -144,7 +143,7 @@
                                             Total:</td>
                                         {{-- Total Amount - Dynamic value updated by JavaScript --}}
                                         <td colspan="2" class="font-bold py-3 px-4 text-lg text-pink-600"
-                                            id="totalPrice">0 USD</td>
+                                            id="totalPrice">$0</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -204,17 +203,17 @@
                                             <div class="space-y-1">
                                                 {{-- Current Discounted Price - Highlighted in pink --}}
                                                 <div class="text-pink-600 font-bold">
-                                                    {{ number_format($item['discounted_price'], 0, ',', '.') }} USD
+                                                    ${{ number_format($item['discounted_price'], 0, ',', '.') }}
                                                 </div>
                                                 {{-- Original Price - Smaller text with strikethrough --}}
                                                 <div class="text-xs text-gray-500 line-through">
-                                                    {{ number_format($item['price'], 0, ',', '.') }} USD
+                                                    ${{ number_format($item['price'], 0, ',', '.') }}
                                                 </div>
                                             </div>
                                         @else
                                             {{-- Regular Price - No discount available --}}
                                             <div class="text-pink-600 font-bold">
-                                                {{ number_format($item['price'], 0, ',', '.') }} USD
+                                                ${{ number_format($item['price'], 0, ',', '.') }}
                                             </div>
                                         @endif
                                     </div>
@@ -243,7 +242,7 @@
                                     </div>
                                     {{-- Mobile Item Total - Real-time updated line total --}}
                                     <div class="item-total font-bold text-purple-700" data-id="{{ $id }}">
-                                        {{ number_format($item['discounted_price'] * $item['quantity'], 0, ',', '.') }} USD
+                                        ${{ number_format($item['discounted_price'] * $item['quantity'], 0, ',', '.') }}
                                     </div>
                                     {{-- Mobile Delete Action - Remove item from cart --}}
                                     <a href="{{ route('cart.remove', $id) }}"
@@ -257,7 +256,7 @@
                             {{-- Total Label - Clear identification of cart total --}}
                             <span class="text-gray-700">Total:</span>
                             {{-- Total Amount - Dynamic value updated by JavaScript --}}
-                            <span id="totalPrice" class="text-pink-600">0 USD</span>
+                            <span id="totalPrice" class="text-pink-600">$0</span>
                         </div>
                         {{-- Mobile Checkout Button Container - Full-width layout for mobile --}}
                         <div class="text-right mt-4">
@@ -331,7 +330,7 @@
             @returns {string} Formatted currency string
             --}}
             function formatCurrency(value) {
-                return new Intl.NumberFormat('vi-VN').format(value) + ' USD';
+                return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
             }
 
             {{-- 
