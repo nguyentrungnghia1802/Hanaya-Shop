@@ -57,32 +57,27 @@
                                     @foreach ($cart as $id => $item)
                                         {{-- Calculate running total for display - Add current item total to cart total --}}
                                         @php $total += $item['discounted_price'] * $item['quantity']; @endphp
-                                        {{-- Cart Item Row - Hover effect for better user interaction --}}
                                         <tr class="hover:bg-pink-50 transition-all">
-                                            {{-- Item Selection Checkbox Cell - Allows individual item selection for checkout --}}
                                             <td class="py-3 px-4 text-center align-middle">
-                                                {{-- Checkbox with data attributes for JavaScript calculations --}}
                                                 <input type="checkbox" name="cart_ids[]" value="{{ $id }}"
                                                     class="cart-checkbox accent-pink-500 w-5 h-5"
                                                     data-price="{{ $item['discounted_price'] * $item['quantity'] }}"
                                                     data-id="{{ $id }}"
                                                     data-product-id="{{ $item['product_id'] }}">
                                             </td>
-                                            {{-- Product Image Cell - Displays product thumbnail with fallback --}}
                                             <td class="py-3 px-4 align-middle">
-                                                {{-- Image Container - Rounded with border and background for consistent display --}}
-                                                <div
-                                                    class="w-16 h-16 rounded-lg overflow-hidden border-2 border-pink-200 bg-gray-100 flex items-center justify-center">
-                                                    {{-- Product Image - Checks if file exists, shows placeholder if not --}}
+                                                <a href="{{ route('user.products.show', $item['product_id']) }}" class="block w-16 h-16 rounded-lg overflow-hidden border-2 border-pink-200 bg-gray-100 flex items-center justify-center">
                                                     <img src="{{ $item['image_url'] && file_exists(public_path('images/products/' . $item['image_url']))
                                                         ? asset('images/products/' . $item['image_url'])
                                                         : asset('images/no-image.png') }}"
-                                                        alt="{{ $item['name'] }}" class="w-full h-full object-cover">
-                                                </div>
+                                                        alt="{{ $item['name'] }}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                                                </a>
                                             </td>
-                                            {{-- Product Name Cell - Bold text for product identification --}}
                                             <td class="py-3 px-4 align-middle font-semibold text-gray-900">
-                                                {{ $item['name'] }}</td>
+                                                <a href="{{ route('user.products.show', $item['product_id']) }}" class="text-pink-700 hover:underline">
+                                                    {{ $item['name'] }}
+                                                </a>
+                                            </td>
                                             {{-- Product Price Cell - Shows discounted price with original price strikethrough if discount exists --}}
                                             <td class="py-3 px-4 align-middle">
                                                 {{-- Conditional pricing display based on discount availability --}}
