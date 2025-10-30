@@ -30,7 +30,19 @@ sudo docker-compose up -d
 ```
 #### Chạy migration nếu có thay đổi database
 ```bash
-sudo docker-compose exec app php artisan migrate --force
+# Kiểm tra migration status trước
+sudo docker-compose -f docker-compose.production.yml exec app php artisan migrate:status
+
+# Chạy migration (đã có kiểm tra table tồn tại)
+sudo docker-compose -f docker-compose.production.yml exec app php artisan migrate --force
+
+# Hoặc tạo symlink để đơn giản hơn (chỉ cần làm 1 lần):
+# sudo ln -sf docker-compose.production.yml docker-compose.yml
+# sudo docker-compose exec app php artisan migrate --force
+
+# Nếu gặp lỗi "Table already exists", rollback và chạy lại:
+# sudo docker-compose exec app php artisan migrate:rollback --step=1
+# sudo docker-compose exec app php artisan migrate --force
 ```
 
 **Chi tiết đầy đủ về quy trình cập nhật có trong file [SERVER_UPDATE_GUIDE.md](SERVER_UPDATE_GUIDE.md)**
@@ -186,6 +198,47 @@ sudo docker-compose exec app php artisan queue:work
 ```
 
 ## 🛠️ Troubleshooting
+
+### Migration Issues
+
+#### "Table already exists" error
+```bash
+# Option 1: Check which migrations are pending
+sudo docker-compose -f docker-compose.production.yml exec app php artisan migrate:status
+
+# Option 2: Mark specific migration as run without executing
+# Chỉ dùng khi bảng đã tồn tại và cấu trúc đúng
+sudo docker-compose -f docker-compose.production.yml exec app php -r "
+require 'vendor/autoload.php';
+\$app = require 'bootstrap/app.php';
+\$app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
+DB::table('migrations')->insertOrIgnore([
+    'migration' => '2025_06_20_084648_create_addresses_table',
+    'batch' => 1
+]);
+echo 'Migration marked as run';
+"
+
+# Option 3: Fresh migration (CHỈ KHI CẦN THIẾT - SẼ XÓA DỮ LIỆU)
+# sudo docker-compose -f docker-compose.production.yml exec app php artisan migrate:fresh --force
+```
+
+#### Password reset functionality issues
+```bash
+# Check if password_reset_tokens table has correct structure
+sudo docker-compose -f docker-compose.production.yml exec app php -r "
+require 'vendor/autoload.php';
+\$app = require 'bootstrap/app.php';
+\$app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
+\$columns = DB::select('DESCRIBE password_reset_tokens');
+foreach(\$columns as \$column) {
+    echo \$column->Field . ' - ' . \$column->Type . PHP_EOL;
+}
+"
+
+# Should only show: email, token, created_at
+# If user_id exists, run the remove_user_id migration
+```
 
 ### View all logs
 ```bash
