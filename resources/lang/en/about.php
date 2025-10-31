@@ -24,6 +24,87 @@ return [
     'our_vision' => 'Our Vision',
     'our_values' => 'Our Values',
     
+    // Story paragraphs  
+    'story_paragraph_1' => 'Founded with a passion for bringing beauty and joy into people\'s lives, Hanaya Shop began as a small dream to create something special in the world of flowers and gifts. Our journey started with a simple belief: that flowers have the power to express emotions that words sometimes cannot.',
+    'story_paragraph_2' => 'What makes us unique is our dedication to crafting soap flowers - eternal blooms that capture the beauty of fresh flowers while lasting forever. These handcrafted creations combine the visual appeal of fresh flowers with the practicality and longevity that our customers love.',
+    'story_paragraph_3' => 'Today, Hanaya Shop has grown into a trusted destination for those seeking meaningful gifts, beautiful decorations, and heartfelt expressions of love and appreciation.',
+    
+    // Why choose us
+    'why_choose_us' => 'Why Choose Us?',
+    'artisan_crafted' => 'Artisan Crafted',
+    'artisan_crafted_desc' => 'Each product is carefully handcrafted by skilled artisans.',
+    'premium_materials' => 'Premium Materials',
+    'premium_materials_desc' => 'We use only the finest materials to ensure superior quality.',
+    'unique_designs' => 'Unique Designs',
+    'unique_designs_desc' => 'Diverse collection with exclusive designs not found elsewhere.',
+    'lasting_beauty' => 'Lasting Beauty',
+    'lasting_beauty_desc' => 'Our soap flowers maintain their beauty for years to come.',
+    
+    // Discover story
+    'discover_story' => 'Discover our story',
+    'principles_guide' => 'The principles that guide everything we do',
+    
+    // Additional content for about page
+    'handcrafted_excellence' => 'Handcrafted Excellence',
+    'handcrafted_excellence_desc' => 'Each soap flower is handcrafted with meticulous attention to detail.',
+    'natural_ingredients' => 'Natural Ingredients',
+    'natural_ingredients_desc' => 'We use natural ingredients that are safe for skin and environmentally friendly.',
+    'perfect_gifts' => 'Perfect Gifts',
+    'perfect_gifts_desc' => 'Ideal for any special occasion, from birthdays to anniversaries and weddings.',
+    
+    // What we offer
+    'what_we_offer' => 'What We Offer',
+    'discover_collection' => 'Discover our carefully curated collection',
+    
+    // Our Beginning section
+    'our_beginning' => 'Our Beginning',
+    'our_beginning_description' => 'From a small workshop to a beloved shop, every step has been guided by our commitment to quality and beauty.',
+    
+    // Product categories
+    'soap_flowers' => 'Soap Flowers',
+    'soap_flowers_description' => 'Handcrafted eternal flowers that combine beauty with functionality. Perfect for decoration and special occasions.',
+    'fresh_flowers' => 'Fresh Flowers',
+    'fresh_flowers_description' => 'Beautiful fresh flower arrangements for every occasion, from romantic bouquets to celebration centerpieces.',
+    'special_flowers' => 'Special Flowers',
+    'special_flowers_description' => 'Elegant and unique flower selections crafted for memorable moments, perfect for expressing love, gratitude, or sympathy.',
+    'souvenirs' => 'Souvenirs',
+    'souvenirs_description' => 'Thoughtfully curated gifts and souvenirs that show you care, perfect for expressing your feelings.',
+    
+    // Meet Our Team
+    'meet_our_team' => 'Meet Our Team',
+    'team_description' => 'The passionate individuals behind Hanaya Shop',
+    'team_group_description' => 'Our amazing team working together to bring you the best',
+    
+    // Team members
+    'alex_johnson' => 'Alex Johnson',
+    'founder_creative_director' => 'Founder & Creative Director',
+    'alex_description' => 'With over 8 years of experience in floral design, Alex founded Hanaya Shop with a vision to make beautiful flowers accessible to everyone.',
+    
+    'nguyen_trung_nghia' => 'Nguyen Trung Nghia',
+    'head_operations' => 'Head of Operations',
+    'nghia_description' => 'Nghia ensures every order is perfectly crafted and delivered with care. His attention to detail makes every customer experience exceptional.',
+    
+    'michael_rivera' => 'Michael Rivera',
+    'lead_artisan' => 'Lead Artisan',
+    'michael_description' => 'Michael\'s artistic expertise brings our soap flowers to life. His innovative techniques create stunning pieces that last forever.',
+    
+    // Contact section
+    'get_in_touch' => 'Get In Touch',
+    'opening_hours' => 'Opening Hours',
+    'opening_hours_time' => 'Monday - Sunday: 8:00 AM - 10:00 PM',
+    
+    // Why choose us detailed
+    'why_choose_hanaya_detailed' => 'Why Choose Hanaya Shop?',
+    'premium_quality' => 'Premium Quality',
+    'premium_quality_desc' => 'Every product is carefully crafted with the finest materials',
+    'fast_delivery' => 'Fast Delivery',
+    'fast_delivery_desc' => 'Quick and reliable shipping to your doorstep',
+    'excellent_support' => 'Excellent Support',
+    'excellent_support_desc' => 'Our team is always ready to help you',
+    'custom_orders' => 'Custom Orders',
+    'custom_orders_desc' => 'We create personalized gifts for special occasions',
+    'start_shopping_now' => 'Start Shopping Now',
+    
     // Company Description
     'company_description' => 'Hanaya Shop is a premier destination for beautiful soap flowers and meaningful gifts. We specialize in handcrafted soap flowers that combine artistry with functionality.',
     'established_year' => 'Established in 2020',

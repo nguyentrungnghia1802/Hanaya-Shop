@@ -37,7 +37,6 @@ return [
     'categories' => 'Danh mục',
     'post_categories' => 'Danh mục bài viết',
     'browse_by_category' => 'Duyệt theo danh mục',
-    'uncategorized' => 'Chưa phân loại',
     'tips_guides' => 'Mẹo & Hướng dẫn',
     'product_news' => 'Tin tức sản phẩm',
     'company_news' => 'Tin tức công ty',
@@ -126,7 +125,6 @@ return [
     
     // Post Types
     'article' => 'Bài viết',
-    'news' => 'Tin tức',
     'update' => 'Cập nhật',
     'guide' => 'Hướng dẫn',
     'tutorial' => 'Hướng dẫn chi tiết',
