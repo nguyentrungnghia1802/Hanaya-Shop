@@ -8,7 +8,7 @@
                 <div class="shrink-0 flex items-center">
                     <img src="{{ asset(config('constants.logo_path')) }}" alt="Logo" class="h-9 w-auto" loading="lazy"
                         fetchpriority="high">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('user.dashboard') }}">
                         <p class="ml-2.5 font-semibold"> HANAYA SHOP </p>
                     </a>
                 </div>

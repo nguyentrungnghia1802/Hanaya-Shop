@@ -4,7 +4,21 @@ return [
     // About Page
     'about_us' => 'About Us',
     'about_hanaya' => 'About Hanaya Shop',
+    'welcome_to_hanaya' => 'Welcome to Hanaya Shop',
+    'hero_description' => 'Discover the art of beautiful soap flowers - where elegance meets functionality. Each piece is carefully handcrafted to bring beauty and fragrance to your special moments.',
     'our_story' => 'Our Story',
+    
+    // Mission & Values Section
+    'mission_values' => 'Our Mission & Values',
+    'mission_values_description' => 'The principles that guide everything we do',
+    'quality_excellence' => 'Quality Excellence',
+    'quality_description' => 'We are committed to delivering only the highest quality products, ensuring every item meets our strict standards of beauty and craftsmanship.',
+    'customer_first' => 'Customer First',
+    'customer_first_description' => 'Your satisfaction is our priority. We go above and beyond to ensure every customer has a wonderful experience with us.',
+    'sustainability' => 'Sustainability',
+    'sustainability_description' => 'We care about our environment and strive to source materials responsibly while minimizing our ecological footprint.',
+    
+    // Company Information
     'company_history' => 'Company History',
     'our_mission' => 'Our Mission',
     'our_vision' => 'Our Vision',

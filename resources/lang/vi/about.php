@@ -4,7 +4,19 @@ return [
     // About Page
     'about_us' => 'Về chúng tôi',
     'about_hanaya' => 'Về Hanaya Shop',
+    'welcome_to_hanaya' => 'Chào mừng đến với Hanaya Shop',
+    'hero_description' => 'Khám phá nghệ thuật hoa xà phòng tuyệt đẹp - nơi sự thanh lịch gặp gỡ tính năng thực tiễn. Mỗi sản phẩm được chế tác thủ công cẩn thận để mang lại vẻ đẹp và hương thơm cho những khoảnh khắc đặc biệt của bạn.',
     'our_story' => 'Câu chuyện của chúng tôi',
+    
+    // Mission & Values Section
+    'mission_values' => 'Sứ Mệnh & Giá Trị',
+    'mission_values_description' => 'Những nguyên tắc định hướng mọi việc chúng tôi làm',
+    'quality_excellence' => 'Chất Lượng Xuất Sắc',
+    'quality_description' => 'Chúng tôi cam kết cung cấp những sản phẩm chất lượng cao nhất, đảm bảo mọi sản phẩm đều đáp ứng tiêu chuẩn nghiêm ngặt về vẻ đẹp và tay nghề thủ công.',
+    'customer_first' => 'Khách Hàng Là Số Một',
+    'customer_first_description' => 'Sự hài lòng của bạn là ưu tiên hàng đầu. Chúng tôi luôn nỗ lực để đảm bảo mọi khách hàng có trải nghiệm tuyệt vời với chúng tôi.',
+    'sustainability' => 'Bền Vững',
+    'sustainability_description' => 'Chúng tôi quan tâm đến môi trường và nỗ lực tìm nguồn nguyên liệu có trách nhiệm đồng thời giảm thiểu dấu chân sinh thái.',
     'company_history' => 'Lịch sử công ty',
     'our_mission' => 'Sứ mệnh của chúng tôi',
     'our_vision' => 'Tầm nhìn của chúng tôi',

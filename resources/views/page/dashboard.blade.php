@@ -35,13 +35,15 @@
                     </div>
                     <a href="{{ route('user.products.index', ['sort' => 'bestseller']) }}"
                         class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 font-medium flex items-center transition-colors duration-300">
+                        {{ __('dashboard.view_all') }}
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
                     </a>
                 </div>
-                <h3 class="text-2xl font-bold text-gray-800 flex items-center mb-4">
+                                <h3 class="text-2xl font-bold text-gray-800 flex items-center mb-4">
                     <svg class="w-6 h-6 mr-3 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1">
-                        </path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                     </svg>
                     {{ __('dashboard.best_seller_products') }}
                 </h3>
@@ -94,7 +96,7 @@
                                             <button disabled
                                                 class="w-full bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg shadow-lg cursor-not-allowed flex items-center justify-center"
                                                 title="Out of Stock">
-                                                <i class="fas fa-ban mr-2"></i>{{ __('products.out_of_stock') }}
+                                                <i class="fas fa-ban mr-2"></i>{{ __('product.out_of_stock') }}
                                             </button>
                                         @endif
                                     </div>
@@ -127,7 +129,7 @@
 
                                 <div class="flex items-center justify-between text-sm text-gray-500 mb-3">
                                     <span><i class="fas fa-shopping-cart mr-1"></i>{{ $product->total_sold ?? 0 }}
-                                        {{ __('products.sold') }}</span>
+                                        {{ __('product.sold') }}</span>
                                     <span><i class="fas fa-eye mr-1"></i>{{ $product->view_count ?? 0 }}</span>
                                 </div>
 
@@ -135,7 +137,7 @@
                                 <div class="mt-auto">
                                     <a href="{{ route('user.products.show', $product->id) }}"
                                         class="w-full bg-red-500 hover:bg-red-600 text-white text-center py-2 px-4 rounded-lg transition-colors flex items-center justify-center">
-                                        <i class="fas fa-eye mr-2"></i>{{ __('products.view_now') }}
+                                        <i class="fas fa-eye mr-2"></i>{{ __('product.view_now') }}
                                     </a>
                                 </div>
                             </div>
