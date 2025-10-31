@@ -70,7 +70,7 @@ class OrdersController extends Controller
             $admin->notify(new OrderConfirmedNotification($order));
         }
 
-        return redirect()->back()->with('success', 'xác nhận đơn hàng thành công');
+        return redirect()->back()->with('success', __('admin.order_confirmed_successfully'));
     }
 
     public function shipped(Order $order)
@@ -97,7 +97,7 @@ class OrdersController extends Controller
         foreach ($admins as $admin) {
             $admin->notify(new OrderShippedNotification($order));
         }
-        return redirect()->back()->with('success', 'giao thành công');
+        return redirect()->back()->with('success', __('admin.order_shipped_successfully'));
     }
 
     public function paid(Order $order)
@@ -105,7 +105,7 @@ class OrdersController extends Controller
         $payment = Payment::where('order_id', $order->id)->first();
 
         if (!$payment) {
-            return redirect()->back()->with('error', 'Không tìm thấy thông tin thanh toán cho đơn hàng này');
+            return redirect()->back()->with('error', __('admin.payment_info_not_found'));
         }
 
         DB::beginTransaction();
@@ -159,10 +159,10 @@ class OrdersController extends Controller
             // }
 
             DB::commit();
-            return redirect()->back()->with('success', 'Xác nhận thanh toán thành công');
+            return redirect()->back()->with('success', __('admin.payment_confirmed_successfully'));
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'Lỗi khi cập nhật trạng thái thanh toán: ' . $e->getMessage());
+            return redirect()->back()->with('error', __('admin.payment_update_error') . ': ' . $e->getMessage());
         }
     }
 
@@ -189,10 +189,10 @@ class OrdersController extends Controller
 
             DB::commit();
 
-            return redirect()->back()->with('success', 'Order has been cancelled successfully.');
+            return redirect()->back()->with('success', __('admin.order_cancelled_successfully'));
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'An error occurred while cancelling the order: ' . $e->getMessage());
+            return redirect()->back()->with('error', __('admin.order_cancel_error') . ': ' . $e->getMessage());
         }
     }
 }
