@@ -36,7 +36,9 @@ return [
     'availability' => '在庫状況',
     'sku' => '商品コード',
     'barcode' => 'バーコード',
-    
+    'sold' => '販売済み',
+
+
     // Product Actions
     'add_to_cart' => 'カートに追加',
     'buy_now' => '今すぐ購入',
@@ -46,7 +48,10 @@ return [
     'share_product' => '商品を共有',
     'quick_view' => 'クイックビュー',
     'view_details' => '詳細を見る',
-    
+    'view_all' => 'すべて見る',
+    'sign_in_to_buy' => '購入するにはサインインしてください',
+
+
     // Product Variants
     'select_color' => '色を選択',
     'select_size' => 'サイズを選択',
@@ -127,4 +132,22 @@ return [
     'select_options_first' => '最初にすべてのオプションを選択してください',
     'max_quantity_reached' => '最大数量に達しました',
     'insufficient_stock' => '在庫が不足しています',
+    // Cart translations
+    'cart' => 'カート',
+    'cart_title' => '🛒 カート',
+    'select_all' => 'すべて選択',
+    'product_image' => '画像',
+    'product_name' => '商品名',
+    'price' => '価格',
+    'total' => '合計',
+    'empty_cart' => 'カートが空です',
+    'shop_now' => '今すぐ購入',
+    'selected_items_total' => '選択商品の合計',
+    'proceed_to_checkout' => 'チェックアウトに進む',
+    'please_select_items' => 'チェックアウトする商品を選択してください',
+    'update_quantity' => '数量を更新',
+    'remove_item' => '商品を削除',
+    'remove' => '削除',
+    'cart_empty_message' => 'カートは現在空です。',
+    'start_shopping' => 'ショッピングを開始',
 ];
