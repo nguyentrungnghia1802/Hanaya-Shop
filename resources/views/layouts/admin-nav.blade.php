@@ -16,19 +16,19 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('admin.product')" :active="request()->routeIs('admin.product*')">
-                        {{ __('Products') }}
+                        {{ __('admin.products') }}
                     </x-nav-link>
                     <x-nav-link :href="route('admin.category')" :active="request()->routeIs('admin.category*')">
-                        {{ __('Categories') }}
+                        {{ __('admin.categories') }}
                     </x-nav-link>
                     <x-nav-link :href="route('admin.user')" :active="request()->routeIs('admin.user*')">
-                        {{ __('Users') }}
+                        {{ __('admin.users') }}
                     </x-nav-link>
                     <x-nav-link :href="route('admin.order')" :active="request()->routeIs('admin.order*')">
-                        {{ __('Orders') }}
+                        {{ __('admin.orders') }}
                     </x-nav-link>
                     <x-nav-link :href="route('admin.post.index')" :active="request()->routeIs('admin.post*')">
-                        {{ __('Posts') }}
+                        {{ __('admin.posts') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -36,6 +36,9 @@
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <div class="flex items-center space-x-4">
+                    <!-- Language Switcher -->
+                    <x-language-switcher />
+                    
                     <!-- Bell Icon -->
                     <div class="relative">
                         <button id="notificationBell" class="relative focus:outline-none bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-shadow">
@@ -72,7 +75,7 @@
         </div>
     </div>
 @empty
-    <div class="p-4 text-gray-500 text-sm text-center">Không có thông báo mới.</div>
+    <div class="p-4 text-gray-500 text-sm text-center">{{ __('admin.no_notifications') }}</div>
 @endforelse
 
                         </div>
@@ -98,19 +101,19 @@
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('admin.profile.edit')">
-                            {{ __('Profile') }}
+                            {{ __('admin.profile') }}
                         </x-dropdown-link>
                         <x-dropdown-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard*')">
-                            {{ __('Admin Dashboard') }}
+                            {{ __('admin.admin_dashboard') }}
                         </x-dropdown-link>
                         <x-dropdown-link :href="route('user.dashboard')" :active="request()->routeIs('user.dashboard')">
-                            {{ __('User Dashboard') }}
+                            {{ __('admin.user_dashboard') }}
                         </x-dropdown-link>
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                {{ __('Log Out') }}
+                                {{ __('admin.log_out') }}
                             </button>
                         </form>
                     </x-slot>
@@ -120,6 +123,11 @@
             
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
+                <!-- Language Switcher Mobile -->
+                <div class="mr-2">
+                    <x-language-switcher />
+                </div>
+                
                 <!-- Notification Bell Mobile -->
                 <div class="relative mr-2">
                     <button id="notificationBellMobile" class="relative focus:outline-none bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-shadow">
@@ -154,7 +162,7 @@
                                 </div>
                             </div>
                         @empty
-                            <div class="p-4 text-gray-500 text-sm text-center">Không có thông báo mới.</div>
+                            <div class="p-4 text-gray-500 text-sm text-center">{{ __('admin.no_notifications') }}</div>
                         @endforelse
                     </div>
                 </div>
@@ -177,19 +185,19 @@
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('admin.product')" :active="request()->routeIs('admin.product*')">
-                {{ __('Products') }}
+                {{ __('admin.products') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('admin.category')" :active="request()->routeIs('admin.category*')">
-                {{ __('Categories') }}
+                {{ __('admin.categories') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('admin.user')" :active="request()->routeIs('admin.user*')">
-                {{ __('Users') }}
+                {{ __('admin.users') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('admin.order')" :active="request()->routeIs('admin.order*')">
-                {{ __('Orders') }}
+                {{ __('admin.orders') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('admin.post.index')" :active="request()->routeIs('admin.post*')">
-                {{ __('Posts') }}
+                {{ __('admin.posts') }}
             </x-responsive-nav-link>
         </div>
 
@@ -202,19 +210,19 @@
 
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('admin.profile.edit')">
-                    {{ __('Profile') }}
+                    {{ __('admin.profile') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard*')">
-                    {{ __('Admin Dashboard') }}
+                    {{ __('admin.admin_dashboard') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('user.dashboard')" :active="request()->routeIs('user.dashboard')">
-                    {{ __('User Dashboard') }}
+                    {{ __('admin.user_dashboard') }}
                 </x-responsive-nav-link>
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="w-full text-left block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out border-l-4 border-transparent hover:border-gray-300">
-                        {{ __('Log Out') }}
+                        {{ __('admin.log_out') }}
                     </button>
                 </form>
             </div>
