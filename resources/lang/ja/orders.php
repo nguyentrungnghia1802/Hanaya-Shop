@@ -47,4 +47,17 @@ return [
     'cancel_order'         => '注文をキャンセル',
     'received'             => '受け取り済み',
     'continue_shopping'    => '買い物を続ける',
+
+    //order controller
+    'order_has_been_cancelled'            => 'Đơn hàng đã được hủy thành công.',
+    'order_has_been_marked_as_received'   => 'Đơn hàng đã được đánh dấu là đã nhận thành công.',
+
+    //review controller
+    'order_not_found'                     => 'Không tìm thấy đơn hàng hoặc bạn không có quyền truy cập.',
+    'can_only_review_shipped_orders'      => 'Bạn chỉ có thể đánh giá sản phẩm trong các đơn hàng đã được giao.',
+    'product_not_found_in_order'          => 'Không tìm thấy sản phẩm trong đơn hàng này.',
+    'already_reviewed'                    => 'Bạn đã đánh giá sản phẩm này cho đơn hàng này.',
+    'review_submitted_successfully'       => 'Đánh giá đã được gửi thành công!',
+    'product_not_found'                   => 'Không tìm thấy sản phẩm.',
+
 ];

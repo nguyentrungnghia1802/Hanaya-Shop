@@ -48,4 +48,17 @@ return [
     'cancel_order'         => 'Hủy đơn hàng',
     'received'             => 'Đã nhận',
     'continue_shopping'    => 'Tiếp tục mua sắm',
+
+    //order controller
+    'order_has_been_cancelled'            => '注文は正常にキャンセルされました。',
+    'order_has_been_marked_as_received'   => '注文は受け取り済みに設定されました。',
+
+    //review controller
+    'order_not_found'                     => '注文が見つからないか、アクセス権がありません。',
+    'can_only_review_shipped_orders'      => '発送済みの注文の商品にのみレビューできます。',
+    'product_not_found_in_order'          => 'この注文に商品が見つかりません。',
+    'already_reviewed'                    => 'この注文の商品はすでにレビュー済みです。',
+    'review_submitted_successfully'       => 'レビューが正常に送信されました！',
+    'product_not_found'                   => '商品が見つかりません。',
+
 ];

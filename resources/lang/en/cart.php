@@ -23,4 +23,10 @@ return [
     'free_shipping' => 'Free Shipping',
     'calculate_shipping' => 'Calculate Shipping',
     'enter_zip_code' => 'Enter ZIP code',
+
+    //alerts
+    'out_of_stock_alert' => 'Out of Stock',
+    'added_to_cart' => 'Item added to cart successfully',
+    'removed_from_cart' => 'Item removed from cart successfully',
+
 ];
