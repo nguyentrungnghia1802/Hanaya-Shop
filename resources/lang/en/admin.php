@@ -65,7 +65,7 @@ return [
     'filter' => 'Filter',
     'export' => 'Export',
     'import' => 'Import',
-    
+
     // Messages
     'created_successfully' => 'Created successfully!',
     'updated_successfully' => 'Updated successfully!',
@@ -87,4 +87,63 @@ return [
     'user_dashboard' => 'User Dashboard',
     'log_out' => 'Log Out',
     'no_notifications' => 'No new notifications.',
+
+    // new
+    'category_created_successfully' => 'Category created successfully!',
+    'category_updated_successfully' => 'Category updated successfully!',
+    'category_deleted_successfully' => 'Category deleted successfully!',
+    'image_deleted_successfully' => 'Image deleted successfully!',
+    'failed_to_delete_image' => 'Failed to delete image.',
+    'no_file_uploaded' => 'No file uploaded',
+    'upload_failed' => 'Upload failed:',
+    'post_created_successfully' => 'Post created successfully!',
+    'post_updated_successfully' => 'Post updated successfully!',
+    'post_deleted_successfully' => 'Post deleted successfully along with all related images',
+    'product_created_successfully' => 'Product created successfully!',
+    'failed_to_create_product' => 'Failed to create product',
+    'product_updated_successfully' => 'Product updated successfully!',
+    'product_deleted_successfully' => 'Product deleted successfully!',
+    'review_deleted_successfully' => 'Review and associated image deleted successfully.',
+    'account_created_successfully' => 'Account created successfully!',
+    'you_cannot_edit_yourself' => 'Bạn không thể sửa chính mình.',
+    'account_updated_successfully' => 'Account updated successfully!',
+    'account_deleted_successfully' => 'Account deleted successfully!',
+    'you_cannot_delete_yourself' => 'you cannot delete yourself.',
+    'no_categories_found' => 'No categories found.',
+    'add_flower_category' => 'Add Flower Category',
+    'category_name' => 'Category Name',
+    'quick_view' => 'Quick View',
+    'category_exists' => 'This category already exists.',
+    'category_image' => 'Category Image:',
+    'current_image' => 'Current Image:',
+    'description' => 'Description:',
+    'confirm_cancel' => 'Are you sure you want to cancel? Any unsaved changes will be lost.',
+    'add_category' => 'Add Category',
+    'name' => 'Name',
+    'action' => 'Action',
+    'back_to_categories' => 'Back to Categories',
+    'category_id' => 'Category ID',
+    'created_at' => 'Created At',
+    'updated_at' => 'Updated At',
+    'no_description_available' => 'No description available',
+    'total_products' => 'Total Products',
+    'active_products' => 'Active Products',
+    'inactive_products' => 'Inactive Products',
+    'edit_category' => 'Edit Category',
+    'delete_category' => 'Delete Category',
+    'confirm_delete_message' => 'Are you sure you want to delete this category? This action cannot be undone.',
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ];
