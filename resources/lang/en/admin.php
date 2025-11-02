@@ -136,17 +136,14 @@ return [
     // dash board
     'monthly_revenue' => 'Monthly Revenue',
     'total_orders' => 'Total Orders',
-    'total_products' => 'Total Products',
     'total_users' => 'Total Users',
     'category' => 'Category',
     'in_stock' => 'In Stock',
     'out_of_stock' => 'Out of Stock',
-    'posts' => 'Posts',
     'new_users_this_month' => 'New Users This Month',
     'total_revenue' => 'Total Revenue',
     'revenue_chart' => 'Revenue Chart - last 6 Months',
     'order_status_distribution' => 'Order Status Distribution',
-    'pending' => 'Pending',
     'processing' => 'Processing',
     'shipped' => 'Shipped',
     'completed' => 'Completed',
@@ -163,10 +160,8 @@ return [
     'customer' => 'Customer',
     'total' => 'Total',
     'status' => 'Status',
-    'order_date' => 'Order Date',
     'welcome_message' => 'Welcome to the Admin Dashboard',
     'manage_hanaya_shop' => 'Manage Hanaya Shop',
-    'admin_dashboard' => 'Admin Dashboard',
 
     // category index
     'view_details' => 'View Details',
@@ -174,23 +169,15 @@ return [
 
     //category show
     'category_information' => 'Category Information',
-    'name' => 'Name:',
-    'description' => 'Description:',
     'Image' => 'Image:',
 
     //products create
     'add_new_product' => 'Add New Product',
-    'product_name' => 'Product Name',
     'product_already_exists' => 'This product already exists.',
-    'product_description' => 'Product Description',
     'price' => 'Price',
     'stock_quantity' => 'Stock Quantity',
     'discount_percent' => 'Discount Percent',
-    'product_category' => 'Category',
     'select_category' => 'Select Category',
-    'product_image' => 'Product Image',
-    'current_image' => 'Current Image:',
-    'save' => 'Save',
 
     // products index
     'search_products' => 'Search Products...',
@@ -198,22 +185,10 @@ return [
     'all_categories' => 'All Categories',
     'all_stock_status' => 'All Stock Status',
     'low_stock' => 'Low Stock',
-    'out_of_stock' => 'Out of Stock',
     'add' => 'Add',
-    'name' => 'Name',
-    'description' => 'Description',
-    'price' => 'Price',
     'quantity' => 'Quantity',
     'discount' => 'Discount',
-    'view' => 'View',
-    'category' => 'Category',
-    'action' => 'Action',
-    'edit' => 'Edit',
-    'delete' => 'Delete',
-    'view_details' => 'View Details',
-    'quick_view' => 'Quick View',
     'product_details' => 'Product Details',
-    'quantity' => 'Quantity',
 
     'filter_by_stock' => 'Filter by Stock',
     'apply_filters' => 'Apply Filters',
@@ -247,26 +222,6 @@ return [
     // user show
     'account_details' => 'Account Details',
     'cart' => 'Cart',
-    'no products_in_cart' => 'No products in cart',
-    'orders' => 'Orders',
+    'no_products_in_cart' => 'No products in cart',
     'no_orders_found' => 'No orders found',
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ];
