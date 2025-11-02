@@ -28,7 +28,7 @@
                         {{ __('common.orders') }}
                     </x-nav-link>
                     <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts*')">
-                        Posts
+                        {{ __('common.posts') }}
                     </x-nav-link>
                     <x-nav-link :href="route('user.about')" :active="request()->routeIs('user.about')">
                         {{ __('common.about') }}

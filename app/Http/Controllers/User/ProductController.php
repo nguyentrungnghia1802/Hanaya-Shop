@@ -244,13 +244,13 @@ class ProductController extends Controller
              * Default title for general product listing
              * Category-specific titles for filtered views improve SEO and user experience
              */
-            $pageTitle = 'Products - Hanaya Shop';
+            $pageTitle = __('product.hanaya_shop_products');
             if ($categoryName) {
                 $categoryTitles = [
-                    'soap-flower' => 'Soap Flower',
-                    'fresh-flower' => 'Fresh Flower',
-                    'special-flower' => 'Special Flower',
-                    'souvenir' => 'Souvenir'
+                    'soap-flower' => __('product.soap_flower'),
+                    'fresh-flower' => __('product.fresh_flower'),
+                    'special-flower' => __('product.special_flower'),
+                    'souvenir' => __('product.souvenir')
                 ];
                 $pageTitle = $categoryTitles[$categoryName] ?? $pageTitle;
             }
