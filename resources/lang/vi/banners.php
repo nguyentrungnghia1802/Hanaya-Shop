@@ -6,7 +6,7 @@ return [
     'welcome_subtitle' => 'Nơi hội tụ những bông hoa và món quà ý nghĩa',
     'explore_now' => 'Khám phá ngay',
     
-    'soap_flower_title' => 'Bộ sưu tập hoa xà phòng',
+    'soap_flower_title' => 'Bộ sưu tập hoa sáp',
     'soap_flower_subtitle' => 'Những bông hoa vĩnh cửu với hương thơm dịu nhẹ',
     'view_collection' => 'Xem bộ sưu tập',
     

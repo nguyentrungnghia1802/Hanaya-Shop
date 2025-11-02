@@ -136,17 +136,14 @@ return [
     // dash board
     'monthly_revenue' => 'Doanh thu hàng tháng',
     'total_orders' => 'Tổng số đơn hàng',
-    'total_products' => 'Tổng số sản phẩm',
     'total_users' => 'Tổng số người dùng',
     'category' => 'Danh mục',
     'in_stock' => 'Còn hàng',
     'out_of_stock' => 'Hết hàng',
-    'posts' => 'Bài viết',
     'new_users_this_month' => 'Người dùng mới tháng này',
     'total_revenue' => 'Tổng doanh thu',
     'revenue_chart' => 'Biểu đồ doanh thu - 6 tháng gần nhất',
     'order_status_distribution' => 'Phân bố trạng thái đơn hàng',
-    'pending' => 'Chờ xử lý',
     'processing' => 'Đang xử lý',
     'shipped' => 'Đã giao hàng',
     'completed' => 'Hoàn thành',
@@ -163,7 +160,6 @@ return [
     'customer' => 'Khách hàng',
     'total' => 'Tổng cộng',
     'status' => 'Trạng thái',
-    'order_date' => 'Ngày đặt hàng',
     'welcome_message' => 'Chào mừng đến với Bảng điều khiển quản trị',
     'manage_hanaya_shop' => 'Quản lý cửa hàng Hanaya',
 
@@ -173,23 +169,15 @@ return [
 
     // category show
     'category_information' => 'Thông tin danh mục',
-    'name' => 'Tên:',
-    'description' => 'Mô tả:',
     'Image' => 'Hình ảnh:',
 
     // products create
     'add_new_product' => 'Thêm sản phẩm mới',
-    'product_name' => 'Tên sản phẩm',
     'product_already_exists' => 'Sản phẩm này đã tồn tại.',
-    'product_description' => 'Mô tả sản phẩm',
     'price' => 'Giá',
     'stock_quantity' => 'Số lượng tồn kho',
     'discount_percent' => 'Phần trăm giảm giá',
-    'product_category' => 'Danh mục',
     'select_category' => 'Chọn danh mục',
-    'product_image' => 'Hình ảnh sản phẩm',
-    'current_image' => 'Hình ảnh hiện tại:',
-    'save' => 'Lưu',
 
     // products index
     'search_products' => 'Tìm kiếm sản phẩm...',
@@ -197,27 +185,14 @@ return [
     'all_categories' => 'Tất cả danh mục',
     'all_stock_status' => 'Tất cả trạng thái tồn kho',
     'low_stock' => 'Sắp hết hàng',
-    'out_of_stock' => 'Hết hàng',
     'add' => 'Thêm',
-    'name' => 'Tên',
-    'description' => 'Mô tả',
-    'price' => 'Giá',
     'quantity' => 'Số lượng',
     'discount' => 'Giảm giá',
-    'view' => 'Xem',
-    'category' => 'Danh mục',
-    'action' => 'Hành động',
-    'edit' => 'Sửa',
-    'delete' => 'Xóa',
-    'quick_view' => 'Xem nhanh',
     'product_details' => 'Chi tiết sản phẩm',
 
     'filter_by_stock' => 'Lọc theo tình trạng hàng',
     'apply_filters' => 'Áp dụng bộ lọc',
     'reset' => 'Đặt lại bộ lọc',
-
-    // product edit
-    'product_name' => 'Tên sản phẩm',
 
     // product show
     'back_to_products' => 'Quay lại sản phẩm',
@@ -246,8 +221,7 @@ return [
     // user show
     'account_details' => 'Chi tiết tài khoản',
     'cart' => 'Giỏ hàng',
-    'no products_in_cart' => 'Không có sản phẩm nào trong giỏ',
-    'orders' => 'Đơn hàng',
+    'no_products_in_cart' => 'Không có sản phẩm nào trong giỏ',
     'no_orders_found' => 'Không tìm thấy đơn hàng nào',
     
      // order index
