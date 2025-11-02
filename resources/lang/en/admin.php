@@ -168,6 +168,94 @@ return [
     'manage_hanaya_shop' => 'Manage Hanaya Shop',
     'admin_dashboard' => 'Admin Dashboard',
 
+    // category index
+    'view_details' => 'View Details',
+    'search_categories' => 'Search Categories...',
+
+    //category show
+    'category_information' => 'Category Information',
+    'name' => 'Name:',
+    'description' => 'Description:',
+    'Image' => 'Image:',
+
+    //products create
+    'add_new_product' => 'Add New Product',
+    'product_name' => 'Product Name',
+    'product_already_exists' => 'This product already exists.',
+    'product_description' => 'Product Description',
+    'price' => 'Price',
+    'stock_quantity' => 'Stock Quantity',
+    'discount_percent' => 'Discount Percent',
+    'product_category' => 'Category',
+    'select_category' => 'Select Category',
+    'product_image' => 'Product Image',
+    'current_image' => 'Current Image:',
+    'save' => 'Save',
+
+    // products index
+    'search_products' => 'Search Products...',
+    'filter_by_category' => 'Filter by Category',
+    'all_categories' => 'All Categories',
+    'all_stock_status' => 'All Stock Status',
+    'low_stock' => 'Low Stock',
+    'out_of_stock' => 'Out of Stock',
+    'add' => 'Add',
+    'name' => 'Name',
+    'description' => 'Description',
+    'price' => 'Price',
+    'quantity' => 'Quantity',
+    'discount' => 'Discount',
+    'view' => 'View',
+    'category' => 'Category',
+    'action' => 'Action',
+    'edit' => 'Edit',
+    'delete' => 'Delete',
+    'view_details' => 'View Details',
+    'quick_view' => 'Quick View',
+    'product_details' => 'Product Details',
+    'quantity' => 'Quantity',
+
+    'filter_by_stock' => 'Filter by Stock',
+    'apply_filters' => 'Apply Filters',
+    'reset' => 'Reset Filters',
+
+    // product show
+    'back_to_products' => 'Back to Products',
+    'customer_reviews' => 'Customer Reviews',
+    'reviews' => 'Reviews',
+    'order' => 'Order',
+    'no_reviews_yet' => 'No reviews yet.',
+    'this_product_has_received_any_reviews' => 'This product has not received any reviews yet.',
+
+
+     // user index
+     'email' => 'Email',
+     'role' => 'Role',
+     'search_for_a_user' => 'Search for a user...',
+      
+     // user create
+     'add_user_account' => 'Add User Account',
+     'password' => 'Password',
+     'user' => 'User',
+     'admin' => 'Admin',
+     'add_row' => 'Add Row',
+
+     //user edit
+    'edit_user_account' => 'Edit User Account ',
+    'new_password' => 'New Password (leave blank to keep current password)',
+
+    // user show
+    'account_details' => 'Account Details',
+    'cart' => 'Cart',
+    'no products_in_cart' => 'No products in cart',
+    'orders' => 'Orders',
+    'no_orders_found' => 'No orders found',
+
+
+
+
+
+
 
 
 

@@ -18,21 +18,21 @@
                 <div class="p-6 text-gray-900">
                     <!-- Search input field -->
                     <form id="userSearchForm" class="flex gap-2 mb-4 max-w-sm">
-                        <input type="text" id="searchUserInput" placeholder="Search for a user..."
+                        <input type="text" id="searchUserInput" placeholder="{{ __('admin.search_for_a_user') }}"
                             class="border px-3 py-2 rounded w-full" autocomplete="off">
                         <button type="submit"
-                            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 rounded">Search</button>
+                            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 rounded">{{ __('admin.search') }}</button>
                     </form>
 
                     <!-- Action buttons -->
                     <div class="mb-4 flex flex-wrap gap-2">
                         <a href="{{ route('admin.user.create') }}"
                             class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded transition">
-                            Add
+                            {{ __('admin.add') }}
                         </a>
                         <button id="btn-delete-multi"
                             class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded transition">
-                            Delete Selected
+                            {{ __('admin.delete') }}
                         </button>
                     </div>
 
@@ -45,10 +45,10 @@
                                         <input type="checkbox" id="checkAll">
                                     </th>
                                     <th class="px-2 sm:px-4 py-2 border-b">#</th>
-                                    <th class="px-2 sm:px-4 py-2 border-b">Name</th>
-                                    <th class="px-2 sm:px-4 py-2 border-b">Email</th>
-                                    <th class="px-2 sm:px-4 py-2 border-b">Role</th>
-                                    <th class="px-2 sm:px-4 py-2 border-b">Action</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">{{ __('admin.name') }}</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">{{ __('admin.email') }}</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">{{ __('admin.role') }}</th>
+                                    <th class="px-2 sm:px-4 py-2 border-b">{{ __('admin.action') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -65,16 +65,16 @@
                                             <div class="flex flex-col sm:flex-row flex-wrap gap-2">
                                                 <a href="{{ route('admin.user.edit', $user->id) }}"
                                                     class="px-3 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition">
-                                                    Edit
+                                                    {{ __('admin.edit') }}
                                                 </a>
                                                 <button type="button"
                                                     class="px-3 py-1 bg-red-500 text-white text-xs font-medium rounded hover:bg-red-600 transition btn-delete"
                                                     data-id="{{ $user->id }}">
-                                                    Delete
+                                                    {{ __('admin.delete') }}
                                                 </button>
                                                 <a href="{{ route('admin.user.show', $user->id) }}"
                                                     class="px-3 py-1 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition">
-                                                    View Details
+                                                    {{ __('admin.view_details') }}
                                                 </a>
                                             </div>
                                         </td>
