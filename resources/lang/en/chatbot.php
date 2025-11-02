@@ -247,7 +247,6 @@ return [
         . "• Notify us for restock alerts\n\n"
         . "📞 **For specific availability:** :phone",
 
-
     // --- Assistant Info ---
     'name' => 'Hanaya Shop Assistant',
     'status_online' => 'Online now',
@@ -267,5 +266,4 @@ return [
     'latest_news_button' => "📰 News",
     'popular_button' => "⭐ Popular",
     'help_button' => "❓ Help",
-
 ];
