@@ -43,7 +43,7 @@ return [
     'stock' => 'Tồn kho',
     
     // Categories
-    'soap_flower' => 'Hoa xà phòng',
+    'soap_flower' => 'Hoa sáp',
     'souvenir' => 'Quà lưu niệm',
     'fresh_flower' => 'Hoa tươi',
     'gift_set' => 'Bộ quà tặng',

@@ -246,4 +246,26 @@ return [
         . "• New arrivals every month\n"
         . "• Notify us for restock alerts\n\n"
         . "📞 **For specific availability:** :phone",
+
+
+    // --- Assistant Info ---
+    'name' => 'Hanaya Shop Assistant',
+    'status_online' => 'Online now',
+    'greeting_hanaya' => "Hello! I'm Hanaya Shop's AI assistant. I can help you with:",
+    'how_can_i_assist' => "How can I assist you today ? 🌸",
+
+    // --- Main Features ---
+    'find_products' => "🔍 Find products & recommendations",
+    'track_orders' => "📦 Track your orders",
+    'pricing_info' => "💰 Pricing & payment options",
+    'faq' => "❓ FAQ & customer support",
+    'soap_flowers' => "🧼 Soap Flowers",
+
+    // --- Quick Action Buttons ---
+    'track_orders_button' => "📦 My Orders",
+    'store_info_button' => "🏪 Store Info",
+    'latest_news_button' => "📰 News",
+    'popular_button' => "⭐ Popular",
+    'help_button' => "❓ Help",
+
 ];
