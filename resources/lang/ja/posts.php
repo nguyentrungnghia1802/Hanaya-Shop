@@ -9,7 +9,8 @@ return [
     'news_updates' => 'ニュース＆アップデート',
     'featured_posts' => '注目の投稿',
     'popular_posts' => '人気の投稿',
-    
+    'posts' => '投稿',
+
     // Post Details
     'read_more' => '続きを読む',
     'read_full_post' => '全文を読む',
