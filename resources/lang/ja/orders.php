@@ -10,6 +10,7 @@ return [
     'order_id'             => '注文ID：',
     'products'             => '商品：',
     'total_amount'         => '合計金額',
+    'item'                 => 'アイテム',
     'items'                => 'アイテム数',
     'status'               => 'ステータス',
     'confirmed'            => '確認済み',
@@ -19,6 +20,8 @@ return [
     'no_orders_yet'        => 'まだ注文がありません',
     'you_have_not'         => 'まだ注文をしていません。今すぐショッピングを始めましょう！',
     'start_shopping'       => 'ショッピングを始める',
+    'no_description_available' => '説明はありません',
+
 
     // Page order show
     'order_details'        => '注文の詳細',

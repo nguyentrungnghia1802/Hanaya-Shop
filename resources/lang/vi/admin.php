@@ -52,6 +52,8 @@ return [
     'edit_user' => 'Chỉnh sửa người dùng',
     'user_role' => 'Vai trò',
     'user_status' => 'Trạng thái người dùng',
+    'operation_successful' => 'Thao tác thành công',
+
 
     // Common actions
     'create' => 'Tạo',

@@ -28,6 +28,7 @@ return [
     'keyword' => 'Từ khóa:',
     'type' => 'Loại:',
     'loading_products' => 'Đang tải sản phẩm...',
+    'available' => 'Còn hàng',
 
     // Product Details
     'product_details' => 'Chi tiết sản phẩm',
