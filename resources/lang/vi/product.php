@@ -183,4 +183,18 @@ return [
     'remove' => 'Xóa',
     'cart_empty_message' => 'Giỏ hàng của bạn hiện đang trống.',
     'start_shopping' => 'Bắt đầu mua sắm',
+
+    //Product Detail
+    'views' => 'Lượt xem',
+    'choose_quantity' => 'Chọn số lượng sản phẩm',
+    'sign_in_required' => 'Cần đăng nhập',
+    'sign_in_message' => 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng và thực hiện mua hàng',
+    'sign_in' => 'Đăng nhập',
+    'create_account' => 'Tạo tài khoản',
+    'free_shipping' => 'Miễn phí vận chuyển',
+    'return_policy' => 'Đổi trả trong vòng 7 ngày',
+    'warranty' => 'Bảo hành chính hãng',
+    '24_7_support' => 'Hỗ trợ 24/7',
+    'reviews' => 'đánh giá',
+    'no_reviews_yet' => 'Chưa có đánh giá',
 ];
