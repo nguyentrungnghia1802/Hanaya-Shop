@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Product Category Model
  * 
@@ -22,7 +23,7 @@
  * - Has many Products (one-to-many) - Products belonging to this category
  * 
  * Category Examples:
- * - Soap Flower (Hoa xà phòng)
+ * - Soap Flower (Hoa sáp)
  * - Fresh Flower (Hoa tươi)
  * - Special Flower (Hoa đặc biệt)
  * - Souvenir (Quà lưu niệm)

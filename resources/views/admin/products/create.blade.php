@@ -46,29 +46,29 @@
                         @csrf
 
                         {{-- Form title --}}
-                        <h2 class="text-xl font-semibold text-gray-800 mb-4">Add New Product</h2>
+                        <h2 class="text-xl font-semibold text-gray-800 mb-4">{{ __('admin.add_new_product') }}</h2>
 
                         {{-- Product name input --}}
                         <div>
-                            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Product Name</label>
+                            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">{{ __('admin.product_name') }}</label>
                             <input type="text" name="name" id="name" required
                                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
                                 value="{{ old('name') }}">
 
                             {{-- Shown only when product name is duplicated (client-side) --}}
-                            <p id="errorMsg" class="hidden text-red-500 text-sm mt-1">Product already exists</p>
+                            <p id="errorMsg" class="hidden text-red-500 text-sm mt-1">{{ __('admin.product_already_exists') }}</p>
                         </div>
 
                         {{-- Product description input --}}
                         <div>
-                            <label for="descriptions" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                            <label for="descriptions" class="block text-sm font-medium text-gray-700 mb-1">{{ __('admin.product_description') }}</label>
                             <input type="text" name="descriptions" id="descriptions"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none">
                         </div>
 
                         {{-- Product price input --}}
                         <div>
-                            <label for="price" class="block text-sm font-medium text-gray-700 mb-1">Price</label>
+                            <label for="price" class="block text-sm font-medium text-gray-700 mb-1">{{ __('admin.price') }}</label>
                             <div class="flex items-center">
                                 <input type="number" name="price" id="price" min="0" step="0.01"
                                     class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none">
@@ -78,24 +78,24 @@
 
                         {{-- Stock quantity input --}}
                         <div>
-                            <label for="stock_quantity" class="block text-sm font-medium text-gray-700 mb-1">Stock Quantity</label>
+                            <label for="stock_quantity" class="block text-sm font-medium text-gray-700 mb-1">{{ __('admin.stock_quantity') }}</label>
                             <input type="number" name="stock_quantity" id="stock_quantity" required min="0"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none">
                         </div>
 
                         {{-- Discount Percent --}}
                         <div>
-                            <label for="discount_percent" class="block text-sm font-medium text-gray-700 mb-1">Discount Percent (%)</label>
+                            <label for="discount_percent" class="block text-sm font-medium text-gray-700 mb-1">{{ __('admin.discount_percent') }} (%)</label>
                             <input type="number" name="discount_percent" id="discount_percent" min="0" max="100" step="0.01" value="0"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none">
                         </div>
 
                         {{-- Product category selection --}}
                         <div>
-                            <label for="category_id" class="block text-sm font-medium text-gray-700 mb-1">Product Category</label>
+                            <label for="category_id" class="block text-sm font-medium text-gray-700 mb-1">{{ __('admin.product_category') }}</label>
                             <select name="category_id" id="category_id" required
                                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none">
-                                <option value="">-- Select a Category --</option>
+                                <option value="">-- {{ __('admin.select_category') }} --</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                                 @endforeach
@@ -104,14 +104,14 @@
 
                         {{-- Product image input --}}
                         <div>
-                            <label for="image_url" class="block text-sm font-medium text-gray-700 mb-1">Product Image</label>
+                            <label for="image_url" class="block text-sm font-medium text-gray-700 mb-1">{{ __('admin.product_image') }}</label>
                             <input type="file" name="image_url" id="image_url" accept="image/*"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none">
                         </div>
 
                         {{-- Preview selected image --}}
                         <div class="mt-2">
-                            <p class="text-sm text-gray-600">Current Image:</p>
+                            <p class="text-sm text-gray-600">{{ __('admin.current_image') }}</p>
                             <img id="create-image" src="{{ asset('images/base.jpg') }}" alt="Product Image" width="150"
                                 class="mt-1 rounded border">
                         </div>
@@ -119,7 +119,7 @@
                         {{-- Submit form button --}}
                         <button type="submit"
                             class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200">
-                            Save
+                            {{ __('admin.save') }}
                         </button>
 
                     </form>
