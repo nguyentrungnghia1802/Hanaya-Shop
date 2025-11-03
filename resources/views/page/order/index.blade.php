@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="max-w-7xl mx-auto px-2 sm:px-4 py-6 sm:py-12">
         <!-- Page Title -->
-        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">{{ __('orders.orders_title') }}</h2>
+        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">📝{{ __('orders.orders_title') }}</h2>
 
         <div class="min-h-screen bg-gray-50 py-8">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -162,7 +162,7 @@
                                                         {{ __('orders.items') }}</p>
                                                     <p class="text-lg font-bold text-gray-900">
                                                         {{ $order->orderDetail->count() }}
-                                                        {{ $order->orderDetail->count() === 1 ? 'item' : 'items' }}</p>
+                                                        {{ $order->orderDetail->count() === 1 ? __('orders.item') : __('orders.items') }}</p>
                                                 </div>
                                                 <div class="bg-gray-50 rounded-lg p-3">
                                                     <p

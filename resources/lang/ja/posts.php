@@ -9,7 +9,8 @@ return [
     'news_updates' => 'ニュース＆アップデート',
     'featured_posts' => '注目の投稿',
     'popular_posts' => '人気の投稿',
-    
+    'posts' => '投稿',
+
     // Post Details
     'read_more' => '続きを読む',
     'read_full_post' => '全文を読む',
@@ -53,8 +54,9 @@ return [
     'your_email' => 'メールアドレス',
     'your_comment' => 'コメント',
     'required_fields' => '必須フィールドは*でマークされています',
-    
+
     // Search & Filter
+    'search_posts_placeholder' => '投稿を検索...',
     'search_posts' => '投稿を検索',
     'search_results' => '検索結果',
     'filter_by_date' => '日付でフィルター',
