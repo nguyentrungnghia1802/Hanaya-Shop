@@ -52,6 +52,8 @@ return [
     'edit_user' => 'Edit User',
     'user_role' => 'User Role',
     'user_status' => 'User Status',
+    'message_account_delete' => 'Account deleted successfully!',
+    'message_selected_account_delete' => 'Selected accounts deleted successfully!',
     
     // Common actions
     'create' => 'Create',
