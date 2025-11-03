@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'home' => 'Trang chủ',
+    'orders' => 'Đơn hàng',
+    'write_review' => 'Viết đánh giá của bạn',
+    'order' => 'Đơn hàng',
+    'quantity' => 'Số lượng',
+    'your_rating' => 'Đánh giá của bạn',
+    'your_review' => 'Nhận xét của bạn',
+    'add_photo' => 'Thêm ảnh',
+    'optional' => '(Không bắt buộc)',
+    'preview' => 'Xem trước',
+    'submit_review' => 'Gửi đánh giá',
+    'back_to_orders' => 'Quay lại đơn hàng',
+    'guidelines' => 'Hướng dẫn đánh giá',
+    'guideline_1' => 'Hãy trung thực và cụ thể về trải nghiệm của bạn với sản phẩm',
+    'guideline_2' => 'Tập trung vào chất lượng sản phẩm, đóng gói và trải nghiệm giao hàng',
+    'guideline_3' => 'Bao gồm các chi tiết hữu ích cho khách hàng khác',
+    'guideline_4' => 'Tránh sử dụng ngôn từ xúc phạm hoặc thông tin cá nhân',
+    'poor_rating' => 'Kém (1 sao)',
+    'fair_rating' => 'Trung bình (2 sao)',
+    'good_rating' => 'Tốt (3 sao)',
+    'very_good_rating' => 'Rất tốt (4 sao)',
+    'excellent_rating' => 'Xuất sắc (5 sao)',
+];
