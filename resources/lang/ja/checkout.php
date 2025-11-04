@@ -3,7 +3,7 @@
 return [
     // 住所
     'address_information' => '住所情報',
-    'change_address' => '住所を変更',
+    'change_address' => '住所を選択',
     'add_address' => '住所を追加',
     'add_shipping_address' => '配送先住所を追加',
     'address_list' => '住所リスト',

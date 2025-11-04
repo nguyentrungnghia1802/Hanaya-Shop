@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'change_address' => 'Change Address',
+    'change_address' => 'Choose Address',
     'add_address' => 'Add Address',
     'address_information' => 'Address Information',
     'title' => 'Checkout',
