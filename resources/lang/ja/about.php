@@ -74,22 +74,22 @@ return [
     'team_group_description' => '最高のものをお届けするために協力している素晴らしいチーム',
     
     // Team members
-    'alex_johnson' => 'アレックス・ジョンソン',
-    'founder_creative_director' => '創設者＆クリエイティブディレクター',
-    'alex_description' => 'フローラルデザインの8年以上の経験を持つアレックスは、美しい花を誰もが利用できるようにするというビジョンでハナヤショップを設立しました。',
+    'tan_van_quyen' => 'タン・ヴァン・クエン',
+    'team_leader' => 'チームリーダー',
+    'team_member' => 'チームメンバー',
+    'quyen_description' => '仕事において慎重で細心；詳細を観察する能力があり、テスト時に忍耐強い。',
     
     'nguyen_trung_nghia' => 'グエン・チュン・ギア',
-    'head_operations' => '運営責任者',
-    'nghia_description' => 'ギアは、すべての注文が完璧に作られ、丁寧に配達されることを保証します。彼の細部への注意により、すべての顧客体験が特別になります。',
+    'nghia_description' => '包括的なプログラミングスキル、新しい技術の習得が早い；積極的で責任感が強く、チーム指導精神を持つ。',
     
-    'michael_rivera' => 'マイケル・リベラ',
-    'lead_artisan' => 'リードアルチザン',
-    'michael_description' => 'マイケルの芸術的専門知識により、私たちのソープフラワーに命が吹き込まれます。彼の革新的な技術は、永遠に続く美しい作品を作り出します。',
+    'le_duc_anh_tai' => 'レ・ドゥク・アン・タイ',
+    'tai_description' => '論理的思考力があり、ソフトウェア開発を素早く理解；協力的な態度が良く、チームメイトをサポートする準備ができている。',
     
     // Contact section
     'get_in_touch' => 'お問い合わせ',
     'opening_hours' => '営業時間',
     'opening_hours_time' => '月曜日 - 日曜日: 8:00 - 22:00',
+    'click_to_view_github' => 'GitHubを見るためにクリック',
     
     // Why choose us detailed
     'why_choose_hanaya_detailed' => 'なぜハナヤショップを選ぶのか？',

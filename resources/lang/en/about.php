@@ -76,22 +76,22 @@ return [
     'team_group_description' => 'Our amazing team working together to bring you the best',
     
     // Team members
-    'alex_johnson' => 'Alex Johnson',
-    'founder_creative_director' => 'Founder & Creative Director',
-    'alex_description' => 'With over 8 years of experience in floral design, Alex founded Hanaya Shop with a vision to make beautiful flowers accessible to everyone.',
+    'tan_van_quyen' => 'Tan Van Quyen',
+    'team_leader' => 'Team Leader',
+    'team_member' => 'Team Member',
+    'quyen_description' => 'Careful and meticulous in work; has the ability to observe details and be patient when testing.',
     
     'nguyen_trung_nghia' => 'Nguyen Trung Nghia',
-    'head_operations' => 'Head of Operations',
-    'nghia_description' => 'Nghia ensures every order is perfectly crafted and delivered with care. His attention to detail makes every customer experience exceptional.',
+    'nghia_description' => 'Comprehensive programming skills, quick to learn new technologies; proactive, highly responsible with team leadership spirit.',
     
-    'michael_rivera' => 'Michael Rivera',
-    'lead_artisan' => 'Lead Artisan',
-    'michael_description' => 'Michael\'s artistic expertise brings our soap flowers to life. His innovative techniques create stunning pieces that last forever.',
+    'le_duc_anh_tai' => 'Le Duc Anh Tai',
+    'tai_description' => 'Has logical thinking, quick grasp of software development; good cooperative attitude, ready to support teammates.',
     
     // Contact section
     'get_in_touch' => 'Get In Touch',
     'opening_hours' => 'Opening Hours',
     'opening_hours_time' => 'Monday - Sunday: 8:00 AM - 10:00 PM',
+    'click_to_view_github' => 'Click to view GitHub',
     
     // Why choose us detailed
     'why_choose_hanaya_detailed' => 'Why Choose Hanaya Shop?',
