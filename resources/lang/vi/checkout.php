@@ -3,7 +3,7 @@
 return [
     // Địa chỉ
     'address_information' => 'Thông tin địa chỉ',
-    'change_address' => 'Thay đổi địa chỉ',
+    'change_address' => 'Chọn địa chỉ',
     'add_address' => 'Thêm địa chỉ',
     'add_shipping_address' => 'Thêm địa chỉ giao hàng',
     'address_list' => 'Danh sách địa chỉ',
