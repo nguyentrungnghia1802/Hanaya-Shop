@@ -31,14 +31,17 @@ class ChatbotController extends Controller
             if (empty($message)) {
                 return response()->json([
                     'response' => __('chatbot.greeting')
-                ]);
+                ], 200, [], JSON_UNESCAPED_UNICODE);
             }
 
             $response = $this->processMessage($message);
+            
+            // Ensure UTF-8 encoding
+            $response = mb_convert_encoding($response, 'UTF-8', 'UTF-8');
 
             return response()->json([
                 'response' => $response
-            ]);
+            ], 200, [], JSON_UNESCAPED_UNICODE);
         } catch (\Exception $e) {
             // Log the error for debugging
             Log::error('Chatbot Error: ' . $e->getMessage(), [
@@ -48,7 +51,7 @@ class ChatbotController extends Controller
 
             return response()->json([
                 'response' => __('chatbot.error', ['phone' => config('constants.shop_phone')])
-            ], 500);
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
 
@@ -355,7 +358,7 @@ class ChatbotController extends Controller
      */
     private function handleNewsQuery()
     {
-        $posts = Post::where('status', '1')
+        $posts = Post::where('status', true)
             ->latest()
             ->take(3)
             ->get();
@@ -369,11 +372,19 @@ class ChatbotController extends Controller
         $response = __('chatbot.latest_news') . "\n\n";
 
         foreach ($posts as $index => $post) {
-            $response .= "📝 **{$post->title}**\n";
+            // Clean and ensure UTF-8 encoding
+            $title = mb_convert_encoding($post->title, 'UTF-8', 'UTF-8');
+            $content = html_entity_decode(strip_tags($post->content));
+            // Remove extra whitespace and carriage returns
+            $content = preg_replace('/\s+/', ' ', $content);
+            $content = trim($content);
+            $content = mb_convert_encoding($content, 'UTF-8', 'UTF-8');
+            
+            $response .= "📝 **{$title}**\n";
             $response .= "📅 " . $post->created_at->format('M d, Y') . "\n";
-            $response .= "📖 " . substr(strip_tags($post->content), 0, 100) . "...\n";
+            $response .= "📖 " . mb_substr($content, 0, 100) . "...\n";
             if (Route::has('posts.show')) {
-                $response .= "🔗 " . route('posts.show', $post->slug) . "\n\n";
+                $response .= "🔗 " . route('posts.show', $post->id) . "\n\n";
             } else {
                 $response .= "\n";
             }
