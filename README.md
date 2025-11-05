@@ -64,10 +64,10 @@ _花の廃棄問題の実態_
 
 <div align="center">
 
-<img src=".github/images/jp/customer-features.png" alt="Customer Features Screenshot" height="700"/>
+<img src=".github/images/jp/customer-features.png" alt="Customer Features Screenshot" width="850"/>
 
-<img src=".github/images/jp/customer-features2.png" alt="Customer Features Screenshot" height="300"/>
-<img src=".github/images/jp/customer-features3.png" alt="Customer Features Screenshot" height="300"/>
+<img src=".github/images/jp/customer-features2.png" alt="Customer Features Screenshot" width="850"/>
+<img src=".github/images/jp/customer-features3.png" alt="Customer Features Screenshot" width="850"/>
 
 </div>
 
@@ -115,11 +115,11 @@ _花の廃棄問題の実態_
 -   複数決済（代金引換・カード・PayPal）: 決済ハードルを下げ、成約率を向上。
 
 <div align="center">
-<img src=".github/images/all/performance.png" alt="pagespeed.web.dev" width="700"/>
+<img src=".github/images/all/performance.png" alt="pagespeed.web.dev" width="850"/>
 
 _pagespeed.web.dev_
 
-<img src=".github/images/all/performance2.png" alt="webpagetest.org" width="700"/>
+<img src=".github/images/all/performance2.png" alt="webpagetest.org" width="850"/>
 
 _webpagetest.org_
 
@@ -219,10 +219,10 @@ _Real-world image of flower waste problem_
 
 <div align="center">
 
-<img src=".github/images/en/customer-features.png" alt="Customer Features Screenshot" height="700"/>
+<img src=".github/images/en/customer-features.png" alt="Customer Features Screenshot" width="850"/>
 
-<img src=".github/images/en/customer-features2.png" alt="Customer Features Screenshot" height="300"/>
-<img src=".github/images/en/customer-features3.png" alt="Customer Features Screenshot" height="300"/>
+<img src=".github/images/en/customer-features2.png" alt="Customer Features Screenshot" width="850"/>
+<img src=".github/images/en/customer-features3.png" alt="Customer Features Screenshot" width="850"/>
 
 </div>
 
@@ -270,11 +270,11 @@ _Real-world image of flower waste problem_
 -   Multiple payments (COD, bank card, PayPal): Lowers checkout friction; increases successful payments.
 
 <div align="center">
-<img src=".github/images/all/performance.png" alt="pagespeed.web.dev" width="700"/>
+<img src=".github/images/all/performance.png" alt="pagespeed.web.dev" width="850"/>
 
 _pagespeed.web.dev_
 
-<img src=".github/images/all/performance2.png" alt="webpagetest.org" width="700"/>
+<img src=".github/images/all/performance2.png" alt="webpagetest.org" width="850"/>
 
 _webpagetest.org_
 
@@ -373,10 +373,10 @@ _Hình ảnh thực tế cho vấn đề hoa bị lãng phí_
 -   Thanh toán đa dạng: Thanh toán khi nhận hàng (COD), thẻ ngân hàng, PayPal
 <div align="center">
 
-<img src=".github/images/vi/customer-features.png" alt="Customer Features Screenshot" height="700"/>
+<img src=".github/images/vi/customer-features.png" alt="Customer Features Screenshot" width="850"/>
 
-<img src=".github/images/vi/customer-features2.png" alt="Customer Features Screenshot" height="300"/>
-<img src=".github/images/vi/customer-features3.png" alt="Customer Features Screenshot" height="300"/>
+<img src=".github/images/vi/customer-features2.png" alt="Customer Features Screenshot" width="850"/>
+<img src=".github/images/vi/customer-features3.png" alt="Customer Features Screenshot" width="850"/>
 
 </div>
 ## 🛠️ Trang quản trị <a id="admin-vi"></a>
@@ -422,11 +422,11 @@ _Hình ảnh thực tế cho vấn đề hoa bị lãng phí_
 -   Thanh toán đa dạng (COD, thẻ ngân hàng, PayPal): Giảm ma sát khi checkout; tăng tỉ lệ thanh toán thành công.
 
 <div align="center">
-<img src=".github/images/all/performance.png" alt="pagespeed.web.dev" width="700"/>
+<img src=".github/images/all/performance.png" alt="pagespeed.web.dev" width="850"/>
 
 _pagespeed.web.dev_
 
-<img src=".github/images/all/performance2.png" alt="webpagetest.org" width="700"/>
+<img src=".github/images/all/performance2.png" alt="webpagetest.org" width="850"/>
 
 _webpagetest.org_
 
