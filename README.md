@@ -21,7 +21,7 @@
 -   Web サイト: [Hanaya Shop](http://hanayashop.com)
 -   デモ動画: [YouTube Demo](https://youtu.be/your-demo-id)
 
-![Hanaya Shop Hero Banner](docs/images/hero-banner.png)
+![Hanaya Shop Hero Banner](.github/images/jp/hero-banner.png)
 _メインページのイメージ_
 
 ## 概要 <a id="overview-jp"></a>
@@ -31,9 +31,9 @@ _メインページのイメージ_
 **Hanaya Shop**は、この「もったいない」をテクノロジーで減らすために生まれたオンライン・フラワーショップです。販売者の露出を広げ、顧客との接点を増やし、最適なタイミングで最適な顧客に花を届ける——そのためのプロダクトとして設計されています。直感的な UI/UX、堅牢な在庫・注文・決済ドメイン、運用に耐える管理機能を備え、将来的には販売者と顧客のマッチングをさらに高度化して、廃棄ゼロに近づけることを目指します。
 
 <div align="center">
-<img src="docs/images/architecture-overview.png" alt="System Architecture" width="800"/>
+<img src=".github/images/all/trash1.png" alt="poor flower" width="800"/>
 
-_システムアーキテクチャの概要_
+_花の廃棄問題の実態_
 
 </div>
 
@@ -53,8 +53,6 @@ _システムアーキテクチャの概要_
 
 ### 👤 顧客向け <a id="customers-jp"></a>
 
-<img src="docs/images/customer-features.jpg" alt="Customer Features Screenshot" width="700"/>
-
 -   商品一覧・詳細、カテゴリ/用途/価格のフィルタリング
 -   ベストセラーや特価商品のハイライト表示
 -   カート、注文作成、購入履歴
@@ -65,21 +63,29 @@ _システムアーキテクチャの概要_
 -   多様な決済手段（代金引換、銀行カード、PayPal）
 
 <div align="center">
-<img src="docs/images/customer-journey.png" alt="Customer Journey Flow" width="600"/>
 
-_顧客の購買フロー_
+<img src=".github/images/jp/customer-features.png" alt="Customer Features Screenshot" height="700"/>
+
+<img src=".github/images/jp/customer-features2.png" alt="Customer Features Screenshot" height="300"/>
+<img src=".github/images/jp/customer-features3.png" alt="Customer Features Screenshot" height="300"/>
 
 </div>
 
 ## 🛠️ 管理者向け <a id="admin-section"></a>
-
-<img src="docs/images/admin-dashboard.jpg" alt="Admin Dashboard Screenshot" width="700"/>
 
 -   商品カテゴリ・商品 CRUD（表示/非表示切替含む）
 -   注文の承認/キャンセル/ステータス更新、効率的な処理 UI
 -   在庫監視（売り切れ/閾値接近の把握）
 -   月次売上などのダッシュボード指標・統計
 -   顧客管理、購入傾向の把握
+
+<div align="center">
+
+<img src=".github/images/jp/admin-dashboard.png" alt="Admin Dashboard Screenshot" width="850"/>
+
+<img src=".github/images/jp/order.png" alt="Admin Dashboard Screenshot" width="850"/>
+
+</div>
 
 ---
 
@@ -101,8 +107,6 @@ _顧客の購買フロー_
 
 ### 💡 ハイライトと実運用効果（Highlights & Impact） <a id="highlights-jp"></a>
 
-<img src="docs/images/tech-stack.png" alt="Technology Stack Diagram" width="800"/>
-
 -   Docker Compose: 環境差異を排除し、1 コマンドで導入。本番更新はイメージ差し替えで安全・迅速。
 -   SSR + Tailwind: 初期表示が速く SEO に有利。離脱率を抑制し、コンバージョン改善。
 -   キュー（Redis）: メール通知や重い処理を非同期化し、応答速度を安定化。
@@ -111,9 +115,15 @@ _顧客の購買フロー_
 -   複数決済（代金引換・カード・PayPal）: 決済ハードルを下げ、成約率を向上。
 
 <div align="center">
-<img src="docs/images/performance-metrics.png" alt="Performance Metrics" width="650"/>
+<img src=".github/images/all/performance.png" alt="pagespeed.web.dev" width="700"/>
 
-_システムパフォーマンス指標_
+_pagespeed.web.dev_
+
+<img src=".github/images/all/performance2.png" alt="webpagetest.org" width="700"/>
+
+_webpagetest.org_
+
+**_システムパフォーマンス指標_**
 
 </div>
 
@@ -167,7 +177,7 @@ hanaya-shop/
 -   Website: [Hanaya Shop](http://hanayashop.com)
 -   Demo video: [YouTube Demo](https://youtu.be/your-demo-id)
 
-![Hanaya Shop Hero Banner](docs/images/hero-banner.png)
+![Hanaya Shop Hero Banner](.github/images/en/hero-banner.png)
 _Main page visualization_
 
 ## Overview <a id="overview-en"></a>
@@ -177,9 +187,9 @@ In Vietnam, especially during holidays, many fresh flowers are wasted because fr
 **Hanaya Shop** is built to tackle this real problem. It expands exposure for sellers, increases buyer touchpoints, and helps every flower meet the right customer at the right time. With modern, intuitive UX, a reliable Laravel backend, SSR-first rendering, and a pragmatic domain model for inventory, orders, and payments, the platform is production-ready and designed to evolve toward smarter buyer–seller matching and near-zero waste.
 
 <div align="center">
-<img src="docs/images/architecture-overview.png" alt="System Architecture" width="800"/>
+<img src=".github/images/all/trash1.png" alt="poor flower" width="800"/>
 
-_System architecture overview_
+_Real-world image of flower waste problem_
 
 </div>
 
@@ -199,8 +209,6 @@ _System architecture overview_
 
 ### 👤 For Customers <a id="customers-en"></a>
 
-<img src="docs/images/customer-features.jpg" alt="Customer Features Screenshot" width="700"/>
-
 -   Product catalog and details with category/occasion/price filters
 -   Best-seller and special-deal highlights
 -   Cart, checkout, and order history
@@ -210,21 +218,29 @@ _System architecture overview_
 -   Multiple payment options: Cash on Delivery (COD), bank card, PayPal
 
 <div align="center">
-<img src="docs/images/customer-journey.png" alt="Customer Journey Flow" width="600"/>
 
-_Customer purchasing journey_
+<img src=".github/images/en/customer-features.png" alt="Customer Features Screenshot" height="700"/>
+
+<img src=".github/images/en/customer-features2.png" alt="Customer Features Screenshot" height="300"/>
+<img src=".github/images/en/customer-features3.png" alt="Customer Features Screenshot" height="300"/>
 
 </div>
 
 ## 🛠️ For Admins <a id="admin-en"></a>
-
-<img src="docs/images/admin-dashboard.jpg" alt="Admin Dashboard Screenshot" width="700"/>
 
 -   Category and product CRUD with visibility toggles
 -   Efficient order processing (approve/cancel/update status)
 -   Inventory monitoring (low-stock alerts)
 -   KPIs and dashboards including monthly revenue tracking
 -   Customer management and purchasing insights
+
+<div align="center">
+
+<img src=".github/images/en/admin-dashboard.png" alt="Admin Dashboard Screenshot" width="850"/>
+
+<img src=".github/images/en/order.png" alt="Admin Dashboard Screenshot" width="850"/>
+
+</div>
 
 ---
 
@@ -246,8 +262,6 @@ _Customer purchasing journey_
 
 ### 💡 Highlights & Real-world Impact <a id="highlights-en"></a>
 
-<img src="docs/images/tech-stack.png" alt="Technology Stack Diagram" width="800"/>
-
 -   Docker Compose: One-command installs and safe, image-based production updates; eliminates environment drift.
 -   SSR + Tailwind: Faster first paint and better SEO; reduces bounce and improves conversion.
 -   Queues (Redis): Offloads email and heavy tasks; keeps requests fast and stable.
@@ -256,9 +270,15 @@ _Customer purchasing journey_
 -   Multiple payments (COD, bank card, PayPal): Lowers checkout friction; increases successful payments.
 
 <div align="center">
-<img src="docs/images/performance-metrics.png" alt="Performance Metrics" width="650"/>
+<img src=".github/images/all/performance.png" alt="pagespeed.web.dev" width="700"/>
 
-_System performance metrics_
+_pagespeed.web.dev_
+
+<img src=".github/images/all/performance2.png" alt="webpagetest.org" width="700"/>
+
+_webpagetest.org_
+
+**_System performance metrics_**
 
 </div>
 

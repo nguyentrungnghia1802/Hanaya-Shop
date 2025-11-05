@@ -3,6 +3,36 @@
 ## 📂 Cấu trúc thư mục ảnh
 ```
 .github/images/
+├── all/                     # Ảnh dùng chung cho cả 3 ngôn ngữ
+│   ├── trash1.png          # Ảnh thực tế về vấn đề hoa bị lãng phí
+│   ├── performance.png     # Screenshot PageSpeed Insights  
+│   └── performance2.png    # Screenshot WebPageTest
+├── vi/                     # Ảnh cho phiên bản tiếng Việt
+│   ├── hero-banner.png     # Banner chính (tiếng Việt)
+│   ├── customer-features.png   # Screenshot tính năng khách hàng
+│   ├── customer-features2.png  # Screenshot bổ sung 1
+│   ├── customer-features3.png  # Screenshot bổ sung 2
+│   ├── admin-dashboard.png     # Dashboard quản trị
+│   └── order.png               # Quản lý đơn hàng
+├── en/                     # Ảnh cho phiên bản tiếng Anh
+│   ├── hero-banner.png     # Banner chính (tiếng Anh)
+│   ├── customer-features.png   # Screenshot tính năng khách hàng
+│   ├── customer-features2.png  # Screenshot bổ sung 1
+│   ├── customer-features3.png  # Screenshot bổ sung 2
+│   ├── admin-dashboard.png     # Dashboard quản trị
+│   └── order.png               # Quản lý đơn hàng
+└── jp/                     # Ảnh cho phiên bản tiếng Nhật
+    ├── hero-banner.png     # Banner chính (tiếng Nhật)
+    ├── customer-features.png   # Screenshot tính năng khách hàng
+    ├── customer-features2.png  # Screenshot bổ sung 1
+    ├── customer-features3.png  # Screenshot bổ sung 2
+    ├── admin-dashboard.png     # Dashboard quản trị
+    └── order.png               # Quản lý đơn hàng
+```n Ảnh minh họa cho README.md
+
+## 📂 Cấu trúc thư mục ảnh
+```
+.github/images/
 ├── hero-banner.png          # Ảnh banner chính
 ├── architecture-overview.png # Sơ đồ kiến trúc hệ thống  
 ├── customer-features.jpg    # Screenshot tính năng khách hàng
@@ -14,47 +44,56 @@
 
 ## 🎨 Yêu cầu chi tiết từng ảnh
 
-### 1. **hero-banner.jpg** - Banner chính
-- **Nội dung**: Ảnh tổng quan về website Hanaya Shop (homepage hoặc mockup đẹp)
-- **Kích thước**: 1200x600px (tỷ lệ 2:1)
-- **Định dạng**: JPG, chất lượng cao (80-90%)
-- **Mô tả**: Thể hiện giao diện chính của website, có logo, menu, sản phẩm nổi bật
+### 1. **hero-banner.png** - Banner chính (theo ngôn ngữ)
+- **Nội dung**: Screenshot homepage với ngôn ngữ tương ứng
+- **Kích thước**: 1200x600px (tỷ lệ 2:1)  
+- **Định dạng**: PNG để giữ chất lượng text
+- **Mô tả**: Thể hiện giao diện chính với ngôn ngữ phù hợp
+- **Vị trí**: `.github/images/vi/`, `.github/images/en/`, `.github/images/jp/`
 
-### 2. **architecture-overview.png** - Sơ đồ kiến trúc
-- **Nội dung**: Sơ đồ kiến trúc tổng quan của hệ thống (Frontend, Backend, Database, Cache)
-- **Kích thước**: 800x500px 
-- **Định dạng**: PNG (để giữ độ nét của text)
-- **Mô tả**: Bao gồm các thành phần: Laravel, MySQL, Redis, Docker, Vite
-
-### 3. **customer-features.jpg** - Tính năng khách hàng
-- **Nội dung**: Screenshot giao diện khách hàng (trang sản phẩm, giỏ hàng, hoặc checkout)
-- **Kích thước**: 700x400px
-- **Định dạng**: JPG
-- **Mô tả**: Thể hiện UI/UX cho khách hàng, danh sách sản phẩm, filter, cart
-
-### 4. **customer-journey.png** - Quy trình khách hàng
-- **Nội dung**: Flowchart mô tả hành trình mua hàng (Xem sản phẩm → Thêm vào giỏ → Thanh toán → Hoàn thành)
-- **Kích thước**: 600x300px
+### 2. **trash1.png** - Vấn đề hoa bị lãng phí
+- **Nội dung**: Ảnh thực tế về hoa bị vứt bỏ/lãng phí  
+- **Kích thước**: 800x500px
 - **Định dạng**: PNG
-- **Mô tả**: Sử dụng icon và arrow để thể hiện các bước mua hàng
+- **Mô tả**: Thể hiện vấn đề thực tế mà dự án muốn giải quyết
+- **Vị trí**: `.github/images/all/` (dùng chung)
 
-### 5. **admin-dashboard.jpg** - Dashboard quản trị
-- **Nội dung**: Screenshot trang quản trị (dashboard với charts, thống kê, bảng dữ liệu)
-- **Kích thước**: 700x400px  
-- **Định dạng**: JPG
-- **Mô tả**: Hiển thị biểu đồ doanh thu, quản lý đơn hàng, sản phẩm
-
-### 6. **tech-stack.png** - Công nghệ sử dụng
-- **Nội dung**: Sơ đồ/infographic các công nghệ: PHP, Laravel, MySQL, Redis, Docker, Tailwind
-- **Kích thước**: 800x400px
+### 3. **customer-features.png, customer-features2.png, customer-features3.png** - Tính năng khách hàng
+- **Nội dung**: Screenshots UI khách hàng với ngôn ngữ tương ứng
+- **Kích thước**: 
+  - `customer-features.png`: 700x900px (height="700")
+  - `customer-features2.png`, `customer-features3.png`: 400x300px (height="300")
 - **Định dạng**: PNG
-- **Mô tả**: Logo của các công nghệ được sắp xếp theo layers (Frontend, Backend, Database, DevOps)
+- **Mô tả**: Thể hiện trang sản phẩm, giỏ hàng, checkout theo ngôn ngữ
+- **Vị trí**: Theo từng thư mục ngôn ngữ
 
-### 7. **performance-metrics.png** - Chỉ số hiệu suất
-- **Nội dung**: Biểu đồ thể hiện performance (Page load time, Response time, Uptime, etc.)
-- **Kích thước**: 650x350px
-- **Định dạng**: PNG  
-- **Mô tả**: Charts/graphs thể hiện các metric quan trọng của hệ thống
+### 4. **admin-dashboard.png** - Dashboard quản trị
+- **Nội dung**: Screenshot trang quản trị với biểu đồ, thống kê
+- **Kích thước**: 850x500px (width="850")
+- **Định dạng**: PNG
+- **Mô tả**: Dashboard với charts doanh thu, sản phẩm bán chạy
+- **Vị trí**: Theo từng thư mục ngôn ngữ
+
+### 5. **order.png** - Quản lý đơn hàng
+- **Nội dung**: Screenshot trang quản lý đơn hàng
+- **Kích thước**: 850x500px (width="850")
+- **Định dạng**: PNG
+- **Mô tả**: Bảng danh sách đơn hàng, trạng thái, actions
+- **Vị trí**: Theo từng thư mục ngôn ngữ
+
+### 6. **performance.png** - PageSpeed Insights
+- **Nội dung**: Screenshot PageSpeed Insights của website
+- **Kích thước**: 700x400px (width="700")
+- **Định dạng**: PNG
+- **Mô tả**: Điểm số performance, accessibility, SEO
+- **Vị trí**: `.github/images/all/` (dùng chung)
+
+### 7. **performance2.png** - WebPageTest
+- **Nội dung**: Screenshot WebPageTest results
+- **Kích thước**: 700x400px (width="700")
+- **Định dạng**: PNG
+- **Mô tả**: Load time, first paint, fully loaded metrics
+- **Vị trí**: `.github/images/all/` (dùng chung)
 
 ## 🛠️ Công cụ tạo ảnh khuyến nghị
 
@@ -75,10 +114,22 @@
 ## 📋 Checklist trước khi commit
 
 - [ ] Tất cả ảnh đã được tối ưu kích thước (< 500KB mỗi file)
-- [ ] Tên file đúng format (lowercase, dấu gạch ngang)
-- [ ] Đường dẫn ảnh trong README.md chính xác
+- [ ] Tên file đúng format (lowercase, dấu gạch ngang, đuôi .png)
+- [ ] Đường dẫn ảnh trong README.md chính xác (`.github/images/...`)
 - [ ] Ảnh hiển thị tốt trên cả desktop và mobile
 - [ ] Alt text mô tả rõ ràng cho accessibility
+- [ ] Ảnh có ngôn ngữ phù hợp (vi/en/jp) hoặc language-neutral (all/)
+- [ ] Screenshots có UI/UX thống nhất và professional
+
+## 🗂️ Thư mục cần tạo
+
+Trước khi upload ảnh, tạo các thư mục sau:
+```bash
+mkdir -p .github/images/all
+mkdir -p .github/images/vi  
+mkdir -p .github/images/en
+mkdir -p .github/images/jp
+```
 
 ## 🚀 Lệnh tối ưu ảnh (optional)
 
