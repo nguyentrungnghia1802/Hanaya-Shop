@@ -9,7 +9,7 @@ set -e  # Exit on any error
 # Configuration
 PROJECT_NAME="hanaya-shop"
 DOCKER_IMAGE="assassincreed2k1/hanaya-shop:latest"
-COMPOSE_FILE="docker-compose.production.yml"
+COMPOSE_FILE="docker-compose.yml"
 
 # Colors for output
 RED='\033[0;31m'
@@ -27,58 +27,27 @@ print_color $BLUE "==================================="
 print_color $BLUE "  Hanaya Shop Update Script"
 print_color $BLUE "==================================="
 
-# Check if docker-compose.production.yml exists
+# Check if docker-compose.yml exists
 if [ ! -f "$COMPOSE_FILE" ]; then
-    print_color $RED "docker-compose.production.yml not found!"
+    print_color $RED "docker-compose.yml not found!"
     print_color $RED "Please run deploy-ubuntu.sh first."
     exit 1
 fi
 
-print_color $YELLOW "Creating backup..."
-docker-compose -f docker-compose.production.yml exec -T app php artisan down || true
-
 print_color $YELLOW "Pulling latest Docker image..."
-docker-compose -f docker-compose.production.yml pull app
+docker compose pull
 
-print_color $YELLOW "Stopping application container..."
-docker-compose -f docker-compose.production.yml stop app
-
-print_color $YELLOW "Removing old application container..."
-docker-compose -f docker-compose.production.yml rm -f app
-
-print_color $YELLOW "Starting updated application..."
-docker-compose -f docker-compose.production.yml up -d app
+print_color $YELLOW "Updating to latest version..."
+docker compose up -d
 
 print_color $YELLOW "Waiting for application to start..."
-sleep 20
+sleep 30
 
 print_color $YELLOW "Running database migrations..."
-MIGRATION_PENDING=$(docker-compose -f docker-compose.production.yml exec -T app php artisan migrate:status | grep -c "No")
-if [ "$MIGRATION_PENDING" -gt 0 ]; then
-    print_color $YELLOW "Running database migrations... ($MIGRATION_PENDING pending)"
-    docker-compose -f docker-compose.production.yml exec -T app php artisan migrate --force
-else
-    print_color $GREEN "No new migrations to run. Skipping migrate."
-fi
-
-print_color $YELLOW "Clearing caches..."
-docker-compose -f docker-compose.production.yml exec -T app php artisan config:clear
-docker-compose -f docker-compose.production.yml exec -T app php artisan route:clear
-docker-compose -f docker-compose.production.yml exec -T app php artisan view:clear
-docker-compose -f docker-compose.production.yml exec -T app php artisan cache:clear
-
-print_color $YELLOW "Ensuring proper permissions..."
-docker-compose -f docker-compose.production.yml exec -T app mkdir -p storage/framework/views
-docker-compose -f docker-compose.production.yml exec -T app chmod -R 775 storage bootstrap/cache
-docker-compose -f docker-compose.production.yml exec -T app chown -R www-data:www-data storage bootstrap/cache
+docker compose exec app php artisan migrate --force
 
 print_color $YELLOW "Optimizing application..."
-docker-compose -f docker-compose.production.yml exec -T app php artisan config:cache
-docker-compose -f docker-compose.production.yml exec -T app php artisan route:cache
-docker-compose -f docker-compose.production.yml exec -T app php artisan view:cache
-
-print_color $YELLOW "Bringing application back online..."
-docker-compose -f docker-compose.production.yml exec -T app php artisan up
+docker compose exec app php artisan optimize
 
 # Show final status
 print_color $BLUE "==================================="
@@ -87,16 +56,16 @@ print_color $BLUE "==================================="
 
 echo ""
 print_color $GREEN "Application Status:"
-docker-compose -f docker-compose.production.yml ps
+docker compose ps
 
 # Test HTTP access
 echo ""
 print_color $YELLOW "Testing HTTP access..."
-if curl -f http://localhost/health &>/dev/null; then
-    print_color $GREEN "✅ Health check passed - Application is running with latest version!"
+if curl -f http://localhost/ &>/dev/null; then
+    print_color $GREEN "✅ Application is running with latest version!"
 else
-    print_color $RED "❌ Health check failed - Please check logs:"
-    print_color $RED "   docker-compose -f docker-compose.production.yml logs app"
+    print_color $RED "❌ Application might not be ready yet. Check logs:"
+    print_color $RED "   docker compose logs app"
 fi
 
 echo ""
