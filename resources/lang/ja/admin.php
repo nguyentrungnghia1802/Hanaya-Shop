@@ -275,4 +275,6 @@ return [
   'post_details'          => '投稿の詳細',
   'back'                  => '戻る',
   'by'                    => '作成者',
+
+  'cannot_delete_user_with_active_orders' => 'アクティブな注文があるユーザーは削除できません',
 ];
