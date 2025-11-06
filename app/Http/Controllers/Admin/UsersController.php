@@ -318,20 +318,6 @@ class UsersController extends Controller
             User::whereIn('id', $deletableIds)->delete();
         }
 
-        if (!empty($blockedUsers)) {
-            return response()->json([
-                'success' => false,
-                'message' => __('admin.cannot_delete_user_with_active_orders'),
-                'blocked' => $blockedUsers
-            ]);
-        }
-
-        return response()->json([
-            'success' => true,
-            'message' => __('admin.message_selected_account_delete')
-        ]);
-
-
         // Cache Management
         /**
          * Cache Invalidation - Clear user cache after deletions
@@ -346,11 +332,21 @@ class UsersController extends Controller
          * JSON for AJAX requests (seamless UI updates)
          * Redirect for traditional form submissions
          */
-        if ($request->ajax() || $request->wantsJson()) {
-            return response()->json(['success' => true]); // AJAX success response
+
+        // Chỉ có JavaScript gửi request DELETE tới route 'admin.user'
+        // nên luôn trả về JSON response
+        if (!empty($blockedUsers)) {
+            return response()->json([
+                'success' => false,
+                'message' => __('admin.cannot_delete_user_with_active_orders'),
+                'blocked' => $blockedUsers
+            ]);
         }
 
-        return redirect()->route('admin.user')->with('success', __('admin.account_deleted_successfully'));
+        return response()->json([
+            'success' => true, 
+            'message' => __('admin.message_selected_account_delete')
+        ]);
     }
 
     /**
