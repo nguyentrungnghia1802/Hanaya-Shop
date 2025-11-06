@@ -296,7 +296,41 @@ class UsersController extends Controller
         if (!is_array($ids)) $ids = [$ids];           // Normalize to array format
         $ids = array_diff($ids, [Auth::id()]);        // Remove admin's own ID for security
         
-        User::whereIn('id', $ids)->delete(); // Bulk delete selected users
+        $blockedUsers = [];
+        $deletableIds = [];
+        
+        foreach ($ids as $id) {
+            $user = User::find($id);
+            if (!$user) continue;
+
+            $orders = $user->order()
+                ->whereIn('status', ['pending', 'processing', 'shipped'])
+                ->count();
+
+            if ($orders > 0) {
+                $blockedUsers[] = $user->email;
+            } else {
+                $deletableIds[] = $id;
+            }
+        }
+
+        if (!empty($deletableIds)) {
+            User::whereIn('id', $deletableIds)->delete();
+        }
+
+        if (!empty($blockedUsers)) {
+            return response()->json([
+                'success' => false,
+                'message' => __('admin.cannot_delete_user_with_active_orders'),
+                'blocked' => $blockedUsers
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => __('admin.message_selected_account_delete')
+        ]);
+
 
         // Cache Management
         /**
