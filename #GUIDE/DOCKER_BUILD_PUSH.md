@@ -41,6 +41,17 @@ docker push assassincreed2k1/hanaya-shop:latest
 ```
 
 ## 6. Use this image on another machine/production
+
+Optional: Import sample data from backup (recommended for demo/testing):
+```bash
+# Download sample data
+curl -fsSL -o hanaya-shop-backup.sql \
+  https://raw.githubusercontent.com/assassincreed2k1/Hanaya-Shop/main/database/sql/hanaya-shop-backup.sql
+
+# Import sample data
+docker compose exec -T db mysql -u root -p hanaya_shop < hanaya-shop-backup.sql
+```
+
 - Just pull the image:
 
 ```bash
