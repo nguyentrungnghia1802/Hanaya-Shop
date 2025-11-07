@@ -8,7 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Session;
 
-class CustomerOrderConfirmedNotification extends Notification
+class CustomerOrderConfirmedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
     public $order;

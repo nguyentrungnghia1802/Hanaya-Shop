@@ -2,15 +2,13 @@
 
 namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Session;
 
-class OrderShippedNotification extends Notification implements ShouldQueue
+class OrderShippedNotification extends Notification
 {
-    use Queueable;
+    // Admin notifications sent immediately for reliability
 
     public $order;
     public $locale;
@@ -18,11 +16,11 @@ class OrderShippedNotification extends Notification implements ShouldQueue
     /**
      * Create a new notification instance.
      */
-    public function __construct($order, $locale = null)
+    public function __construct($order, $locale = 'en')
     {
         $this->order = $order;
-        // Lấy locale từ parameter hoặc từ session hoặc fallback to app default
-        $this->locale = $locale ?: Session::get('locale', config('app.locale'));
+        // Admin notifications always use English
+        $this->locale = 'en';
     }
 
     /**
@@ -41,7 +39,8 @@ class OrderShippedNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         // Set locale trước khi tạo nội dung email
-        app()->setLocale($this->locale);
+        // Admin notifications always use English
+        app()->setLocale('en');
         
         return (new MailMessage)
             ->subject(__('notifications.order_shipped_subject', ['order_id' => $this->order->id]))
@@ -57,6 +56,9 @@ class OrderShippedNotification extends Notification implements ShouldQueue
      */
     public function toArray(object $notifiable): array
     {
+        // Admin notifications always use English
+        app()->setLocale('en');
+
         return [
             'order_id' => $this->order->id,
             'message'  => __('notifications.order_shipped_message', ['order_id' => $this->order->id]),
