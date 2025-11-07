@@ -108,3 +108,6 @@ Route::get('/locale/{locale}', [LocaleController::class, 'setLocale'])
     ->name('locale.set')
     ->where('locale', '[a-z]{2}');
 
+Route::get('/health', function () {
+    return response('ok', 200)->header('Content-Type', 'text/plain');
+});
