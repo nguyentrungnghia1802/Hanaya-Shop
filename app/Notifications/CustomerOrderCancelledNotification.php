@@ -8,17 +8,17 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Session;
 
-class NewOrderPending extends Notification implements ShouldQueue
+class CustomerOrderCancelledNotification extends Notification
 {
     use Queueable;
-
+    
     public $order;
     public $locale;
-
+    
     /**
      * Create a new notification instance.
      */
-    public function __construct($order, $locale = null) // <<< SỬA TẠI ĐÂY: Thêm $order vào tham số
+    public function __construct($order, $locale = null)
     {
         $this->order = $order;
         // Lấy locale từ parameter hoặc từ session hoặc fallback to app default
@@ -44,10 +44,9 @@ class NewOrderPending extends Notification implements ShouldQueue
         app()->setLocale($this->locale);
         
         return (new MailMessage)
-                    ->subject(__('notifications.new_order_request_subject')) 
-                    ->line(__('notifications.new_order_request_line')) 
-                    ->line(__('notifications.order_code') . ' #' . $this->order->id) 
-                    ->action(__('notifications.view_order'), config('app.url') . '/admin/orders/' . $this->order->id); 
+            ->subject(__('notifications.order_cancelled_subject')) 
+            ->line(__('notifications.order_cancelled_line', ['order_id' => $this->order->id]))
+            ->action(__('notifications.view_order'), config('app.url') . '/order/' . $this->order->id);
     }
 
     /**
@@ -58,12 +57,8 @@ class NewOrderPending extends Notification implements ShouldQueue
     public function toArray(object $notifiable): array
     {
         return [
-            'order_id'  => $this->order->id,
-            'user_name' => $this->order->user->name ?? __('notifications.guest'), 
-            'message'   => __('notifications.order_waiting_confirmation', ['order_id' => $this->order->id]),
+            'order_id' => $this->order->id,
+            'message'  => __('notifications.order_cancelled_message', ['order_id' => $this->order->id]),
         ];
     }
-
-
-    
 }
