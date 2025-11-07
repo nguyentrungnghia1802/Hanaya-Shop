@@ -48,4 +48,36 @@ return [
     'click_here_to_resend_verification_email' => 'Nhấn vào đây để gửi lại email xác thực.',
     'verification_link_sent_notification' => 'Một liên kết xác thực mới đã được gửi đến email của bạn.',
     'profile' => 'Hồ sơ',
+    
+    // Hệ thống xác thực email mới
+    'verify_email_title' => 'Xác Thực Địa Chỉ Email',
+    'verify_email_sent' => 'Chúng tôi đã gửi liên kết xác thực đến địa chỉ email của bạn:',
+    'important' => 'Quan trọng',
+    'verify_email_instructions' => 'Vui lòng kiểm tra email (bao gồm cả thư mục spam) và nhấp vào liên kết xác thực để hoàn tất đăng ký.',
+    'resend_verification_email' => 'Gửi Lại Email Xác Thực',
+    'register_different_email' => 'Đăng ký với email khác',
+    'verification_link_resent' => 'Liên kết xác thực đã được gửi thành công!',
+    
+    // Xác thực email thành công
+    'verification_success_title' => 'Email Đã Được Xác Thực Thành Công!',
+    'verification_success_message' => 'Địa chỉ email của bạn đã được xác thực và tài khoản hiện đã hoạt động.',
+    'welcome' => 'Chào mừng',
+    'account_ready' => 'Tài khoản của bạn đã sẵn sàng sử dụng.',
+    'go_to_dashboard' => 'Đi Đến Bảng Điều Khiển',
+    'continue_shopping' => 'Tiếp Tục Mua Sắm',
+    'verification_completed_at' => 'Xác thực hoàn tất lúc:',
+    
+    // Mẫu email
+    'verify_email_subject' => 'Xác Thực Địa Chỉ Email - Hanaya Shop',
+    'email_greeting' => 'Cảm ơn bạn đã đăng ký với Hanaya Shop!',
+    'email_verification_instruction' => 'Vui lòng nhấp vào nút bên dưới để xác thực địa chỉ email và hoàn tất thiết lập tài khoản:',
+    'verify_email_button' => 'Xác Thực Địa Chỉ Email',
+    'verification_link_expires' => 'Liên kết xác thực này sẽ hết hạn sau 24 giờ.',
+    'email_manual_copy' => 'Nếu nút không hoạt động, bạn có thể sao chép và dán liên kết này vào trình duyệt:',
+    'email_not_requested' => 'Nếu bạn không yêu cầu tài khoản này, vui lòng bỏ qua email này.',
+    'email_footer' => 'Cảm ơn bạn đã chọn :shop',
+    
+    // Thông báo lỗi
+    'invalid_verification_token' => 'Mã xác thực không hợp lệ hoặc đã hết hạn.',
+    'verification_token_expired' => 'Mã xác thực đã hết hạn. Vui lòng đăng ký lại.',
 ];

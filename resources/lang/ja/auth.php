@@ -48,4 +48,36 @@ return [
     'click_here_to_resend_verification_email' => '確認メールを再送するにはこちらをクリックしてください。',
     'verification_link_sent_notification' => '新しい確認リンクがあなたのメールアドレスに送信されました。',
     'profile' => 'プロフィール',
+    
+    // 新しいメール確認システム
+    'verify_email_title' => 'メールアドレスを確認してください',
+    'verify_email_sent' => '確認リンクを以下のメールアドレスに送信いたしました：',
+    'important' => '重要',
+    'verify_email_instructions' => 'メール（迷惑メールフォルダも含む）をご確認いただき、確認リンクをクリックして登録を完了してください。',
+    'resend_verification_email' => '確認メールを再送信',
+    'register_different_email' => '別のメールで登録する',
+    'verification_link_resent' => '確認リンクが正常に送信されました！',
+    
+    // メール確認成功
+    'verification_success_title' => 'メール確認が完了しました！',
+    'verification_success_message' => 'メールアドレスが確認され、アカウントが有効になりました。',
+    'welcome' => 'ようこそ',
+    'account_ready' => 'アカウントの準備が完了しました。',
+    'go_to_dashboard' => 'ダッシュボードへ',
+    'continue_shopping' => 'お買い物を続ける',
+    'verification_completed_at' => '確認完了時刻：',
+    
+    // メールテンプレート
+    'verify_email_subject' => 'メールアドレスの確認 - Hanaya Shop',
+    'email_greeting' => 'Hanaya Shopにご登録いただき、ありがとうございます！',
+    'email_verification_instruction' => '下のボタンをクリックしてメールアドレスを確認し、アカウント設定を完了してください：',
+    'verify_email_button' => 'メールアドレスを確認',
+    'verification_link_expires' => 'この確認リンクは24時間で有効期限が切れます。',
+    'email_manual_copy' => 'ボタンが機能しない場合は、このリンクをコピーしてブラウザに貼り付けてください：',
+    'email_not_requested' => 'このアカウントをリクエストしていない場合は、このメールを無視してください。',
+    'email_footer' => ':shopをお選びいただき、ありがとうございます',
+    
+    // エラーメッセージ
+    'invalid_verification_token' => '無効または期限切れの確認トークンです。',
+    'verification_token_expired' => '確認トークンの有効期限が切れました。再度登録してください。',
 ];
