@@ -21,8 +21,27 @@
                     <ul class="mt-2 list-disc list-inside space-y-1 text-xs sm:text-sm">
                         <li>{{ __('auth.gmail_for_order_updates') }}</li>
                         <li>{{ __('auth.gmail_for_password_recovery') }}</li>
-                        <li>{{ __('auth.gmail_for_account_security') }}</li>
+                        {{-- <li>{{ __('auth.gmail_for_account_security') }}</li> --}}
                     </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Requirement Notice -->
+    <div class="mb-6 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-lg">
+        <div class="flex">
+            <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0-1.104.896-2 2-2s2 .896 2 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                </svg>
+            </div>
+            <div class="ml-3 flex-1">
+                <h3 class="text-sm font-medium text-yellow-800">
+                    {{ __('auth.password_requirement_title') }}
+                </h3>
+                <div class="mt-2 text-sm text-yellow-700">
+                    <p>{{ __('auth.password_requirement_description') }}</p>
                 </div>
             </div>
         </div>

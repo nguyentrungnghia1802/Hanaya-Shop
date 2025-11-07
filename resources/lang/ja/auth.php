@@ -99,7 +99,7 @@ return [
     'gmail_requirement_description' => '最高のエクスペリエンスのため、有効なGmailアドレスをご使用ください：',
     'gmail_for_order_updates' => '注文状況の更新と通知を受信',
     'gmail_for_password_recovery' => '安全なパスワード回復とアカウントアクセス',
-    'gmail_for_account_security' => 'アカウントセキュリティと認証の強化',
+    // 'gmail_for_account_security' => 'アカウントセキュリティと認証の強化',
     'gmail_required_note' => '通知とセキュリティのためGmailアドレスが必要です',
     
     // エラーメッセージ
@@ -111,4 +111,8 @@ return [
     'password_placeholder' => 'パスワードを入力してください',
     'name_placeholder' => '氏名を入力してください',
     'confirm_password_placeholder' => 'もう一度パスワードを入力してください',
+
+    //Notes
+    'password_requirement_title' => 'パスワード要件',
+    'password_requirement_description' => 'パスワードは8文字以上で、大文字・小文字・数字・記号を含み、スペースを含まない必要があります。',
 ];
