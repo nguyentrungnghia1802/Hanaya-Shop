@@ -44,7 +44,7 @@ class OrderCancelledNotification extends Notification
         return (new MailMessage)
             ->subject(__('notifications.order_cancelled_subject')) // Đơn hàng đã bị hủy
             ->line(__('notifications.order_cancelled_line', ['order_id' => $this->order->id])) // Đơn hàng #... đã bị hủy
-            ->action(__('notifications.view_order'), config('app.url') . '/admin/orders/' . $this->order->id); // Xem đơn hàng
+            ->action(__('notifications.view_order'), config('app.url') . '/admin/order/' . $this->order->id); // Xem đơn hàng
     }
 
     /**
