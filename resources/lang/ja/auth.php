@@ -105,4 +105,10 @@ return [
     // エラーメッセージ
     'invalid_verification_token' => '無効または期限切れの確認トークンです。',
     'verification_token_expired' => '確認トークンの有効期限が切れました。再度登録してください。',
+
+    // Placeholders
+    'email_placeholder' => 'メールアドレスを入力してください',
+    'password_placeholder' => 'パスワードを入力してください',
+    'name_placeholder' => '氏名を入力してください',
+    'confirm_password_placeholder' => 'もう一度パスワードを入力してください',
 ];

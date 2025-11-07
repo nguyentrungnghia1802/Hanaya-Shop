@@ -34,7 +34,7 @@
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('auth.name')" />
-            <x-text-input id="name" class="block mt-1 w-full text-xs sm:text-base" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+            <x-text-input id="name" class="block mt-1 w-full text-xs sm:text-base" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" :placeholder="__('auth.name_placeholder')" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
@@ -42,7 +42,7 @@
         <div class="mt-4">
             <x-input-label for="email" :value="__('auth.email')" />
             <div class="mt-1 relative">
-                <x-text-input id="email" class="block w-full pr-12 text-xs sm:text-base" type="email" name="email" :value="old('email')" required autocomplete="username" placeholder="example@gmail.com" />
+                <x-text-input id="email" class="block w-full pr-12 text-xs sm:text-base" type="email" name="email" :value="old('email')" required autocomplete="username" :placeholder="__('auth.email_placeholder')" />
                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                     <svg class="h-4 w-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
@@ -56,23 +56,19 @@
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('auth.password')" />
-
             <x-text-input id="password" class="block mt-1 w-full text-xs sm:text-base"
                             type="password"
                             name="password"
-                            required autocomplete="new-password" />
-
+                            required autocomplete="new-password" :placeholder="__('auth.password_placeholder')" />
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
         <!-- Confirm Password -->
         <div class="mt-4">
             <x-input-label for="password_confirmation" :value="__('auth.confirm_password')" />
-
             <x-text-input id="password_confirmation" class="block mt-1 w-full text-xs sm:text-base"
                             type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
+                            name="password_confirmation" required autocomplete="new-password" :placeholder="__('auth.confirm_password_placeholder')" />
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
