@@ -126,4 +126,11 @@ return [
     'reset_password_regards' => '敬具、',
     'reset_password_signature' => 'Hanaya Shop',
     'reset_password_trouble' => '「パスワードリセット」ボタンをクリックできない場合は、以下のURLをコピーしてWebブラウザに貼り付けてください：',
+
+    // テストアカウント体験
+    'test_account_button' => 'テストアカウントで体験',
+    'test_account_experience_title' => '登録前にウェブサイトを体験してください',
+    'test_account_experience_description' => '以下のテストアカウントを使用して、新しいアカウントを作成せずにすべての機能をご体験いただけます',
+    'test_account_free_note' => '全て完全無料です。お気軽にご利用ください！',
+    'test_account_password_note' => '全てのテストアカウントは同じパスワードです：:password',
 ];
