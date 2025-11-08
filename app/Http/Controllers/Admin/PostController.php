@@ -12,6 +12,11 @@ use Carbon\Carbon;
 
 class PostController extends Controller
 {
+    /**
+     * Display a paginated list of posts with optional search by title or content.
+     * Preserves search parameters in pagination.
+     * Returns the posts to the index view.
+     */
     public function index(Request $request)
     {
         $query = Post::query()->with('author');
@@ -35,17 +40,30 @@ class PostController extends Controller
         return view('admin.posts.index', compact('posts'));
     }
 
+    /**
+     * Show detailed information for a specific post, including author.
+     * Returns the post to the show view.
+     */
     public function show($id)
     {
         $post = Post::with('author')->findOrFail($id);
         return view('admin.posts.show', compact('post'));
     }
 
+    /**
+     * Show the form to create a new post.
+     * Returns the create view.
+     */
     public function create()
     {
         return view('admin.posts.create');
     }
 
+    /**
+     * Store a new post in the database after validating input.
+     * Handles image upload and generates a safe slug.
+     * Redirects to the post index with a success message.
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -91,12 +109,21 @@ class PostController extends Controller
         return redirect()->route('admin.post.index')->with('success', __('admin.post_created_successfully'));
     }
 
+    /**
+     * Show the form to edit an existing post.
+     * Returns the create view with edit mode and post data.
+     */
     public function edit($id)
     {
         $post = Post::findOrFail($id);
         return view('admin.posts.create', ['edit' => true, 'post' => $post]);
     }
 
+    /**
+     * Update an existing post in the database after validating input.
+     * Handles image replacement and slug update.
+     * Redirects to the post index with a success message.
+     */
     public function update(Request $request, $id)
     {
         $post = Post::findOrFail($id);
@@ -144,6 +171,10 @@ class PostController extends Controller
         return redirect()->route('admin.post.index')->with('success', __('admin.post_updated_successfully'));
     }
 
+    /**
+     * Delete a post and its associated images from the database and filesystem.
+     * Redirects to the post index with a success message.
+     */
     public function destroy($id)
     {
         $post = Post::findOrFail($id);
@@ -166,7 +197,8 @@ class PostController extends Controller
     }
 
     /**
-     * Delete images found in post content
+     * Delete images found in post content HTML.
+     * Scans for image URLs and deletes corresponding files from the filesystem.
      */
     private function deleteImagesFromContent($content)
     {
@@ -187,7 +219,8 @@ class PostController extends Controller
     }
 
     /**
-     * Tạo slug an toàn từ title, xử lý ký tự đặc biệt và đảm bảo unique
+     * Create a safe, unique slug from the post title, handling special characters.
+     * Uses transliteration or timestamp fallback if needed.
      */
     private function createSafeSlug($title, $postId = null)
     {
@@ -210,7 +243,8 @@ class PostController extends Controller
     }
 
     /**
-     * Chuyển đổi ký tự đặc biệt thành slug
+     * Transliterate special characters to create a slug.
+     * Removes non-letter/number characters and generates a fallback slug if needed.
      */
     private function transliterateToSlug($text)
     {
@@ -227,7 +261,8 @@ class PostController extends Controller
     }
 
     /**
-     * Đảm bảo slug là unique
+     * Ensure the generated slug is unique in the posts table.
+     * Appends a counter if a duplicate is found.
      */
     private function ensureUniqueSlug($slug, $postId = null)
     {

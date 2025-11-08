@@ -13,15 +13,36 @@ use Illuminate\Support\Facades\Log;
 
 /**
  * Enhanced AI Chatbot Controller
- * 
+ *
  * This controller provides intelligent chatbot functionality for customer support
- * in the Hanaya Shop e-commerce application with enhanced English support and
- * improved understanding capabilities.
+ * in the Hanaya Shop e-commerce application. It features advanced intent detection,
+ * multilingual support, and integration with product, category, order, and post models
+ * to answer customer queries about products, orders, store info, and more.
+ *
+ * Key Features:
+ * - Multilingual intent detection (English, Vietnamese, Japanese)
+ * - Product, category, and order query handling
+ * - News/blog post integration
+ * - Price, shipping, payment, and store info responses
+ * - Gift suggestions and popular product recommendations
+ * - Error handling and logging for chatbot failures
+ * - UTF-8 encoding for international support
+ *
+ * @package App\Http\Controllers
+ * @author Hanaya Shop Development Team
+ * @version 1.0
  */
 class ChatbotController extends Controller
 {
     /**
      * Main Chat Handler
+     *
+     * Handles incoming chat messages, detects intent, and returns appropriate responses.
+     * Integrates with product, category, order, and post models to answer customer queries.
+     * Includes error handling and UTF-8 encoding for international support.
+     *
+     * @param Request $request HTTP request containing chat message
+     * @return \Illuminate\Http\JsonResponse JSON response with chatbot reply
      */
     public function chat(Request $request)
     {
@@ -57,6 +78,14 @@ class ChatbotController extends Controller
 
     /**
      * Enhanced Message Processing and Intent Detection
+     *
+     * Detects user intent from chat message and routes to appropriate handler.
+     * Supports product search, category browsing, order inquiry, news, pricing,
+     * store info, shipping, payment, help, popular products, gift suggestions,
+     * and availability queries. Returns fallback response if no intent detected.
+     *
+     * @param string $message Lowercased, trimmed chat message
+     * @return string Chatbot response text
      */
     private function processMessage($message)
     {
@@ -206,6 +235,10 @@ class ChatbotController extends Controller
 
     /**
      * Generate Enhanced Greeting Response
+     *
+     * Returns a greeting message for recognized greeting intents.
+     *
+     * @return string Greeting response
      */
     private function getGreetingResponse()
     {
@@ -214,6 +247,12 @@ class ChatbotController extends Controller
 
     /**
      * Enhanced Product Search Handler
+     *
+     * Handles product search queries by detecting keywords and returning
+     * top products with category, price, stock, and view count info.
+     *
+     * @param string $message Chat message containing product search intent
+     * @return string Product search results or fallback message
      */
     private function handleProductSearch($message)
     {
@@ -274,6 +313,11 @@ class ChatbotController extends Controller
 
     /**
      * Category Query Handler
+     *
+     * Handles category browsing queries and returns available product categories
+     * with product counts and links for further browsing.
+     *
+     * @return string Category list or fallback message
      */
     private function handleCategoryQuery()
     {
@@ -300,6 +344,11 @@ class ChatbotController extends Controller
 
     /**
      * Order Query Handler
+     *
+     * Handles order inquiry queries, returning recent orders for authenticated users
+     * or login prompt for guests. Includes error handling and support info.
+     *
+     * @return string Order info or support message
      */
     private function handleOrderQuery()
     {
@@ -355,6 +404,10 @@ class ChatbotController extends Controller
 
     /**
      * News Query Handler
+     *
+     * Handles news/blog queries, returning latest posts with title, date, and summary.
+     *
+     * @return string News summary or fallback message
      */
     private function handleNewsQuery()
     {
@@ -397,6 +450,11 @@ class ChatbotController extends Controller
 
     /**
      * Price Query Handler
+     *
+     * Handles price-related queries and returns price information or guidance.
+     *
+     * @param string $message Chat message containing price intent
+     * @return string Price info response
      */
     private function handlePriceQuery($message)
     {
@@ -405,6 +463,10 @@ class ChatbotController extends Controller
 
     /**
      * Store Information Handler
+     *
+     * Handles store info queries and returns address, contact, and business hours.
+     *
+     * @return string Store info response
      */
     private function handleStoreInfo()
     {
@@ -413,6 +475,10 @@ class ChatbotController extends Controller
 
     /**
      * Shipping Information Handler
+     *
+     * Handles shipping/delivery queries and returns shipping options, costs, and details.
+     *
+     * @return string Shipping info response
      */
     private function handleShippingInfo()
     {
@@ -421,6 +487,10 @@ class ChatbotController extends Controller
 
     /**
      * Payment Information Handler
+     *
+     * Handles payment method queries and returns available payment options and details.
+     *
+     * @return string Payment info response
      */
     private function handlePaymentInfo()
     {
@@ -429,6 +499,11 @@ class ChatbotController extends Controller
 
     /**
      * Popular Products Handler
+     *
+     * Handles queries for popular/bestselling products and returns top products
+     * with category, price, and view count info.
+     *
+     * @return string Popular products summary
      */
     private function handlePopularProducts()
     {
@@ -462,6 +537,10 @@ class ChatbotController extends Controller
 
     /**
      * Help Response Handler
+     *
+     * Returns help/instruction message for users needing assistance.
+     *
+     * @return string Help response
      */
     private function getHelpResponse()
     {
@@ -470,6 +549,10 @@ class ChatbotController extends Controller
 
     /**
      * Enhanced Default Response
+     *
+     * Returns fallback/default response when no intent is detected.
+     *
+     * @return string Default chatbot response
      */
     private function getEnhancedDefaultResponse()
     {
@@ -478,6 +561,12 @@ class ChatbotController extends Controller
 
     /**
      * Gift Suggestions Handler
+     *
+     * Handles gift suggestion queries and returns recommended gift products
+     * with price, stock, and product links.
+     *
+     * @param string $message Chat message containing gift intent
+     * @return string Gift suggestions summary
      */
     private function handleGiftSuggestions($message)
     {
@@ -514,6 +603,12 @@ class ChatbotController extends Controller
 
     /**
      * Availability Query Handler
+     *
+     * Handles product availability queries and returns info about low stock
+     * and out-of-stock products, with updates and contact info.
+     *
+     * @param string $message Chat message containing availability intent
+     * @return string Availability info summary
      */
     private function handleAvailabilityQuery($message)
     {
@@ -551,6 +646,12 @@ class ChatbotController extends Controller
 
     /**
      * Helper method to check if message contains specific words
+     *
+     * Checks if the given text contains any of the specified words for intent detection.
+     *
+     * @param string $text Chat message text
+     * @param array $words List of words to check
+     * @return bool True if any word is found, false otherwise
      */
     private function containsWords($text, $words)
     {
@@ -564,6 +665,11 @@ class ChatbotController extends Controller
 
     /**
      * Translate order status to readable format
+     *
+     * Converts order status code to human-readable format using translation strings.
+     *
+     * @param string $status Order status code
+     * @return string Translated status
      */
     private function translateStatus($status)
     {
