@@ -44,7 +44,7 @@ return [
     'store_info' => "🏪 Hanaya Shop store information:\n\n"
         . "📍 Address: 123 Flower Street, Son Tay, Hanoi\n"
         . "📞 Phone: 0353295709\n"
-        . "📧 Email: assassincreed2k1@gmail.com\n"
+        . "📧 Email: support@hanayashop.com\n"
         . "🕒 Business hours: 8:00 AM - 10:00 PM (Monday - Sunday)\n\n"
         . "🚚 Delivery: Nationwide shipping available\n"
         . "💳 Payment: Cash, bank transfer, credit/debit cards\n"

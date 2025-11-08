@@ -44,7 +44,7 @@ return [
     'store_info' => "🏪 Thông tin cửa hàng Hanaya Shop:\n\n"
         . "📍 Địa chỉ: 123 Flower Street, Sơn Tây, Hà Nội\n"
         . "📞 Điện thoại: 0353295709\n"
-        . "📧 Email: assassincreed2k1@gmail.com\n"
+        . "📧 Email: support@hanayashop.com\n"
         . "🕒 Giờ làm việc: 8:00 AM - 10:00 PM (Thứ 2 - Chủ nhật)\n\n"
         . "🚚 Giao hàng: Toàn quốc\n"
         . "💳 Thanh toán: Tiền mặt, chuyển khoản, thẻ tín dụng/ghi nợ\n"
