@@ -1,6 +1,6 @@
 {{-- TinyMCE Configuration Component - CSP Compliant --}}
 {{-- Để TinyMCE đầy đủ tính năng, hãy đăng ký API key miễn phí tại https://www.tiny.cloud/ và thay YOUR_API_KEY bên dưới --}}
-<script src="https://cdn.tiny.cloud/1/y1zo0i12q8i692ria3ibrw4baa79o7h6yaa1tgqpy03fwz1x/tinymce/8/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous"></script>
+<script src="https://cdn.tiny.cloud/1/y1zo0i12q8i692ria3ibrw4baa79o7h6yaa1tgqpy03fwz1x/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
   tinymce.init({
     selector: 'textarea#myeditorinstance',

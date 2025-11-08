@@ -203,6 +203,7 @@ return [
     'customer_reviews' => 'Đánh giá của khách hàng',
     'reviews' => 'Đánh giá',
     'order' => 'Đặt hàng',
+    'order_id' => 'Mã đơn hàng',
     'no_reviews_yet' => 'Chưa có đánh giá nào.',
     'this_product_has_received_any_reviews' => 'Sản phẩm này chưa nhận được đánh giá nào.',
 
