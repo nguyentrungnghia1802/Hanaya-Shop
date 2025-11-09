@@ -49,33 +49,13 @@ jobs:
             # Navigate to project directory
             cd /opt/hanaya-shop
 
-            # Pull latest images
-            echo "🔄 Pulling latest Docker images..."
-            docker compose pull
+            # Run the deployment script (integrates existing server scripts)
+            echo "� Running deployment script..."
+            ./scripts/deploy-production.sh
 
-            # Backup current containers (optional)
-            echo "💾 Creating backup..."
-            docker compose ps --format "table {{.Name}}\t{{.Status}}" > backup-$(date +%Y%m%d_%H%M%S).log
-
-            # Deploy with zero-downtime
-            echo "🚀 Deploying new version..."
-            docker compose up -d --remove-orphans
-
-            # Clean up old images
-            echo "🧹 Cleaning up old images..."
-            docker image prune -f
-
-            # Health check
-            echo "⚡ Performing health check..."
-            sleep 15
-            if curl -f http://localhost/health; then
-              echo "✅ Deployment successful!"
-            else
-              echo "❌ Deployment failed - rolling back..."
-              docker compose down
-              docker compose up -d
-              exit 1
-            fi
+            # Run comprehensive verification
+            echo "🔍 Running deployment verification..."
+            ./scripts/verify-deployment.sh
 
       - name: Notify deployment status
         if: always()
