@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('header')
-    <h2 class="font-semibold text-xl text-gray-800 leading-tight">Chi tiết bài viết</h2>
+    <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('admin.post_details') }}</h2>
 @endsection
 
 @section('content')
@@ -11,18 +11,18 @@
         @if($post->image)
             <img src="{{ asset('images/posts/' . $post->image) }}" alt="{{ $post->title }}" class="h-64 w-full object-cover rounded mb-6">
         @endif
-        <div class="text-sm text-gray-600 mb-2">{{ $post->created_at->format('d/m/Y') }} bởi {{ $post->author->name ?? 'Admin' }}</div>
+        <div class="text-sm text-gray-600 mb-2">{{ $post->created_at->format('d/m/Y') }} {{ __('admin.by') }} {{ $post->author->name ?? 'Admin' }}</div>
         <div class="prose max-w-none text-gray-800" style="font-size:inherit;">
             {!! $post->content !!}
         </div>
         <div class="flex gap-2 mt-4">
-            <a href="{{ route('admin.post.edit', ['id' => $post->id]) }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Sửa</a>
-            <form action="{{ route('admin.post.destroy', ['id' => $post->id]) }}" method="POST" data-confirm-delete data-confirm-message="Bạn có chắc muốn xóa bài viết này?">
+            <a href="{{ route('admin.post.edit', ['id' => $post->id]) }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">{{ __('admin.edit') }}</a>
+            <form action="{{ route('admin.post.destroy', ['id' => $post->id]) }}" method="POST" data-confirm-delete data-confirm-message="Are you sure you want to delete this post?">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Xóa</button>
+                <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">{{ __('admin.delete') }}</button>
             </form>
-            <a href="{{ route('admin.post.index') }}" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">Quay lại</a>
+            <a href="{{ route('admin.post.index') }}" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">{{ __('admin.back') }}</a>
         </div>
     </div>
 </div>

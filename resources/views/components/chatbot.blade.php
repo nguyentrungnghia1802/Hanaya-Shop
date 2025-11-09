@@ -21,8 +21,8 @@
                     </svg>
                 </div>
                 <div>
-                    <h3 class="font-semibold text-sm sm:text-base">Hanaya Assistant</h3>
-                    <p class="text-xs sm:text-sm text-pink-100">Online now</p>
+                    <h3 class="font-semibold text-sm sm:text-base">{{ __('chatbot.name') }}</h3>
+                    <p class="text-xs sm:text-sm text-pink-100">{{ __('chatbot.status_online') }}</p>
                 </div>
                 <div class="ml-auto">
                     <div class="w-2 h-2 sm:w-3 sm:h-3 bg-green-400 rounded-full animate-pulse"></div>
@@ -39,14 +39,17 @@
                     </svg>
                 </div>
                 <div class="bg-gray-100 rounded-lg px-3 py-2 max-w-xs sm:max-w-sm">
-                    <p>Xin chào! Tôi là trợ lý ảo của Hanaya Shop. Tôi có thể giúp bạn:</p>
+                    <p>{{ __('chatbot.greeting_hanaya') }}</p>
                     <ul class="mt-2 space-y-1 text-xs">
-                        <li>🔍 Tìm kiếm sản phẩm</li>
-                        <li>📦 Kiểm tra đơn hàng</li>
-                        <li>🏪 Thông tin cửa hàng</li>
-                        <li>📰 Tin tức mới nhất</li>
+                        <li>{{ __('chatbot.find_products') }}</li>
+                        <li>{{ __('chatbot.track_orders') }}</li>
+                        <li>{{ __('chatbot.store_info') }}</li>
+                        <li>{{ __('chatbot.latest_news') }}</li>
+                        <li>{{ __('chatbot.pricing_info') }}</li>
+                        <li>{{ __('chatbot.shipping_info') }}</li>
+                        <li>{{ __('chatbot.faq') }}</li>
                     </ul>
-                    <p class="mt-2">Bạn cần hỗ trợ gì hôm nay? 🌸</p>
+                    <p class="mt-2">{{ __('chatbot.how_can_i_assist') }}</p>
                 </div>
             </div>
         </div>
@@ -54,17 +57,23 @@
         <!-- Quick Actions -->
         <div class="px-2 sm:px-4 py-2 bg-gray-50 border-t border-gray-100">
             <div class="flex flex-wrap gap-1">
-                <button class="quick-action text-xs px-2 py-1 bg-pink-100 text-pink-700 rounded-full hover:bg-pink-200 transition-colors" data-message="Tìm hoa xà phòng">
-                    🧼 Hoa xà phòng
+                <button class="quick-action text-xs px-2 py-1 bg-pink-100 text-pink-700 rounded-full hover:bg-pink-200 transition-colors" data-message="Find soap flowers">
+                    {{ __('chatbot.soap_flowers') }}
                 </button>
-                <button class="quick-action text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded-full hover:bg-purple-200 transition-colors" data-message="Xem đơn hàng của tôi">
-                    📦 Đơn hàng
+                <button class="quick-action text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded-full hover:bg-purple-200 transition-colors" data-message="Check my orders">
+                    {{ __('chatbot.track_orders_button') }}
                 </button>
-                <button class="quick-action text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full hover:bg-green-200 transition-colors" data-message="Thông tin cửa hàng">
-                    🏪 Cửa hàng
+                <button class="quick-action text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full hover:bg-green-200 transition-colors" data-message="Store information">
+                    {{ __('chatbot.store_info_button') }}
                 </button>
-                <button class="quick-action text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200 transition-colors" data-message="Tin tức mới nhất">
-                    📰 Tin tức
+                <button class="quick-action text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200 transition-colors" data-message="Latest news">
+                    {{ __('chatbot.latest_news_button') }}
+                </button>
+                <button class="quick-action text-xs px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full hover:bg-yellow-200 transition-colors" data-message="Popular products">
+                    {{ __('chatbot.popular_button') }}
+                </button>
+                <button class="quick-action text-xs px-2 py-1 bg-red-100 text-red-700 rounded-full hover:bg-red-200 transition-colors" data-message="Help me">
+                    {{ __('chatbot.help_button') }}
                 </button>
             </div>
         </div>
@@ -72,7 +81,7 @@
         <!-- Input Area -->
         <div class="p-2 sm:p-4 border-t border-gray-200">
             <div class="flex space-x-2">
-                <input type="text" id="chat-input" placeholder="Nhập tin nhắn..." 
+                <input type="text" id="chat-input" placeholder="Type your message..." 
                        class="flex-1 px-2 py-2 text-xs sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent" style="min-width:0;">
                 <button id="send-message" class="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-2 rounded-lg hover:from-pink-600 hover:to-purple-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pink-400">
                     <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -152,15 +161,24 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: JSON.stringify({ message: message })
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            return response.json();
+        })
         .then(data => {
             hideTypingIndicator();
-            addMessage(data.response, 'bot');
+            if (data.response) {
+                addMessage(data.response, 'bot');
+            } else {
+                addMessage('Sorry, I received an unexpected response. Please try again.', 'bot');
+            }
         })
         .catch(error => {
             hideTypingIndicator();
-            console.error('Error:', error);
-            addMessage('Xin lỗi, có lỗi xảy ra. Vui lòng thử lại sau.', 'bot');
+            console.error('Chatbot Error:', error);
+            addMessage('Sorry, something went wrong. Please try again later.', 'bot');
         });
     }
 
@@ -221,7 +239,7 @@ document.addEventListener('DOMContentLoaded', function() {
         text = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" class="text-pink-600 hover:text-pink-800 underline">$1</a>');
         
         // Convert route links to internal navigation
-        text = text.replace(/🔗 (\/[^\s\n]+)/g, '<a href="$1" class="inline-block mt-1 px-2 py-1 bg-pink-100 text-pink-700 rounded text-xs hover:bg-pink-200 transition-colors">Xem ngay →</a>');
+        text = text.replace(/🔗 (\/[^\s\n]+)/g, '<a href="$1" class="inline-block mt-1 px-2 py-1 bg-pink-100 text-pink-700 rounded text-xs hover:bg-pink-200 transition-colors">View Now →</a>');
         
         // Format line breaks
         text = text.replace(/\n/g, '<br>');

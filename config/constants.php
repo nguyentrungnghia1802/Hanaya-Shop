@@ -12,31 +12,31 @@ return [
 
     // Shop information (can be used for footer, contact...)
     'shop_name' => 'HANAYA SHOP',
-    'shop_email' => 'assassincreed2k1@gmail.com',
-    'shop_phone' => '0948512463',
+    'shop_email' => 'support@hanayashop.com',
+    'shop_phone' => '0353295709',
     'shop_address' => '123 Flower Street, Son Tay, Hanoi',
 
     // Banner configuration
     'banners' => [
         [
             'image' => 'fixed_resources/banner_1.jpg',
-            'title' => 'Welcome to Hanaya Shop',
-            'subtitle' => 'Where meaningful flowers and gifts come together',
-            'button_text' => 'Explore Now',
+            'title_key' => 'banners.welcome_title',
+            'subtitle_key' => 'banners.welcome_subtitle', 
+            'button_text_key' => 'banners.explore_now',
             'button_link' => '/products'
         ],
         [
             'image' => 'fixed_resources/banner_2.jpg',
-            'title' => 'Soap Flower Collection',
-            'subtitle' => 'Eternal flowers with gentle fragrance',
-            'button_text' => 'View Collection',
+            'title_key' => 'banners.soap_flower_title',
+            'subtitle_key' => 'banners.soap_flower_subtitle',
+            'button_text_key' => 'banners.view_collection',
             'button_link' => '/products?category_name=soap-flower'
         ],
         [
             'image' => 'fixed_resources/banner_3.jpg',
-            'title' => 'Special Gifts',
-            'subtitle' => 'Meaningful gifts for your loved ones',
-            'button_text' => 'Find Gifts',
+            'title_key' => 'banners.special_gifts_title',
+            'subtitle_key' => 'banners.special_gifts_subtitle',
+            'button_text_key' => 'banners.find_gifts',
             'button_link' => '/products?category_name=souvenir'
         ]
     ],
@@ -57,67 +57,26 @@ return [
 
     // Review configuration
     'review' => [
-        'can_review_status' => 'shipped', // Status when user can review
+        'can_review_status' => 'completed', // Status when user can review
         'max_rating' => 5,
         'min_rating' => 1,
         'default_rating' => 5,
     ],
 
-    // Chatbot messages
-    'chatbot_greeting' =>
-    "Hello! I'm Hanaya Shop's chatbot. I can help you with:\n"
-        . "🌸 Product search\n"
-        . "📝 Order information\n"
-        . "📋 Product categories\n"
-        . "📰 Latest news\n"
-        . "❓ Frequently asked questions\n\n"
-        . "How can I help you?",
-    'chatbot_help' =>
-    "🤖 Hanaya Shop chatbot user guide:\n\n"
-        . "🔍 Find products:\n"
-        . "• 'find soap flowers'\n"
-        . "• 'gift products'\n\n"
-        . "📂 View categories:\n"
-        . "• 'product categories'\n"
-        . "• 'product types'\n\n"
-        . "📦 Check orders:\n"
-        . "• 'my orders'\n"
-        . "• 'order status'\n\n"
-        . "📰 News:\n"
-        . "• 'latest news'\n"
-        . "• 'articles'\n\n"
-        . "🏪 Store information:\n"
-        . "• 'store info'\n"
-        . "• 'contact address'\n\n"
-        . "Feel free to ask me anything!",
-    'chatbot_store_info' =>
-    "🏪 Hanaya Shop store information:\n\n"
-        . "📍 Address: 123 Flower Street, Son Tay, Hanoi\n"
-        . "📞 Phone: 0948512463\n"
-        . "📧 Email: assassincreed2k1@gmail.com\n"
-        . "🕒 Opening hours: 8:00 - 22:00 (Monday - Sunday)\n\n"
-        . "🚚 Delivery: Nationwide\n"
-        . "💳 Payment: Cash, bank transfer, cards\n\n"
-        . "Contact us now for consultation!",
-    'chatbot_status' => [
-        'pending' => "Pending",
-        'processing' => "Processing",
-        'completed' => "Completed",
-        'cancelled' => "Cancelled"
+    // Chatbot messages - now use translation keys
+    'chatbot_greeting_key' => 'chatbot.greeting',
+    'chatbot_help_key' => 'chatbot.help', 
+    'chatbot_store_info_key' => 'chatbot.store_info',
+    'chatbot_status_keys' => [
+        'pending' => 'chatbot.status.pending',
+        'processing' => 'chatbot.status.processing',
+        'shipped' => 'chatbot.status.shipped',
+        'completed' => 'chatbot.status.completed',
+        'cancelled' => 'chatbot.status.cancelled'
     ],
-    'chatbot_price_info' =>
-    "About our product prices:\n\n"
-        . "🌸 Soap flowers: From 15 USD - 500 USD\n"
-        . "🎁 Souvenirs: From 5 USD - 800 USD\n\n"
-        . "Specific prices depend on size, materials, and design.\n"
-        . "See detailed prices at: /products",
-    'chatbot_default' =>
-    "Sorry, I don't understand your question. You can ask me about:\n"
-        . "• Products (e.g., 'find soap flowers')\n"
-        . "• Product categories\n"
-        . "• Your orders\n"
-        . "• Latest news\n"
-        . "• Store information\n\n"
-        . "Or type 'help' for detailed instructions.",
+    'chatbot_price_info_key' => 'chatbot.price_info',
+    'chatbot_shipping_info_key' => 'chatbot.shipping_info',
+    'chatbot_payment_info_key' => 'chatbot.payment_info',
+    'chatbot_default_key' => 'chatbot.default',
         
 ];

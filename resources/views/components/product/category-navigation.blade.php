@@ -1,7 +1,7 @@
 @props(['selectedCategory' => null])
 
 <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
-    <h3 class="text-xl font-semibold text-gray-800 mb-4 text-center">Chọn danh mục sản phẩm</h3>
+    <h3 class="text-xl font-semibold text-gray-800 mb-4 text-center">{{ __('product.choose_product_category') }}</h3>
     
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <!-- All Products -->
@@ -14,9 +14,9 @@
                     </svg>
                 </div>
                 <h4 class="font-semibold {{ !$selectedCategory ? 'text-pink-700' : 'text-gray-700 group-hover:text-pink-600' }}">
-                    Tất cả sản phẩm
+                    {{ __('product.all_products') }}
                 </h4>
-                <p class="text-sm text-gray-500 mt-1">Xem toàn bộ</p>
+                <p class="text-sm text-gray-500 mt-1">{{ __('product.view_all') }}</p>
             </div>
         </a>
 
@@ -30,9 +30,9 @@
                     </svg>
                 </div>
                 <h4 class="font-semibold {{ $selectedCategory === 'soap-flower' ? 'text-pink-700' : 'text-gray-700 group-hover:text-pink-600' }}">
-                    Soap Flower
+                    Soap Flowerjhgjhkgyjkhg
                 </h4>
-                <p class="text-sm text-gray-500 mt-1">Hoa xà phòng</p>
+                <p class="text-sm text-gray-500 mt-1">{{ __('product.soap_flowers') }}</p>
             </div>
         </a>
 
@@ -48,7 +48,7 @@
                 <h4 class="font-semibold {{ $selectedCategory === 'special-flower' ? 'text-pink-700' : 'text-gray-700 group-hover:text-pink-600' }}">
                     Special Flower
                 </h4>
-                <p class="text-sm text-gray-500 mt-1">Special flowers</p>
+                <p class="text-sm text-gray-500 mt-1">{{ __('product.special_flowers') }}</p>
             </div>
         </a>
 
@@ -64,7 +64,7 @@
                 <h4 class="font-semibold {{ $selectedCategory === 'fresh-flowers' ? 'text-pink-700' : 'text-gray-700 group-hover:text-pink-600' }}">
                     Fresh Flowers
                 </h4>
-                <p class="text-sm text-gray-500 mt-1">Hoa tươi</p>
+                <p class="text-sm text-gray-500 mt-1">{{ __('product.fresh_flowers') }}</p>
             </div>
         </a>
 
@@ -80,7 +80,7 @@
                 <h4 class="font-semibold {{ $selectedCategory === 'souvenir' ? 'text-pink-700' : 'text-gray-700 group-hover:text-pink-600' }}">
                     Souvenir
                 </h4>
-                <p class="text-sm text-gray-500 mt-1">Quà lưu niệm</p>
+                <p class="text-sm text-gray-500 mt-1">{{ __('product.souvenirs') }}</p>
             </div>
         </a>
     </div>

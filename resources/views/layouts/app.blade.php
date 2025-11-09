@@ -5,6 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
 
     <title>{{ config('app.name', 'Hanaya') }}</title>
 
@@ -12,11 +15,30 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+    <!-- Loading Overlay Handler - Must load first without defer -->
+    <script src="{{ asset('js/loading-overlay.js') }}"></script>
+    
+    <!-- Inline script for immediate overlay hiding -->
+    <script>
+        // Immediate hide on script load
+        (function() {
+            var overlay = document.getElementById('pageLoadingOverlay');
+            if (overlay) {
+                overlay.style.display = 'none';
+                overlay.style.visibility = 'hidden';
+                overlay.classList.add('hidden');
+            }
+        })();
+    </script>
+    
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/components.js'])
     
+    <!-- Alpine.js -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.5/dist/cdn.min.js" defer></script>
+    
     <!-- CSP Compliant Scripts -->
-    <script src="{{ asset('js/app-main.js') }}" defer></script>
+    <script src="{{ asset('js/app-main.js') }}"></script>
     <script src="{{ asset('js/category-products.js') }}" defer></script>
     <script src="{{ asset('js/navigation.js') }}" defer></script>
     {{-- <script
@@ -100,10 +122,8 @@
 
 <body class="font-sans antialiased bg-gray-100 transition-colors duration-300">
     <!-- Loading overlay đặt ngay sau <body> -->
-    <div id="pageLoadingOverlay" style="display:none;position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:rgba(255,255,255,0.8);backdrop-filter:blur(2px);align-items:center;justify-content:center;">
-        <div style="font-size:2rem;color:#ec4899;display:flex;flex-direction:column;align-items:center;">
-                {{-- <div id="pageLoadingOverlay" class="hidden fixed inset-0 z-50 bg-white bg-opacity-80 backdrop-blur-sm">
-        <div class="text-2xl text-pink-500 flex flex-col items-center justify-center h-full"> --}}
+    <div id="pageLoadingOverlay" class="hidden fixed inset-0 z-50 bg-white bg-opacity-80 backdrop-blur-sm" style="display:none;">
+        <div class="flex flex-col items-center justify-center h-full text-2xl text-pink-500">
             <svg class="animate-spin h-14 w-14 mb-4 text-pink-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
@@ -131,31 +151,31 @@
             <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
 
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">{{ config('constants.shop_name') }}</h3>
+                    <h3 class="text-lg font-semibold mb-4">{{ __('common.shop_name') }}</h3>
                     <p class="text-sm">
-                        Specializing in premium flowers, meaningful gifts and decorative accessories.
+                        {{ __('common.footer_description') }}
                     </p>
                 </div>
 
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <h3 class="text-lg font-semibold mb-4">{{ __('common.quick_links') }}</h3>
                     <ul class="text-sm space-y-2">
-                        <li><a href="/" class="hover:text-white">Home</a></li>
-                        <li><a href="/products" class="hover:text-white">Products</a></li>
-                        <li><a href="/about" class="hover:text-white">About</a></li>
+                        <li><a href="/" class="hover:text-white">{{ __('common.home') }}</a></li>
+                        <li><a href="/products" class="hover:text-white">{{ __('common.products') }}</a></li>
+                        <li><a href="/about" class="hover:text-white">{{ __('common.about') }}</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Contact</h3>
-                    <p class="text-sm"> Address: {{ config('constants.shop_address') }}</p>
-                    <p class="text-sm"> Phone: {{ config('constants.shop_phone') }}</p>
-                    <p class="text-sm"> Email: {{ config('constants.shop_email') }}</p>
+                    <h3 class="text-lg font-semibold mb-4">{{ __('common.contact') }}</h3>
+                    <p class="text-sm"> {{ __('common.address') }}: {{ config('constants.shop_address') }}</p>
+                    <p class="text-sm"> {{ __('common.phone') }}: {{ config('constants.shop_phone') }}</p>
+                    <p class="text-sm"> {{ __('common.email') }}: {{ config('constants.shop_email') }}</p>
                 </div>
             </div>
 
             <div class="text-center text-sm text-gray-400 dark:text-gray-500 mt-8 border-t border-gray-700 dark:border-gray-600 pt-4 transition-colors duration-300">
-                &copy; {{ date('Y') }} Hanaya.
+                &copy; {{ date('Y') }} Hanaya. {{ __('common.copyright') }}
             </div>
         </footer>
     </div>
