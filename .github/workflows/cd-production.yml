@@ -45,6 +45,7 @@ jobs:
           username: ${{ secrets.PRODUCTION_USER }}
           key: ${{ secrets.PRODUCTION_SSH_KEY }}
           port: 22
+          script_stop: true
           script: |
             # Navigate to project directory
             cd /opt/hanaya-shop
