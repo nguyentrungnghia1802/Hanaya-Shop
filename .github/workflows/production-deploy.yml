@@ -60,18 +60,55 @@ jobs:
             echo "🔗 Connected to production server successfully!"
             cd /opt/hanaya-shop || { echo "❌ Project directory not found"; exit 1; }
             echo "📁 Current directory: $(pwd)"
+            
+            echo "💾 Creating backup before deployment..."
+            if [ -f "./manage.sh" ]; then
+              ./manage.sh backup || echo "⚠️ Backup script failed, continuing anyway..."
+            fi
+            
+            echo "🛑 Stopping nginx service to free port 80..."
             sudo systemctl stop nginx || echo "⚠️ nginx service not running or already stopped"
             sudo systemctl disable nginx || echo "⚠️ nginx service disable failed"
+            
+            echo "🚀 Pulling latest Docker images..."
             if command -v docker-compose > /dev/null 2>&1; then
               docker-compose pull || { echo "❌ Failed to pull images"; exit 1; }
-              docker-compose down --remove-orphans || echo "⚠️ Some containers were not running"
-              docker-compose up -d || { echo "❌ Failed to start containers"; exit 1; }
             else
               docker compose pull || { echo "❌ Failed to pull images"; exit 1; }
-              docker compose down --remove-orphans || echo "⚠️ Some containers were not running"
-              docker compose up -d || { echo "❌ Failed to start containers"; exit 1; }
             fi
-            docker system prune -f || echo "⚠️  Cleanup failed but continuing..."
+            
+            echo "🔄 Performing rolling update to preserve data..."
+            if [ -f "./docker-deploy.sh" ]; then
+              echo "📦 Using existing deploy script..."
+              ./docker-deploy.sh || { echo "❌ Deploy script failed"; exit 1; }
+            else
+              echo "📦 Using docker-compose for safe update..."
+              if command -v docker-compose > /dev/null 2>&1; then
+                # Safe update: restart only app containers, keep data containers running
+                docker-compose up -d --no-deps --force-recreate app queue || { echo "❌ Failed to update app containers"; exit 1; }
+              else
+                docker compose up -d --no-deps --force-recreate app queue || { echo "❌ Failed to update app containers"; exit 1; }
+              fi
+            fi
+            
+            echo "🔍 Verifying deployment..."
+            sleep 15  # Wait for containers to be fully ready
+            if docker ps | grep -q "hanaya"; then
+              echo "✅ Deployment successful! Containers are running:"
+              docker ps --filter name=hanaya --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+              
+              echo "🏥 Performing health check..."
+              if curl -f http://localhost > /dev/null 2>&1; then
+                echo "✅ Application health check passed!"
+              else
+                echo "⚠️ Health check failed, checking container logs..."
+                docker logs hanaya_app --tail 20 || echo "Could not get app logs"
+              fi
+            else
+              echo "❌ Deployment failed! No containers running."
+              exit 1
+            fi
+            
             echo "🎉 Production deployment completed successfully!"
           DEPLOYMENT_SCRIPT
 
