@@ -38,44 +38,49 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      - name: Setup SSH Key Authentication
+        run: |
+          # Create .ssh directory with proper permissions
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          
+          # Setup SSH private key with proper format and permissions
+          echo "${{ secrets.PRODUCTION_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          
+          # Add server to known hosts to avoid fingerprint prompts
+          ssh-keyscan -H ${{ secrets.PRODUCTION_HOST }} >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+
       - name: Deploy to Production Server
         run: |
-          # Install expect for password authentication
-          sudo apt-get install -y expect
-          
-          # Create expect script for SSH authentication
-          cat > deploy_script.exp << 'EXPECTEOF'
-          #!/usr/bin/expect -f
-          set timeout 60
-          spawn ssh -o StrictHostKeyChecking=no ${{ secrets.PRODUCTION_USER }}@${{ secrets.PRODUCTION_HOST }}
-          expect "password:"
-          send "${{ secrets.PRODUCTION_PASSWORD }}\r"
-          expect "$ "
-          send "cd /opt/hanaya-shop\r"
-          expect "$ "
-          send "echo '🚀 Pulling latest Docker image...'\r"
-          expect "$ "
-          send "docker-compose pull hanaya-shop\r"
-          expect "$ "
-          send "echo '📦 Restarting containers...'\r"  
-          expect "$ "
-          send "docker-compose up -d hanaya-shop\r"
-          expect "$ "
-          send "echo '🧹 Cleaning up old images...'\r"
-          expect "$ "
-          send "docker system prune -f\r"
-          expect "$ "
-          send "echo '✅ Deployment completed!'\r"
-          expect "$ "
-          send "docker ps --filter name=hanaya-shop\r"
-          expect "$ "
-          send "exit\r"
-          expect eof
-          EXPECTEOF
-          
-          # Execute expect script
-          chmod +x deploy_script.exp
-          ./deploy_script.exp
+          # Deploy using SSH key authentication (best practice)
+          ssh -i ~/.ssh/deploy_key -o ConnectTimeout=10 -o UserKnownHostsFile=~/.ssh/known_hosts ${{ secrets.PRODUCTION_USER }}@${{ secrets.PRODUCTION_HOST }} << 'DEPLOYMENT_SCRIPT'
+            set -e  # Exit on any error
+            
+            echo "🔗 Connected to production server successfully!"
+            cd /opt/hanaya-shop || { echo "❌ Project directory not found"; exit 1; }
+            
+            echo "🚀 Pulling latest Docker image..."
+            docker-compose pull hanaya-shop || { echo "❌ Failed to pull image"; exit 1; }
+            
+            echo "📦 Restarting containers with zero downtime..."
+            docker-compose up -d hanaya-shop || { echo "❌ Failed to start containers"; exit 1; }
+            
+            echo "🧹 Cleaning up old Docker images..."
+            docker system prune -f || echo "⚠️  Cleanup failed but continuing..."
+            
+            echo "🔍 Verifying deployment..."
+            if docker ps --filter name=hanaya-shop | grep -q "Up"; then
+              echo "✅ Deployment successful! Container is running."
+              docker ps --filter name=hanaya-shop --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+            else
+              echo "❌ Deployment failed! Container not running."
+              exit 1
+            fi
+            
+            echo "🎉 Production deployment completed successfully!"
+          DEPLOYMENT_SCRIPT
 
       # Deployment completed successfully
       - name: Deployment Success
