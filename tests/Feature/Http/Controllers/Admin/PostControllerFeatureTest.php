@@ -120,7 +120,7 @@ class PostControllerFeatureTest extends TestCase
         $response->assertStatus(200);
         $posts = $response->viewData('posts');
         
-        $this->assertStringContains('search=Laravel', $posts->nextPageUrl());
+        $this->assertStringContainsString('search=Laravel', $posts->nextPageUrl());
     }
 
     
