@@ -64,7 +64,7 @@ class PostControllerUnitTest extends TestCase
         $response = $this->controller->index($request);
 
         // Assert
-        $this->assertEquals('admin.posts.index', $response->getName());
+        $this->assertEquals('admin.posts.index', $response->name());
         $this->assertInstanceOf(LengthAwarePaginator::class, $response->getData()['posts']);
         $this->assertEquals(3, $response->getData()['posts']->total());
     }
@@ -205,7 +205,7 @@ class PostControllerUnitTest extends TestCase
 
         // Assert
         $this->assertEquals(302, $response->getStatusCode());
-        $this->assertStringContainsString('admin.posts.index', $response->getTargetUrl());
+        $this->assertStringContainsString('/admin/post', $response->getTargetUrl());
         
         $this->assertDatabaseHas('posts', [
             'title' => 'Test Post Title',
@@ -535,7 +535,7 @@ class PostControllerUnitTest extends TestCase
 
         // Assert
         $this->assertEquals(302, $response->getStatusCode());
-        $this->assertStringContainsString('admin.posts.index', $response->getTargetUrl());
+        $this->assertStringContainsString('/admin/post', $response->getTargetUrl());
         $this->assertDatabaseMissing('posts', ['id' => $post->id]);
     }
 
