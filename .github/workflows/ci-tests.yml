@@ -114,6 +114,15 @@ jobs:
           echo "QUEUE_CONNECTION=sync" >> .env
           echo "MAIL_MAILER=array" >> .env
 
+      - name: Create storage directories
+        run: |
+          mkdir -p storage/framework/cache
+          mkdir -p storage/framework/views
+          mkdir -p storage/framework/sessions
+          mkdir -p storage/framework/testing
+          chmod -R 755 storage
+          chmod -R 755 bootstrap/cache
+
       - name: Run database migrations
         run: php artisan migrate --force
 
