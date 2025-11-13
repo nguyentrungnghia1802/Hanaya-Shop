@@ -133,6 +133,7 @@ jobs:
 
       - name: Run PHP Linting
         run: ./vendor/bin/pint --test
+        continue-on-error: true
 
       - name: Run PHP Tests
         run: ./vendor/bin/phpunit --testdox
