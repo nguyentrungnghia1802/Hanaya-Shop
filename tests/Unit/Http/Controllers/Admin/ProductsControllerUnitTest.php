@@ -3,36 +3,38 @@
 namespace Tests\Unit\Admin;
 
 use App\Http\Controllers\Admin\ProductsController;
-use App\Models\Product\Product;
 use App\Models\Product\Category;
+use App\Models\Product\Product;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Validation\ValidationException;
-use Tests\TestCase;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Mockery;
 use PHPUnit\Framework\Attributes\Test;
+use Tests\TestCase;
 
 class ProductsControllerUnitTest extends TestCase
 {
     use RefreshDatabase;
 
     protected $controller;
+
     protected $category;
+
     protected $testUploadPath;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->controller = new ProductsController();
+        $this->controller = new ProductsController;
         $this->category = Category::factory()->create();
         $this->testUploadPath = public_path('images/products');
-        
-        if (!file_exists($this->testUploadPath)) {
+
+        if (! file_exists($this->testUploadPath)) {
             mkdir($this->testUploadPath, 0755, true);
         }
     }
@@ -40,7 +42,7 @@ class ProductsControllerUnitTest extends TestCase
     protected function tearDown(): void
     {
         if (file_exists($this->testUploadPath)) {
-            $files = glob($this->testUploadPath . '/*');
+            $files = glob($this->testUploadPath.'/*');
             foreach ($files as $file) {
                 if (is_file($file) && basename($file) !== 'default-product.jpg' && basename($file) !== 'base.jpg') {
                     unlink($file);
@@ -104,7 +106,7 @@ class ProductsControllerUnitTest extends TestCase
     {
         // Arrange
         Cache::shouldReceive('forget')->with('admin_products_all')->once();
-        
+
         $productData = [
             'name' => 'Test Product',
             'descriptions' => 'Test product description',
@@ -112,7 +114,7 @@ class ProductsControllerUnitTest extends TestCase
             'stock_quantity' => 10,
             'category_id' => $this->category->id,
             'discount_percent' => 10,
-            'view_count' => 5
+            'view_count' => 5,
         ];
         $request = Request::create('/admin/products', 'POST', $productData);
 
@@ -122,7 +124,7 @@ class ProductsControllerUnitTest extends TestCase
         // Assert
         $this->assertEquals(302, $response->getStatusCode());
         $this->assertStringContainsString('/admin/product', $response->getTargetUrl());
-        
+
         $this->assertDatabaseHas('products', [
             'name' => 'Test Product',
             'descriptions' => 'Test product description',
@@ -131,7 +133,7 @@ class ProductsControllerUnitTest extends TestCase
             'category_id' => $this->category->id,
             'discount_percent' => 10,
             'view_count' => 5,
-            'image_url' => 'default-product.jpg'
+            'image_url' => 'default-product.jpg',
         ]);
     }
 
@@ -139,20 +141,20 @@ class ProductsControllerUnitTest extends TestCase
     public function store_creates_product_with_image_upload()
     {
         // Skip if GD extension not available
-        if (!extension_loaded('gd')) {
+        if (! extension_loaded('gd')) {
             $this->markTestSkipped('GD extension is not installed.');
         }
-        
+
         // Arrange
         Cache::shouldReceive('forget')->with('admin_products_all')->once();
-        
+
         $file = UploadedFile::fake()->image('product.jpg');
         $productData = [
             'name' => 'Product with Image',
             'descriptions' => 'Product description',
             'price' => 149.99,
             'stock_quantity' => 15,
-            'category_id' => $this->category->id
+            'category_id' => $this->category->id,
         ];
         $request = Request::create('/admin/products', 'POST', $productData, [], ['image_url' => $file]);
 
@@ -161,11 +163,11 @@ class ProductsControllerUnitTest extends TestCase
 
         // Assert
         $this->assertEquals(302, $response->getStatusCode());
-        
+
         $this->assertDatabaseHas('products', [
-            'name' => 'Product with Image'
+            'name' => 'Product with Image',
         ]);
-        
+
         $product = Product::where('name', 'Product with Image')->first();
         $this->assertNotEquals('default-product.jpg', $product->image_url);
         $this->assertStringEndsWith('.jpg', $product->image_url);
@@ -176,13 +178,13 @@ class ProductsControllerUnitTest extends TestCase
     {
         // Arrange
         Cache::shouldReceive('forget')->with('admin_products_all')->once();
-        
+
         $productData = [
             'name' => 'Minimal Product',
             'descriptions' => 'Basic description',
             'price' => 50.00,
             'stock_quantity' => 5,
-            'category_id' => $this->category->id
+            'category_id' => $this->category->id,
         ];
         $request = Request::create('/admin/products', 'POST', $productData);
 
@@ -194,7 +196,7 @@ class ProductsControllerUnitTest extends TestCase
             'name' => 'Minimal Product',
             'discount_percent' => 0,
             'view_count' => 0,
-            'image_url' => 'default-product.jpg'
+            'image_url' => 'default-product.jpg',
         ]);
     }
 
@@ -218,7 +220,7 @@ class ProductsControllerUnitTest extends TestCase
             'descriptions' => 'Test description',
             'price' => 'invalid_price',
             'stock_quantity' => 'invalid_stock',
-            'category_id' => $this->category->id
+            'category_id' => $this->category->id,
         ];
         $request = Request::create('/admin/products', 'POST', $productData);
 
@@ -236,7 +238,7 @@ class ProductsControllerUnitTest extends TestCase
             'descriptions' => 'Test description',
             'price' => 99.99,
             'stock_quantity' => 10,
-            'category_id' => 999 // Non-existent category
+            'category_id' => 999, // Non-existent category
         ];
         $request = Request::create('/admin/products', 'POST', $productData);
 
@@ -255,7 +257,7 @@ class ProductsControllerUnitTest extends TestCase
             'descriptions' => 'Test description',
             'price' => 99.99,
             'stock_quantity' => 10,
-            'category_id' => $this->category->id
+            'category_id' => $this->category->id,
         ];
         $request = Request::create('/admin/products', 'POST', $productData, [], ['image_url' => $file]);
 
@@ -274,7 +276,7 @@ class ProductsControllerUnitTest extends TestCase
             'price' => 99.99,
             'stock_quantity' => 10,
             'category_id' => $this->category->id,
-            'discount_percent' => 150 // Invalid: over 100%
+            'discount_percent' => 150, // Invalid: over 100%
         ];
         $request = Request::create('/admin/products', 'POST', $productData);
 
@@ -292,7 +294,7 @@ class ProductsControllerUnitTest extends TestCase
             'descriptions' => 'Test description',
             'price' => 99.99,
             'stock_quantity' => 10,
-            'category_id' => 99999 // Invalid category_id
+            'category_id' => 99999, // Invalid category_id
         ];
         $request = Request::create('/admin/products', 'POST', $productData);
 
@@ -331,7 +333,7 @@ class ProductsControllerUnitTest extends TestCase
     {
         // Arrange
         Cache::shouldReceive('forget')->with('admin_products_all')->once();
-        
+
         $product = Product::factory()->create(['category_id' => $this->category->id]);
         $updateData = [
             'name' => 'Updated Product',
@@ -340,16 +342,16 @@ class ProductsControllerUnitTest extends TestCase
             'stock_quantity' => 20,
             'category_id' => $this->category->id,
             'discount_percent' => 15,
-            'view_count' => 100
+            'view_count' => 100,
         ];
-        $request = Request::create('/admin/products/' . $product->id, 'PUT', $updateData);
+        $request = Request::create('/admin/products/'.$product->id, 'PUT', $updateData);
 
         // Act
         $response = $this->controller->update($request, $product->id);
 
         // Assert
         $this->assertEquals(302, $response->getStatusCode());
-        
+
         $product->refresh();
         $this->assertEquals('Updated Product', $product->name);
         $this->assertEquals('Updated description', $product->descriptions);
@@ -363,20 +365,20 @@ class ProductsControllerUnitTest extends TestCase
     public function update_replaces_image_and_deletes_old_one()
     {
         // Skip if GD extension not available
-        if (!extension_loaded('gd')) {
+        if (! extension_loaded('gd')) {
             $this->markTestSkipped('GD extension is not installed.');
         }
-        
+
         // Arrange
         Cache::shouldReceive('forget')->with('admin_products_all')->once();
-        
+
         $product = Product::factory()->create([
             'category_id' => $this->category->id,
-            'image_url' => 'old_image.jpg'
+            'image_url' => 'old_image.jpg',
         ]);
 
         // Create old image file
-        $oldImagePath = $this->testUploadPath . '/old_image.jpg';
+        $oldImagePath = $this->testUploadPath.'/old_image.jpg';
         file_put_contents($oldImagePath, 'fake image content');
 
         $newFile = UploadedFile::fake()->image('new_image.jpg');
@@ -385,9 +387,9 @@ class ProductsControllerUnitTest extends TestCase
             'descriptions' => 'Updated description',
             'price' => 199.99,
             'stock_quantity' => 20,
-            'category_id' => $this->category->id
+            'category_id' => $this->category->id,
         ];
-        $request = Request::create('/admin/products/' . $product->id, 'PUT', $updateData, [], ['image_url' => $newFile]);
+        $request = Request::create('/admin/products/'.$product->id, 'PUT', $updateData, [], ['image_url' => $newFile]);
 
         // Act
         $this->controller->update($request, $product->id);
@@ -403,16 +405,16 @@ class ProductsControllerUnitTest extends TestCase
     public function update_preserves_default_image()
     {
         // Skip if GD extension not available
-        if (!extension_loaded('gd')) {
+        if (! extension_loaded('gd')) {
             $this->markTestSkipped('GD extension is not installed.');
         }
-        
+
         // Arrange
         Cache::shouldReceive('forget')->with('admin_products_all')->once();
-        
+
         $product = Product::factory()->create([
             'category_id' => $this->category->id,
-            'image_url' => 'default-product.jpg'
+            'image_url' => 'default-product.jpg',
         ]);
 
         $newFile = UploadedFile::fake()->image('new_image.jpg');
@@ -421,9 +423,9 @@ class ProductsControllerUnitTest extends TestCase
             'descriptions' => 'Updated description',
             'price' => 199.99,
             'stock_quantity' => 20,
-            'category_id' => $this->category->id
+            'category_id' => $this->category->id,
         ];
-        $request = Request::create('/admin/products/' . $product->id, 'PUT', $updateData, [], ['image_url' => $newFile]);
+        $request = Request::create('/admin/products/'.$product->id, 'PUT', $updateData, [], ['image_url' => $newFile]);
 
         // Act
         $this->controller->update($request, $product->id);
@@ -437,16 +439,16 @@ class ProductsControllerUnitTest extends TestCase
     public function update_handles_missing_old_image_file()
     {
         // Skip if GD extension not available
-        if (!extension_loaded('gd')) {
+        if (! extension_loaded('gd')) {
             $this->markTestSkipped('GD extension is not installed.');
         }
-        
+
         // Arrange
         Cache::shouldReceive('forget')->with('admin_products_all')->once();
-        
+
         $product = Product::factory()->create([
             'category_id' => $this->category->id,
-            'image_url' => 'non_existent_image.jpg'
+            'image_url' => 'non_existent_image.jpg',
         ]);
 
         $newFile = UploadedFile::fake()->image('new_image.jpg');
@@ -455,9 +457,9 @@ class ProductsControllerUnitTest extends TestCase
             'descriptions' => 'Updated description',
             'price' => 199.99,
             'stock_quantity' => 20,
-            'category_id' => $this->category->id
+            'category_id' => $this->category->id,
         ];
-        $request = Request::create('/admin/products/' . $product->id, 'PUT', $updateData, [], ['image_url' => $newFile]);
+        $request = Request::create('/admin/products/'.$product->id, 'PUT', $updateData, [], ['image_url' => $newFile]);
 
         // Act & Assert - Should not throw exception
         $response = $this->controller->update($request, $product->id);
@@ -469,10 +471,10 @@ class ProductsControllerUnitTest extends TestCase
     {
         // Arrange
         Cache::shouldReceive('forget')->with('admin_products_all')->once();
-        
+
         $product = Product::factory()->create([
             'category_id' => $this->category->id,
-            'view_count' => 50
+            'view_count' => 50,
         ]);
 
         $updateData = [
@@ -480,9 +482,9 @@ class ProductsControllerUnitTest extends TestCase
             'descriptions' => 'Updated description',
             'price' => 199.99,
             'stock_quantity' => 20,
-            'category_id' => $this->category->id
+            'category_id' => $this->category->id,
         ];
-        $request = Request::create('/admin/products/' . $product->id, 'PUT', $updateData);
+        $request = Request::create('/admin/products/'.$product->id, 'PUT', $updateData);
 
         // Act
         $this->controller->update($request, $product->id);
@@ -497,7 +499,7 @@ class ProductsControllerUnitTest extends TestCase
     {
         // Arrange
         $product = Product::factory()->create(['category_id' => $this->category->id]);
-        $request = Request::create('/admin/products/' . $product->id, 'PUT', []);
+        $request = Request::create('/admin/products/'.$product->id, 'PUT', []);
 
         // Act & Assert
         $this->expectException(ValidationException::class);
@@ -513,7 +515,7 @@ class ProductsControllerUnitTest extends TestCase
             'descriptions' => 'Updated description',
             'price' => 199.99,
             'stock_quantity' => 20,
-            'category_id' => $this->category->id
+            'category_id' => $this->category->id,
         ];
         $request = Request::create('/admin/products/999', 'PUT', $updateData);
 
@@ -527,14 +529,14 @@ class ProductsControllerUnitTest extends TestCase
     {
         // Arrange
         Cache::shouldReceive('forget')->with('admin_products_all')->once();
-        
+
         $product = Product::factory()->create([
             'category_id' => $this->category->id,
-            'image_url' => 'product_image.jpg'
+            'image_url' => 'product_image.jpg',
         ]);
 
         // Create image file
-        $imagePath = $this->testUploadPath . '/product_image.jpg';
+        $imagePath = $this->testUploadPath.'/product_image.jpg';
         file_put_contents($imagePath, 'fake image content');
 
         // Act
@@ -551,10 +553,10 @@ class ProductsControllerUnitTest extends TestCase
     {
         // Arrange
         Cache::shouldReceive('forget')->with('admin_products_all')->once();
-        
+
         $product = Product::factory()->create([
             'category_id' => $this->category->id,
-            'image_url' => 'base.jpg'
+            'image_url' => 'base.jpg',
         ]);
 
         // Act
@@ -570,9 +572,9 @@ class ProductsControllerUnitTest extends TestCase
     {
         // Arrange
         Cache::shouldReceive('forget')->with('admin_products_all')->once();
-        
+
         $product = Product::factory()->create(['category_id' => $this->category->id]);
-        $request = Request::create('/admin/products/' . $product->id, 'DELETE');
+        $request = Request::create('/admin/products/'.$product->id, 'DELETE');
         $request->headers->set('X-Requested-With', 'XMLHttpRequest');
 
         // Mock the request() helper
@@ -602,7 +604,7 @@ class ProductsControllerUnitTest extends TestCase
     {
         // Arrange
         $product = Product::factory()->create(['category_id' => $this->category->id]);
-        $request = Request::create('/admin/products/' . $product->id, 'GET');
+        $request = Request::create('/admin/products/'.$product->id, 'GET');
         $request->headers->set('X-Requested-With', 'XMLHttpRequest');
 
         // Act
@@ -622,7 +624,7 @@ class ProductsControllerUnitTest extends TestCase
     {
         // Arrange
         $product = Product::factory()->create(['category_id' => $this->category->id]);
-        $request = Request::create('/admin/products/' . $product->id, 'GET');
+        $request = Request::create('/admin/products/'.$product->id, 'GET');
 
         // Act
         $response = $this->controller->show($product->id, $request);
@@ -637,19 +639,19 @@ class ProductsControllerUnitTest extends TestCase
     {
         // Arrange
         $product = Product::factory()->create(['category_id' => $this->category->id]);
-        
+
         $ajaxIndicators = [
             ['ajax' => true],
             ['wantsJson' => true],
             ['expectsJson' => true],
             ['header' => ['X-Requested-With' => 'XMLHttpRequest']],
             ['header' => ['Accept' => 'application/json']],
-            ['query' => ['ajax' => '1']]
+            ['query' => ['ajax' => '1']],
         ];
 
         foreach ($ajaxIndicators as $indicator) {
-            $request = Request::create('/admin/products/' . $product->id, 'GET');
-            
+            $request = Request::create('/admin/products/'.$product->id, 'GET');
+
             if (isset($indicator['ajax'])) {
                 $request = Mockery::mock(Request::class)->makePartial();
                 $request->shouldReceive('ajax')->andReturn(true);
@@ -693,13 +695,13 @@ class ProductsControllerUnitTest extends TestCase
         // Arrange
         Product::factory()->create([
             'name' => 'Laravel Book',
-            'category_id' => $this->category->id
+            'category_id' => $this->category->id,
         ]);
         Product::factory()->create([
             'name' => 'PHP Guide',
-            'category_id' => $this->category->id
+            'category_id' => $this->category->id,
         ]);
-        
+
         $request = Request::create('/admin/products/search', 'GET', ['query' => 'Laravel']);
 
         // Act
@@ -720,14 +722,14 @@ class ProductsControllerUnitTest extends TestCase
         Product::factory()->create([
             'name' => 'Programming Book',
             'descriptions' => 'Learn Laravel framework',
-            'category_id' => $this->category->id
+            'category_id' => $this->category->id,
         ]);
         Product::factory()->create([
             'name' => 'Design Book',
             'descriptions' => 'Learn Photoshop basics',
-            'category_id' => $this->category->id
+            'category_id' => $this->category->id,
         ]);
-        
+
         $request = Request::create('/admin/products/search', 'GET', ['query' => 'Laravel']);
 
         // Act
@@ -747,14 +749,14 @@ class ProductsControllerUnitTest extends TestCase
         Product::factory()->create([
             'name' => 'Laravel PHP Framework',
             'descriptions' => 'Complete guide',
-            'category_id' => $this->category->id
+            'category_id' => $this->category->id,
         ]);
         Product::factory()->create([
             'name' => 'React JavaScript',
             'descriptions' => 'Frontend library',
-            'category_id' => $this->category->id
+            'category_id' => $this->category->id,
         ]);
-        
+
         $request = Request::create('/admin/products/search', 'GET', ['query' => 'Laravel PHP']);
 
         // Act

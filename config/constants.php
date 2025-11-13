@@ -21,35 +21,35 @@ return [
         [
             'image' => 'fixed_resources/banner_1.jpg',
             'title_key' => 'banners.welcome_title',
-            'subtitle_key' => 'banners.welcome_subtitle', 
+            'subtitle_key' => 'banners.welcome_subtitle',
             'button_text_key' => 'banners.explore_now',
-            'button_link' => '/products'
+            'button_link' => '/products',
         ],
         [
             'image' => 'fixed_resources/banner_2.jpg',
             'title_key' => 'banners.soap_flower_title',
             'subtitle_key' => 'banners.soap_flower_subtitle',
             'button_text_key' => 'banners.view_collection',
-            'button_link' => '/products?category_name=soap-flower'
+            'button_link' => '/products?category_name=soap-flower',
         ],
         [
             'image' => 'fixed_resources/banner_3.jpg',
             'title_key' => 'banners.special_gifts_title',
             'subtitle_key' => 'banners.special_gifts_subtitle',
             'button_text_key' => 'banners.find_gifts',
-            'button_link' => '/products?category_name=souvenir'
-        ]
+            'button_link' => '/products?category_name=souvenir',
+        ],
     ],
 
-    //Checkout
+    // Checkout
     'checkout' => [
         'shipping_fee' => 8, // Fixed shipping fee
     ],
 
-    // Order status configuration  
+    // Order status configuration
     'order_statuses' => [
         'pending' => 'pending',
-        'processing' => 'processing', 
+        'processing' => 'processing',
         'shipped' => 'shipped',
         'completed' => 'completed',
         'cancelled' => 'cancelled',
@@ -65,18 +65,18 @@ return [
 
     // Chatbot messages - now use translation keys
     'chatbot_greeting_key' => 'chatbot.greeting',
-    'chatbot_help_key' => 'chatbot.help', 
+    'chatbot_help_key' => 'chatbot.help',
     'chatbot_store_info_key' => 'chatbot.store_info',
     'chatbot_status_keys' => [
         'pending' => 'chatbot.status.pending',
         'processing' => 'chatbot.status.processing',
         'shipped' => 'chatbot.status.shipped',
         'completed' => 'chatbot.status.completed',
-        'cancelled' => 'chatbot.status.cancelled'
+        'cancelled' => 'chatbot.status.cancelled',
     ],
     'chatbot_price_info_key' => 'chatbot.price_info',
     'chatbot_shipping_info_key' => 'chatbot.shipping_info',
     'chatbot_payment_info_key' => 'chatbot.payment_info',
     'chatbot_default_key' => 'chatbot.default',
-        
+
 ];

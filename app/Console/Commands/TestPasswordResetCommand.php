@@ -2,12 +2,11 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Models\User;
 use App\Notifications\ResetPassword;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Str;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class TestPasswordResetCommand extends Command
 {
@@ -35,41 +34,43 @@ class TestPasswordResetCommand extends Command
 
         // Tìm user với email
         $user = User::where('email', $email)->first();
-        
-        if (!$user) {
+
+        if (! $user) {
             $this->error("User with email {$email} not found!");
+
             return 1;
         }
 
         $this->info("Found user: {$user->name} ({$user->email})");
-        
+
         // Tạo token reset
         $token = Str::random(60);
-        
+
         // Lưu token vào database
         DB::table('password_reset_tokens')->updateOrInsert(
             ['email' => $user->email],
             [
                 'email' => $user->email,
                 'token' => hash('sha256', $token),
-                'created_at' => now()
+                'created_at' => now(),
             ]
         );
 
         $this->info("Generated reset token for locale: {$locale}");
-        
+
         // Test notification với locale
         try {
             app()->setLocale($locale);
             $user->notify(new ResetPassword($token, $locale));
-            
-            $this->info("✅ Password reset email sent successfully!");
+
+            $this->info('✅ Password reset email sent successfully!');
             $this->info("📧 Email sent to: {$user->email}");
             $this->info("🌐 Locale: {$locale}");
-            
+
             return 0;
         } catch (\Exception $e) {
-            $this->error("❌ Failed to send email: " . $e->getMessage());
+            $this->error('❌ Failed to send email: '.$e->getMessage());
+
             return 1;
         }
     }

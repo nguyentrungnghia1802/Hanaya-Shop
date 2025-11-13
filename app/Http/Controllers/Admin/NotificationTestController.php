@@ -3,24 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Order\Order;
 use App\Models\User;
-use Illuminate\Support\Facades\Session;
-
-// Import all notifications
-use App\Notifications\NewOrderPending;
-use App\Notifications\OrderConfirmedNotification;
-use App\Notifications\OrderShippedNotification;
-use App\Notifications\OrderCompletedNotification;
-use App\Notifications\OrderPaidNotification;
-use App\Notifications\OrderCancelledNotification;
-
 use App\Notifications\CustomerNewOrderPending;
+// Import all notifications
+use App\Notifications\CustomerOrderCancelledNotification;
+use App\Notifications\CustomerOrderCompletedNotification;
 use App\Notifications\CustomerOrderConfirmedNotification;
 use App\Notifications\CustomerOrderShippedNotification;
-use App\Notifications\CustomerOrderCompletedNotification;
-use App\Notifications\CustomerOrderCancelledNotification;
+use App\Notifications\NewOrderPending;
+use App\Notifications\OrderCancelledNotification;
+use App\Notifications\OrderCompletedNotification;
+use App\Notifications\OrderConfirmedNotification;
+use App\Notifications\OrderPaidNotification;
+use App\Notifications\OrderShippedNotification;
+use Illuminate\Support\Facades\Session;
 
 class NotificationTestController extends Controller
 {
@@ -35,8 +32,8 @@ class NotificationTestController extends Controller
         $admin = User::where('role', 'admin')->first();
         $customer = User::where('role', 'user')->first();
         $order = Order::first();
-        
-        if (!$admin || !$customer || !$order) {
+
+        if (! $admin || ! $customer || ! $order) {
             return response()->json(['error' => 'Missing test data'], 400);
         }
 
@@ -69,14 +66,14 @@ class NotificationTestController extends Controller
                 'results' => $results,
                 'admin_email' => $admin->email,
                 'customer_email' => $customer->email,
-                'locale' => $currentLocale
+                'locale' => $currentLocale,
             ]);
 
         } catch (\Exception $e) {
             return response()->json([
-                'error' => 'Test failed: ' . $e->getMessage(),
+                'error' => 'Test failed: '.$e->getMessage(),
                 'line' => $e->getLine(),
-                'file' => $e->getFile()
+                'file' => $e->getFile(),
             ], 500);
         }
     }
@@ -86,9 +83,9 @@ class NotificationTestController extends Controller
      * Instantiates the notification class with given parameters and calls notify().
      * Returns 'SUCCESS' or error message string.
      *
-     * @param User $user The user to notify
-     * @param string $notificationClass The notification class name
-     * @param array $params Parameters to pass to the notification constructor
+     * @param  User  $user  The user to notify
+     * @param  string  $notificationClass  The notification class name
+     * @param  array  $params  Parameters to pass to the notification constructor
      * @return string
      */
     private function testNotification($user, $notificationClass, $params)
@@ -96,9 +93,10 @@ class NotificationTestController extends Controller
         try {
             $notification = new $notificationClass(...$params);
             $user->notify($notification);
+
             return 'SUCCESS';
         } catch (\Exception $e) {
-            return 'FAILED: ' . $e->getMessage();
+            return 'FAILED: '.$e->getMessage();
         }
     }
 }

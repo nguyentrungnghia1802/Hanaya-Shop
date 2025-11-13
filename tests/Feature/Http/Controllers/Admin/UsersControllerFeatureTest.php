@@ -2,38 +2,39 @@
 
 namespace Tests\Feature\Admin;
 
-use App\Models\User;
-use App\Models\Order\Order;
 use App\Models\Cart\Cart;
+use App\Models\Order\Order;
 use App\Models\Product\Product;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class UsersControllerFeatureTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
     protected $adminUser;
+
     protected $regularUser;
 
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         $this->adminUser = User::factory()->create([
             'role' => 'admin',
             'name' => 'Admin User',
-            'email' => 'admin@test.com'
+            'email' => 'admin@test.com',
         ]);
-        
+
         $this->regularUser = User::factory()->create([
             'role' => 'user',
             'name' => 'Regular User',
-            'email' => 'user@test.com'
+            'email' => 'user@test.com',
         ]);
     }
 
@@ -42,16 +43,16 @@ class UsersControllerFeatureTest extends TestCase
         User::factory(25)->create(['role' => 'user']);
 
         $response = $this->actingAs($this->adminUser)
-                         ->get(route('admin.user'));
+            ->get(route('admin.user'));
 
         $response->assertStatus(200);
         $response->assertViewIs('admin.users.index');
         $response->assertViewHas('users');
-        
+
         $users = $response->viewData('users');
         $this->assertInstanceOf(LengthAwarePaginator::class, $users);
         $this->assertEquals(20, $users->perPage());
-        
+
         $userIds = $users->pluck('id')->toArray();
         $this->assertNotContains($this->adminUser->id, $userIds);
     }
@@ -59,7 +60,7 @@ class UsersControllerFeatureTest extends TestCase
     public function test_create_displays_form()
     {
         $response = $this->actingAs($this->adminUser)
-                         ->get(route('admin.user.create'));
+            ->get(route('admin.user.create'));
 
         $response->assertStatus(200);
         $response->assertViewIs('admin.users.create');
@@ -73,19 +74,19 @@ class UsersControllerFeatureTest extends TestCase
                     'name' => 'User One',
                     'email' => 'user1@test.com',
                     'password' => 'password123',
-                    'role' => 'user'
+                    'role' => 'user',
                 ],
                 [
                     'name' => 'User Two',
                     'email' => 'user2@test.com',
                     'password' => 'password456',
-                    'role' => 'admin'
-                ]
-            ]
+                    'role' => 'admin',
+                ],
+            ],
         ];
 
         $response = $this->actingAs($this->adminUser)
-                         ->post(route('admin.user.store'), $usersData);
+            ->post(route('admin.user.store'), $usersData);
 
         $response->assertRedirect(route('admin.user'));
         $response->assertSessionHas('success', 'Account created successfully!');
@@ -93,13 +94,13 @@ class UsersControllerFeatureTest extends TestCase
         $this->assertDatabaseHas('users', [
             'name' => 'User One',
             'email' => 'user1@test.com',
-            'role' => 'user'
+            'role' => 'user',
         ]);
-        
+
         $this->assertDatabaseHas('users', [
             'name' => 'User Two',
             'email' => 'user2@test.com',
-            'role' => 'admin'
+            'role' => 'admin',
         ]);
 
         $user1 = User::where('email', 'user1@test.com')->first();
@@ -114,19 +115,19 @@ class UsersControllerFeatureTest extends TestCase
                     'name' => '', // Required field empty
                     'email' => 'invalid-email', // Invalid email
                     'password' => '123', // Too short
-                    'role' => 'invalid_role' // Invalid role
-                ]
-            ]
+                    'role' => 'invalid_role', // Invalid role
+                ],
+            ],
         ];
 
         $response = $this->actingAs($this->adminUser)
-                         ->post(route('admin.user.store'), $invalidData);
+            ->post(route('admin.user.store'), $invalidData);
 
         $response->assertSessionHasErrors([
             'users.0.name',
             'users.0.email',
             'users.0.password',
-            'users.0.role'
+            'users.0.role',
         ]);
     }
 
@@ -136,15 +137,15 @@ class UsersControllerFeatureTest extends TestCase
             'users' => [
                 [
                     'name' => 'Test User',
-                    'email' => $this->regularUser->email, 
+                    'email' => $this->regularUser->email,
                     'password' => 'password123',
-                    'role' => 'user'
-                ]
-            ]
+                    'role' => 'user',
+                ],
+            ],
         ];
 
         $response = $this->actingAs($this->adminUser)
-                         ->post(route('admin.user.store'), $duplicateEmailData);
+            ->post(route('admin.user.store'), $duplicateEmailData);
 
         $response->assertSessionHasErrors(['users.0.email']);
     }
@@ -160,13 +161,13 @@ class UsersControllerFeatureTest extends TestCase
                     'name' => 'Test User',
                     'email' => 'test@example.com',
                     'password' => 'password123',
-                    'role' => 'user'
-                ]
-            ]
+                    'role' => 'user',
+                ],
+            ],
         ];
 
         $this->actingAs($this->adminUser)
-             ->post(route('admin.user.store'), $usersData);
+            ->post(route('admin.user.store'), $usersData);
 
         $this->assertFalse(Cache::has('admin_users_all'));
     }
@@ -174,12 +175,12 @@ class UsersControllerFeatureTest extends TestCase
     public function test_edit_displays_user_form()
     {
         $response = $this->actingAs($this->adminUser)
-                         ->get(route('admin.user.edit', $this->regularUser->id));
+            ->get(route('admin.user.edit', $this->regularUser->id));
 
         $response->assertStatus(200);
         $response->assertViewIs('admin.users.edit');
         $response->assertViewHas('user');
-        
+
         $user = $response->viewData('user');
         $this->assertEquals($this->regularUser->id, $user->id);
     }
@@ -187,7 +188,7 @@ class UsersControllerFeatureTest extends TestCase
     public function test_edit_prevents_self_editing()
     {
         $response = $this->actingAs($this->adminUser)
-                         ->get(route('admin.user.edit', $this->adminUser->id));
+            ->get(route('admin.user.edit', $this->adminUser->id));
 
         $response->assertStatus(403);
     }
@@ -195,7 +196,7 @@ class UsersControllerFeatureTest extends TestCase
     public function test_edit_returns_404_for_nonexistent_user()
     {
         $response = $this->actingAs($this->adminUser)
-                         ->get(route('admin.user.edit', 99999));
+            ->get(route('admin.user.edit', 99999));
 
         $response->assertStatus(404);
     }
@@ -206,11 +207,11 @@ class UsersControllerFeatureTest extends TestCase
             'name' => 'Updated Name',
             'email' => 'updated@test.com',
             'role' => 'admin',
-            'password' => 'newpassword123'
+            'password' => 'newpassword123',
         ];
 
         $response = $this->actingAs($this->adminUser)
-                         ->put(route('admin.user.update', $this->regularUser->id), $updateData);
+            ->put(route('admin.user.update', $this->regularUser->id), $updateData);
 
         $response->assertRedirect(route('admin.user'));
         $response->assertSessionHas('success', 'Account updated successfully!');
@@ -220,7 +221,7 @@ class UsersControllerFeatureTest extends TestCase
             'id' => $this->regularUser->id,
             'name' => 'Updated Name',
             'email' => 'updated@test.com',
-            'role' => 'admin'
+            'role' => 'admin',
         ]);
 
         // Verify password updated
@@ -231,16 +232,16 @@ class UsersControllerFeatureTest extends TestCase
     public function test_update_preserves_password_when_empty()
     {
         $originalPassword = $this->regularUser->password;
-        
+
         $updateData = [
             'name' => 'Updated Name',
             'email' => 'updated@test.com',
             'role' => 'admin',
-            'password' => '' // Empty password
+            'password' => '', // Empty password
         ];
 
         $this->actingAs($this->adminUser)
-             ->put(route('admin.user.update', $this->regularUser->id), $updateData);
+            ->put(route('admin.user.update', $this->regularUser->id), $updateData);
 
         $updatedUser = User::find($this->regularUser->id);
         $this->assertEquals($originalPassword, $updatedUser->password);
@@ -251,11 +252,11 @@ class UsersControllerFeatureTest extends TestCase
         $updateData = [
             'name' => 'Updated Name',
             'email' => 'updated@test.com',
-            'role' => 'user'
+            'role' => 'user',
         ];
 
         $response = $this->actingAs($this->adminUser)
-                         ->put(route('admin.user.update', $this->adminUser->id), $updateData);
+            ->put(route('admin.user.update', $this->adminUser->id), $updateData);
 
         $response->assertStatus(403);
     }
@@ -266,11 +267,11 @@ class UsersControllerFeatureTest extends TestCase
             'name' => '',
             'email' => 'invalid-email',
             'role' => 'invalid_role',
-            'password' => '123'
+            'password' => '123',
         ];
 
         $response = $this->actingAs($this->adminUser)
-                         ->put(route('admin.user.update', $this->regularUser->id), $invalidData);
+            ->put(route('admin.user.update', $this->regularUser->id), $invalidData);
 
         $response->assertSessionHasErrors(['name', 'email', 'role', 'password']);
     }
@@ -280,18 +281,18 @@ class UsersControllerFeatureTest extends TestCase
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
         $user3 = User::factory()->create();
-        
+
         $deleteData = [
-            'ids' => [$user1->id, $user2->id, $user3->id]
+            'ids' => [$user1->id, $user2->id, $user3->id],
         ];
 
         $response = $this->actingAs($this->adminUser)
-                         ->delete(route('admin.user.destroy.multiple'), $deleteData);
+            ->delete(route('admin.user.destroy.multiple'), $deleteData);
 
         $response->assertStatus(200);
         $response->assertJson([
             'success' => true,
-            'message' => 'Selected accounts deleted successfully!'
+            'message' => 'Selected accounts deleted successfully!',
         ]);
 
         // Verify users deleted
@@ -303,13 +304,13 @@ class UsersControllerFeatureTest extends TestCase
     public function test_destroy_prevents_self_deletion()
     {
         $user1 = User::factory()->create();
-        
+
         $deleteData = [
-            'ids' => [$user1->id, $this->adminUser->id] 
+            'ids' => [$user1->id, $this->adminUser->id],
         ];
 
         $this->actingAs($this->adminUser)
-             ->delete(route('admin.user.destroy.multiple'), $deleteData);
+            ->delete(route('admin.user.destroy.multiple'), $deleteData);
 
         $this->assertDatabaseMissing('users', ['id' => $user1->id]);
         $this->assertDatabaseHas('users', ['id' => $this->adminUser->id]);
@@ -318,11 +319,11 @@ class UsersControllerFeatureTest extends TestCase
     public function test_destroy_returns_json_for_ajax_request()
     {
         $user = User::factory()->create();
-        
+
         $response = $this->actingAs($this->adminUser)
-                         ->deleteJson(route('admin.user.destroy.multiple'), [
-                             'ids' => [$user->id]
-                         ]);
+            ->deleteJson(route('admin.user.destroy.multiple'), [
+                'ids' => [$user->id],
+            ]);
 
         $response->assertStatus(200);
         $response->assertJson(['success' => true]);
@@ -332,11 +333,11 @@ class UsersControllerFeatureTest extends TestCase
     public function test_destroy_single_user()
     {
         app()->setLocale('vi');
-        
+
         $user = User::factory()->create();
 
         $response = $this->actingAs($this->adminUser)
-                         ->delete(route('admin.user.destroy', $user->id));
+            ->delete(route('admin.user.destroy', $user->id));
 
         $response->assertRedirect(route('admin.user'));
         $response->assertSessionHas('success', 'Xóa tài khoản thành công!');
@@ -346,7 +347,7 @@ class UsersControllerFeatureTest extends TestCase
     public function test_destroy_single_prevents_self_deletion()
     {
         $response = $this->actingAs($this->adminUser)
-                         ->delete(route('admin.user.destroy', $this->adminUser->id));
+            ->delete(route('admin.user.destroy', $this->adminUser->id));
 
         $response->assertStatus(403);
         $this->assertDatabaseHas('users', ['id' => $this->adminUser->id]);
@@ -357,7 +358,7 @@ class UsersControllerFeatureTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($this->adminUser)
-                         ->deleteJson(route('admin.user.destroy', $user->id));
+            ->deleteJson(route('admin.user.destroy', $user->id));
 
         $response->assertStatus(200);
         $response->assertJson(['success' => true]);
@@ -370,11 +371,11 @@ class UsersControllerFeatureTest extends TestCase
         $order = Order::factory()->create(['user_id' => $this->regularUser->id]);
         $cart = Cart::factory()->create([
             'user_id' => $this->regularUser->id,
-            'product_id' => $product->id
+            'product_id' => $product->id,
         ]);
 
         $response = $this->actingAs($this->adminUser)
-                         ->get(route('admin.user.show', $this->regularUser->id));
+            ->get(route('admin.user.show', $this->regularUser->id));
 
         $response->assertStatus(200);
         $response->assertViewIs('admin.users.show');
@@ -389,17 +390,17 @@ class UsersControllerFeatureTest extends TestCase
     {
         $user1 = User::factory()->create([
             'name' => 'John Doe',
-            'email' => 'john@example.com'
+            'email' => 'john@example.com',
         ]);
-        
+
         $user2 = User::factory()->create([
             'name' => 'Jane Smith',
-            'email' => 'jane@example.com'
+            'email' => 'jane@example.com',
         ]);
 
         // Search by name
         $response = $this->actingAs($this->adminUser)
-                         ->get(route('admin.user.search', ['query' => 'John']));
+            ->get(route('admin.user.search', ['query' => 'John']));
 
         $response->assertStatus(200);
         $responseData = $response->json();
@@ -408,7 +409,7 @@ class UsersControllerFeatureTest extends TestCase
 
         // Search by email
         $response = $this->actingAs($this->adminUser)
-                         ->get(route('admin.user.search', ['query' => 'jane@example.com']));
+            ->get(route('admin.user.search', ['query' => 'jane@example.com']));
 
         $response->assertStatus(200);
         $responseData = $response->json();
@@ -419,7 +420,7 @@ class UsersControllerFeatureTest extends TestCase
     public function test_search_excludes_current_admin()
     {
         $response = $this->actingAs($this->adminUser)
-                         ->get(route('admin.user.search', ['query' => $this->adminUser->name]));
+            ->get(route('admin.user.search', ['query' => $this->adminUser->name]));
 
         $response->assertStatus(200);
         $data = $response->json();
@@ -429,7 +430,7 @@ class UsersControllerFeatureTest extends TestCase
     public function test_search_returns_no_users_found_message()
     {
         $response = $this->actingAs($this->adminUser)
-                         ->get(route('admin.user.search', ['query' => 'nonexistentuser']));
+            ->get(route('admin.user.search', ['query' => 'nonexistentuser']));
 
         $response->assertStatus(200);
         $responseData = $response->json();
@@ -442,11 +443,11 @@ class UsersControllerFeatureTest extends TestCase
         $user = User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
-            'role' => 'user'
+            'role' => 'user',
         ]);
 
         $response = $this->actingAs($this->adminUser)
-                         ->get(route('admin.user.search', ['query' => 'Test']));
+            ->get(route('admin.user.search', ['query' => 'Test']));
 
         $response->assertStatus(200);
         $data = $response->json();
@@ -464,15 +465,15 @@ class UsersControllerFeatureTest extends TestCase
     {
         $user = User::factory()->create([
             'name' => '<script>alert("xss")</script>',
-            'email' => 'test@example.com'
+            'email' => 'test@example.com',
         ]);
 
         $response = $this->actingAs($this->adminUser)
-                         ->get(route('admin.user.search', ['query' => 'script']));
+            ->get(route('admin.user.search', ['query' => 'script']));
 
         $response->assertStatus(200);
         $data = $response->json();
-        
+
         // HTML entities should be escaped
         $this->assertStringContainsString('&lt;script&gt;', $data['html']);
         $this->assertStringNotContainsString('<script>', $data['html']);
@@ -482,39 +483,39 @@ class UsersControllerFeatureTest extends TestCase
     {
         // Test update clears cache
         Cache::put('admin_users_all', 'test_data', 600);
-        
+
         $this->actingAs($this->adminUser)
-             ->put(route('admin.user.update', $this->regularUser->id), [
-                 'name' => 'Updated',
-                 'email' => 'updated@test.com',
-                 'role' => 'user'
-             ]);
-        
+            ->put(route('admin.user.update', $this->regularUser->id), [
+                'name' => 'Updated',
+                'email' => 'updated@test.com',
+                'role' => 'user',
+            ]);
+
         $this->assertFalse(Cache::has('admin_users_all'));
 
         // Test destroy clears cache
         Cache::put('admin_users_all', 'test_data', 600);
         $user = User::factory()->create();
-        
+
         $this->actingAs($this->adminUser)
-             ->delete(route('admin.user.destroy.multiple'), ['ids' => [$user->id]]);
-        
+            ->delete(route('admin.user.destroy.multiple'), ['ids' => [$user->id]]);
+
         $this->assertFalse(Cache::has('admin_users_all'));
 
         // Test destroySingle clears cache
         Cache::put('admin_users_all', 'test_data', 600);
         $user2 = User::factory()->create();
-        
+
         $this->actingAs($this->adminUser)
-             ->delete(route('admin.user.destroy', $user2->id));
-        
+            ->delete(route('admin.user.destroy', $user2->id));
+
         $this->assertFalse(Cache::has('admin_users_all'));
     }
 
     public function test_all_routes_require_authentication()
     {
         $user = User::factory()->create();
-        
+
         $routes = [
             ['GET', route('admin.user')],
             ['GET', route('admin.user.create')],
@@ -524,7 +525,7 @@ class UsersControllerFeatureTest extends TestCase
             ['DELETE', route('admin.user.destroy.multiple')],
             ['DELETE', route('admin.user.destroy', $user->id)],
             ['GET', route('admin.user.show', $user->id)],
-            ['GET', route('admin.user.search')]
+            ['GET', route('admin.user.search')],
         ];
 
         foreach ($routes as $route) {
@@ -539,10 +540,10 @@ class UsersControllerFeatureTest extends TestCase
     public function test_routes_require_admin_authorization()
     {
         $regularUser = User::factory()->create(['role' => 'user']);
-        
+
         $response = $this->actingAs($regularUser)
-                         ->get(route('admin.user'));
-        
+            ->get(route('admin.user'));
+
         $this->assertTrue(
             $response->status() === 403 || $response->isRedirect(),
             'Regular user should not access admin routes'

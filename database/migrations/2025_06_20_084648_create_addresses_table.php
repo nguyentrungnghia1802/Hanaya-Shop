@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('addresses')) {
+        if (! Schema::hasTable('addresses')) {
             Schema::create('addresses', function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('user_id')->constrained()->onDelete('cascade');
@@ -23,7 +23,6 @@ return new class extends Migration
             });
         }
     }
-
 
     /**
      * Reverse the migrations.

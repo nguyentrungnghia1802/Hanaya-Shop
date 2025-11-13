@@ -6,9 +6,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class ResetPassword extends Notification implements ShouldQueue
 {
@@ -40,8 +39,8 @@ class ResetPassword extends Notification implements ShouldQueue
         $this->token = $token;
         // Lấy locale từ parameter hoặc từ session hoặc fallback to app default
         $this->locale = $locale ?: Session::get('locale', config('app.locale'));
-        
-        Log::info('ResetPassword notification created with locale: ' . $this->locale);
+
+        Log::info('ResetPassword notification created with locale: '.$this->locale);
     }
 
     /**
@@ -65,15 +64,15 @@ class ResetPassword extends Notification implements ShouldQueue
     {
         // Set locale trước khi tạo nội dung email
         app()->setLocale($this->locale);
-        
+
         $url = url(route('password.reset', [
             'token' => $this->token,
             'email' => $notifiable->getEmailForPasswordReset(),
         ], false));
 
-        Log::info('Generated password reset URL: ' . $url);
-        Log::info('Sending reset email to: ' . $notifiable->getEmailForPasswordReset());
-        Log::info('Current locale for email: ' . $this->locale);
+        Log::info('Generated password reset URL: '.$url);
+        Log::info('Sending reset email to: '.$notifiable->getEmailForPasswordReset());
+        Log::info('Current locale for email: '.$this->locale);
 
         $expireMinutes = config('auth.passwords.'.config('auth.defaults.passwords').'.expire');
 

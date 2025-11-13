@@ -90,10 +90,10 @@ return [
     | List of available locales for the application.
     |
     */
-    
+
     'available_locales' => [
         'en' => 'English',
-        'vi' => 'Tiếng Việt', 
+        'vi' => 'Tiếng Việt',
         'ja' => '日本語',
     ],
 

@@ -28,7 +28,7 @@ class RegistrationTest extends TestCase
         // App uses email verification, so user is not immediately authenticated
         // Instead, they are redirected to verification notice
         $response->assertRedirect(route('verification.notice'));
-        
+
         // Check that pending registration data is stored in session
         $this->assertNotNull(session('pending_registration'));
         $this->assertEquals('test@example.com', session('pending_registration.email'));

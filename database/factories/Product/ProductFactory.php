@@ -2,10 +2,9 @@
 
 namespace Database\Factories\Product;
 
-use App\Models\Product\Product;
 use App\Models\Product\Category;
+use App\Models\Product\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Nette\Utils\Random;
 
 class ProductFactory extends Factory
 {

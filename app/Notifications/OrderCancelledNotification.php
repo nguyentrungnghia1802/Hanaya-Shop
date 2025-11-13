@@ -3,16 +3,17 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class OrderCancelledNotification extends Notification implements ShouldQueue
 {
     use Queueable;
+
     // Admin notifications sent immediately for reliability
     public $order;
+
     public $locale;
 
     /**
@@ -47,7 +48,7 @@ class OrderCancelledNotification extends Notification implements ShouldQueue
         return (new MailMessage)
             ->subject(__('notifications.order_cancelled_subject')) // Đơn hàng đã bị hủy
             ->line(__('notifications.order_cancelled_line', ['order_id' => $this->order->id])) // Đơn hàng #... đã bị hủy
-            ->action(__('notifications.view_order'), config('app.url') . '/admin/order/' . $this->order->id); // Xem đơn hàng
+            ->action(__('notifications.view_order'), config('app.url').'/admin/order/'.$this->order->id); // Xem đơn hàng
     }
 
     /**
@@ -62,7 +63,7 @@ class OrderCancelledNotification extends Notification implements ShouldQueue
 
         return [
             'order_id' => $this->order->id,
-            'message'  => __('notifications.order_cancelled_message', ['order_id' => $this->order->id]),
+            'message' => __('notifications.order_cancelled_message', ['order_id' => $this->order->id]),
         ];
     }
 }
