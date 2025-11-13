@@ -260,7 +260,7 @@ class CategoriesControllerFeatureTest extends TestCase
     public function test_destroy_deletes_category_and_image_file()
     {
         Cache::shouldReceive('forget')->once()->with('admin_categories_all');
-        Log::shouldReceive('info')->once()->with('Image deleted successfully.');
+        Log::shouldReceive('info')->once()->with('Image deleted successfully!');
         Log::shouldReceive('error')->zeroOrMoreTimes(); // Allow error logs
 
         $category = Category::factory()->create([

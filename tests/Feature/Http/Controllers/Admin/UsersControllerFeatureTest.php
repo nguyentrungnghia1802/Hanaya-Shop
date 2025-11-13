@@ -286,7 +286,7 @@ class UsersControllerFeatureTest extends TestCase
         ];
 
         $response = $this->actingAs($this->adminUser)
-                         ->delete(route('admin.user.destroy'), $deleteData);
+                         ->delete(route('admin.user.destroy.multiple'), $deleteData);
 
         $response->assertRedirect(route('admin.user'));
         $response->assertSessionHas('success', 'Xóa tài khoản thành công!');
@@ -306,7 +306,7 @@ class UsersControllerFeatureTest extends TestCase
         ];
 
         $this->actingAs($this->adminUser)
-             ->delete(route('admin.user.destroy'), $deleteData);
+             ->delete(route('admin.user.destroy.multiple'), $deleteData);
 
         $this->assertDatabaseMissing('users', ['id' => $user1->id]);
         $this->assertDatabaseHas('users', ['id' => $this->adminUser->id]);
@@ -317,7 +317,7 @@ class UsersControllerFeatureTest extends TestCase
         $user = User::factory()->create();
         
         $response = $this->actingAs($this->adminUser)
-                         ->deleteJson(route('admin.user.destroy'), [
+                         ->deleteJson(route('admin.user.destroy.multiple'), [
                              'ids' => [$user->id]
                          ]);
 
@@ -328,6 +328,8 @@ class UsersControllerFeatureTest extends TestCase
 
     public function test_destroy_single_user()
     {
+        app()->setLocale('vi');
+        
         $user = User::factory()->create();
 
         $response = $this->actingAs($this->adminUser)
@@ -492,7 +494,7 @@ class UsersControllerFeatureTest extends TestCase
         $user = User::factory()->create();
         
         $this->actingAs($this->adminUser)
-             ->delete(route('admin.user.destroy'), ['ids' => [$user->id]]);
+             ->delete(route('admin.user.destroy.multiple'), ['ids' => [$user->id]]);
         
         $this->assertFalse(Cache::has('admin_users_all'));
 
@@ -516,7 +518,7 @@ class UsersControllerFeatureTest extends TestCase
             ['POST', route('admin.user.store')],
             ['GET', route('admin.user.edit', $user->id)],
             ['PUT', route('admin.user.update', $user->id)],
-            ['DELETE', route('admin.user.destroy')],
+            ['DELETE', route('admin.user.destroy.multiple')],
             ['DELETE', route('admin.user.destroy', $user->id)],
             ['GET', route('admin.user.show', $user->id)],
             ['GET', route('admin.user.search')]

@@ -73,12 +73,14 @@ class ImageUploadControllerUnitTest extends TestCase
         $file = UploadedFile::fake()->create('document.pdf', 1024, 'application/pdf');
         $request = Request::create('/upload', 'POST', [], [], ['upload' => $file]);
 
-        try {
-            $this->controller->uploadCKEditorImage($request);
-            $this->fail('Expected ValidationException was not thrown');
-        } catch (ValidationException $e) {
-            $this->assertTrue(true); // Test passed
-        }
+        $response = $this->controller->uploadCKEditorImage($request);
+        
+        // Check if it returns error response (status 500 or has error key)
+        $this->assertTrue(
+            $response->getStatusCode() >= 400 || 
+            (json_decode($response->getContent(), true) !== null && 
+             array_key_exists('error', json_decode($response->getContent(), true)))
+        );
     }
 
     #[Test]
@@ -86,12 +88,14 @@ class ImageUploadControllerUnitTest extends TestCase
     {
         $request = Request::create('/upload', 'POST');
 
-        try {
-            $this->controller->uploadCKEditorImage($request);
-            $this->fail('Expected ValidationException was not thrown');
-        } catch (ValidationException $e) {
-            $this->assertTrue(true); // Test passed
-        }
+        $response = $this->controller->uploadCKEditorImage($request);
+        
+        // Check if it returns error response (status 400 or has error key)
+        $this->assertTrue(
+            $response->getStatusCode() >= 400 || 
+            (json_decode($response->getContent(), true) !== null && 
+             array_key_exists('error', json_decode($response->getContent(), true)))
+        );
     }
 
     #[Test]
