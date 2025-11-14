@@ -73,7 +73,7 @@ class CategoriesControllerFeatureTest extends TestCase
 
     public function test_store_creates_category_with_valid_data_and_image()
     {
-        if (!function_exists('imagecreatetruecolor')) {
+        if (! function_exists('imagecreatetruecolor')) {
             $this->markTestSkipped('GD extension is not installed.');
         }
 
@@ -97,9 +97,9 @@ class CategoriesControllerFeatureTest extends TestCase
             'description' => 'Electronic devices and gadgets',
         ]);
 
-    // Check that image path is set in DB
-    $category = Category::where('name', 'Electronics')->first();
-    $this->assertNotNull($category->image_path);
+        // Check that image path is set in DB
+        $category = Category::where('name', 'Electronics')->first();
+        $this->assertNotNull($category->image_path);
     }
 
     public function test_store_creates_category_without_image_uses_default()
@@ -492,7 +492,7 @@ class CategoriesControllerFeatureTest extends TestCase
 
     public function test_complete_category_lifecycle()
     {
-        if (!function_exists('imagecreatetruecolor')) {
+        if (! function_exists('imagecreatetruecolor')) {
             $this->markTestSkipped('GD extension is not installed.');
         }
 
@@ -517,7 +517,7 @@ class CategoriesControllerFeatureTest extends TestCase
             ->get(route('admin.category.show', $category->id));
 
         $showResponse->assertStatus(200);
-            $showResponse->assertSee('Lifecycle Test Category', false);
+        $showResponse->assertSee('Lifecycle Test Category', false);
 
         $updateResponse = $this->actingAs($this->user)
             ->put(route('admin.category.update', $category->id), [
