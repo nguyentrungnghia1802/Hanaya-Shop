@@ -1,8 +1,10 @@
 name: Production Deploy
 
 on:
+  pull_request:
+    branches: [main]  # Trigger on PR to main
   push:
-    branches: [main]
+    branches: [main]  # Trigger on push to main
     paths-ignore:
       - 'README.md'
       - 'docs/**'
@@ -14,11 +16,43 @@ on:
       - 'deployment/BRANCH_STRATEGY.md'
       - 'deployment/CICD_SETUP.md'
   workflow_dispatch:
+  workflow_run:
+    workflows: ["CI Tests"]  # Wait for CI Tests to complete
+    types: [completed]
+    branches: [main]
 
 jobs:
+  check-ci-success:
+    runs-on: ubuntu-latest
+    name: Check CI Tests Success
+    if: |
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') ||
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'pull_request' && github.base_ref == 'main')
+    outputs:
+      deploy: ${{ steps.check.outputs.deploy }}
+    steps:
+      - name: Check CI completion
+        id: check
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_run" ]; then
+            if [ "${{ github.event.workflow_run.conclusion }}" = "success" ]; then
+              echo "deploy=true" >> $GITHUB_OUTPUT
+              echo "✅ CI Tests passed - proceeding with deployment"
+            else
+              echo "deploy=false" >> $GITHUB_OUTPUT
+              echo "❌ CI Tests failed - skipping deployment"
+            fi
+          else
+            echo "deploy=true" >> $GITHUB_OUTPUT
+            echo "✅ Direct trigger - proceeding with deployment"
+          fi
+
   build-and-deploy:
     runs-on: ubuntu-latest
     name: Build & Deploy to Production
+    needs: check-ci-success
+    if: needs.check-ci-success.outputs.deploy == 'true'
     environment:
       name: production
       url: http://www.hanayashop.com
@@ -26,7 +60,8 @@ jobs:
     steps:
       - name: Debug Info
         run: |
-          echo "Workflow started!"
+          echo "🚀 Production deployment started!"
+          echo "Event: ${{ github.event_name }}"
           echo "Branch: ${{ github.ref }}"
           echo "Commit: ${{ github.sha }}"
           echo "Repository: ${{ github.repository }}"
