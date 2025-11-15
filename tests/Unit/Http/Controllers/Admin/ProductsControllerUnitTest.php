@@ -33,7 +33,7 @@ class ProductsControllerUnitTest extends TestCase
         $this->controller = new ProductsController;
         $this->category = Category::factory()->create();
         $this->testUploadPath = public_path('images/products');
-        
+
         // Set up cache for testing
         $this->app['config']->set('cache.default', 'array');
         $this->app['config']->set('session.driver', 'array');
