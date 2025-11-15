@@ -42,14 +42,14 @@ return [
     'product_images' => 'Hình ảnh sản phẩm',
     'description' => 'Mô tả',
     'stock' => 'Tồn kho',
-    
+
     // Categories
     'soap_flower' => 'Hoa sáp',
     'souvenir' => 'Quà lưu niệm',
     'fresh_flower' => 'Hoa tươi',
     'gift_set' => 'Bộ quà tặng',
     'special_flower' => 'Hoa đặc biệt',
-    
+
     // Price & Stock
     'regular_price' => 'Giá thường',
     'sale_price' => 'Giá khuyến mại',
@@ -87,14 +87,14 @@ return [
     'style' => 'Phong cách',
     'pattern' => 'Họa tiết',
     'finish' => 'Hoàn thiện',
-    
+
     // Quantity
     'quantity' => 'Số lượng',
     'qty' => 'SL',
     'min_quantity' => 'Số lượng tối thiểu: :min',
     'max_quantity' => 'Số lượng tối đa: :max',
     'quantity_available' => 'Chỉ còn :count sản phẩm',
-    
+
     // Reviews & Ratings
     'customer_reviews' => 'Đánh giá khách hàng',
     'write_review' => 'Viết đánh giá',
@@ -106,7 +106,7 @@ return [
     'be_first_review' => 'Hãy là người đầu tiên đánh giá sản phẩm này',
     'helpful_review' => 'Đánh giá này có hữu ích không?',
     'verified_purchase' => 'Đã mua hàng',
-    
+
     // Related Products
     'related_products' => 'Sản phẩm liên quan',
     'similar_products' => 'Sản phẩm tương tự',
@@ -114,7 +114,7 @@ return [
     'customers_also_bought' => 'Khách hàng cũng đã mua',
     'recommended_for_you' => 'Đề xuất cho bạn',
     'you_might_like' => 'Bạn có thể thích',
-    
+
     // Product Categories
     'browse_categories' => 'Duyệt danh mục',
     'product_categories' => 'Danh mục sản phẩm',
@@ -123,7 +123,7 @@ return [
     'brand' => 'Thương hiệu',
     'collection' => 'Bộ sưu tập',
     'series' => 'Dòng sản phẩm',
-    
+
     // Search & Filter
     'search_products' => 'Tìm kiếm sản phẩm',
     'filter_by_brand' => 'Lọc theo thương hiệu',
@@ -156,7 +156,7 @@ return [
     'eco_friendly' => 'Thân thiện môi trường',
     'handmade' => 'Làm thủ công',
     'premium' => 'Cao cấp',
-    
+
     // Messages
     'added_to_cart' => 'Đã thêm vào giỏ hàng thành công!',
     'added_to_wishlist' => 'Đã thêm vào danh sách yêu thích!',
@@ -166,7 +166,7 @@ return [
     'max_quantity_reached' => 'Đã đạt số lượng tối đa',
     'insufficient_stock' => 'Không đủ hàng trong kho',
     'error_adding_to_cart' => 'Lỗi khi thêm sản phẩm vào giỏ hàng.',
-    
+
     // Cart translations
     'cart' => 'Giỏ hàng',
     'cart_title' => '🛒 Giỏ hàng',
@@ -185,7 +185,7 @@ return [
     'cart_empty_message' => 'Giỏ hàng của bạn hiện đang trống.',
     'start_shopping' => 'Bắt đầu mua sắm',
 
-    //Product Detail
+    // Product Detail
     'views' => 'Lượt xem',
     'choose_quantity' => 'Chọn số lượng sản phẩm',
     'sign_in_required' => 'Cần đăng nhập',

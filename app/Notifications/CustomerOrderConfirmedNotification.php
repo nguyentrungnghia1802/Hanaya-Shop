@@ -11,7 +11,9 @@ use Illuminate\Support\Facades\Session;
 class CustomerOrderConfirmedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
+
     public $order;
+
     public $locale;
 
     /**
@@ -45,7 +47,7 @@ class CustomerOrderConfirmedNotification extends Notification implements ShouldQ
         return (new MailMessage)
             ->subject(__('notifications.order_confirmed_subject'))
             ->line(__('notifications.order_confirmed_line', ['order_id' => $this->order->id]))
-            ->action(__('notifications.view_order'), config('app.url') . '/order/' . $this->order->id);
+            ->action(__('notifications.view_order'), config('app.url').'/order/'.$this->order->id);
     }
 
     /**
@@ -57,7 +59,7 @@ class CustomerOrderConfirmedNotification extends Notification implements ShouldQ
     {
         return [
             'order_id' => $this->order->id,
-            'message'  => __('notifications.order_confirmed_message', ['order_id' => $this->order->id]),
+            'message' => __('notifications.order_confirmed_message', ['order_id' => $this->order->id]),
         ];
     }
 }

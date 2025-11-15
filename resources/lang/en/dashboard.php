@@ -5,12 +5,12 @@ return [
     'dashboard' => 'Dashboard',
     'welcome' => 'Welcome',
     'home' => 'Home',
-    
+
     // Categories
     'categories' => 'Categories',
     'all_categories' => 'All Categories',
     'view_all_categories' => 'View All Categories',
-    
+
     // Products
     'products' => 'Products',
     'latest_products' => 'Latest Products',
@@ -35,7 +35,7 @@ return [
     'views' => 'views',
     'sale_products' => 'Sale Products',
     'most_viewed_products' => 'Most Viewed Products',
-    
+
     // Features Section
     'why_choose_hanaya' => 'Why Choose Hanaya Shop?',
     'quality_commitment' => 'We are committed to bringing you the highest quality products',
@@ -52,14 +52,14 @@ return [
     'satisfaction_guarantee_desc' => '30-day money back guarantee on all purchases',
     'eco_friendly' => 'Eco-Friendly',
     'eco_friendly_desc' => 'Made with sustainable and environmentally safe materials',
-    
+
     // Posts/News
     'latest_posts' => 'Latest Posts',
     'blog' => 'Blog',
     'news' => 'News',
     'read_more' => 'Read More',
     'view_all_posts' => 'View All Posts',
-    
+
     // Shopping
     'cart' => 'Cart',
     'checkout' => 'Checkout',
@@ -73,7 +73,7 @@ return [
     'subtotal' => 'Subtotal',
     'shipping' => 'Shipping',
     'tax' => 'Tax',
-    
+
     // User Account
     'my_account' => 'My Account',
     'profile' => 'Profile',
@@ -83,7 +83,7 @@ return [
     'personal_information' => 'Personal Information',
     'address_book' => 'Address Book',
     'wishlist' => 'Wishlist',
-    
+
     // Common Actions
     'view' => 'View',
     'edit' => 'Edit',
@@ -99,7 +99,7 @@ return [
     'search_results' => 'Search Results',
     'no_results' => 'No results found',
     'loading' => 'Loading...',
-    
+
     // Messages
     'success' => 'Success!',
     'error' => 'Error!',

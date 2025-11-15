@@ -54,7 +54,6 @@ return [
     'user_status' => 'Trạng thái người dùng',
     'operation_successful' => 'Thao tác thành công',
 
-
     // Common actions
     'create' => 'Tạo',
     'edit' => 'Sửa',
@@ -249,33 +248,33 @@ return [
     'all' => 'Tất cả',
 
     // posts index
-    'posts_management'      => 'Quản lý bài viết',
-    'add_new_post'          => 'Thêm bài viết mới',
-    'search_posts'          => 'Tìm kiếm bài viết...',
-    'clear_filter'          => 'Xóa bộ lọc',
-    'title'                 => 'Tiêu đề',
-    'author'                => 'Tác giả',
-    'visible'               => 'Hiển thị',
-    'hidden'                => 'Ẩn',
-    'no_posts_found'        => 'Không tìm thấy bài viết nào.',
+    'posts_management' => 'Quản lý bài viết',
+    'add_new_post' => 'Thêm bài viết mới',
+    'search_posts' => 'Tìm kiếm bài viết...',
+    'clear_filter' => 'Xóa bộ lọc',
+    'title' => 'Tiêu đề',
+    'author' => 'Tác giả',
+    'visible' => 'Hiển thị',
+    'hidden' => 'Ẩn',
+    'no_posts_found' => 'Không tìm thấy bài viết nào.',
 
     // posts create
-    'create_new_post'       => 'Tạo bài viết mới',
-    'content'               => 'Nội dung',
-    'guide'                 => 'Hướng dẫn',
-    'image_button_title'    => 'Nút Chèn Ảnh:',
-    'image_button_desc'     => 'Nhấn nút Chèn Ảnh trên thanh công cụ',
-    'drag_drop_title'       => 'Kéo & Thả:',
-    'drag_drop_desc'        => 'Kéo và thả tệp ảnh vào trình soạn thảo',
-    'copy_paste_title'      => 'Sao chép/Dán:',
-    'copy_paste_desc'       => 'Dán hình ảnh từ clipboard',
-    'limitations_title'     => 'Giới hạn:',
-    'limitations_desc'      => 'Kích thước tối đa 10MB, định dạng: jpg, png, gif, webp',
+    'create_new_post' => 'Tạo bài viết mới',
+    'content' => 'Nội dung',
+    'guide' => 'Hướng dẫn',
+    'image_button_title' => 'Nút Chèn Ảnh:',
+    'image_button_desc' => 'Nhấn nút Chèn Ảnh trên thanh công cụ',
+    'drag_drop_title' => 'Kéo & Thả:',
+    'drag_drop_desc' => 'Kéo và thả tệp ảnh vào trình soạn thảo',
+    'copy_paste_title' => 'Sao chép/Dán:',
+    'copy_paste_desc' => 'Dán hình ảnh từ clipboard',
+    'limitations_title' => 'Giới hạn:',
+    'limitations_desc' => 'Kích thước tối đa 10MB, định dạng: jpg, png, gif, webp',
 
     // posts show
-    'post_details'          => 'Chi tiết bài viết',
-    'back'                  => 'Quay lại',
-    'by'                    => 'bởi',
+    'post_details' => 'Chi tiết bài viết',
+    'back' => 'Quay lại',
+    'by' => 'bởi',
 
     'cannot_delete_user_with_active_orders' => 'Không thể xóa người dùng có đơn hàng đang hoạt động',
 ];

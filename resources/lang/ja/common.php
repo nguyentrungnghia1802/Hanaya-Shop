@@ -21,7 +21,7 @@ return [
     'english' => 'English',
     'vietnamese' => 'Tiếng Việt',
     'japanese' => '日本語',
-    
+
     // Common actions
     'add' => '追加',
     'edit' => '編集',
@@ -41,7 +41,7 @@ return [
     'continue' => '続行',
     'confirm' => '確認',
     'loading' => '読み込み中...',
-    
+
     // Status
     'pending' => '保留中',
     'processing' => '処理中',
@@ -50,7 +50,7 @@ return [
     'cancelled' => 'キャンセル済み',
     'active' => 'アクティブ',
     'inactive' => '非アクティブ',
-    
+
     // Messages
     'success' => '成功',
     'error' => 'エラー',
@@ -58,12 +58,12 @@ return [
     'info' => '情報',
     'no_data' => 'データがありません',
     'no_results' => '結果が見つかりません',
-    
+
     // Footer
     'footer_description' => '高品質な花、意味のあるギフト、装飾アクセサリーを専門に扱っています。',
     'quick_links' => 'クイックリンク',
     'copyright' => '全著作権所有。',
-    
+
     // Shop info
     'shop_name' => 'HANAYA SHOP',
     'address' => '住所',

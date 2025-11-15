@@ -26,10 +26,9 @@ return [
     'select_all' => 'すべて選択',
     'delete' => '削除',
 
-    //alerts
-    'out_of_stock_alert'    => '在庫切れ',
-    'added_to_cart'         => '商品がカートに追加されました',
-    'removed_from_cart'     => '商品がカートから削除されました',
-
+    // alerts
+    'out_of_stock_alert' => '在庫切れ',
+    'added_to_cart' => '商品がカートに追加されました',
+    'removed_from_cart' => '商品がカートから削除されました',
 
 ];

@@ -16,10 +16,10 @@ class DatabaseSeeder extends Seeder
     {
         // Tạo categories trước
         Category::factory()->count(5)->create();
-        
+
         // Tạo products
         Product::factory()->count(50)->create();
-        
+
         // Tạo posts và users
         $this->call([
             UserSeeder::class,

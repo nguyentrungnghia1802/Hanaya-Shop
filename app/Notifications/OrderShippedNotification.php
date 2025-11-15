@@ -3,10 +3,9 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class OrderShippedNotification extends Notification implements ShouldQueue
 {
@@ -14,6 +13,7 @@ class OrderShippedNotification extends Notification implements ShouldQueue
     // Admin notifications sent immediately for reliability
 
     public $order;
+
     public $locale;
 
     /**
@@ -48,7 +48,7 @@ class OrderShippedNotification extends Notification implements ShouldQueue
         return (new MailMessage)
             ->subject(__('notifications.order_shipped_subject', ['order_id' => $this->order->id]))
             ->line(__('notifications.order_shipped_line', ['order_id' => $this->order->id]))
-            ->action(__('notifications.view_order'), config('app.url') . '/admin/order/' . $this->order->id)
+            ->action(__('notifications.view_order'), config('app.url').'/admin/order/'.$this->order->id)
             ->line(__('notifications.order_shipped_thank_you'));
     }
 
@@ -64,7 +64,7 @@ class OrderShippedNotification extends Notification implements ShouldQueue
 
         return [
             'order_id' => $this->order->id,
-            'message'  => __('notifications.order_shipped_message', ['order_id' => $this->order->id]),
+            'message' => __('notifications.order_shipped_message', ['order_id' => $this->order->id]),
         ];
     }
 }

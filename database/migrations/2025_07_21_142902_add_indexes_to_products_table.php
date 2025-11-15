@@ -14,25 +14,25 @@ return new class extends Migration
         Schema::table('products', function (Blueprint $table) {
             // Index for category filtering
             $table->index('category_id');
-            
+
             // Index for sorting by price
             $table->index('price');
-            
+
             // Index for sorting by discount
             $table->index('discount_percent');
-            
+
             // Index for sorting by view count
             $table->index('view_count');
-            
+
             // Index for sorting by creation date
             $table->index('created_at');
-            
+
             // Composite index for category + price (common filtering combination)
             $table->index(['category_id', 'price']);
-            
+
             // Composite index for discount + price (sale products)
             $table->index(['discount_percent', 'price']);
-            
+
             // Full text search index for name and descriptions
             $table->fullText(['name', 'descriptions']);
         });
