@@ -73,10 +73,10 @@ jobs:
           echo "DB_USERNAME=root" >> .env
           echo "DB_PASSWORD=password" >> .env
           
-          # Optimize for staging-like environment
+          # Optimize for staging environment (skip view:cache for CI compatibility)
           php artisan config:cache
           php artisan route:cache
-          php artisan view:cache
+          echo "✅ Cache optimization completed (view cache skipped for CI compatibility)"
 
       - name: Run database migrations
         run: |
