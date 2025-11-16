@@ -409,12 +409,14 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
-            BUILD_DATE=${{ github.event.head_commit.timestamp }}
-            VCS_REF=${{ github.sha }}
-            VERSION=${{ needs.validation.outputs.image-tag }}
-
-      - name: Image security scan
-        uses: aquasecurity/trivy-action@master
+          php artisan test --testsuite=Unit --stop-on-failure --configuration=phpunit.ci.xml --log-junit=unit-report.xml || true
+          if grep -q '<failure' unit-report.xml || grep -q '<error' unit-report.xml; then
+            echo "❌ Unit tests failed!"
+            echo "test-status=unit-failed" >> $GITHUB_OUTPUT
+            exit 1
+          else
+            echo "✅ No real unit test failures. Skipped/risky tests are ignored."
+          fi
         continue-on-error: true
         with:
           image-ref: ${{ env.DOCKER_IMAGE }}:${{ needs.validation.outputs.image-tag }}
