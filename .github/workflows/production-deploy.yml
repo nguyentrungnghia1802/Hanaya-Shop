@@ -163,6 +163,49 @@ jobs:
           echo "MAIL_FROM_ADDRESS=noreply@hanaya-shop.com" >> .env
           echo 'MAIL_FROM_NAME="Hanaya Shop"' >> .env
           echo "BCRYPT_ROUNDS=4" >> .env
+          
+          # Create a custom phpunit config for CI that uses MySQL
+          cat > phpunit.ci.xml << 'EOF'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+                   bootstrap="vendor/autoload.php"
+                   colors="true"
+          >
+              <testsuites>
+                  <testsuite name="Unit">
+                      <directory>tests/Unit</directory>
+                  </testsuite>
+                  <testsuite name="Feature">
+                      <directory>tests/Feature</directory>
+                  </testsuite>
+              </testsuites>
+              <source>
+                  <include>
+                      <directory>app</directory>
+                  </include>
+              </source>
+              <php>
+                  <env name="APP_ENV" value="testing"/>
+                  <env name="APP_MAINTENANCE_DRIVER" value="file"/>
+                  <env name="BCRYPT_ROUNDS" value="4"/>
+                  <env name="CACHE_STORE" value="array"/>
+                  <env name="DB_CONNECTION" value="mysql"/>
+                  <env name="DB_HOST" value="127.0.0.1"/>
+                  <env name="DB_PORT" value="3306"/>
+                  <env name="DB_DATABASE" value="hanaya_shop_prod_test"/>
+                  <env name="DB_USERNAME" value="root"/>
+                  <env name="DB_PASSWORD" value="password"/>
+                  <env name="MAIL_MAILER" value="array"/>
+                  <env name="MAIL_FROM_ADDRESS" value="test@hanaya-shop.com"/>
+                  <env name="MAIL_FROM_NAME" value="Hanaya Shop Test"/>
+                  <env name="PULSE_ENABLED" value="false"/>
+                  <env name="QUEUE_CONNECTION" value="sync"/>
+                  <env name="SESSION_DRIVER" value="array"/>
+                  <env name="TELESCOPE_ENABLED" value="false"/>
+              </php>
+          </phpunit>
+          EOF
 
       - name: Prepare application
         run: |
@@ -190,6 +233,28 @@ jobs:
           # Seed basic data for feature tests
           php artisan db:seed --force --class=DatabaseSeeder || echo "⚠️ Seeding failed or not needed"
 
+      - name: Debug test environment
+        run: |
+          echo "🔍 Debugging test environment..."
+          echo "Current environment variables:"
+          echo "APP_ENV: $APP_ENV"
+          echo "DB_CONNECTION: $DB_CONNECTION"
+          php artisan env
+          
+          echo "🔍 Checking auth configuration..."
+          php artisan route:list | grep -E "(login|auth)" || echo "No auth routes found"
+          
+          echo "🔍 Testing basic functionality..."
+          php artisan tinker --execute="echo 'PHP is working'; echo User::count();"
+          
+          echo "🔍 PHPUnit configuration check..."
+          echo "Default phpunit.xml exists: $([ -f phpunit.xml ] && echo 'yes' || echo 'no')"
+          echo "CI phpunit.ci.xml exists: $([ -f phpunit.ci.xml ] && echo 'yes' || echo 'no')"
+          
+          # Test database connection
+          echo "🔍 Testing database connection..."
+          php artisan migrate:status || echo "Migration status check failed"
+          
       - name: Execute comprehensive test suite
         id: test-execution
         continue-on-error: true
@@ -201,7 +266,7 @@ jobs:
           
           # Core functionality tests (without parallel to avoid race conditions)
           echo "🧪 Running Unit Tests..."
-          if ! php artisan test --testsuite=Unit --stop-on-failure; then
+          if ! php artisan test --testsuite=Unit --stop-on-failure --configuration=phpunit.ci.xml; then
             echo "❌ Unit tests failed!"
             echo "test-status=unit-failed" >> $GITHUB_OUTPUT
             exit 1
@@ -216,9 +281,7 @@ jobs:
           
           # Essential feature tests with proper environment setup
           echo "🧪 Running Essential Feature Tests..."
-          export APP_ENV=testing
-          export DB_CONNECTION=mysql
-          if ! php artisan test --testsuite=Feature --filter="ExampleTest|AuthenticationTest|PasswordConfirmationTest|PasswordUpdateTest|RegistrationTest" --stop-on-failure --verbose --env=testing; then
+          if ! php artisan test --testsuite=Feature --filter="ExampleTest|AuthenticationTest|PasswordConfirmationTest|PasswordUpdateTest|RegistrationTest" --stop-on-failure --configuration=phpunit.ci.xml; then
             echo "❌ Essential feature tests failed!"
             echo "test-status=feature-failed" >> $GITHUB_OUTPUT
             exit 1
