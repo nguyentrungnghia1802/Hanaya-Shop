@@ -15,6 +15,7 @@ on:
       - 'deployment/BRANCH_STRATEGY.md'
       - 'deployment/CICD_SETUP.md'
 
+  # Only validate PRs to main, don't deploy
   pull_request:
     branches: [main]
     types: [opened, synchronize, reopened, ready_for_review]
@@ -56,6 +57,7 @@ jobs:
       is-pr: ${{ steps.context.outputs.is-pr }}
       deploy-env: ${{ steps.context.outputs.deploy-env }}
       should-deploy: ${{ steps.context.outputs.should-deploy }}
+      should-build: ${{ steps.context.outputs.should-build }}
       image-tag: ${{ steps.context.outputs.image-tag }}
       
     steps:
@@ -65,19 +67,22 @@ jobs:
           # Determine deployment context
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
             echo "is-pr=true" >> $GITHUB_OUTPUT
-            echo "deploy-env=staging" >> $GITHUB_OUTPUT
-            echo "should-deploy=false" >> $GITHUB_OUTPUT  # PR = test only
+            echo "deploy-env=validation" >> $GITHUB_OUTPUT
+            echo "should-deploy=false" >> $GITHUB_OUTPUT  # PR = validation only
             echo "image-tag=pr-${{ github.event.number }}" >> $GITHUB_OUTPUT
+            echo "should-build=false" >> $GITHUB_OUTPUT  # Skip Docker build for PR validation
           elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
             echo "is-pr=false" >> $GITHUB_OUTPUT
             echo "deploy-env=${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
             echo "should-deploy=true" >> $GITHUB_OUTPUT
             echo "image-tag=manual-${{ github.sha }}" >> $GITHUB_OUTPUT
+            echo "should-build=true" >> $GITHUB_OUTPUT
           else
             echo "is-pr=false" >> $GITHUB_OUTPUT
             echo "deploy-env=production" >> $GITHUB_OUTPUT
             echo "should-deploy=true" >> $GITHUB_OUTPUT
             echo "image-tag=prod-${{ github.sha }}" >> $GITHUB_OUTPUT
+            echo "should-build=true" >> $GITHUB_OUTPUT
           fi
           
       - name: Display deployment info
@@ -372,6 +377,8 @@ jobs:
     name: 🐳 Build & Push Docker Image
     runs-on: ubuntu-latest
     needs: [validation, comprehensive-tests]
+    # Skip Docker build for PR validation
+    if: needs.validation.outputs.should-build == 'true'
     environment: ${{ needs.validation.outputs.deploy-env }}
     
     steps:
@@ -409,14 +416,12 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
-          php artisan test --testsuite=Unit --stop-on-failure --configuration=phpunit.ci.xml --log-junit=unit-report.xml || true
-          if grep -q '<failure' unit-report.xml || grep -q '<error' unit-report.xml; then
-            echo "❌ Unit tests failed!"
-            echo "test-status=unit-failed" >> $GITHUB_OUTPUT
-            exit 1
-          else
-            echo "✅ No real unit test failures. Skipped/risky tests are ignored."
-          fi
+            BUILD_DATE=${{ github.event.head_commit.timestamp }}
+            VCS_REF=${{ github.sha }}
+            VERSION=${{ needs.validation.outputs.image-tag }}
+
+      - name: Image security scan
+        uses: aquasecurity/trivy-action@master
         continue-on-error: true
         with:
           image-ref: ${{ env.DOCKER_IMAGE }}:${{ needs.validation.outputs.image-tag }}
@@ -428,7 +433,10 @@ jobs:
     name: 🚀 Deploy to Production
     runs-on: ubuntu-latest
     needs: [validation, comprehensive-tests, docker-build]
-    if: needs.validation.outputs.should-deploy == 'true'
+    # Only deploy if should-deploy=true AND docker-build succeeded (or was skipped)
+    if: |
+      needs.validation.outputs.should-deploy == 'true' && 
+      (needs.docker-build.result == 'success' || needs.docker-build.result == 'skipped')
     environment:
       name: ${{ needs.validation.outputs.deploy-env }}
       url: ${{ needs.validation.outputs.deploy-env == 'production' && 'http://www.hanayashop.com' || 'http://staging.hanayashop.com' }}
@@ -571,7 +579,7 @@ jobs:
           echo "|-------|--------|---------|" >> $GITHUB_STEP_SUMMARY
           echo "| 🔍 Validation | ${{ needs.validation.result == 'success' && '✅ Passed' || '❌ Failed' }} | Environment: ${{ needs.validation.outputs.deploy-env }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 🧪 Tests | ${{ needs.comprehensive-tests.result == 'success' && '✅ All Passed' || '❌ Failed' }} | Production-ready validation |" >> $GITHUB_STEP_SUMMARY
-          echo "| 🐳 Docker Build | ${{ needs.docker-build.result == 'success' && '✅ Built & Pushed' || '❌ Failed' }} | Tag: ${{ needs.validation.outputs.image-tag }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🐳 Docker Build | ${{ needs.docker-build.result == 'success' && '✅ Built & Pushed' || needs.docker-build.result == 'skipped' && '⏭️ Skipped (PR)' || '❌ Failed' }} | Tag: ${{ needs.validation.outputs.image-tag }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 🚀 Deployment | ${{ needs.deploy.result == 'success' && '✅ Deployed' || needs.deploy.result == 'skipped' && '⏭️ Skipped (PR)' || '❌ Failed' }} | Target: ${{ needs.validation.outputs.deploy-env }} |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           
@@ -585,7 +593,9 @@ jobs:
             echo "- 🔄 Update documentation if needed" >> $GITHUB_STEP_SUMMARY
           elif [[ "${{ needs.validation.outputs.is-pr }}" == "true" ]]; then
             echo "### ✅ PR Validation Complete" >> $GITHUB_STEP_SUMMARY
-            echo "All tests passed! This PR is ready for review and merge." >> $GITHUB_STEP_SUMMARY
+            echo "All validation tests passed! This PR is ready for review and merge." >> $GITHUB_STEP_SUMMARY
+            echo "🔍 **Validation included:** Unit tests, feature tests, code style, security scan" >> $GITHUB_STEP_SUMMARY
+            echo "⚡ **Optimized:** Docker build skipped for PR to save resources" >> $GITHUB_STEP_SUMMARY
           else
             echo "### ⚠️ Deployment Issues" >> $GITHUB_STEP_SUMMARY
             echo "Some stages failed. Please review the logs and retry if necessary." >> $GITHUB_STEP_SUMMARY
