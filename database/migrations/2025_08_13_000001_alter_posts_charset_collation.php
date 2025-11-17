@@ -7,10 +7,13 @@ return new class extends Migration
 {
     public function up(): void
     {
-        DB::statement('ALTER TABLE posts MODIFY title VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
-        DB::statement('ALTER TABLE posts MODIFY slug VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
-        DB::statement('ALTER TABLE posts MODIFY content TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
-        DB::statement('ALTER TABLE posts MODIFY image VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
+        // Only run for MySQL database
+        if (config('database.default') === 'mysql') {
+            DB::statement('ALTER TABLE posts MODIFY title VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
+            DB::statement('ALTER TABLE posts MODIFY slug VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
+            DB::statement('ALTER TABLE posts MODIFY content TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
+            DB::statement('ALTER TABLE posts MODIFY image VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
+        }
     }
 
     public function down(): void
