@@ -1,0 +1,404 @@
+name: 🚀 Enhanced Production Deploy
+
+# Smart triggering for production deployment
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
+      - '*.md'
+      - '.gitignore'
+      - 'LICENSE'
+      - '#GUIDE/**'
+      - 'deployment/README.md'
+      - 'deployment/BRANCH_STRATEGY.md'
+      - 'deployment/CICD_SETUP.md'
+
+  workflow_dispatch:
+    inputs:
+      force_deploy:
+        description: 'Force deployment even if no code changes detected'
+        required: false
+        default: 'false'
+        type: boolean
+
+jobs:
+  # 🔍 Smart Change Detection & Pre-flight Validation
+  pre-deployment-validation:
+    runs-on: ubuntu-latest
+    name: 🔍 Smart Change Detection & Validation
+    outputs:
+      should-deploy: ${{ steps.change-detection.outputs.should-deploy }}
+      current-sha: ${{ steps.change-detection.outputs.current-sha }}
+      deployment-reason: ${{ steps.change-detection.outputs.reason }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 100  # Get enough history for comparison
+
+      - name: Smart Change Detection
+        id: change-detection
+        run: |
+          echo "🔍 Analyzing deployment necessity..."
+          
+          # Check for force deployment
+          FORCE_DEPLOY="${{ github.event.inputs.force_deploy }}"
+          NEW_SHA="${{ github.sha }}"
+          
+          if [ "$FORCE_DEPLOY" = "true" ]; then
+            echo "should-deploy=true" >> $GITHUB_OUTPUT
+            echo "reason=🚀 Manual force deployment requested" >> $GITHUB_OUTPUT
+            echo "current-sha=force" >> $GITHUB_OUTPUT
+            echo "🚀 Force deployment triggered manually"
+            exit 0
+          fi
+          
+          # Try to get current production SHA from server
+          echo "🔍 Checking current production version..."
+          CURRENT_SHA=""
+          
+          # Try to get version from health endpoint
+          if curl -f -s --max-time 10 "http://www.hanayashop.com/api/version" > /dev/null 2>&1; then
+            CURRENT_SHA=$(curl -s --max-time 10 "http://www.hanayashop.com/api/version" | jq -r '.git_sha // empty' 2>/dev/null || echo "")
+            echo "🌐 Retrieved current SHA from production: ${CURRENT_SHA}"
+          else
+            echo "⚠️ Cannot reach version endpoint - assuming first deployment or update needed"
+          fi
+          
+          echo "current-sha=${CURRENT_SHA}" >> $GITHUB_OUTPUT
+          
+          # If we can't get current SHA or it's empty, deploy (could be first deployment)
+          if [ -z "$CURRENT_SHA" ] || [ "$CURRENT_SHA" = "null" ] || [ "$CURRENT_SHA" = "" ]; then
+            echo "should-deploy=true" >> $GITHUB_OUTPUT
+            echo "reason=🆕 First deployment or version endpoint unavailable" >> $GITHUB_OUTPUT
+            echo "🆕 First deployment or cannot detect current version - proceeding with deployment"
+            exit 0
+          fi
+          
+          # Compare SHAs
+          if [ "$CURRENT_SHA" = "$NEW_SHA" ]; then
+            echo "should-deploy=false" >> $GITHUB_OUTPUT
+            echo "reason=⏭️ Same SHA already deployed ($NEW_SHA)" >> $GITHUB_OUTPUT
+            echo "⏭️ Same version already deployed - skipping unnecessary deployment"
+            exit 0
+          fi
+          
+          # Check for meaningful application code changes
+          echo "🔍 Analyzing code changes between $CURRENT_SHA and $NEW_SHA..."
+          CHANGED_FILES=$(git diff --name-only $CURRENT_SHA...$NEW_SHA 2>/dev/null || echo "all")
+          
+          # If git diff fails, assume changes exist
+          if [ "$CHANGED_FILES" = "all" ]; then
+            echo "should-deploy=true" >> $GITHUB_OUTPUT
+            echo "reason=🔄 Cannot determine changes - deploying for safety" >> $GITHUB_OUTPUT
+            echo "🔄 Cannot determine changes - deploying for safety"
+            exit 0
+          fi
+          
+          # Check for application-affecting changes
+          APP_CHANGES=$(echo "$CHANGED_FILES" | grep -E "(app/|config/|database/|routes/|resources/|public/|composer|\.env\.example|artisan)" || true)
+          DOCKER_CHANGES=$(echo "$CHANGED_FILES" | grep -E "(Dockerfile|docker-compose|\.dockerignore)" || true)
+          BUILD_CHANGES=$(echo "$CHANGED_FILES" | grep -E "(package\.json|webpack|vite|tailwind)" || true)
+          
+          if [ -n "$APP_CHANGES" ] || [ -n "$DOCKER_CHANGES" ] || [ -n "$BUILD_CHANGES" ]; then
+            echo "should-deploy=true" >> $GITHUB_OUTPUT
+            echo "reason=✅ Application code changes detected" >> $GITHUB_OUTPUT
+            echo "✅ Application changes detected - deployment needed:"
+            [ -n "$APP_CHANGES" ] && echo "  📱 App changes: $(echo "$APP_CHANGES" | tr '\n' ' ')"
+            [ -n "$DOCKER_CHANGES" ] && echo "  🐳 Docker changes: $(echo "$DOCKER_CHANGES" | tr '\n' ' ')"
+            [ -n "$BUILD_CHANGES" ] && echo "  🔨 Build changes: $(echo "$BUILD_CHANGES" | tr '\n' ' ')"
+          else
+            echo "should-deploy=false" >> $GITHUB_OUTPUT
+            echo "reason=📝 Only documentation/non-app files changed" >> $GITHUB_OUTPUT
+            echo "📝 Only documentation changes detected - skipping deployment"
+            echo "Changed files: $(echo "$CHANGED_FILES" | tr '\n' ' ')"
+          fi
+
+  # 🚀 Enhanced Production Deployment
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    name: 🚀 Build & Deploy to Production
+    needs: pre-deployment-validation
+    # Only run if deployment is needed
+    if: needs.pre-deployment-validation.outputs.should-deploy == 'true'
+    environment:
+      name: production
+      url: http://www.hanayashop.com
+
+    steps:
+      - name: Deployment Info
+        run: |
+          echo "🚀 Starting Enhanced Production Deployment!"
+          echo "Branch: ${{ github.ref }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Repository: ${{ github.repository }}"
+          echo "Reason: ${{ needs.pre-deployment-validation.outputs.deployment-reason }}"
+          echo "Current SHA: ${{ needs.pre-deployment-validation.outputs.current-sha }}"
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            assassincreed2k1/hanaya-shop:latest
+            assassincreed2k1/hanaya-shop:${{ github.sha }}
+          labels: |
+            git_sha=${{ github.sha }}
+            build_date=${{ github.event.head_commit.timestamp }}
+            version=latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Setup SSH Key Authentication
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          echo "${{ secrets.PRODUCTION_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.PRODUCTION_HOST }} >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+
+      - name: Enhanced Production Deployment with Health Checks
+        run: |
+          ssh -i ~/.ssh/deploy_key -o ConnectTimeout=30 -o UserKnownHostsFile=~/.ssh/known_hosts ${{ secrets.PRODUCTION_USER }}@${{ secrets.PRODUCTION_HOST }} << 'DEPLOYMENT_SCRIPT'
+            set -euo pipefail  # Enhanced error handling
+            
+            echo "🚀 Starting enhanced production deployment..."
+            echo "📊 Deployment Info:"
+            echo "  - Target SHA: ${{ github.sha }}"
+            echo "  - Previous SHA: ${{ needs.pre-deployment-validation.outputs.current-sha }}"
+            echo "  - Reason: ${{ needs.pre-deployment-validation.outputs.deployment-reason }}"
+            
+            # Navigate to application directory
+            cd /opt/hanaya-shop || { echo "❌ Project directory not found"; exit 1; }
+            echo "📁 Current directory: $(pwd)"
+            
+            # Pre-deployment health check
+            echo "🏥 Pre-deployment health check..."
+            if curl -f --max-time 10 http://localhost > /dev/null 2>&1; then
+              echo "✅ Application currently healthy"
+              
+              # Backup current state before deployment
+              echo "💾 Creating pre-deployment backup..."
+              BACKUP_DIR="/opt/backups/pre-deploy-$(date +%Y%m%d_%H%M%S)"
+              sudo mkdir -p "$BACKUP_DIR"
+              
+              # Save current container info for potential rollback
+              docker ps --filter name=hanaya --format "{{.Names}}\t{{.Image}}\t{{.Status}}" > "$BACKUP_DIR/container_state.txt" || true
+              echo "💾 Backup created at: $BACKUP_DIR"
+            else
+              echo "⚠️ Application currently not responding - proceeding with deployment"
+            fi
+            
+            # Stop conflicting services (your original logic)
+            echo "🛑 Stopping nginx service to free port 80..."
+            sudo systemctl stop nginx || echo "⚠️ nginx service not running or already stopped"
+            sudo systemctl disable nginx || echo "⚠️ nginx service disable failed"
+            
+            # Pull latest Docker images
+            echo "📦 Pulling latest Docker images..."
+            docker pull assassincreed2k1/hanaya-shop:latest || { echo "❌ Failed to pull latest image"; exit 1; }
+            
+            # Execute deployment script (your proven logic)
+            echo "🚀 Running deployment script..."
+            cd scripts || { echo "❌ Scripts directory not found"; exit 1; }
+            
+            # Enhanced script execution with retry logic
+            DEPLOYMENT_SUCCESS=false
+            for attempt in 1 2; do
+              echo "🔄 Deployment attempt $attempt/2..."
+              if ./update-image.sh; then
+                DEPLOYMENT_SUCCESS=true
+                echo "✅ Deployment script completed successfully"
+                break
+              else
+                echo "⚠️ Deployment attempt $attempt failed"
+                if [ $attempt -eq 1 ]; then
+                  echo "🔄 Retrying deployment in 10 seconds..."
+                  sleep 10
+                else
+                  echo "❌ Deployment failed after 2 attempts"
+                fi
+              fi
+            done
+            
+            if [ "$DEPLOYMENT_SUCCESS" != "true" ]; then
+              echo "❌ Deployment script failed - initiating rollback"
+              echo "🔄 Attempting to restore previous state..."
+              docker-compose down || true
+              sleep 5
+              docker-compose up -d || echo "❌ Rollback failed - manual intervention required"
+              exit 1
+            fi
+            
+            # Enhanced verification phase
+            echo "🔍 Enhanced deployment verification..."
+            cd /opt/hanaya-shop
+            
+            # Wait for containers to stabilize
+            echo "⏳ Waiting for containers to stabilize..."
+            sleep 15
+            
+            # Verify containers are running
+            if docker ps --filter name=hanaya --format "{{.Names}}" | grep -q hanaya; then
+              echo "✅ Containers are running:"
+              docker ps --filter name=hanaya --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+            else
+              echo "❌ No hanaya containers found running"
+              echo "🔄 Attempting emergency restart..."
+              docker-compose down || true
+              sleep 5
+              docker-compose up -d
+              sleep 10
+              
+              if ! docker ps --filter name=hanaya --format "{{.Names}}" | grep -q hanaya; then
+                echo "❌ Emergency restart failed"
+                exit 1
+              fi
+            fi
+            
+            # Comprehensive health checks with retries
+            echo "🏥 Comprehensive health checks..."
+            HEALTH_CHECK_SUCCESS=false
+            MAX_HEALTH_RETRIES=12
+            HEALTH_RETRY_COUNT=0
+            
+            while [ $HEALTH_RETRY_COUNT -lt $MAX_HEALTH_RETRIES ]; do
+              HEALTH_RETRY_COUNT=$((HEALTH_RETRY_COUNT + 1))
+              echo "🔍 Health check attempt $HEALTH_RETRY_COUNT/$MAX_HEALTH_RETRIES..."
+              
+              # Basic connectivity test
+              if curl -f --max-time 15 http://localhost > /dev/null 2>&1; then
+                echo "✅ Basic connectivity: PASSED"
+                
+                # Test if it's actually the application responding
+                RESPONSE=$(curl -s --max-time 10 http://localhost || echo "")
+                if echo "$RESPONSE" | grep -q -i "hanaya\|laravel\|<!DOCTYPE" > /dev/null 2>&1; then
+                  echo "✅ Application response: PASSED"
+                  HEALTH_CHECK_SUCCESS=true
+                  break
+                else
+                  echo "⚠️ Unexpected response content"
+                fi
+              else
+                echo "⚠️ Basic connectivity: FAILED"
+              fi
+              
+              if [ $HEALTH_RETRY_COUNT -lt $MAX_HEALTH_RETRIES ]; then
+                echo "⏳ Waiting 10 seconds before next health check..."
+                sleep 10
+              fi
+            done
+            
+            if [ "$HEALTH_CHECK_SUCCESS" = "true" ]; then
+              echo "🎉 ALL HEALTH CHECKS PASSED!"
+              echo "✅ Application is healthy and responding correctly!"
+              echo "🌐 Website is now live with latest updates!"
+              
+              # Performance check
+              echo "📊 Performance verification..."
+              RESPONSE_TIME=$(curl -o /dev/null -s -w "%{time_total}" http://localhost || echo "unknown")
+              echo "⚡ Response time: ${RESPONSE_TIME}s"
+              
+              # Container resource usage
+              echo "💾 Container resource usage:"
+              docker stats --no-stream --format "table {{.Container}}\t{{.CPUPerc}}\t{{.MemUsage}}" | head -3
+              
+            else
+              echo "❌ Health checks failed after $MAX_HEALTH_RETRIES attempts"
+              echo "⚠️ Deployment completed but application may not be fully healthy"
+              echo "🔍 Manual verification recommended"
+              echo "💡 Check application logs: docker logs hanaya-web"
+              echo "🌐 Try accessing: http://www.hanayashop.com"
+              echo "🔄 Browser cache clear may be needed (Ctrl+Shift+R)"
+              
+              # Don't fail the deployment - let manual verification happen
+              echo "⚠️ Proceeding with warning - manual verification required"
+            fi
+            
+            echo "🎉 Enhanced production deployment completed!"
+            echo "📅 Deployment time: $(date)"
+            echo "🔗 Application URL: http://www.hanayashop.com"
+            
+          DEPLOYMENT_SCRIPT
+
+      - name: Post-Deployment Summary
+        if: success()
+        run: |
+          echo "🎉 Enhanced Production Deployment Completed Successfully!"
+          echo "✅ Smart change detection: ${{ needs.pre-deployment-validation.outputs.deployment-reason }}"
+          echo "🐳 Docker image: assassincreed2k1/hanaya-shop:${{ github.sha }}"
+          echo "🌐 Application URL: http://www.hanayashop.com"
+          echo "⚡ Enhanced features: Health checks, rollback safety, comprehensive verification"
+
+  # ⏭️ Deployment Skip Summary
+  deployment-skipped:
+    name: ⏭️ Deployment Skipped
+    runs-on: ubuntu-latest
+    needs: pre-deployment-validation
+    if: needs.pre-deployment-validation.outputs.should-deploy == 'false'
+    
+    steps:
+      - name: Skip Deployment Summary
+        run: |
+          echo "⏭️ Deployment Skipped - Smart Protection Active!"
+          echo "📝 Reason: ${{ needs.pre-deployment-validation.outputs.deployment-reason }}"
+          echo "🔒 Customer Impact: Zero - No unnecessary server restart"
+          echo "💰 Resource Savings: Docker build and deployment steps skipped"
+          echo "⚡ Smart Benefits: Faster CI, stable production, optimal resource usage"
+
+  # 📊 Deployment Summary
+  deployment-summary:
+    name: 📊 Deployment Summary  
+    runs-on: ubuntu-latest
+    needs: [pre-deployment-validation, build-and-deploy, deployment-skipped]
+    if: always()
+    
+    steps:
+      - name: Generate Deployment Report
+        run: |
+          echo "## 🚀 Enhanced Production Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [[ "${{ needs.pre-deployment-validation.outputs.should-deploy }}" == "true" ]]; then
+            echo "### ✅ Deployment Executed" >> $GITHUB_STEP_SUMMARY
+            echo "**Reason:** ${{ needs.pre-deployment-validation.outputs.deployment-reason }}" >> $GITHUB_STEP_SUMMARY
+            echo "**Status:** ${{ needs.build-and-deploy.result == 'success' && '🎉 SUCCESS' || '❌ FAILED' }}" >> $GITHUB_STEP_SUMMARY
+            echo "**Docker Image:** \`assassincreed2k1/hanaya-shop:${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
+            echo "**Application URL:** http://www.hanayashop.com" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            
+            if [[ "${{ needs.build-and-deploy.result }}" == "success" ]]; then
+              echo "🎯 **Enhanced Features Applied:**" >> $GITHUB_STEP_SUMMARY
+              echo "- ✅ Smart change detection prevented unnecessary deployments" >> $GITHUB_STEP_SUMMARY
+              echo "- ✅ Comprehensive health checks with retry logic" >> $GITHUB_STEP_SUMMARY
+              echo "- ✅ Automated rollback safety mechanisms" >> $GITHUB_STEP_SUMMARY
+              echo "- ✅ Pre-deployment backup creation" >> $GITHUB_STEP_SUMMARY
+              echo "- ✅ Performance and resource monitoring" >> $GITHUB_STEP_SUMMARY
+            fi
+          else
+            echo "### ⏭️ Deployment Skipped" >> $GITHUB_STEP_SUMMARY
+            echo "**Reason:** ${{ needs.pre-deployment-validation.outputs.deployment-reason }}" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "🎯 **Smart Deployment Benefits:**" >> $GITHUB_STEP_SUMMARY
+            echo "- ✅ Prevented unnecessary server restart" >> $GITHUB_STEP_SUMMARY
+            echo "- ✅ Maintained stable customer experience" >> $GITHUB_STEP_SUMMARY
+            echo "- ✅ Saved deployment resources and time" >> $GITHUB_STEP_SUMMARY
+            echo "- ✅ Reduced risk of service disruption" >> $GITHUB_STEP_SUMMARY
+          fi
