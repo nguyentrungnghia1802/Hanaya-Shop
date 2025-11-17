@@ -216,7 +216,7 @@ jobs:
                 echo "✅ Configuration system operational"
                 
                 # Run safe unit tests only
-                if ! php artisan test --testsuite=Unit --configuration=phpunit.ci.safe.xml --stop-on-failure; then
+                if ! php artisan test --testsuite=SafeUnit --stop-on-failure; then
                   echo "❌ Unit tests failed!"
                   echo "test-status=unit-failed" >> $GITHUB_OUTPUT
                   exit 1
