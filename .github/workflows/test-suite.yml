@@ -156,11 +156,16 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: test_password
           MYSQL_DATABASE: hanaya_shop_test
-          MYSQL_USER: root
-          MYSQL_PASSWORD: test_password
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
+          MYSQL_RANDOM_ROOT_PASSWORD: false
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping --host=127.0.0.1 --port=3306 --user=root --password=test_password" --health-interval=10s --health-timeout=5s --health-retries=5
+        options: >
+          --health-cmd="mysqladmin ping --host=127.0.0.1 --port=3306 --user=root --password=test_password --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+          --health-start-period=10s
 
       redis:
         image: redis:7-alpine
@@ -176,10 +181,16 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ env.PHP_VERSION }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, redis
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, redis, mysql, pdo_mysql
           coverage: xdebug
           tools: composer:v2
+          ini-values: memory_limit=-1
 
+      - name: Install MySQL Client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mysql-client netcat-openbsd
+          
       - name: Restore built assets
         uses: actions/cache@v3
         with:
@@ -191,27 +202,37 @@ jobs:
 
       - name: Prepare test environment
         run: |
+          echo "🔧 Setting up test environment..."
+          
+          # Create .env.testing from example
           cp .env.example .env.testing
           php artisan key:generate --env=testing
           
-          # Configure test database to match phpunit.xml
-          echo "APP_ENV=testing" > .env.testing
-          echo "DB_CONNECTION=mysql" >> .env.testing
-          echo "DB_HOST=127.0.0.1" >> .env.testing
-          echo "DB_PORT=3306" >> .env.testing
-          echo "DB_DATABASE=hanaya_shop_test" >> .env.testing
-          echo "DB_USERNAME=root" >> .env.testing
-          echo "DB_PASSWORD=test_password" >> .env.testing
+          # Configure test database to match phpunit.xml exactly
+          cat >> .env.testing << 'EOF'
+          APP_ENV=testing
+          DB_CONNECTION=mysql
+          DB_HOST=127.0.0.1
+          DB_PORT=3306
+          DB_DATABASE=hanaya_shop_test
+          DB_USERNAME=root
+          DB_PASSWORD=test_password
+          CACHE_STORE=array
+          SESSION_DRIVER=array
+          QUEUE_CONNECTION=sync
+          MAIL_MAILER=array
+          MAIL_FROM_ADDRESS=test@hanaya-shop.com
+          MAIL_FROM_NAME="Hanaya Shop Test"
+          FILESYSTEM_DISK=testing
+          BCRYPT_ROUNDS=4
+          APP_MAINTENANCE_DRIVER=file
+          PULSE_ENABLED=false
+          TELESCOPE_ENABLED=false
+          EOF
           
-          # Configure other services to match phpunit.xml
-          echo "CACHE_STORE=array" >> .env.testing
-          echo "SESSION_DRIVER=array" >> .env.testing
-          echo "QUEUE_CONNECTION=sync" >> .env.testing
-          echo "MAIL_MAILER=array" >> .env.testing
-          echo "MAIL_FROM_ADDRESS=test@hanaya-shop.com" >> .env.testing
-          echo "MAIL_FROM_NAME=\"Hanaya Shop Test\"" >> .env.testing
-          echo "FILESYSTEM_DISK=testing" >> .env.testing
-          echo "BCRYPT_ROUNDS=4" >> .env.testing
+          echo "✅ Environment configured successfully"
+          echo "Debug: .env.testing contents:"
+          head -20 .env.testing
 
       - name: Create storage directories
         run: |
@@ -220,40 +241,73 @@ jobs:
           mkdir -p bootstrap/cache
           chmod -R 755 storage bootstrap/cache
 
+      - name: Debug MySQL Connection
+        run: |
+          echo "🔍 Debugging MySQL connection..."
+          echo "Checking if MySQL port is accessible..."
+          nc -zv 127.0.0.1 3306 || echo "Port 3306 not accessible yet"
+          
+          echo "Checking MySQL service status..."
+          docker ps -a | grep mysql || echo "No MySQL container found"
+          
+          echo "Checking MySQL logs..."
+          docker logs $(docker ps -q --filter "ancestor=mysql:8.0") | tail -20 || echo "Cannot get MySQL logs"
+          
       - name: Wait for MySQL to be ready
         run: |
           echo "⏳ Waiting for MySQL to be ready..."
-          for i in {1..30}; do
+          attempt=0
+          max_attempts=60
+          
+          while [ $attempt -lt $max_attempts ]; do
             if mysqladmin ping --host=127.0.0.1 --port=3306 --user=root --password=test_password --silent; then
-              echo "✅ MySQL is ready!"
+              echo "✅ MySQL is ready after $attempt attempts!"
+              mysql --host=127.0.0.1 --port=3306 --user=root --password=test_password --execute="SELECT 'MySQL Connection Test' as status;"
               break
             fi
-            echo "Waiting... ($i/30)"
+            attempt=$((attempt + 1))
+            echo "Waiting... ($attempt/$max_attempts)"
             sleep 2
           done
+          
+          if [ $attempt -eq $max_attempts ]; then
+            echo "❌ MySQL failed to become ready after $max_attempts attempts"
+            echo "Final MySQL logs:"
+            docker logs $(docker ps -q --filter "ancestor=mysql:8.0") | tail -50 || echo "Cannot get final MySQL logs"
+            exit 1
+          fi
           
       - name: Run database setup
         run: |
           echo "🗄️ Setting up test database..."
+          
+          # Verify database exists
+          mysql --host=127.0.0.1 --port=3306 --user=root --password=test_password --execute="SHOW DATABASES LIKE 'hanaya_shop_test';"
+          
+          # Run migrations
           php artisan migrate --env=testing --force
           echo "✅ Database migrated for testing"
+          
+          # Verify tables were created
+          mysql --host=127.0.0.1 --port=3306 --user=root --password=test_password hanaya_shop_test --execute="SHOW TABLES;" || echo "⚠️ No tables found yet"
 
-      - name: Run Unit Tests
+      - name: Run Unit Tests (Core - Must Pass)
         run: |
-          echo "🧪 Running Unit tests (same as local)..."
-          ./vendor/bin/phpunit --testsuite=Unit --testdox --colors=always
+          echo "🧪 Running Unit tests (core functionality)..."
+          ./vendor/bin/phpunit --testsuite=Unit --testdox --colors=always --stop-on-failure
+          echo "✅ Unit tests completed successfully"
           
-      - name: Run Integration Tests
-        continue-on-error: true
+      - name: Run Integration Tests (Database Dependent)
         run: |
-          echo "🔗 Running Integration tests..."
+          echo "🔗 Running Integration tests (database dependent)..."
           ./vendor/bin/phpunit --testsuite=Integration --testdox --colors=always
+          echo "✅ Integration tests completed"
           
-      - name: Run Safe Feature Tests
-        continue-on-error: true
+      - name: Run Safe Feature Tests (End-to-End)
         run: |
-          echo "🎭 Running Safe Feature tests..."
+          echo "🎭 Running Safe Feature tests (end-to-end)..."
           ./vendor/bin/phpunit --testsuite=SafeFeature --testdox --colors=always
+          echo "✅ Safe Feature tests completed"
           
       - name: Generate test coverage (on develop)
         if: github.ref == 'refs/heads/develop'
