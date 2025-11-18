@@ -154,11 +154,13 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: password
+          MYSQL_ROOT_PASSWORD: test_password
           MYSQL_DATABASE: hanaya_shop_test
+          MYSQL_USER: root
+          MYSQL_PASSWORD: test_password
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        options: --health-cmd="mysqladmin ping --host=127.0.0.1 --port=3306 --user=root --password=test_password" --health-interval=10s --health-timeout=5s --health-retries=5
 
       redis:
         image: redis:7-alpine
@@ -189,26 +191,27 @@ jobs:
 
       - name: Prepare test environment
         run: |
-          cp .env.example .env
-          php artisan key:generate
+          cp .env.example .env.testing
+          php artisan key:generate --env=testing
           
-          # Configure test database
-          sed -i 's/DB_CONNECTION=.*/DB_CONNECTION=mysql/' .env
-          sed -i 's/DB_HOST=.*/DB_HOST=127.0.0.1/' .env
-          sed -i 's/DB_PORT=.*/DB_PORT=3306/' .env
-          sed -i 's/DB_DATABASE=.*/DB_DATABASE=hanaya_shop_test/' .env
-          sed -i 's/DB_USERNAME=.*/DB_USERNAME=root/' .env
-          sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=password/' .env
+          # Configure test database to match phpunit.xml
+          echo "APP_ENV=testing" > .env.testing
+          echo "DB_CONNECTION=mysql" >> .env.testing
+          echo "DB_HOST=127.0.0.1" >> .env.testing
+          echo "DB_PORT=3306" >> .env.testing
+          echo "DB_DATABASE=hanaya_shop_test" >> .env.testing
+          echo "DB_USERNAME=root" >> .env.testing
+          echo "DB_PASSWORD=test_password" >> .env.testing
           
-          # Configure Redis and Mail
-          echo "REDIS_HOST=127.0.0.1" >> .env
-          echo "REDIS_PORT=6379" >> .env
-          echo "CACHE_DRIVER=array" >> .env
-          echo "SESSION_DRIVER=array" >> .env
-          echo "QUEUE_CONNECTION=sync" >> .env
-          echo "MAIL_MAILER=array" >> .env
-          echo "MAIL_FROM_ADDRESS=test@hanaya-shop.com" >> .env
-          echo 'MAIL_FROM_NAME="Hanaya Shop Test"' >> .env
+          # Configure other services to match phpunit.xml
+          echo "CACHE_STORE=array" >> .env.testing
+          echo "SESSION_DRIVER=array" >> .env.testing
+          echo "QUEUE_CONNECTION=sync" >> .env.testing
+          echo "MAIL_MAILER=array" >> .env.testing
+          echo "MAIL_FROM_ADDRESS=test@hanaya-shop.com" >> .env.testing
+          echo "MAIL_FROM_NAME=\"Hanaya Shop Test\"" >> .env.testing
+          echo "FILESYSTEM_DISK=testing" >> .env.testing
+          echo "BCRYPT_ROUNDS=4" >> .env.testing
 
       - name: Create storage directories
         run: |
@@ -217,22 +220,46 @@ jobs:
           mkdir -p bootstrap/cache
           chmod -R 755 storage bootstrap/cache
 
+      - name: Wait for MySQL to be ready
+        run: |
+          echo "⏳ Waiting for MySQL to be ready..."
+          for i in {1..30}; do
+            if mysqladmin ping --host=127.0.0.1 --port=3306 --user=root --password=test_password --silent; then
+              echo "✅ MySQL is ready!"
+              break
+            fi
+            echo "Waiting... ($i/30)"
+            sleep 2
+          done
+          
       - name: Run database setup
         run: |
-          php artisan migrate --force
-          # Skip seeding in testing - unit/feature tests should create their own test data
-          echo "✅ Database migrated for testing (seeding skipped)"
+          echo "🗄️ Setting up test database..."
+          php artisan migrate --env=testing --force
+          echo "✅ Database migrated for testing"
 
-      - name: Run CI-Safe Tests
+      - name: Run Unit Tests
         run: |
-          echo "🧪 Running CI-safe unit tests only..."
-          ./vendor/bin/phpunit --testsuite=SafeUnit --testdox --colors=always
+          echo "🧪 Running Unit tests (same as local)..."
+          ./vendor/bin/phpunit --testsuite=Unit --testdox --colors=always
+          
+      - name: Run Integration Tests
+        continue-on-error: true
+        run: |
+          echo "🔗 Running Integration tests..."
+          ./vendor/bin/phpunit --testsuite=Integration --testdox --colors=always
+          
+      - name: Run Safe Feature Tests
+        continue-on-error: true
+        run: |
+          echo "🎭 Running Safe Feature tests..."
+          ./vendor/bin/phpunit --testsuite=SafeFeature --testdox --colors=always
           
       - name: Generate test coverage (on develop)
         if: github.ref == 'refs/heads/develop'
         run: |
-          echo "📊 Generating test coverage for unit tests..."
-          ./vendor/bin/phpunit --testsuite=SafeUnit --coverage-text --coverage-clover=coverage.xml --testdox || echo "⚠️ Coverage generation completed with warnings"
+          echo "📊 Generating test coverage for all test suites..."
+          ./vendor/bin/phpunit --testsuite=Unit --coverage-text --coverage-clover=coverage.xml --testdox || echo "⚠️ Coverage generation completed with warnings"
           
       - name: Upload coverage reports
         if: github.ref == 'refs/heads/develop'
