@@ -10,10 +10,14 @@ abstract class TestCase extends BaseTestCase
     /**
      * Make a POST JSON request with CSRF token
      */
+    /**
+     * Make a POST JSON request with CSRF token
+     */
     protected function postJsonWithCsrf($uri, array $data = [], array $headers = [])
     {
         $this->startSession();
         $data['_token'] = $this->app['session']->token();
+
         return $this->postJson($uri, $data, $headers);
     }
 
@@ -24,8 +28,10 @@ abstract class TestCase extends BaseTestCase
     {
         $this->startSession();
         $data['_token'] = $this->app['session']->token();
+
         return $this->deleteJson($uri, $data, $headers);
     }
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -35,20 +41,20 @@ abstract class TestCase extends BaseTestCase
 
         // Set cache driver to array for testing to avoid mocking issues
         $this->app['config']->set('cache.default', 'array');
-        
+
         // Set session driver to array for testing
         $this->app['config']->set('session.driver', 'array');
-        
+
         // Optimize MySQL for testing speed
         $this->app['config']->set('database.connections.mysql.options', [
             \PDO::ATTR_EMULATE_PREPARES => true,
             \PDO::ATTR_STRINGIFY_FETCHES => false,
         ]);
-        
+
         // Disable query logging for speed
         $this->app['config']->set('database.connections.mysql.dump.add_drop_database', false);
         $this->app['config']->set('database.connections.mysql.dump.add_locks', false);
-        
+
         // Use faster hashing for tests
         $this->app['config']->set('hashing.bcrypt.rounds', 4);
 
@@ -81,7 +87,7 @@ abstract class TestCase extends BaseTestCase
     {
         $this->startSession();
         $data['_token'] = $this->app['session']->token();
-        
+
         return $this->post($uri, $data, $headers);
     }
 
@@ -92,7 +98,7 @@ abstract class TestCase extends BaseTestCase
     {
         $this->startSession();
         $data['_token'] = $this->app['session']->token();
-        
+
         return $this->put($uri, $data, $headers);
     }
 
@@ -103,7 +109,7 @@ abstract class TestCase extends BaseTestCase
     {
         $this->startSession();
         $data['_token'] = $this->app['session']->token();
-        
+
         return $this->delete($uri, $data, $headers);
     }
 }
