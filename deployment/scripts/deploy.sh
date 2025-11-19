@@ -1,106 +1,36 @@
 #!/bin/bash
 
-# General Deployment script for Hanaya Shop
-# Usage: ./deploy.sh [environment]
-# This script follows the DEPLOYMENT_GUIDE
+# Deploy Script - Chạy trên server
+# Được gọi từ CI/CD pipeline
 
-set -e
-
-ENVIRONMENT=${1:-production}
-PROJECT_NAME="hanaya-shop"
-BACKUP_DIR="./backups"
 PROJECT_DIR="/opt/hanaya-shop"
+IMAGE_NAME="assassincreed2k1/hanaya-shop:latest"
 
-echo "🌸 Deploying Hanaya Shop to $ENVIRONMENT environment..."
+echo "🚀 Bắt đầu deployment..."
 
-# Create deployment directory
-echo "📁 Creating deployment directory..."
-sudo mkdir -p $PROJECT_DIR
-sudo chown -R $USER:$USER $PROJECT_DIR
 cd $PROJECT_DIR
 
-# Create backup directory
-mkdir -p $BACKUP_DIR
+# 1. Pull latest image
+echo "📥 Pull Docker image mới nhất..."
+docker pull $IMAGE_NAME
 
-# Download Docker Compose file
-echo "📡 Downloading docker-compose.yml..."
-curl -fsSL -o docker-compose.yml \
-  https://raw.githubusercontent.com/assassincreed2k1/Hanaya-Shop/main/deployment/docker-compose.prod.yml
+# 2. Stop containers
+echo "⏹️ Dừng containers hiện tại..."
+docker-compose down
 
-echo "⚠️  Please edit docker-compose.yml to fill in environment variables before continuing..."
-echo "Press Enter after editing, or Ctrl+C to exit..."
-read -r
+# 3. Start containers
+echo "▶️ Khởi động containers..."
+docker-compose up -d
 
-# Backup database before deployment
-echo "📦 Creating database backup..."
-if docker ps | grep -q "${PROJECT_NAME}-db"; then
-    docker compose exec db mysqldump -u root -p${DB_ROOT_PASSWORD:-} ${DB_DATABASE:-hanaya_shop} > $BACKUP_DIR/backup_$(date +%Y%m%d_%H%M%S).sql || true
-    echo "✅ Database backup created"
-fi
-
-# Build and start containers
-echo "🔨 Pulling and starting containers..."
-docker compose pull
-docker compose up -d
-
-# Wait for services to be ready
-echo "⏳ Waiting for services to start..."
+# 4. Wait and check health
+echo "⏳ Đợi containers khởi động..."
 sleep 30
 
-# Run first-time setup following deployment guide
-echo "🔑 Generating application key..."
-docker compose exec app php artisan key:generate --force
-
-# Run database migrations
-echo "🗄️ Running database migrations..."
-docker compose exec app php artisan migrate --force
-
-# Seed database if needed (first deployment)
-if [ "$2" = "--seed" ]; then
-    echo "🌱 Seeding database..."
-    docker compose exec app php artisan db:seed --force
-fi
-
-# Optimize application
-echo "🚀 Optimizing application..."
-docker compose exec app php artisan optimize
-
-# Start queue worker
-echo "� Starting queue worker..."
-docker compose exec -d app php artisan queue:work --queue=default --sleep=1 --tries=3
-
-# Health check
-echo "🏥 Running health check..."
-sleep 10
-if curl -f http://localhost/ > /dev/null 2>&1; then
-    echo "✅ Application is healthy and running!"
-    echo "🌐 Visit http://localhost to see your application"
+# 5. Health check
+echo "🏥 Kiểm tra health..."
+if curl -f http://localhost:80 > /dev/null 2>&1; then
+    echo "✅ Deployment thành công!"
 else
-    echo "❌ Health check failed!"
-    echo "📋 Checking logs..."
-    docker compose logs app
+    echo "❌ Deployment thất bại!"
     exit 1
 fi
-
-# Cleanup old images
-echo "🧹 Cleaning up old Docker images..."
-docker image prune -f
-
-echo "🎉 Deployment completed successfully!"
-echo ""
-echo "📊 Container Status:"
-docker compose ps
-
-echo ""
-echo "📈 Quick Stats:"
-echo "- Application: http://localhost"
-echo "- Database: MySQL 8.0 (Port 3306)"
-echo "- Redis: Port 6379"
-echo "- Logs: docker compose logs -f"
-
-echo ""
-echo "🛠️ Useful Commands:"
-echo "- View logs: docker compose logs -f app"
-echo "- Access shell: docker compose exec app bash"
-echo "- Stop: docker compose down"
-echo "- Restart: docker compose restart"

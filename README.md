@@ -212,6 +212,24 @@ hanaya-shop/
 │   ├── migrations/
 │   ├── seeders/
 │   └── sql/
+├── deployment/         # 🚀 デプロイメント設定・スクリプト
+│   ├── scripts/        # 📜 全デプロイメントスクリプト
+│   │   ├── setup-server.sh      # ⚙️ サーバー初期設定
+│   │   ├── deploy-production.sh # 🚀 本番デプロイ
+│   │   ├── deploy.sh           # 📦 サーバーデプロイ
+│   │   ├── update-image.sh     # 🔄 イメージ更新（バックアップ付き）
+│   │   ├── update.sh           # ⚡ 高速更新
+│   │   ├── auto-backup.sh      # 💾 自動バックアップ
+│   │   ├── monitor.sh          # 📊 システム監視
+│   │   ├── clear-cache.sh      # 🧹 キャッシュクリア
+│   │   ├── verify-deployment.sh # ✅ デプロイ検証
+│   │   └── README.md           # 📖 スクリプト説明
+│   ├── nginx/          # 🌐 Nginx設定
+│   ├── mysql/          # 🗄️ MySQL設定
+│   ├── php/            # 🐘 PHP設定
+│   ├── supervisor/     # 👷 プロセス管理
+│   ├── docker-compose.prod.yml # 🐳 本番Docker設定
+│   └── README.md       # 📚 デプロイメントガイド
 ├── public/             # 画像・エントリポイント
 │   ├── build/
 │   ├── fixed_resources/
@@ -234,6 +252,8 @@ hanaya-shop/
 ├── tests/              # ユニット・機能テスト
 │   ├── Feature/
 │   └── Unit/
+├── .github/            # 🔄 GitHub Actions CI/CD
+│   └── workflows/      # ⚙️ 自動化ワークフロー
 ├── Dockerfile          # Docker設定
 ├── docker-compose.yml  # Docker環境構築
 └── README.md           # ドキュメント
@@ -513,6 +533,24 @@ hanaya-shop/
 │   ├── migrations/
 │   ├── seeders/
 │   └── sql/
+├── deployment/         # 🚀 Deployment configuration & scripts
+│   ├── scripts/        # 📜 All deployment scripts
+│   │   ├── setup-server.sh      # ⚙️ Server initial setup
+│   │   ├── deploy-production.sh # 🚀 Production deployment
+│   │   ├── deploy.sh           # 📦 Server deployment
+│   │   ├── update-image.sh     # 🔄 Image update (with backup)
+│   │   ├── update.sh           # ⚡ Quick update
+│   │   ├── auto-backup.sh      # 💾 Automated backup
+│   │   ├── monitor.sh          # 📊 System monitoring
+│   │   ├── clear-cache.sh      # 🧹 Cache clearing
+│   │   ├── verify-deployment.sh # ✅ Deployment verification
+│   │   └── README.md           # 📖 Scripts documentation
+│   ├── nginx/          # 🌐 Nginx configuration
+│   ├── mysql/          # 🗄️ MySQL configuration
+│   ├── php/            # 🐘 PHP configuration
+│   ├── supervisor/     # 👷 Process management
+│   ├── docker-compose.prod.yml # 🐳 Production Docker setup
+│   └── README.md       # 📚 Deployment guide
 ├── public/             # Images & entry point
 │   ├── build/
 │   ├── fixed_resources/
@@ -535,6 +573,8 @@ hanaya-shop/
 ├── tests/              # Unit & feature tests
 │   ├── Feature/
 │   └── Unit/
+├── .github/            # 🔄 GitHub Actions CI/CD
+│   └── workflows/      # ⚙️ Automation workflows
 ├── Dockerfile          # Docker configuration
 ├── docker-compose.yml  # Docker setup
 └── README.md           # Documentation
