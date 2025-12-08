@@ -1,28 +1,95 @@
-name: Block invalid PRs
+name: 🔒 PR Protection
 
+# Enforce branch protection rules
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened, edited]
 
 jobs:
-  block_invalid_pr:
+  validate-pr:
+    name: 🔍 Validate PR Rules
     runs-on: ubuntu-latest
-    steps:
-      - name: Block PRs from deploy/test to main/develop
-        if: |
-          (github.head_ref == 'deploy' || github.head_ref == 'test') &&
-          (github.base_ref == 'main' || github.base_ref == 'develop')
-        run: |
-          echo "PRs from 'deploy' or 'test' to 'main' or 'develop' are not allowed."
-          gh pr close "$GITHUB_REF" --comment "PRs from 'deploy' or 'test' branch to 'main' or 'develop' are not allowed."
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Block PRs to main except from develop
-        if: |
-          github.base_ref == 'main' && github.head_ref != 'develop'
+    steps:
+      - name: Check PR source and target branches
+        id: check
         run: |
-          echo "Only 'develop' can create PRs to 'main'."
-          gh pr close "$GITHUB_REF" --comment "Only 'develop' branch can create PRs to 'main'."
+          echo "🔍 Validating PR..."
+          echo "Source: ${{ github.head_ref }}"
+          echo "Target: ${{ github.base_ref }}"
+          echo "Actor: ${{ github.actor }}"
+
+          # Define invalid patterns
+          INVALID_SOURCES="deploy test tmp temp"
+          VIOLATIONS=""
+
+          # Check 1: Block specific branch names
+          for branch in $INVALID_SOURCES; do
+            if [[ "${{ github.head_ref }}" == "$branch" ]]; then
+              VIOLATIONS="❌ PRs from '$branch' branch are not allowed"
+              break
+            fi
+          done
+
+          # Check 2: Only develop can PR to main
+          if [[ "${{ github.base_ref }}" == "main" && "${{ github.head_ref }}" != "develop" ]]; then
+            VIOLATIONS="❌ Only 'develop' branch can create PRs to 'main'"
+          fi
+
+          # Check 3: Prevent PRs to develop from forbidden branches
+          if [[ "${{ github.base_ref }}" == "develop" ]]; then
+            for branch in $INVALID_SOURCES; do
+              if [[ "${{ github.head_ref }}" == "$branch" ]]; then
+                VIOLATIONS="❌ PRs from '$branch' to 'develop' are not allowed"
+                break
+              fi
+            done
+          fi
+
+          if [ -n "$VIOLATIONS" ]; then
+            echo "violation=$VIOLATIONS" >> $GITHUB_OUTPUT
+            echo "valid=false" >> $GITHUB_OUTPUT
+            echo "$VIOLATIONS"
+            exit 1
+          else
+            echo "valid=true" >> $GITHUB_OUTPUT
+            echo "✅ PR validation passed"
+          fi
+
+      - name: Close invalid PR
+        if: failure() && steps.check.outputs.valid == 'false'
+        run: |
+          gh pr close ${{ github.event.pull_request.number }} \
+            --comment "## 🚫 Invalid Pull Request
+
+          ${{ steps.check.outputs.violation }}
+
+          ### 📋 Branch Strategy:
+          - ✅ Feature branches → \`develop\`
+          - ✅ Hotfix branches → \`develop\`
+          - ✅ Bugfix branches → \`develop\`
+          - ✅ \`develop\` → \`main\` (production release)
+          - ❌ Direct PRs to \`main\` (except from \`develop\`)
+          - ❌ PRs from temporary/test branches
+
+          Please follow the correct branch strategy and create a new PR." \
+            --repo ${{ github.repository }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Add labels to valid PR
+        if: success()
+        run: |
+          # Add appropriate labels based on target branch
+          if [[ "${{ github.base_ref }}" == "main" ]]; then
+            gh pr edit ${{ github.event.pull_request.number }} \
+              --add-label "production-release" \
+              --repo ${{ github.repository }}
+          elif [[ "${{ github.base_ref }}" == "develop" ]]; then
+            gh pr edit ${{ github.event.pull_request.number }} \
+              --add-label "development" \
+              --repo ${{ github.repository }}
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
