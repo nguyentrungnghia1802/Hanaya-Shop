@@ -1259,7 +1259,7 @@ hanaya-shop/
             <img src=".github/images/all/nghia.jpg" width="80" style="border-radius:50%" alt="Nguyen Trung Nghia"/>
             <br/>
             <b style="font-size:1.18em;">Nguyen Trung Nghia</b><br/>
-            <a href="https://nguyentrungnghia1802.github.io/Profile/" style="display:inline-block;padding:7px 20px;margin:7px 0;font-size:1.08em;font-weight:500;background:#f7f7f7;border-radius:7px;border:1.5px solid #e0e0e0;text-decoration:none;color:#222;box-shadow:0 1.5px 6px #0001;transition:background 0.2s;">
+            <a href="https://nguyentrungnghia1802.github.io/Portfolio/" style="display:inline-block;padding:7px 20px;margin:7px 0;font-size:1.08em;font-weight:500;background:#f7f7f7;border-radius:7px;border:1.5px solid #e0e0e0;text-decoration:none;color:#222;box-shadow:0 1.5px 6px #0001;transition:background 0.2s;">
               <span style="font-size:1.1em;vertical-align:middle;">👤</span> Profile
             </a>
          </td>
